@@ -8,7 +8,9 @@ V9/V10 protocol drafts remain explicitly unfrozen.
 
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
-The old `docs/rpx/` D0 manual is a design draft, not the implemented ABI.
+The [Chinese kernel manual](docs/rpx-manual.pdf) and its
+[LaTeX sources](docs/rpx/) describe the current implementation, including the
+explicitly unfrozen V9/V10 extensions.
 
 ```sh
 cargo build -p kernel-core --release --locked
@@ -38,6 +40,7 @@ Assembly and canonicalization do not establish verification.
   [live acceptance ledger](audit/acceptance.json).
 - [Initial performance evidence](bench/REPORT.md), [extended fixed measurements](bench/EXTENDED_REPORT.md), [shared scope measurements](bench/SHARED_SCOPE_REPORT.md), [V7 theorem and actual-case baseline](bench/THEOREM_V7_REPORT.md), [exact arithmetic comparison](bench/RATIONAL_SHORTCUTS_REPORT.md), [V8 signed baseline](bench/SIGNED_V8_REPORT.md), [raw runs](bench/results/).
 - [Development record](audit/WORK_LOG.md).
+- [Current tooling and retired experiments](tools/README.md).
 
 The frozen V8 rebuild passes 198 core tests and replays the 34 actual certificates
 enumerated at its start in [V8 checkpoint results](audit/validation/checkpoint-v8/run.json).

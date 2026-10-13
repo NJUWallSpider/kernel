@@ -55,8 +55,8 @@ End = { "Return": { "map": Expr[], "checks": Ref[] } }
     | { "Absurd": { "fact": Ref } }
 ```
 
-`inverse` may be omitted and defaults to null. All other listed structural fields
-are required. Enum objects contain exactly one named variant. Affine terms must be
+`inverse` and `Split.integer` may be omitted and default to null. All other listed
+structural fields are required. Enum objects contain exactly one named variant. Affine terms must be
 strictly increasing by variable ID, with nonzero coefficients, even when text literals
 normalize to the same rational. There are no implicit symbolic names. Companion
 `coordinate_index.json` files in real cases map actual model names to numeric IDs.

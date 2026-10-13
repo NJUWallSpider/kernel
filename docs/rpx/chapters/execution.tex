@@ -1,563 +1,294 @@
-\chapter{执行模型、作用域与验证义务}
+\chapter{执行语义与验收}
 \label{ch:execution}
 
-本章规定 RPX proof VM 的抽象状态和控制语义。
-具体字段布局与各指令的 payload 见相应章节；
-这里的状态是数学规范，不要求实现采用相同的内存结构。
-验证器可以顺序解释经检查的字节视图，无需构建证明 DAG 或执行 proof search。
+kernel 执行的是一棵有限证明树。节点先执行有序 Steps，再执行恰好一个 End。
+每个 Return 一次提交完整输出向量及完整检查引用序列；没有逐条写入映射、
+单独 CHECK 指令、义务完成位图或分支后的映射汇合。
+局部 Cases 与终结 Split 的区别是前者输出一条共同事实，后者输出两棵完整方向证明。
 
-\section{方向状态}
-
-每个启用方向的初始状态包含：
-\[
-  \Sigma=(M_I,M_O,\mathcal E,\mathcal F,\mathcal S,
-  \mathcal M,\mathcal O,\nu,\mathrm{pc}).
-\]
-各分量如下。
+\section{证明对象与上下文}
 
 \begin{center}
-\begin{tabularx}{\textwidth}{lX}
+\begin{tabularx}{\textwidth}{lY}
 \toprule
-分量 & 含义 \\
+对象 & 内容及用途 \\
 \midrule
-$M_I,M_O$ & 已绑定且通过结构检查的 input、output 模型。 \\
-$\mathcal E$ & 该方向的只读规范化表达式池。 \\
-$\mathcal F$ & 当前仍可引用的已验证派生 fact。 \\
-$\mathcal S$ & 当前 scope 栈及各层 branch assumption。 \\
-$\mathcal M$ & output 变量映射状态。 \\
-$\mathcal O$ & 由模型和合约生成的 obligation 状态。 \\
-$\nu$ & 下一个隐式派生 FactId 的语法编号。 \\
-$\mathrm{pc}$ & 当前 tape 或 branch byte range 中的指令位置。 \\
+Block & 有序 Steps 和一个 End；证明完整构造、共同扩展或矛盾。\\
+Derivation & 有序 Steps 和 Witness/Absurd；只证明 Cases 指定的一条 proposition。\\
+EqualityProof & 有序 Steps 和有序 EQ 检查引用；用于双射的完整域单射性。\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-根 scope 不带 branch assumption。
-静态映射 section 在执行 tape 之前初始化 $\mathcal M$。
-每个方向的 FactId 从零重新开始。
-forward 完成后必须清除方向局部的可变状态，再初始化 reverse。
+普通方向的抽象上下文记为
+\[
+ \mathcal C=(I,O,C,\Gamma,\Delta,\mathcal B),
+\]
+$I$ 是当前输入模型，$O$ 是实际完整输出模型，$C$ 是不可削弱的调用者 claim，
+$\Gamma$ 是有序路径假设，$\Delta$ 是活跃局部事实，$\mathcal B$ 是共享资源预算。
+另有请求绑定的 inverse、双射组合以及改进根条件等不可变信息。
+进入目标层/半空间域时 $I$ 加入精确限制行；进入 lift 子体时 $I$ 保留其全部前缀并扩展。
+$O$、原始请求表达式和附加关系的含义不随扩展改变。
 
-\section{事实寄存器与隐式编号}
+每个根方向从空 $\Gamma,\Delta$ 开始。
+单射性 EqualityProof、fiber 反证和各改进块也各用新状态，不能借用方向中得出的局部事实。
+改进块唯一预置假设为 $\Gamma_0=\mathrm{LE}(-P)$；严格根条件 $P>0$ 另存。
+在同一次 Request 内，各阶段共享工作预算，进入新状态并不重置预算。
+
+\section{引用解析与局部定义}
 \label{sec:fact-numbering}
 
-RPA 中的 \texttt{\%name} 是汇编器符号；RPX 中的派生引用使用 28-bit FactId。
-每个派生 fact 只定义一次。
-\code{DROP} 不允许重用已经使用或保留的逻辑编号。
-
-定义 fact 的普通指令按 tape 语法顺序占用一个 FactId。
-分裂指令的编号规则如下：
-\begin{enumerate}
-  \item 先按编码顺序完整遍历各 child block；
-  \item nested split 同样采用深度优先的 child-first 顺序；
-  \item 所有 child block 的语法定义占号之后，才为本次 split 的
-        $k$ 个 merged results 连续分配 FactId；
-  \item 即使 child 或 parent 已被证明不可达，其语法中存在的定义仍占号，
-        但不提交 live fact。
-\end{enumerate}
-
-\proposal{P-03}{派生 FactId 采用 direction-wide、单调递增的语法编号，
-split 输出在 child block 之后编号；\code{DROP} 仅能删除当前 scope 定义的 fact。
-这固定了无显式 destination 字段的编码行为，并使 branch rollback 不受祖先 fact 删除影响。}
-
-例如，根 scope 已定义 FactId 0，二分支 split 的 child 0 定义 1 和 2，
-child 1 定义 3，而 split 有两个 outputs，则 merged facts 编号为 4 和 5。
-child 1 不能引用 1 或 2；它们已经结束作用域。
-split 后不能引用 1、2 或 3，只能引用仍 live 的祖先 fact 和 merged facts。
-
-\must{编号不足以证明引用有效。每个派生引用还必须通过定义先后、live 状态和 scope 检查。}
-禁止 future reference、重复定义和超过 28-bit 编号空间。
-语法遍历必须采用检查后的长度和 checked arithmetic；整数回绕不得改变占号结果。
-
-\section{作用域和 FactRef 解析}
-
-scope 的逻辑身份是从根到当前分支的路径。
-物理实现可以使用 scope ID 或栈深度，但深度相同的 sibling scopes 不相同。
-当前指令只可以引用：
-\begin{enumerate}
-  \item input model 的有效静态事实；
-  \item 当前 scope 或其祖先 scope 中仍 live 的派生 fact；
-  \item 当前 scope 或其祖先 split 对应的 branch assumption。
-\end{enumerate}
-sibling scope、已经退出的 child scope 和已删除 fact 不可引用。
-scope 的逻辑身份是从根到当前分支的完整路径，物理深度相同不构成同一个 scope；
-两个 sibling 互不可见。
-scope 出口释放所有该 scope 的 local facts。
-若有 yield，必须先按顺序保存其 proposition，再释放 local facts：
-保存的是 $(\mathrm{kind},\mathrm{expression})$ 的值，而不是 child 的 FactId；
-释放后该 FactId 不再可用，但保存的值足以完成汇合比较。
-
-数学上，表达式可以通过只读 \code{ExprView} 提供，来源包括：
-\begin{itemize}
-  \item 方向表达式池 entry（定义见第\ref{ch:model}章，编码见第\ref{ch:format}章）；
-  \item canonical input model 的有限 side，例如 \code{@in.v[i].hi} 对应的 $x_i-u_i$；
-  \item kernel 根据 split 操作数构造的 assumption view，例如 \code{@case}。
-\end{itemize}
-因此 branch yield 可以直接引用静态 fact，不必先派生一个等值的本地 fact；
-合并按 proposition 精确相等进行，不要求为其表达式在表达式池中搜索或插入一个相同 entry。
-\must{保存的 proposition 不得持有已经释放的 scope 状态；它的表达式数据必须继续有效，
-且所有相等、符号和常数比较仍使用精确数值语义。}
-来源不同的表达式按同一判据比较：以解码后的精确有理数表达式逐项相等为准，
-不得以 ExprId、句柄或对象地址相等代替。
-派生算术指令声明的输出表达式仍必须来自相应方向的 expression pool。
-内部 live-fact record 是否只保存一个 \code{ExprId} 属于实现选择，而非 ISA 要求。
-
-示例沿用上例的编号：root 已定义 \code{\%0}，child 0 定义 \code{\%1}、\code{\%2}，
-child 1 定义 \code{\%3}，merged facts 为 \code{\%4}、\code{\%5}。
-
-\begin{lstlisting}
-%0 = lin.le $s { +1 @in.r[17].hi }               ; LE(s), s = a17(x) - U17
-(%4, %5) = split.bin @in.v[0] {
-case 0:
-    %1 = lin.le $s { +1 %0 }                    ; 命题 LE(s)
-    %2 = lin.le $t { +1 @in.r[17].hi -1 @case } ; @case 是 EQ; 不参与 yield
-    yield %1, @in.v[5].hi
-case 1:
-    ; child 0 已退出, 引用 %1 或 %2 以 E_REF 拒绝
-    %3 = lin.le $s { +1 @in.r[17].hi }          ; 同一命题, 不同推导路径
-    yield %3, @in.v[5].hi
-}
-; 汇合: 位置 0 都是 LE(s) → %4; 位置 1 都是 LE(x5 - u5) → %5
-\end{lstlisting}
-
-两支通过不同路径提交同一命题 $\mathrm{LE}(s)$：child 0 经祖先 fact \code{\%0}，
-child 1 直接经静态事实 \code{@in.r[17].hi}；汇合只比较保存的值，不比较引用编号或推导路径。
-\code{\%2} 不参与 yield，随 child 0 退出释放；\code{\%1}、\code{\%2}、\code{\%3}
-在汇合后失去可见性。位置 1 直接 yield 静态事实 \code{@in.v[5].hi}，
-其表达式 $x_5-u_5$ 由 input model 的有限 side 提供，不要求在表达式池中有对应 entry。
-
-\subsection{分支假设}
-
-FactRef tag \code{0x7} 的 index 是相对当前 scope 的 assumption 深度。
-\code{@case} 与 \code{@case[0]} 相同，表示最内层 split 的当前假设；
-\code{@case[1]} 表示它的父层假设。
-根 scope 没有 \code{@case}。
-越过现有 assumption 栈的引用属于 \code{E_REF}。
-
-分支假设由 kernel 构造，不由证书任意声明：
-
-\begin{center}
-\begin{tabularx}{\textwidth}{l l X}
+九种 Ref 的完整语义如下。编号均是相应逻辑空间的索引，而非文件偏移。
+\begin{longtable}{p{0.22\textwidth}p{0.70\textwidth}}
 \toprule
-Split & Branch & 假设 proposition \\
+引用 & 解析结果与有效条件 \\
 \midrule
-\code{split.bin} $x_i$ & 0 / 1 & $\mathrm{EQ}(x_i)$ / $\mathrm{EQ}(x_i-1)$。 \\
-\code{split.int.thr} $e,t$ & le / ge & $\mathrm{LE}(e-t)$ / $\mathrm{LE}(-e+t+1)$。 \\
-\code{split.int.range} $e,L,U$ & $k\in[L,U]$ & $\mathrm{EQ}(e-k)$。 \\
-\code{split.sign} $e$ & le / ge & $\mathrm{LE}(e)$ / $\mathrm{LE}(-e)$。 \\
+\endhead
+\code{VarLower}(i) & 当前 $I$ 的 $\mathrm{LE}(l_i-x_i)$；须存在有限下界。\\
+\code{VarUpper}(i) & 当前 $I$ 的 $\mathrm{LE}(x_i-u_i)$；须存在有限上界。\\
+\code{VarInt}(i) & 当前 $I$ 的 $\mathrm{INT}(x_i)$；须声明整数且 input integer mode 开启。\\
+\code{RowLower}(j) & $\mathrm{LE}(L_j-a_j)$；须有有限下侧。\\
+\code{RowUpper}(j) & $\mathrm{LE}(a_j-U_j)$；须有有限上侧。\\
+\code{RowEq}(j) & $\mathrm{EQ}(a_j-L_j)$；须有相等的两有限侧。\\
+\code{Local}(id) & $\Delta$ 中当前可见的已验定义；已 Drop、未定义或仅在兄弟可见时拒绝。\\
+\code{Assumption}(k) & $\Gamma_k$；0 为最早加入的假设，越界拒绝。\\
+\code{Exact} & 只对 checker 已确定的目标 proposition 做窄规则检查，不解析为普通事实。\\
 \bottomrule
-\end{tabularx}
-\end{center}
+\end{longtable}
 
-整数分裂必须同时具备对应的 INT 前提，range 分裂还必须验证范围上下界。
-分支集合必须完整覆盖该 scope 中可能的 input points。
-sign 分裂在 $e=0$ 时重叠；重叠不会影响覆盖证明或验证正确性。
+Lin、Round、EqPair、Cases、Plotkin 用显式 u32 \code{id} 发布一个局部事实。
+ID 不须从零连续编号，也不须递增。
+发布时该 ID 不得仍然活跃，且活跃数不得超过预算；所有前提、类型和表达式先通过检查。
+Drop 按其数组顺序删除当前可见 ID，缺失 ID 或同一数组中重复删除已删 ID 均拒绝。
+一个 ID 仅在删除后才能复用，新的定义有新的 proposition；引用只读当前定义。
 
-\proposal{P-06}{若工具链需要把证书用作实际点变换程序，按编码顺序选择第一个
-假设成立的分支；因此 \code{split.sign} 在零点选择 \code{le}。
-纯 proof verification 仍必须检查两个分支。}
-
-\subsection{删除事实}
-
-\code{DROP} 的每个目标必须是当前 scope 中仍 live 的派生 fact。
-不允许删除模型静态事实、branch assumption、祖先 fact 或已经 dead 的 fact。
-删除后它不得再被引用或 yield。
-无论是否释放了物理存储，原 FactId 永远不能再次定义。
-祖先 fact 可在返回祖先 scope 后删除。
-
-这允许编译器根据 liveness 插入删除操作，同时保持 branch state 的可回滚性。
-实现若以总历史 FactId 为索引保留一个永久数组，\code{DROP} 本身并不会获得
-$O(\text{live facts})$ 的内存占用；此复杂度需要可回收存储和适当的 live 索引结构。
-
-\section{输出映射状态}
-\label{sec:mapping-state}
-
-每个 output variable 的 mapping 处于以下三态之一：
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lX}
-\toprule
-状态 & 含义 \\
-\midrule
-\code{UNASSIGNED} & 当前路径尚未定义该变量；初始化时由 \code{DEFER} 明确声明。 \\
-\code{KNOWN(e)} & 已定义为该方向 input variables 上的规范化仿射表达式 $e$。 \\
-\code{SEALED_PIECEWISE} & 已在所有可达分支定义，且所有依赖它的验证义务已经完成；
-不可再进行涉及该变量的代换。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-\proposal{P-02}{mapping merge 使用上述三态。\code{SEALED_PIECEWISE} 保留
-“输出变量在每个可达路径已经定义”的证明信息，允许 \code{RET} 接受 piecewise map，
-同时避免在 merge 后构建 piecewise expression AST。若可达 children 中已定义和未定义
-混合则立即拒绝；只有全部未定义才能继续保持 \code{UNASSIGNED}，以避免引入第四种
-“部分路径已定义”状态。}
-
-静态 map section 必须覆盖每个 output variable 恰好一次，使用
-\code{COPY_RANGE}、\code{COPY_PAIRS}、\code{CONST}、\code{AFF} 或 \code{DEFER}。
-copy、const 和 aff 初始化为 \code{KNOWN}；defer 初始化为 \code{UNASSIGNED}。
-静态映射 section 只能使用该方向 input variables 和 expression pool。
-
-\code{map.copy}、\code{map.const} 和 \code{map.aff} 只能把一个
-\code{UNASSIGNED} 的 deferred variable 转为 \code{KNOWN}。
-\must{映射在每条可达路径上只允许赋值一次。}
-禁止覆盖 \code{KNOWN} 或 \code{SEALED_PIECEWISE}。
-mapping 本身不产生 LE、EQ 或 INT fact，也不完成任何 obligation。
-
-\section{验证义务的生成}
-\label{sec:obligation-generation}
-
-obligation 集合必须由 kernel 根据 output model 和所请求合约生成，
-不能由证书选择其子集。
-每个 obligation 的状态为 \code{PENDING} 或 \code{DONE}。
-该方向初始状态中所有义务为 \code{PENDING}。
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lX}
-\toprule
-对象 & 必须生成的 obligation \\
-\midrule
-Output variable & 每个有限有效下界和上界分别一个 LE 义务；
-\code{INTEGER}、\code{BINARY} 各有一个 INT 义务。
-binary 的隐含界必须包含在内。 \\
-Output equality row & 一个 EQ 义务；不另生成该行的 hi、lo 义务。 \\
-Output ranged row & 每个有限 side 分别一个 LE 义务。 \\
-Objective & relation 为 \code{EQ} 或 \code{LE} 时生成相应的一个义务；
-\code{NONE} 不生成。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-mapping 完整性另行检查，不能因为某个 output variable 没有任何有限界、
-不参与约束或目标而略过其定义。
-
-\subsection{义务的表达式}
-
-设 $E_i(x)$ 为 output variable $y_i$ 的当前 \code{KNOWN} mapping。
-kernel 自己构造以下规范化表达式：
-\begin{align*}
-  \mathrm{row.hi}(j)&:\quad \sum_i a_{ji}E_i(x)-U_j,\\
-  \mathrm{row.lo}(j)&:\quad -\sum_i a_{ji}E_i(x)+L_j,\\
-  \mathrm{row.eq}(j)&:\quad \sum_i a_{ji}E_i(x)-b_j,\\
-  \mathrm{var.hi}(i)&:\quad E_i(x)-u_i,\\
-  \mathrm{var.lo}(i)&:\quad -E_i(x)+l_i,\\
-  \mathrm{var.int}(i)&:\quad E_i(x),\\
-  \mathrm{obj}&:\quad f_{M_O}(E(x))-f_{M_I}(x).
-\end{align*}
-所有非零 support 中的 output variables 必须处于 \code{KNOWN}。
-涉及 \code{UNASSIGNED} 或 \code{SEALED_PIECEWISE} 的代换必须拒绝。
-常数行和常数目标差不依赖任何 output variable。
-
-fact 形式的 \code{CHECK} 必须精确匹配该 CHECK 所需 FactKind 和上述表达式。
-以一个语义更强但表达式不同的不等式代替所需表达式不合法；
-应先通过 \code{weaken.le} 或显式线性组合得到目标表达式。
-目标检查允许一种明确的类型加强：\code{CHECK.OBJ.EQ} 提供精确目标差的 EQ 证明，
-可以完成所请求的 EQ 或 LE objective obligation；\code{CHECK.OBJ.LE} 只能完成 LE。
-relation 为 NONE 时两者都没有可完成的 objective obligation。
-
-\subsection{EXACT 检查模式}
-
-EXACT 是 \code{CHECK} 的 kernel 检查模式，不是相信 assembler 的承诺。
-它不分配派生 FactId。
-kernel 在完成代换后，仅接受以下无需额外 fact 的充分条件：
-\begin{enumerate}
-  \item EQ 类 CHECK 的表达式精确为零；
-  \item LE 类 CHECK 的表达式没有变量项，且常数 $c\le0$；
-  \item INT 类 CHECK 的常数和所有系数均为整数，且每个非零项引用
-        input model 中声明为 \code{INTEGER} 或 \code{BINARY} 的变量。
-\end{enumerate}
-INT 的 EXACT 检查不使用行等式推导连续变量的整数性。
-更复杂的整数性必须以显式 INT fact 证明。
-EXACT 条件由 CHECK 操作码确定；例如 \code{CHECK.OBJ.EQ} 即使完成 LE obligation，
-其 EXACT 模式仍要求目标差精确为零。
-模式位和 payload 编码由指令格式规定。
-
-\subsection{完成义务}
-
-一个成功 \code{CHECK} 只把它所对应的一个 \code{PENDING} obligation 置为 \code{DONE}。
-对不存在、错误 side、错误 objective relation 或已经 \code{DONE} 的义务执行
-\code{CHECK}，必须拒绝为 \code{E_OBLIGATION}。
-同一父状态在不同 branches 中各自完成同一义务不算重复检查，因为它们是独立子状态。
-在 split 之前已经 DONE 的义务则被各子状态继承，不得重复检查。
-
-每次 CHECK 的依赖集合由 output model 的规范化非零 support 确定。
-行义务依赖该行的 output variables；目标义务依赖目标非零系数中的 output variables；
-变量界和整数性义务依赖自身变量。
-该集合是 mapping merge 时判定是否允许封存变量的依据。
-
-\section{结构化分裂与状态事务}
+\subsection{父子作用域}
 \label{sec:branch-transactions}
 
-RPX 没有 JMP 或非结构化回边。
-split 指令通过其 payload 中的 byte ranges 包含有限个完整 child blocks。
-每个 child 从同一个 parent 状态开始；它继承 parent live facts、mapping 和 obligation 状态，
-并增加一个由 kernel 产生的 assumption。
+Split 和 Cases 的两个子作用域继承父局部事实与既有假设。
+子体可删除继承 ID，在该子体内复用 ID，并创建其他事实；这些变化不能改变父或兄弟。
+两子体各附加本分支假设，退出时撤去该假设。
+Cases 两子体都成功后，仅在父作用域发布其指定的一条共同结论；
+子体的其他事实、删除或重定义均不向父发布。
+Split 是端点，不存在需要合并的父续体。
 
-\begin{lstlisting}
-                 parent snapshot
-                       |
-           +-----------+-----------+
-           |                       |
-    child 0 transaction     child 1 transaction
-    + assumption 0          + assumption 1
-    + local facts           + local facts
-    + local map/check       + local map/check
-           |                       |
-      yield / false           yield / false
-           +-----------+-----------+
-                       |
-              merge propositions
-              intersect obligations
-              merge mapping states
-                       |
-                 parent continues
-\end{lstlisting}
+lift 把当前活跃事实和路径假设带入其唯一子体。
+旧坐标和旧行的完整前缀不变，因而旧事实仍有效；所有新行只在子体可见。
+在分支内扩展不会给兄弟增加坐标或行。
+实现可共享不可变父状态并保存子差量；这种存储选择不能改变上述可见性。
 
-\must{child 0 的检查结果、局部 mapping 或局部 fact 不得作为 child 1 的初始状态。}
-实现可以使用 snapshot、copy-on-write 或 transaction log，但可观察行为必须等价。
-退出 child 时回滚它的局部状态，再使用保存的结果计算 parent merge。
+\section{目标命题检查与 Exact}
+\label{sec:exact-check}
 
-\subsection{Block 终结规则}
+设 checker 要证明 $(K,e)$，通常引用 $r$ 解析为 $(K_r,e_r)$。
+接受当且仅当 $e_r=e$ 精确成立，且 $K_r=K$ 或 $K_r=\code{Eq}$。
+比例相等、仅在某个点取值相等、ID 相等及显示文本相等均不足。
 
-每个 child block 必须以 \code{YIELD} 或 \code{CLOSE.FALSE} 终结。
-顶层 tape 必须以 \code{RET} 或 \code{CLOSE.FALSE} 终结。
-终结指令后不得存在该 block 的其他指令；尾部仅允许格式规定的 alignment padding。
-child 内不得使用 \code{RET}，顶层不得使用 \code{YIELD}。
-open split 内的终结只结束当前 child，不直接结束整个方向。
+Exact 不从证书读入命题；checker 先构造 $e$，再检查：
+\begin{enumerate}
+ \item EQ：$e$ 无变量项且常数为零。
+ \item LE：$e$ 无变量项且常数不正。
+ \item INT：常数为整数，每项系数为整数，且每个出现坐标声明整数、输入整数模式开启。
+\end{enumerate}
+常数整数没有坐标前提，在 LP 模式也可接受。
+非恒真的仿射不等式不能通过 Exact；无模型整数性的非恒定 LP 表达式也不能通过 Exact。
+生成的菜单或 signed 二元坐标可在相应整数子域满足 INT 的窄规则，
+生成的 flow、interval 和 subflow 连续坐标不能。
 
-split 的 branch 数量和范围必须与操作码要求一致。
-integer range 的 branch $k$ 必须对每个整数 $k\in[L,U]$ 恰好出现一次。
-branch byte ranges 必须各自通过完整结构检查。
+Exact 可出现在 Return/ImproveReturn 检查、单射 EQ 检查、lift 前提和
+DerivationEnd Witness，以及改进的 PositiveRefutation 目标检查。
+它不能作为 Lin（即使乘子为零）、Round、EqPair、Plotkin、整数 Split/Cases
+或任何 Absurd 的原始事实操作数。
+一个已有 Eq 可做目标检查的种类弱化，但不赋予原始操作数自动种类转换。
 
-\subsection{Yield 与 proposition merge}
+\section{步骤序列与穷尽分类}
 
-\code{YIELD} 提供有序的 $k$ 个 FactRef，数量必须与 enclosing split 声明相同。
-每个引用在 yield 时必须有效且 live。
-yield 保存的是 $(\mathrm{kind},\mathrm{canonical\ expression})$，不是 child FactId。
+步骤顺序执行；后一步仅能引用当前有效的模型事实、假设与前面活跃定义。
+各条推理规则见第\ref{ch:instructions}章。
+六种 Step 的命名空间与十种 End、两种 DerivationEnd 的命名空间独立。
+同一个数字 tag 在不同位置不表示同一操作。
 
-对每个 yield 位置 $j$，所有可达 children 必须提供同一 proposition：
+Split 与 Cases 都先验证规范表达式 $e$。
+未提交整数引用时，两个分支假设为
 \[
-  (K_{b,j},e_{b,j})=(K_j,e_j)
-  \quad\text{对每个可达 child }b.
+ \mathrm{LE}(e),\qquad\mathrm{LE}(-e).
 \]
-相等要求 FactKind 相同、解码后的表达式精确相等；不接受按比例相等。
-kernel 为每个位置提交一个 parent-scope fact，其编号遵循
-第\ref{sec:fact-numbering}节。
-该 fact 的数学表达式仍属于当前方向的 input variables。
-
-若只有一个可达 child，它的 yield tuple 成为 merge result。
-若所有 children 不可达，则 parent 也不可达，不提交 live merged facts，
-但仍为声明的 $k$ 个结果保留语法 FactId。
-不可达 child 不必提供 yield tuple。
-
-\subsection{义务汇合：交集}
-
-令 $B$ 为可达 child 集合，每个 child 的 DONE 集合为 $D_b$。
-非空 $B$ 的 parent DONE 集合为
+它们覆盖全实数域，$e=0$ 的边界同时属于两支。
+提交整数引用时，须解析出\emph{种类确为 Int}且表达式恰为 $e$ 的事实，
+然后两假设为
 \[
-  D_{\rm parent}=\bigcap_{b\in B}D_b.
+ \mathrm{LE}(e),\qquad\mathrm{LE}(1-e).
 \]
-bitmap 实现必须逐位 AND，不得使用 OR。
-不可达 child 不参与此交集。
-当 $B$ 为空时，parent 标记不可达，剩余义务在该 scope 中不再有数学要求。
+整数域中分别表示 $e\le0$ 与 $e\ge1$，穷尽且互斥。
+不能用 Exact 或 Eq 原始引用冒充该 Int 前提。
 
-例如一个 row obligation 在 child 0 为 DONE、在 child 1 为 PENDING，
-两支都可达，则 merge 后它仍为 PENDING。
-不能用“至少一个分支证明过该行”替代“每个可达分支证明该行”。
+\subsection{Cases 的共同事实}
 
-\begin{center}
-\begin{tabular}{lll}
+Cases 在父作用域指定 ID、Kind 和 expression；两 Derivation
+分别在穷尽分支上证明这同一 proposition，或用普通 Absurd 证明该支为空。
+Witness 使用目标命题检查规则，因此允许 Exact 以及同表达式的 Eq 种类弱化。
+两支不能各自选择不同 expression，再要求 checker 猜测共同结论。
+Derivation 没有 map、Return、lift、PositiveRefutation 或严格改进端点。
+内部 Steps 仍可递归 Cases；成功后父得到唯一指定事实。
+
+\subsection{Split 的完整子证明}
+
+每个 Split 子 Block 都必须以该上下文允许的端点成功完成。
+两支 Return 可以给出不同完整输出向量；Absurd 可关闭已证明不可能的支。
+不能把一个分支只验了变量界、另一分支只验了行的证明合成一个 Return。
+判为不可能的支仍须先证明合法矛盾；kernel 不按猜测的可达性跳过证明。
+
+\section{完整 Return 与义务生成}
+\label{sec:mapping-state}
+\label{sec:obligation-generation}
+
+Return 的 \code{map} 为当前输入坐标上的规范仿射表达式序列
+$Y=(Y_0,\ldots,Y_{n_O-1})$，长度必须\emph{恰等于}实际输出变量数。
+定义一次完整代换
+\[
+ e[Y]=e_0+\sum_j e_jY_j.
+\]
+所有义务都使用这个共同 $Y$。
+map 的全部表达式先验维度和规范性，checks 再按下列确定顺序逐一消耗。
+该序列没有由证书提供的对象 ID，也没有可选的输出义务子集。
+
+\begin{longtable}{p{0.07\textwidth}p{0.22\textwidth}p{0.61\textwidth}}
 \toprule
-Child 0 & Child 1 & Parent \\
+序 & 对象 & 构造的精确命题 \\
 \midrule
-DONE & DONE & DONE \\
-DONE & PENDING & PENDING \\
-PENDING & DONE & PENDING \\
-DONE & UNREACHABLE & DONE \\
-UNREACHABLE & UNREACHABLE & UNREACHABLE \\
+\endhead
+1 & 输出变量，坐标序 & 每个变量先有限下界 $\mathrm{LE}(l_j-Y_j)$，再有限上界
+$\mathrm{LE}(Y_j-u_j)$，最后若声明整数且 output integer mode 开启则 $\mathrm{INT}(Y_j)$。\\
+2 & 输出行，行序 & 两有限侧相等时只有 $\mathrm{EQ}(a_j[Y]-L_j)$；否则先有限下侧
+$\mathrm{LE}(L_j-a_j[Y])$，再有限上侧 $\mathrm{LE}(a_j[Y]-U_j)$。\\
+3 & 请求目标 & None 不产生；Equal 为 $\mathrm{EQ}(f_O[Y]-f_I)$；
+NonIncreasing 为 $\mathrm{LE}(f_O[Y]-f_I)$。\\
+4 & 坐标观察，然后仿射观察 & 各自依请求序：$\mathrm{EQ}(Y_o-x_i)$，
+然后 $\mathrm{EQ}(q[Y]-p)$。\\
+5 & legacy inverse & 每个原始输入坐标：$\mathrm{EQ}(G_i[Y]-x_i)$。\\
+6 & 对侧 inverse 目标层 & 若被引用 opposing claim 请求层 $L$，证明 $\mathrm{EQ}(f_O[Y]-L)$，
+即使当前 objective 为 None 也不能省略。\\
+7 & 输入目标下界 & 若请求 $L$，证明 $\mathrm{LE}(L-f_I)$；受限域上的结论是条件下界。\\
+8 & V7 双射组合 & 所有 reverse 索引选中当前方向的 pair，按 Request 双射数组序，
+每 pair 按 forward 完整输出坐标序证明 $\mathrm{EQ}(F_j[Y]-x_j)$。\\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{longtable}
 
-\subsection{映射汇合与封存}
+未存在的界不生成义务，但存在的矛盾界不予省略。
+等式行不是两条 LE，恒等或冗余行也仍有相应检查位置。
+变量上下界即使相等仍分别产生两条 LE。
+每项 checks 引用须证明该位置的准确表达式与种类；缺失与多余引用均拒绝。
+因此引用序列不能重排，也不能靠重复数量来代替表达式核对。
 
-对非空可达 child 集合，kernel 逐 output variable 处理：
-\begin{enumerate}
-  \item 各 child 都有精确相同的 \code{KNOWN(e)}，则保留 \code{KNOWN(e)}；
-  \item 各 child 都为 \code{UNASSIGNED}，则保留 \code{UNASSIGNED}；
-  \item 各 child 都已定义，但表达式不同，或至少一个 child 已经
-        \code{SEALED_PIECEWISE}，则仅当所有依赖该变量的 obligations 在每个可达
-        child 中均为 DONE 时，产生 \code{SEALED_PIECEWISE}；否则拒绝；
-  \item 若已定义和未定义的可达 child 混合，按 mapping 完整性规则拒绝，
-        防止 merge 后赋值覆盖已定义路径。
-\end{enumerate}
-一个不可达 child 不影响 mapping 完整性。
-当所有 children 不可达时，无需进行 mapping merge。
+双射组合中的 $x_j$ 是当前方向\emph{原始输入}坐标，扩展后仍为旧坐标前缀。
+forward 使用所绑定 claim 的实际根 Return 映射，不能换用证书另行提交的观察 map。
+legacy inverse 的维度与模式在执行前核对，且要求两侧根 Return。
 
-封存必须检查每个相关 obligation，包括尚未检查的目标义务。
-若目标依赖该变量，不能只完成其变量界和约束行后封存。
-mapping 封存后不得重新赋值，也不得再参与新的 substitution。
+\subsection{改进 Return 的差异}
 
-下面为 piecewise mapping 的示意；\code{...} 是说明性省略，不是 RPA 指令。
-
-\begin{lstlisting}
-() = split.sign $e {
-case le:
-    map.aff @out.v[7], $neg_e
-    ... ; check every obligation depending on output variable 7
-    yield
-case ge:
-    map.aff @out.v[7], $e
-    ... ; check the same obligations in this branch
-    yield
-}
-ret
-\end{lstlisting}
-
-merge 后变量 7 可以处于 \code{SEALED_PIECEWISE} 并通过 \code{RET}。
-若任意可达 child 留下依赖变量 7 的 PENDING obligation，split 必须拒绝。
-即使在 merge 后“打算再证明”该义务，也不允许丢弃它所需的不同 branch mappings。
-
-\section{不可达作用域}
-
-\code{CLOSE.FALSE} 必须引用当前 scope 可见的矛盾 fact：
+改进上下文输出模型就是输入原始完整模型，输入输出整数模式相同。
+ImproveReturn 先按上表 1、2 验完全部可行性，再只有一项目标义务
 \[
-  \mathrm{LE}(c),\quad c>0,
-  \qquad\text{或}\qquad
-  \mathrm{EQ}(c),\quad c\ne0,
+ \mathrm{LE}\bigl(f_M[Y]-f_M(x)+h(x)\bigr),
 \]
-且表达式没有变量项。
-INT fact 或含变量表达式不能直接关闭 scope。
-成功后，该 scope 标记为 \code{UNREACHABLE}。
-这表示没有 input feasible point 同时满足该 scope 的路径假设。
+$h=q$ 或 $qP$，精确 $q>0$。
+此合约没有 projection、inverse、目标层、输入下界或双射组合字段。
+当前 Y 可以使用合法 lift 坐标；$P$ 始终保持原始坐标含义。
+普通 Return 与 ImproveReturn 的上下文不得互换。
 
-根 scope 不可达证明 input model 的可行域为空。
-对应方向的可行映射与目标关系因此真空成立，不要求 mapping 或 obligation 完成。
-其他启用方向仍必须验证。
-尤其在双向合约中，不能由 source 不可行直接推断 target 不可行。
+\section{lift 的执行协议}
+\label{sec:lift-execution}
 
-\subsection{不可达代码的结构处理}
-
-如果 nested split 的所有 children 都不可达，当前 parent 会在其 terminal 之前变为不可达。
-实现可以跳过后续证明运算、mapping 更新和 CHECK 的数学效果，
-但必须继续执行结构性遍历，直到该 block 合法终结。
-
-\must{不可达性不得掩盖格式错误、未知 opcode、错误 payload 长度、保留位、
-非法 byte range、缺失 terminal 或 FactId 编号空间溢出。}
-所有表达式和标量 pool 都必须通过结构与规范化检查，
-无论执行时是否实际访问其 entry。
-证书语法中的定义和 scope 仍要记账，保留相应 FactId。
-已经不可达的 scope 不提交新事实，也不要求其后续数学推导再次证明正确。
-跳过数学效果不允许跳过未知 extension 的支持检查。
-
-\section{RET 与方向接受条件}
-
-正常执行到顶层 \code{RET} 时，kernel 必须检查：
+FlowLift、IntervalLift、MenuLift、SignedLift、SubflowLift 均采用同一顺序：
 \begin{enumerate}
-  \item 当前为根 scope，没有未结束的 split；
-  \item 所有 output variables 均为 \code{KNOWN} 或 \code{SEALED_PIECEWISE}；
-  \item 所有由模型和合约生成的 obligations 均为 DONE；
-  \item 顶层 tape 的结构与终结位置合法。
+ \item 检查允许的上下文、深度、witness 维度、原作用域表达式与标量。
+ \item 在剩余共享预算内构造显式未验前提和候选扩展模型；完成尺寸、算术和名称检查。
+ \item 用\emph{扩展前}的 $I,\Gamma,\Delta$ 逐项验证全部前提，包括冗余或零命题。
+ \item 只有全部成功，才以候选模型进入唯一 body；保留旧局部事实、假设和请求。
 \end{enumerate}
-任一 \code{UNASSIGNED} variable 或 PENDING obligation 都必须拒绝。
-根 scope 已经不可达时，合法顶层 terminal 结束该方向的真空证明。
-只有所有启用方向都满足各自接受条件，证书才被接受。
+在准备阶段生成的前提记录携带 Ref，不为 Ref 授予权威。
+任何组不能借用本次同时添加的另一组坐标或新行证明自己的前提。
+嵌套 lift 的下一层则可合法使用已经建立的上一层坐标。
 
-\section{错误类别与资源结果}
+MenuLift 与 SignedLift 要求 input integer mode；Flow、Interval、Subflow 可用于 LP 或整数模式。
+普通映射和改进块可用 lift；独立 LP/fiber 反证只允许 Split/Absurd 端点，故拒绝 lift。
+legacy inverse 的根仿射 Return 要求排除所有 lift 根。
+V7 双射 reverse 可使用 lift，但仍须每叶完整组合和独立完整域单射证明。
 
-以下名称是诊断类别，本草案尚未冻结数值 error ABI。
-实现应报告方向和 tape offset，必要时附带 model ID、FactId 或 section 信息，
-但不得在错误之后继续提交部分证明结果。
+扩展保留原输入名称、全部变量/行前缀与完整目标；新坐标目标系数为零。
+所有生成名称避开已有名称，编号由追加顺序决定。
+扩展的存在引理及生成方程属于可信规则本身；上述步骤不运行路径搜索，
+也没有通用运行时存在性证明器。
+
+\section{矛盾端点与上下文许可}
+
+普通 Absurd 解析一条当前有效原始事实，只接受无变量项的
+$\mathrm{LE}(c)$ 且 $c>0$，或 $\mathrm{EQ}(c)$ 且 $c\ne0$。
+非恒定矛盾猜测、Int 事实和 Exact 都不能关闭一个叶。
+Absurd 成功表示\emph{该当前域}为空，不产生局部结论，不修改输出模型。
+
+PositiveRefutation 仅在改进块中检查 $\mathrm{LE}(P)$，与保存的严格根条件矛盾。
+它没有放宽普通 Absurd，也不赋予局部 Cases 严格事实。
+边界 $P=0$ 的 Split 支仍执行；其可由 PositiveRefutation 关闭严格域中的空支。
 
 \begin{center}
-\begin{tabularx}{\textwidth}{lX}
+\begin{tabularx}{\textwidth}{lY}
 \toprule
-类别 & 典型条件 \\
+执行对象 & 允许的完成形式 \\
 \midrule
-\code{E_FORMAT} & 长度、alignment、padding、section 或 terminal 结构错误。 \\
-\code{E_VERSION} & 不支持的版本或字节序。 \\
-\code{E_UNSUPPORTED} & 未支持 opcode、extension 或 theorem；不可静默忽略。 \\
-\code{E_HASH} & source 或 target 摘要不匹配。 \\
-\code{E_CONTRACT} & 合约标志无效、缺方向或与调用者要求不一致。 \\
-\code{E_SCALAR} & 非规范化有理数、非法标量池 entry 或标量表示。 \\
-\code{E_EXPR} & 非规范化表达式。 \\
-\code{E_REF} & 非法编号或 FactRef、future/dead/sibling/已退出 scope 引用、
-缺失 input side 或越界 assumption 深度。 \\
-\code{E_KIND} & 指令或 CHECK 引用的 FactKind 不符。 \\
-\code{E_SCOPE} & 删除祖先 fact，或在错误的 scope 使用 RET/YIELD 等终结指令。 \\
-\code{E_BRANCH} & 分支不完整、yield 数量错误或 yield proposition 不同。 \\
-\code{E_PROOF} & 线性组合、取整、整数性、BOX 或矛盾检查不成立。 \\
-\code{E_MAP} & 重复赋值、mapping 不完整、代换未定义变量或非法 merge。 \\
-\code{E_OBLIGATION} & 重复或不存在的 CHECK、未完成义务、目标关系类型不符。 \\
+普通方向 Block & Return、Split、Absurd、五种 lift。\\
+改进 Block & ImproveReturn、PositiveRefutation、Split、Absurd、五种 lift。\\
+独立 LP/fiber 反证 Block & 仅 Split 或 Absurd；Steps 仍可含普通 Cases。\\
+Cases Derivation & Witness 或普通 Absurd。\\
+双射 EqualityProof & 全部步骤后，精确数量的有序原坐标 EQ 检查。\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-API 应区分以下最终状态：
+\section{请求级执行顺序与拒绝}
 
-\begin{center}
-\begin{tabularx}{\textwidth}{lX}
-\toprule
-状态 & 含义 \\
-\midrule
-\code{VERIFIED} & 所请求合约的全部启用方向已被证明。 \\
-\code{INVALID} & 已检测到违反格式、引用、数学推导或义务条件的证书。 \\
-\code{UNSUPPORTED} & 验证器不支持其版本、mandatory extension 或 theorem。 \\
-\code{RESOURCE_LIMIT} & 达到调用者配置的时间、内存、深度或算术资源限制；未得出接受结论。 \\
-\code{IO_ERROR} & 模型或证书数据无法可靠读取，或读取期间完整性条件失效。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
+完整请求验证先匹配改进、点及双射合约数组，拒绝空请求和不适用的受限 strictness；
+验证完整 source/target、全部方向声明与对应根 Block。
+双射索引、方向、模式、重复 pair、无条件域和 forward 根 map 必须先满足结构条件。
+每个方向独立验证原始坐标观察、inverse 及限制域，随后执行其完整证明树。
+全部方向成功后，依序执行各双射的单射 EqualityProof，再验全部点，最后验改进块。
+任一阶段失败，全请求不被验证；早先成功的子阶段不能被当作整体 VERIFIED。
 
-\code{RESOURCE_LIMIT} 不表示数学证明错误，不能作为 \code{VERIFIED}。
-实现可声明限制，包括 split nesting、term count、bigint 位数、expression expansion、
-live facts、总指令数和总算术工作量。
-格式字段自身限制与实现资源限制应分别报告；例如 16-bit aux 和 28-bit FactRef
-是格式上限，不是保证能够在可用 RAM 内完成验证的承诺。
+二进制证书在执行前完整解码，含每个 Split/Cases 的两支和所有附加证明。
+未知 tag、版本不许可的记录、非法保留位、截断和尾随字节不能隐藏在所谓不可达分支。
+执行也不因该支看似不可行而跳过其步骤；它必须给出允许的终结证明。
+
+拒绝涵盖：错误合约、错误维度/坐标、非法规范数值、无效/失活引用、错误前提种类、
+非法线性乘子、覆盖活跃 ID、错误整数分类前提、缺失/多余义务、精确表达式不匹配、
+错误端点上下文以及任何未完成子证明。
+资源拒绝另外包括工作、活跃事实、嵌套深度、扩展尺寸、项数、分配和有理数位数超限。
+资源拒绝不能解释为数学命题为假，也不能升级为验证成功。
+
+默认工作预算为 $10^9$，默认活跃事实 $10^6$，组合证明深度 64，根深度为 1。
+Split、Cases 和 lift body 均增加一层；它们共享同一个深度边界。
+精确中间结果也受标量位数限制，即使后续可消去超大项仍不能绕过。
+工作计量是确定性的资源策略，不能当作物理内存、CPU 指令数或位复杂度保证。
+更完整的 codec、文本和模型限制见第\ref{ch:loader}章。
+
+CLI 的结果为 VERIFIED、INVALID、RESOURCE\_LIMIT、IO\_ERROR，分别退出 0、2、3、4。
+ASSEMBLED 等辅助操作成功仅表示相应转换成功，不证明模型关系。
+诊断位置是尽力报告的 claim、point、根 block、最内层 step 和 obligation 索引；
+未知位置可缺省，诊断不参与数学判断或控制流，统计量也不授予接受权威。
 
 \section{正确性不变式}
 \label{sec:soundness-invariants}
 
-令 $P_s(x)$ 为 input model 可行性和 scope $s$ 的所有祖先路径假设的合取。
-执行到任意有效状态时，必须保持：
+对当前完整输入域与路径假设作归纳，保持以下性质：
 \begin{enumerate}
-  \item 每个可见 live fact 的 proposition 对所有满足 $P_s$ 的点成立；
-  \item 每个 \code{KNOWN} mapping 表达式在当前路径上为相应 output variable 的定义；
-  \item 每个 DONE obligation 对满足 $P_s$ 的点及当前路径映射成立；
-  \item 每个 \code{SEALED_PIECEWISE} variable 在全部已合并可达路径上有定义，
-        且所有依赖它的 obligations 已被证明；
-  \item \code{UNREACHABLE} scope 满足 $\{x:P_s(x)\}=\varnothing$。
+ \item 所有可见局部事实对该域中的每一点成立，且引用解析不越过有效作用域。
+ \item Lin、Round、EqPair、Plotkin 的规则保持事实有效；Cases 由两穷尽子域推出共同事实。
+ \item Split 覆盖当前域，Absurd 排除的域确无可行点。
+ \item 每个 lift 的\emph{可信引理}保证每个父点都有一个满足全部生成条件的共同扩展点。
+ \item 每个 Return 对一个共同 Y 证明全部实际输出条件与调用者附加关系。
+ \item 改进叶在严格根域上要么矛盾，要么输出一个可行且严格下降的共同 Y。
 \end{enumerate}
-
-静态模型事实建立初始 fact 不变式。
-每条算术指令由其局部精确检查保持第 1 项；
-映射只定义值，CHECK 将已成立命题与 output obligation 的表达式匹配。
-结构化 split 的穷尽性保证每个满足 parent 条件的点属于至少一个 child。
-yield proposition 相等由此允许移除 child assumption；
-DONE 交集保证义务在所有可达 children 中成立。
-mapping 封存条件保证丢弃不同仿射表达式后不会留下需要它们的未证明义务。
-矛盾 fact 则建立不可达性。
-
-对 tape 的结构作归纳，以上不变式覆盖 nested split。
-\code{RET} 的完整性检查将局部不变式提升为该方向的可行解映射和目标关系。
-两个方向独立接受后，按第\ref{sec:contracts}节推出对应合约结论。
-此为 soundness proof obligation 的概要；实现审计或形式化证明必须同时覆盖
-字节解码、精确算术、模型绑定和状态 rollback。
-
-\section{执行成本与存储说明（资料性）}
-
-顺序 tape 避免为证明推导建立 DAG 和进行拓扑排序。
-它不消除稀疏代换、exact arithmetic 或支配性资源成本。
-一条行义务的代换可能访问
-\[
-  \sum_{i\in\operatorname{supp}(a_j)}
-       \operatorname{nnz}(E_i)
-\]
-个映射项；这些项的合并还可能产生比原行更大的表达式。
-线性组合的乘法、加法和 gcd 成本取决于精确整数的位数，不能一律视为常数时间。
-
-可变内存包含 live facts、mapping、obligation bitmap、scope transaction records
-和稀疏算术工作区。
-read-only mmap 使文件字节可被按需访问，但不表示验证没有 page fault 或模型散列成本。
-八字节 fact record 是可能的实现布局，不是整个 VM 的内存复杂度证明。
-任何性能声明都应说明证书尺寸、访问的 sparse terms、标量位数、模型读取成本
-和是否包含完整双向验证。
+由此每个已验方向建立第\ref{ch:model}章规定的总存在关系；
+双射和点合约再依其独立域构造与检查建立各自命题。
+这是一份规则层面的正确性论证，其可信前提包括精确算术、模型导入与结构验证、
+codec、作用域实现以及各静态 lift/Plotkin 规则的 Rust 实现。
+它没有声称源程序已经由证明助手形式化验证。

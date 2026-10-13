@@ -2,42 +2,89 @@
 \addcontentsline{toc}{chapter}{阅读约定与文档状态}
 
 RPA 是 \emph{Reformulation Proof Assembly}；RPX 是 \emph{Reformulation Proof eXecutable}。
-\code{.rpa} 文件描述证明、映射和分支；\code{.rpx} 文件保存 proof VM 可直接读取的有序二进制指令流。
-本文讨论普通有理系数 MILP 的 reformulation correctness：给定源模型与目标模型，证明约定的可行性和目标关系。
+\code{.rpa} 是带版本头的严格 JSON 证书，\code{.rpx} 是同一证明对象的顺序二进制编码。
+MCM 保存完整的精确有理系数模型。
+调用者另行提供源模型、目标模型和所要求的 contract；证书不能自行降低这个要求。
+本手册说明当前安全 Rust kernel 如何核验普通有理系数 MILP 的重构关系，
+包括完整可行向量、目标关系、投影、双射、精确点见证及严格改进。
 
-本文的基线是本项目讨论中的 v0.1 草案。基线包括三种 fact、28 个 core opcode、两个执行方向、表达式池与结构化 case。
-为使一份手册能够独立阅读，D0 为原草案中尚未给出完整编码或状态规则的部分提供了明确的\textbf{修订提案}。
-这些提案是可供审阅的候选规范，不是已获批准的版本冻结决定。源代码中的现有功能不构成本规范的隐含实现。
+\section*{实现基线与协议状态}
+\addcontentsline{toc}{section}{实现基线与协议状态}
+本版于 2026 年 10 月 13 日根据当前仓库实现重写，取代 2026 年 10 月 9 日的 D0 设计手册。
+实现基线为 \code{crates/core/src/}：数学对象见 \code{model.rs} 与 \code{proof.rs}，
+执行器见 \code{verify.rs}，文件编解码见 \code{codec.rs} 与 \code{rpa.rs}，
+公开接口见 \code{api.rs}，命令行见 \code{main.rs}。
+静态联合扩展分别由 flow、interval、menu、signed、subflow 模块实现；
+point、injectivity、level 模块提供对应的精确 contract 检查。
 
-\section*{规范性用语}
-\addcontentsline{toc}{section}{规范性用语}
-“必须”“不得”“拒绝”描述符合此草案的实现所需的行为；“建议”描述推荐做法；“可以”描述允许的选择。
-数学语义、字节布局、操作数约束与成功条件是规范性内容。算法建议、内存示意、性能预期与工具输出样例是说明性内容。
-文档状态为草案并不允许 verifier 对已声明的规则采取宽松解释；它表示规则本身仍可在审阅后修改。
+\begin{longtable}{l p{104mm}}
+\toprule 对象 & 当前状态 \\\midrule\endfirsthead
+\toprule 对象 & 当前状态 \\\midrule\endhead
+MCM & 只接受版本 1；与 RPX 的增量版本独立。\\
+RPA / RPX 1--8 & 已实现、已冻结；后续版本沿用既有字段与数学意义。\\
+RPA / RPX 9 & 已实现的目标水平域工作草案，尚未冻结。\\
+RPA / RPX 10 & 已实现的严格改进、完整像排除、联合 subflow 与显式半空间域工作草案，尚未冻结。\\
+D0 / v0.1 & 历史设计来源，既不是可接受的文本版本，也不是当前文件 ABI。\\
+\bottomrule
+\end{longtable}
 
-\section*{手册的边界}
-\addcontentsline{toc}{section}{手册的边界}
-基础 v0.1 定义精确线性推导、整数性、取整、仿射映射、输出模型验证义务（obligation，定义见第\ref{ch:model}章）与结构化 split。
-本手册不要求 proof search、LP/MIP 求解器、JIT、任意跳转或一般图算法。
-指令 tape 是已经安排好验证顺序的证书。assembler 可以进行任意不可信的优化与搜索，最终产生的文件仍须逐条通过 kernel 检查。
+实现完成与协议冻结是两个不同决定。本手册完整描述已实现的 V9/V10 字段和规则，
+不会因草案身份省略其前置条件，也不把它们宣布为已冻结的发布协议。
+原 D0 的 section directory、表达式池、隐式 SSA 编号、逐项 mapping/check、
+yield/merge 和可执行 theorem plugin 均不属于当前接口。
+附录\ref{app:revisions}保留其设计决定与当前实现的对应关系。
 
-批量编码与高层 theorem 被预留，但基础 v0.1 不接受其 opcode。
-MCM 的规范数学接口在第\ref{ch:model}章定义；独立的 MCM 文件序列化和完整 MPS 接入规范仍是开放问题 O-01、O-02。
-它们不会由 RPX loader 猜测或补全。
+\section*{规范性用语与证据}
+\addcontentsline{toc}{section}{规范性用语与证据}
+“必须”“不得”“拒绝”描述本版 kernel 的格式约束、数学接受条件和公开行为；
+“建议”描述证书作者或集成方的工程选择；“可以”描述规则允许的情况。
+数学语义、字段顺序、引用可见性和完整义务是规范性内容。
+数据结构示意、性能解释、有限测试、历史测量和审阅记录是说明性证据。
+一个文件通过汇编只说明能够编码，不等于证明通过验证。
 
-\section*{建议阅读顺序}
-\addcontentsline{toc}{section}{建议阅读顺序}
-数学与可信边界审阅从第\ref{ch:model}章和第\ref{ch:execution}章开始。
-assembler 与 VM 实现者再阅读第\ref{ch:instructions}章、第\ref{ch:format}章及第\ref{ch:loader}章。
-第\ref{ch:assembly}章定义文本层，第\ref{ch:examples}章提供完整证明实例。
-附录列出待决提案、开放问题和版本冻结检查点，供后续逐项修订。
+\code{docs/CURRENT_FORMAT.md} 汇总冻结版本的布局；
+\code{docs/FORMAT_V9_DRAFT.md} 与 \code{docs/FORMAT_V10_DRAFT.md} 保留工作草案的边界。
+各联合扩展的独立数学论证及审阅来源在相关章节和附录列出。
+\code{CURRENT_FORMAT.md} 的原字节由交付 manifest 固定，保留其交付时点的旧手册说明；
+本版手册状态以本页为准，冻结布局及历史验收记录不因重写手册而改变。
+若发现手册与源代码不同，应将其作为需要修复的文档或实现问题，
+不能让证书通过含糊解释、未定义行为或自动放宽检查取得接受结果。
 
-\section*{本草案的符合性范围}
-\addcontentsline{toc}{section}{本草案的符合性范围}
+\section*{可信边界}
+\addcontentsline{toc}{section}{可信边界}
+验证依赖实际完整模型、精确算术、静态推导规则和受审阅的联合存在引理。
+可信实现包含 MPS/LP 导入器、MCM/RPX decoder、有理数库、表达式代数、
+执行器及构造扩展模型的 builder。builder 的旧 scope 前提检查和模型合法性检查
+并不能独立证明其生成的所有新坐标同时可行；该同时存在性质来自各自的可信引理。
+
+RPA 作者、Python 生成器、求解器输出、审计 JSON、文件名和摘要都不能授予数学事实。
+哈希用于记录输入来源；kernel 的接受条件仍然检查实际传入模型上的每一个前提和义务。
+库的纯验证路径不读取文件系统、环境或时钟；文件操作与计时由 API 外层承担。
+测试与独立有限 oracle 是实现证据，不能替代对 Rust 实现及依赖的形式化证明。
+
+\section*{阅读顺序与符合性范围}
+\addcontentsline{toc}{section}{阅读顺序与符合性范围}
+数学审阅从第\ref{ch:model}章和第\ref{ch:execution}章开始：先确定所要求的命题，
+再检查每个完整输出向量及分支、扩展、反证的语义。
+第\ref{ch:instructions}章逐项列出推导与终结点的前置条件及拒绝条件；
+第\ref{ch:format}章给出全部二进制记录，
+第\ref{ch:loader}章说明真实输入方言、资源上限、API 和诊断，
+第\ref{ch:assembly}章定义文本语法。
+第\ref{ch:examples}章提供可重复运行的完整实例，
+第\ref{ch:performance}章区分逻辑工作量、生成成本和进程测量。
+
 \begin{description}
-\item[基础 verifier] 实现全部 core 指令、已启用方向、完整格式检查和规定的 contract 检查。
-\item[assembler] 产生符合格式的 RPX；任何 assembler 判断均不代替 verifier 的验证。
-\item[disassembler] 对合法结构产生语义可重组的规范文本，不承担数学证明正确性的认证。
-\item[扩展 verifier] 额外公布支持的扩展版本与可信 checker；不得把扩展支持混同于基础 v0.1。
+\item[Verifier] 接受所支持版本时，检查完整文件、独立 request、全部前提与实际模型义务；
+不得把跳过的分支、失败的规则或资源耗尽报告为 \code{VERIFIED}。
+\item[Assembler / disassembler] 负责严格文本与二进制的转换；
+不承担独立数学认证，重新编码可以选择最低所需版本。
+\item[证书作者] 安排已完成的推导与完整 mapping，保证每个可达叶使用同一个联合输出向量；
+不能借用另一方向、兄弟分支或另一文件的局部事实。
+\item[集成方] 明确传入完整模型、contract 和资源策略，依据 status 判断结果，
+依据具体 contract 解释其数学结论。
 \end{description}
-没有部分 core 支持的“基础符合性”。实现阶段可以报告 \code{UNSUPPORTED}，但不能把未检查的程序报告为 \code{VERIFIED}。
+
+本 kernel 不提供 proof search、一般 MILP 求解器、任意跳转、动态 theorem registry、
+通用共享表达式 DAG、专用 batch 编码或数值解重建命令。
+当前语料的完整验收不意味着任意重构都有紧凑证书；
+\code{INVALID} 或 \code{RESOURCE_LIMIT} 也不意味着相应重构关系在数学上不成立。

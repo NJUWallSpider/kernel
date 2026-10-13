@@ -1,115 +1,160 @@
-\chapter{执行成本、实现建议与测量}\label{ch:performance}
+\chapter{执行成本、资源预算与测量}
+\label{ch:performance}
 
-\section{成本模型的边界}
-本章是说明性内容，定义测量方法而不承诺未实现系统的性能。
-令 $B$ 为 RPX 字节数，$W_{\rm lin}$ 为线性推导所访问的 coefficient 项总数，
-$W_{\rm sub}$ 为 mapping 代换访问的项总数，$C_{\rm exact}$ 为所有精确算术的 bit complexity。
-合理的目标模型是
-\[
-T=O(B+W_{\rm lin}+W_{\rm sub}+C_{\rm exact}+W_{\rm state}).
-\]
-$W_{\rm state}$ 包含 map 初始化、obligation 初始化与分支状态回滚/汇合。
-如果一次请求还需从文件验证两个模型并计算 digest，还须计入 $|M_S|+|M_T|$ 的读取与校验成本。
-已验证的稳定模型缓存可以让后续请求复用这部分工作；缓存键必须绑定真实 canonical 数据。
+本章描述当前 \code{crates/core/src/verify.rs}、\code{api.rs} 的计数与实现，以及仓库已保存的受控实验。它不把 D0 的 streaming tape、8-byte LiveFact、mmap 或 batch 设想当作现有性能。当前 CLI 读取 owned bytes，decoder 构建完整 owned model/certificate，再执行 verifier；只读输入、已解码对象、精确算术临时量和 proof scopes 均会占内存。
 
-“线性扫描 tape”不表示全部数学工作都与 instruction 数成正比。
-一条包含很长 sparse row 的 LIN 或 CHECK 可以比许多短 instruction 更昂贵。
-完整结构扫描和语义扫描各执行一次仍为 $O(B)$；无需为每条指令建立 DAG node。
+\section{公开计数的确切含义}
 
-\section{代换成本}
-对于输出 row $r$ 和 mappings $y_j=E_j(x)$，代换为
-\[
-A_rE(x)-u_r=c_r+\sum_{j\in\operatorname{supp}(A_r)}a_{rj}E_j(x).
-\]
-一次直接展开访问的 terms 数由
-\[
-\sum_{j\in\operatorname{supp}(A_r)}\operatorname{nnz}(E_j)
-\]
-控制，而不是仅由 $\operatorname{nnz}(A_r)$ 控制。
-不同 $E_j$ 之间的变量可以重合、相消，也可能使结果显著变稠密。
-相同 row 的重复代换还会产生重复读取成本。
+\code{VERIFIED} report 的 \code{statistics} 由 kernel 生成，不是作者提交的证书字段。下面列出主要计数；全部字段定义在 \code{Statistics}。
 
-稳定的 unconditional mapping 可以缓存其代换结果或保持 COPY 引用路径。
-分支内的 mapping 状态必须参与 cache 身份，退出和回滚时不能保留错误路径的结果。
-SEALED\_PIECEWISE 不允许后续代换，因此不会要求缓存一般 piecewise AST。
-
-\section{精确算术与累加器}
-建议对机器整数或小有理数使用 checked arithmetic，对不能表示的中间值无损提升到大整数。
-ScalarRef 的内联编码只减少文件和解码开销；它本身不规定算术对象，也不自动避免 BigRational 分配。
-目标 expression 已由证书提供，kernel 可以计算 residual 并检查所有系数与 constant 恰为零。
-
-可选择的精确累加器包括 sorted sparse merge、hash accumulator 或带 touched 集合的 dense accumulator。
-选择依赖模型维度、每条推导访问项数和 coefficient 分布。
-使用 dense 工作区时，建议只清理 touched entry，避免每条 instruction 都遍历全部 input variables。
-证书已经携带 canonical 输出，可利用它完成精确相等检查，不必为每次中间计算创建永久 expression 对象。
-
-hash、modular arithmetic 或数值过滤器只能在有严格证明的条件下作为加速步骤。
-hash 相同不是表达式相等的证明；浮点 residual 很小不是 residual 为零的证明。
-接受路径最终必须服从本规范的精确数学关系。
-
-\section{Fact 存储与内存统计}
-原草案给出的 8 B LiveFact 示意对应一种紧凑表达式身份与 scope 编码：
-\begin{lstlisting}
-expr_handle:u32 | scope:u16 | kind:u8 | flags:u8
-\end{lstlisting}
-它不是文件 ABI，也不是所有 ExprView 的强制实现布局。
-static YIELD、kernel 生成的 assumption view 或独立 canonical model 可能需要另一种内部引用。
-live 索引、scope frame、allocator、scalar 解码缓存也有额外成本。
-
-将历史 FactId 直接存入不可缩短的 vector，再把 dead 标记置位，仍然会保留与 total fact slot 数量成正比的表项。
-若希望 mutable fact 状态与 peak live facts 成正比，需要可回收的 live 索引或可回收分块表。
-FactId 保持逻辑 SSA；物理存储槽可以重复使用，但不可让旧 FactRef 指向新定义。
-
-完整 mutable memory 至少包括
-\[
-\text{mapping/obligations}+\text{live facts}+\text{scope journals}
-+\text{arithmetic workspace}+\text{bounded caches}.
-\]
-只读模型和 RPX 映射也会占虚拟地址空间及实际 resident pages。
-统计必须分清逻辑 live fact 数、可变堆内存、mapped bytes 和 peak RSS；不能将其中一个当成另一个。
-
-\section{Batch 与高层 theorem 的边界}
-未来 batch opcode 必须有明确的有限 core 展开：
-\[
-\operatorname{BATCH}(I_1,\ldots,I_n)\equiv I_1;\ldots;I_n.
-\]
-展开不仅须保留数学命题，还须规定 operand 检查、FactId、scope、mapping、obligation 与失败行为。
-如果 fused encoding 省略临时物理 fact，它仍必须与规定的可观察逻辑状态一致。
-不能通过 batch 名称引入只能由额外 theorem 才能推出的结论。
-基础 v0.1 不支持这些保留 opcode；先使 core checker 正确，再另行发布 batch 扩展。
-
-高层 theorem 可以缩短证明本身，其收益包括更少的 coefficient 访问而非仅更小的 dispatch 开销。
-它同时扩大可信逻辑边界，必须与编码优化分别统计、审阅和报告。
-
-\section{与 VIPR 的可比实验}
-VIPR 的证明本身也可以顺序验证，并携带最后引用信息以释放不再需要的 constraints。
-其证书整理工具可以构建依赖图与拓扑排序，不能把整理阶段的成本误算为每次基础验证的必要成本。
-\footnote{K. K. H. Cheung, A. Gleixner, D. E. Steffy, \emph{Verifying Integer Programming Results}, IPCO 2017.
-\url{https://arxiv.org/abs/1611.08832}}
-
-RPX 的预期工程收益包括二进制解码、连续 sparse 存储、小整数快路径和结构化 scope 管理。
-这些是待验证的假设，不是现有 benchmark 结果。
-完整 reformulation verification 还承担双向 mapping 和输出 obligations；VIPR 对一个模型的目标界证明不能直接作为同命题的基准。
-
-建议将同一份共同规则子集中的证明分别编码成 VIPR 与 RPX，保持推导、coefficients 和结论相同。
-对整数、小有理数和大有理数分别测量，并记录算术库、CPU、编译选项和线程数。
-单线程和多线程实验分别报告；VIPR 的当前项目提供并行 checker，不能以线程数不等的测试推导格式优势。
-\footnote{\url{https://github.com/scipopt/vipr}}
-
-\begin{longtable}{l p{105mm}}
-\toprule 测量项 & 必须明确的条件 \\\midrule\endfirsthead
-\toprule 测量项 & 必须明确的条件 \\\midrule\endhead
-端到端时间 & 模型读入、digest、loader、proof execution 是否全部计入。\\
-验证时间 & 排除 assembler/证书整理时，单独报告被排除部分的成本。\\
-I/O 与解码 & cold/warm cache 分别报告；不能混用。\\
-算术成本 & coefficient 访问数、bit length 分布、promotion 和 gcd 工作量。\\
-状态成本 & split 数、深度、yield 数、mapping/obligation 变更与回滚。\\
-内存 & peak RSS、mapped bytes、live facts、累计事实数、工作区上限。\\
-证书大小 & 完整文件，包括 pools、tapes、metadata；另报是否压缩。\\
-重复性 & 固定证书集合、硬件、库版本和计时方法，报告多次重复的分布。\\
+\begin{longtable}{p{0.31\textwidth}p{0.61\textwidth}}
+\toprule
+字段 & 当前计数边界 \\
+\midrule
+\endhead
+\code{obligations} & 实际执行的 terminal/output checks，包括方向 Return、严格改进和 injectivity 等通过同一 obligation 入口的检查。Split 的两支均计数；不含 lift premises、local Cases Witness、point checks 或 fiber 内部检查。\\
+\code{linear_terms} & Lin 展开所访问 premise expressions 的非零 coefficient 项数，不是 Lin 数或 scalar arithmetic 次数。\\
+\code{substitution_terms} & substitute 展开每个被引用 map expression 时访问的非零项总数；不同 rows 的重复访问重复计数。\\
+\code{branches} & ordinary Split 与 local Cases 的 branch points；一个二支 split 计一个 point，而非两个 leaf。\\
+\code{peak_live_facts} & 同一时刻当前 scope 可见的 logical local-register bindings 的峰值；不是累计定义数，也不是物理存储或 RSS。\\
+\code{work} & 被明确 charge 的操作总量，包括 step、expression/fact/map 项及常数、ancestor lookup probes、构造器和相关验证工作。是资源政策单位，不是 CPU instructions、运行时间或严格 bit-complexity 上界。\\
+\code{points}, \code{point_coefficient_terms} & 完整 point checks 及 point/observation 精确 evaluation 项数；不含 fiber 反证中的 Lin/代换项。Point 的 bounds/rows 检查不进入方向 Return 的 obligations。\\
+\code{plotkin_pairs} & Plotkin witness 中已检查的 coordinate pairs；还存在 labels、membership 与 premise 扫描成本。\\
+\code{flow_*}, \code{interval_*}, \code{menu_*}, \code{signed_*}, \code{subflow_*} & 各类 lift 次数及其 generated variables、rows、terms。记录完整 generated extension，不代表存在性引理已被另一个 universal checker 证明。\\
+\code{bijections}, \code{injectivity_*} & V7 paired-domain bijection 与其完整 injectivity domain/checks。Legacy \code{inverse} 的成功不自动增加此 bijections 计数。\\
+\code{objective_level_*}, \code{halfspace_*}, \code{improvements} & 条件域构造次数、生成行和项，以及严格改进 witnesses；V10 的新增 zero counters 会从 JSON 中省略。\\
 \bottomrule
 \end{longtable}
 
-例如精确算术占总运行时间的 70\% 时，只消除其他全部成本的加速上限为 $1/0.7\approx1.43$。
-这是 Amdahl 型的假设算例，不是 RPX 与 VIPR 的实测比值。
-只有共同证明实验通过后，再独立测量三个完整 reformulation 示例及更大模型，才能决定下一轮应优化解码、算术还是代换。
+Context 的 \code{charge} 做 checked addition，超过有效 work ceiling 就返回 \code{RESOURCE_LIMIT}。例如一次 static/local fact 读取还计入 expression 的 terms+1；local 引用另外计 ancestor 查找 probes。一次 map substitution 按引用表达式的 terms+1 charge。换一种内部计数政策可能改变 work，必须在实验中说明；同一 work 不能保证同一机器上耗时相同。
+
+第\ref{ch:examples}章的分段证书只有一组三项 Forward 数学要求，但 verifier 在两个 Return 各检查一次，所以 Forward 的 obligations 是六。完整 fiber refutation 使用同一 verifier 的 fresh-scope 调用，但 \code{point.rs} 只把其 work 加回共享预算，不把内部 branches、linear\_terms、substitution\_terms、peak\_live\_facts、plotkin\_pairs 或 obligations 汇入顶层 Statistics；分析这类 proof 时不能从顶层零计数断言内部没有该工作。无限精度 rationals 的位长不同，也会使同样项数的 Lin 成本很不同。不能把任何一个单项计数当作完整成本。
+
+\section{共享预算与可复核的资源结果}
+
+当前默认 \code{Limits} 为 work $10^9$、live facts $10^6$、depth 64，root depth 为 1。一个 request 的全部方向、条件域、lift、injectivity、points/fiber refutations 和 improvements 共用 work；嵌套 scope 或新方向不会重置。CLI 可配置 work 与 live facts，depth 不提供 CLI override。
+
+\begin{lstlisting}[caption={预算是实际 verifier 参数}]
+target/release/rpx verify --work 1000000000 --live-facts 1000000 cases/test58/source.mcm cases/test58/target.mcm cases/test58/proof.rpx cases/test58/request.json
+\end{lstlisting}
+
+有限预算是部署政策，不是模型数学定义。\code{INVALID}、\code{RESOURCE_LIMIT} 和 \code{IO_ERROR} 都不建立 reformulation 不成立。第\ref{ch:examples}章已在同一正例上实际观察 \code{--work 0} 的 RESOURCE\_LIMIT；test36 的同一完整产物在 $10^9$ work 政策下成功，旧 $10^8$ ceiling 下耗尽预算。这不是数学关系改变，也不能用失败运行时间作 speedup 的分母。
+
+还必须分别记录其他层次的边界：CLI 每文件 owned read 为 512 MiB，RPA/request 文本为 256 MiB，serde JSON nesting capacity 为 128，binary nesting 为 64；模型 dimensions、counted arrays 和 rational magnitude 有各自上限。proof depth 与 JSON wrappers 的嵌套数不同。当前精确算术中间 numerator/denominator 的 bit budget 为 65,536。提高 work 不会绕过这些独立边界。
+
+\section{代换、精确累加与表示成本}
+
+对 output row $r$ 和完整 map $y_j=E_j(x)$，直接代换展开
+\[
+A_rE(x)-u_r=c_r+\sum_{j\in\operatorname{supp}(A_r)}a_{rj}E_j(x),
+\qquad
+W_r=\sum_{j\in\operatorname{supp}(A_r)}\operatorname{nnz}(E_j).
+\]
+输入项可能重合、相消，输出可能变稠密；$W_r$ 不只由 output row 的 nnz 决定。跨 row 重复的代换仍付出访问成本。当前 \code{Accumulator} 用 hash map 暂存精确 coefficient，再排序生成 canonical sparse expression；hash 只选择容器 bucket，精确 key/rational equality 决定接受。没有通用 affine-expression DAG、共享 mapping DAG 或证书中间结果缓存的格式承诺。
+
+\code{BigRational} 保持精确数学语义。现有 denominator-one、乘 $\pm1$ 和零加值快路径避免部分通用算术工作，同时保留所需 intermediate/result checks；非 unit rational 仍使用 arbitrary-precision 运算。它不等于 D0 建议的机器小整数与大整数自动提升 ABI，也不把 coefficient 位长或 gcd 成本计成 CPU 指令。
+
+展开长 prefix maps 可有二次物理大小；scalar injectivity proofs 也可能很大。二进制减少 JSON 文本开销，并未保证完整 proof resident memory 与 peak live facts 成正比。一个解释性的成本分解是
+\[
+T=T_{\rm read}+T_{\rm decode}+T_{\rm execute}+T_{\rm process},
+\qquad
+T_{\rm execute}=T_{\rm algebra}+T_{\rm scopes}+T_{\rm builders}+T_{\rm checks}.
+\]
+它不是已证明的统一渐近上界；精确算术位长与保存的 physical representation 需要额外描述。
+
+\section{Shared scopes 的实现与内存边界}
+
+当前 \code{Facts} 借用不可变 parent，只在 child 保存 local definitions 与 deleted-ID masks。其可见集合为
+\[
+L\cup(P\setminus D),
+\]
+其中 local bindings 优先；drop/reuse/drop 不会复活祖先旧值。一个 child 的 DROP 不改变 sibling 或 parent。Cases 的两支独立检查，仅把共同结论插入 parent；ordinary Split 没有后续 continuation，left 检查后 right 可接管未改变的 parent 状态。这消除了每个 branch 复制全部 inherited facts 的成本。
+
+祖先 lookup 的 probes 被计费，深度仍有界；local insertion 和 deletion-mask growth 使用 fallible reservation。\code{peak_live_facts} 只计当前可见 bindings。被 child mask 隐藏的 immutable ancestor payload 仍在内存中，masks 也占空间，所以 logical live limit 不能直接转换成固定 bytes/live-fact 或 peak RSS 上限。decoder 的 owned objects、arithmetic allocations 及部分依赖库 allocation failure 也是当前内存保证的边界。
+
+独立 copied-BTreeMap state oracle 的 127,072 次操作、depth-64 checks 与 negative scope tests 见 \code{audit/SHARED_SCOPE_REVIEW.md}；生产集成另见 \code{audit/scope_v6_merge.json}。状态正确性审阅和 latency 测量分别保存，不能互相代替。
+
+\section{时钟字段与端到端成本}
+
+当前 Rust façade 和 CLI 使用同一报告函数，公开 microseconds 字段：
+\begin{longtable}{p{0.28\textwidth}p{0.64\textwidth}}
+\toprule
+字段 & 含义 \\
+\midrule
+\endhead
+\code{read_us} & 读取 source、target、RPX 和 request；filesystem-free \code{verify_bytes} 不返回此字段。\\
+\code{model_decode_us} & 两份完整 MCM 的 decoding/validation 阶段。\\
+\code{proof_decode_us} & RPX decoding 加 caller request text parsing。\\
+\code{execute_us} & 完整 \code{verify_request_with_diagnostics} 调用，包含全部请求验证。\\
+\code{total_us} & kernel API 本次调用的内部总时间，包括报告前的操作；不含 process startup/shutdown。\\
+process wall time & 外部计时，另含进程启动和退出。不是另一个 kernel 公开计数字段。\\
+\bottomrule
+\end{longtable}
+
+MPS/LP import、作者生成 RPA、assembler 和任何外部 oracle 必须单列。\code{CANONICALIZED}/\code{ASSEMBLED} 的 \code{total_us} 不能当作 verification time。未重测的历史 preparation 应标为 archived/unmeasured；raw 数据中的空 preparation array 或 sentinel 0 不能解释为零成本。
+
+可靠的对比先固定完整数学 request、模型/proof bytes、source/binary/lockfile identities、硬件、编译选项和 budget，再记录 cold/warm 文件状态、重复次数、顺序与 isolation。每个样本都核对退出码和 VERIFIED，保存失败和 outliers；timing 与 RSS 另起 processes。至少报告 min/median/max 或完整分布，并同时保存计数、模型 dimensions、artifact size 与阶段时间。
+
+\section{已有实验：明确保留适用范围}
+
+\subsection{共享状态与精确算术}
+
+\code{bench/SHARED_SCOPE_REPORT.md} 固定了 frozen V5 的 before/after sources，数学规则和 certificate bytes 相同，仅改变 scope 表示及相应 work accounting。三个 copying-heavy workloads 的 execution medians 如下，单位 ms：
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+active facts / Cases & before & after & work before & work after \\
+\midrule
+256 / 256 & 3.439 & 0.425 & 267,535 & 8,720 \\
+1,024 / 1,024 & 51.413 & 1.605 & 4,215,823 & 34,832 \\
+4,096 / 4,096 & 827.142 & 6.517 & 67,194,895 & 139,280 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+这支持消除所选二次复制成本，不支持普遍 127 倍加速。完整 broader matrix 保存了 nonbranching regressions：例如 real65 execution median 从 3690.334 增到 3793.140 ms；logical counters 中除了 work 以外的数学项、全部 physical artifacts 一致。test18 后来的成功是原字节的预算内 replay，其原失败没有成功性能分母。
+
+\code{bench/RATIONAL_SHORTCUTS_REPORT.md} 对 49 个 paired workloads、1,176 个成功 verifier processes 观察同 bytes、同完整计数下的算术快路径。所有 execution medians 降低，但 startup 主导的 process latency 不全部降低；例如 injectivity-64 从 2.186 增到 2.391 ms。RSS median 变化在 3\% 内。报告描述其固定 prototype binary，不能把后来 resource/API 修订后的可执行文件自动等同于被测候选。生产合并边界与额外检查记录在 \code{audit/V7_ARITHMETIC_MERGE.md}。
+
+\subsection{V10 旧任务 regression 与顺序敏感性}
+
+\code{bench/V10_REGRESSION_REPORT.md} 保留 31 个 paired 旧任务、712 个成功 verification/RSS processes，相同 artifacts、request 和完整 non-timing results。candidate 在 19 个任务的 execution median、23 个任务的 full-process median 上增加。test65 execution 为 1792.479 到 1864.392 ms，约 $+4.0\%$；rational-1000 为 0.792 到 0.972 ms，增加 0.180 ms。没有通用加速或无 regression 声明。
+
+预先声明的一次 alternating-order follow-up 保存另外 72 个 timed calls 和八个 excluded warmups，四个任务的 paired median difference 分别为 rational-1000 $+0.003$ ms、test65 $+82.552$ ms、test71 $-0.038$ ms、test79 $-0.005$ ms。test65 的正成本保留为交付限制，其他三项原有较大差异未在本轮持续。分布和 within-pair order effects 不支持把一个精确百分比归因于代码。原矩阵未被替换，也没有新的 RSS 声明；原始报告见 \code{bench/results/v10-order-sensitivity/ORDER_SENSITIVITY_REPORT.md}。
+
+\subsection{新能力绝对 baseline}
+
+\code{bench/NEXT_CAPABILITY_DRAFT_BASELINE.md} 固定 22 个任务，264 个成功 verification/RSS processes，并单列 63 次 synthetic author/assembly preparations。使用最终 cold checkpoint 的同一 binary，task-owned build/preparation/acceptance 工作在采样期间 idle；warm files、fresh process，OS activity 未控制。新任务不与无法证明相同命题的旧 binary 计算 speed ratio。
+
+两个已有报告的 median 样本如下；完整 min/median/max、decoder 时间和身份都在原报告：
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+任务 & execute ms & process ms & peak RSS MiB \\
+\midrule
+完整 actual test58 & 18.369 & 28.749 & 31.891 \\
+subflow 1,024 nodes / 4 groups & 56.732 & 87.707 & 69.141 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+第二项的完整 Python preparation median 为 9.154 s，包含简单 $O(nm)$ author construction；不能把这个成本藏在 constant-time theorem 的叙述中。actual test58 的历史 author preparation 未重测，表中没有零成本含义。Corpus 的总 functional replay 耗时和本手册单次示例 replay 都不是该受控矩阵的替代。
+
+\section{复现与下一次优化的登记}
+
+仓库已有 fixed matrix drivers；新的运行须用未使用的 label 保存 raw evidence。下面的命令可建立当前 binary 的新绝对测量，不会复写历史样本：
+\begin{lstlisting}[caption={当前完整初始与 extended matrices}]
+python3 tools/benchmark.py --kernel target/release/rpx --source-root . --label manual-current-initial
+python3 tools/benchmark_extended.py --kernel target/release/rpx --source-root . --label manual-current-extended
+\end{lstlisting}
+
+正式执行前应安排独立采样窗口并登记机器与其它任务状态；这些命令不自动保证 isolation。固定 V10 final-driver 与能力 config 还验证专门 binary/manifest hashes，因此重建当前 binary 不会被默认为同一历史样本。已有 driver 拒绝覆盖 raw evidence，应换新 label 或单独建立新固定计划。
+
+共享 DAG、dedicated batch、streaming decoding、模型缓存和独立 solution reconstruction 是可能的后续工作，均非当前报告中的既有收益。新增 batch 必须另定义可观察语义、operand 检查、scope/obligation 与失败条件，不能用名称加入隐藏 theorem。优化接受路径继续做精确验证；浮点 residual、probabilistic hash 和外部 solver success 不构成接受条件。
+
+任何对其它 proof format 的速度比较，都须提供相同数学请求和推导、相同线程政策及 preparation/verification 边界。当前报告没有这种受控 cross-format 实验，因而不宣称相对 VIPR 或求解器的性能优势。
+
+历史 source snapshots 与部分 prototype 完整副本已在交付后的清理中删除，
+原 manifests、receipts、logs 与 diffs 保留；具体清理边界见
+\code{audit/POST_DELIVERY_CHANGES.md}。依赖这些副本的历史重建必须先恢复原版本数据。
+本章的新测量入口使用当前源码，不能把重新编译的当前 binary 当作原实验 binary。

@@ -27,6 +27,8 @@ build/
 *.rpa
 *.rpx
 *.mcm
+# Runnable manual sources are small, reviewed examples rather than corpus output.
+!docs/rpx/examples/**/*.rpa
 audit/acceptance.json
 
 # macOS

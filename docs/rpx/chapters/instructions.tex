@@ -1,720 +1,419 @@
-\chapter{核心指令集参考}
+\chapter{操作与推理规则参考}
 \label{ch:instructions}
 
-本章规定 RPA/RPX 草案版本 0.1 的 28 条核心指令。每个条目同时给出文本汇编形式、二进制载荷、前置条件、数学推导规则、状态变化与拒绝条件。指令集作用于当前执行方向的输入模型与输出模型；正向和反向使用相同操作码，不共享寄存器、映射或义务状态。
+本章逐条定义当前六种 Step、两种 DerivationEnd 与十种 End 的前置条件、
+精确语义、状态变化及拒绝条件。Kind 为 Le/Eq/Int，Ref 的九种形式与 Exact
+规则见第\ref{ch:execution}章。载荷是逻辑字段，不是本章另定义的 opcode 布局；
+逐字节记录、保留位与版本门见第\ref{ch:format}章。
 
-\section{公共编码与执行约定}
+\section{操作总表与共同条件}
 
-\subsection{指令头与字节序}
-
-所有指令采用以下 8 字节头。多字节字段均以 little-endian 编码；字段没有 C ABI 隐式填充。
-
-\begin{lstlisting}
-InstHeader {
-    opcode:        u8;
-    flags:         u8;
-    aux:           u16;
-    payload_bytes: u32;
-}
-\end{lstlisting}
-
-指令地址必须 8 字节对齐。令当前地址为 \(p\)，则本指令占用的完整区间为
-\[
- [p,\operatorname{align}_8(p+8+\mathrm{payload\_bytes})).
-\]
-载荷结束与下条指令之间的填充字节必须为零，并且不计入 \code{payload_bytes}。本章列出的载荷长度为精确长度；额外字段、截断字段或未解释的尾字节均以 \code{E_FORMAT} 拒绝。所有未使用的 \code{flags}、\code{aux} 与显式 \code{reserved} 字段必须为零。对长度、计数、偏移的检查必须使用无溢出的算术。
-
-\subsection{操作数与寄存器定义}
-
-\code{ExprId}、\code{FactRef}、\code{ScalarRef}、输入及输出对象索引都是 32 位字段。表达式编号仅在当前方向的表达式池中有效。\code{FactRef} 可以指向活跃派生事实、输入模型声明的事实，或当前可见分支假设；取值规则见机器模型章。
-
-事实产生指令没有显式目标寄存器字段。其 \code{out_expr} 仅标识所验证的表达式。汇编中的目标寄存器由整个方向的隐式 SSA 编号规则确定，不能改变二进制执行顺序。\code{SPLIT} 的分支局部定义先占用编号，随后为汇合输出分配编号；编号细节与不可达代码的处理见机器模型章。所有生成的事实均具有当前 scope。
-
-下文以 \(\operatorname{expr}(r)\) 和 \(\operatorname{kind}(r)\) 表示事实引用的表达式与类型。表达式相等是精确有理数意义下逐项相等：常数项、变量编号和对应系数必须相同。它不是 ExprId 相同，也不允许把正比例表达式视为同一命题。
-
-\subsection{校验与提交}
-
-每条指令必须先完成载荷、引用、类型与数学前置条件检查，再提交可观察的状态变化。失败不能提交部分事实、部分映射或部分义务。\code{E_REF} 表示引用不存在、已死亡、来自未来或不可见；\code{E_KIND} 表示事实类型不符合该指令；\code{E_PROOF} 表示所声明的推导不成立。错误符号的完整定义见异常章。
-
-执行只计算精确有理数。任何实现都不得用浮点近似决定表达式相等、符号、整数性、取整或分支覆盖。宿主整数溢出必须提升到精确表示或报告资源错误，不能产生环绕后的证明结果。
-
-\subsection{操作码总表}
-
-\begin{longtable}{@{}lll@{}}
+\begin{center}
+\begin{tabularx}{\textwidth}{llY}
 \toprule
-操作码 & RPA 助记符 & 功能 \\
+Step tag & 名称 & 最低版本及作用 \\
 \midrule
-\endfirsthead
-\toprule
-操作码 & RPA 助记符 & 功能 \\
-\midrule
-\endhead
-\code{0x00} & \code{nop} & 无状态变化 \\
-\code{0x01} & \code{ret} & 完成一个执行方向 \\
-\code{0x02} & \code{drop} & 释放当前 scope 的派生事实 \\
-\code{0x10} & \code{lin.le} & 线性组合得到 LE \\
-\code{0x11} & \code{lin.eq} & 线性组合得到 EQ \\
-\code{0x12} & \code{eq.pair} & 由相反方向不等式得到 EQ \\
-\code{0x13} & \code{box.le} & 由声明变量界得到 LE \\
-\code{0x14} & \code{weaken.le} & 放松一个 LE \\
-\code{0x15} & \code{close.false} & 以常数矛盾关闭当前域 \\
-\code{0x20} & \code{int.aff} & 组合整数事实得到 INT \\
-\code{0x21} & \code{round.hi} & 整数表达式上界取整 \\
-\code{0x22} & \code{round.lo} & 整数表达式下界取整 \\
-\code{0x30} & \code{map.copy} & 定义输出变量的复制映射 \\
-\code{0x31} & \code{map.const} & 定义输出变量的常数映射 \\
-\code{0x32} & \code{map.aff} & 定义输出变量的仿射映射 \\
-\code{0x40} & \code{check.row.hi} & 解除输出行上界义务 \\
-\code{0x41} & \code{check.row.lo} & 解除输出行下界义务 \\
-\code{0x42} & \code{check.row.eq} & 解除输出等式行义务 \\
-\code{0x43} & \code{check.var.hi} & 解除输出变量上界义务 \\
-\code{0x44} & \code{check.var.lo} & 解除输出变量下界义务 \\
-\code{0x45} & \code{check.var.int} & 解除输出变量整数性义务 \\
-\code{0x46} & \code{check.obj.eq} & 解除目标相等义务 \\
-\code{0x47} & \code{check.obj.le} & 解除目标不增义务 \\
-\code{0x50} & \code{split.bin} & 对显式 binary 输入变量分类 \\
-\code{0x51} & \code{split.int.thr} & 对整数表达式按阈值分类 \\
-\code{0x52} & \code{split.int.range} & 枚举整数表达式的有限区间 \\
-\code{0x53} & \code{split.sign} & 对实仿射表达式按符号分类 \\
-\code{0x54} & \code{yield} & 提交一个可达分支的汇合事实 \\
+0 & Lin & V1；产生一种精确线性组合事实。\\
+1 & Round & V1；结合 LE 和 INT 得到精确舍入不等式。\\
+2 & Drop & V1；删除显式 ID 列表。\\
+3 & EqPair & V2；由相反 LE 得到 EQ。\\
+4 & Cases & V2；两穷尽局部证明产生一条共同事实。\\
+5 & Plotkin & V3；静态二元码距离上界。\\
 \bottomrule
-\end{longtable}
+\end{tabularx}
+\end{center}
 
-\code{0x80--0xBF} 为 batch/fused 扩展保留，\code{0xF0} 为 theorem 调用保留。这些编码不属于本章的核心指令集。未声明、未支持或未知操作码必须拒绝，不能当作 \code{nop} 跳过。
+\begin{center}
+\begin{tabularx}{\textwidth}{llY}
+\toprule
+End tag & 名称 & 最低版本及作用 \\
+\midrule
+0 & Return & V1；完整共同输出向量和全部义务。\\
+1 & Split & V1；两穷尽完整子 Block。\\
+2 & Absurd & V1；恒定矛盾关闭当前域。\\
+3 & FlowLift & V4；共同源商品流分解。\\
+4 & IntervalLift & V5；同时选择实区间坐标。\\
+5 & MenuLift & V7；可选整数菜单的二元展开。\\
+6 & SignedLift & V8；有激活的有界实数正负分解。\\
+7 & SubflowLift & 未冻结 V10；同时保留有需求的有界子流。\\
+8 & ImproveReturn & 未冻结 V10；同模型完整严格改进向量。\\
+9 & PositiveRefutation & 未冻结 V10；与严格根条件矛盾。\\
+\bottomrule
+\end{tabularx}
+\end{center}
 
-\section{一般指令}
+产生事实的 Step 在成功后将 $(\mathrm{kind},e)$ 发布至显式 \code{id}。
+所有表达式必须在当前 input 维度规范，标量及运算中间值必须精确且满足资源界。
+活跃 ID 不得覆盖；拒绝任何前提引用失活、错误种类或不匹配表达式。
+Drop 不产生事实，End 不向父作用域发布局部事实。
+证书没有 NOP、逐项 MAP、单独 CHECK、RET、YIELD 或动态定理调用操作。
 
-\subsection{NOP：无操作}
-\label{ins:nop}
-
-\begin{lstlisting}
-nop
-\end{lstlisting}
-
-编码为 \code{opcode=0x00}、\code{flags=0}、\code{aux=0}、\code{payload_bytes=0}。NOP 不读取事实，也不生成事实、映射或义务；执行继续到下一条指令。非零保留字段或载荷以 \code{E_FORMAT} 拒绝。NOP 不能替代 root 或分支所要求的终结指令。
-
-\subsection{RET：完成当前方向}
-\label{ins:ret}
-
-\begin{lstlisting}
-ret
-\end{lstlisting}
-
-编码为 \code{opcode=0x01}、\code{flags=0}、\code{aux=0}、\code{payload_bytes=0}。RET 必须位于当前方向 root tape 的最后一条指令位置，且 scope stack 必须只包含 root。
-
-对仍可达的 root，RET 检查：所有输出变量都有完整定义；所有要求的输出行、变量界及整数性义务均为 DONE；contract 要求的目标关系已完成。完整定义包括可用的单一表达式映射，以及经所有可达分支封存、且不再有依赖义务的分段映射。不得把封存状态误判为未映射状态。
-
-成功后该方向成为 VERIFIED。缺失映射以 \code{E_MAP} 拒绝，未完成义务以 \code{E_OBLIGATION} 拒绝，错误 scope 或非终结位置以 \code{E_SCOPE} 或 \code{E_FORMAT} 拒绝。RET 不接受分支事实返回，也不能结束嵌套分支。root 已被证明不可达时采用机器模型章规定的空可行域结束规则。
-
-\subsection{DROP：释放事实区间}
-\label{ins:drop}
-
-\begin{lstlisting}
-drop %100 .. %499
-\end{lstlisting}
-
-编码为 \code{opcode=0x02}、\code{flags=0}、\code{aux=0}，载荷为 8 字节：
-
-\begin{lstlisting}
-first: u32;
-count: u32;
-\end{lstlisting}
-
-语义作用于半开区间 \([\mathrm{first},\mathrm{first}+\mathrm{count})\) 内的派生 FactId。\code{count} 必须大于零。整个区间必须无溢出、全部已定义、全部活跃，且全部属于当前 scope。检查全部通过后一次性标记为 DEAD，随后任何事实引用都不能重新激活这些编号。DROP 不释放输入事实或分支假设。
-
-\proposal{P-03}{为避免一个分支删除兄弟分支仍需读取的祖先事实，v0.1 草案限制 DROP 只能释放当前 scope 所拥有的派生事实。该限制是待确认的 scope 管理规则。}
-
-空区间或算术越界以 \code{E_FORMAT} 拒绝；未定义或已死亡的事实以 \code{E_REF} 拒绝；释放祖先或其他 scope 的事实以 \code{E_SCOPE} 拒绝。DROP 改变逻辑活跃状态，但实现能否回收物理槽位取决于其事实存储结构，不能仅由该指令推出峰值内存界。
-
-\section{线性事实指令}
-
-\subsection{LIN.LE：非负不等式组合}
+\section{Lin：精确线性组合}
+\label{ins:lin}
 \label{ins:lin-le}
-
-\begin{lstlisting}
-%7 = lin.le $e31 {
-    +1   @in.r[17].hi
-    +2   %3
-    -3/5 @in.r[91].eq
-}
-\end{lstlisting}
-
-编码为 \code{opcode=0x10}、\code{flags=0}、\code{aux=n}。载荷长度必须为 \(4+8n\) 字节：
-
-\begin{lstlisting}
-out_expr: u32;
-terms[n]: { fact: FactRef; multiplier: ScalarRef; };
-\end{lstlisting}
-
-每个输入必须为 LE 或 EQ。LE 输入的系数必须非负，EQ 输入的系数可为任意有理数。所有引用即使系数为零也必须有效，所有 scalar 也必须具有合法 canonical 编码。令输入表达式为 \(e_i\)、系数为 \(a_i\)，kernel 检查
-\[
- e_{\mathrm{out}}=\sum_{i=0}^{n-1}a_i e_i.
-\]
-成功生成 \(\operatorname{LE}(e_{\mathrm{out}})\)。\(n=0\) 合法，但只可生成零表达式的 LE。重复输入引用按其实际出现次数参与组合，不改变推理规则。
-
-输入 INT 以 \code{E_KIND} 拒绝；LE 的负系数、组合结果不相等以 \code{E_PROOF} 拒绝；非法引用以 \code{E_REF} 拒绝，非法 scalar 以 \code{E_SCALAR} 拒绝。
-
-\subsection{LIN.EQ：等式线性组合}
 \label{ins:lin-eq}
-
-\begin{lstlisting}
-%8 = lin.eq $e42 {
-    +1 @in.r[12].eq
-    -3 @in.r[19].eq
-}
-\end{lstlisting}
-
-编码为 \code{opcode=0x11}、\code{flags=0}、\code{aux=n}；载荷字段与 LIN.LE 相同，长度为 \(4+8n\) 字节。所有输入必须为 EQ，所有系数可为任意精确有理数。检查
-\[
- e_{\mathrm{out}}=\sum_i a_i\operatorname{expr}(r_i)
-\]
-后生成 \(\operatorname{EQ}(e_{\mathrm{out}})\)。空组合仅能产生 \(\operatorname{EQ}(0)\)。非 EQ 输入以 \code{E_KIND} 拒绝，结果不相等以 \code{E_PROOF} 拒绝。
-
-\subsection{EQ.PAIR：相反不等式构成等式}
-\label{ins:eq-pair}
-
-\begin{lstlisting}
-%9 = eq.pair $e17, %3, %8
-\end{lstlisting}
-
-编码为 \code{opcode=0x12}、\code{flags=0}、\code{aux=0}，载荷为 12 字节：
-
-\begin{lstlisting}
-out_expr:      u32;
-positive_fact: FactRef;
-negative_fact: FactRef;
-\end{lstlisting}
-
-两个输入必须为 LE，并且分别满足
-\[
- \operatorname{expr}(r_+)=e_{\mathrm{out}},\qquad
- \operatorname{expr}(r_-)=-e_{\mathrm{out}}.
-\]
-成功生成 \(\operatorname{EQ}(e_{\mathrm{out}})\)。不接受只差非单位比例的表达式；这种情况必须先由 LIN.LE 显式调整。类型错误以 \code{E_KIND} 拒绝，任一精确比较失败以 \code{E_PROOF} 拒绝。
-
-\subsection{BOX.LE：声明变量界检查}
-\label{ins:box-le}
-
-\begin{lstlisting}
-%10 = box.le $e73
-\end{lstlisting}
-
-编码为 \code{opcode=0x13}、\code{flags=0}、\code{aux=0}，载荷仅含 \code{out_expr:u32}，长度为 4 字节。对
-\[
- e=c+\sum_i a_i x_i
-\]
-使用当前输入模型\emph{声明}的界 \(l_i,u_i\)，计算
-\[
- U=c+\sum_{a_i>0}a_i u_i+\sum_{a_i<0}a_i l_i.
-\]
-若每个实际使用的界均有限且 \(U\leq0\)，则生成 \(\operatorname{LE}(e)\)。canonical 表达式不含零系数，因此不存在以 \(0\cdot\infty\) 绕过检查的情况。常数表达式直接检查 \(c\leq0\)。
-
-本指令不读取派生变量界，也不使用 branch assumption 自动收紧界。需要这些事实时应使用 LIN.LE。所需界不存在、无限或计算结果为正时以 \code{E_PROOF} 拒绝；非法变量编号或表达式编号以 \code{E_REF} 拒绝。
-
-\subsection{WEAKEN.LE：常数放松}
-\label{ins:weaken-le}
-
-\begin{lstlisting}
-%11 = weaken.le $e91, %7, 3/2
-\end{lstlisting}
-
-编码为 \code{opcode=0x14}、\code{flags=0}、\code{aux=0}，载荷为 12 字节：
-
-\begin{lstlisting}
-out_expr: u32;
-fact:     FactRef;
-delta:    ScalarRef;
-\end{lstlisting}
-
-输入必须为 LE，且 \(\delta\geq0\)。kernel 检查
-\[
- e_{\mathrm{out}}=\operatorname{expr}(r)-\delta
-\]
-后生成 \(\operatorname{LE}(e_{\mathrm{out}})\)。\(\delta=0\) 合法。非 LE 输入以 \code{E_KIND} 拒绝；负 \(\delta\) 或表达式不匹配以 \code{E_PROOF} 拒绝。
-
-\subsection{CLOSE.FALSE：关闭矛盾域}
-\label{ins:close-false}
-
-\begin{lstlisting}
-close.false %27
-\end{lstlisting}
-
-编码为 \code{opcode=0x15}、\code{flags=0}、\code{aux=0}，载荷仅含 \code{fact:FactRef}，长度为 4 字节。输入必须是无变量项的常数事实，且满足以下任一条件：
-\[
- \operatorname{LE}(c)\text{ 且 }c>0,
- \qquad
- \operatorname{EQ}(c)\text{ 且 }c\neq0.
-\]
-成功标记当前分支或 root 为 UNREACHABLE，不产生事实，不再要求当前域完成映射、义务或 YIELD。它必须是该显式指令块的最后一条指令。
-
-非 LE/EQ 类型以 \code{E_KIND} 拒绝；非常数表达式、\(\operatorname{LE}(c\leq0)\) 或 \(\operatorname{EQ}(0)\) 以 \code{E_PROOF} 拒绝。\(\operatorname{INT}(1/2)\) 不是本指令接受的矛盾形式。root 关闭表示输入可行域为空，该方向的全称映射义务因而成立；另一个方向仍须独立验证。
-
-\section{整数事实指令}
-
-\subsection{INT.AFF：整数仿射组合}
 \label{ins:int-aff}
 
-\begin{lstlisting}
-%12 = int.aff $e104, 7 {
-    +3 %3
-    -2 %7
-}
-\end{lstlisting}
-
-编码为 \code{opcode=0x20}、\code{flags=0}、\code{aux=n}，载荷长度为 \(8+8n\) 字节：
-
-\begin{lstlisting}
-out_expr:       u32;
-integer_offset: ScalarRef;
-terms[n]: { fact: FactRef; multiplier: ScalarRef; };
-\end{lstlisting}
-
-offset 必须为整数。INT 输入的 multiplier 必须为整数；EQ 输入的 multiplier 可为任意有理数。LE 输入不允许。kernel 验证
+字段为 \code{id}、\code{kind}、精确 \code{constant} $c$ 与有序
+\code{terms} $(r_k,\lambda_k)$。
+先解析每个 $r_k$ 为事实 $(K_k,e_k)$，构造并规范化
 \[
-\begin{aligned}
- e_{\mathrm{out}}={}&k+
- \sum_{\operatorname{kind}(r_i)=\mathrm{INT}}n_i\operatorname{expr}(r_i)\\
- &+\sum_{\operatorname{kind}(r_j)=\mathrm{EQ}}\mu_j\operatorname{expr}(r_j),
-\end{aligned}
+ e=c+\sum_k\lambda_ke_k.
 \]
-其中 \(k,n_i\in\mathbb Z\)、\(\mu_j\in\mathbb Q\)。成功生成 \(\operatorname{INT}(e_{\mathrm{out}})\)。空组合可生成任意整数常数的 INT。
+允许条件依输出 Kind 分别为：
+\begin{center}
+\begin{tabularx}{\textwidth}{lY}
+\toprule
+输出 & 前置条件 \\
+\midrule
+Le & $c\le0$；每个前提为 Eq（乘子任意有理数），或 Le 且 $\lambda_k\ge0$。\\
+Eq & $c=0$；每个前提均为 Eq，乘子任意有理数。\\
+Int & $c\in\mathbb Z$；每个前提为 Eq（乘子任意有理数），或 Int 且 $\lambda_k\in\mathbb Z$。\\
+\bottomrule
+\end{tabularx}
+\end{center}
 
-\proposal{P-04}{原始草案只允许 INT 输入。本手册提出允许 EQ 项参与 INT.AFF：EQ 项恒等于零，可在不引入新操作码的情况下把整数性沿已证明等式传递，例如由 INT(z) 与 EQ(x-z) 推出 INT(x)。}
+语义是对有效不等式做非负组合、对零等式做任意组合，或对整数值做整数组合。
+INT 中 rational 倍 Eq 仍等于零，不要求该倍数为整数。
+空 terms 可产生常数不大于零的 LE、零 EQ 或常数 INT。
+常数不满足对应条件、LE 的负不等式乘子、EQ 的非等式前提、INT 的分数整数乘子均拒绝。
+\must{即使 $\lambda_k=0$，也须解析并检查该前提的引用和种类；零乘子不隐藏无效引用或 Exact。}
+成功后只发布这一条规范 $e$；本指令不会自动把正比例相等的事实视为相同。
 
-LE 输入以 \code{E_KIND} 拒绝；非整数 offset、INT 项的非整数系数或结果不相等以 \code{E_PROOF} 拒绝。输入表达式常数项本身可以是有理数，只要输入 INT 事实已经成立；kernel 不得把“所有表达式系数必须是整数”作为此指令的额外限制。
-
-\subsection{ROUND.HI：整数上界取整}
+\section{Round：整数表达式精确舍入}
+\label{ins:round}
 \label{ins:round-hi}
-
-\begin{lstlisting}
-%13 = round.hi $e_x_minus_7, %4, %7
-\end{lstlisting}
-
-编码为 \code{opcode=0x21}、\code{flags=0}、\code{aux=0}，载荷为 12 字节：
-
-\begin{lstlisting}
-out_expr:  u32;
-bound_fact: FactRef;
-int_fact:   FactRef;
-\end{lstlisting}
-
-令 \(g=\operatorname{expr}(r_{\mathrm{int}})\)、\(b=\operatorname{expr}(r_{\mathrm{bound}})\)。输入类型必须分别为 INT 和 LE，并且 \(g-b\) 必须是常数 \(\beta\)。kernel 检查
-\[
- b=g-\beta,\qquad e_{\mathrm{out}}=g-\lfloor\beta\rfloor.
-\]
-成功生成 \(\operatorname{LE}(e_{\mathrm{out}})\)。\(g\) 可为任意已证明整数的仿射表达式，不局限于单变量；其常数项也参与相减。取整是数学 floor，对负数同样向负无穷方向取整。
-
-类型不匹配以 \code{E_KIND} 拒绝；\(g-b\) 含变量项或输出不匹配以 \code{E_PROOF} 拒绝。例：\(g=x\)、\(b=x-37/5\) 得到 \(x-7\leq0\)。
-
-\subsection{ROUND.LO：整数下界取整}
 \label{ins:round-lo}
 
-\begin{lstlisting}
-%14 = round.lo $e_neg_x_plus_8, %5, %7
-\end{lstlisting}
-
-编码为 \code{opcode=0x22}、\code{flags=0}、\code{aux=0}；载荷字段与 ROUND.HI 相同，长度为 12 字节。输入 \(r_{\mathrm{bound}}\) 必须为 LE，\(r_{\mathrm{int}}\) 必须为 INT。令它们的表达式为 \(b,g\)，则 \(b+g\) 必须是常数 \(\beta\)，且
+字段为 \code{id}、\code{le} 与 \code{integer}。
+两原始引用须分别为
 \[
- b=-g+\beta,\qquad e_{\mathrm{out}}=-g+\lceil\beta\rceil.
+ \mathrm{LE}(a),\qquad\mathrm{INT}(z),\qquad
+ a=c_a+\sum_i a_ix_i,\quad z=c_z+\sum_i a_ix_i.
 \]
-成功生成 \(\operatorname{LE}(e_{\mathrm{out}})\)。数学 ceil 对负数向正无穷方向取整。例：\(-x+37/5\leq0\) 与 \(\operatorname{INT}(x)\) 得到 \(-x+8\leq0\)。类型不匹配以 \code{E_KIND} 拒绝；和不为常数或输出不匹配以 \code{E_PROOF} 拒绝。
-
-\section{映射指令}
-
-\subsection{映射指令的公共条件}
-
-本节指令只定义输出变量的取值表达式，不自动生成 LE、EQ、INT，也不解除任何输出义务。载荷中的输入变量与表达式都属于当前方向的输入坐标系。
-
-tape 中的映射指令只能赋值给 map section 中声明为 DEFER、且在当前 scope 状态中为 UNASSIGNED 的输出变量。父 scope 已有 KNOWN 映射的变量不能被子分支重定义。各兄弟分支从同一父状态开始，因此可以分别赋值给同一个尚未定义的 DEFER 变量。重复赋值、非 DEFER 赋值或重写封存的分段映射均以 \code{E_MAP} 拒绝。
-
-分支映射在汇合时的相等性、封存与义务依赖规则见机器模型章；任一 CHECK 需要 KNOWN 映射才能实际完成代换。
-
-\subsection{MAP.COPY：复制输入变量}
-\label{ins:map-copy}
-
-\begin{lstlisting}
-map.copy @out.v[17], @in.v[9]
-\end{lstlisting}
-
-编码为 \code{opcode=0x30}、\code{flags=0}、\code{aux=0}，载荷为 8 字节：
-
-\begin{lstlisting}
-out_var: u32;
-in_var:  u32;
-\end{lstlisting}
-
-成功将 \(E_{17}(x)=x_9\) 存为 KNOWN。两个索引必须分别落在输出、输入变量范围内，否则以 \code{E_REF} 拒绝。输入变量的 domain 不自动转移到输出变量；输出 bounds 和 integrality 仍必须分别检查。
-
-\subsection{MAP.CONST：常数映射}
-\label{ins:map-const}
-
-\begin{lstlisting}
-map.const @out.v[18], 0
-\end{lstlisting}
-
-编码为 \code{opcode=0x31}、\code{flags=0}、\code{aux=0}，载荷为 8 字节：
-
-\begin{lstlisting}
-out_var: u32;
-value:   ScalarRef;
-\end{lstlisting}
-
-成功将 \(E_{18}(x)=\mathrm{value}\) 存为 KNOWN。value 可以是任意合法有理数；是否符合输出变量 bounds 和 domain 由 CHECK 决定。输出索引越界以 \code{E_REF} 拒绝，非法 scalar 编码以 \code{E_SCALAR} 拒绝。
-
-\subsection{MAP.AFF：仿射映射}
-\label{ins:map-aff}
-
-\begin{lstlisting}
-map.aff @out.v[19], $e37
-\end{lstlisting}
-
-编码为 \code{opcode=0x32}、\code{flags=0}、\code{aux=0}，载荷为 8 字节：
-
-\begin{lstlisting}
-out_var: u32;
-expr:    u32;
-\end{lstlisting}
-
-成功将输出变量的 KNOWN 映射设为 \(E_{19}(x)=e_{37}(x)\)。输出索引或表达式编号无效以 \code{E_REF} 拒绝。表达式不得引用输出变量，不能通过 MAP.AFF 构造递归映射。
-
-\section{模型义务检查指令}
-
-\subsection{CHECK 的公共语义与 EXACT 模式}
-
-CHECK 在执行时由 kernel 从输出模型和当前映射构造待证表达式 \(P(x)\)。它不接受证书自行声明目标表达式。参与代换的每个输出变量都必须为 KNOWN；缺失或 SEALED\_PIECEWISE 映射以 \code{E_MAP} 拒绝。已封存映射对应的义务必须已经完成，不得用于新的代换。
-
-所有 CHECK 的 \code{aux=0}。普通模式 \code{flags=0}，模型对象检查载荷为
-
-\begin{lstlisting}
-out_index: u32;
-fact:      FactRef;
-\end{lstlisting}
-
-共 8 字节；目标检查仅有 \code{fact:FactRef}，共 4 字节。普通模式要求事实类型与该指令一致，且 \(\operatorname{expr}(r)=P\)。成功将对应 PENDING 义务置为 DONE，不产生可引用事实。对已经 DONE 的义务再次执行 CHECK 必须以 \code{E_OBLIGATION} 拒绝；分支继承的 DONE 义务同样不能重复检查。
-
-EXACT 模式仅置 \code{flags} 的 bit 0，其他位必须为零。模型对象检查载荷仅有 \code{out_index:u32}，共 4 字节；目标检查没有载荷。EXACT 完全由 kernel 执行以下确定性检查：
-
-\begin{itemize}
-\item EQ 检查要求 \(P\) 为零表达式。
-\item LE 检查要求 \(P\) 不含变量项且其常数 \(c\leq0\)。
-\item INT 检查要求 \(P\) 的常数项为整数，并且每个非零系数为整数、对应输入变量在模型中显式声明为 integer 或 binary。
-\end{itemize}
-
-\proposal{P-05}{原始草案使用 exact 汇编 pseudo-op，但未指定二进制编码。本手册提出 CHECK 的 bit 0 作为 EXACT 模式。该模式不信任 assembler 的判断，也不生成隐式 FactId；所有表达式由 kernel 重新代换并检查。}
-
-EXACT 不进行 BOX.LE、等式消元、推理搜索或利用派生整数事实。CHECK 对一个不存在的模型侧或不属于当前 contract 的义务以 \code{E_OBLIGATION} 或 \code{E_CONTRACT} 拒绝；事实类型错误以 \code{E_KIND} 拒绝；表达式比较或 EXACT 检查失败以 \code{E_PROOF} 拒绝。成功标记具有当前分支的可行域条件，在汇合时对所有可达分支取交集。
-
-\subsection{CHECK.ROW.HI：输出行上界}
-\label{ins:check-row-hi}
-
-\begin{lstlisting}
-check.row.hi @out.r[17], %81
-check.row.hi @out.r[17], exact
-\end{lstlisting}
-
-操作码为 \code{0x40}，采用本节公共 CHECK 编码。输出行 \(r\) 必须有有限上界 \(u_r\)，且该行侧必须存在于义务集合。令行系数为 \(A_{rj}\)，构造
+变量项列表必须精确相同，常数可不同。令 $d=c_a-c_z$，发布
 \[
- P=\sum_j A_{rj}E_j(x)-u_r.
+ \mathrm{LE}\bigl(z+\lceil d\rceil\bigr).
 \]
-普通模式要求 LE(P)，EXACT 模式要求 P 是非正的常数。成功解除该行的 upper-side 义务。不存在的上界、不被要求的侧或越界行号必须拒绝。规范化等式行使用 CHECK.ROW.EQ，不把等式义务隐式拆成两个独立侧。
+因为 $a\le0$ 给出整数 $z\le-d$，故 $z\le\lfloor-d\rfloor=-\lceil d\rceil$。
+取整作用于精确有理数，对负数也使用数学上取整。
+前提不是 Le/Int、变量支持或系数不同、引用无效、Exact 以及任何超限中间数均拒绝。
+上界和下界舍入共用这一个规则；下界须先把相应表达式改为负号形式，
+没有额外 ROUND.LO opcode，也没有未证整数表达式的自动舍入。
 
-\subsection{CHECK.ROW.LO：输出行下界}
-\label{ins:check-row-lo}
+\section{Drop：局部可见性删除}
+\label{ins:drop}
 
-\begin{lstlisting}
-check.row.lo @out.r[17], %82
-check.row.lo @out.r[17], exact
-\end{lstlisting}
+字段为 \code{ids}，是一个显式 u32 数组，不是半开寄存器区间。
+按数组顺序删除各个当前可见 Local ID；空数组有效。
+删除继承事实时只在当前子作用域隐藏它，父和兄弟仍可见。
+成功删除后该 ID 可被后续定义复用。引用缺失或已删除的 ID 时拒绝，
+同一 Drop 中重复 ID 也会因第二次删除不存在事实而拒绝。
+该指令不删除模型事实或假设，也不修改模型、map 或任何已验数学命题。
 
-操作码为 \code{0x41}，采用公共 CHECK 编码。输出行必须有有限下界 \(l_r\)，构造
+\section{EqPair：精确反对称性}
+\label{ins:eq-pair}
+
+字段为 \code{id}、\code{positive} 和 \code{negative}。
+两引用须种类均为 Le，表达式分别精确为 $e$ 与 $-e$。
+发布 $\mathrm{EQ}(e)$，保留 positive 的表达式方向。
+前提为 Eq、仅按正比例相反、常数不相反、Exact 或引用失活时均拒绝。
+语义为 $e\le0$ 且 $-e\le0$ 推出 $e=0$；若后续需 $\mathrm{EQ}(-e)$，
+须用 Lin 显式乘以 $-1$，不由该操作隐式改向。
+
+\section{Cases 与 DerivationEnd：局部穷尽证明}
+\label{ins:cases}
+
+字段为 \code{id}、\code{kind}、\code{expression} $p$、\code{split} $e$、
+可选 \code{integer}、以及 \code{left}、\code{right} 两 Derivation。
+$p,e$ 在父维度验证。无 integer 时加入 $\mathrm{LE}(e)$ 与 $\mathrm{LE}(-e)$；
+有 integer 时须原始 Int 引用恰证明 $e$，加入 $\mathrm{LE}(e)$ 与 $\mathrm{LE}(1-e)$。
+
+每个子证明先执行自己的 Steps，随后使用独立 DerivationEnd 命名空间：
+\begin{center}
+\begin{tabularx}{\textwidth}{llY}
+\toprule
+tag & 端点 & 条件 \\
+\midrule
+0 & Witness(Ref) & 按目标检查规则证明恰为 $(\code{kind},p)$，允许相同 Eq 及合法 Exact。\\
+1 & Absurd(Ref) & 证明无变量项且常数为正的 Le，或非零常数 Eq；不得使用 Exact。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+两支隔离，均成功才在父发布 $(\code{kind},p)$；子内部定义不会泄漏。
+若两支没有同一指定结论、不合法关闭矛盾、覆盖父活跃 ID、integer 不是准确 Int、
+任一子证明失败或深度超限，整个 Cases 拒绝。
+它可以嵌套 Cases，却不能加入输出 map、lift 或严格改进端点。
+其结论的有效性来自穷尽覆盖，不是把父事实库与两个子事实库合并。
+
+\section{Plotkin：带已验近对 clique 的码上界}
+\label{ins:plotkin}
+
+字段为 \code{id}、\code{bits} $b$、\code{distance} $d$、
+\code{variables} $(i,\ell_i)$ 和 \code{cliques}。
+要求 $1\le b,d\le64$ 且 $2d>b$，input integer mode 开启。
+选中坐标不得重复，实际变量须声明整数、具有有限下界 $\ge0$ 与有限上界 $\le1$。
+每个 u64 label 只能使用低 $b$ 位；$b=64$ 时全部位可用。
+label 不要求互异，但相同 label 的选中变量必须由近对前提约束。
+
+每个 clique 原始引用必须是严格如下形式的 Le：
 \[
- P=-\sum_j A_{rj}E_j(x)+l_r.
+ \mathrm{LE}\left(\sum_{i\in C}x_i-1\right),
 \]
-普通模式要求 LE(P)，EXACT 模式检查常数非正。成功解除 lower-side 义务。下界不存在、行号越界或非此侧义务按公共拒绝规则处理。行常数若存在于 canonical 模型中，必须在正规化行数据里精确计入，不得重复加减。
+所有出现系数均为 $+1$，常数为 $-1$，每个出现坐标的实际有限下界不负。
+clique 可含未选中的其他非负坐标，它们不要求二元。
+对选中变量的\emph{每一对} $(i,j)$，若
+$\operatorname{popcount}(\ell_i\mathbin{\mathrm{xor}}\ell_j)<d$，
+至少一个已验 clique 必须同时包含两者。
+clique 错种类、错误常数/系数、负下界、Exact 或任何未覆盖近对均拒绝。
 
-\subsection{CHECK.ROW.EQ：输出等式行}
-\label{ins:check-row-eq}
-
-\begin{lstlisting}
-check.row.eq @out.r[17], %91
-check.row.eq @out.r[17], exact
-\end{lstlisting}
-
-操作码为 \code{0x42}，采用公共 CHECK 编码。输出行必须为显式 canonical equality \(\sum_jA_{rj}y_j=b_r\)。构造
+发布
 \[
- P=\sum_jA_{rj}E_j(x)-b_r.
+ \mathrm{LE}\left(\sum_{i\ \mathrm{selected}}x_i-
+ \left\lfloor\frac{2d}{2d-b}\right\rfloor\right).
 \]
-普通模式要求 EQ(P)，EXACT 模式要求 \(P=0\)。成功解除该行的 equality 义务。即使两个 LE 事实分别证明了两侧，也必须先使用 EQ.PAIR 得到 EQ 后才能作为普通模式输入。
+证明：在任意整数可行点，激活的 $k$ 个二元变量的 labels 两两距离至少 $d$。
+总两两距离至少 $dk(k-1)/2$；按位计，每位贡献至多 $k^2/4$，
+所以总距离至多 $bk^2/4$，推出所示界（$k=0,1$ 也成立）。
+这是有限静态可信推理规则，不依据图名称或外部求解结果。
+未选择变量或没有 clique 也按相同检查执行，近对不存在时覆盖要求为空真。
+配对数量、clique 成员位表和扫描工作另受资源界约束。
 
-\subsection{CHECK.VAR.HI：输出变量上界}
-\label{ins:check-var-hi}
+\section{Return、Split 与 Absurd}
 
-\begin{lstlisting}
-check.var.hi @out.v[17], %22
-check.var.hi @out.v[17], exact
-\end{lstlisting}
+\subsection{Return：完整输出}
+\label{ins:return}
+\label{ins:ret}
 
-操作码为 \code{0x43}，采用公共 CHECK 编码。输出变量 \(j\) 必须有有限上界 \(u_j\)，构造 \(P=E_j(x)-u_j\)。普通模式要求 LE(P)，EXACT 模式要求非正的常数。成功解除变量 upper-bound 义务。binary 变量的 canonical bounds 也通过该指令或普通证明检查，不由 MAP 自动解除。
+字段为 \code{map} 和 \code{checks}。仅普通方向上下文可用。
+map 长度恰为实际输出维度，所有表达式使用当前输入坐标并规范。
+checks 恰按第\ref{sec:obligation-generation}节完整义务顺序逐项证明。
+成功即完成该叶的完整存在构造，不产生继续执行的位置。
+缺失/多余 map、错误维度、缺失/多余 checks、任一义务不匹配或错误上下文均拒绝。
+输出条件不得用不同的 map 元组分别证明。
 
-\subsection{CHECK.VAR.LO：输出变量下界}
-\label{ins:check-var-lo}
-
-\begin{lstlisting}
-check.var.lo @out.v[17], %21
-check.var.lo @out.v[17], exact
-\end{lstlisting}
-
-操作码为 \code{0x44}，采用公共 CHECK 编码。输出变量 \(j\) 必须有有限下界 \(l_j\)，构造 \(P=-E_j(x)+l_j\)。普通模式要求 LE(P)，EXACT 模式要求非正的常数。成功解除变量 lower-bound 义务。
-
-\subsection{CHECK.VAR.INT：输出变量整数性}
-\label{ins:check-var-int}
-
-\begin{lstlisting}
-check.var.int @out.v[17], %23
-check.var.int @out.v[17], exact
-\end{lstlisting}
-
-操作码为 \code{0x45}，采用公共 CHECK 编码。输出变量必须显式声明为 integer 或 binary，构造 \(P=E_j(x)\)。普通模式要求 INT(P)，EXACT 模式执行本节规定的声明整数变量线性组合检查。成功解除该变量的 integrality 义务。
-
-EXACT 能接受 \(3x_0-2x_1+7\)（\(x_0,x_1\) 均显式整数），但不能仅凭已有 EQ 或 INT 事实接受一个连续变量 \(x_2\)。后者应先生成 INT 事实并使用普通模式。对连续输出变量调用本指令没有对应义务，必须拒绝。
-
-\subsection{CHECK.OBJ.EQ：目标相等}
-\label{ins:check-obj-eq}
-
-\begin{lstlisting}
-check.obj.eq %101
-check.obj.eq exact
-\end{lstlisting}
-
-操作码为 \code{0x46}，普通载荷为 \code{fact:FactRef}（4 字节），EXACT 载荷为 0 字节，\code{aux=0}。对当前方向已经统一为最小化的目标，构造
-\[
- D(x)=f_{\mathrm{out}}(E(x))-f_{\mathrm{in}}(x).
-\]
-两个目标的所有常数 offset 都必须包括在 D 内。普通模式要求 EQ(D)，EXACT 要求 \(D=0\)。当当前方向的目标 relation 为 EQ 时，成功完成目标相等义务；当 relation 为 LE 时，它作为更强的证明完成目标不增义务。此规则不改变证书声明或调用者所要求的 contract。relation 为 NONE 时没有可解除的目标义务，本指令必须以 \code{E_OBLIGATION} 拒绝。
-
-缺失必要映射以 \code{E_MAP} 拒绝，不存在或已完成的目标义务以 \code{E_OBLIGATION} 拒绝。证书所声明的 contract 与调用者请求不一致属于 \code{E_CONTRACT}，应在执行之前拒绝。遗漏常数 offset 的事实会因表达式不匹配而以 \code{E_PROOF} 拒绝。
-
-\subsection{CHECK.OBJ.LE：目标不增}
-\label{ins:check-obj-le}
-
-\begin{lstlisting}
-check.obj.le %101
-check.obj.le exact
-\end{lstlisting}
-
-操作码为 \code{0x47}，编码与 CHECK.OBJ.EQ 相同。构造相同的 \(D=f_{\mathrm{out}}\circ E-f_{\mathrm{in}}\)。普通模式要求 LE(D)，EXACT 要求 D 为非正的常数。当前方向必须要求 LE relation，成功完成目标不增义务；relation 为 NONE 或 EQ 时以 \code{E_OBLIGATION} 拒绝。
-
-CHECK.OBJ.LE 不能解除目标 equality 要求，即使证书在某处还证明了相反不等式；应显式生成 EQ 并使用 CHECK.OBJ.EQ。最大化模型必须先按照 contract 的目标规范化规则转换方向，不能令同一个操作码在运行时隐式反转不等号。
-
-\section{结构化分类与汇合指令}
-
-\subsection{SPLIT 公共格式}
-
-SPLIT 没有跳转目标。其载荷内包含完整、有界、顺序排列的子指令块；kernel 依次检查每个块，兄弟块共享同一父状态快照。任何指令都不能跨出所属 byte range。
-
-\code{flags=0}，\code{aux=q} 是每个可达分支必须提交的 YIELD 数量，同时也是汇合后产生的事实数量。允许 \(q=0\)：此时分支只用于映射和义务检查。每个 \code{branch_bytes} 必须大于零且为 8 的倍数，包括该块内每条指令自己的对齐填充。每个子块必须以 YIELD 或 CLOSE.FALSE 结束，RET 不可出现在子块内。终结指令之后不得在同一子块内放置额外指令。
-
-分支假设通过 \code{FactRef} tag 7 暴露，\code{@case[0]} 指当前分支假设；更大的 depth offset 指可见祖先分类假设。它们不是派生 FactId，不需要 LOAD，也不能被 DROP。每个 split 进入时都建立独立子 scope。
-
-\subsection{SPLIT 公共汇合语义}
-
-每个可达分支的 YIELD 必须具有相同 arity q，并且每个位置的 FactKind 与精确表达式相同。所有分支验证完成后，在父 scope 中为每个 yield 位置生成一个新事实。
-
-\begin{itemize}
-\item 没有可达分支：父域成为 UNREACHABLE，不提交 q 个可用事实。
-\item 只有一个可达分支：它的 q 个命题成为父 scope 的汇合事实。
-\item 至少两个可达分支：逐位置比较命题后生成 q 个父事实。
-\end{itemize}
-
-某个分支 CLOSE.FALSE 时不需要 YIELD，也不参与义务交集或映射比较。所有分支局部派生事实在汇合后失去可见性。已完成义务按可达分支取交集；不能把不同分支分别完成的两个义务合并为全局完成。
-
-映射只在可达分支中比较。若一个变量在部分可达分支已定义、在另一些可达分支未定义，必须立即以 \code{E_MAP} 拒绝；所有可达分支都未定义时保留 UNASSIGNED。相同的已定义映射可保留为 KNOWN；不同映射只有在每支都定义完整、且所有依赖它的义务均在每支完成时才能封存为 SEALED\_PIECEWISE，否则以 \code{E_MAP} 或 \code{E_OBLIGATION} 拒绝。封存允许 RET，但禁止后续代换。
-
-若嵌套 split 已证明整个当前域不可达，后续字节只接受结构、编码及索引格式检查，不进行依赖于活跃事实的语义执行，也不制造可引用事实。仍须验证该块具有合法结构终结；不可达状态不能成为跳过未知操作码或越界数据的手段。隐式 FactId 编号不因该语义跳过而改变。
-
-\subsection{SPLIT.BIN：显式二元变量分类}
-\label{ins:split-bin}
-
-\begin{lstlisting}
-(%31) = split.bin @in.v[7] {
-case 0:
-    %27 = lin.eq $zero { }
-    yield %27
-case 1:
-    %30 = lin.eq $zero { }
-    yield %30
-}
-\end{lstlisting}
-
-本例的表达式别名 \code{zero} 表示零表达式，因此两支均返回 EQ(0)。一般情况下，两个分支的 YIELD 必须证明相同命题，不能仅因引用写法相同而通过汇合。
-
-操作码为 \code{0x50}、\code{aux=q}，载荷固定头 16 字节：
-
-\begin{lstlisting}
-var_id:        u32;
-branch0_bytes: u32;
-branch1_bytes: u32;
-reserved:      u32;
-branch0[branch0_bytes];
-branch1[branch1_bytes];
-\end{lstlisting}
-
-\code{payload_bytes} 必须等于 \(16+B_0+B_1\)。输入变量必须显式声明为 binary，不能只凭派生 INT 与界推断其 binary domain。case 0 假设为 \(\operatorname{EQ}(x_v)\)，case 1 为 \(\operatorname{EQ}(x_v-1)\)。这两支覆盖输入声明的二元域。
-
-变量越界以 \code{E_REF} 拒绝，非 binary domain 以 \code{E_KIND} 拒绝，子块长度或保留字段错误以 \code{E_FORMAT} 拒绝。汇合类型、表达式、arity 不一致以 \code{E_BRANCH} 拒绝。输入模型对 binary 的 canonical domain 定义必须包含取值限于 \(\{0,1\}\) 的语义，不能仅把 binary 作为无约束整数标签。
-
-\subsection{SPLIT.INT.THR：整数阈值分类}
+\subsection{Split：穷尽完整子 Block}
+\label{ins:split}
+\label{ins:split-sign}
 \label{ins:split-int-thr}
 
-\begin{lstlisting}
-(%40) = split.int.thr %7, 13 {
-case le:
-    yield %38
-case ge:
-    yield %39
-}
-\end{lstlisting}
+字段为 \code{expression} $e$、可选 \code{integer}、\code{left}、\code{right}。
+表达式与整数引用条件和 Cases 完全相同。
+两子 Block 继承父事实、各加入一条分支假设，并依序全部执行。
+每个子体须成功完成当前上下文允许的完整端点。
+成功表示每个父点至少属于一个已完成子域；不合并 map 或部分检查项。
+引用/表达式错误、非 Int 整数前提、失败子体或深度超限均拒绝。
+没有专门的二元枚举、有限区间或多路 split opcode；需要时可用规范 e 与二叉树表达。
 
-操作码为 \code{0x51}、\code{aux=q}，载荷固定头 16 字节：
+\subsection{Absurd：恒定矛盾}
+\label{ins:absurd}
+\label{ins:close-false}
 
-\begin{lstlisting}
-int_fact:      FactRef;
-threshold:     ScalarRef;
-branch0_bytes: u32;
-branch1_bytes: u32;
-branch0[branch0_bytes];
-branch1[branch1_bytes];
-\end{lstlisting}
+字段为 \code{fact}。解析为当前事实后，要求表达式变量项为空，
+且为 $\mathrm{LE}(c)$、$c>0$ 或 $\mathrm{EQ}(c)$、$c\ne0$。
+成功关闭当前域的空支，不生成输出向量。Int、非恒定式、非矛盾常数、失活引用和 Exact 均拒绝。
+此操作可在普通方向、改进和 LP 反证中使用，DerivationEnd Absurd 使用同一矛盾谓词。
 
-\code{payload_bytes} 为 \(16+B_0+B_1\)。输入必须为 \(\operatorname{INT}(g)\)，threshold 必须为整数 k。第一支 \code{case le} 假设为 \(\operatorname{LE}(g-k)\)，第二支 \code{case ge} 假设为 \(\operatorname{LE}(-g+k+1)\)。它们分别代表 \(g\leq k\) 和 \(g\geq k+1\)，无需上下界即可覆盖全部整数。
+\section{共同扩展的公共约定}
+\label{ins:lift-common}
 
-非 INT 引用以 \code{E_KIND} 拒绝，非整数 threshold 以 \code{E_PROOF} 拒绝。\(k+1\) 必须精确计算，即使 k 无法放入宿主固定宽度整数。其他结构与汇合错误按 SPLIT 公共规则处理。
+五种 lift 均为 End，载荷含 witness 和一个 body Block。
+记进入端点时变量数为 $N$、行数为 $R$。每个 witness 表达式只能使用这些旧坐标；
+全部组的全部前提先在旧模型与旧事实作用域检查，才允许 body 访问生成模型。
+原模型名称、变量/行向量与目标保持完整前缀。新名称避碰，不决定编号。
+对生成行的引用遵守普通 RowLower/RowUpper/RowEq 条件。
 
-\subsection{SPLIT.INT.RANGE：整数有限区间枚举}
-\label{ins:split-int-range}
+各 builder 检查 count 加乘、端点编号、规范表达式、有理数中间值、扩展维度与项数，
+并在剩余请求预算内执行 fallible allocation 与名称生成。
+witness 预备成功只得到候选模型与待证前提；不表示前提已经有效。
+任何前提错误或作用域错误、legacy inverse 根约束、禁止 lift 的反证上下文、
+模式/深度/资源超限均拒绝。
+一旦进入 body，全部新变量和全部新行可同时使用，原事实和路径假设继续有效。
 
-\begin{lstlisting}
-(%50) = split.int.range %int_x, %lo_x, %hi_x, 3, 7 {
-case 3: yield %43
-case 4: yield %44
-case 5: yield %45
-case 6: yield %46
-case 7: yield %47
-}
-\end{lstlisting}
+以下存在论证覆盖实数输入点，不只覆盖可枚举的有理样本。
+生产 checker 构造公式，不执行这些数学论证中的搜索或数值选择。
 
-操作码为 \code{0x52}、\code{aux=q}，载荷固定头 24 字节：
+\section{FlowLift：共同源商品分解}
+\label{ins:flow-lift}
 
-\begin{lstlisting}
-int_fact:    FactRef;
-lo_fact:     FactRef;
-hi_fact:     FactRef;
-lower:       ScalarRef;
-upper:       ScalarRef;
-branch_count: u32;
-branch_bytes[branch_count]: u32;
-table_padding: zero bytes to 8-byte alignment;
-branches: concatenated complete instruction blocks;
-\end{lstlisting}
+字段为 \code{witness}、\code{body}。FlowWitness 给出 \code{nodes}、有序
+\code{arcs} $(\mathrm{tail},\mathrm{head})$ 和非空 \code{groups}。
+节点数 $n\ge1$，所有图端点在 $[0,n)$；允许平行弧、环和零弧。
+每组给出 \code{source} $s$、非空 \code{commodities} $(t_k,d_k)$、
+每弧的 \code{flows} $F_e$、\code{nonnegative} 引用和 \code{balances} 引用。
+每个 $d_k\ge0$；允许重复终点、$t_k=s$ 和零需求。
+flows/nonnegative 长度必须恰为弧数 $m$，balances 恰为节点数 $n$。
 
-令 \(N=\mathrm{branch\_count}\)，表区结束地址向上对齐至 8 字节；因固定头为 24 字节，表填充长度为 \((8-(24+4N)\bmod8)\bmod8\)。载荷总长度必须为
+定义散度为出流减入流，环在散度中抵消；令
 \[
- \operatorname{align}_8(24+4N)+\sum_{i=0}^{N-1}B_i.
+ b_v=\sum_k d_k(\mathbf1_{v=s}-\mathbf1_{v=t_k}).
 \]
-upper 和 lower 必须为整数 \(U,L\)，并且 \(L\leq U\)、\(N=U-L+1\)。N 必须能以 u32 表示，并满足文件和执行资源限制。
-
-输入必须精确具有以下类型与表达式：
+每组按序要求先所有弧 $\mathrm{LE}(-F_e)$，然后所有节点
 \[
- \operatorname{INT}(g),\qquad
- \operatorname{LE}(-g+L),\qquad
- \operatorname{LE}(g-U).
+ \mathrm{EQ}\left(\sum_{e:\,\mathrm{tail}=v}F_e-
+ \sum_{e:\,\mathrm{head}=v}F_e-b_v\right).
 \]
-不接受更宽松或缩放后的界，assembler 可以先通过核心指令构造要求的精确事实。第 i 个子块对应 \(k=L+i\)，分支假设为 \(\operatorname{EQ}(g-k)\)。没有可省略的 case，也没有默认分支。允许 \(L=U\)，此时只有一个子块。
+零式和冗余节点仍须提供有效引用。
 
-类型错误以 \code{E_KIND} 拒绝；非整数端点、逆序区间、界表达式不匹配以 \code{E_PROOF} 拒绝；branch count、表 padding、累加长度或块边界不一致以 \code{E_FORMAT} 拒绝。资源不足不能降级为少枚举若干分支。
+每组按 commodity、arc 顺序追加连续 $z_{k,e}\ge0$，无有限上界。
+若本组起始坐标为 $S$，则 $z_{k,e}$ 的编号为 $S+km+e$。
+先按 commodity、node 顺序追加
+\[
+ \operatorname{div}(z_k)_v=d_k(\mathbf1_{v=s}-\mathbf1_{v=t_k}),
+\]
+再按 arc 顺序追加 $\sum_k z_{k,e}-F_e=0$。
+每组 $K$ 个 commodity 增加 $Km$ 变量、$Kn+m$ 行。
+商品平衡行常数零，右侧为两个相等界；弧总量行保留 $-F_e$ 的完整常数、两界零。
+空弧图仍保留全部商品节点等式。
 
-\subsection{SPLIT.SIGN：实表达式符号分类}
-\label{ins:split-sign}
+\paragraph{共同存在。}固定满足前提的父点，从残余非负 F 逐商品提取正残余的简单源到终点路径。
+未满足的终点必可到达：否则能到该终点的正残余可达集合不含源、没有正残余入弧，
+总散度应非负，而剩余终点需求给出负总散度，矛盾。
+每次减去路径瓶颈与剩余需求的较小值；一次完成一个商品或永久消去一弧，有限步终止。
+零需求或源等于终点无需路径。最后残余是环流，将\emph{全部}残余加入第一个商品，
+保留所有弧总量，含自环及断开的环流。
+各组新坐标互不相交，故选择共同存在。
 
-\begin{lstlisting}
-() = split.sign $e {
-case le:
-    map.aff @out.v[7], $neg_e
-    yield
-case ge:
-    map.aff @out.v[7], $e
-    yield
-}
-\end{lstlisting}
+这不授予每商品上界、整数性或异质成本关系；生成 z 全为连续。
+缺失商品、负需求、图端点错误、错误前提数或旧维度之外 F 均拒绝。
+输出中的额外容量、目标与投影必须在 body 另证。
 
-本例只展示不同分支映射的语法；所有依赖输出变量 7 的义务必须在各支 YIELD 之前完成。
+\section{IntervalLift：独立实区间选择}
+\label{ins:interval-lift}
 
-操作码为 \code{0x53}、\code{aux=q}，载荷固定头 16 字节：
+字段为 \code{intervals}、\code{body}。
+每项 IntervalWitness 为有序 \code{lower} $L_i$、\code{upper} $U_j$ 与 \code{checks}。
+checks 长度须等于两列表长度的精确乘积，依 lower-major 次序证明
+\[
+ \mathrm{LE}(L_i-U_j)\quad\text{对每个 }(i,j).
+\]
+无 lower 或无 upper 时不产生配对前提。
+所有项可共享父坐标，但不能引用同一次 lift 新增的坐标。
 
-\begin{lstlisting}
-expr:          u32;
-branch0_bytes: u32;
-branch1_bytes: u32;
-reserved:      u32;
-branch0[branch0_bytes];
-branch1[branch1_bytes];
-\end{lstlisting}
+按项序追加一个无固有有限界的连续坐标 $z$，第 $k$ 项编号 $N+k$。
+行按项序，先 lower 列表的 $z-L_i$ 下界零行，再 upper 列表的 $z-U_j$ 上界零行；
+另一侧缺失，表达式保留负旧仿射常数。
+自由区间仍追加变量；空 intervals 是恒等扩展。
 
-\code{payload_bytes} 为 \(16+B_0+B_1\)。令表达式为 g，\code{case le} 假设为 \(\operatorname{LE}(g)\)，\code{case ge} 假设为 \(\operatorname{LE}(-g)\)。两支覆盖全部实数；\(g=0\) 同时属于两支，允许分段映射在该交集上给出不同但分别合法的输出解。
+\paragraph{共同存在。}有 lower 时取其有限列表最大值，配对前提保证它不超过所有 upper；
+无 lower 有 upper 时取 upper 最小值；两列表皆空取零。
+每项只依赖同一固定父点，所有值可同时选取。
+规则不产生整数 z，也不自动赋予不同区间间的耦合条件。
+错误检查数量/顺序/表达式、非法旧坐标、配对乘积或中间差超限均拒绝。
 
-不要求 g 为整数或预先得到其他事实。表达式编号越界以 \code{E_REF} 拒绝；保留字段、子块格式错误按公共格式规则拒绝。两支重叠不允许以单支验证替代另一支。
+\section{MenuLift：可选二元菜单}
+\label{ins:menu-lift}
 
-\subsection{YIELD：分支事实返回}
-\label{ins:yield}
+字段为 \code{menus}、\code{body}，须 input integer mode。
+每 MenuWitness 含 u32 \code{maximum_index} $K$、\code{activation} $A$、
+\code{index} $I$，以及恰六个 checks，依序证明
+\[
+ \mathrm{LE}(-A),\ \mathrm{LE}(A-1),\ \mathrm{INT}(A),\qquad
+ \mathrm{LE}(-I),\ \mathrm{LE}(I-KA),\ \mathrm{INT}(I).
+\]
+$A,I$ 是旧坐标规范仿射式，不要求原本就是单个整数坐标，但必须证明其整数值。
 
-\begin{lstlisting}
-yield %17, %19
-yield
-\end{lstlisting}
+每菜单按 $j=0,\ldots,K$ 追加 $K+1$ 个声明整数且界为 $[0,1]$ 的 $z_j$，
+然后依序追加两行、两界均零：
+\[
+ \sum_{j=0}^Kz_j-A=0,\qquad \sum_{j=0}^Kjz_j-I=0.
+\]
+$K=0$ 仍有两行，第二行是 $-I=0$，不保存 $z_0$ 的零系数。
+空菜单列表是恒等扩展，但整数模式与深度要求仍适用。
 
-编码为 \code{opcode=0x54}、\code{flags=0}、\code{aux=n}，载荷为 \(4n\) 字节：
+\paragraph{共同存在。}前提使 $A\in\{0,1\}$。
+$A=0$ 时 $I=0$，取全零；$A=1$ 时 $I\in\{0,\ldots,K\}$，只取 $z_I=1$。
+所有菜单独立依父点构造，共同可行且各自菜单向量唯一。
+此局部唯一性不建立完整模型双射；仍须独立完整域单射证明与全输出组合。
+关闭 input integer mode、缺失六前提、不可证明 A/I 整数、尺寸或 $KA$ 中间值超限均拒绝。
 
-\begin{lstlisting}
-refs[n]: FactRef;
-\end{lstlisting}
+\section{SignedLift：有激活的有界实数正负分解}
+\label{ins:signed-lift}
 
-YIELD 必须是一个子块的最后一条指令，不允许出现在 root。n 必须等于所属 SPLIT 的 q。每个引用必须有效、活跃且在当前分支可见；允许返回祖先事实、输入事实或当前 case 事实，只要最终汇合满足命题一致条件。静态输入事实的表达式可直接由不可变输入模型表示，汇合不要求在表达式池中查找或插入一个相同 ExprId。
+字段为 \code{decompositions}、\code{body}，须 input integer mode。
+每 SignedWitness 含精确非负 \code{capacity} $C$、旧式 \code{flow} $F$、
+\code{activation} $Z$，以及恰五个 checks，依序证明
+\[
+ \mathrm{LE}(-Z),\ \mathrm{LE}(Z-1),\ \mathrm{INT}(Z),\quad
+ \mathrm{LE}(F-CZ),\ \mathrm{LE}(-F-CZ).
+\]
+不假设 F 整数。每项按 $p,n,u,v$ 顺序追加四坐标：
+$p,n$ 连续且非负、无有限上界；$u,v$ 声明整数、界为 $[0,1]$。
+每项按序追加四行：
+\[
+ p-n-F=0,\quad u+v-Z=0,\quad p-Cu\le0,\quad n-Cv\le0.
+\]
+前两为两界零的等式；后两仅上界零。
+$C=0$ 保留容量行但省去零系数；空列表是恒等扩展，仍检查模式和深度。
 
-YIELD 不在子 scope 中生成新的事实；它记录有序命题列表供父 split 比较，并结束该分支。空 YIELD 用于 q=0。父 split 完成之前，这些命题不能被另一分支引用。关闭为 UNREACHABLE 的分支不需要执行 YIELD。
+\paragraph{共同存在。}$Z=0$ 时前提强迫 $F=0$，取全零。
+$Z=1,F\ge0$ 时取 $(F,0,1,0)$，否则取 $(0,-F,0,1)$。
+容量前提保证全部界；当 $F=0,Z=1$ 时仍保持 $u+v=1$，不能删除激活。
+所有项依同一父点同时选择。
+负/非规范 C、缺失五前提、错误模式、旧维度攻击及 $CZ$ 中间值超限均拒绝。
+规则不自动证明实际目标、输出 side constraints 或完整双射。
 
-非分支位置或开放 scope 错误以 \code{E_SCOPE} 拒绝；不位于块末尾或载荷长度错误以 \code{E_FORMAT} 拒绝；arity 不匹配以 \code{E_BRANCH} 拒绝；非法、dead 或超出 scope 的引用以 \code{E_REF} 拒绝。
+\section{SubflowLift：有需求部分的共同有界子流}
+\label{ins:subflow-lift}
 
-\section{逐指令载荷尺寸速查}
+未冻结 V10。字段为 \code{witness}、\code{body}。
+SubflowWitness 的 \code{nodes}、\code{arcs}、非空 \code{groups} 与 Flow 的图条件相同。
+每组含 \code{source} $s$、有序 \code{demands} $(t_i,d_i)$、每弧 \code{flows} $F_e$、
+\code{nonnegative} 和 \code{balances}。
+需求列表可空，重复终点可用，$d_i\ge0$；\emph{每个终点都须不同于源，包括零需求}。
+flows/nonnegative 必须恰为 $m$ 项，balances 恰为 $n$ 项。
+令 $B=\sum_i d_i$，$b_s=B$，其他 $b_v=-\sum_{t_i=v}d_i$。
+依组、弧、节点顺序证明 $\mathrm{LE}(-F_e)$ 和
+$\mathrm{EQ}(\operatorname{div}(F)_v-b_v)$。
 
-下表中的尺寸不包括 8 字节指令头和指令尾部的对齐填充。\(n\) 表示 \code{aux}，\(B_i\) 表示完整子指令块字节数。所有尺寸公式均必须经过无溢出的边界检查。
+每组按弧序追加 $m$ 个连续坐标 $g_e$，有限界为 $[0,B]$。
+先按 node 序加 $n$ 个等式 $\operatorname{div}(g)_v=b_v$，
+再按 arc 序加 $m$ 个 $g_e-F_e\le0$。
+前者零常数、两侧为 $b_v$；后者保留 $-F_e$ 常数且只上界零。
+$G$ 组共加 $Gm$ 变量、$G(n+m)$ 行。
+组 $a$ 的变量起点 $N+am$，行起点 $R+a(n+m)$。
+零弧和空需求合法，仍保留每组所有节点等式。
 
-\begin{longtable}{@{}lll@{}}
-\toprule
-指令 & \code{aux} & \code{payload_bytes} \\
-\midrule
-\endfirsthead
-\toprule
-指令 & \code{aux} & \code{payload_bytes} \\
-\midrule
-\endhead
-NOP、RET & 0 & 0 \\
-DROP & 0 & 8 \\
-LIN.LE、LIN.EQ & term count & \(4+8n\) \\
-EQ.PAIR & 0 & 12 \\
-BOX.LE & 0 & 4 \\
-WEAKEN.LE & 0 & 12 \\
-CLOSE.FALSE & 0 & 4 \\
-INT.AFF & term count & \(8+8n\) \\
-ROUND.HI、ROUND.LO & 0 & 12 \\
-MAP.COPY、MAP.CONST、MAP.AFF & 0 & 8 \\
-CHECK.ROW / CHECK.VAR，普通 & 0 & 8 \\
-CHECK.ROW / CHECK.VAR，EXACT & 0 & 4 \\
-CHECK.OBJ，普通 & 0 & 4 \\
-CHECK.OBJ，EXACT & 0 & 0 \\
-SPLIT.BIN、SPLIT.INT.THR、SPLIT.SIGN & yield arity & \(16+B_0+B_1\) \\
-SPLIT.INT.RANGE & yield arity & \(\operatorname{align}_8(24+4N)+\sum_iB_i\) \\
-YIELD & reference count & \(4n\) \\
-\bottomrule
-\end{longtable}
+\paragraph{共同存在。}$B=0$ 取 $g=0$。
+否则加入一个超级终点及每个正需求的终点到超级终点弧，流量为该需求。
+增广非负流只有源散度 $B$、超级终点散度 $-B$。
+从源提取正残余的简单路径到超级终点，减去瓶颈并在旧弧累加到 g。
+只要源尚有正残余散度，超级终点必可达：否则源的正残余可达集合无正出弧、
+总散度应不正，却等于正的剩余需求，矛盾。
+每次永久消去至少一弧，有限步完成；路径权重总和为 B，每简单路径至多使用某弧一次。
+故同一 g 满足 $0\le g_e\le F_e$、$g_e\le B$ 和全部需求散度。
+剩余环流丢弃，自环与断开的圈无需另加条件。
+各组使用互不相交的新坐标，故共同存在。
 
-每个 opcode 的 arity、类型与命题检查仍以对应参考条目为准。载荷尺寸正确只是进入执行语义检查的必要条件，并不构成证明成功。
+它不授权对每弧独立截断：独立 clip 可能破坏流守恒。
+非法终点、源等于需求终点、负需求、缺失前提、旧维度攻击及预算超限均拒绝。
+额外 side constraints 与目标关系必须由 body 完整证明，不能从子流引理猜得。
+
+\section{ImproveReturn 与 PositiveRefutation}
+
+\subsection{ImproveReturn：同模型严格下降}
+\label{ins:improve-return}
+
+未冻结 V10。字段为 \code{map}、\code{checks} 和 \code{margin}，只在改进上下文可用。
+map 给出同一实际完整模型的全部输出坐标。
+margin 为 \code{Constant}(q) 或 \code{Predicate}(q)，要求精确规范 $q>0$。
+依普通变量/行顺序证明全部可行性，随后证明唯一目标不等式
+\[
+ f_M[Y]-f_M(x)+q\le0\quad\text{或}\quad
+ f_M[Y]-f_M(x)+qP(x)\le0.
+\]
+根域 $P>0$ 保证严格下降。checks 必须恰好，无 projection/inverse 等附加项。
+普通方向使用、零/负 margin、不完整共同 Y、漏验某行或义务不匹配均拒绝。
+其成功不证明最优值存在，不为改进树以外的事实库输出严格不等式。
+
+\subsection{PositiveRefutation：与严格根条件矛盾}
+\label{ins:positive-refutation}
+
+未冻结 V10。字段为 \code{fact}，只在 Improvement Block 中可用。
+按目标命题检查精确证明 $\mathrm{LE}(P)$；允许已有同式 Eq 或合法 Exact。
+与不可变根条件 $P>0$ 矛盾，因而关闭此严格子域。
+$P$ 使用原始坐标，其含义不受 lift 改变。
+普通方向、LP/fiber 反证、Cases Derivation 或错误表达式/种类均拒绝。
+它不需要证明变量项为空，但这个例外只适用于所绑定的 P，
+不能借此任意关闭非恒定不等式，也不声明弱域 $P\ge0$ 为空。

@@ -1,121 +1,354 @@
-\chapter{Loader、验证结果与可信边界}\label{ch:loader}
+\chapter{Loader、接口与可信边界}\label{ch:loader}
 
-\section{输入与输出}
-一次验证请求包含 canonical source model、canonical target model、RPX 字节序列以及调用者要求的 contract。
-模型提供者必须给出已验证的模型结构和与其对应的 digest，或允许 loader 按已规定的 canonical 序列化重新计算 digest。
-仅有两个由不可信文件自行提供的 hash 字符串，不能证明它们绑定了调用者的模型。
+一次验证需要调用者选定的完整 source MCM、完整 target MCM、RPX certificate
+和独立 Request。当前 RPX 不携带 source/target hash；验证直接读取、检查和使用这两个实际模型。
+调用者有责任把正确文件或字节绑定到这两个参数，并在调用之后按 Request 的含义解释结果。
+不可信 certificate 只能提交 proof，不能自行改写调用者请求。
 
-verifier 必须返回明确的判定类别，而不把所有失败归并成“数学命题为假”。
-\begin{longtable}{l p{107mm}}
-\toprule 结果 & 含义 \\\midrule\endfirsthead
-\toprule 结果 & 含义 \\\midrule\endhead
-\code{VERIFIED} & 所需全部方向成功，contract 已证明。\\
-\code{INVALID} & 格式、引用、证明、映射或 obligation 违反规范。\\
-\code{UNSUPPORTED} & 文件版本、mandatory section、opcode 或能力未被本 verifier 支持。\\
-\code{RESOURCE_LIMIT} & 已公布的资源预算被超过；不表示证明错误。\\
-\code{IO_ERROR} & 无法取得完整稳定的文件或模型数据；不表示证明错误。\\
-\bottomrule
-\end{longtable}
-上述名称是接口草案，不是已经冻结的 CLI exit code ABI。
-任何非 VERIFIED 结果都不得被调用者解释为 reformulation 正确。
+\section{入口、处理顺序与判定}
 
-\section{处理阶段}
-建议采用以下顺序；同一阶段内可使用等价的确定性检查顺序。
-不得在尚未确认 byte range 合法时读取其内容。
-
+推荐集成入口为 crate \code{kernel_core} 的 \code{api} 模块；
+\code{main.rs} 只解析参数、打印 façade 返回的 JSON 和设置 exit code。
+文件入口先以受限 owned read 获得完整字节，之后依次执行：
 \begin{enumerate}
-\item \textbf{取得稳定输入。} 获取文件实际长度、只读字节视图和两个模型。
-在整个验证期间，已检查的字节与模型不得变化。
-\item \textbf{检查 header。} 验证 magic、版本、endianness、长度、reserved、directory offset 和 contract word。
-\item \textbf{检查 directory。} 对每个 entry 检查大小、alignment、count、存在性、重复与不相交范围。
-\item \textbf{绑定模型与 contract。} 比较 source/target digest，验证模型的 ID 范围与调用者要求；构造每个方向的完整 obligation 集合。
-\item \textbf{验证 pool。} 验证所有 ScalarPool 记录以及两个 expression pool 的 canonical 条件、引用范围和变量范围。
-\item \textbf{验证逻辑 section 结构。} 解码 map section；检查整条 tape 的 header、精确 payload 长度、flags、padding、嵌套范围和 terminal。
-计数全部 instruction 与 syntactic fact slot，包含不可达部分。
-\item \textbf{执行 Forward。} 绑定 Source 为 input、Target 为 output，应用静态 map，建立全新的方向状态，顺序验证 tape。
-\item \textbf{执行 Reverse。} 丢弃 Forward 的方向局部状态，重新绑定模型，使用独立 pool、mapping、facts 与 obligations。
-\item \textbf{提交结果。} 两个所需方向均成功后才报告 VERIFIED；可同时给出结构计数和运行统计。
+\item 对 source 与 target 调用 \code{codec::decode_model}，包括全部模型结构验证。
+\item 调用 \code{codec::decode_certificate} 完整解析 RPX；任何嵌套分支均不能略过。
+\item 调用 \code{rpa::parse_request} 解析独立请求。
+\item 核对 certificate 与 Request 的全部 claims、point claims、bijection claims
+及 improvement claims 在数量、顺序与每个字段上精确相等。
+\item 用实际模型验证各方向及其 complete Returns；随后验证 bijection injectivity、
+point witnesses，最后验证 improvements。所有阶段共享同一次工作预算。
+\item 只有全部请求通过后返回 \code{VERIFIED}。解析、导入或装配成功不具有该含义。
 \end{enumerate}
+模型导入可以事先完成。MPS/LP 不在 \code{verify} 内重复解析，也没有 solver 回调。
 
-结构验证和 proof execution 可以各扫描一次 tape。这不是 proof DAG 构建，也不需要保存每条 instruction 的对象。
-实现可以使用显式有界 frame stack 重复解码 header，而非依赖宿主函数递归。
-预验证层只确认候选字段和 byte range；数学推导与动态 live/scope 条件仍由执行层验证。
-
-\section{必需的结构检查}
-\subsection{区间与整数}
-验证 $o+\ell$ 时必须先检测 overflow，再要求 $o+\ell\le B$。
-验证固定记录大小时必须检测 $c\times s$ 的 overflow，并要求等于声明 length。
-验证对齐时不能仅检测 file offset，还须检查每条 child instruction 的起点与终点。
-map range 的 \code{start+count}、RANGE 的 case count、FactId slot 总数也适用相同原则。
-
-所有 section 起点必须位于 directory 末尾向上对齐后的 body 区域，即使其 length 为零。
-除基础格式允许的空 section 外，section 的字节必须能被对应 layout 精确消费。
-map 与 tape 的 declared count 必须与实际扫描计数相同。不得因提前 RET、false 或未知 metadata 而跳过 count 核验。
-
-\subsection{未执行区域}
-kernel 证明 scope 不可达后，不再检查该 scope 中后续 instruction 的数学效果与动态 fact 可用性。
-但整个文件的格式仍须有效：未知 opcode、越界 payload、错误 flags、非法 pool 和不完整 child range 仍拒绝。
-它们不能隐藏在死分支里。
-语法上的 producer 仍占其 FactId slot；它不会产生可以引用的 live fact。
-这种区分必须由实现明确保持，不能用一个未经检查的 byte skip 代替完整结构验证。
-
-\section{执行检查与提交原子性}
-一条 producer 必须先取得全部操作数、验证 kind 和作用域、执行精确算术、比较期望表达式，最后提交 live fact。
-不成功的 producer 不产生部分 fact。
-CHECK 在全部核验通过后才把对应 obligation 置为 DONE。
-MAP 在检查 output ID、DEFER 状态与 expression 合法后才写入 mapping。
-DROP range 必须先验证全部成员可释放，再进行释放；不得在中途错误时暴露一个看似继续有效的部分状态。
-
-验证错误可以终止整个请求，故不要求 verifier 在错误后继续执行。
-原子性的用途是确保成功执行路径与错误诊断不受半完成 instruction 的影响。
-任何算术快路径必须保持同样的提交规则。
-
-\section{诊断类别}
-\label{sec:diagnostics}
-\begin{longtable}{l p{105mm}}
-\toprule 符号 & 典型原因 \\\midrule\endfirsthead
-\toprule 符号 & 典型原因 \\\midrule\endhead
-\code{E_FORMAT} & magic、长度、padding、reserved、alignment、重复或重叠 section、payload/count 不符。\\
-\code{E_VERSION} & 不支持的 major/minor、endianness 或 header size。\\
-\code{E_UNSUPPORTED} & 未知 mandatory section、未知/保留 opcode、未声明的扩展能力。\\
-\code{E_HASH} & source 或 target digest 与模型绑定不符。\\
-\code{E_CONTRACT} & 非法 contract word、调用者要求不符、目标方向或关系不匹配。\\
-\code{E_SCALAR} & ScalarRef 越界、非 canonical rational、零分母、非法符号或 magnitude、错误内联形式。\\
-\code{E_EXPR} & 重复/乱序变量、零 coefficient、非 canonical affine expression。\\
-\code{E_REF} & ID 越界、非法 tag、不存在的 input side、future/dead/out-of-scope fact、不存在的 assumption。\\
-\code{E_KIND} & instruction 要求的 LE/EQ/INT 类型不符。\\
-\code{E_SCOPE} & 祖先 fact 的局部 DROP、RET/YIELD/terminal 位于非法 scope。\\
-\code{E_BRANCH} & case 不完整、yield arity 或 proposition 不一致、split 前提不符合规则。\\
-\code{E_PROOF} & 线性组合不等、LE 负 multiplier、BOX 上界失败、整数系数/取整/矛盾条件失败。\\
-\code{E_MAP} & 重复赋值、静态覆盖不完整、非法 DEFER 写入、混合已定义/未定义汇合、非法封存。\\
-\code{E_OBLIGATION} & 错误/重复 CHECK、代换不匹配、遗漏输出 domain/row/objective obligation。\\
+\begin{longtable}{p{32mm}r p{94mm}}
+\toprule 状态 & exit & 含义 \\\midrule\endfirsthead
+\toprule 状态 & exit & 含义 \\\midrule\endhead
+\code{VERIFIED} & 0 & 独立 Request 的全部数学合同已由此 kernel 接受。\\
+\code{CANONICALIZED} & 0 & MPS/LP 解析、模型检查与 MCM 编码完成。\\
+\code{ASSEMBLED} & 0 & strict RPA 解析与 RPX 编码完成。\\
+\code{DISASSEMBLED} & 0 & RPX 解码并输出 RPA。\\
+\code{INSPECTED} & 0 & MCM 解码并报告规模。\\
+\code{EXPORTED} & 0 & MCM 解码并导出规范模型 JSON。\\
+\code{INVALID} & 2 & 格式、模型、请求匹配、证明或数学义务不满足要求，亦包括不支持的版本/方言。\\
+\code{RESOURCE_LIMIT} & 3 & 已公布预算耗尽；不是验证成功，也不是数学反驳。\\
+\code{IO_ERROR} & 4 & 文件读写失败。\\
 \bottomrule
 \end{longtable}
-错误应附带方向、绝对 file offset、opcode、scope 路径和具体 reason；DEBUG 行号仅可作为额外不可信展示信息。
-同一字节流可能违反多个条件，D0 不冻结“第一个错误”的全球优先级或数值 error code。
-错误类别的目的在于使拒绝原因可检查，不要求在一个无效文件上完成所有诊断。
+没有 exit 1 的规定状态，也没有单独的 \code{UNSUPPORTED}。
+调用者必须看 status，不能把辅助命令的 exit 0 当成模型关系成立。
+\code{INVALID} 也不统一表示“目标数学命题为假”：格式错误和 importer 能力限制都属于该状态。
 
-\section{资源预算}
-调用者可以设置最大文件大小、scalar 编码长度、算术 bit length、split 深度、case 数、live fact 数、临时累加器大小或运行时间。
-达到这些限制必须报告 RESOURCE\_LIMIT，并指明限额。
-不得把算术 overflow 转换成饱和数、浮点近似或“先接受再复核”。
-格式字段本身规定的不可表示范围是 INVALID；实现额外公布的资源限制是 RESOURCE\_LIMIT。
+\section{可信精确模型导入}
 
-即时 31-bit integer 不意味着所有运算都限制在 31 bit。
-精确算术可以随证明增长；用有限整数快路径时，overflow 必须触发无损提升，或明确的资源失败。
-对非常大的合法 count，必须先核验 byte range 和资源限额，再申请容量或循环展开。
+\subsection{共同规范化与模型身份}
+MPS importer 位于 \code{model.rs}，LP importer 位于 \code{lp.rs}；
+两者和 MCM codec 都是可信代码。它们用任意精度整数与精确有理数进行解析及规范化，
+不经过浮点数，不调用优化器，不修改原始文件。
+每个 row/目标表达式把同一变量系数精确相加，按 coordinate ID 排序并删除精确零。
+零系数的变量出现仍声明变量，不能因为最后项取消而删除该变量。
+名称、原始声明次序、所有变量/row、bounds、integer flags 和完整目标均保留于规范模型。
 
-\section{文件映射与稳定性}
-\code{mmap} 只提供字节视图；只读打开不保证验证期间文件不变。
-输入必须是稳定快照，可采用受控不可变文件、平台快照或自有不可变缓冲区；所有读取须来自同一份已验证数据。
-kernel 可依赖 canonical model 与不可变 byte slice，将操作系统映射约束留在 I/O 层；直接读入缓冲区同样符合规范。
-在 Rust 中，file-backed mapping 的安全前提由 I/O 层满足；memmap2 文档明确指出外部修改可破坏其安全假设。
-\footnote{\url{https://docs.rs/memmap2/latest/memmap2/struct.Mmap.html}}
+所有内部目标均最小化。maximization 使\emph{整个}仿射目标取负，常数也要取负。
+缺失 bound side 是真正的无限方向；不能用大有限数代替。
+互相矛盾的有限 bounds 是空模型的合法表示，不能为了得到可行输入而“修复”。
+integer 的有理 bounds 不自动取整，因为 LP relaxation 的含义也须保留。
+模型结构合法不证明模型可行，更不证明 source/target 等价。
 
-\section{可信计算基与扩展}
-基础可信计算基包含：canonical model 的语义和绑定、边界检查、精确有理算术、core 指令 checker、scope/mapping/obligation 状态机，以及最终 contract 判定。
-assembler、证书生成器、solver、DEBUG、压缩工具、proof 优化工具均不自动属于可信逻辑。
+\subsection{MPS 的 sections、cards 与排列}
+MPS headers 必须从第一列开始，data cards 缩进。次序为 NAME，
+可选 OBJSENSE/OBJNAME，ROWS，COLUMNS，可选 RHS、RANGES、BOUNDS，最后必须 ENDATA。
+OBJSENSE 与 OBJNAME 各至多一次；single value 可放在 header 或下一张缩进 card。
+senses 接受 MIN/MINIMIZE、MAX/MAXIMIZE，默认 MIN；headers、keywords、sense 区分大小写。
+NAME 未给名称时使用 \code{MODEL}。
 
-将来加入 \code{CALL_THM} 时，必须显式给出 theorem ID、参数 schema、checker 版本和调用者允许列表。
-未知 theorem 不可解释为成功。基础 v0.1 对 opcode \code{0xF0} 统一拒绝；不读取一个隐藏的“插件成功”标记。
-batch 扩展也必须定义完整展开与可观察状态，而非仅证明它最终得到某个相似的 fact。
+必须恰好有一个 N objective row，E/L/G 是 constraint rows。
+OBJNAME 若存在必须指定唯一 N row。constraint 顺序为 ROWS 顺序，除去 objective row；
+variable 顺序为首次 COLUMNS 出现顺序，重复 column cards 必须连续。
+每个 coefficient card 含一或两组 row/value。重复 coefficient 可相加，
+重复 row name、未知 row/variable、非连续 column 声明均拒绝。
+
+本方言接受空白分隔 free MPS，以及名称不含空白的普通 fixed-column cards。
+\code{COLUMNS/RHS/RANGES} 的 fixed continuation 只有前十四个字符全为空格时才能省略
+column/vector name，而且此前须存在可继续的同类 card。
+fixed-format 的 embedded-space 名称拒绝；不能靠对齐猜测缺失必要字段。
+第一列 \code{*} 开始注释；独立 token 以 \code{\$} 开始时截断后续 inline comment，
+附着在名称中的 \code{\$} 不会截断数据。因此本方言不接受以 \code{\$} 开始的数据名称。
+空白行和注释行忽略；ENDATA 后非注释内容拒绝。
+
+RHS、RANGES、BOUNDS 每种至多一个 named vector；不默选第一个向量。
+同一 row 的重复 RHS 或 range card 拒绝。缺失 RHS 是精确零。
+objective row 的 RHS 值 $b$ 生成 objective constant $-b$，然后才按 sense 归一化；
+objective 上不能有 range。
+
+\subsection{MPS bounds、markers 与 ranges}
+连续 column 默认 $[0,+\infty)$。\code{'MARKER' 'INTORG'} 至
+\code{'MARKER' 'INTEND'} 的 column 是 integer；markers 必须配对且不能嵌套。
+标记 integer column 如果\emph{完全没有}显式 bound card，默认 $[0,1]$；
+一旦存在任何显式 card，未定义 sides 回到一般 $[0,+\infty)$ defaults。
+故单独 LI 表示 general integer，不再有隐式 upper 1；标记 integer 的 PL 也显式移除 upper。
+
+\begin{longtable}{p{18mm}p{128mm}}
+\toprule bound card & 精确含义 \\\midrule\endfirsthead
+\toprule bound card & 精确含义 \\\midrule\endhead
+LO / UP & 设置有限 lower / upper；可以为有理数。\\
+FX & 两侧设为同一个有限有理数。\\
+FR / MI / PL & 两侧 infinite / lower infinite / upper infinite；不允许 numeric field。\\
+LI / UI & 设置 lower / upper 并声明 integer；该 card 的值必须是整数。\\
+BV & integer 的 $[0,1]$ 与所有显式 bounds 相交，card 顺序无关；可选数值必须恰好为 1。\\
+\bottomrule
+\end{longtable}
+同一 side 重复定义必须相同；冲突的覆盖拒绝。相反 sides 的矛盾保留。
+若显式 upper 为负且没有显式 lower card，MPS 默认 lower 变为 $-\infty$；
+upper=0 则仍保留默认 lower=0。显式 lower 永远优先于此默认规则。
+BV 则始终和 $[0,1]$ 相交：BV+LO 2 得 $[2,1]$，BV+FR 得 $[0,1]$，
+BV+UP $-1$ 得 $[0,-1]$，后者不会被负 upper 默认规则变为可行区间。
+
+row RHS 为 $b$、range 为 $r$ 时：
+\begin{longtable}{p{27mm}p{119mm}}
+\toprule row 类型 & canonical finite sides \\\midrule\endfirsthead
+\toprule row 类型 & canonical finite sides \\\midrule\endhead
+L & $b-|r|\le a^\top x\le b$。\\
+G & $b\le a^\top x\le b+|r|$。\\
+E，$r\ge0$ & $b\le a^\top x\le b+r$。\\
+E，$r<0$ & $b+r\le a^\top x\le b$。\\
+\bottomrule
+\end{longtable}
+没有 range 时保留原 equality 或单侧 constraint；range=0 生成 equality。
+
+MPS 明确拒绝多个 N row、多个 vectors、初始 blank-name vectors、未知 section/bound type、
+SOS、quadratic/conic/indicator、semicontinuous/semiinteger 及其他未定义扩展。
+拒绝表明本 importer 没有接受这种方言，不能据此判断模型间关系。
+
+\section{LP v1 的自足文本规则}
+
+\subsection{sections、名称与 coordinate order}
+\code{canonical} 依据输入文件扩展名选择 parser：大小写不敏感的 \code{.lp}
+调用 LP importer，其他扩展调用 MPS importer；没有内容 sniffing。
+LP 输入必须 ASCII；反斜线开始到该物理行末的注释。
+除 line endings、tab 外的 control characters 拒绝。
+keywords 不区分大小写，每个 section header 独占一行。
+
+必须先 objective，后 constraints，最后 End。Bounds 可选且位于 constraints 之后、
+type sections 之前。Binary、General、Semi 可按任意顺序放在 constraints/Bounds 之后，
+各至多一次；Bounds 不能出现在 type section 之后。
+\begin{longtable}{p{33mm}p{113mm}}
+\toprule section & 接受的 aliases \\\midrule\endfirsthead
+\toprule section & 接受的 aliases \\\midrule\endhead
+min objective & \code{Minimize, Minimum, Min}\\
+max objective & \code{Maximize, Maximum, Max}\\
+constraints & \code{Subject To, Such That, St, St., S.t.}\\
+bounds & \code{Bounds, Bound}\\
+binary & \code{Binary, Binaries, Bin}\\
+general integer & \code{General, Generals, Gen}\\
+empty semi marker & \code{Semi, Semis, Semi-Continuous}\\
+end & \code{End}\\
+\bottomrule
+\end{longtable}
+Semi 只允许空 section；任何成员拒绝。End 后只能有空行或注释。
+
+名称以 ASCII letter 或 underscore 开始；后续可用字母、数字及
+\code{_.$\#(),;!?@\{\}~\%\&}。名称区分大小写、最长 1,024 B、不截断。
+以 e/E 为首，后面缺省或紧接数字、e/E 的 exponent-ambiguous name 拒绝。
+名称不能是 section/type keyword、free、inf、infinity 或保留的未支持扩展 keyword：
+sos、lazy、scenario/scenarios、indicators、pwl、multi-objectives。
+quoted、square-bracket names 和数字/标点起首名称不支持；名称内括号是字面字符，
+不是表达式 grouping。
+
+LP 没有 problem-name field，模型名固定为 \code{LP}。
+可选 objective label 只检查语法，不另存为模型字段。
+variable 顺序按 objective、rows、bounds、type lists 的首次文本出现决定；
+constraint 顺序按输入决定。constraint labels 保留且不能重复；
+unnamed rows 自动命名为 \code{_lp_row_0}、\code{_lp_row_1} 等。
+bounds/type-only 变量也保留。
+
+\subsection{表达式、续行与关系}
+表达式由 signed terms 组成：数值常数，或可选系数后接变量。
+首项以后每项都要 \code{+} 或 \code{-}。系数与变量必须有空白，
+例如 \code{2 x} 合法、\code{2x} 拒绝；operator 自身无需两侧空白，\code{x-y} 合法。
+符号可以与 magnitude 分离；objective 和 named row 的 coefficient/variable tokens
+可跨物理行。不能使用乘号、power、quadratic brackets、grouping 或函数调用。
+零 objective 必须写 \code{0}，不能省略整个表达式。
+
+若第一条 constraint 带 label，只有新 data line 开头的 \code{label:}
+开始新 row，其他行继续当前 row。若第一条 constraint 不带 label，
+每个物理 constraint line 必须包含一条完整 unnamed relation；
+后续 named row 拒绝。不能由 parser 猜测未标号行是续行还是新 row。
+
+单关系为 \code{affine <= affine}、\code{affine >= affine} 或
+\code{affine = affine}。reader 减去右端，再把差的 constant 移到 bound。
+例如 $x+1\le y+3$ 变为 $x-y\le2$。
+range row 允许 \code{constant <= affine <= constant} 或反向的两个 \code{>=}；
+方向必须一致，两 endpoints 必须精确化简成常数。
+例如 $1\le x+2\le3$ 变为 $-1\le x\le1$；所有导入的 row Expr constant 为零。
+named range row 可跨行；strict inequalities 拒绝。
+
+\subsection{bounds 与 integrality}
+continuous/general integer 默认 $[0,+\infty)$；显式 bound 替换指定 side。
+LP 的负 upper \emph{不会}移除默认 lower zero，故只有 \code{x <= -1} 时为 $[0,-1]$。
+这与前节 MPS convention 不同，文件扩展选择是模型语义的一部分。
+
+每个 Bounds record 占一物理行，只约束一个未缩放 variable。
+\begin{lstlisting}
+0 <= x <= 3
+3 >= x >= -2
+x <= 4
+-2 <= x
+x >= -2
+4 >= x
+x = 1
+1 = x
+x free
+-inf <= x <= +infinity
+\end{lstlisting}
+inf/infinity 不区分大小写，仅允许负 infinite lower 或正 infinite upper；
+infinite equality、正 infinite lower、负 infinite upper 均拒绝。
+同一 side 的重复 bound 必须相同；冲突 override 拒绝。
+Binary 是 integer 的 $\{0,1\}$ 与 explicit bounds 的交集，
+例如 binary x 加 $2\le x\le7$ 为 $[2,1]$，binary x free 为 $[0,1]$。
+General 仅声明整数性，不隐含 upper=1。
+type lists 为以空白分隔的名称；重复或冲突 type declarations 拒绝。
+
+LP 拒绝未知 sections/tokens、SOS、indicators、scenarios、quadratic/nonlinear syntax、
+非空 Semi、缺失必要 section/End、End 后 noncomment content 和未定义 dialect ambiguities。
+有理 fraction、双侧 affine relations 是本 importer 明确提供的扩展；
+vendor solver 接受范围不自动成为本 kernel 的输入语义。
+
+\section{精确数值与各层资源边界}
+
+MPS、LP 和 RPA 共用 \code{parse_q}。它接受带符号 integers、integer fractions、
+有限 decimal（含 \code{.1}、\code{1.}）及 e/E/d/D scientific notation，
+包括 \code{1/-2}；分母零拒绝。text 可以是未约分或负分母拼写，解析后规范化；
+binary Q 则必须已经规范，不能自动约分。
+NaN、infinity coefficients、hexadecimal floats、数字内部 whitespace 和 digit separators 不接受。
+无限 bounds 仅由上述 importer grammar 表示。
+
+\begin{longtable}{p{90mm}p{56mm}}
+\toprule 层与资源 & 当前上限 \\\midrule\endfirsthead
+\toprule 层与资源 & 当前上限 \\\midrule\endhead
+façade/CLI 每个 owned input file & 512 MiB\\
+RPA / Request text & 256 MiB；JSON nesting capacity 128\\
+MPS / LP text & 512 MiB；每物理行 32,768 B\\
+LP lexical tokens & 20,000,000\\
+model names / variables / rows & 1,024 B / 2,000,000 / 2,000,000\\
+MPS ROWS cards（含 objective） & 2,000,000\\
+coefficient entries / final model terms & 20,000,000\\
+decimal mantissa 或 fraction component digits & 每部分 4,096\\
+decimal exponent digits / absolute exponent & 6 / 4,096\\
+effective power of ten & 绝对值至多 4,096\\
+scalar text bytes & $2\times4,096+32$\\
+exact intermediate numerator / denominator & 各 65,536 bits\\
+binary codec 文件 / 单 array / 累计 counted items & 1 GiB / 10,000,000 / 20,000,000\\
+binary magnitude / name preflight & 每 magnitude 1,700 B / 1 MiB\\
+binary proof depth & 64，root=1\\
+默认 verification work / live facts / depth & $10^9$ / $10^6$ / 64\\
+\bottomrule
+\end{longtable}
+限制叠加适用，不能用宽松的一层覆盖严格的一层。
+例如 text parser 能构造的 65,536-bit Q 可能超过 MCM 的 1,700-byte magnitude 编码预算。
+\code{verify_bytes} 不适用路径读取的 512 MiB cap，但仍适用 codec、Request 和验证预算。
+theorem constructors 还有自己的维数和工作限制；生成模型也必须满足同一个 Model validation。
+预算耗尽没有浮点 fallback、wraparound 或“尽力接受”的模式。
+重要 allocations 使用 \code{try_reserve}；本接口不承诺第三方任意精度库的所有内部
+allocation failures 或宿主强制终止都能恢复成 JSON。
+
+work 在各方向、lift、injectivity、point refutation 与 improvements 间累积，
+嵌套 scopes 不重置。live facts 限制当前可见事实；proof nesting 与 JSON parser nesting
+是两种不同限制。CLI 可以设 work 和 live facts，不能设置 depth。
+版本最低值与资源限制也不同：V10 本身不提高默认预算。
+
+\section{真实 CLI 与 Rust façade}
+
+当前命令如下；二进制名为 \code{rpx}，仓库构建命令为
+\code{cargo build --release -p kernel-core --bin rpx}。
+\begin{lstlisting}
+rpx canonical input.mps output.mcm
+rpx canonical input.lp output.mcm
+rpx assemble input.rpa output.rpx
+rpx disassemble input.rpx output.rpa
+rpx inspect-model model.mcm
+rpx export-model model.mcm output.json
+rpx verify --work 1000000000 --live-facts 1000000 \
+  source.mcm target.mcm proof.rpx request.json
+\end{lstlisting}
+verify 的两个 options 可出现在 subcommand 后任何位置；paths 仍须恰好四个，
+顺序为 source、target、proof、request。数值分别解析为 u64 和 usize。
+其他 command 不接受这些 flags，没有 \code{--profile}、\code{--direction}、
+hash 参数或 certificate 自定 budget。未知 option、缺参数、路径数量错误返回 usage INVALID。
+
+façade 的路径函数与 CLI 同名操作对应：
+\code{canonicalize_path}、\code{assemble_paths}、\code{disassemble_paths}、
+\code{inspect_model_path}、\code{export_model_paths}、\code{verify_paths}。
+需要内存集成时使用 \code{api::verify_bytes(source,target,proof,request,limits)}，
+前三项为 byte slices、request 为 text；不触及文件系统。
+入口返回 \code{Result<serde_json::Value, api::Error>}。
+更底层的 \code{verify::verify_request} 接受内存中的 Model/Certificate/Request 与 Limits，
+并自行再次验证两个完整模型；
+带位置的接口为 \code{verify_request_with_diagnostics}。
+legacy \code{verify} 接受 Claim slice，只请求方向，不接受 points/bijections/improvements。
+独立 LP contradiction 和完整 injectivity 库入口分别为
+\code{verify_lp_refutation}、\code{verify_injectivity}，并有相应 diagnostics 版本。
+低层 \code{verify_injectivity} 只检查给定完整 map 的单射性；它不独立建立总可行性、
+与证书索引的绑定或完整双射。完整合约验收使用 \code{verify_request}。
+
+路径读取先检查 metadata length，再用限长 read 确保文件增长也不超过 cap；
+实际用于验证的是取得的 owned bytes。
+这不是操作系统级多文件事务：如需 source/target/proof/request 的一致业务快照，
+由调用者先获取并通过 \code{verify_bytes} 绑定。
+output 在内容全部生成后创建父目录并写入指定文件；路径函数可能替换现有 output，
+不承诺 atomic rename 或自动 backup。
+
+\section{报告、诊断与模型 JSON}
+
+每次 CLI invocation 向 stdout 打印一个 JSON value。verify 成功包括
+status、claims/points/bijections counts、statistics、limits、
+\code{model_decode_us}、\code{proof_decode_us}、\code{execute_us}、\code{total_us}；
+路径调用另有 \code{read_us}，内存调用没有该字段。
+非空 improvement 请求增加 \code{improvements} count；新增 V10 statistics 零值省略。
+这些 timings 是本次调用诊断量，不能单独解释为隔离 benchmark。
+
+failure 必含 status、message、code；已知时增加 location 与 limits。
+\begin{lstlisting}
+{"status":"INVALID",
+ "message":"INVALID obligation mismatch: expected Eq; obligation 3",
+ "code":"obligation_mismatch",
+ "location":{"claim":0,"block":0,"obligation":3},
+ "limits":{"work":1000000000,"live_facts":1000000,"depth":64}}
+\end{lstlisting}
+code 是错误词汇生成的 snake case 诊断辅助，不是冻结枚举；
+稳定分类应以 status 为准。Location 全部 indices 为零基：
+claim/point 是 Request 各自数组下标，block 是顶层 certificate Block 下标，
+step 是最内层活动 Block/Derivation 的 Step 下标，
+obligation 是当前 terminal 的实际检查次序下标。
+没有相应语义的位置省略字段。improvement、fiber refutation 等不是顶层方向 Block，
+不能从不存在的 claim/block 字段推断坐标。
+diagnostics 只是 best-effort error attribution，不参与数学决定、统计或预算。
+CLI 在有效 verify 参数解析后的失败上附加 effective limits；
+库调用者可用 \code{Error::with_limits} 附加。
+
+\code{inspect-model} 报告模型名、variables/rows、integer count 和 row/目标总 nonzeros；
+\code{export-model} 通过 \code{model::to_json} 输出
+name、variables、rows、objective。每个 rational 为 canonical scalar string，
+bounds 缺侧为 null，terms 是有序的 \code{[variable,coefficient]} pairs。
+JSON object key 顺序不具有语义，数组次序保留模型坐标。
+这是 export schema，不能直接使用 Model 的普通 Serialize derive 作为同样的 scalar interchange，
+也没有当前 CLI 的 JSON-model import command。
+
+\section{信任结论与外部证据}
+
+接受边界包含精确数值 parser/算术、MPS/LP importers、Model validation、
+MCM/RPX codec、Request matching、scalar/scope checker、完整 obligation construction、
+point 与 injectivity checker，以及各静态 lift/theorem 的数学 lemma 和 Rust 实现。
+扩展的 old-scope premise checking 只证明其前提；生成模型合法且 child proof 通过，
+仍不能独立证明联合存在性 lemma。这一项必须明确列入 TCB。
+
+certificate generator、求解器、Python oracle、model-specific structure scripts、
+外部 SHA receipts、benchmark 和 corpus replay 都不向 kernel 提供 proof facts。
+独立测试、字节攻击、构造 oracle 与 source review 是实现可靠性的证据，
+不是 Rust 实现的形式验证。V9/V10 的工作 case 成功也不冻结草案。
+验证已准许请求不自动获得未请求的双向等价、最优性、可行性或 global inclusion。
+
+本章以 \code{api.rs}、\code{main.rs}、\code{model.rs}、\code{lp.rs}、
+\code{verify.rs} 为实现依据；输入方言详解对应 \code{docs/MPS_V1.md}、
+\code{docs/LP_V1.md}，接口说明对应 \code{docs/API.md}。

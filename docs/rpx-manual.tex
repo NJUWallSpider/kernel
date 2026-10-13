@@ -1,18 +1,17 @@
 % !TeX program = xelatex
-% Build with XeLaTeX. All normative text is a proposal until v0.1 is frozen.
+% Build with XeLaTeX. Current implementation: MCM 1, RPX/RPA 1--10.
+% V1--V8 are frozen; implemented V9/V10 remain working drafts.
 \documentclass[UTF8,10pt,a4paper,oneside,fontset=fandol]{ctexbook}
 \usepackage[top=25mm,bottom=25mm,left=26mm,right=24mm,headheight=15pt]{geometry}
-\usepackage{amsmath,amssymb,mathtools}
+\usepackage{amsmath,amssymb}
 \usepackage{booktabs,longtable,tabularx,array}
-\usepackage{xcolor,graphicx,listings,fancyhdr,enumitem,microtype,etoolbox}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
+\usepackage{xcolor,listings,fancyhdr,enumitem,microtype,etoolbox}
 \usepackage{hyperref}
 \usepackage{bookmark}
 \definecolor{rpxblue}{HTML}{173A58}
 \definecolor{rpxgray}{HTML}{F2F4F6}
 \hypersetup{unicode=true,colorlinks=true,linkcolor=rpxblue,urlcolor=rpxblue,
-  pdftitle={RPA/RPX v0.1 ISA 规范手册},pdfauthor={RPX specification working draft},
+  pdftitle={RPA/RPX Kernel 规范手册},pdfauthor={RPX kernel project},
   pdfsubject={机器模型、指令集、汇编、二进制格式与验证语义}}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{3pt}
@@ -24,22 +23,23 @@
 \setcounter{secnumdepth}{2}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small RPA/RPX v0.1 · 规范草案 D0}
+\fancyhead[L]{\small RPA/RPX · Kernel 规范手册}
 \fancyhead[R]{\small\nouppercase{\leftmark}}
-\fancyfoot[L]{\small 2026-10-09 · 尚未冻结}
+\fancyfoot[L]{\small 2026-10-13 · V9/V10 未冻结}
 \fancyfoot[R]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
-\fancypagestyle{plain}{\fancyhf{}\fancyfoot[L]{\small RPA/RPX v0.1 · D0}\fancyfoot[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[L]{\small RPA/RPX · Kernel 规范手册}\fancyfoot[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
 \lstset{basicstyle=\small\ttfamily,backgroundcolor=\color{rpxgray},
   frame=single,rulecolor=\color{black!15},framerule=0.3pt,framesep=5pt,
   breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,
   tabsize=4,aboveskip=10pt,belowskip=10pt}
-% Every current listing fits a page. Keep the frame and complete example together.
+% Keep each short listing and each complete example source on one page.
 \BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
 \AfterEndEnvironment{lstlisting}{\end{minipage}\par}
+\newcommand{\rpxlisting}[2][]{\par\noindent\begin{minipage}{\linewidth}%
+  \lstinputlisting[#1]{#2}\end{minipage}\par}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\must}[1]{\textbf{必须：}#1}
-\newcommand{\proposal}[2]{\par\smallskip\noindent\textbf{修订提案 #1。}#2\par\smallskip}
 % Inline code accepts raw underscores/dollars and escaped TeX punctuation.
 \ExplSyntaxOn
 \cs_generate_variant:Nn \tl_replace_all:Nnn {Nxx}
@@ -53,6 +53,9 @@
   \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\&}} {\char_generate:nn {38}{12}}
   \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\{}} {\char_generate:nn {123}{12}}
   \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\}}} {\char_generate:nn {125}{12}}
+  % Break long paths, signatures and camel-case names without adding glyphs.
+  \regex_replace_all:nnN { ([a-z0-9])([A-Z]) } { \1\c{allowbreak}\2 } \l_tmpa_tl
+  \regex_replace_all:nnN { ([/_.:,()<>]) } { \1\c{allowbreak} } \l_tmpa_tl
   \tl_use:N \l_tmpa_tl\group_end:}
 \NewDocumentCommand{\code}{m}{
   \mode_if_math:TF {\text{\rpx_code:n {#1}}}{\rpx_code:n {#1}}}
@@ -67,23 +70,24 @@
 \vspace*{12mm}
 \noindent{\fontsize{54}{62}\selectfont\bfseries RPX}\par
 \vspace{7mm}
-\noindent{\Huge\bfseries RPA/RPX v0.1}\par
+\noindent{\Huge\bfseries RPA/RPX Kernel}\par
 \vspace{4mm}
-\noindent{\LARGE ISA 规范手册}\par
+\noindent{\LARGE 精确重构证明规范手册}\par
 \vspace{9mm}
 \noindent\rule{\textwidth}{1pt}\par
 \vspace{7mm}
 \noindent{\large Reformulation Proof Assembly}\par
 \noindent{\large Reformulation Proof eXecutable}\par
 \vspace{10mm}
-\noindent 机器模型 · 指令集 · 文本汇编 · 二进制格式\par
+\noindent 数学模型 · Contract · 推导与联合扩展\par
+\noindent 文本汇编 · 二进制格式 · 完整证书\par
 \noindent Loader · 执行语义 · 异常与符合性\par
 \vfill
-\noindent\textbf{规范草案 D0}\par
-\noindent 2026 年 10 月 9 日\par
+\noindent\textbf{当前实现参考 · MCM 1 · RPA/RPX 1--10}\par
+\noindent 2026 年 10 月 13 日\par
 \vspace{5mm}
-\noindent 本文定义待讨论的 v0.1 规范，不代表现有代码已经实现。\par
-\noindent 标注的修订提案与开放问题须在版本冻结前逐项决定。\par
+\noindent 依据当前安全 Rust kernel 的实现重写。\par
+\noindent V1--V8 已冻结；V9/V10 已实现，协议仍未冻结。\par
 \end{titlepage}
 \pagenumbering{roman}
 \hypersetup{pageanchor=true}

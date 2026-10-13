@@ -1,6 +1,6 @@
 # MCM / RPX implementation format, version 1
 
-This document specifies the binary format implemented by `crates/core/src/codec.rs`. Version 1 is distinct from the unimplemented D0 / RPX 0.1 proposal in the LaTeX manual. It does not implement D0's section directory, expression pool, implicit fact IDs, merge/yield operations, batch operations, or theorem calls. Unknown tags and versions are rejected. RPA assembly must produce exactly the data described here; assembly is not proof verification.
+This document specifies the V1 binary format implemented by `crates/core/src/codec.rs`. Version 1 is distinct from the historical unimplemented D0 / RPX 0.1 proposal. The rewritten [Chinese kernel manual](rpx-manual.pdf) describes the current implementation. V1 does not implement D0's section directory, expression pool, implicit fact IDs, merge/yield operations, batch operations, or theorem calls. Unknown tags and versions are rejected. RPA assembly must produce exactly the data described here; assembly is not proof verification.
 
 The decoder also supports the separately specified [version 2 local-derivation extension](FORMAT_V2.md). That extension does not change v1 bytes or enable its new step tags under a v1 header. MCM remains version 1.
 

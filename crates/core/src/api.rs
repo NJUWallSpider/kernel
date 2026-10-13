@@ -108,21 +108,20 @@ pub fn error_code(status: Status, message: &str) -> String {
         Some(rest) => rest.trim_start_matches([':', ' ']),
         None => message,
     };
-    let parts: Vec<&str> = body.split(|c: char| matches!(c, ':' | ';' | ',' | '(' | ')' | '.' | '{' | '}' | '"' | '\'')).collect();
-    let phrase = parts.first().copied().unwrap_or("");
+    let mut parts = body.split([':', ';', ',', '(', ')', '.', '{', '}', '"', '\'']);
+    let phrase = parts.next().unwrap_or("");
     let mut code = fold(phrase);
     // The layers prefix their detail with a single namespace token
     // (`INVALID point: …`); append the first two detail words so the code stays
     // specific. The CLI's own usage error carries no useful detail and keeps the
     // plain `usage` code.
     let lone_namespace = !phrase.contains(char::is_whitespace) && !phrase.trim().is_empty() && phrase != "usage";
-    if lone_namespace {
-        if let Some(detail) = parts.iter().skip(1).find(|part| !part.trim().is_empty()) {
-            let words: Vec<&str> = detail.split_whitespace().take(2).collect();
-            if !words.is_empty() {
-                code.push('_');
-                code.push_str(&fold(&words.join(" ")));
-            }
+    if lone_namespace
+        && let Some(detail) = parts.find(|part| !part.trim().is_empty()) {
+        let words: Vec<&str> = detail.split_whitespace().take(2).collect();
+        if !words.is_empty() {
+            code.push('_');
+            code.push_str(&fold(&words.join(" ")));
         }
     }
     if code.is_empty() {
@@ -275,10 +274,9 @@ pub fn read_text(path: &str) -> Result<String, Error> {
 /// only after the caller has fully produced its bytes.
 pub fn write_output(path: &str, bytes: &[u8]) -> Result<(), Error> {
     let path = Path::new(path);
-    if let Some(parent) = path.parent() {
-        if !parent.as_os_str().is_empty() {
-            fs::create_dir_all(parent).map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?;
-        }
+    if let Some(parent) = path.parent()
+        && !parent.as_os_str().is_empty() {
+        fs::create_dir_all(parent).map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?;
     }
     fs::write(path, bytes).map_err(|e| Error::from_message(format!("IO_ERROR {e}")))
 }

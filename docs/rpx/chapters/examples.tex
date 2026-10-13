@@ -1,346 +1,168 @@
 \chapter{完整证书示例与验收案例}
 \label{ch:examples}
 
-本章给出三份完整的双向 RPA 程序，覆盖冗余约束删除、等式变量消元和分段 mapping。每个例子明确列出模型、变量 domains、目标和全部 obligations。所有模型目标均为最小化；例中没有被省略的模型行或变量。
+本章的前三份证书都是当前 CLI 可执行的完整双向程序。每份包含两份完整 LP 模型、一份严格 JSON RPA 和调用者独立提供的 request；正文直接引用仓库文件，没有省略的变量、模型行、证据或摘要占位值。它们采用已冻结的 RPA/RPX 1。MCM 和 RPX 由现有命令生成到临时目录，证书不含授权接受的模型 hash。
 
-源码中的 64 个十六进制字符摘要均为\emph{待替换占位值}：Source 使用全零，Target 使用全一。它们具有合法词法形式，但不代表例中模型的真实 SHA-256。生成 RPX 前，必须使用 canonical model 的实际摘要替换；否则正确 verifier 应在模型绑定阶段返回 \code{E_HASH}。除摘要占位值外，程序不给出省略号或未定义符号。
+\section{复核入口与结果}
 
-本章使用的 \code{exact} 简写依赖 P-05，第三个例子的 mapping 封存依赖 P-02。它们是本手册明确提出的 v0.1 草案修订，应在冻结版本前一并审定。
+从仓库根目录执行：
+\begin{lstlisting}[caption={重建、回读与负例复核}]
+cargo build -p kernel-core --release --locked
+python3 tools/check_rpx_manual.py --kernel target/release/rpx --out docs/.build/manual-examples.json
+\end{lstlisting}
 
-\section{示例 A：删除冗余上界行}
-
-\subsection{模型与 contract}
-
-Source 和 Target 均只有一个连续变量，目标恒为零。Source 的第二行重复一个更松的上界。删除它不会改变可行域。
+脚本对每份示例重新 canonicalize 两份 LP、assemble、verify，再 disassemble、assemble 并要求 RPX 字节相同、再次 verify。它还独立运行三种逻辑变异和一次零 work 预算检查。2026 年 10 月 13 日当前源码重建后的复核全部通过；完整 receipt 在 \code{docs/rpx/examples/verification.json}，记录实际可执行文件与输入的 SHA-256、计数和错误报告。SHA-256 仅用于复核产物身份。
 
 \begin{center}
-\begin{tabularx}{\textwidth}{lXX}
+\begin{tabular}{lrrrrr}
 \toprule
-项 & Source & Target \\
+示例 & claims & RPX bytes & obligations & branches & work \\
 \midrule
-变量 & $x_0\in\mathbb R,\quad 0\le x_0\le1$ & $y_0\in\mathbb R,\quad 0\le y_0\le1$ \\
-row 0 & $x_0\le1$ & $y_0\le1$ \\
-row 1 & $x_0\le2$ & 无 \\
-目标 & $f_S(x)=0$ & $f_T(y)=0$ \\
-Forward & \multicolumn{2}{l}{$y_0=x_0$} \\
-Reverse & \multicolumn{2}{l}{$x_0=y_0$} \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-两个方向均证明目标等式。Forward 的 variable bounds 和 row 0 直接使用 input 静态事实；Reverse 中 Source row 1 用 \code{weaken.le} 从 $y_0-1\le0$ 得到 $y_0-2\le0$。
-
-\subsection{完整 RPA}
-
-\begin{lstlisting}[caption={冗余行删除：双向完整程序}]
-.rpa 0.1
-.source sha256 "0000000000000000000000000000000000000000000000000000000000000000"
-.target sha256 "1111111111111111111111111111111111111111111111111111111111111111"
-.contract mip=opt-equivalent
-.contract forward.obj=eq
-.contract reverse.obj=eq
-
-.forward
-.map
-    copy @out.v[0], @in.v[0]
-.endmap
-.code
-    check.var.lo @out.v[0], @in.v[0].lo
-    check.var.hi @out.v[0], @in.v[0].hi
-    check.row.hi @out.r[0], @in.r[0].hi
-    check.obj.eq exact
-    ret
-.endcode
-
-.reverse
-.expr $loose_upper = @in.v[0] - 2
-.map
-    copy @out.v[0], @in.v[0]
-.endmap
-.code
-    check.var.lo @out.v[0], @in.v[0].lo
-    check.var.hi @out.v[0], @in.v[0].hi
-    check.row.hi @out.r[0], @in.r[0].hi
-    %loose = weaken.le $loose_upper, @in.r[0].hi, 1
-    check.row.hi @out.r[1], %loose
-    check.obj.eq exact
-    ret
-.endcode
-\end{lstlisting}
-
-\subsection{检查要点}
-
-Forward 生成并完成四个 obligations：两个 variable bounds、一个 row upper side、一个 objective equality。Reverse 完成五个：两个 variable bounds、两个 row upper sides 和一个 objective equality。连续变量不生成 integrality obligation；这些单侧行也不生成 lower-side obligation。
-
-Reverse 的 derived fact 是：
-\[
-  (y_0-1)-1=y_0-2\le0.
-\]
-两个方向目标差均为恒等零，故 EXACT 的 EQ 规则成立。任何方向删除任一 CHECK 都应导致 RET 返回 \code{E_OBLIGATION}，即使该行从模型语义上看起来显然冗余。
-
-\section{示例 B：利用等式消去一个变量}
-
-\subsection{模型与 contract}
-
-Source 有两个连续变量和一个等式；Target 保留第二个变量，并把目标中的第一个变量代换掉。
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lXX}
-\toprule
-项 & Source & Target \\
-\midrule
-变量 0 & $x_0\in\mathbb R,\quad0\le x_0\le1$ & $y_0\in\mathbb R,\quad0\le y_0\le1$ \\
-变量 1 & $x_1\in\mathbb R,\quad0\le x_1\le1$ & 无 \\
-row 0 & $x_0+x_1=1$ & 无 \\
-目标 & $f_S(x)=x_0$ & $f_T(y)=1-y_0$ \\
-Forward & \multicolumn{2}{l}{$y_0=x_1$} \\
-Reverse & \multicolumn{2}{l}{$x_0=1-y_0,\quad x_1=y_0$} \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-Forward objective difference 不是 input 空间中的恒等零，而是 Source equality 的负值：
-\[
-  D_F(x)=(1-x_1)-x_0=-(x_0+x_1-1).
-\]
-因此 Forward 必须提供 EQ 事实，不能写成 \code{check.obj.eq exact}。Reverse 中代换后的 row equality 和 objective difference 则均为恒等零。
-
-\subsection{完整 RPA}
-
-\begin{lstlisting}[caption={等式消元与反向重建：双向完整程序}]
-.rpa 0.1
-.source sha256 "0000000000000000000000000000000000000000000000000000000000000000"
-.target sha256 "1111111111111111111111111111111111111111111111111111111111111111"
-.contract mip=opt-equivalent
-.contract forward.obj=eq
-.contract reverse.obj=eq
-
-.forward
-.expr $objective_difference = 1 - @in.v[1] - @in.v[0]
-.map
-    copy @out.v[0], @in.v[1]
-.endmap
-.code
-    check.var.lo @out.v[0], @in.v[1].lo
-    check.var.hi @out.v[0], @in.v[1].hi
-    %objective = lin.eq $objective_difference {
-        -1 @in.r[0].eq
-    }
-    check.obj.eq %objective
-    ret
-.endcode
-
-.reverse
-.expr $complement = 1 - @in.v[0]
-.map
-    aff @out.v[0], $complement
-    copy @out.v[1], @in.v[0]
-.endmap
-.code
-    check.var.lo @out.v[0], @in.v[0].hi
-    check.var.hi @out.v[0], @in.v[0].lo
-    check.var.lo @out.v[1], @in.v[0].lo
-    check.var.hi @out.v[1], @in.v[0].hi
-    check.row.eq @out.r[0], exact
-    check.obj.eq exact
-    ret
-.endcode
-\end{lstlisting}
-
-\subsection{检查要点}
-
-Forward 的三个 obligations 是 Target 的两个 bounds 和 objective equality。Reverse 的六个 obligations 是 Source 的四个 bounds、一个 equality row 和 objective equality。canonical equality row 在这个 profile 中生成一个 EQ obligation，不能要求作者重复证明相同 row 的两条 LE sides。
-
-Reverse 中四个 bounds 的归一化表达式依次为：
-\begin{align*}
-  x_0\ge0 &: -(1-y_0)=y_0-1,\\
-  x_0\le1 &: (1-y_0)-1=-y_0,\\
-  x_1\ge0 &: -y_0,\\
-  x_1\le1 &: y_0-1.
-\end{align*}
-它们分别精确匹配 input variable 的 upper、lower、lower、upper facts。目标常数 $1$ 参与检查；漏掉该常数将使 objective relation 不成立。
-
-此例也展示模型中的 equality 与恒等式的区别：Forward 使用 input equality，Reverse 使用 substitution identity。EXACT 不自动从 input equality 推理，避免把模型相关证明搜索隐藏进简写。
-
-\section{示例 C：分段 absolute-value mapping}
-
-\subsection{模型与 contract}
-
-Source 和 Target 没有 rows，且目标均为零。Forward 使用 absolute-value mapping；Reverse 选择非负代表元。两个映射不互为逆函数，仍能证明双向可行性和目标值相同。
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lXX}
-\toprule
-项 & Source & Target \\
-\midrule
-变量 & $x_0\in\mathbb R,\quad-1\le x_0\le1$ & $y_0\in\mathbb R,\quad0\le y_0\le1$ \\
-rows & 无 & 无 \\
-目标 & $f_S(x)=0$ & $f_T(y)=0$ \\
-Forward & \multicolumn{2}{l}{$y_0=|x_0|$} \\
-Reverse & \multicolumn{2}{l}{$x_0=y_0$} \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-Forward 的静态 map 只声明 DEFER。\code{split.sign} 的两支分别定义 $y_0=-x_0$ 和 $y_0=x_0$，并在分支内完成所有 bounds 及 objective obligations。它没有需要汇合的 Fact outputs，因此使用空 tuple 和空 YIELD。
-
-\subsection{完整 RPA}
-
-\begin{lstlisting}[caption={分段映射与 scope 封存：双向完整程序}]
-.rpa 0.1
-.source sha256 "0000000000000000000000000000000000000000000000000000000000000000"
-.target sha256 "1111111111111111111111111111111111111111111111111111111111111111"
-.contract mip=opt-equivalent
-.contract forward.obj=eq
-.contract reverse.obj=eq
-
-.forward
-.expr $x = @in.v[0]
-.expr $negative_x = -@in.v[0]
-.map
-    defer @out.v[0]
-.endmap
-.code
-    () = split.sign $x {
-    case le:
-        map.aff @out.v[0], $negative_x
-        check.var.lo @out.v[0], @case
-        check.var.hi @out.v[0], @in.v[0].lo
-        check.obj.eq exact
-        yield
-    case ge:
-        map.aff @out.v[0], $x
-        check.var.lo @out.v[0], @case
-        check.var.hi @out.v[0], @in.v[0].hi
-        check.obj.eq exact
-        yield
-    }
-    ret
-.endcode
-
-.reverse
-.expr $source_lower = -@in.v[0] - 1
-.map
-    copy @out.v[0], @in.v[0]
-.endmap
-.code
-    %lower = weaken.le $source_lower, @in.v[0].lo, 1
-    check.var.lo @out.v[0], %lower
-    check.var.hi @out.v[0], @in.v[0].hi
-    check.obj.eq exact
-    ret
-.endcode
-\end{lstlisting}
-
-\subsection{检查要点与 mapping 封存}
-
-在 \code{le} branch 中，assumption 为 $x_0\le0$，恰好证明 output lower bound $-y_0=x_0\le0$；Source lower bound 为 $-x_0-1\le0$，恰好证明 output upper bound $y_0-1=-x_0-1\le0$。
-
-在 \code{ge} branch 中，assumption 为 $-x_0\le0$，恰好证明 output lower bound；Source upper bound $x_0-1\le0$ 恰好证明 output upper bound。两支均完成同一组三个 obligations。merge 对可达 branches 的 DONE 位图取交集，故三个 obligations 在父 scope 中均完成。
-
-两个 mapping expressions 一般不同，因此父 scope 不保留某个共同 affine expression；它把该 variable 标记为 \code{SEALED\_PIECEWISE}。P-02 规定：该状态证明 mapping 在所有可达分支上完整，且所有依赖该变量的 obligations 已完成，因而 RET 可以成功。merge 之后再尝试使用它做新的 affine substitution 必须返回 \code{E_MAP}。
-
-Source 点 $x_0=0$ 同时满足两个 proof guards。验证执行两个分支；数值 mapping 应用按 P-06 选择 \code{le}，两支在本例均给出 $y_0=0$。这种优先级是 mapping 应用规则，不允许少验证另一支。
-
-Reverse 的 lower-bound fact 是 $(-y_0)-1\le0$，即 $x_0\ge-1$；upper bound 则直接继承 $y_0\le1$。Reverse 完成三个 obligations。Forward 每个分支完成三个 obligations，父 scope 的最终集合仍是三个，而不是把分支 CHECK 次数加成六个独立模型义务。
-
-\section{整数性与取整的小型推导片段}
-
-以下是用于指令级测试的局部片段，不是独立双向 certificate。假设 input 中 $x_0$ 连续、$x_1$ 整数，并有 equality row $x_0-x_1=0$。草案 P-04 允许从整数变量和 equality 推出 $x_0$ 的整数性：
-
-\begin{lstlisting}
-.expr $x = @in.v[0]
-
-%integer_x = int.aff $x, 0 {
-    +1 @in.v[1].int
-    +1 @in.r[0].eq
-}
-\end{lstlisting}
-
-核验的 affine sum 为 $x_1+(x_0-x_1)=x_0$。EQ 项的有理数 multiplier 不改变整数性，因为 EQ expression 恒等于零。
-
-若已经有 \code{\%upper} 表示 $x_0-37/5\le0$，且 \code{\%integer\_x} 表示 $x_0\in\mathbb Z$，则声明 \code{.expr \$rounded = @in.v[0] - 7} 后可以使用：
-
-\begin{lstlisting}
-%rounded = round.hi $rounded, %upper, %integer_x
-\end{lstlisting}
-
-ROUND.HI 的数值核验使用精确 floor，而不是向零截断。应补充负阈值验收用例：$x\le-7/5$ 应推出 $x\le-2$；ROUND.LO 中 $x\ge-7/5$ 应推出 $x\ge-1$。
-
-\section{LIN.LE 的二进制 golden vector}
-
-下列 encoding 对应一个 \code{lin.le} producer，输出 ExprId 为 5，组合 input equality row 0 与 input variable 0 的 lower bound，两个 multiplier 均为 $+1$。目的 FactId 隐式分配，不出现在 payload 中。
-
-\begin{lstlisting}
-%0 = lin.le $e5 {
-    +1 @in.r[0].eq
-    +1 @in.v[0].lo
-}
-\end{lstlisting}
-
-\begin{center}
-\begin{tabular}{lll}
-\toprule
-字段 & 值 & Little-endian 字节 \\
-\midrule
-opcode & \code{0x10} & \code{10} \\
-flags & \code{0x00} & \code{00} \\
-aux & 2 & \code{02 00} \\
-payload\_bytes & 20 & \code{14 00 00 00} \\
-out\_expr\_id & 5 & \code{05 00 00 00} \\
-FactRef 0 & \code{0x30000000} & \code{00 00 00 30} \\
-ScalarRef 0 & \code{0x80000001} & \code{01 00 00 80} \\
-FactRef 1 & \code{0x50000000} & \code{00 00 00 50} \\
-ScalarRef 1 & \code{0x80000001} & \code{01 00 00 80} \\
-padding & 4 个零字节 & \code{00 00 00 00} \\
+冗余行删除 & 2 & 300 & 13 & 0 & 56 \\
+等式消元 & 2 & 343 & 14 & 0 & 73 \\
+分段绝对值 & 2 & 351 & 9 & 1 & 42 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-整条 instruction 占 32 bytes：8-byte header、20-byte payload 和4-byte padding。
+表中的 obligations 是实际执行的检查次数。分段示例的两个 Forward 叶子都被核验，故贡献六次检查，Reverse 再贡献三次。它不是 D0 的分支 DONE 位图大小。计数和时钟测量的区别见第\ref{ch:performance}章。
 
-\begin{lstlisting}[caption={完整 32-byte golden vector}]
-10 00 02 00 14 00 00 00
-05 00 00 00
-00 00 00 30 01 00 00 80
-00 00 00 50 01 00 00 80
-00 00 00 00
+\section{示例 A：删除冗余上界行}
+
+\subsection{完整模型与调用者要求}
+Source 为 $0\le x\le1$，有 $x\le1$ 和 $x\le2$ 两行；Target 为 $0\le y\le1$，只保留 $y\le1$。目标都恒为零，变量均连续。LP 的首次出现顺序使唯一坐标编号为 0，Source 行编号为 cap=0、loose=1。
+
+\rpxlisting[caption={A：完整 Source LP}]{rpx/examples/redundant/source.lp}
+\rpxlisting[caption={A：完整 Target LP}]{rpx/examples/redundant/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：独立 caller request}]{rpx/examples/redundant/request.json}
+
+request 明确要求两方向目标相等、坐标投影相等和互为 affine inverse。因此该例确立完整可行集的目标保持双射；不能从仅有双向可行性的证书推测出这些额外关系。
+
+\subsection{完整 RPA 与核验}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：完整 RPA 1 证书}]{rpx/examples/redundant/proof.rpa}
+
+Forward 和 Reverse 都取恒等 map。Reverse 的 Lin 定义
+\[
+\operatorname{LE}\bigl((y-1)-1\bigr)=\operatorname{LE}(y-2),
+\]
+所以 Source 的 loose 行也得到精确匹配。每个 Return 按 kernel 顺序列出 bounds、rows、objective、projection 和 inverse 证据；Forward 有六个，Reverse 有七个。没有整数性义务，也没有隐含不存在的行下界。
+
+单独运行本例的真实命令为：
+\begin{lstlisting}[caption={A：从 LP 到 VERIFIED}]
+mkdir -p docs/.build/manual-redundant
+target/release/rpx canonical docs/rpx/examples/redundant/source.lp docs/.build/manual-redundant/source.mcm
+target/release/rpx canonical docs/rpx/examples/redundant/target.lp docs/.build/manual-redundant/target.mcm
+target/release/rpx assemble docs/rpx/examples/redundant/proof.rpa docs/.build/manual-redundant/proof.rpx
+target/release/rpx verify docs/.build/manual-redundant/source.mcm docs/.build/manual-redundant/target.mcm docs/.build/manual-redundant/proof.rpx docs/rpx/examples/redundant/request.json
 \end{lstlisting}
 
-这些字节只说明结构，不独立证明任何模型命题。ExprId 5 必须存在，并且其表达式必须精确等于对应 input equality expression 与 lower-bound expression 的和。改变模型或 expression pool 可使同样的 instruction 字节返回 \code{E\_PROOF}。
+最后一条返回 \code{VERIFIED}，退出码 0；前面的成功状态分别为 \code{CANONICALIZED} 和 \code{ASSEMBLED}。
 
-\section{失败证书与一致性验收}
+\section{示例 B：利用等式消去一个变量}
 
-以下用例用于未来实现的验收清单。格式 loader、状态机和数学 checker 可以在不同阶段发现问题；错误代码表示规范要求的主要类别，不强制内部调用栈或错误文本。
+\subsection{完整模型与调用者要求}
+Source 的 $x_0,x_1\in[0,1]$ 满足 $x_0+x_1=1$，目标 $f_S=x_0$；Target 的 $y\in[0,1]$ 无行，目标 $f_T=1-y$。保留 $x_1$，重建 $x_0=1-y$。目标常数 1 必须参与 canonicalization 和证明。
 
-\begin{longtable}{p{0.42\textwidth}p{0.17\textwidth}p{0.33\textwidth}}
+\rpxlisting[caption={B：完整 Source LP}]{rpx/examples/elimination/source.lp}
+\rpxlisting[caption={B：完整 Target LP}]{rpx/examples/elimination/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：独立 caller request}]{rpx/examples/elimination/request.json}
+
+两个 projection 数组分别要求 $y=x_1$ 和 $x_1=y$。两个 inverse 字段要求恢复全部输入坐标，不仅是被保留坐标；它们在不同维数的可行集上仍可成立。
+
+\subsection{完整 RPA 与核验}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：完整 RPA 1 证书}]{rpx/examples/elimination/proof.rpa}
+
+Forward 的目标差与第一个 inverse 坐标差都是
+\[
+(1-x_1)-x_0=-(x_0+x_1-1).
+\]
+\code{Local:0} 是由实际 input equality 的负倍数推出的 EQ，不能替换为 \code{Exact}。Forward 有六个 obligations：两个 bounds、目标、投影、两个 inverse 坐标。Reverse 的四个 bounds 归一化依次为 $y-1,-y,-y,y-1$，分别使用 Target 的 upper、lower、lower、upper；等式行、目标、投影和一个 inverse 坐标随后都精确恒为零，共八个 obligations。
+
+复核脚本调用与示例 A 相同的 \code{canonical}、\code{assemble}、\code{verify} 命令，参数换为 \code{rpx/examples/elimination/} 的四份完整输入；独立 request 始终是该目录的 \code{request.json}。当前实际结果为两方向 \code{VERIFIED}、14 obligations。
+
+\section{示例 C：分段绝对值 mapping}
+
+\subsection{完整模型与调用者要求}
+Source 的 $x\in[-1,1]$，Target 的 $y\in[0,1]$，都没有模型行，目标都为零。Forward 取 $y=|x|$，Reverse 取 $x=y$。request 只要求双向可行性和目标相等，不要求 projection 或 inverse：$x$ 与 $-x$ 可能映到同一 $y$。
+
+\rpxlisting[caption={C：完整 Source LP}]{rpx/examples/piecewise/source.lp}
+\rpxlisting[caption={C：完整 Target LP}]{rpx/examples/piecewise/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：独立 caller request}]{rpx/examples/piecewise/request.json}
+
+\subsection{完整 RPA 与核验}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：完整 RPA 1 证书}]{rpx/examples/piecewise/proof.rpa}
+
+Forward 的 \code{Split} 两支分别假设 $x\le0$ 和 $-x\le0$，覆盖所有实数。left 的完整 Return 定义 $y=-x$，其 lower 是 assumption，upper 是 Source lower $-x-1\le0$。right 定义 $y=x$，lower 是 assumption，upper 是 Source upper。两支各自提供同一个完整三项检查清单；Split 后没有继续执行或汇合不完整 map 的代码。
+
+零点同时满足两支条件，两支给出的值都为零。当前 verifier 核验两个完整子树；此证书与 CLI 不提供 D0 中建议的独立数值解重建器或 \code{SEALED_PIECEWISE} 状态。Reverse 用 Lin 从 $-y\le0$ 推出 $-y-1\le0$，再直接证明上界和目标。当前结果为 \code{VERIFIED}、九个 obligations、一个 branch point。
+
+\section{每份示例的拒绝与资源检查}
+
+\begin{longtable}{p{0.29\textwidth}p{0.28\textwidth}p{0.35\textwidth}}
 \toprule
-变异或错误 & 错误类别 & 必须拒绝的原因 \\
+实际变异 & 当前结果 & 拒绝或中止原因 \\
 \midrule
 \endhead
-在 fact 定义前使用其 label & \code{E\_REF} & 对应机器引用为 future FactId。\\
-DROP 后引用同一 fact & \code{E\_REF} & dead fact 不得重新读取。\\
-从 sibling branch 读取局部 fact & \code{E\_REF} & 事实未提升到共同父 scope。\\
-在 LIN.LE 中给 LE 输入负 multiplier & \code{E\_PROOF} & 不符合非负 inequality 组合规则。\\
-LIN.EQ 引用 LE 或 INT & \code{E\_KIND} & 等式线性组合只接受 EQ 输入。\\
-改变 golden vector 的 output expression & \code{E\_PROOF} & 指定表达式与精确组合不相等。\\
-缺少 output variable 的 map 或 DEFER 覆盖 & \code{E\_MAP} & 静态 mapping 未完整覆盖输出变量。\\
-同一路径重复赋值 output variable & \code{E\_MAP} & mapping 不允许覆盖已有定义。\\
-删去示例 A 的任意 row CHECK & \code{E\_OBLIGATION} & RET 发现未完成的 output row。\\
-示例 B Forward 将 objective proof 换为 EXACT & \code{E\_PROOF} & 目标差是 input equality 的负值，而非恒等零。\\
-示例 C 只有一支完成 bounds & \code{E\_OBLIGATION} & obligation merge 必须对可达 branches 取交集。\\
-split.bin 缺少 case 1 & \code{E\_BRANCH} & 分支不满足规定的 exhaustive 结构。\\
-branch 在 YIELD 后含有指令 & \code{E\_BRANCH} & terminator 必须是 branch 的最后一条指令。\\
-两支 YIELD 的 proposition 不同 & \code{E\_BRANCH} & merge 不能产生共同事实。\\
-CONST scalar 的分母为零 & \code{E\_SCALAR} & 不是有理数；不能进入执行。\\
-表达式变量重复或系数为零 & \code{E\_EXPR} & wire expression 未满足 canonical 结构。\\
-header 或 section 越界、非法重叠 & \code{E\_FORMAT} & 文件结构不可安全读取。\\
-opcode 为未实现的保留扩展 & \code{E\_UNSUPPORTED} & 基础 v0.1 不能忽略未知指令。\\
-实际模型摘要与 header 不同 & \code{E\_HASH} & proof 未绑定到调用者提供的模型。\\
-文件只证明可行性，调用者要求最优等价 & \code{E\_CONTRACT} & 文件不能降低调用者要求。\\
+删掉 Forward Return 的最后一个 check；C 在 left 叶子删除 & \code{INVALID}，\code{missing_obligation} & kernel 从完整模型和 request 生成的义务没有对应证据。\\
+原证书不动，把 caller 的首个 objective 改为 \code{None} & \code{INVALID}，\code{requested_contract_mismatch} & caller request 必须完整相等，即使新 request 更弱也不能代替原要求。\\
+改变 Reverse map 第一个表达式的常数；A/C 改为 1，B 改为 0 & \code{INVALID} & A 的 Forward inverse 首先成为非恒真 Exact；B/C 的 bounds 证据表达式不匹配。\\
+全部正例不动，使用 \code{--work 0} & \code{RESOURCE_LIMIT}，退出码 3 & 共享工作预算耗尽，没有建立证书成立或不成立。\\
 \bottomrule
 \end{longtable}
 
-还应为每份成功证书建立对应的边界失败案例：非 canonical rational、最小及最大 ScalarRef immediate、64-bit offset overflow、零-length branch、过深 nesting、DROP 穿越 scope、INT threshold 的负数和 RANGE 端点相反等。资源限额触发与逻辑 REJECT 应分别报告；限额不能把未经完整验证的证书报告为 VERIFIED。
+三份示例的九次逻辑变异全部退出 2，三次预算检查全部退出 3。证明文法合法和 assemble 成功不会使错误的 map 或不完整证据成为 VERIFIED。脚本检查 process exit 与 JSON status 两者，不以日志中出现成功单词作为验收。
 
-本章示例应在实现阶段成为模型 fixtures、assembler round-trip fixtures 和 verifier acceptance fixtures。它们的意义是固定可观察语义，而非替某个内部数据结构规定测试细节。
+\section{完整 corpus：严格改进与条件最优投影}
+
+小示例不替代完整模型的实际证书。\code{cases/test36/} 的 RPA 10、两份 MCM 和独立 request 绑定真实 Source 的 37,816 个坐标与 37,617 行，以及真实 Target 的 37,616 个坐标与同样行数。令 $P$ 为全部 200 个原始非负连续 terminal 的和。完整 request 同时要求：
+\begin{enumerate}
+\item 所有 Source MI 可行点有完整 Target MI 像，目标 NonIncreasing。
+\item 所有 Target MI 可行点有完整 Source MI 恢复，目标 Equal，并保留全部 37,616 个 retained 坐标。
+\item 在 caller 明确绑定的原始半空间 $P\le0$ 内，Source 到 Target 的完整 map 目标 Equal，并保留上述全部坐标。
+\item 每个满足 $P>0$ 的 Source MI 点都有一个完整 Source MI 严格改进。
+\end{enumerate}
+
+第四项迫使任何已达到的 Source minimizer 满足 $P=0$，因为原始 bounds 保证 $P\ge0$。第三项随后适用于这个 minimizer，建立它本人的 retained projection；第二项恢复 Target minimizer。仅有第四项不能证明 retained projection，另取一个更优点可能改变这些坐标。条件 claim 的 \code{input_halfspace} 与 improvement 的 \code{positive} 都精确绑定全部 200 个 original terminal；删项、反向或换 caller request 均不能代表同一结论。
+
+条件 proof 在完整原始模型末尾追加 $P\le0$，由原始 lower bounds 和 EqPair 得到 $P=0$，再证明每个 terminal 为零；它没有用外部裁剪模型替代输入。改进 proof 分别使用 predicate margin $4850P$ 和 constant margin 858。连续 terminal 不借用整数 guard；保存的 $P=1/4850$ 可行控制点说明正 terminal 仍然可能 Source-feasible。
+
+这确立最小值保持和所有最优点的 retained projection，不确立无条件可行集投影相等、LP 等价、全可行集双射或某个指定数值最优值。完整 certificate 的 529,636 obligations 与 448,596,660 work 已复核；此前缺少条件投影的成功请求仍保存在历史目录，不能冒充当前完整要求。来源为 \code{cases/test36/PROJECTION_REVIEW.md} 和 \code{audit/TEST36_COMPLETE_REVIEW.md}。
+
+\section{完整 corpus：联合 subflow 与 point contracts}
+
+\code{cases/test58/} 的完整 Source 有 2,500 个变量、1,750 行，Target 有 607 个变量、785 行。Forward 对所有 Source MI 点给出完整 Target MI 非增目标像，Reverse 对所有 Target MI 点给出完整 Source MI 等目标恢复。两方向保持最小值并提供恢复；不要求 LP 等价或全可行集双射。
+
+其 V10 \code{SubflowLift} 同时产生 180 个节点、606 条有向弧的一个共同流，逐弧不超过给定原始流及总 demand 82，并保留所有所需节点 balance。它与 V4 FlowLift 的逐弧总流相等结论不同，也没有把独立局部流见证拼成未经检查的全局 tuple。所有 old-scope premises 先被核验，再进入同一 generated extension，最后核验完整 Target map 的全部 bounds、integer designations、rows 和 objective。联合存在性仍依赖 \code{docs/SUBFLOW_DRAFT.md} 的可信 builder 引理；完整 child obligations 不会独立证明这条引理。该实际完整请求复核为 8,448 obligations、2,029,879 work；八个保存的负例覆盖缺失 balance、越界 old-scope 引用和错误反向恢复。
+
+\begin{longtable}{p{0.20\textwidth}p{0.36\textwidth}p{0.36\textwidth}}
+\toprule
+point contract & 实际核验内容 & 可推出的结论与边界 \\
+\midrule
+\endhead
+\code{Feasible} & 选定实际模型的全部坐标、bounds、rows、所要求整数性和可选完整目标值 & 证明可行及该目标值；另有全局 lower-bound claim 才能证明最优值达到。\\
+\code{Strictness} & 先完成 full-coordinate permutation LP inclusion，再检查完整 output LP 点及其唯一对应 input 点 & 证明该 inclusion 的严格性；不能推广到部分投影。\\
+\code{FiberStrictness} & 完整 output LP 点，及固定全部 caller observations 后的完整 input LP fiber 反证 & 证明部分 coordinate/affine observation image 的严格性；不能用一个失败恢复点替代整个 fiber 的不存在性。\\
+\code{ImageExclusion}，V10 草案 & 一个完整实际 LP 点、caller 绑定的完整另一模型 affine tuple，及其实际 bound/row 违反 & 证明这个完整像被排除；不需要全局 inclusion，也不建立全局 containment 或 strict inclusion。\\
+\bottomrule
+\end{longtable}
+
+\code{cases/test71/} 同时核验整数双向 identity/inverse、Target LP 到 Source LP 的完整 inclusion、严格性点，以及 Source integer 与 Target LP 的全局 lower bound $-12$ 和达到该值的完整点。因此可报告这些精确最优值及严格 LP strengthening；整数等价并不意味着 LP 等价。完整 strictness 点每个坐标为 $1/56$，违反实际 Target 新行 $\sum x\le12$。
+
+\code{cases/test62/} 保留原有两方向整数目标保持和 V7 complete-domain bijection，再以 V10 \code{ImageExclusion} 核验 4,500-coordinate Source LP 点和全部 500 个 Target image expressions。检查到实际 Target 违反便成立；它不要求或证明 Source LP 的全局映射 inclusion。\code{cases/test18/}、\code{cases/test19/} 的完整 fiber refutations 则展示第三类 claim，定义和 fresh-scope 边界见 \code{docs/FIBER_POINT_V6.md}。
+
+\code{cases/test80/} 展示 V9 的另一个边界：在完整原始 Source 上先证明全局 lower bound $-160$ 并给出达到值的完整 integer point。Source 到 Target 方向仅在 caller-bound Source objective level $-160$ 上证明；Target 到 Source 方向在全部实际 Target integer 可行点上证明，并追加 image 属于 opposing Source level 的 equality。两个完整 map 的 affine inverse 同时被核验。得到的是所有 Source integer optimizers 与全部 Target integer 可行点的双射，不是所有 Source 可行点的双射；不是 V7 \code{bijections} counter 所统计的 paired-domain 机制。V9 与 V10 的这些实际成功请求均不冻结协议。
+
+\section{实际案例的可重复入口}
+
+上述五份完整实际 certificate 已使用当前重建 CLI 再次验证，命令和完整非压缩 reports 保存于 \code{docs/rpx/examples/corpus-verification.json}。这里的单次时钟结果仅作功能诊断，不作性能比较。已有产物可直接复核，例如：
+\begin{lstlisting}[caption={完整 test36 与 test58 的当前 verifier 入口}]
+target/release/rpx verify cases/test36/source.mcm cases/test36/target.mcm cases/test36/proof.rpx cases/test36/request.json
+target/release/rpx verify cases/test58/source.mcm cases/test58/target.mcm cases/test58/proof.rpx cases/test58/request.json
+\end{lstlisting}
+
+若要从 immutable corpus 文件重新导入、重组完整 RPA 并核对交付元数据，使用现有 delivery checker 的真实命令：
+\begin{lstlisting}[caption={完整模型与证书的交付复核}]
+python3 tools/check_delivery.py --case test36 --case test58 --case test62 --kernel target/release/rpx --out docs/.build/manual-delivery.json
+\end{lstlisting}
+
+该工具与 preparation/receipt 都是复核编排。最终接受仍由完整实际模型、独立 request 和 RPX 进入 kernel 得出。当前 81/81 完整实际案例、11 个 family 与 83 次成功调用的交付结论来自 \code{audit/FINAL_DELIVERY_REPORT.md} 及 \code{audit/acceptance.json}；不同日期的冻结 checkpoint 和历史 scope 缺失记录保留其原始含义。

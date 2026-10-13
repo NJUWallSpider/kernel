@@ -1,9 +1,9 @@
 # RPX/RPA implementation version 1
 
-This document describes the implemented safe Rust verifier. The older Chinese
-D0 manual under `docs/rpx/` is a design input, not this implementation's ABI.
-Binary version 1 and textual `RPA 1` are distinct from that unimplemented v0.1.
-No equivalence to an implementation of D0 is claimed.
+This document describes the implemented safe Rust verifier's V1 baseline.
+The [Chinese kernel manual](rpx-manual.pdf) now covers the current implementation.
+Binary version 1 and textual `RPA 1` remain distinct from the historical,
+unimplemented D0/v0.1 design; no D0 ABI compatibility is claimed.
 
 ## Mathematical objects and claims
 

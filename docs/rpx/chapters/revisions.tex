@@ -1,60 +1,103 @@
-\chapter{修订提案、开放问题与冻结检查}\label{app:revisions}
+\chapter{设计沿革、冻结范围与后续登记}
+\label{app:revisions}
 
-\section{提案登记}
-以下条目列出 D0 为使原草案可独立审阅而补充的候选规则。
-它们在相关章节中给出完整行为；本表不表示已通过审议。
-后续修改应保留编号，并记录接受、修改或撤回的决定。
+本手册以当前已实现 kernel 为对象。原 D0 是 2026 年 10 月 9 日整理的设计输入，其 \code{.rpa 0.1}、28-opcode tape、128-byte 候选 header、digest 绑定、FactId SSA 和分支汇合不是已实现格式。MCM 1、RPA/RPX 1--8 的冻结含义与 V9/V10 的工作草案状态必须分别登记；不能因为 corpus 已完成便追认 D0 ABI 或宣布所有协议冻结。
 
-\begin{longtable}{l p{110mm}}
-\toprule 编号 & 候选决定 \\\midrule\endfirsthead
-\toprule 编号 & 候选决定 \\\midrule\endhead
-P-01 & 目标统一为最小化；文件声明与调用者要求绑定；双向 EQ/LE 推出 optimum equivalence，F/G 不要求互逆。\\
-P-02 & 每支从相同父状态开始；DONE 取可达支交集；不同 mapping 可封存为 SEALED\_PIECEWISE；混合已定义/未定义立即拒绝。\\
-P-03 & FactId 按语法深度优先顺序分配，split 子支定义先于 merged outputs；不可达指令仍占 slot；DROP 仅释放当前 scope 的 live facts。\\
-P-04 & INT.AFF 允许任意有理数倍 EQ 项，同时保持整数 offset 和 INT multiplier 为整数。\\
-P-05 & CHECK 的 EXACT flag 由 kernel 验证恒真/结构整数性条件，不是 assembler 的成功声明；不分配可见 FactId。\\
-P-06 & 验证 SPLIT.SIGN 两个覆盖范围；用于解重建时，零优先选择 le 支，以定义确定性映射。\\
-P-07 & 明确 Header 偏移、ScalarPool、map 记录、全部 instruction payload、padding/count 和可选非逻辑 metadata 边界。\\
+\section{D0 提案 P-01 至 P-07 的实际处置}
+
+保留原提案编号以便追溯。以下为当前实现与原建议的对应关系，既非待表决草案，也不表示原字段编码已经发布。
+
+\begin{longtable}{p{0.09\textwidth}p{0.18\textwidth}p{0.65\textwidth}}
+\toprule
+编号 & 处置 & 已实现行为与差异 \\
+\midrule
+\endhead
+P-01 & 数学原则落地，接口重写 & 目标统一为完整 affine minimization，包括常数。caller request 独立且必须与证书完全相等；MI/LP 用独立 input/output integer booleans 表达，不是 D0 两个 profile。双向 Equal 保留 attainable objective values 与 extended infimum；双向 NonIncreasing 保持 extended infimum 和非空性。映射无需互逆；bijection/projection 是另行绑定并核验的要求。\\
+P-02 & 用完整 terminal maps 替代 & 每支从同一 parent 的 isolated fact view 开始。每个 Return 一次给出全部 output coordinates，核验全部 obligations；Split 是 terminal，没有 post-merge continuation。无 DONE 交集、DEFER、三态 map 或 SEALED\_PIECEWISE。V2 Cases 仅导出共同的已核验 proposition，不能导出独立 existential output fragments。\\
+P-03 & 不采用 D0 SSA 编号 & Local 是 mutable u32 register。定义不能覆盖 live binding；DROP 后同一 ID 可重新定义，引用立即解析。没有按语法深度优先预分配的历史 FactId slots。child 的 local writes/deletions 隔离，borrowed ancestors 与 deletion masks 保留 state invariant。\\
+P-04 & 数学闭包落地于 Lin & \code{Lin} 的 Int kind 允许有理数倍 EQ premises；constant 和 INT multipliers 必须整数。EQ=0 的项不改变整数性。启用 input integrality 才能读取 declared integer predicates。由模型 facts 的推导与 Exact 的结构整数性判定不同。\\
+P-05 & 精确简写落地，编码不同 & \code{Exact} 是 terminal/derivation witness Ref，kernel 自行检查 constant-zero EQ、constant-nonpositive LE 或有整数 domains 支持的 integral affine expression。不是 CHECK flag，不产生 local fact，也不能作为 Lin premise。\\
+P-06 & 覆盖原则落地，重建接口未发布 & Real Split/Cases 的 closed guards 为 $e\le0$ 与 $-e\le0$；integer guards 为 $e\le0$ 与 $1-e\le0$，须有匹配 INT。两个完整子树都被 decoder/verifier 检查。D0 的独立数值解应用与零点 le 优先 CLI 未实现；其建议没有成为接受规则。\\
+P-07 & 候选 wire layout 被替代 & 当前采用 16-byte common header、little-endian length/count 与嵌套 records，canonical rationals 和 complete model/claim objects。无 ScalarRef immediate、pool/directory tape 或可选 metadata section。实际 tags、version gates、reserved bytes、preflights 见第\ref{ch:format}章；原候选字节向量不能作当前 golden vector。\\
 \bottomrule
 \end{longtable}
 
-\section{开放问题}
-\begin{longtable}{l p{110mm}}
-\toprule 编号 & 冻结前或独立工具发布前的决定 \\\midrule\endfirsthead
-\toprule 编号 & 冻结前或独立工具发布前的决定 \\\midrule\endhead
-O-01 & MCM 的独立 canonical 文件序列化、SHA 覆盖范围与 schema 版本。数学接口已定义，文件 ABI 尚未定义。\\
-O-02 & MPS 输入 dialect、decimal/二进制浮点来源语义、缺省 bounds、ranges、names、目标方向与 unsupported constructs 的完整转换规则。\\
-O-03 & 面向数值解的独立 mapping 重建接口、输出格式与 metadata schema；本手册已有 guard/映射数学规则，但没有实现该工具。\\
-O-04 & Batch、theorem registry 与能力协商。基础 v0.1 一律拒绝保留 opcode；未来发布必须单独审阅。\\
-O-05 & 资源限额的默认 profile、数值错误码和可重复 benchmark 数据集。格式硬边界已固定，部署限额尚未冻结。\\
+这些处置保留目标：独立模型绑定、精确有限证书、完整双向语义、可审阅失败与资源边界。实际模型绑定依赖每个 input premise 与完整 output obligations 的语义核验，RPX 不含允许跳过模型检查的摘要。准备脚本和 manifest hash 是来源证明，不是数学公理。
+
+\section{实现版本 V1 至 V10 的能力历史}
+
+各 increment 的数学与 byte meanings 沿原文保留。表中的版本是使用相应 feature 的最低 RPX 版本；assembler 通常输出实际必要的最低版本，RPA N 标头仅允许 N 范围的 features。不是每个版本单独运行一个 verifier。
+
+\begin{longtable}{p{0.09\textwidth}p{0.14\textwidth}p{0.69\textwidth}}
+\toprule
+版本 & 协议状态 & 新增能力与边界 \\
+\midrule
+\endhead
+V1 & 已冻结 & 完整模型 affine directions；Lin/Round/Drop，完整 Return、exhaustive Split、Absurd；独立 caller claims，objective/projection/legacy affine inverse。MCM 1 精确模型与严格 JSON RPA 1。来源：\code{SEMANTICS_V1.md}、\code{FORMAT_V1.md}、\code{RPA_V1.md}。\\
+V2 & 已冻结 & EqPair 的精确 antisymmetry，local Cases 的共同 proposition derivations；保留全部 simultaneous output obligations，避免重复无关整模型分支。实际 test88 integer alias 和 test84 parity 见 \code{FORMAT_V2.md}。\\
+V3 & 已冻结 & 静态 Plotkin theorem、caller objective lower bound、完整 Feasible 和 full-permutation Strictness points。test71 核验 integer 等价、严格 LP strengthening 和精确 source-integer/target-LP 最优值。静态 theorem 无 host callback。来源：\code{FORMAT_V3.md}、\code{POINT_V3.md}。\\
+V4 & 已冻结 & Common-source joint FlowLift：所有 commodities 一起满足每个节点 balance，并保留每条弧总流及 circulation。test28 不把单独局部存在性当作 joint tuple。来源：\code{FORMAT_V4.md}、\code{FLOW_V4.md}。\\
+V5 & 已冻结 & Independent IntervalLift 与 caller affine observations；完整 old-scope premise checks 后联合生成所需连续坐标。test23 使用 signed affine observations。来源：\code{FORMAT_V5.md}、\code{INTERVAL_V5.md}。\\
+V6 & 已冻结 & FiberStrictness 和完整 point refutation payload；固定全部 caller coordinate/affine observations，在实际完整 input LP fresh scope 中反证整个 fiber。Shared-scope production integration 是表示/资源优化，非新数学 theorem。test18/test19 见 \code{FORMAT_V6.md}、\code{FIBER_POINT_V6.md}。\\
+V7 & 已冻结 & Optional MenuLift 和 explicit complete-domain bijection pairs；forward-after-reverse identities 与 paired-domain injectivity 覆盖全部坐标。test59/test60 核验整数 menu 双射与 LP observation images。来源：\code{FORMAT_V7.md}、\code{MENU_V7.md}。\\
+V8 & 已冻结 & Activated signed real decomposition，同时生成 $p,n,u,v$，证明 $p-n=F$、$u+v=Z$ 和容量 bounds。必须 integer activation，而 real flow 可以连续。来源：\code{FORMAT_V8.md}。\\
+V9 & 已实现、未冻结 & Caller-bound \code{input_objective_level} 把完整 input domain 与完整 objective equality 相交；legacy opposing inverse 要额外 image-level membership。条件 bound 不能充当 global bound；受限 claim 不偷换旧 whole-domain point/bijection 的含义。test80 与 \code{FORMAT_V9_DRAFT.md}。\\
+V10 & 已实现、未冻结 & 严格 positive-domain improvement、完整 affine ImageExclusion、joint demand-bounded SubflowLift，以及 caller-bound original-coordinate \code{input_halfspace}。追加 records 与 feature flags 独立 gating；兼容已有有效字节。实际 test36/test58/test62/test83，来源：\code{FORMAT_V10_DRAFT.md}、\code{SUBFLOW_DRAFT.md}。\\
 \bottomrule
 \end{longtable}
 
-O-01 与 O-02 阻止宣称完整文件工具链已经互通，但不阻止使用明确绑定的内存 canonical model 接口讨论和验证 RPX 语义。
-若最终发布采用该接口而不同时发布 MCM/MPS 工具，发布说明必须明确这一范围。
+V1--V8 的 checkpoint test/case counts 是历史时点的证据，不应改写成今天的总量。例：frozen V8 rebuild 是 198 tests、当时列举的 34 个实际 certificate；后来的交付 cold build 是 262 tests。两个记录各有 source/binary/lock manifest，不能用后者倒填前者。\code{docs/CURRENT_FORMAT.md} 汇总 V1--V8 并单列 V9，V10 完整草案补上其新增规则；这些文档的合并不创造新版本，也不冻结 V9/V10。
 
-\section{冻结检查点}
+当前 façade 的 \code{api.rs} 与 CLI 共用 report/status/exit handling，提供文件及 filesystem-free verification、canonicalization、assembly、inspection 和 model export。这是交付 snapshot 后的 interface 整理，未改 wire formats 或数学规则。精确差异在 \code{audit/POST_DELIVERY_CHANGES.md}；当前机器可读 \code{code}/\code{location} 为诊断，不给 proof 更多接受权。
+
+\section{D0 开放项 O-01 至 O-05 的当前状态}
+
+\begin{longtable}{p{0.09\textwidth}p{0.18\textwidth}p{0.65\textwidth}}
+\toprule
+编号 & 当前状态 & 已解决部分与保留边界 \\
+\midrule
+\endhead
+O-01 & MCM 1 已实现并冻结 & 独立 canonical model 文件、rational/name/dimension validation 与 encoder/decoder 已公开。原 SHA 覆盖范围问题不再是接受前提，因为 proof 采用全模型语义绑定。\code{export-model} 输出加载后的全部 canonical JSON，不是 alternate acceptance representation。\\
+O-02 & 已定义可信输入子集 & \code{MPS_V1.md} 与 \code{LP_V1.md} 明确 defaults、bounds/ranges、names、exact decimal、objective sense 和 unsupported constructs。全部 159 个 corpus MPS 与三个 LP 已导入；LP 与独立 Fraction parser 比对全部字段。支持这个子集不承诺所有厂商 dialect、SOS、indicator、quadratic 或 semicontinuous semantics。\\
+O-03 & 独立数值解工具未发布 & Return 与 piecewise proof 的数学 total-map 语义已核验，完整 inverse/bijection 的要求已实现。当前 CLI 没有统一 numeric solution application/export 命令；不能把 verify、disassemble 或 model export 当作该工具。新的应用接口需另定义 guards、扩展 witness 实例化与 exact output。\\
+O-04 & 有限静态扩展已实现，通用 batch 未实现 & V3--V10 通过 reviewed static constructors/checkers 扩展能力，未知 tags 与不支持的版本拒绝。无 theorem registry、动态插件、case whitelist 或 host callback。通用 expression/map DAG、dedicated batches、capability negotiation 仍待独立设计和评审。\\
+O-05 & 有明确当前政策与真实 benchmarks & 当前预算、CLI overrides、四类 verifier outcomes、固定矩阵和完整 raw evidence 已落地。默认 work 从旧 $10^8$ 提到 $10^9$ 是有记录的 resource-policy 变更，不是速度优化。严格 bit-complexity/peak-RSS 上界、全部 allocation failure 可恢复性和所有未来任务均能预算内验证没有被证明。\\
+\bottomrule
+\end{longtable}
+
+O-01/O-02 已不阻止当前工具链互通；O-03/O-04 的未来 representation/application 工具也不是当前 81 个实际任务完整验收的前提。资源政策与数学 semantics 仍需区分：预算耗尽不使完整证书成为逻辑反证。
+
+\section{V9/V10 冻结前继续保留的边界}
+
+已完成的真实模型验收和 byte/limit evidence 支持工作实现，协议发布仍需要独立明确的冻结决定。冻结登记至少核对：
 \begin{enumerate}
-\item 确认两个 profile、目标方向、offset 与调用者 policy，并证明 contract 定理的前提完整。
-\item 接受或修订 branch 事务、三态 mapping、混合定义拒绝、obligation 交集及 root false 的规则。
-\item 确认 FactId 编号、scope-local DROP、静态 YIELD 的 ExprView 与 exact proposition equality。
-\item 确认全部 28 个 opcode 的字段、长度、flags、aux、类型前提与错误条件；不存在未定义的核心 mnemonic。
-\item 确认 ScalarPool、ExprPool、Map、Header、Directory 的编码，特别是 count、padding、overflow 和 mandatory/optional 行为。
-\item 逐条审阅第\ref{ch:examples}章三个完整双向证明，使每个成功路径都有完整 mappings 和 obligations。
-\item 为 wire format 准备 Header、ScalarRef、ScalarPool、每个 opcode、nested split 与 malformed 文件的 golden vectors。
-本手册给出的若干向量是起点，不能冒充覆盖全部 opcode 的测试套件。
-\item 为接受结果、unsupported、resource limit 和 I/O failure 定义公开接口与诊断约定。
-\item 确认核心规范不借助 proof search、浮点容差或隐藏 theorem 获得接受结果。
-\item 所有接受的修订同步到示例与文档，再将草案状态改为 frozen v0.1；冻结后不改写已发布字段含义。
+\item V9 objective-level 与 V10 halfspace 原始坐标域、相交次序、生成行顺序及 opposing legacy inverse membership；受限 claim 与旧 point/bijection 的禁止组合。
+\item PositiveRefutation 的非严格 $P\le0$ 结论与旧 scope $P\ge0$ assumption、ImproveReturn 的正 margin，以及所有 positive-domain points 的完整 simultaneous self-model map。
+\item ImageExclusion 的完整 caller-bound map、完整实际 LP 点、actual bound/row violation；不得宣传为未检查的 global containment。
+\item Subflow 的 demand-bounded joint-existence 引理、每一组所有 old-scope premises、完整 generated schema 和 output tuple；builder 仍是可信 inference code。
+\item 每个新增 record 的版本 gating、flags/reserved bytes、count/remaining-payload preflights、depth/work/live limits；所有 syntactic branches 均受检查，包括可能矛盾的 branches。
+\item 既有 V1--V8 和早期 V9/V10 有效字节含义与 absent-field bytes 保持；历史 78 requests 的兼容 receipts 保留，不能以重建文本替代原字节对照。
+\item 完整 actual-case caller scope：成功提交的弱 request 与 original-report 完整要求必须分开复核，不能以模型/proof hashes 或 author scope hints 掩盖遗漏的 property。
+\item Fresh locked source build、完整 tests、immutable checkpoint、cold actual-model replay、独立 scope review 和受控成本矩阵分别有身份记录；功能成功不等于 protocol freeze 或普遍性能承诺。
 \end{enumerate}
 
-\section{修订记录}
-\begin{longtable}{l l p{86mm}}
-\toprule 日期 & 修订 & 内容 \\\midrule\endfirsthead
-\toprule 日期 & 修订 & 内容 \\\midrule\endhead
-2026-10-09 & D0 & 首次整理完整中文 LaTeX 手册；采用原始 28-opcode 核心，登记 P-01 至 P-07，提供完整双向示例和候选 wire format。\\
+最终交付已经完成 81/81 完整实际 cases、11 个 families、83 次成功 kernel calls；test46 三个独立 direction files 的 conjunction 在 delivery metadata 中明确登记，没有 cross-file facts/lemmas。原 78 个 submitted requests 也维持 byte/non-timing compatibility。这些已完成事项见 \code{audit/FINAL_DELIVERY_REPORT.md}、\code{audit/acceptance.json}、\code{audit/contract_scope_gates.json}。旧 \code{DELIVERY_ACCEPTANCE.md} 的 76/81 与个别历史 README 的 pending 文句记录此前 scope 审查，不能取代最新 final ledger。
+
+可信边界包含输入与证书解析、精确算术库、表达式与证明检查器、静态扩展 builder，
+以及编译器、运行时和操作系统。独立 oracle、数学论证、攻击测试与完整语料互为补充，
+不构成 Rust 实现的形式化证明。
+
+\section{手册修订记录与维护准则}
+
+\begin{longtable}{p{0.16\textwidth}p{0.17\textwidth}p{0.59\textwidth}}
+\toprule
+日期 & 修订 & 内容 \\
+\midrule
+\endhead
+2026-10-09 & D0 provenance & 整理原 28-opcode v0.1 候选设计、P-01--P-07、候选 wire layout 与 placeholder-hash 示例。它是设计来源，没有成为已实现 ABI。\\
+2026-10-13 & 当前实现手册 & 按 safe Rust kernel 重写模型/请求、scalar/local/theorem rules、joint maps、MCM/RPX records、严格 JSON RPA、CLI/API、预算与诊断；完整区分 frozen V1--V8 和 working V9/V10。\\
+2026-10-13 & 可执行证据 & 新增三份完整双向 LP/RPA/request，实跑三正例及回读、九次 INVALID 逻辑变异、三次 RESOURCE\_LIMIT；另复核完整 test36/test58/test62/test71/test80，保存实际产物与报告身份。\\
 \bottomrule
 \end{longtable}
 
-本文的专业排版与章节组织不构成规范已经成熟的证据。
-数学接受条件、字节级互通、失败案例和独立实现的一致性，才是下一阶段逐步审阅的对象。
+维护本手册时，先检查当前 code 的 public types、decoder/version gates 和实际 checker，再同步 request grammar、全部义务、例子与失败分类。性能优化要保存固定任务和原始数据，数学扩展要给明确规则与可信边界，冻结状态要有独立决定。更新中文手册不回写历史 checkpoint 的证据，也不从完整 corpus 的成功推导所有可能 MILP 改写都有紧凑可接受证书。

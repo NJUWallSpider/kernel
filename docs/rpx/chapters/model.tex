@@ -1,383 +1,317 @@
 \chapter{数学模型与合约}
 \label{ch:model}
 
-本章定义验证器接受的数学对象，以及一次成功验证所证明的命题。
-RPA 的含义为 \emph{Reformulation Proof Assembly}；RPX 的含义为
-\emph{Reformulation Proof eXecutable}。
-\code{.rpa} 是证明汇编源码，\code{.rpx} 是该源码的二进制证明证书。
-RPX 的执行对象是数学事实、解映射和合约义务；它不执行求解器搜索，也不修改输入模型。
+本章规定当前 kernel 的数学对象与成功验证所证明的命题。
+RPA（Reformulation Proof Assembly）是证明汇编文本，RPX（Reformulation
+Proof eXecutable）是相应的二进制证书；两者描述相同的证明对象。
+模型由 MCM 1 表示，证明格式 V1--V8 已冻结；当前源码还实现了未冻结的
+V9 目标层与 V10 条件域、严格改进、完整像排除及子流扩展。
+这些草案功能的实现状态不等于协议冻结。
 
-每个方向要证的是一组\textbf{验证义务}（obligation）：kernel 根据该方向的 output model
-和所请求合约生成这些待证检查项（见第\ref{sec:directions}节与第\ref{sec:contracts}节），
-证书必须逐条证明完毕；方向结束时仍为 \code{PENDING} 的义务以 \code{E_OBLIGATION} 拒绝。
-每条义务由对象（输出变量的某个有限界或整数性、输出行的一个 side、目标 relation）
-和所需事实类型（\code{LE}、\code{EQ} 或 \code{INT}）唯一确定，初始状态为 \code{PENDING}，
-只有该方向 tape 中匹配的 \code{CHECK} 指令成功执行时才变为 \code{DONE}。
-义务集合由 kernel 决定，证书无法选择其子集，也无法为义务自声明表达式；
-待证表达式由 kernel 在检查时用当前 mapping 代换输出模型构造。
-
-对证书而言，影响义务完成的途径只有三个：提供 mapping、提供从 input 静态事实和
-分支假设出发的推导链、以及在 \code{CHECK} 中提交事实引用。
-完成与否不取决于引用写法，而取决于提交事实的 $(\mathrm{kind},\mathrm{expression})$
-是否与 kernel 构造的待证表达式精确相等；同一义务在不同分支可以对应不同的表达式。
-分支内已完成的状态在汇合时按可达分支取交集。义务的生成规则与表达式构造见
-第\ref{ch:execution}章第\ref{sec:obligation-generation}节，\code{CHECK} 指令族见
-第\ref{ch:instructions}章，完整示例见第\ref{ch:examples}章。
-
-\section{规范范围与模型边界}
-
-v0.1 的数学域为具有有理数数据的普通混合整数线性规划（MILP）。
-本规范不直接赋予浮点数、非线性表达式、半连续变量、半整数变量、SOS、
-indicator constraint 或求解器专有对象任何语义。
-这些对象若需使用本规范，必须先转换为本章定义的 MILP，且转换本身必须有明确的可信边界。
-
-\code{MCM} 在本手册中表示 \emph{canonical mathematical model}，即规范化数学模型。
-本章规定其数学 schema；它不规定 MCM 的文件字节布局。
-\must{RPX 验证器必须针对调用者提供的、已经通过模型结构检查的规范化模型执行证明。}
-证书中的模型摘要不得替代对模型结构的检查。
-
-\paragraph{开放问题 O-01。}MCM 的文件格式、canonical serialization、SHA-256 输入字节以及
-MPS 各种方言的导入规则尚未冻结。发布可互操作的 v0.1 工具链之前，必须另行规定它们。
-在此之前，不得声称两个独立的 MCM 序列化器必然产生相同摘要。
-
-\section{精确标量}
-
-数学标量属于 $\mathbb{Q}$，并表示为
-\[
-  a=\frac{p}{q},\qquad p\in\mathbb{Z},\quad q\in\mathbb{Z}_{>0},
-  \qquad \gcd(|p|,q)=1.
-\]
-零的唯一数值表示为 $0/1$。
-负号属于分子；分母不得为零或负数。
-表达式中的有限界、系数、目标常数和指令中的乘子均使用此数域。
-
-\must{任何影响证明接受与否的运算和比较必须遵循精确有理数语义。}
-实现可以采用机器整数快路径、大整数提升和经过证明正确的数值过滤，
-但溢出、舍入或过滤不确定性不得改变数学结论。
-IEEE 浮点数近似相等和容差可行性不属于本规范。
-
-RPA 十进制和科学计数法字面量表示十进制有理数，例如
-\[
-  \text{\code{0.125}}=\frac18,\qquad
-  \text{\code{1e-6}}=\frac{1}{1000000}.
-\]
-模型导入器必须说明原始文件数字的解释方式。
-一个已经在外部系统中舍入的二进制浮点值，不能通过在证书中写出其十进制外观
-而恢复舍入前的模型。
-
-\section{规范化 MILP}
+\section{完整模型与精确数域}
 \label{sec:canonical-model}
 
-一个模型写作
+一个模型为
 \[
-  M=(V,R,f),\qquad V=(v_0,\ldots,v_{n-1}),\quad
-  R=(r_0,\ldots,r_{m-1}).
+ M=(V,R,f),\quad V=(v_0,\ldots,v_{n-1}),\quad R=(r_0,\ldots,r_{r-1}),
 \]
-变量和行的编号是从零开始的稳定整数编号。
-名称、注释、原始文件顺序以外的显示信息不参与任何数学推导。
-模型中的每个引用必须在对应的编号范围内。
+其中每个变量给出整数声明及可选上下界，每个行给出一个仿射表达式及可选上下界，
+$f$ 为完整的规范化最小化目标。变量与行分别从零编号；编号指向实际向量，名称只作元数据。
+验证器接收调用者提供的两个\textbf{完整}模型，必须检查全部结构和数值。
+RPX 没有用模型摘要、选定行集合或模型名称代替这些模型的机制。
 
-\subsection{变量}
-
-变量 $v_i$ 定义一个实数坐标 $x_i$，并包含变量类型和有效上下界：
+全部有限标量属于精确数域 $\mathbb Q$，采用
 \[
-  l_i\le x_i\le u_i,
-  \qquad l_i\in\mathbb Q\cup\{-\infty\},\quad
-  u_i\in\mathbb Q\cup\{+\infty\}.
+ q=p/d,\qquad p\in\mathbb Z,\quad d\in\mathbb Z_{>0},\quad
+ \gcd(|p|,d)=1.
 \]
-缺失的下界表示 $-\infty$，缺失的上界表示 $+\infty$。
-无穷大是缺失界的标记，不是可参与有理数运算的标量。
-每个变量的类型为以下一种：
+零的规范值为 $0/1$。分母为零、非规范分数及超过资源界的标量拒绝。
+十进制、科学计数法和分数字面量均表示精确有理数；例如
+$\code{0.125}=1/8$，$\code{1e-6}=1/1000000$。
+模型系数为有理数不意味着连续坐标也限于有理数：证明必须对实数域成立。
+\must{决定接受的加法、乘法、取整、代换及比较遵循精确算术，不使用可行性容差。}
 
-\begin{center}
-\begin{tabularx}{\textwidth}{lX}
-\toprule
-类型 & 附加数学条件 \\
-\midrule
-\code{CONTINUOUS} & 无附加整数条件，$x_i\in\mathbb R$。 \\
-\code{INTEGER} & $x_i\in\mathbb Z$。 \\
-\code{BINARY} & $x_i\in\mathbb Z$ 且 $0\le x_i\le1$。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-\must{BINARY 的隐含 $0$ 下界、$1$ 上界和整数性必须同时作为模型事实和
-输出验证义务的一部分。}
-若模型还提供额外二进制变量界，规范化阶段取交集，得到
-$l_i=\max(0,l_i^{\rm explicit})$ 和
-$u_i=\min(1,u_i^{\rm explicit})$。
-模型 schema 要求有效界满足 $l_i\le u_i$。
-本草案把违反此结构要求的模型视为无效模型；若需表示不可行模型，
-可以通过合法的行与变量条件表示其矛盾。
-
-\code{split.bin} 的前提是模型类型显式为 \code{BINARY}。
-整数变量即使声明界为 $[0,1]$，也不能自动作为该指令的操作数；
-它仍可使用整数分裂指令。
-
-\subsection{约束行}
-
-行 $r_j$ 的线性部分为
+变量 $v_i$ 表示 $x_i\in\mathbb R$，带条件
 \[
-  a_j(x)=\sum_{i\in I_j}a_{ji}x_i,
-  \qquad a_{ji}\in\mathbb Q\setminus\{0\}.
+ l_i\le x_i\le u_i,
 \]
-该行规定
+其中缺失下界或上界分别表示负无穷或正无穷。仅实际存在的界参与事实与义务。
+变量 domain 只有连续与整数两种；所谓二元变量是声明整数且具有相应有效界的变量，
+没有第三种 MCM domain 标签。行 $j$ 表示
 \[
-  L_j\le a_j(x)\le U_j,
-  \qquad L_j\in\mathbb Q\cup\{-\infty\},\quad
-  U_j\in\mathbb Q\cup\{+\infty\},\quad L_j\le U_j.
+ L_j\le a_j(x)\le U_j,
 \]
-没有有限界的行不产生可行性义务。
-当 $L_j=U_j=b_j\in\mathbb Q$ 时，该行为等式行；否则为范围行。
-单侧约束是范围行的特殊情形。
-常数行合法，并可用于表达模型不可行性。
+$a_j$ 可以带常数，可以为空支持；缺失的一侧不产生条件。
+两侧有限且相等时是等式行。行常数不必移入界。
+\must{矛盾的变量界或行界仍是合法模型数据，表示可能为空的可行域；验证器不得修复或删除它们。}
 
-行的常数项统一移入界。
-例如 $2x+3\le7$ 的模型行可表示为 $2x\le4$。
-RPX fact 的表达式则保留常数项，不再单独存储右端项。
-模型行和目标函数的非零系数列表同样必须按变量编号严格升序，
-合并重复变量并删除零项；其有限标量遵循规范化有理数规则。
-
-\subsection{目标函数}
-
-规范化目标函数为
+目标为
 \[
-  f_M(x)=c_M+\sum_i d_{Mi}x_i,
-  \qquad c_M,d_{Mi}\in\mathbb Q,
+ f_M(x)=c_M+\sum_i d_{Mi}x_i.
 \]
-且目标方向统一为最小化。
-原始最小化目标保持原值，原始最大化目标整体乘以 $-1$，包括目标常数。
-原始方向和展示名称可以保留为外部元数据。
+导入最大化模型时，整个目标连同常数取负。目标常数进入目标比较、目标层和点检查。
+MPS 与 LP 导入属于可信转换边界；不支持的原始文件构造应在导入时拒绝，
+不能在证明中赋予其未定义的含义。
 
-\proposal{P-01}{v0.1 统一使用最小化目标，并要求调用者明确要求的方向、
-合约 profile 和 objective relation。证书声明必须与调用者请求一致；
-不得由证书自行降低目标关系或省略一个请求的方向。}
+模型名称、变量名称和行名称必须非空、为 ASCII、无控制字节且不超过 1024 字节。
+变量名称在变量向量内唯一，行名称在行向量内唯一；两个命名空间独立。
+名称的唯一性是结构条件，名称本身不授予任何数学事实。
 
-这意味着目标偏移是证明的一部分。
-删除或修改 $c_M$ 会改变目标关系，即使所有变量系数保持相同。
-对于原始最大化问题，\code{LE} 关系在规范化目标上表示不增加，
-在原始目标上对应不降低。
-
-\subsection{可行域与扩展最优值}
-
-模型的可行域定义为
-\[
-  \mathcal F(M)=
-  \{x\in\mathbb R^n: \text{所有变量 domain 和所有约束行成立}\}.
-\]
-规范化最优值定义为扩展实数
-\[
-  \operatorname{val}(M)=\inf_{x\in\mathcal F(M)} f_M(x)
-  \in\mathbb R\cup\{-\infty,+\infty\},
-\]
-其中 $\inf\varnothing=+\infty$。
-非空可行域上的目标无下界时，最优值为 $-\infty$。
-本定义不要求最优解存在。
-
-\section{规范化仿射表达式}
+\section{规范仿射表达式与事实}
 \label{sec:canonical-affine}
 
-仿射表达式写作
+表达式为
 \[
-  e(x)=c+\sum_{k=0}^{t-1}a_kx_{i_k}.
+ e(x)=c+\sum_{k=0}^{t-1}a_kx_{i_k},\quad
+ 0\le i_0<\cdots<i_{t-1}<n,\quad a_k\ne0.
 \]
-其规范形式满足：
-\begin{enumerate}
-  \item $0\le i_0<i_1<\cdots<i_{t-1}<n$；
-  \item 每个 $a_k$ 为非零的规范化有理数；
-  \item 常数 $c$ 为规范化有理数；
-  \item 同变量项已经合并，零系数项已经删除。
-\end{enumerate}
-空 term 列表表示常数表达式；常数为零时表示零表达式。
-forward 和 reverse 各有独立的表达式池；池由有限个 entry 组成，每个 entry 承载一个上述规范形式的表达式，由 \code{ExprId} 标识，变量编号均指向该方向的 input model（编码见第\ref{ch:format}章）。
+常数与系数为规范有理数。空支持表示常数表达式。
+序列必须已经严格有序、无重复、无零系数；二进制解码与证明验证不会隐式修复输入表达式。
+内部算术可合并同坐标并消去零项，所得结果仍须规范且满足资源界。
+表达式直接作为记录出现，没有 ExprId 池、隐式变量名或映射寄存器。
+原始 claim 的表达式只能使用原始模型坐标；局部证明表达式可使用当前扩展模型坐标。
 
-两个规范化表达式的相等是常数及各变量系数的精确数值相等。
-不同 \code{ExprId} 可以指向数值相同的表达式。
-不同 \code{ScalarRef} 也可能解码为同一个有理数。
-\must{未经验证的编号相等、对象地址相等或散列值相等不得替代精确表达式比较。}
-实现可以在经过验证的 interning 或精确比较结果上建立缓存。
+两个表达式相等是常数与全部坐标系数的精确相等。
+逻辑上等价的 $e\le0$ 与 $2e\le0$ 不自动成为同一 proposition。
+哈希只可帮助查找，不能代替精确表达式比较。
 
-规范化不包含按比例约简、改符号或寻找逻辑等价命题。
-例如 $\mathrm{LE}(x-1)$ 与 $\mathrm{LE}(2x-2)$ 是等价不等式，
-但在本 ISA 中是不同 proposition。
-$\mathrm{EQ}(e)$ 与 $\mathrm{EQ}(-e)$ 同理。
-若指令需要特定表达式，证明必须通过显式线性组合得到该表达式。
-
-\section{事实类型}
+\subsection{三种事实}
 \label{sec:fact-kinds}
 
-事实（fact）由类型、表达式和有效作用域组成：
-\[
-  \mathrm{Fact}=(\mathrm{kind},\mathrm{expr},\mathrm{scope}).
-\]
-核心类型如下。
-
 \begin{center}
-\begin{tabularx}{\textwidth}{llX}
+\begin{tabularx}{\textwidth}{lY}
 \toprule
-类型 & 数学含义 & 示例 \\
+类型 & 数学意义 \\
 \midrule
-\code{LE} & $e(x)\le0$ & $\mathrm{LE}(3x_4-2x_9-7)$。 \\
-\code{EQ} & $e(x)=0$ & $\mathrm{EQ}(x_3+x_7-1)$。 \\
-\code{INT} & $e(x)\in\mathbb Z$ & $\mathrm{INT}(2x_3-x_8+5)$。 \\
+\code{Le} & $e(x)\le0$，记为 $\mathrm{LE}(e)$。\\
+\code{Eq} & $e(x)=0$，记为 $\mathrm{EQ}(e)$。\\
+\code{Int} & $e(x)\in\mathbb Z$，记为 $\mathrm{INT}(e)$。\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-fact 的 proposition 是二元组 $(\mathrm{kind},\mathrm{expr})$。
-scope 限定该 proposition 在哪些分支条件下成立，但不参与 branch yield 的命题相等比较。
-一个 fact 不携带独立 RHS、浮点容差、求解器 basis 或可执行代码。
+事实在产生时具有作用域：当前模型、当前路径假设以及活跃局部定义共同决定其有效域。
+一个经过检查的 $\mathrm{EQ}(e)$ 可以在\emph{目标命题检查}处证明同表达式的
+$\mathrm{LE}(e)$ 或 $\mathrm{INT}(e)$，因为零是不正整数。
+这不改变各条指令的原始前提种类要求；例如 Round 仍须一个 Le 和一个 Int。
+证明语言不含一般严格不等式事实；V10 的严格域由独立改进合约保存。
 
-\section{输入模型的静态事实}
+\subsection{模型事实}
 \label{sec:static-model-facts}
 
-以下引用直接从当前方向的 input model 获得事实，无需 \code{LOAD} 指令。
-这里 $a_j$ 为行线性部分，$x_i$ 为输入变量。
+当前输入模型的静态引用按下式生成：
+\[
+\begin{array}{ll}
+ \code{VarLower}(i):&\mathrm{LE}(l_i-x_i),\\
+ \code{VarUpper}(i):&\mathrm{LE}(x_i-u_i),\\
+ \code{VarInt}(i):&\mathrm{INT}(x_i),\\
+ \code{RowLower}(j):&\mathrm{LE}(L_j-a_j(x)),\\
+ \code{RowUpper}(j):&\mathrm{LE}(a_j(x)-U_j),\\
+ \code{RowEq}(j):&\mathrm{EQ}(a_j(x)-L_j).
+\end{array}
+\]
+界引用要求相应有限界存在；RowEq 要求两侧有限且相等。
+VarInt 要求变量声明整数并且当前 input integer mode 开启。
+引用无效编号、缺失界或不满足这些条件时拒绝。
+当前模型包括已合法加入的条件行和 lift 子体中的扩展行；新行的权威来自相应可信规则，
+不能在规则自己的前提证明中使用。
 
-\begin{center}
-\begin{tabularx}{\textwidth}{l l X}
-\toprule
-RPA 引用 & FactKind & 表达式与前提 \\
-\midrule
-\code{@in.r[j].hi} & \code{LE} & $a_j(x)-U_j$；要求有限上界。 \\
-\code{@in.r[j].lo} & \code{LE} & $-a_j(x)+L_j$；要求有限下界。 \\
-\code{@in.r[j].eq} & \code{EQ} & $a_j(x)-b_j$；要求等式行 $L_j=U_j=b_j$。 \\
-\code{@in.v[i].hi} & \code{LE} & $x_i-u_i$；要求有限有效上界。 \\
-\code{@in.v[i].lo} & \code{LE} & $-x_i+l_i$；要求有限有效下界。 \\
-\code{@in.v[i].int} & \code{INT} & $x_i$；要求 \code{INTEGER} 或 \code{BINARY}。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-等式行仍具有有限 hi 和 lo 事实；输出 obligation 则按等式行规则生成一个 EQ 义务。
-连续变量不能提供 \code{.int} 事实，即使其有限上下界相同。
-引用不存在的有限 side、错误类型的模型实体或越界编号必须拒绝。
-所有静态模型事实在该方向的任意 scope 中有效。
-分支假设 \code{@case} 属于另一类静态引用，见第\ref{ch:execution}章。
-
-\section{两个执行方向}
+\section{方向 claim 与调用者绑定}
 \label{sec:directions}
-
-一次 reformulation 验证绑定两个模型 $M_S$ 和 $M_T$。
-每个启用的方向执行独立证明：
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lllX}
-\toprule
-方向 & Input & Output & 要证明的解映射 \\
-\midrule
-\code{FORWARD} & $M_S$ & $M_T$ & $F:\mathcal F(M_S)\to\mathcal F(M_T)$。 \\
-\code{REVERSE} & $M_T$ & $M_S$ & $G:\mathcal F(M_T)\to\mathcal F(M_S)$。 \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-fact register、表达式池、mapping、scope 栈和 obligation bitmap 均为 direction-local。
-反向执行不得引用正向 fact 或依赖正向 mapping。
-两方向共享证书的标量池和绑定的模型，但不共享证明状态。
-
-一个方向的 mapping 必须在其每个可行输入上为每个输出变量提供唯一选定的值。
-mapping 可以是单个仿射映射，也可以由有限的结构化分支表示。
-验证器证明每个可达分支的输出都满足 output model；它不需要在验证时构造实际可行点。
-重叠分支的结果可以不同，只要分别满足全部要求。
-若需要输出可执行的点变换，必须同时规定确定的分支选择规则。
-
-\section{目标关系与合约 profile}
 \label{sec:contracts}
 
-对一个方向，设 input model 为 $M_I$、output model 为 $M_O$、mapping 为 $E$。
-目标差为
+令 $S$、$T$ 为完整 source、target 模型。
+每个 Claim 各自选择方向、输入/输出整数模式和附加关系：
+\code{reverse=false} 表示 $S\to T$，为 true 表示 $T\to S$。
+记该方向的实际输入输出模型为 $I,O$。
+整数模式开启时保留模型全部整数声明；LP 模式只去掉整数条件，保留全部界和行。
+定义相应可行域
 \[
-  D_E(x)=f_{M_O}(E(x))-f_{M_I}(x).
+ \mathcal F_b(M)=\{x\in\mathbb R^{n_M}:\text{全部界和行成立，若 }b
+ \text{ 则全部声明整数坐标属于 }\mathbb Z\}.
 \]
-每个方向选择一种 objective relation：
 
+调用者独立提供 Request；其中有序 claim、点合约、双射合约和改进合约，
+必须逐项、逐字段等于证书中相应声明，不能由证书削弱。
+每个方向恰有一个同序根 Block。空 Request 拒绝；只有双射数组而没有其方向也不能形成有效请求。
+旧式 Claim 数组请求不包含点、双射或改进。
+
+\subsection{总构造与目标关系}
+
+一个方向证明
+\[
+ \forall x\in D_I\quad\exists y\in\mathcal F_{b_O}(O):\quad
+ \text{请求的全部附加关系成立},
+\]
+$D_I$ 默认是 $\mathcal F_{b_I}(I)$，条件域见下节。
+Return 给出一个完整仿射输出向量；Split 可以让不同分支使用不同向量，
+lift 可以先共同选取辅助坐标，再由子体构造输出。
+任何情况下，每个叶子的全部输出条件必须由\textbf{同一个}输出向量满足。
+观察集合为空也不允许省略输出变量、输出行或整数条件。
+
+目标关系为以下三种：
 \begin{center}
-\begin{tabularx}{\textwidth}{l l X}
+\begin{tabularx}{\textwidth}{lY}
 \toprule
-关系 & 要求 & 验证义务 \\
-\midrule
-\code{NONE} & 无目标关系要求 & 不生成 objective obligation。 \\
-\code{EQ} & $D_E(x)=0$ & 一个目标 EQ obligation。 \\
-\code{LE} & $D_E(x)\le0$ & 一个目标 LE obligation。 \\
+\code{None} & 不请求目标关系。\\
+\code{Equal} & $f_O(y)-f_I(x)=0$。\\
+\code{NonIncreasing} & $f_O(y)-f_I(x)\le0$。\\
 \bottomrule
 \end{tabularx}
 \end{center}
+\code{input_objective_lower}=L 另请求 $L-f_I(x)\le0$。
+它在默认域上是全局下界，在受限域上仅是条件下界。
+方向不可行时命题可以为空真；这些字段本身不保证非空或最优值达到。
 
-目标关系只在 input model 的可行域上要求成立。
-不论 relation 为何，每个启用方向都必须完成全部 output mapping、变量 domain
-和行可行性义务。
-\code{NONE} 不允许略过模型可行性检查。
+定义 $\operatorname{val}_b(M)=\inf_{x\in\mathcal F_b(M)}f_M(x)$，
+$\inf\varnothing=+\infty$，允许 $-\infty$ 和不达到的下确界。
+无条件 NonIncreasing 方向给出
+$\operatorname{val}_{b_O}(O)\le\operatorname{val}_{b_I}(I)$；
+两个模式兼容的相反方向若均不增，则给出扩展最优值相等。
+两个相反的总可行构造给出可行性等价。
+以上推论不适用于随意把受限域称为整个模型。
 
-\subsection{方向性命题（资料性）}
+\subsection{坐标与仿射观察}
 
-数学上可以只要求一个独立方向。
-例如一个 forward 证明意味着每个 source 可行点都有满足指定目标关系的 target 可行点。
-它不能单独声称两个模型可行性或最优值等价。
-本草案基础格式不编码这种单方向合约；它是未来扩展可采用的数学命题。
-当前合法 RPX 必须同时启用两个方向，并选择下面两个等价 profile 中的恰好一个。
+\code{projection} 为有序 $(i,o)$ 对，要求 $y_o=x_i$。
+每个编号在对应原始模型中有效，同一对不得重复；不同对可共享输入或输出坐标。
+\code{affine_projection} 为有序 $(p,q)$ 对，要求 $q(y)=p(x)$。
+其两侧分别在原始输入/输出维度验证。
+这些关系表达调用者选择的观察值保留；不要求观察覆盖整个模型，也不自行声明集合相等。
 
-\subsection{可行性等价}
+\subsection{仿射 inverse}
 
-\code{feasibility-equivalent} profile 要求 forward 和 reverse 同时启用。
-objective relation 可以分别为 \code{NONE}、\code{EQ} 或 \code{LE}。
-成功验证证明
+\code{inverse}=j 选择另一条相反且输入输出模式互换兼容的 claim。
+当前和第 $j$ 条根端点均须为普通 Return，完整根映射分别记为 $F,G$。
+当前方向要额外证明每个原始输入坐标的
 \[
-  \mathcal F(M_S)=\varnothing
-  \quad\Longleftrightarrow\quad
-  \mathcal F(M_T)=\varnothing.
+ G_i(F(x))-x_i=0.
 \]
-它还证明所给的两个可行解转换存在；这不意味着两个不同维度可行域逐点相同。
-若两个方向均选择 \code{NONE}，不声称目标值等价。
+它不自动证明另一侧组合 $F(G(y))=y$；该方向须另有请求。
+如果第 $j$ 条输入域限定目标层 $L$，当前 Return 还必须证明
+$f_O(F(x))=L$，以保证组合进入 $G$ 的已证域。
+V10 暂不支持当前或被引用 claim 带 halfspace 的 legacy inverse；遇到即拒绝。
 
-\subsection{最优值等价}
+\subsection{目标层与仿射半空间：未冻结 V9/V10}
 
-\code{opt-equivalent} profile 要求 forward 和 reverse 同时启用，
-且每个方向的 objective relation 必须为 \code{EQ} 或 \code{LE}。
-由两个方向分别得到
+\code{input_objective_level}=L 将该方向域改为
+$f_I(x)=L$ 的截面；\code{input_halfspace}=H 再要求 $H(x)\le0$。
+两者可同时存在：
 \[
-  f_T(F(x))\le f_S(x),\qquad
-  f_S(G(y))\le f_T(y),
+ D_I=\mathcal F_{b_I}(I)\cap\{f_I=L\text{，若请求}\}
+       \cap\{H\le0\text{，若请求}\}.
 \]
-其中 EQ 是 LE 的特殊情形。
-对两个不等式分别取下确界，得到
+$H$ 只能使用原始输入坐标。这些限制由调用者声明并逐字段绑定，
+不证明 $H$ 在全域有效、$L$ 为最优值或该截面非空。
+构造保留完整原始模型，在原始 $r$ 行后先加入目标等式（若有），再加入半空间上界行（若有）。
+因此目标等式为 RowEq($r$)，半空间为 RowUpper($r$) 或 RowUpper($r+1$)；
+半空间没有下界，不能直接用 RowEq 把 $H\le0$ 变成 $H=0$。
+每条 claim 从自己的原始模型重新建立限制，不向其他方向或改进块传播。
+
+\section{点合约：存在性与分离}
+\label{sec:point-contracts}
+
+PointWitness 提供所选完整模型的全部有理坐标；每个数值和表达式均精确检查。
+点是补充合约，不替代方向证明。所有方向先验完毕，再处理点。
+
+\paragraph{Feasible。}选择 source 或 target、LP 或整数模式，以及可选目标值 $v$。
+验收证明该完整点属于所选实际模型，若请求 $v$ 则其完整目标恰为 $v$。
+它不继承任何方向的条件域。全局下界与同值可行点可一起证明最优值达到，
+但仅有 Feasible 不证明最优性。
+
+\paragraph{Strictness。}引用一条已证明的无条件 LP-to-LP 包含方向。
+两侧维度必须相同，其坐标 projection 恰为完整坐标置换。
+提供的点 $y$ 必须输出 LP 可行；按该置换反构的 $x$ 必须违反输入的实际界或行。
+这在置换识别的坐标空间中证明真包含；整数性违反不能作 LP 分离。
+附加 refutation 拒绝。
+
+\paragraph{FiberStrictness。}引用一条无条件 LP-to-LP 方向，可用部分坐标和仿射观察。
+完整输出可行点 $y$ 固定全部观察，输入 fiber 为
 \[
-  \boxed{\operatorname{val}(M_S)=\operatorname{val}(M_T)}.
+ \{x\in\mathcal F_0(I): x_i=y_o\ ((i,o)\in\mathrm{projection}),\quad
+ p(x)=q(y)\ ((p,q)\in\mathrm{affine\_projection})\}.
 \]
-该结论适用于空可行域和目标无下界的情形。
-映射同时保证两个可行域非空性一致，因而不会把不可行性与目标无下界混淆。
-若两者具有有限最优值，任一侧的最优可行点通过相应映射成为另一侧的最优可行点。
+证书必须在这个完整 fiber 模型上提供独立的 LP 矛盾证明。
+原始输入行后先加坐标等式，再加仿射等式，顺序均与请求一致；
+不得只检查选定输入坐标或猜选一个补全。
+反证从新局部状态开始，只允许 Split/Absurd 端点；整数声明不激活，lift 不可用。
+因此证明观察像的真包含。
+观察为空时仍须反证整个输入 LP，不能把空观察当成免费分离。
+Strictness 与 FiberStrictness 均拒绝目标层或半空间受限的包含 claim。
 
-\must{最优值等价不要求 $G\circ F$ 或 $F\circ G$ 为恒等映射。}
-变量删除、冗余变量引入和支配关系变换通常没有双射解映射。
-\code{opt-equivalent} 也不保证每个次优解的目标值完全保持不变；
-该更强要求应明确选择两个方向的 \code{EQ}。
+\paragraph{ImageExclusion：未冻结 V10。}调用者提供完整仿射 map 和点所在一侧。
+map 恰有对侧每个坐标的表达式，且只用点所在原始模型坐标。
+验收证明一个完整 LP 可行点的\emph{这个指定完整像}不属于对侧 LP。
+先完整验证 map，再精确计算所有像坐标，最终要求实际界或行违反。
+两侧均松弛整数性，分数坐标本身不足以排除。
+它不请求包含索引，不证明全局包含、真包含或部分映射的所有补全都不可行。
+Feasible 与 ImageExclusion 也不允许附加 refutation。
 
-\subsection{合约标志的约束}
+\section{完整域双射合约}
+\label{sec:bijection-contracts}
 
-二进制 contract flags 的字段布局见二进制格式章。
-本章规定它们的语义有效性：
-\begin{enumerate}
-  \item forward 和 reverse 都必须启用；
-  \item 两个等价 profile 必须恰好声明一个，不得同时声明或同时省略；
-  \item optimum profile 要求两个方向的 objective relation 均非 \code{NONE}；
-  \item reserved relation 和 reserved flag 位必须为零，或按格式章规定拒绝。
-\end{enumerate}
-调用者请求与证书声明不一致属于 \code{E_CONTRACT}，
-不允许通过读取证书后自动调整请求来消除该错误。
+V7 的 BijectionClaim 绑定两个有序方向索引 $(a,b)$，称为 forward 和 reverse。
+这里名称只表示角色，forward 的实际 \code{reverse} 位仍可为 true。
+索引须有效、彼此不同，同一有序对不得重复；方向必须相反且模式互换兼容。
+两条 claim 均须无目标层和半空间限制。
+forward 根端点须为普通 Return，其实际完整仿射映射记为 $F:A\to B$。
+reverse 可分支或扩展，但每个 Return 必须证明全部
+\[
+ F_j(G(y))-y_j=0\qquad(j=0,\ldots,n_B-1).
+\]
+这给出 $F$ 的满射性。它们与 reverse 本身完整输出义务同时检查，
+不能以菜单局部唯一性或少量观察代替。
 
-\section{摘要绑定与接受结果的含义}
+另有独立 EqualityProof 证明 $F$ 的单射性。
+kernel 建立两份完整 $A$，坐标依次为 $x,x'$，保留各自全部界、行和原整数声明，
+以原 forward input mode 检查两份 domain，再加每个 $F_j(x)-F_j(x')=0$。
+合成模型目标为零；同一映射的常数在差中抵消。
+证明从新状态开始，必须依原坐标顺序证明全部 $x_i-x'_i=0$。
+无观察到的连续辅助坐标也不得省略。两个总方向、上述满射组合与单射证明一起
+建立该\emph{实际完整域映射}的双射，空域也遵循同一定义。
+这与单条 legacy inverse 的单侧组合是不同合约。
 
-RPX header 包含 source 和 target 的 SHA-256 摘要。
-验证器必须比较它们与调用者提供的两个 canonical model 的摘要；
-方向交换不能交换 header 的 source/target 字段含义。
-模型摘要不匹配必须拒绝为 \code{E_HASH}。
+\section{严格改进合约：未冻结 V10}
+\label{sec:improvement-contracts}
 
-摘要只有在明确的 canonical serialization 约定下才有可互操作意义。
-调用者、MCM 导入器和验证器必须采用同一约定，并明确哪些外部导入步骤属于可信计算基。
-RPX 成功证明的是绑定后两个数学模型之间的合约。
-它不自动证明外部 MPS 文件与 MCM 完全一致，也不证明模型名、原始浮点缓冲区
-或求解器中隐藏的数据与已绑定模型相同。
+ImprovementClaim 选择一个完整实际模型 $M$、整数模式 $b$ 及原始坐标表达式 $P$。
+验收命题为
+\[
+ \forall x\in\mathcal F_b(M),\ P(x)>0\quad
+ \exists y\in\mathcal F_b(M): f_M(y)<f_M(x).
+\]
+没有隐含目标层限制。各 ImprovementWitness 与 Request 同序同值，使用新局部状态；
+根假设 0 为弱事实 $\mathrm{LE}(-P)$，严格部分由不可变根合约另行保存。
 
-完整接受结果应至少报告：绑定的两个摘要、合约 profile、启用方向和各方向的目标关系。
-只有所有启用方向成功，整个 RPX 才能报告 \code{VERIFIED}。
+ImproveReturn 必须给出\emph{同一个实际模型}的完整输出向量，并证明其全部可行性义务及
+\[
+ \mathrm{LE}\bigl(f_M(y)-f_M(x)+h(x)\bigr).
+\]
+\code{Constant}(q) 给出 $h=q$，\code{Predicate}(q) 给出 $h=qP$；两者都要求精确 $q>0$。
+后者适用于 $P>0$ 没有统一正下界的情形。严格域保证 $h>0$，从而得到严格下降。
+普通 Return 在改进块中拒绝；PositiveRefutation 只在改进块中可用，
+其精确义务为 $\mathrm{LE}(P)$，与根的 $P>0$ 矛盾。
+它不证明弱闭包 $P\ge0$ 不可行，也不能在局部 Cases 中代替普通事实证明。
+
+该命题允许空域、无界目标和不达到的下确界。
+它推出每个\emph{已达到}的最小点满足 $P\le0$，不推出最小点存在或最优值。
+条件方向 $P\le0$ 与严格改进可以共同覆盖所有已达到最小点；
+欲得 source/target 的最优关系仍需另行完整证明目标和恢复方向，不能把某一请求独自改名为复合结论。
+
+\section{共同扩展的逻辑边界}
+\label{sec:joint-extension-contract}
+
+各 lift 的核心是可信存在命题
+\[
+ M(x)\land\text{路径假设}\land\text{已验前提}
+ \ \Longrightarrow\ \exists z\ E(x,z).
+\]
+它保留旧模型与目标，仅向当前子体加入新坐标、界和行。
+每项前提都在\emph{同一个扩展前作用域}证明，所有项目的选择同时存在。
+子体必须再对一个共同输出向量证明整个实际输出模型与合约；
+不能用每条行各自不同的存在选择拼出可行性。
+具体数学前提、生成顺序与构造论证见第\ref{ch:instructions}章。
+
+这些规则是可信推理代码，不是动态定理注册、求解器回调或外部插件。
+成功检查前提、验证生成模型结构及运行子体，均不独立证明扩展引理或 Rust builder 正确。
+数学论证、独立构造 oracle 和攻击测试是不同证据，不能宣称它们构成实现的形式化证明。

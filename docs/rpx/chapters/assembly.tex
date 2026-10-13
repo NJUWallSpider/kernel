@@ -1,480 +1,388 @@
-\chapter{RPA 文本汇编与工具链}
-\label{ch:assembly}
+\chapter{RPA 文本汇编与工具链}\label{ch:assembly}
 
-RPA（Reformulation Proof Assembly）是 RPX 的文本表示。文本层承担符号解析、精确数值解析、表达式展开和二进制编码；证书是否成立仍由 RPX verifier 判定。本章定义用于人工编写、生成器输出和反汇编的基础语法，不赋予 assembler 任何独立的证明权力。
+RPA 是 RPX certificate 的 strict JSON 文本表示。当前 assembler 解析结构和精确 scalars、
+核对最低 feature version 并调用 binary encoder；它不执行 proof search，不生成缺失 obligations，
+也不拥有独立于 verifier 的证明权力。成功的 \code{ASSEMBLED} 只说明证书可编码。
+本章给出可直接编写生成器的 schema；二进制逐字段布局见第\ref{ch:format}章。
 
-本章中的命令行和工具名称是 v0.1 工具接口草案。它们描述计划交付的行为，不表示当前仓库已经实现这些程序。MCM 的二进制编码和完整 MPS 导入覆盖范围尚待单独冻结。
+\section{精确 header 与 JSON 词法}
 
-\section{文件结构}
+文件采用 UTF-8，必须以精确 ASCII bytes \code{RPA N} 后接一个 LF 开始，
+其中 N 为十进制的 1、2、3、4、5、6、7、8、9、10 之一。
+header 前不能有 BOM、空行或 whitespace；N 不能有前导零，
+header 不能使用 CRLF、额外空格、注释或 minor version。
+header 后的 body 是一个完整 JSON Certificate object；JSON 自身允许正常空白与换行，
+包括 CRLF。body 后可以有 JSON whitespace，不能有第二个顶层值。
 
-\subsection{编码与词法约定}
+body 不接受 comments、trailing commas、unknown fields、unknown enum variants
+或重复已声明 record fields。名称和 variant 拼写区分大小写。
+没有旧 D0 的 \code{.source}、\code{.contract}、\code{.expr}、\code{\%fact}、
+mnemonic instructions、symbol labels、includes、macro、ScalarPool 或 ExprId。
 
-RPA 文件采用 UTF-8 编码，不含 BOM。语言关键字、标识符和操作数字符使用 ASCII；注释可以使用 UTF-8。关键字区分大小写，规范输出采用本章给出的小写拼写。空格和制表符是 token 分隔符；行结束可以是 LF 或 CRLF。assembler 在词法处理时将 CRLF 视为 LF。
+所有数学数值写成 JSON string，例如 \code{"1/3"}，不能写成 JSON number 0.3333。
+coordinate IDs、Local IDs、claim indices、node IDs、bits、distance 和 maximum index
+都是无符号 JSON integers，在 u32 范围；Plotkin label 是 u64。
+不能加引号，不能用负数或浮点形式表示 ID。boolean 必须为 \code{true} 或 \code{false}，
+不是 0/1 字节。
 
-\code{;} 引入行注释，注释持续到该行结束。基础语法不支持块注释、宏、条件汇编、文件包含或用户定义伪指令。分号不是语句分隔符。除花括号中的列表外，一条语句必须在同一物理行结束；列表允许跨行。文件末尾可以省略最终换行。
-
-标识符由字母或下划线起始，随后可以包含字母、数字和下划线。Fact 和 expression 标签另外允许全数字名称。这里的数字名称仍然是\emph{符号名称}，不是用户指定的二进制 ID。例如作者写的 \code{\%99} 可以被分配为第一个 derived FactId；规范反汇编则写成 \code{\%0}。同一 execution domain 内，同类标签不得重复定义。两个 domain 的标签命名空间独立。
-
-源码中的变量、行和静态事实索引必须是非负十进制整数。前导零允许被 assembler 接受，规范输出必须删除前导零。引用索引必须满足对应模型或 FactRef 编码的取值范围；表达式不得引用输出变量。
-
-\subsection{顶层声明}
-
-一个基础 v0.1 文件包含版本、两个模型摘要、contract 和两个 execution domain。\code{.forward} 和 \code{.reverse} 各出现一次，并按此顺序排列。每个 domain 恰好包含一个 \code{.map} 区域和一个 \code{.code} 区域；所有 \code{.expr} 声明位于 \code{.map} 之前。
-
-\begin{lstlisting}[caption={RPA 文件结构；尖括号表示说明性占位符}]
-.rpa 0.1
-.source sha256 "<64 hexadecimal digits>"
-.target sha256 "<64 hexadecimal digits>"
-.contract mip=opt-equivalent
-.contract forward.obj=eq
-.contract reverse.obj=eq
-
-.forward
-.expr $name = <affine expression>
-.map
-    <static mapping declarations>
-.endmap
-.code
-    <proof instructions>
-    ret
-.endcode
-
-.reverse
-.expr $other = <affine expression>
-.map
-    <static mapping declarations>
-.endmap
-.code
-    <proof instructions>
-    ret
-.endcode
+\begin{lstlisting}
+RPA 10
+{"claims":[],"blocks":[],"points":[],"bijections":[],
+ "improvements":[]}
 \end{lstlisting}
+这是可解析的空 certificate 示例，不是可通过空 Request 的数学证明。
+RPA header 只给出允许的能力上限；实际使用功能不能超过 N。
+例如 RPA 1 body 内出现 Cases，即使该 branch 不可行也拒绝；
+RPA 10 body 只有 V1 records，装配时会输出 RPX 1。
+V1--V8 是冻结协议，V9/V10 是工作草案；写 header 10 不改变其冻结状态。
 
-\code{.source} 和 \code{.target} 的字符串必须各包含恰好 64 个十六进制数字。输入可以使用大小写字母，规范输出使用小写。摘要是相应 canonical model 的 SHA-256，不是原始 MPS 文本的摘要。hash 字符串不支持转义或空白。
+\section{精确 scalar 字符串}
 
-\begin{longtable}{p{0.32\textwidth}p{0.60\textwidth}}
-\toprule
-声明 & 基础 v0.1 取值与约束 \\
-\midrule
-\endhead
-\code{.rpa 0.1} & 必须为第一条非注释语句；一个文件只出现一次。\\
-\code{.contract mip=opt-equivalent} & 要求双向可行映射与双向目标关系；每个方向的目标关系必须为 \code{eq} 或 \code{le}。\\
-\code{.contract mip=feasibility-equivalent} & 要求双向可行映射；允许 \code{none}、\code{eq} 或 \code{le}。指定 EQ/LE 时还必须完成对应目标义务。\\
-\code{.contract forward.obj=eq} & Forward 的归一化目标差要求等于零。\\
-\code{.contract forward.obj=le} & Forward 的归一化目标差要求不大于零。\\
-\code{.contract forward.obj=none} & 仅用于可行性等价 contract；不生成 Forward objective obligation。\\
-\code{.contract reverse.obj=...} & 与 Forward 相同，但 input/output 模型方向交换。\\
+\begin{longtable}{p{39mm}p{108mm}}
+\toprule 字符串形式 & 例子与数学解释 \\\midrule\endfirsthead
+\toprule 字符串形式 & 例子与数学解释 \\\midrule\endhead
+signed integer & \code{"17"}、\code{"-3"}、\code{"+0003"}。\\
+integer fraction & \code{"4/7"}、\code{"-22/13"}、\code{"1/-2"}；分子分母为 signed integers，分母不得为零。\\
+finite decimal & \code{"0.125"}、\code{".125"}、\code{"1."}，用整数十进制换算。\\
+scientific decimal & \code{"1e-6"}、\code{"-2.5E+3"}、\code{"2D+3"}，接受 e/E/d/D。\\
+\bottomrule
+\end{longtable}
+拼接 mantissa 数字为整数 $d$、小数位数为 $k$、指数为 $t$、符号为 $s$，
+值为 $s\,d\,10^{t-k}$。所有步骤精确；例如 \code{"0.125"} 得 $1/8$，
+\code{"1/-2"} 得 $-1/2$，\code{"0/7"}、\code{"-0"} 得零。
+text parser 接受未约分 fraction 并规范化；binary decoder 独立拒绝未规范 wire Q，
+不能因证书来自 RPA 就省略该检查。
+
+NaN、Inf/infinity、hex floats、循环小数、digit separators 和 scalar 内 whitespace 拒绝。
+资源预算限制文本长度、digits、exponent 与精确 arithmetic 位数，见第\ref{ch:loader}章。
+反汇编只输出 canonical integers 或 coprime \code{p/q}，分母为正；
+整数无 \code{/1}，正数无加号，零为 \code{"0"}。
+原 decimal、exponent、前导零和 negative-denominator 拼写不会保留。
+
+\section{顶层 Certificate 与独立 Request}
+
+下表使用 schema 记法：\code{T[]} 是完整 T values 的 JSON array；
+\code{[A,B][]} 是 pair arrays，不能替换为 object。
+所有实际 JSON keys 都带双引号；表中的省略 default 表示该 field 可以缺席，
+并不允许任意遗漏 required fields。
+
+\begin{longtable}{p{28mm}p{32mm}p{63mm}p{20mm}}
+\toprule record & key & value 类型 & 缺省 \\\midrule\endfirsthead
+\toprule record & key & value 类型 & 缺省 \\\midrule\endhead
+Certificate & claims & Claim[] & 必需\\
+ & blocks & Block[] & 必需\\
+ & points & PointWitness[] & []\\
+ & bijections & BijectionWitness[] & []\\
+ & improvements & ImprovementWitness[] & []\\
+Request & claims & Claim[] & 必需\\
+ & points & PointClaim[] & []\\
+ & bijections & BijectionClaim[] & []\\
+ & improvements & ImprovementClaim[] & []\\
+Expr & constant & scalar string & 必需\\
+ & terms & [u32, scalar string][] & 必需\\
+Block & steps / end & Step[] / End & 必需\\
+Derivation & steps / end & Step[] / DerivationEnd & 必需\\
+PointWitness & claim / values & PointClaim / scalar string[] & 必需\\
+ & refutation & Block 或 null & null\\
+\code{BijectionClaim} & \code{forward_claim / reverse_claim} & u32 / u32 & 必需\\
+\code{BijectionWitness} & claim / injectivity & BijectionClaim / EqualityProof & 必需\\
+\code{EqualityProof} & steps / checks & Step[] / Ref[] & 必需\\
+\code{ImprovementClaim} & target / integers / positive & bool / bool / Expr & 必需\\
+\code{ImprovementWitness} & claim / block & ImprovementClaim / Block & 必需\\
 \bottomrule
 \end{longtable}
 
-每条 contract 声明必须恰好出现一次，不能通过重复声明覆盖先前取值。Forward 和 Reverse 共同证明文件声明的 contract。调用者要求的最小 contract 由 verifier 的调用参数决定；文件不能自行降低调用者要求。最大化目标和最小化目标的归一化定义见机器模型与 contract 章节。
-
-\section{精确数值字面量}
-
-\subsection{允许的拼写}
-
-基础语法接受整数、分数、有限十进制数和十进制科学计数法。分数字面量的分母必须为严格正整数；符号只放在分子之前。
-
+Request 没有 RPA header，是独立普通 JSON。它也可以是 legacy Claim array，
+此时 points、bijections、improvements 都为空：
 \begin{lstlisting}
-17
--3
-4/7
--22/13
-0.125
-.125
-1.
-1e-6
--2.5E+3
+[{"reverse":false,"input_integers":false,
+  "output_integers":false,"objective":"Equal",
+  "projection":[],"inverse":null}]
 \end{lstlisting}
+object Request 的四个 arrays 按各自顺序匹配 certificate；point/bijection/improvement
+只匹配其 claim，没有 proof witness。certificate claims 和 blocks 数量必须一致。
+空 claims 可以用于 point-only 或 improvement-only Request，
+但 claims、points、improvements 全为空的 Request 拒绝。
+bijections 本身不能替代必要的 directional claims。
+调用者应从自己意图构造 Request，不能在读取 certificate 后盲目复制它并声称完成独立授权。
 
-这些写法均通过整数运算解析，不经过 IEEE 浮点数。十进制和科学计数法定义如下。将十进制尾数的全部数字拼接为整数 $d$，设小数点后有 $k$ 位，指数为整数 $t$，符号为 $s\in\{-1,1\}$，则：
-\[
-  \operatorname{value}=s\,d\,10^{t-k}.
-\]
-例如 \code{0.125} 解析为 $125/1000=1/8$，\code{1e-6} 解析为 $1/1000000$，\code{-2.5E+3} 解析为 $-2500$。分数通过约分得到 canonical rational。\code{-0}、\code{0/7} 和 \code{0.0} 均归一化为整数零。
-
-\must{assembler 必须以精确整数运算实现数值字面量转换，不能先解析为浮点数再尝试恢复有理数。}
-
-基础语法不接受 \code{NaN}、\code{Inf}、十六进制数、数字分组下划线、循环小数或隐含分母符号。\code{1/0} 是错误；\code{1/-2} 必须写为 \code{-1/2}。资源限额可以限制字面量长度和指数绝对值，但不得改变其数学值。
-
-\subsection{规范输出}
-
-规范反汇编只输出整数或约分后的 \code{p/q}：分母严格正，整数不带 \code{/1}，正数不带前导加号，零写作 \code{0}。因此源码中的十进制拼写、科学计数法、前导零和原始分数形式不会被保留。
-
-\section{操作数与符号}
-
-\begin{longtable}{p{0.29\textwidth}p{0.28\textwidth}p{0.35\textwidth}}
-\toprule
-操作数形式 & 类别 & 意义 \\
-\midrule
-\endhead
-\code{\%name} & Derived FactRef & 当前 domain 已定义且可见的事实。\\
-\code{@in.r[n].hi} & 静态 FactRef & input row 的有限 upper side，类型为 LE。\\
-\code{@in.r[n].lo} & 静态 FactRef & input row 的有限 lower side，类型为 LE。\\
-\code{@in.r[n].eq} & 静态 FactRef & input equality row，类型为 EQ。\\
-\code{@in.v[n].hi} & 静态 FactRef & input variable 的有限 upper bound，类型为 LE。\\
-\code{@in.v[n].lo} & 静态 FactRef & input variable 的有限 lower bound，类型为 LE。\\
-\code{@in.v[n].int} & 静态 FactRef & input variable 的 integrality，类型为 INT。\\
-\code{@case} & Branch FactRef & 当前最内层分支假设；等价于 \code{@case[0]}。\\
-\code{@case[n]} & Branch FactRef & 距当前分支 $n$ 层的祖先分支假设。\\
-\code{\$name} & ExprId 符号 & 当前 domain 的 canonical affine expression。\\
-\code{@in.v[n]} & Input VarId & 表达式或 mapping 中的 input variable。\\
-\code{@out.v[n]} & Output VarId & mapping 或 variable obligation 的对象。\\
-\code{@out.r[n]} & Output RowId & row obligation 的对象。\\
+\subsection{Claim 的所有 keys}
+\begin{longtable}{p{43mm}p{78mm}p{20mm}}
+\toprule key & value 类型与含义 & 缺省 \\\midrule\endfirsthead
+\toprule key & value 类型与含义 & 缺省 \\\midrule\endhead
+reverse & bool；false 为 source 到 target，true 为 target 到 source。 & 必需\\
+\code{input_integers} & bool；是否采用 actual input 的 integer predicates。 & 必需\\
+\code{output_integers} & bool；是否要求 actual output 的 integer predicates。 & 必需\\
+objective & \code{"None"}、\code{"Equal"} 或 \code{"NonIncreasing"}。 & 必需\\
+projection & [u32 input, u32 output][]；原始坐标观察相等。 & 必需\\
+inverse & opposing Claim index 或 null。 & null\\
+\code{input_objective_lower} & scalar string 或 null；V3 输入完整目标下界。 & null\\
+\code{affine_projection} & [Expr input, Expr output][]；V5 原始 affine observations。 & []\\
+\code{input_objective_level} & scalar string 或 null；V9 objective-level 条件输入域。 & null\\
+\code{input_halfspace} & Expr 或 null；V10 $H(x)\le0$ 条件输入域。 & null\\
 \bottomrule
 \end{longtable}
+没有字符串 profile 或总体 optimum-equivalence flag；需要的关系由独立 ordered Claims 表达。
+input/output integer modes 可以不同，每个方向必须按实际 Request 执行。
+present objective level 不是 lower bound、attainment 或 optimum 的声明；
+present halfspace 不是证明该表达式在全模型上有效。
+有限 lower request 在 restricted domain 上是条件结论；global bound 必须单独请求。
 
-静态 FactRef 不产生指令，也不占用 derived FactId。只有模型确实声明的事实可以被引用：没有有限 upper bound 时，\code{@in.v[n].hi} 不存在；连续变量没有 \code{.int} 事实；非 equality row 没有 \code{.eq} 事实。equality row 的 side 可用性遵循 canonical model 对有限 sides 的定义。
+\section{Expr、Ref 与显式事实 IDs}
 
-\code{@case[n]} 中的 $n$ 是 lexical scope depth offset，不是分支编号。当不存在该层假设时引用无效。\code{@case} 的具体类型和表达式由 split 指令规定，不能由源码重声明或赋值。
-
-\section{表达式声明与展开}
-
-\subsection{仿射语法}
-
-表达式语法支持精确常数、input variable、此前声明的 expression 符号、括号、加减法及标量乘法：
-
+一个 affine expression 用 \code{constant} 加有序非零 coefficients：
 \begin{lstlisting}
-.expr $x = @in.v[0]
-.expr $sum = @in.v[0] + @in.v[2] - 1
-.expr $scaled = 3/5 * $sum + 2
-.expr $neg = -$scaled
-.expr $mixed = 2 * (@in.v[0] - @in.v[2]) + 7
+{"constant":"-1/2","terms":[[0,"2"],[3,"-5/7"]]}
 \end{lstlisting}
+terms 的 IDs 严格递增、没有 duplicate、不含精确零。
+assembler 不负责 symbolic expansion，也不自动 sort、merge 或删除 Expr 的零项；
+生成器必须先构造规范表达式。文本中系数约分后若为零仍非法。
+Lin terms 是另一种 pair array，其第一项为 Ref，不受 Expr 的 coordinate-order 规则代替。
 
-expression 符号通过展开得到 affine expression；符号不是运行时节点。引用必须指向同一 domain 内此前声明的 expression，因此展开关系无环。每个声明最终归一化为一个常数和严格按 VarId 排序的非零系数列表。
-
-不允许 variable 与 variable 相乘、不允许两个一般表达式相乘，也不允许除以一般表达式。乘法的左侧必须是一个数值字面量。\code{3 * @in.v[0]} 合法；\code{@in.v[0] * 3} 不属于基础语法。减法、负号和括号可用于任意 affine expression。\code{2 @in.v[0]} 这样的隐含乘法不合法。
-
-\subsection{指令中的 expression 操作数}
-
-基础指令的 expression 操作数必须为 \code{\$name}。例如 \code{map.aff @out.v[0], -\$e} 不合法，必须先声明 \code{.expr \$neg = -\$e}，再使用 \code{map.aff @out.v[0], \$neg}。这一限制确保 instruction 编码直接引用 expression pool，并让反汇编语法唯一。
-
-assembler 可以合并数值相同的 expression 或 scalar pool 条目；它必须保留程序的数学语义和 scope 行为。基础文件格式是否允许重复 pool 条目由 wire format 章节规定，文本标签不承担 pool 唯一性保证。
-
-\section{静态 mapping 区域}
-
-\code{.map} 描述不依赖分支的 output variable mapping。它的变量命名方向随 domain 改变：Forward 中 input 是 Source、output 是 Target；Reverse 中相反。
-
+Ref 的完整文本形式：
 \begin{lstlisting}
-.map
-    copy.range @out.v[0], @in.v[0], 1000
-    copy @out.v[1000], @in.v[7]
-    const @out.v[1001], 0
-    aff @out.v[1002], $replacement
-    defer @out.v[1003]
-    defer.range @out.v[1004], 4
-.endmap
+{"VarLower":0}  {"VarUpper":0}  {"VarInt":0}
+{"RowLower":2}  {"RowUpper":2}  {"RowEq":2}
+{"Local":17}    {"Assumption":0}
+"Exact"
 \end{lstlisting}
+每个非 Exact Ref object 恰好一个 variant key。
+静态 Ref 必须对应实际有限 side、equality 或可用 input integer；
+不是仅因 ID 可写而拥有事实。\code{"Exact"} 是 unit variant string，
+不是 \code{["Exact"]}、\code{\{"Exact":0\}} 或可自由借用的事实。
 
-\begin{longtable}{p{0.18\textwidth}p{0.39\textwidth}p{0.35\textwidth}}
-\toprule
-语句 & 文本操作数 & section 编码与含义 \\
-\midrule
-\endhead
-\code{copy.range} & output 起点、input 起点、count & COPY\_RANGE；连续 $count$ 对变量作 identity-copy。\\
-\code{copy} & output variable、input variable & COPY\_PAIRS 的单对声明；assembler 可以合并多条声明。\\
-\code{const} & output variable、number & CONST；output 等于该精确常数。\\
-\code{aff} & output variable、expression & AFF；output 等于该 input affine expression。\\
-\code{defer} & output variable & DEFER；该变量必须在 proof tape 的可达路径上定义。\\
-\code{defer.range} & output 起点、count & 连续 DEFER 声明的文本缩写。\\
+Local ID 是显式 u32，作者可以选 17 为第一条 producer ID；
+不会被 assembler 重排为 0。definition 必须在使用前通过检查，不能覆盖 live ID；
+Drop 后可以在当前 scope 重用。child 删除/重定义不泄漏到 parent 或 sibling。
+Assumption 使用活动假设的外层先、内层后数组顺序；
+最外层为 0，不能套用旧 \code{@case[0]} 的“最近一层”含义。
+各方向、point refutation、injectivity proof、improvement Block 从各自 fresh scope 开始。
+
+\section{Step 与局部 Derivation 的 JSON variants}
+
+Enum 使用 externally tagged form，record payload 写为
+\code{\{"Variant":\{fields\}\}}。Kind 的值恰为
+\code{"Le"}、\code{"Eq"}、\code{"Int"}，不能全大写或写 numeric tags。
+
+\begin{longtable}{p{23mm}p{112mm}r}
+\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
+\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endhead
+Lin & \code{id:u32, kind:Kind, constant:scalar,}\newline
+\code{terms:[Ref,scalar][]} & 1\\
+Round & \code{id:u32, le:Ref, integer:Ref} & 1\\
+Drop & \code{ids:u32[]} & 1\\
+EqPair & \code{id:u32, positive:Ref, negative:Ref} & 2\\
+Cases & \code{id:u32, kind:Kind, expression:Expr, split:Expr,}\newline
+\code{integer:Ref|null, left:Derivation, right:Derivation} & 2\\
+Plotkin & \code{id:u32, bits:u32, distance:u32,}\newline
+\code{variables:[u32,u64][], cliques:Ref[]} & 3\\
 \bottomrule
 \end{longtable}
-
-\must{静态 map 必须恰好覆盖全部 output variables；每个变量恰好由 COPY、CONST、AFF 或 DEFER 覆盖一次。}
-
-range 的 count 必须为严格正整数，索引范围的加法必须检查溢出。两个范围重叠、copy 越界或重复声明均是错误。一个静态 DEFER 标记不是已经完成的 mapping，也不能消除任何 domain obligation。
-
-\code{map.copy}、\code{map.const} 和 \code{map.aff} 是 proof tape 指令，语法与相应静态声明相近。它们只用于当前路径尚未赋值的 DEFER output variable。对已有 mapping 重复赋值不合法。不同 sibling branches 可以各自给同一个 DEFER variable 赋值，因为两个分支分别从父状态执行。
-
-\section{基础指令的文本形式}
-
-下列语法穷尽基础 v0.1 的 28 个 core opcodes。所有指令的数学检查、异常条件和二进制 payload 见 ISA 章节；本节只规定文本 spelling 和操作数顺序。
-
-\subsection{General、linear 与 integer 指令}
+这些 listed keys 除 Cases 的 integer 可省略为 null 外都必需。
+Round 的 integer 为一个 Ref，不能省略或写 null。
+Lin 没有 out Expr：checker 根据已检查 facts 精确计算输出 expression。
+Cases 的 expression 是要输出的同一 parent proposition，split 是两支划分表达式；
+左右 Derivation 必须证明该 expression/kind 或 contradiction。
 
 \begin{lstlisting}
-nop
-ret
-drop %fact
-drop %first .. %last
-
-%out = lin.le $expr {
-    +1 @in.r[0].hi
-    -3/5 @in.r[1].eq
-}
-%out = lin.eq $expr {
-    +1 @in.r[0].eq
-    -2 %earlier
-}
-%out = eq.pair $expr, %positive, %negative
-%out = box.le $expr
-%out = weaken.le $expr, %input, 3/2
-close.false %contradiction
-
-%out = int.aff $expr, 7 {
-    +3 @in.v[0].int
-    -2 %integer_fact
-    +1/2 %equality_fact
-}
-%out = round.hi $expr, %upper, %integer
-%out = round.lo $expr, %lower, %integer
+{"Lin":{"id":17,"kind":"Le","constant":"-1/3",
+        "terms":[[{"VarUpper":0},"2/3"]]}}
+{"EqPair":{"id":18,"positive":{"Local":17},
+           "negative":{"RowLower":4}}}
+{"Drop":{"ids":[17,18]}}
 \end{lstlisting}
+以上是独立语法片段，不声称组合成有效数学证明。
 
-线性列表中的每一行恰好包含一个 multiplier 和一个 FactRef，中间至少一个空白，不加逗号。允许空列表；空 \code{lin.eq} 或 \code{lin.le} 只能证明零表达式。\code{int.aff} 的 offset 必须是精确整数。整数事实的 multiplier 必须为整数；EQ 项的 multiplier 可以是任意有理数，这是整数性通过等式传递的草案修订 P-04。
-
-\code{drop} 的区间端点经符号解析后必须形成递增的连续 FactId 区间，其中每个 ID 均为当前 scope 已定义的 live fact。区间包含未来、dead 或其他 scope 的事实时不合法；不能因文本标签恰好具有连续数字而假定其机器 ID 连续。assembler 可以将 liveness 结果拆成多条合法 DROP 区间。
-
-\subsection{Mapping 与 obligation 指令}
-
+Derivation 的 end 为下列二者之一：
 \begin{lstlisting}
-map.copy @out.v[0], @in.v[1]
-map.const @out.v[1], 0
-map.aff @out.v[2], $expr
-
-check.row.hi @out.r[0], %fact
-check.row.lo @out.r[0], @in.r[1].lo
-check.row.eq @out.r[0], %fact
-check.var.hi @out.v[0], %fact
-check.var.lo @out.v[0], @in.v[1].lo
-check.var.int @out.v[0], %fact
-check.obj.eq %fact
-check.obj.le %fact
+{"Witness":{"Local":17}}
+{"Absurd":{"Local":18}}
 \end{lstlisting}
+这里直接 payload 是 Ref，没有 \code{fact} key。
+DerivationEnd 不含 map/checks；它不是 complete Return，也不能用 lift 或 improvement endpoints。
+Cases 的左右 end 不要和下一节的 Block Absurd 混用。
 
-CHECK 的 proof operand 可以是任意合法 FactRef，包括静态模型事实和 branch assumption，无需先复制到 derived register。其类型和表达式必须与 kernel 生成的 obligation 精确一致。
+\section{Block End 与 witness records}
 
-\subsection{\code{exact} 简写}
-
-\proposal{P-05}{为 CHECK 增加 \code{exact} 文本操作数；编译为 CHECK 的 EXACT flag，并由 kernel 直接检查下述有限规则。它不是 assembler 信任断言。}
-
-\begin{lstlisting}
-check.row.eq @out.r[0], exact
-check.var.int @out.v[0], exact
-check.obj.eq exact
-\end{lstlisting}
-
-exact 的判断对象始终是 kernel 自己由 output model 和当前 mapping 构造的表达式 $e$：
-
-\begin{longtable}{p{0.18\textwidth}p{0.74\textwidth}}
-\toprule
-所需 FactKind & EXACT 可接受条件 \\
-\midrule
-\endhead
-EQ & canonical $e$ 为恒等零。\\
-LE & canonical $e$ 无变量项，且其常数不大于零。\\
-INT & $e$ 的常数和所有系数均为整数；所有非零项涉及的 input variables 在 input model 中声明为整数或 binary。\\
+\begin{longtable}{p{32mm}p{102mm}r}
+\toprule End variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
+\toprule End variant & payload keys 和类型 & 最低版 \\\midrule\endhead
+Return & \code{map:Expr[], checks:Ref[]} & 1\\
+Split & \code{expression:Expr, integer:Ref|null,}\newline
+\code{left:Block, right:Block} & 1\\
+Absurd & \code{fact:Ref} & 1\\
+FlowLift & \code{witness:FlowWitness, body:Block} & 4\\
+IntervalLift & \code{intervals:IntervalWitness[], body:Block} & 5\\
+MenuLift & \code{menus:MenuWitness[], body:Block} & 7\\
+SignedLift & \code{decompositions:SignedWitness[], body:Block} & 8\\
+SubflowLift & \code{witness:SubflowWitness, body:Block} & 10\\
+ImproveReturn & \code{map:Expr[], checks:Ref[],}\newline
+\code{margin:ImprovementMargin} & 10\\
+\code{PositiveRefutation} & \code{fact:Ref} & 10\\
 \bottomrule
 \end{longtable}
+Split.integer 可省略为 null，其他 keys 必需。
+Block Absurd 必须写 \code{\{"Absurd":\{"fact":Ref\}\}}，
+它与 DerivationEnd 的 \code{\{"Absurd":Ref\}} 形状不同。
 
-EXACT 不搜索 input rows，不自动匹配 input bounds，也不推导未知变量的整数性。相同 input row 直接用于 output row 时应显式写出对应静态 FactRef。一个必须依赖已验证 INT fact 的整数性检查，应使用该 fact 或 \code{int.aff}，不能要求 EXACT 发现依赖。
+Return.map 为 output 所有坐标的完整 tuple；checks 按 kernel 规定顺序覆盖
+bounds、rows、integer requirements 和全部请求项。assembler 不加载实际模型，
+所以即使遗漏 checks 可编码，最终 verify 仍拒绝。
+每个 Split child 有自己的 complete terminal；不能用空分支或 parent 的 partial map
+省略 obligations。所有 lift witness entries 的前提先在旧 scope 一起核对，
+之后 body 才使用生成的坐标/rows。
 
-模型相关的 \code{exact} 预检查和 expression 归一化要求 assembler 获得两个 canonical models。即使 assembler 已预检查成功，verifier 仍必须独立执行同一判定；源文本不能成为可信输入。
-
-\subsection{Structured cases}
-
-\begin{lstlisting}
-(%a, %b) = split.bin @in.v[0] {
-case 0:
-    yield %left_a, %left_b
-case 1:
-    yield %right_a, %right_b
-}
-
-(%a) = split.int.thr %integer, 13 {
-case le:
-    yield %left
-case ge:
-    yield %right
-}
-
-(%a) = split.int.range %integer, %lower, %upper, 3, 5 {
-case 3:
-    yield %value3
-case 4:
-    yield %value4
-case 5:
-    yield %value5
-}
-
-() = split.sign $expr {
-case le:
-    yield
-case ge:
-    yield
-}
-\end{lstlisting}
-
-split 总是带输出 tuple；零个输出使用 \code{()}。\code{split.bin} 的 cases 必须按 \code{0}、\code{1} 顺序出现；\code{split.int.thr} 和 \code{split.sign} 的 cases 必须按 \code{le}、\code{ge} 顺序出现；\code{split.int.range} 的 cases 必须按闭区间中的整数递增排列。case labels 不是可跳转地址。
-
-所有 sibling branches 必须从同一父状态开始执行。若一个 DEFER variable 在部分可达 branches 中已赋值、另一些可达 branches 中仍未赋值，merge 立即返回 \code{E_MAP}。只有所有可达 branches 均未赋值时才保留 UNASSIGNED；均已赋值时按 mapping merge 规则保留共同 expression 或封存为 SEALED\_PIECEWISE。
-
-每个 case 必须以 \code{yield} 或 \code{close.false} 结束，之后不能有指令。\code{yield} 的 FactRef 数量必须等于 split 输出 tuple 长度；\code{yield} 不带操作数表示零个事实。所有可达 branches 在每个 yield 位置必须产生完全相同的 canonical proposition。已证明不可达的 branches 不需要 yield。split 可以嵌套，但不允许 JMP 或其他非结构化跳转。
-
-\code{split.int.thr} 的 threshold 和 \code{split.int.range} 的两个端点必须为精确整数。对于 INT expression $g$，range 所用 lower fact 必须精确表示 $-g+L\le0$，upper fact 必须精确表示 $g-U\le0$。闭区间端点要求 $L\le U$。
-
-对于 \code{split.sign}，两个 proof branches 的假设分别为 $e\le0$ 和 $-e\le0$，零点属于两支。mapping 的数值应用若遇到零，按草案 P-06 选择先出现的 \code{le} case；验证仍检查两个 proof branches。
-
-\section{FactId、scope 与规范反汇编}
-
-\proposal{P-03}{derived FactId 按语法顺序隐式分配：普通 producer 各分配一个 ID；split 先递归分配各 branch 的 producer IDs，再分配 merge outputs。ID 分配不依赖数学可达性。}
-
-assembler 先解析全部符号和结构，依此分配 FactId；kernel 仍禁止未来事实引用。split 输出在源码头部命名，但只有 split 完成后可见，不能在其 branches 内引用。branch-local facts 不能通过符号泄漏到其他 sibling branch 或父 scope。源代码在文本上较早定义某个 fact，不表示该 fact 在另一个 scope 中可见。
-
-规范反汇编将 expression 符号重命名为 \code{\$e0}、\code{\$e1} 等，将 derived facts 重命名为机器 FactId 的十进制形式。它输出固定 case 顺序、约分数值、展开后的 canonical expressions 和确定的空白规则。
-
-\must{assemble--disassemble--assemble 必须保持 contract、数学 propositions、控制结构和 mapping 语义；基础 v0.1 不承诺逐字节还原原始文件。}
-
-原因包括 scalar/expression pool 的合法重复条目、section 排列、debug 数据以及文本标签可能不同。若需要逐字节保存，工具必须提供独立的原始二进制导出模式，不能把这种需求隐藏在 canonical RPA 语义中。
-
-\section{核心 EBNF}
-
-以下 EBNF 使用 \code{[...]} 表示可选部分、\code{\{...\}} 表示重复、\code{|} 表示选择。\code{NL} 表示换行，\code{WS} 表示至少一个水平空白。注释在语法分析前处理；空白行允许出现在任意完整语句之间。表达式加减运算左结合；scalar 乘法优先于加减法，单目符号优先于加减法。
-
-\begin{lstlisting}[caption={词法与顶层语法}]
-digit       = "0" | "1" | ... | "9" ;
-letter      = "A" | ... | "Z" | "a" | ... | "z" ;
-hex-digit   = digit | "A" | ... | "F" | "a" | ... | "f" ;
-WS          = (" " | TAB), { " " | TAB } ;
-NL          = LF ;
-uint        = digit, { digit } ;
-sign        = "+" | "-" ;
-integer     = [ sign ], uint ;
-fraction    = [ sign ], uint, "/", uint ;
-decimal     = uint, ".", [ uint ] | ".", uint ;
-mantissa    = uint | decimal ;
-scientific  = [ sign ], mantissa, ("e" | "E"), integer ;
-number      = fraction | scientific | [ sign ], decimal | integer ;
-identifier  = (letter | "_"), { letter | digit | "_" } ;
-name        = identifier | uint ;
-fact-name   = "%", name ;
-expr-name   = "$", name ;
-input-var   = "@in.v[", uint, "]" ;
-output-var  = "@out.v[", uint, "]" ;
-output-row  = "@out.r[", uint, "]" ;
-fact-ref    = fact-name
-            | "@in.r[", uint, "].", ("hi" | "lo" | "eq")
-            | "@in.v[", uint, "].", ("hi" | "lo" | "int")
-            | "@case", [ "[", uint, "]" ] ;
-hash        = '"', 64 * hex-digit, '"' ;
-objective   = "eq" | "le" | "none" ;
-contract    = ".contract mip=", ("opt-equivalent"
-              | "feasibility-equivalent"), NL,
-              ".contract forward.obj=", objective, NL,
-              ".contract reverse.obj=", objective, NL ;
-file        = ".rpa 0.1", NL,
-              ".source sha256", WS, hash, NL,
-              ".target sha256", WS, hash, NL,
-              contract, forward-domain, reverse-domain ;
-forward-domain = ".forward", NL, domain-body ;
-reverse-domain = ".reverse", NL, domain-body ;
-domain-body = { expression-declaration },
-              ".map", NL, { map-declaration }, ".endmap", NL,
-              ".code", NL, code-body, ".endcode", [ NL ] ;
-\end{lstlisting}
-
-\begin{lstlisting}[caption={仿射表达式与静态 mapping 语法}]
-expression-declaration = ".expr", WS, expr-name, "=", affine, NL ;
-affine      = scaled, { ("+" | "-"), scaled } ;
-scaled      = number, "*", signed-primary | signed-primary ;
-signed-primary = [ sign ], primary ;
-primary     = number | input-var | expr-name | "(", affine, ")" ;
-
-map-declaration = "copy.range", WS, output-var, ",", input-var,
-                    ",", uint, NL
-                | "copy", WS, output-var, ",", input-var, NL
-                | "const", WS, output-var, ",", number, NL
-                | "aff", WS, output-var, ",", expr-name, NL
-                | "defer", WS, output-var, NL
-                | "defer.range", WS, output-var, ",", uint, NL ;
-\end{lstlisting}
-
-\begin{lstlisting}[caption={普通指令语法}]
-linear-list = "{", NL, { number, WS, fact-ref, NL }, "}" ;
-proof       = fact-ref | "exact" ;
-instruction = "nop"
-            | "drop", WS, fact-name, [ "..", fact-name ]
-            | fact-name, "=", ("lin.le" | "lin.eq"), WS,
-                expr-name, linear-list
-            | fact-name, "=", "eq.pair", WS, expr-name, ",",
-                fact-ref, ",", fact-ref
-            | fact-name, "=", "box.le", WS, expr-name
-            | fact-name, "=", "weaken.le", WS, expr-name, ",",
-                fact-ref, ",", number
-            | fact-name, "=", "int.aff", WS, expr-name, ",",
-                number, linear-list
-            | fact-name, "=", ("round.hi" | "round.lo"), WS,
-                expr-name, ",", fact-ref, ",", fact-ref
-            | "map.copy", WS, output-var, ",", input-var
-            | "map.const", WS, output-var, ",", number
-            | "map.aff", WS, output-var, ",", expr-name
-            | ("check.row.hi" | "check.row.lo" | "check.row.eq"),
-                WS, output-row, ",", proof
-            | ("check.var.hi" | "check.var.lo" | "check.var.int"),
-                WS, output-var, ",", proof
-            | ("check.obj.eq" | "check.obj.le"), WS, proof
-            | split ;
-\end{lstlisting}
-
-\begin{lstlisting}[caption={终止、split 与 case 语法}]
-fact-list   = fact-ref, { ",", fact-ref } ;
-output-list = fact-name, { ",", fact-name } ;
-yield       = "yield", [ WS, fact-list ] ;
-false       = "close.false", WS, fact-ref ;
-branch-body = { instruction, NL }, (yield | false), NL ;
-code-body   = { instruction, NL }, ("ret" | false), NL ;
-split       = "(", [ output-list ], ")", "=", split-op ;
-split-op    = "split.bin", WS, input-var, "{", NL,
-                "case 0:", NL, branch-body,
-                "case 1:", NL, branch-body, "}"
-            | "split.int.thr", WS, fact-ref, ",", number, "{", NL,
-                "case le:", NL, branch-body,
-                "case ge:", NL, branch-body, "}"
-            | "split.int.range", WS, fact-ref, ",", fact-ref,
-                ",", fact-ref, ",", number, ",", number, "{", NL,
-                range-cases, "}"
-            | "split.sign", WS, expr-name, "{", NL,
-                "case le:", NL, branch-body,
-                "case ge:", NL, branch-body, "}" ;
-range-cases = "case", WS, integer, ":", NL, branch-body,
-              { "case", WS, integer, ":", NL, branch-body } ;
-\end{lstlisting}
-
-该 EBNF 规定结构；类型、范围、case 完整性、scope 可见性和终止可达性属于静态及执行语义检查。token 之间可插入水平空白，除显式 \code{WS} 外不强制数量。线性列表的右花括号后由外围语句换行结束。assembler 必须报告源码位置，不能通过自动补全缺失 case 或 obligation 使不完整程序成为有效证书。
-
-\section{工具链接口草案}
-
-\begin{longtable}{p{0.19\textwidth}p{0.73\textwidth}}
-\toprule
-工具 & 接口职责 \\
-\midrule
-\endhead
-\code{rpa-as} & 解析文本，读取 canonical models 以检查索引和 exact 简写，展开 expressions，解析 FactId 和 scopes，输出 RPX。允许实现 liveness 优化，但不得改变命题或丢掉 obligation。\\
-\code{rpa-dis} & 先验证 RPX 的结构，再输出 canonical RPA；不把成功反汇编解释为证明通过。\\
-\code{rpa-objdump} & 显示 header、section directory、opcode counts、scope 深度及 fact liveness 等结构信息。结构统计与验证运行统计必须明确区分。\\
-\code{rp-verify} & 读取两个 canonical models，绑定摘要和调用者要求，执行两个 proof tapes，成功后报告 VERIFIED 及 contract。\\
-\code{mps-canon} & 将明确支持的 MPS 子集转换为 canonical model；不支持的输入特性必须显式拒绝。\\
+所有 witness 是普通 record objects，不带同名 enum wrapper：
+\begin{longtable}{p{36mm}p{110mm}}
+\toprule witness record & required keys 与类型 \\\midrule\endfirsthead
+\toprule witness record & required keys 与类型 \\\midrule\endhead
+FlowWitness & \code{nodes:u32, arcs:[u32,u32][], groups:FlowGroup[]}\\
+FlowGroup & \code{source:u32, commodities:[u32,scalar][],}\newline
+\code{flows:Expr[], nonnegative:Ref[], balances:Ref[]}\\
+IntervalWitness & \code{lower:Expr[], upper:Expr[], checks:Ref[]}\\
+MenuWitness & \code{maximum_index:u32, activation:Expr, index:Expr,}\newline
+\code{checks:Ref[]}\\
+SignedWitness & \code{capacity:scalar, flow:Expr, activation:Expr,}\newline
+\code{checks:Ref[]}\\
+SubflowWitness & \code{nodes:u32, arcs:[u32,u32][], groups:SubflowGroup[]}\\
+SubflowGroup & \code{source:u32, demands:[u32,scalar][],}\newline
+\code{flows:Expr[], nonnegative:Ref[], balances:Ref[]}\\
 \bottomrule
 \end{longtable}
+空数组仍显式写为 []；这里没有 omitted defaults。
+Flow 使用 commodities，Subflow 使用 demands，不能互换 key。
+arcs 的 pair 是 tail/head；commodities/demands 的 pair 是 sink/demand。
+维数、premise order、joint extension row/variable order 和数学规则见第\ref{ch:instructions}章。
 
-\begin{lstlisting}[caption={计划中的模型相关汇编与验证接口}]
-mps-canon source.mps -o source.mcm
-mps-canon target.mps -o target.mcm
-
-rpa-as --source source.mcm --target target.mcm \
-    proof.rpa -o proof.rpx
-
-rp-verify --require opt-equivalent \
-    source.mcm target.mcm proof.rpx
-
-rpa-dis proof.rpx -o proof.canonical.rpa
-rpa-objdump --sections --opcodes --liveness proof.rpx
+ImprovementMargin 是 scalar newtype enum：
+\begin{lstlisting}
+{"Constant":"1/2"}
+{"Predicate":"1"}
 \end{lstlisting}
+q 必须严格正；Predicate(q) 表示 $qP(x)$。
+普通方向、fiber-refutation 和 Cases 不能借用 strict improvement root context；
+正文 End table 的最低版是编码能力要求，不是任意 context 的执行许可。
 
-以上命令展示接口契约而非可立即运行的实现。verifier 的成功输出至少应包含 VERIFIED、实际检查的 contract 和两个 model 摘要。instruction 数、derived fact 数、peak live facts 和耗时应说明其统计定义，特别区分 proof tape 解码、exact arithmetic 和模型加载成本。任何失败必须返回非零退出状态，并给出失败 domain、指令位置、错误类别和简短原因。
+\section{Point、Bijection 与 Improvement contracts}
 
-\section{扩展边界与保留语法}
+PointClaim 共有四个 externally tagged record variants：
+\begin{longtable}{p{34mm}p{100mm}r}
+\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
+\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endhead
+Feasible & \code{target:bool, integers:bool, objective:scalar|null} & 3\\
+Strictness & \code{inclusion_claim:u32} & 3\\
+\code{FiberStrictness} & \code{inclusion_claim:u32} & 6\\
+ImageExclusion & \code{point_in_target:bool, map:Expr[]} & 10\\
+\bottomrule
+\end{longtable}
+Feasible.objective 可省略为 null；其他 keys 必需。
+PointWitness.values 为所选 actual model 所有坐标的 scalar strings。
+FiberStrictness 必须提供 refutation Block；其余三个 variants 必须 refutation=null 或缺席。
+提供格式合法但不需要的 refutation 也会被 verifier 拒绝。
 
-基础 v0.1 不接受 \code{.batch} 或 \code{call.thm}。批量编码区 \code{0x80--0xBF} 和 \code{CALL\_THM} 的 \code{0xF0} 仅为未来扩展保留；基础 loader 遇到它们必须返回 \code{E_UNSUPPORTED}。
+\begin{lstlisting}
+{"claim":{"Feasible":{"target":false,"integers":true,
+                      "objective":"0"}},
+ "values":["0","1/2"],"refutation":null}
+{"claim":{"ImageExclusion":{"point_in_target":false,
+   "map":[{"constant":"0","terms":[[0,"1"]]}]}},
+ "values":["2"],"refutation":null}
+\end{lstlisting}
+这是两种 witness 的语法示意，是否可行取决于实际完整模型。
+Strictness 和 FiberStrictness 的 inclusion index 要指向已请求、实际通过且未 restricted
+的 LP inclusion；不能把任选 point 宣称为 strictness。
+ImageExclusion 由调用者绑定完整 affine map，所选 point 及其 image 都按 actual LP 检查，
+不声明整体包含或 partial-map 的所有 completions 都被排除。
 
-未来 batch 扩展必须定义完整的 core instruction 展开，包括 FactId 分配、scope、错误行为和 obligation 更新，不能通过批处理增加可证明命题。未来 theorem 扩展必须显式标识 trusted checker 和 TheoremId，不能用新名字绕过 trusted semantics 的版本审查。
+BijectionClaim 为 \code{forward_claim} 与 \code{reverse_claim} 两个 u32 keys。
+BijectionWitness 的 \code{claim} 是该 record，
+\code{injectivity} 是仅含 steps/checks 的 EqualityProof。
+它没有 end，没有内嵌 \code{"Bijection"} variant，也没有选择少量 observations 的 shortcut。
+两 opposing Claims 的 directions/modes 必须兼容，forward 要有 root affine Return；
+reverse 每个 Return 及独立成对完整输入域 injectivity 都须通过。
+V9/V10 restricted domains 不适用于既有 V7 bijection contract。
+
+ImprovementClaim 恰为 target、integers、positive 三个 keys；
+ImprovementWitness 恰为 claim、block。
+\begin{lstlisting}
+{"claim":{"target":false,"integers":false,
+          "positive":{"constant":"0","terms":[[0,"1"]]}},
+ "block":{"steps":[],
+          "end":{"PositiveRefutation":{"fact":{"RowUpper":0}}}}}
+\end{lstlisting}
+它请求 $P(x)>0$ 的每个实际输入存在同一实际模型中的严格改善点；
+不是源到目标映射。这个示意 endpoint 是否成立取决于实际 row 是否精确证明 $P\le0$。
+完整 witness 必须使用 ImproveReturn、PositiveRefutation 或适当的 Absurd/Split/lifts；
+普通 Return 在 improvement context 拒绝。
+
+\section{一套可直接执行的最小程序}
+
+取一个连续变量 $x\in[0,1]$、无 rows、目标 $x$ 的模型。
+将下列内容保存为 \code{identity.lp}：
+\begin{lstlisting}
+Minimize
+  obj: x
+Subject To
+Bounds
+  0 <= x <= 1
+End
+\end{lstlisting}
+请求一条 source 到 target 的 objective equality，source/target 选同一个实际 MCM。
+独立 \code{request.json} 使用前文的 Claim array。
+保存下列完整 certificate 为 \code{identity.rpa}：
+\begin{lstlisting}
+RPA 1
+{"claims":[{"reverse":false,"input_integers":false,
+ "output_integers":false,"objective":"Equal",
+ "projection":[],"inverse":null}],
+ "blocks":[{"steps":[],"end":{"Return":{
+ "map":[{"constant":"0","terms":[[0,"1"]]}],
+ "checks":[{"VarLower":0},{"VarUpper":0},"Exact"]
+ }}}]}
+\end{lstlisting}
+同一 map $y=x$ 生成三个 obligations：$-x\le0$、$x-1\le0$、$x-x=0$，
+分别由两个 actual bounds 和 Exact 证明。没有 row 或 integrality obligation；
+projection=[] 也不生成观察 equality。
+
+\begin{lstlisting}
+rpx canonical identity.lp identity.mcm
+rpx assemble identity.rpa identity.rpx
+rpx verify identity.mcm identity.mcm identity.rpx request.json
+rpx disassemble identity.rpx recovered.rpa
+\end{lstlisting}
+最后 verify 为 \code{VERIFIED}；前两个命令成功只代表导入、装配。
+这一条方向不会自动请求 reverse、inverse 或 bijection。
+需要它们时应在 Request 与 certificate 中同时增加相应完整数据。
+
+\section{规范反汇编、失败与实现依据}
+
+反汇编读取 complete RPX certificate 后调用 \code{certificate_version}，
+输出最低所需 \code{RPA N} header 和 pretty JSON，末尾带 LF。
+scalar strings 规范化；空 optional certificate arrays、空 \code{affine_projection}、
+缺席 optional scalar fields 和缺席 point refutation 可能省略，
+inverse 则由当前 serializer 输出为 null。JSON key 次序不能用来确定数学身份；
+array 次序、显式 IDs、每个 field 的实际值保留。
+不存在源行、comment、标签或原 scalar 拼写的 round-trip 保证。
+高于最低版的 binary 反汇编再装配可能降版，详见第\ref{ch:format}章。
+
+RPA parser 本身至多接受 256 MiB 和 serde JSON recursion capacity 128；
+proof version discovery/encoding 另检查 depth、count、file、Q 与 canonical Expr budgets。
+JSON 的 object/array wrappers 也占 nesting，
+一个尚未达到 kernel proof depth=64 的文本可能先耗尽 JSON capacity。
+该情况返回 \code{RESOURCE_LIMIT}，不是 INVALID mathematics。
+header/syntax/unknown fields/variants 等错误为 \code{INVALID}。
+某些 proof 结构在 text parsing 阶段可构造，后续 encoder 或 verifier 才拒绝；
+生成器不能把任意一个较早阶段的成功当成 acceptance。
+
+真实工具链只有第\ref{ch:loader}章列出的 commands。
+当前没有 symbol macro compiler、automatic obligation filler、通用 theorem registry、
+host plugin opcode 或 solver certificate conversion command。
+生成器、Python construction scripts 与 coordinate index files 都处于不可信准备层；
+它们可以帮助构造上述明确数据，最后仍须由 complete actual models、
+独立 Request 和 verifier 决定。
+
+文本 grammar 的实现依据为 \code{crates/core/src/rpa.rs}、\code{proof.rs}
+与 \code{model.rs} 的 serde definitions；
+wire feature minimum 来自 \code{codec::certificate_version}。
+V10 的 image、improvement、subflow 和 halfspace 均包含在上述 schema，
+不应只依据旧版 \code{docs/RPA_V1.md} 推导后续字段。
