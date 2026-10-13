@@ -1,0 +1,16 @@
+{
+  "status": "GENERATED_EXACT_CHECKED",
+  "generation_ns": 85131917,
+  "name": "halfspace-n4096",
+  "source_variables": 4096,
+  "source_rows": 0,
+  "target_variables": 4096,
+  "target_rows": 0,
+  "source_terms": 4096,
+  "target_terms": 4096,
+  "proof_steps": 0,
+  "complete_obligations": 12289,
+  "caller_bound_coordinate_count": 4096,
+  "expected_generated_domain_rows": 1,
+  "independent_nonempty_restriction_checked": true
+}

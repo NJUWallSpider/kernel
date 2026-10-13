@@ -1,0 +1,331 @@
+{
+  "case_id": "test24",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/input/model.mps",
+    "sha256": "0d3fa532a6c67cf3f69ab54167a74b23e50e45adc4c95f56d9665f39e39e6db4"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/output/reformulated.mps",
+    "sha256": "649f6f5fc0a84cca31c1f8eb2f854dceccb5e96d35223beee1476bc7765f210e"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/output/audit.json",
+    "sha256": "38b0dc843e154b1860b81e6185dec4920ff60de265abb1a2c7a5d5e9d61ea987"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test24.py",
+    "sha256": "9f7664a9a9079faf3aa8ef04526f8ce6577ed768cbd1f0ecdf252f796a23bf6f"
+  },
+  "claims": "Preserve integer feasibility status, minimum objective and every retained y choice: forward NonIncreasing dominance normalization, reverse Equal zero extension. No bijection or preservation of every original objective level; no full LP equality claim. All domains, rows, full objective and 100 retained y observations are checked.",
+  "counts": {
+    "source_variables": 10100,
+    "target_variables": 2407,
+    "source_rows": 10180,
+    "target_rows": 2487,
+    "disjoint_covers": 79,
+    "priority_intervals": 2149,
+    "removed_binaries": 7693,
+    "retained_y_observations": 100,
+    "forward_steps": 20075,
+    "claims": 2
+  },
+  "preparation_seconds": 88.24090387509204,
+  "rpa_sha256": "cbc78ab724e31b27e253222e5fcda8763a4eb5f9f4148adba64965d064fce82a",
+  "rpa_bytes": 168130280,
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":1466859,\"parse_us\":35964,\"read_us\":2746,\"rows\":10180,\"status\":\"CANONICALIZED\",\"total_us\":51159,\"variables\":10100}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":414402,\"parse_us\":10688,\"read_us\":183,\"rows\":2487,\"status\":\"CANONICALIZED\",\"total_us\":14071,\"variables\":2407}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":109252236,\"status\":\"ASSEMBLED\",\"total_us\":3628715}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":2044456,\"model_decode_us\":23160,\"points\":0,\"proof_decode_us\":947380,\"read_us\":17166,\"statistics\":{\"bijections\":0,\"branches\":226036,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":38397,\"interval_generated_terms\":106595,\"interval_generated_variables\":2149,\"interval_lifts\":1,\"linear_terms\":3986034,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":50390,\"peak_live_facts\":54016,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":39524,\"work\":36366105},\"status\":\"VERIFIED\",\"total_us\":3032162}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test24/deterministic.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":109252236,\"status\":\"ASSEMBLED\",\"total_us\":3362941}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpa",
+        "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":109252214,\"status\":\"ASSEMBLED\",\"total_us\":3663785}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpa",
+        "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":109252232,\"status\":\"ASSEMBLED\",\"total_us\":3869896}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpa",
+        "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":109252237,\"status\":\"ASSEMBLED\",\"total_us\":2809719}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 30305\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":1422768,\"model_decode_us\":20970,\"points\":0,\"proof_decode_us\":794609,\"read_us\":18393,\"statistics\":{\"bijections\":0,\"branches\":226036,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":38397,\"interval_generated_terms\":106595,\"interval_generated_variables\":2149,\"interval_lifts\":1,\"linear_terms\":3986034,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":50390,\"peak_live_facts\":54016,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":39524,\"work\":36366105},\"status\":\"VERIFIED\",\"total_us\":2256740}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test24/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test24/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":1638231,\"model_decode_us\":21838,\"points\":0,\"proof_decode_us\":952834,\"read_us\":17963,\"statistics\":{\"bijections\":0,\"branches\":226036,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":38397,\"interval_generated_terms\":106595,\"interval_generated_variables\":2149,\"interval_lifts\":1,\"linear_terms\":3986034,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":50390,\"peak_live_facts\":54016,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":39524,\"work\":36366105},\"status\":\"VERIFIED\",\"total_us\":2630866}\n",
+      "stderr": ""
+    }
+  ],
+  "negative_checks": [
+    {
+      "mutation": "missing_prefix_bound",
+      "rule_broken": "Omits the old binary bound proving a prefix interval is inhabited.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "09963d299b5334e499a0bb69c75a197c053dced8a0e765c8fbcaf476fe1eda29",
+      "rpx_sha256": "7957f6adb1809730ad208460fa7b29f573bae055465094c0de9f8948b304fc5c",
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpa",
+            "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":109252214,\"status\":\"ASSEMBLED\",\"total_us\":3663785}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/missing_prefix_bound.rpx",
+            "/Users/bhz/Code/kernel/cases/test24/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "storage": "Mutated files deleted; deterministic recipe in preparer."
+    },
+    {
+      "mutation": "missing_y_observation",
+      "rule_broken": "Omits a requested retained y observation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "ff9e201adcaf4c387e408acffa86d43ab065e032f40303b74a77f77461857d5d",
+      "rpx_sha256": "f6347991047a8bac3aa088f1db342334e581f1491ff70449344a777c2d53ee89",
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpa",
+            "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":109252232,\"status\":\"ASSEMBLED\",\"total_us\":3869896}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/missing_y_observation.rpx",
+            "/Users/bhz/Code/kernel/cases/test24/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "storage": "Mutated files deleted; deterministic recipe in preparer."
+    },
+    {
+      "mutation": "wrong_removed_binary_completion",
+      "rule_broken": "Sets a deleted binary to one rather than zero, violating original linking and objective obligations.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 30305",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "15ac300bfb8a2151364737b7e69d9c2c7b6bcfaeb6d8f3ffc00bf216b5e44c64",
+      "rpx_sha256": "80d9784aa4ac5ec9585c787dc57de2ff968c35e32b90875bb3c9d86b47923d80",
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpa",
+            "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":109252237,\"status\":\"ASSEMBLED\",\"total_us\":2809719}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test24/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test24/wrong_removed_binary_completion.rpx",
+            "/Users/bhz/Code/kernel/cases/test24/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 30305\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "storage": "Mutated files deleted; deterministic recipe in preparer."
+    }
+  ],
+  "assemble_byte_deterministic": true,
+  "verify_deterministic": true,
+  "verify_determinism_scope": "Status, counts and exact execution statistics; wall-clock timing fields excluded.",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 1466859,
+      "sha256": "f357d521ce670d448c1bca34ed1270d5d752b9e515841de2ca097791b2949424"
+    },
+    "target.mcm": {
+      "bytes": 414402,
+      "sha256": "444a2e4f0067f508b8a039e8302bdf0f1b9bbb173a5488d7e6630b585fbaf835"
+    },
+    "proof.rpx": {
+      "bytes": 109252236,
+      "sha256": "a848ca778482e94be2b87ebc8d9745baecc6ca4c555a58f8560edd1739589b36"
+    },
+    "request.json": {
+      "bytes": 2835,
+      "sha256": "5dde9b8768f93bff107d5e1a64e022ed45d43801131f76635d1cffc3f133736f"
+    }
+  }
+}

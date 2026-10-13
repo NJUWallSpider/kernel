@@ -1,0 +1,369 @@
+{
+  "case_id": "test46",
+  "status": "VERIFIED",
+  "contract": "Complete actual MI retained-coordinate projection equality with equal objective in both directions; complete actual LP target-to-source inclusion with equal objective. No strict LP or optimum claim.",
+  "protocol_status": "Existing RPA/RPX 5 interval semantics; no new production rule or version.",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/input/model.mps",
+    "sha256": "01746b7ff40de0d898f927d4cf16a94dbd37d9a4c8982e4d01377e4a6d12513e"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/output/reformulated.mps",
+    "sha256": "f8108bda731f4f246df069f5850193472a6db66f1096a82017e903c670a079bf"
+  },
+  "kernel_binary": {
+    "path": "/Users/bhz/Code/kernel/target/release/rpx",
+    "sha256": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+  },
+  "work_policy": 1000000000,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test46/proof.rpa",
+        "cases/test46/proof.rpx"
+      ],
+      "exit_code": 3,
+      "stdout": "{\"message\":\"RESOURCE_LIMIT RPA bytes\",\"status\":\"RESOURCE_LIMIT\"}\n",
+      "stderr": "",
+      "wall_seconds": 0.6247462079999999
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/mi-forward/proof.rpx",
+        "cases/test46/mi-forward/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":22284547,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":128366,\"points\":0,\"proof_decode_us\":779535,\"read_us\":61518,\"statistics\":{\"bijections\":0,\"branches\":18010,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":163271657,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":187150,\"peak_live_facts\":344878,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":186282,\"work\":391209842},\"status\":\"VERIFIED\",\"total_us\":23253966}\n",
+      "stderr": "",
+      "wall_seconds": 23.354890500000003
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/mi-reverse/proof.rpx",
+        "cases/test46/mi-reverse/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4334337,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":141093,\"points\":0,\"proof_decode_us\":580121,\"read_us\":26688,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5082239}\n",
+      "stderr": "",
+      "wall_seconds": 5.189479374999998
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/lp-only/proof.rpx",
+        "cases/test46/lp-only/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":315565,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":132393,\"points\":0,\"proof_decode_us\":44333,\"read_us\":9353,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":501644}\n",
+      "stderr": "",
+      "wall_seconds": 0.5160249999999991
+    }
+  ],
+  "partial_receipts": [
+    "cases/test46/mi-forward/preparation.json",
+    "cases/test46/mi-reverse/preparation.json",
+    "cases/test46/lp-only/preparation.json"
+  ],
+  "attacks": [
+    {
+      "name": "wrong_round_integrality",
+      "status": "INVALID",
+      "receipt": "cases/test46/attacks/wrong_round_integrality.json"
+    }
+  ],
+  "timing_context": "Functional replay while author work may run concurrently; not an isolated benchmark.",
+  "delivery": "Three complete directional certificates bound to one actual source/target pair; combined RPA exceeds the unchanged 256 MiB assembler text limit.",
+  "combined_attempt": {
+    "path": "cases/test46/combined-attempt.rpa",
+    "bytes": 432885912,
+    "sha256": "7b6784cdcdbcf61636031c8703b322f95ef7d0236e8fecb875b8d5578aa979cb",
+    "assembly": {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test46/proof.rpa",
+        "cases/test46/proof.rpx"
+      ],
+      "exit_code": 3,
+      "stdout": "{\"message\":\"RESOURCE_LIMIT RPA bytes\",\"status\":\"RESOURCE_LIMIT\"}\n",
+      "stderr": "",
+      "wall_seconds": 0.6247462079999999
+    }
+  },
+  "bundle": "cases/test46/bundle.json",
+  "directional_replays": [
+    {
+      "direction": 0,
+      "claim_summary": {
+        "reverse": false,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/mi-forward/proof.rpa",
+      "rpx": "cases/test46/mi-forward/proof.rpx",
+      "request": "cases/test46/mi-forward/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 183934850,
+          "sha256": "ed1c630e32d926145e95c996a10ddf0cedb839878719db1201881b3f043e43ed"
+        },
+        "proof.rpx": {
+          "bytes": 184634642,
+          "sha256": "30365859dbac6c6cf8d3f641bdb1b2f08d71336e93eab98288211a4ad070be21"
+        },
+        "request.json": {
+          "bytes": 861798,
+          "sha256": "5287e10c11120bf5e070985b4d7cc83d2256916de0e63beddb1b3d6651b4412d"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-forward/proof.rpx",
+          "cases/test46/mi-forward/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":22284547,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":128366,\"points\":0,\"proof_decode_us\":779535,\"read_us\":61518,\"statistics\":{\"bijections\":0,\"branches\":18010,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":163271657,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":187150,\"peak_live_facts\":344878,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":186282,\"work\":391209842},\"status\":\"VERIFIED\",\"total_us\":23253966}\n",
+        "stderr": "",
+        "wall_seconds": 23.354890500000003
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-forward/proof.rpx",
+          "cases/test46/mi-forward/request.json"
+        ],
+        "exit_code": 3,
+        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+        "stderr": "",
+        "wall_seconds": 7.246894708000003
+      }
+    },
+    {
+      "direction": 1,
+      "claim_summary": {
+        "reverse": true,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/mi-reverse/proof.rpa",
+      "rpx": "cases/test46/mi-reverse/proof.rpx",
+      "request": "cases/test46/mi-reverse/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 234499424,
+          "sha256": "8d8a31df133e713689399b67ca286abb131186be508813fbd08f5df4f43f2f17"
+        },
+        "proof.rpx": {
+          "bytes": 156755175,
+          "sha256": "87952e15f550907b7253310a1bddf7c3fdefac356bbff5b9cd2f3e03d8ee6f88"
+        },
+        "request.json": {
+          "bytes": 861797,
+          "sha256": "8b23727aa9deda3f5ba3578496ddf4da1324f5d9af292ee326ee040a1dc22db1"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-reverse/proof.rpx",
+          "cases/test46/mi-reverse/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4334337,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":141093,\"points\":0,\"proof_decode_us\":580121,\"read_us\":26688,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5082239}\n",
+        "stderr": "",
+        "wall_seconds": 5.189479374999998
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-reverse/proof.rpx",
+          "cases/test46/mi-reverse/request.json"
+        ],
+        "exit_code": 3,
+        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+        "stderr": "",
+        "wall_seconds": 3.8284098750000055
+      }
+    },
+    {
+      "direction": 2,
+      "claim_summary": {
+        "reverse": true,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/lp-only/proof.rpa",
+      "rpx": "cases/test46/lp-only/proof.rpx",
+      "request": "cases/test46/lp-only/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 14451698,
+          "sha256": "e091d55817aebe0653217b116f35ed27fb88237c9bc21460511b73eab0ef9c7e"
+        },
+        "proof.rpx": {
+          "bytes": 10275133,
+          "sha256": "68ad8fb26e1c5b9d6c6cca5855d0256307dbdd4de7c0a29391c839c10e08eeb0"
+        },
+        "request.json": {
+          "bytes": 861799,
+          "sha256": "e03a7cf75040860b96e629dc04bd18e4e569c34200aff450705cfce390c628d4"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/lp-only/proof.rpx",
+          "cases/test46/lp-only/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":315565,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":132393,\"points\":0,\"proof_decode_us\":44333,\"read_us\":9353,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":501644}\n",
+        "stderr": "",
+        "wall_seconds": 0.5160249999999991
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/lp-only/proof.rpx",
+          "cases/test46/lp-only/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":325786,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"model_decode_us\":133767,\"points\":0,\"proof_decode_us\":47194,\"read_us\":4092,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":510839}\n",
+        "stderr": "",
+        "wall_seconds": 0.5235645830000024
+      }
+    }
+  ],
+  "former_100m_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "100000000",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/mi-forward/proof.rpx",
+        "cases/test46/mi-forward/request.json"
+      ],
+      "exit_code": 3,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+      "stderr": "",
+      "wall_seconds": 7.246894708000003
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "100000000",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/mi-reverse/proof.rpx",
+        "cases/test46/mi-reverse/request.json"
+      ],
+      "exit_code": 3,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+      "stderr": "",
+      "wall_seconds": 3.8284098750000055
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "100000000",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/lp-only/proof.rpx",
+        "cases/test46/lp-only/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":325786,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"model_decode_us\":133767,\"points\":0,\"proof_decode_us\":47194,\"read_us\":4092,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":510839}\n",
+      "stderr": "",
+      "wall_seconds": 0.5235645830000024
+    }
+  ],
+  "statistics": {
+    "bijections": 0,
+    "branches": 96947,
+    "flow_generated_rows": 0,
+    "flow_generated_terms": 0,
+    "flow_generated_variables": 0,
+    "flow_lifts": 0,
+    "injectivity_coordinates": 0,
+    "injectivity_generated_rows": 0,
+    "injectivity_generated_terms": 0,
+    "injectivity_generated_variables": 0,
+    "interval_generated_rows": 69004,
+    "interval_generated_terms": 140062,
+    "interval_generated_variables": 17251,
+    "interval_lifts": 2,
+    "linear_terms": 223958117,
+    "menu_generated_rows": 0,
+    "menu_generated_terms": 0,
+    "menu_generated_variables": 0,
+    "menu_lifts": 0,
+    "objective_level_domains": 0,
+    "objective_level_generated_rows": 0,
+    "objective_level_generated_terms": 0,
+    "obligations": 1105551,
+    "peak_live_facts": 344878,
+    "plotkin_pairs": 0,
+    "point_coefficient_terms": 0,
+    "points": 0,
+    "signed_generated_rows": 0,
+    "signed_generated_terms": 0,
+    "signed_generated_variables": 0,
+    "signed_lifts": 0,
+    "substitution_terms": 994026,
+    "work": 551077751
+  },
+  "exceeds_former_100m_work": true
+}

@@ -1,0 +1,37 @@
+{
+  "records": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kernel-core",
+        "--locked",
+        "--test",
+        "adversarial_review",
+        "public_expression_addition_bounds_the_temporary_constant_product",
+        "--",
+        "--exact"
+      ],
+      "exit_code": 101,
+      "stdout": "\nrunning 1 test\ntest public_expression_addition_bounds_the_temporary_constant_product ... FAILED\n\nfailures:\n\n---- public_expression_addition_bounds_the_temporary_constant_product stdout ----\n\nthread 'public_expression_addition_bounds_the_temporary_constant_product' (30496238) panicked at crates/core/tests/adversarial_review.rs:236:44:\ncalled `Result::unwrap_err()` on an `Ok` value: ()\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n\nfailures:\n    public_expression_addition_bounds_the_temporary_constant_product\n\ntest result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s\n\n",
+      "stderr": "   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/crates/core)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.12s\n     Running tests/adversarial_review.rs (target/debug/deps/adversarial_review-5b6d1cb8d1b7f561)\nerror: test failed, to rerun pass `-p kernel-core --test adversarial_review`\n"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kernel-core",
+        "--locked",
+        "--test",
+        "rpa_resources"
+      ],
+      "exit_code": 0,
+      "stdout": "\nrunning 2 tests\ntest malformed_json_and_unknown_fields_remain_invalid ... ok\ntest json_nesting_exhaustion_is_a_resource_outcome_below_kernel_depth_limit ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": "   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/crates/core)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s\n     Running tests/rpa_resources.rs (target/debug/deps/rpa_resources-5d7f30122c4e1932)\n"
+    }
+  ],
+  "model_sha256": "8500c1604eba519b0294068678078c2342389d584307ececa0251869951a80ca",
+  "rpa_sha256": "b40b7e336dc4878e09ec7d33e75a0255773ce2b0be626be1ac6b5fc11b0da78b"
+}

@@ -1,0 +1,26 @@
+{
+  "baseline": "/Users/bhz/Code/kernel/audit/checkpoints/v3-source",
+  "prototype": "/Users/bhz/Code/kernel/bench/boxed-cases-prototype",
+  "changed": {
+    "crates/core/src/codec.rs": {
+      "before": "4974e60aac6ad008ca676b04a0fba55d9a792b34e85e565051434f885ac5dee6",
+      "after": "32a72274ff092f98e459f230fcc70380ce8f7ad5cd52213155045c9ecd6cd925"
+    },
+    "crates/core/src/proof.rs": {
+      "before": "e776d1f96bf117d219080e1b25cb194fa7bd56473b6ab613fd7d8eb188ba47e9",
+      "after": "801cdeea3b8f7971708b8871192ddda0fed97c6319f627d993a260302b754326"
+    },
+    "crates/core/src/verify.rs": {
+      "before": "c4629ffb7c11d1dafe2e752c265893b7dcd892718ae734ed041b9fcc9546cda0",
+      "after": "8ef6c204462f773c8d815ffe100533bccae10271e70f5ed94a18e99e997963ef"
+    },
+    "crates/core/tests/local_cases.rs": {
+      "before": "e2df52944674b1ac82c045a499bd456488f0023f3c4c866d6b337372980919a6",
+      "after": "4020fe623e2f297f8d22e1a47bbc0d4492f4108e2b02aeb7810a6bf8ab9913d8"
+    },
+    "crates/core/tests/plotkin.rs": {
+      "before": "38363f8cc9e9d9c86381ef356ff01cbfe6050771420726a9126460a9e57aa646",
+      "after": "0899778e8bd5b924d707da50e8066e33eb8e3382e7a822083ad0ea19c21d9b2d"
+    }
+  }
+}

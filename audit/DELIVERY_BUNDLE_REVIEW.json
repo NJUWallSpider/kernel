@@ -1,0 +1,84 @@
+{
+  "status": "PASS_AFTER_THREE_BOOKKEEPING_REPAIRS",
+  "actual_test58_complete_original_contract": "PASS",
+  "actual_test58_independent_negative_replays": 8,
+  "actual_test58_independent_fraction_points": 7,
+  "actual_test46_bundle_binding": "PASS_ALL_THREE_DIRECTIONS",
+  "bookkeeping_fixture_count": 24,
+  "bookkeeping_fixture_status": "ALL_PASS",
+  "findings": [
+    {
+      "issue": "Scope reviewed request files need not equal active delivery request paths",
+      "status": "FIXED_BY_ROOT",
+      "existing_correctly_configured_62_83_46_miscount_evidence": false
+    },
+    {
+      "issue": "Single fresh replay status ignored nonzero process exit",
+      "status": "FIXED_BY_ROOT",
+      "actual_old78_nonzero_exit_evidence": false
+    },
+    {
+      "issue": "Python optimization erases helper assert validation",
+      "status": "FIXED_BY_ROOT_FAIL_CLOSED_AT_IMPORT",
+      "normal_mode_existing_case_miscount_evidence": false
+    }
+  ],
+  "trust_scope": "Bookkeeping fixtures are intentionally synthetic; no fake mathematical acceptance is counted. Actual model/proof certification uses actual Rust verifier and canonicalizer. No production edits or real ledger writes by reviewer.",
+  "artifacts": {
+    "tools/case_delivery.py": {
+      "path": "/Users/bhz/Code/kernel/tools/case_delivery.py",
+      "sha256": "9e0785bf0ffa6aa0a54143c3c9daaa43cb86c042e5500ad13bea43c52d52996e",
+      "bytes": 5933
+    },
+    "tools/prepare_affine.py": {
+      "path": "/Users/bhz/Code/kernel/tools/prepare_affine.py",
+      "sha256": "23b52da656dc1dd03746311fb4cfc6fdbd97d7e63956468c5cb3b02cf53d6e0b",
+      "bytes": 16581
+    },
+    "tools/run_acceptance.py": {
+      "path": "/Users/bhz/Code/kernel/tools/run_acceptance.py",
+      "sha256": "f59b3e357c8ff417805f50972d51da68827b7cf71bcfd253338508b53ab280b5",
+      "bytes": 4021
+    },
+    "audit/DELIVERY_BUNDLE_REVIEW.md": {
+      "path": "/Users/bhz/Code/kernel/audit/DELIVERY_BUNDLE_REVIEW.md",
+      "sha256": "478fb7adb47deee4077cb46814d160c83d7566c2f9396a238c84a8fc2956bb0b",
+      "bytes": 5068
+    },
+    "audit/DELIVERY_BUNDLE_FIXTURES.json": {
+      "path": "/Users/bhz/Code/kernel/audit/DELIVERY_BUNDLE_FIXTURES.json",
+      "sha256": "9dd047759e8ad9b062910469427c7360a8f20206ef2d5866c1cb2109c387805f",
+      "bytes": 13439
+    },
+    "audit/DELIVERY_BUNDLE_FIXTURES.before_exit_fix.json": {
+      "path": "/Users/bhz/Code/kernel/audit/DELIVERY_BUNDLE_FIXTURES.before_exit_fix.json",
+      "sha256": "192d3cbbf14dca4779408f2d5710ba6ccdf4ea02c0354233bfec55886ae86f44",
+      "bytes": 9575
+    },
+    "audit/TEST46_BUNDLE_BINDING_REVIEW.json": {
+      "path": "/Users/bhz/Code/kernel/audit/TEST46_BUNDLE_BINDING_REVIEW.json",
+      "sha256": "1d8902b08bfafbcd2783668e387fdb9eb2c5ecd4c02d4f0680601ebc9b203937",
+      "bytes": 15322
+    },
+    "audit/TEST58_COMPLETE_REVIEW.md": {
+      "path": "/Users/bhz/Code/kernel/audit/TEST58_COMPLETE_REVIEW.md",
+      "sha256": "c87f7c8e1633a822878663bb25d87d682d024932db054e53230643d9e5eaa96f",
+      "bytes": 3723
+    },
+    "audit/TEST58_COMPLETE_REVIEW.json": {
+      "path": "/Users/bhz/Code/kernel/audit/TEST58_COMPLETE_REVIEW.json",
+      "sha256": "ab6e185767ec9d86c33d2b15caa72b3bad70822889b0ae2b44b2230044f56eca",
+      "bytes": 15624
+    },
+    "audit/test_delivery_bundle_review.py": {
+      "path": "/Users/bhz/Code/kernel/audit/test_delivery_bundle_review.py",
+      "sha256": "7e6663e9f33bef582181cddcd1200ec77906456e5f8941bfeabf85d2fe589fb3",
+      "bytes": 14591
+    },
+    "audit/review_test58_complete.py": {
+      "path": "/Users/bhz/Code/kernel/audit/review_test58_complete.py",
+      "sha256": "20c2edff3eeb6b48f38bda12055888311c17ff61c53e77d346325b2e1394711c",
+      "bytes": 10504
+    }
+  }
+}

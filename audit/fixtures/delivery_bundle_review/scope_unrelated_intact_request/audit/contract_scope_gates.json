@@ -1,0 +1,15 @@
+{
+  "schema": "rpx-original-contract-scope-gates-v1",
+  "cases": {
+    "mock": {
+      "status": "REVIEWED_COMPLETE_REQUEST",
+      "requests": [
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/scope_unrelated_intact_request/formerly-reviewed-request.json",
+          "sha256": "0b9778c6067708b8ae2454d961df8eded6d055f42923ac60248da6c7d6368a89",
+          "bytes": 52
+        }
+      ]
+    }
+  }
+}

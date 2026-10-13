@@ -1,0 +1,20 @@
+{
+  "status": "REVIEWED_AND_FRESH_CORE_REBUILD_PASSED",
+  "source_sha256": {
+    "crates/core/src/menu.rs": "dff7e13624f75a616bc1b60a1f94ac009d0f218be66008872ac22d63cd8c9f88",
+    "crates/core/src/injectivity.rs": "d61e8b75d0a7ec6420459ca8f75b512bd6b666535e2467403d100c3c2ce39e73",
+    "crates/core/src/verify.rs": "c98fc999caaeb204bd829520fb675e1cc7e448dc9ef6e02b25056d5aef66a736",
+    "crates/core/src/codec.rs": "b7cc1441e2708d73763467470ffb02efe4c57798c995b676062d69431f4d94d3",
+    "crates/core/src/proof.rs": "9af227bc36ec72aed71f5fd09375cf82eec8f4751aaafbf31f5e7ac3d59e9dd5",
+    "crates/core/src/rpa.rs": "f7c84b734e2f9a8facbad772a1bf7f29d552458dfb02d21eeaecf3049050a700",
+    "crates/core/tests/menu_bijection.rs": "924d2663806a4eca2215f87b216fc5aab250e9554cd09c5ce71b3e33e273c88e",
+    "crates/core/tests/menu_builder.rs": "18b2d83c661d3a28f0d7685342481f165921be5126b35d1a00334d18aa786cfc",
+    "crates/core/tests/injectivity_builder.rs": "0f9371eb7ba2dd779d34c53d31db259fb45eaf318a29a95e1c7ef59588fe4d19"
+  },
+  "core_test_count": 177,
+  "notes": "No mathematical acceptance finding in root review; mutable files must be rebound at final checkpoint.",
+  "fresh_rebuild": "audit/validation/checkpoint-v7/run.json",
+  "fresh_tests": 177,
+  "actual_replayed": 15,
+  "note": "Fifteen actual certificates existed when the fresh replay enumerated inputs. Test59 is a separate late replay after its RPX preparation completes. Review source hashes equal frozen source."
+}

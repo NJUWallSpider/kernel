@@ -1,0 +1,18 @@
+{
+  "status": "GENERATED_EXACT_CHECKED",
+  "generation_ns": 8671406250,
+  "name": "subflow-n1024-g1-w4",
+  "nodes": 1024,
+  "arcs": 3070,
+  "groups": 1,
+  "affine_width": 4,
+  "source_variables": 12280,
+  "source_rows": 1024,
+  "target_variables": 15350,
+  "target_rows": 5118,
+  "proof_steps": 4094,
+  "complete_obligations": 35819,
+  "source_terms": 28648,
+  "target_terms": 48090,
+  "independent_joint_point_checked": true
+}

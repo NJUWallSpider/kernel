@@ -1,0 +1,30 @@
+{
+  "case_id": "test58",
+  "status": "PROOF_NOT_COMPLETED",
+  "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/input/model.mps",
+    "sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/reformulated.mps",
+    "sha256": "5b3ab31ba40e9162ad96620b852ce6b8c9e13ac359e4299a0c16f44d7b350b90"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test58_full.py",
+    "sha256": "5a7f49c41fbe9f87842fdfdde4af2f551713312a93bcef24b14d3e66088f282d"
+  },
+  "claims": "Complete MI forward NonIncreasing and reverse Equal; minimum preservation and exact recovery. No LP equivalence and no full feasible-set bijection.",
+  "counts": {
+    "edge_ors": 426,
+    "path_ands": 91,
+    "parallel_ors": 2,
+    "signed_paths": 305,
+    "joint_subflow_arcs": 606,
+    "joint_subflow_nodes": 180,
+    "complete_output_obligations": 1697
+  },
+  "preparation_seconds": 5.0958595419999995,
+  "kernel_runs": [],
+  "negative_checks": []
+}

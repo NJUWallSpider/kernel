@@ -1,0 +1,10 @@
+subflow-n2-g1-w1 True {'min': 2.625167, 'median': 3.179209, 'max': 4.329667}
+subflow-n64-g1-w1 True {'min': 3.147, 'median': 3.309417, 'max': 5.942792}
+subflow-n1024-g1-w1 True {'min': 21.337917, 'median': 21.8175, 'max': 22.226625}
+subflow-n2-g4-w1 True {'min': 1.974417, 'median': 2.093959, 'max': 2.291875}
+subflow-n64-g4-w1 True {'min': 6.424333, 'median': 6.818042, 'max': 6.967083}
+subflow-n1024-g4-w1 True {'min': 85.338208, 'median': 87.707458, 'max': 90.217333}
+subflow-n2-g1-w4 True {'min': 2.240708, 'median': 2.347083, 'max': 3.007584}
+subflow-n64-g1-w4 True {'min': 7.428417, 'median': 7.674209, 'max': 9.435791}
+subflow-n1024-g1-w4 True {'min': 88.548208, 'median': 98.198792, 'max': 102.994292}
+test58 True {'min': 28.234208, 'median': 28.749292, 'max': 29.443083}

@@ -1,0 +1,1 @@
+{"status": "PASS", "families": {"legacy_rebound": 244, "explicit": 5, "exhaustive_balance_filtered": 374, "random_shared_arc_permuted_scaled": 360}, "cases": 983, "bytes": 3301851, "sha256": "b1d63f60a2b334c33f1caf400eb7aa6e7e596a596da5bfe8fd25851b04183dc4"}

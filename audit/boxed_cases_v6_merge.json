@@ -1,0 +1,39 @@
+{
+  "baseline_checkpoint": "audit/checkpoints/v6-original-scopes-source",
+  "change": "Box only the Cases payload; retain all fields/serde/wire/scalar semantics. Whole-live scope copies unchanged.",
+  "files": {
+    "crates/core/src/proof.rs": {
+      "before": "5c7a0d4ea6dca73490e75764d643605fc9f3a669461abc932a828384b6a03c99",
+      "after": "d0a48ade9ca3a531a8196e1aa230a26b75d801af17aade5afb72d11f402076e0"
+    },
+    "crates/core/src/codec.rs": {
+      "before": "2c18ddfd3b5435b28ab90923c2e23a1104463544a4fbe9e19e45342b8712c0e8",
+      "after": "3efec24de846b13662344659ad89485c6f8426376928e4ec004526bbbbd1a629"
+    },
+    "crates/core/src/verify.rs": {
+      "before": "5c7eaa1a507f50f46dd4afb3a28ff4dc810cac2493087c3ff803315d9e428b92",
+      "after": "54eed43f4080b7a589459b16473995bf1b4720a670e45702679b5a29c88778e6"
+    },
+    "crates/core/tests/local_cases.rs": {
+      "before": "e2730a12b92cc0dbfcc45cd92931c59fd48397f1116d15fd5d71c463e82a7795",
+      "after": "76b537a8a2eb15538e00035b926954300ecfc5f2e627f05ea9dbb0b76911df22"
+    },
+    "crates/core/tests/plotkin.rs": {
+      "before": "d87abe7815ea1c16c0d57e0046555763cb29e21ad9f1ae91d208a57e161e6343",
+      "after": "81637776f92f2a948427d2c1c2b65e67d764f3c0c5bfd2aa80be3232170c1e32"
+    },
+    "crates/core/tests/refutation.rs": {
+      "before": "123c24f9fe1a4efb29bc397af9d793f58cd6de89d1ba5c6729924e4008eca39b",
+      "after": "21165c0b87b426b3cc0cfc9b9fa233a40c812d23983c0ba21c7ff0b33800d672"
+    }
+  },
+  "measured_layout_bytes": {
+    "Step": 96,
+    "CasesStep": 208
+  },
+  "validation": {
+    "core_tests_passed": 147,
+    "wire_comparison": "audit/boxed_cases_v6_compatibility.json",
+    "actual_certificates_identical": 11
+  }
+}

@@ -1,0 +1,51 @@
+{
+ "case": "test88",
+ "reformulation": "Exact mixed-integer alias reduction: 784 vars/5,998 rows -> 432/2,298 (nonzeros 19,376 -> 7,648); 96 affine + 256 product aliases substituted away, 3,700 exact-duplicate rows deleted; objective, bounds, 48 binaries unchanged.",
+ "claim_class": "2 bijection claims (forward + reverse) over mixed-integer feasible sets: identity projection of the 432 retained coordinates, inverse cross-index, input/output integrality true, objective Equal; continuous-relaxation equivalence explicitly refused.",
+ "top_capability": "RULE_BUILDERS",
+ "preparer_lines": 233,
+ "claims": [
+  "Certificate binds the real 784-variable/5,998-row MPS to the committed 432/2,298 target and proves an objective-preserving bijection of mixed-integer feasible sets, identity on every retained coordinate, and both inverse identities (cases/test88/README.md:3).",
+  "96 affine aliases follow by subtracting the two original defining equalities of a class (tools/prepare_test88.py:150-152); the 256 product aliases need integrality: z = s1*s2*s3 with each s in {-1,0,1} (tools/prepare_test88.py:102-137).",
+  "3,700 rows become exact duplicates only after substitution; the reverse claim re-checks all 5,998 original rows against their retained survivors (tools/prepare_test88.py:188-192).",
+  "Claim payload: reverse true/false, input_integers and output_integers true, objective 'Equal', 432-pair identity projection, inverse index (cases/test88/request.json:1).",
+  "Explicitly not claimed: continuous-relaxation equivalence (fractional local witness VALUE=-1/2 vs +1/2), global feasibility, optimum, strict LP strengthening (cases/test88/README.md:3 / digest section 4)."
+ ],
+ "proof_encoding": [
+  "One file: 'RPA 2' + a single JSON cert {claims, blocks:[{steps,end:{Return:{map,checks}}} x 2]} (tools/prepare_test88.py:198,206).",
+  "Block 0 (forward): 2,573 steps (2,317 Lin + 256 Cases), 4,427 Return checks, 432-entry map; block 1 (reverse): 0 steps, 8,479 checks, 784-entry map (cases/test88/proof.rpa:2).",
+  "The 256 Cases steps occupy 7,793,503 of 8,313,616 bytes (93.7% of proof.rpa), 21 case nodes and 22 leaves each, 5,376 branches total (cases/test88/proof.rpa:2 / cases/test88/README.md:9).",
+  "Kernel statistics: work 8,324,541, obligations 12,906, linear_terms 209,284, substitution_terms 28,656, peak_live_facts 2,573 (cases/test88/preparation.json, kernel_runs[3].stdout).",
+  "request.json is 36,164 B and its entire bulk is the two 432-entry identity projections; 64,771 fact ids are allocated by the preparer (cases/test88/request.json:1 / cases/test88/preparation.json)."
+ ],
+ "agent_manual_work": [
+  "Hand-parsed the 1.55 MB MPS with Fraction only (no solver, no framework member): sections, 24 INTORG/INTEND pairs, 1,240 bound records, denominators <= 100 (digest Transcript eval 'Identifying MPS sections', 'Completing parsing and scope checks').",
+  "Discovered the whole plan by exhaustive exact signatures: 48 equality classes of three, 128 VALUE-block classes of three, zero pre-existing duplicate rows (digest Transcript eval 'Testing equality and block equivalences').",
+  "Proved product uniqueness itself: 27 ternary assignments x 384 blocks = 10,368 exact interval intersections plus the four binary states of every pair (digest Transcript eval 'Proving ternary product uniqueness').",
+  "Emitted the 265,961 B target MPS by hand and a 313,954 B audit.json carrying 352 aliases and 3,700 deleted-row witnesses (digest Transcript eval 'Writing final model and edit audit').",
+  "Wrote verify.py (182 lines) as the only independent audit; run had 15 turns, 14 tool calls, 0 failures, 337 s (/Users/bhz/Code/reform_test/runs/test88-nomf-B1/output/verify.py:10 / digest evaluation row)."
+ ],
+ "preparer_helpers": [
+  "Builder (tools/prepare_test88.py:18-57): alloc/refexpr/kind/lin/eqpair/cases over a mutable 1-element counter list, a copied facts dict, and one block's step list.",
+  "definitions() (:59) rebuilds the 144 equality definitions from canonical rows and asserts row_fact(r,'RowEq') == var - sum(binary).",
+  "fix_binary (:71) and fixed_definition (:77) turn a branch assumption into an exact fixed-value equality via EqPair with VarLower/VarUpper.",
+  "product_bound (:84) scans a 14-row block for an inequality that reduces to +/-z at assigned binary values; otherwise AssertionError('no exact product bound', ...) at :99.",
+  "product_alias (:102) recurses over 3 pairs x 2 bits = 21 Cases nodes, uses an absurd leaf when positive==negative==1, and leaf() (:108) witnesses z_removed == z_rep by two Lin inequalities plus eqpair."
+ ],
+ "friction": [
+  "93.7% of the RPA is 256 copies of one hand-written 21-node case tree: product_alias (:118-137) re-emits the same JSON shape 256 times, with no template or sharing.",
+  "Builder has no frame/scope: branches re-copy the facts dict and every branch Lin stays in the parent facts (:20,:43,:49); the kernel therefore tracks peak_live_facts 2,573.",
+  "Failures are bare asserts with no code/claim/step location (:42 'bad lin', :99 'no exact product bound', :45 kind mismatch); the negative tests had to patch the JSON cert directly (:218-228).",
+  "The reduction plan is imported, not derived: audit['variable_aliases'] (:140), audit['equality_classes'] (:61), audit['binary_pairs'] (:104), audit['signed_magnitude_map'] (:105), audit['product_classes'] (:154), audit['removed_rows_same_after_substitution'] (:189), and the target MPS is only shape-asserted (:141).",
+  "objective 'Equal' is discharged only by a Python dict comparison plus a generic 'Exact' token (:174,:175,:193,:194) - no objective fact or obligation type exists in Builder."
+ ],
+ "notes": "233-line preparer, 8,313,616 B RPA, VERIFIED with work 8,324,541 and 12,906 obligations; both negative mutants (continuous_split, changed_conclusion) return INVALID exit 2. Builder (tools/prepare_test88.py:18) is the closest thing to a builder API - 31 of 34 importing tools reuse it - but it is only a step-list accumulator: preconditions live in asserts, errors have no code/location, it owns neither claims/Return maps nor 'RPA 2' serialization (main(:206)), its kind() maps every non-Local/RowEq/VarInt ref to 'Le' and knows no objective, and its plan input is the agent's audit.json rather than a kernel edit API.",
+ "api_needs": [
+  "RULE_BUILDERS || shared (34 files under tools/ import prepare_test88; 31 import Builder - prepare_test13/48/61/70/84...) || 1 || The same 21-node binary case tree is rebuilt by hand 256 times; those Cases steps are 7,793,503 of the 8,313,616 proof bytes (93.7%). Builder.cases never checks that its split witness is an integer/binary variable. || fn case_split(&mut self, on: VarRef, left: impl FnOnce(&mut Frame)->Leaf, right: ...) -> Ref; fn case_tree(&mut self, vars: &[VarRef], leaf: impl Fn(&mut Frame, &Assign)->Leaf) -> Ref; Frame::export_eq() -> Ref || Builder.cases (tools/prepare_test88.py:47), the product_alias recursion (:118), fix_binary/fixed_definition/product_bound (:71-100) || tools/prepare_test88.py:47-57 / cases/test88/proof.rpa:2",
+  "CLAIM_PLANNING || universal || 2 || Builder owns one block's step list only; prepare() hand-assembles the cert and enumerates 4,427 forward + 8,479 reverse obligations in two written-out loops, then main() prints 'RPA 2'+json. || fn plan(src:&Model, tgt:&Model, c:&Contract) -> Vec<Obligation{claim:u32, kind:CheckKind, ref_:Ref, rule:RuleId}>; Cert::claim(kind, projection, inverse); Cert::write_rpa(&path) || fchecks/rchecks loops and the cert dict at tools/prepare_test88.py:163-198, 'RPA 2'+json.dumps at :206 || tools/prepare_test88.py:198 / cases/test88/preparation.json (verify statistics: obligations 12906)",
+  "EDIT_AUDIT || universal || 3 || The 352 aliases with their 48 equality and 128 product witnesses, plus 3,700 deleted-row->survivor pairs, enter only via the agent's audit.json (313,954 B); the target MPS is parsed as a black box and only shape-checked. || struct EditPlan { alias: Vec<{from:VarRef, to:VarRef, witness:WitnessRef}>, drop_rows: Vec<{row:RowRef, keep:RowRef}> }; fn apply(&Model, &EditPlan) -> Model; fn audit_json(&EditPlan) -> Value || audit['variable_aliases'] (:140), audit['product_classes'] (:154), audit['removed_rows_same_after_substitution'] (:189), shape asserts (:141) || tools/prepare_test88.py:140 / /Users/bhz/Code/reform_test/runs/test88-nomf-B1/output/audit.json:1",
+  "PROJECTION_BINDING || universal || 4 || Both claims are bijections over the 432 retained coordinates: request.json (36,164 B) is almost entirely two 432-pair identity projections, built by hand, with 'inverse' chosen by a ternary and integrality flags hard-coded true. || fn bijection(retained: &[(VarRef, VarRef)]) -> Claim { objective: Obj::Equal, projection: Vec<(u32,u32)>, inverse: u32, input_integers: true, output_integers: true } || the hand-built claims.append({...}) at tools/prepare_test88.py:197 and the hand-written request.json || tools/prepare_test88.py:197 / cases/test88/request.json:1",
+  "DIAGNOSTICS || universal || 5 || Every builder precondition is a bare assert (:42 'bad lin', :45 kind mismatch, :99 'no exact product bound'); the builder cannot name the claim/block/step/obligation that failed, so the two attack mutants had to be cut into the raw JSON. || struct BuildError { code: BuildCode, location: Loc { claim: Option<u32>, block: u32, step: Option<u32>, obligation: Option<u32> } }; fn lin(&mut self, ...) -> Result<Ref, BuildError> || assert e==expected (:42), raise AssertionError('no exact product bound') (:99), manual JSON mutation (:218-228) || tools/prepare_test88.py:99 / tools/prepare_test88.py:218-228",
+  "OBJECTIVE_ALGEBRA || universal || 6 || Both claims assert objective 'Equal' (cases/test88/request.json:1), yet the proof is one Python dict equality per direction plus a bare 'Exact' token (:174,:193); no objective ref kind or difference object exists. || fn objective_diff(src:&Model, tgt:&Model, map:&AliasMap) -> Q; enum ObjClaim { Equal, Level(Q) }; Check::ObjectiveEq { diff: Q, at: Vec<(VarRef,VarRef)> } || substitute(b['objective'],forward)==a['objective'] (:174,:193) and the generic 'Exact' tokens (:175,:194) || tools/prepare_test88.py:174 / cases/test88/request.json:1"
+ ]
+}

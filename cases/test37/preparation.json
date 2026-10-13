@@ -1,0 +1,243 @@
+{
+  "case_id": "test37",
+  "status": "VERIFIED",
+  "protocol_status": "FROZEN_V8_VERIFIER_RPA6_INPUT",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/input/model.mps",
+    "sha256": "5189af38fee754d9e35e6b6b7838fd55d496a447f794fdc8bfd4015bf5f67a1e"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/output/reformulated.mps",
+    "sha256": "5b96c086c4f542e4544506f2ecafc659a0ff1d4b9b8480341a1ad06dc905b1a8"
+  },
+  "audit_hint": {
+    "path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/output/audit.json",
+    "sha256": "d496d5baaa39ac27c23aba2765bcdae5e3b0a81fd3208956d1a08c5caf73b988"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test37.py",
+    "sha256": "751586f471822a0551e0c649eea54a631e3824f9f49001f4d8f0afe80e464c61"
+  },
+  "kernel_binary": {
+    "path": "/Users/bhz/Code/kernel/target/validation-checkpoint-v8/release/rpx",
+    "sha256": "11eb5ec0297a508f30aa0581e6691d3f7412fc5fdcc384a84e0aa7c22ff8a258"
+  },
+  "counts": {
+    "source_variables": 322,
+    "target_variables": 317,
+    "source_rows": 396,
+    "target_rows": 392,
+    "claims": 3,
+    "point_claims": 1,
+    "fixed_coordinates": 5,
+    "direct_paths": 72,
+    "path_bounds": 72,
+    "tightened_rows": 262,
+    "unchanged_asymmetric_rows": 12,
+    "case_splits": 262,
+    "fiber_equalities": 317,
+    "separating_row": "c22",
+    "fiber_contradiction": "406000",
+    "obligations_by_claim": [
+      1954,
+      1967,
+      1348
+    ],
+    "root_steps_by_claim": [
+      816,
+      266,
+      266
+    ]
+  },
+  "preparation_seconds": 0.199767042,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v8/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test37/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":64825,\"parse_us\":1027,\"read_us\":50,\"rows\":396,\"status\":\"CANONICALIZED\",\"total_us\":1476,\"variables\":322}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v8/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test37/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":64148,\"parse_us\":947,\"read_us\":37,\"rows\":392,\"status\":\"CANONICALIZED\",\"total_us\":1336,\"variables\":317}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v8/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test37/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test37/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":261056,\"status\":\"ASSEMBLED\",\"total_us\":2648}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v8/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test37/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test37/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test37/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test37/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":6680,\"model_decode_us\":916,\"points\":1,\"proof_decode_us\":1117,\"read_us\":79,\"statistics\":{\"bijections\":0,\"branches\":262,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":7512,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":5269,\"peak_live_facts\":816,\"plotkin_pairs\":0,\"point_coefficient_terms\":1815,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":6104,\"work\":122392},\"status\":\"VERIFIED\",\"total_us\":8792}\n",
+      "stderr": ""
+    }
+  ],
+  "claims": "Complete retained-coordinate mixed-integer feasible-set and objective equality with both full affine inverse identities; target LP inclusion in source under the fixed-coordinate lift; strict target LP containment under all 317 retained observations via complete source point and target fiber refutation. No LP optimum-gap or integer attainment claimed.",
+  "independent_mcm_comparison": "ALL_FIELDS_EQUAL",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 64825,
+      "sha256": "11cca309cb5892df912c8fd382abc5248fd03f05d6fb66f14dfe8af53dfadf1d"
+    },
+    "target.mcm": {
+      "bytes": 64148,
+      "sha256": "66430bd3082308010d0af3f1e1e51c736092ca9427d80b843ee109268fd40917"
+    },
+    "proof.rpa": {
+      "bytes": 402791,
+      "sha256": "761b8d5d5415d07dbd199fd9b8ce64cae5f516a86719146626bf12c9e6daf8e7"
+    },
+    "proof.rpx": {
+      "bytes": 261056,
+      "sha256": "7b6ce5cd35ec890a64abc1cafdfa99ece1d8db7e92fc532a48d8a2b72af0eb83"
+    },
+    "request.json": {
+      "bytes": 47537,
+      "sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    "exact_structure.json": {
+      "bytes": 60598,
+      "sha256": "567a4d53310496673f38f28ea683f0b09a6470360c6528c5f2d6e119b1c945d9"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "wrong_big_m_multiplier",
+      "rule_broken": "Changes the actual row scaling before fixing a selector.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID rounding premises",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "4887ef51ddb36e680ab492b487a36c069243126afbb26bde34780cfcce8800b3",
+      "rpx_sha256": "ff486e91aa3497edca20797646a29056fa53c328078685078f4aa5bea871d3e2",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "wrong_activity_path_scale",
+      "rule_broken": "Corrupts the certified activity lower bound used in a tightened-row branch.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "4ab4dbd33e8410df2fdb65fbf55f804a946a050fdaaaf207bee40679d1289f6a",
+      "rpx_sha256": "82cef1dcfba49af27567d1c04ec53699515690ce723d74b4d6c40f9778652542",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "lp_borrows_integrality",
+      "rule_broken": "Reuses a source VarInt rounding premise in an LP claim.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "080e6e8c42b3d727582f956c5355ad3c85c60b2c329e4f943a83ff197d7008c9",
+      "rpx_sha256": "5938c7b282b707d1703192fef3c6a1a613893d396cfd619a4593af3647871e2c",
+      "request_sha256": "a61cf4b82a5922f289944fa6f7965099abcf361d6af965643f19e252e838b537"
+    },
+    {
+      "mutation": "missing_middle_obligation",
+      "rule_broken": "Deletes one complete reverse-model obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 983",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "d20a1548ced2c109e1992be661a3c8222ab1802ea89eaa520eabc40ffbbc1a83",
+      "rpx_sha256": "ba413d6be7f7df1b3f332f1f841e330ad70a4f2786e2dab08cc3184ddc8fb715",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "wrong_fixed_inverse",
+      "rule_broken": "Maps the actual fixed x20=1 coordinate to zero.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 1651",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "8a618039860b76cef00284378597973915b5ab1cc537b6958c50f1be16c09f82",
+      "rpx_sha256": "4a2e3bc1534020b8c27b25c5882c26cda052448fdd79f28093e4efeab83454df",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "infeasible_full_separator",
+      "rule_broken": "Changes the full source LP point so an actual source row fails.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID point: fiber strictness witness is not feasible in the inclusion output LP (witness 0)",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "4634c08cc0fbf012129e36dca6689d2edc3ec36c676c04a1afd54bbcaf04ae0c",
+      "rpx_sha256": "8e58d974ca62c22eef5139b2aa1ff13f0168aa4a26000e5964809cabd5df57fb",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "missing_fiber_cancellation",
+      "rule_broken": "Omits one generated observation equality from the contradiction.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID contradiction witness (witness 0)",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "205ac0d9bb484752bc4bc644afcbe39b7b8cb2c4f39cb8aa342092115dff6c63",
+      "rpx_sha256": "b75e6b7e2f32a5bf2cf6406ab91c7abba97f9c6175ee6d49c8321b40abd39379",
+      "request_sha256": "289083d06b061a6fd16ebfad5a678c2bce38d96f8b82bb68e6972cf757042041"
+    },
+    {
+      "mutation": "false_permutation_strictness",
+      "rule_broken": "Claims complete-coordinate permutation strictness despite five missing coordinates.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID point: strictness requires a projection covering every coordinate on both sides (witness 0)",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "a4da68ae8506083dd984a33b18a81b365f24022c007bdf61ea72a94db7f0f059",
+      "rpx_sha256": "3cdd970ac97737d0518b541ca703777dfcb0a6571783e0f5f55a5dc5bf1cea9f",
+      "request_sha256": "fa55217a71641647d64f06ae53c5e61307531760907556cc059147a3ed60f3f9"
+    }
+  ],
+  "attack_seconds": 0.37762191700000003,
+  "preparer_dependencies": {
+    "prepare_affine.py": "1c58f237e86983174525ce1d966feb061f1a56185139a1dbb352fe1231a0bb85",
+    "prepare_test40.py": "6fc9174d6c9211c74d2fd19722484e14463ab623c40382c1821dc9c040236baa",
+    "prepare_test48.py": "52b5a1014128d4a0bc14d71dc984239dbe46b2ceed659a317e0d1ec36c2ee707",
+    "prepare_test44.py": "4ead501f8a7610cc01298da3fc69b2718044d96fefbc16637f153d944e8fb02a",
+    "prepare_test88.py": "5de455f167c94ddce9665b219890da1af6f764907c6648aab673d919503250bd",
+    "prepare_test23.py": "43c0a4b9a480e5cc3acf9a73e3b4933faa3b4d23c5659a97e926754fc30be40c"
+  },
+  "independent_oracle": {
+    "script": "audit/test37_fraction_oracle.py",
+    "script_sha256": "83515abbd1bbea7b6d79745e4fdd8e400cf5062d540f05e893fdf9b8560edc70",
+    "result": "audit/test37_fraction_oracle.json",
+    "result_sha256": "aa7902b935c53f8c7019cbc168ecceb70c712d7d28ce529e75903fb9c6bcc7df",
+    "status": "PASS"
+  }
+}

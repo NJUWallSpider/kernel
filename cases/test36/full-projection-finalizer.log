@@ -1,0 +1,16 @@
+{"complete_rpa_bytes": 267140625, "text_limit_bytes": 268435456}
+zero_strict_margin INVALID
+gap_too_large INVALID
+wrong_positive_predicate INVALID
+continuous_terminal_integer INVALID
+missing_actual_chain_row INVALID
+new_scope_premise INVALID
+infeasible_constant_return INVALID
+weak_assumption_refutation INVALID
+missing_halfspace INVALID
+reversed_halfspace INVALID
+incomplete_terminal_halfspace INVALID
+missing_projection_obligation INVALID
+borrow_old_row_as_halfspace INVALID
+wrong_reverse_projection INVALID
+{"status": "VERIFIED", "statistics": {"bijections": 0, "branches": 157666, "flow_generated_rows": 0, "flow_generated_terms": 0, "flow_generated_variables": 0, "flow_lifts": 0, "halfspace_domains": 1, "halfspace_generated_rows": 1, "halfspace_generated_terms": 200, "improvements": 1, "injectivity_coordinates": 0, "injectivity_generated_rows": 0, "injectivity_generated_terms": 0, "injectivity_generated_variables": 0, "interval_generated_rows": 0, "interval_generated_terms": 0, "interval_generated_variables": 0, "interval_lifts": 0, "linear_terms": 11418684, "menu_generated_rows": 0, "menu_generated_terms": 0, "menu_generated_variables": 0, "menu_lifts": 0, "objective_level_domains": 0, "objective_level_generated_rows": 0, "objective_level_generated_terms": 0, "obligations": 529636, "peak_live_facts": 276367, "plotkin_pairs": 0, "point_coefficient_terms": 0, "points": 0, "signed_generated_rows": 300928, "signed_generated_terms": 1087916, "signed_generated_variables": 300928, "signed_lifts": 38, "substitution_terms": 602256, "work": 448596660}, "attacks": 14}

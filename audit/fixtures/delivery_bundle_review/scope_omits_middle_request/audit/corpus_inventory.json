@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "case_id": "mock",
+      "run_name": "mock",
+      "families": [
+        "fixture"
+      ],
+      "status": "PROOF_NOT_COMPLETED",
+      "status_reason": "synthetic bookkeeping only",
+      "source_models": [
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/scope_omits_middle_request/cases/mock/source.mps",
+          "sha256": "ab7ad87359c8ad5dd39cc96704fa4c2300c6e96e0613148591ecd29c96d5e09d",
+          "bytes": 34
+        }
+      ],
+      "final_target_models": [
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/scope_omits_middle_request/cases/mock/target.mps",
+          "sha256": "0324296fc65f1ec24581244809d7808ecbc812ecd27d073c8248d060fe1af538",
+          "bytes": 34
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "model_pair_present_count": 1
+  },
+  "family_definitions": {
+    "fixture": "mock"
+  }
+}

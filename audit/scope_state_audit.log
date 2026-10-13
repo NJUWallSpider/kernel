@@ -1,0 +1,33 @@
+
+running 7 tests
+test verify::scope_state_audit::every_ancestor_lookup_probe_is_reported ... ok
+test verify::scope_state_audit::nested_mask_then_local_definition_drop_remains_hidden ... ok
+test verify::scope_state_audit::logical_limit_and_duplicate_insert_guards_match_copied_maps ... ok
+test verify::scope_state_audit::whole_split_right_can_consume_unchanged_parent_after_left_fork ... ok
+test verify::scope_state_audit::inherited_drop_reuse_and_second_drop_never_resurrect_ancestors ... ok
+test verify::scope_state_audit::sixty_four_ancestor_scopes_keep_counts_masks_and_probe_costs ... ok
+scope oracle: seed base=0x52505853434f5045, traces=128, operations=127072, defines=47528, drops=39541, child_forks=7486, expected_rejections=60004
+test verify::scope_state_audit::copied_map_oracle_128_seeded_state_trees ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 23 filtered out; finished in 9.44s
+
+
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.26
+   Compiling autocfg v1.5.1
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.152
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling num-traits v0.2.19
+   Compiling syn v3.0.7
+   Compiling serde_derive v1.0.229
+   Compiling num-integer v0.1.47
+   Compiling num-bigint v0.4.8
+   Compiling num-rational v0.4.2
+   Compiling kernel-core v0.1.0 (/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/rpx-scope-audit-r3iolshz/crates/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.45s
+     Running unittests src/lib.rs (/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/rpx-scope-audit-r3iolshz/target/debug/deps/kernel_core-720bcc6207e0164d)

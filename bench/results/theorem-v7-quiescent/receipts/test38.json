@@ -1,0 +1,165 @@
+{
+  "case_id": "test38",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/input/model.mps",
+    "sha256": "5eb00dd3c6bd06bd3407b37247bc07db68bdfcc7c0547543d06049aa516e0785"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/output/model_shared_dag.mps",
+    "sha256": "4171238a14362385c2cd7e02f14b53771b6a3728f609614bb9954218b1815e4f"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/output/audit.json",
+    "sha256": "23d8caf13f9c395d5869b7bdf1aa9b2355640259d4d857d6af5b7df1c1a9fb9d"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test38.py",
+    "sha256": "7cafe5430f88cf8499b569115f007687317732e6eaa1046bcd092ce2c81427d3"
+  },
+  "claims": "Full objective-preserving mixed-integer affine bijection with both inverse identities and all107retained p/x coordinates. Shared DAG aliases use scalar local integer Cases. No LP equivalence or strictness claimed.",
+  "counts": {
+    "source_variables": 5282,
+    "target_variables": 3388,
+    "source_rows": 20346,
+    "target_rows": 13037,
+    "source_nodes": 5031,
+    "shared_nodes": 3281,
+    "aliases": 1894,
+    "root_steps": [
+      17523,
+      30688
+    ],
+    "obligations": [
+      25233,
+      34436
+    ]
+  },
+  "preparation_seconds": 10.804523042,
+  "rpa_bytes": 27251726,
+  "rpa_sha256": "13b3a59656e85d544df650094f3a7bc1be16f2ed602f112b34094c8f4b236bd0",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v6-shared-scopes/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test38/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":2864386,\"parse_us\":40575,\"read_us\":915,\"rows\":20346,\"status\":\"CANONICALIZED\",\"total_us\":55024,\"variables\":5282}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v6-shared-scopes/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/output/model_shared_dag.mps",
+        "/Users/bhz/Code/kernel/cases/test38/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":1536136,\"parse_us\":22361,\"read_us\":185,\"rows\":13037,\"status\":\"CANONICALIZED\",\"total_us\":31052,\"variables\":3388}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v6-shared-scopes/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test38/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test38/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":16191034,\"status\":\"ASSEMBLED\",\"total_us\":226669}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v6-shared-scopes/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test38/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test38/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test38/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test38/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"claims\":2,\"execute_us\":686067,\"model_decode_us\":30728,\"points\":0,\"proof_decode_us\":66649,\"read_us\":2193,\"statistics\":{\"branches\":14556,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":631452,\"obligations\":59669,\"peak_live_facts\":30688,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":120700,\"work\":4680150},\"status\":\"VERIFIED\",\"total_us\":785637}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "425a40c6b259bb9db45d9e1a2fac56dece8ad60c2226a314c783595e0a19e608",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 2864386,
+      "sha256": "743cad15b8462610a4d212bab5e0651b7b983d4ebe6f607a44e3787ef18bcf23"
+    },
+    "target.mcm": {
+      "bytes": 1536136,
+      "sha256": "5cfee77e68e6183956316c4199748a4a895f8450ec6cec805b8d536ed3e54581"
+    },
+    "proof.rpx": {
+      "bytes": 16191034,
+      "sha256": "8ad276cfb78212a2477c60ba9235fc317f1ab5c75ff0fe9e5c6323e0d76a606f"
+    },
+    "request.json": {
+      "bytes": 1921,
+      "sha256": "ce470486a62660e2635fa4a2da335ff82a8b47a9a280ecdfeed3d64230bb6be8"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "continuous_selector",
+      "rule_broken": "Claims integrality of a continuous source variable in local Cases.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "ae5ada38cc14324752d2adcfe219b49b26cdcd8df96db66ed1ddeb64014596a9",
+      "rpx_sha256": "433f245f02ade1843e667a4f7417d1a353326815b068faeb274d650c3f61ec48"
+    },
+    {
+      "mutation": "false_alias",
+      "rule_broken": "Alters the common alias equality while retaining the branch witnesses.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "041bdd3a5b274d6cedebdc709c8954c6133f1606dc18ea35bbfc6b0f20913532",
+      "rpx_sha256": "03b050e89c22dcdcbbda0ea23156fb515eaf0d6c5f7eb8e6e23e4cdb852e6fee"
+    },
+    {
+      "mutation": "missing_obligation",
+      "rule_broken": "Removes a middle final-output obligation witness.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 12616",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "ecd0320990f46e9a47338628e0a0e5daac0bd1e3b3fba1f20701c866ace32303",
+      "rpx_sha256": "9c867615bbffbf1faa2febc7830985c0bb55552fc9fb33416fe4906e47d3ac71"
+    },
+    {
+      "mutation": "wrong_shared_representative",
+      "rule_broken": "Replaces one shared-node output map with an unrelated source coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 244",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "945ebea0a7afce27345645641bf6e6491475aeb37ab0e32865d6d93d2470f533",
+      "rpx_sha256": "c8a0f47849e2b8e267b9477ae75eb8408d195c7740f64b26e7c5dc5cc1c422a6"
+    },
+    {
+      "mutation": "weakened_inverse",
+      "rule_broken": "Removes the requested inverse claim in the certificate only.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID requested contract mismatch",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "f651d4c0957634e445c3c88f34b2d39da8a09d62cd20e6e5211a8c913c30b21d",
+      "rpx_sha256": "7092e15ce8429c636be5237df5454a2f0dad60067c765180420db78083badc4f"
+    }
+  ]
+}

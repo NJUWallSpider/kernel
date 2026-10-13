@@ -1,0 +1,643 @@
+{
+  "case_id": "test72",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/input/model.mps",
+    "sha256": "8d1ade85b75fa62d06435bab3865f34099892787b79b3d03f7a813bd964fdb17"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/reformulated.mps",
+    "sha256": "dbe74c39f9c6083c3c51f007b28af36421d21690f68798ca2fd8daa8b163fef5"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/audit.json",
+    "sha256": "0b978e710b4050cba770e57782b817caf7fd9bf796d78cb0f39a94fdb45a3c9e"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test72.py",
+    "sha256": "2e9e389caee6e641e4e384259b45c65d5627242f5fb8b9670157e1314abd55e6"
+  },
+  "claims": "Forward integer Equal and reverse integer NonIncreasing maps preserve all 2608 primary binary observations. Opposing nonincreasing maps establish equality of extended infima for EACH integer primary assignment (the minimum-completion-cost epigraph is a derived consequence, not an additional kernel claim). Reverse continuous NonIncreasing inclusion also preserves the primary coordinates and reconstructs all eliminated fractional capacity auxiliaries by checked exact interval premises. Forward capacity threshold identities are independent of integrality, but no source-LP-to-target-LP map or full-model LP equality is certified: the forward clique proof requires binary Cases and excludes fractional edge-box points locally. Auxiliary completions are not claimed unique.",
+  "counts": {
+    "source_variables": 17264,
+    "target_variables": 5528,
+    "source_rows": 21235,
+    "target_rows": 5799,
+    "primary_observations": 2608,
+    "capacity_blocks": 275,
+    "largest_capacity_block": 78,
+    "claims": 3,
+    "block_depths": [
+      7,
+      17,
+      22
+    ],
+    "lift_wave_schedule_by_claim": [
+      [],
+      [
+        {
+          "kind": "MenuLift",
+          "witnesses": 11084
+        },
+        {
+          "kind": "MenuLift",
+          "witnesses": 120
+        }
+      ],
+      [
+        {
+          "kind": "IntervalLift",
+          "witnesses": 275
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 173
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 125
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 115
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 86
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 60
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 43
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 35
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 24
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 21
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 18
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 15
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 9
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 6
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 516
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 670
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 1080
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 1995
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 3629
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 3094
+        },
+        {
+          "kind": "IntervalLift",
+          "witnesses": 22
+        }
+      ]
+    ]
+  },
+  "preparation_seconds": 74.84477170789614,
+  "peak_preparer_rss_bytes": 3374202880,
+  "rpa_sha256": "47e2165e2767ba7b6eff620abf68b9fc9748a9243ac44f2115f12741c0ae90fb",
+  "rpa_bytes": 228760321,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/input/model.mps",
+        "cases/test72/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":4234598,\"parse_us\":39733,\"read_us\":878,\"rows\":21235,\"status\":\"CANONICALIZED\",\"total_us\":54611,\"variables\":17264}\n",
+      "stderr": "",
+      "seconds": 0.07442308310419321
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/reformulated.mps",
+        "cases/test72/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":1987285,\"parse_us\":21016,\"read_us\":457,\"rows\":5799,\"status\":\"CANONICALIZED\",\"total_us\":28020,\"variables\":5528}\n",
+      "stderr": "",
+      "seconds": 0.034154791152104735
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/proof.rpa",
+        "cases/test72/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622652,\"status\":\"ASSEMBLED\",\"total_us\":2778275}\n",
+      "stderr": "",
+      "seconds": 2.9493601671420038
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/proof.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":5268011,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"model_decode_us\":24927,\"points\":0,\"proof_decode_us\":961497,\"read_us\":17857,\"statistics\":{\"bijections\":0,\"branches\":49171,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":50871,\"interval_generated_terms\":308206,\"interval_generated_variables\":12011,\"interval_lifts\":21,\"linear_terms\":20195433,\"menu_generated_rows\":22408,\"menu_generated_terms\":880619,\"menu_generated_variables\":300425,\"menu_lifts\":2,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":155805,\"peak_live_facts\":112076,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":1996426,\"work\":156483074},\"status\":\"VERIFIED\",\"total_us\":6272292}\n",
+      "stderr": "",
+      "seconds": 6.426614833064377
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/lost_primary_observation.rpa",
+        "cases/test72/lost_primary_observation.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622634,\"status\":\"ASSEMBLED\",\"total_us\":3036319}\n",
+      "stderr": "",
+      "seconds": 3.209252458065748
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/lost_primary_observation.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"message\":\"INVALID obligation mismatch: expected Le; obligation 0\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "seconds": 1.1332793328911066
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/caller_objective_mismatch.rpa",
+        "cases/test72/caller_objective_mismatch.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622652,\"status\":\"ASSEMBLED\",\"total_us\":2804527}\n",
+      "stderr": "",
+      "seconds": 2.9813055000267923
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/caller_objective_mismatch.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"message\":\"INVALID requested contract mismatch\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "seconds": 1.1120508329477161
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/lost_source_premise.rpa",
+        "cases/test72/lost_source_premise.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622651,\"status\":\"ASSEMBLED\",\"total_us\":2950905}\n",
+      "stderr": "",
+      "seconds": 3.124172457959503
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/lost_source_premise.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"message\":\"INVALID obligation mismatch: expected Le; obligation 16159\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "seconds": 1.21447883406654
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/false_forward_lp.rpa",
+        "cases/test72/false_forward_lp.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622652,\"status\":\"ASSEMBLED\",\"total_us\":2968666}\n",
+      "stderr": "",
+      "seconds": 3.1429648329503834
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/false_forward_lp.rpx",
+        "cases/test72/false_forward_lp.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"message\":\"INVALID fact reference or type\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "seconds": 1.147336709080264
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test72/proof.rpa",
+        "cases/test72/determinism.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":196622652,\"status\":\"ASSEMBLED\",\"total_us\":2866506}\n",
+      "stderr": "",
+      "seconds": 3.025118416873738
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/proof.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":5731754,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"model_decode_us\":25171,\"points\":0,\"proof_decode_us\":1038590,\"read_us\":17927,\"statistics\":{\"bijections\":0,\"branches\":49171,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":50871,\"interval_generated_terms\":308206,\"interval_generated_variables\":12011,\"interval_lifts\":21,\"linear_terms\":20195433,\"menu_generated_rows\":22408,\"menu_generated_terms\":880619,\"menu_generated_variables\":300425,\"menu_lifts\":2,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":155805,\"peak_live_facts\":112076,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":1996426,\"work\":156483074},\"status\":\"VERIFIED\",\"total_us\":6813442}\n",
+      "stderr": "",
+      "seconds": 6.981598166981712
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "--work",
+        "180000000",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/proof.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":6439500,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":180000000},\"model_decode_us\":27637,\"points\":0,\"proof_decode_us\":1061169,\"read_us\":21416,\"statistics\":{\"bijections\":0,\"branches\":49171,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":50871,\"interval_generated_terms\":308206,\"interval_generated_variables\":12011,\"interval_lifts\":21,\"linear_terms\":20195433,\"menu_generated_rows\":22408,\"menu_generated_terms\":880619,\"menu_generated_variables\":300425,\"menu_lifts\":2,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":155805,\"peak_live_facts\":112076,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":1996426,\"work\":156483074},\"status\":\"VERIFIED\",\"total_us\":7549722}\n",
+      "stderr": "",
+      "seconds": 7.815666666952893
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "cases/test72/source.mcm",
+        "cases/test72/target.mcm",
+        "cases/test72/proof.rpx",
+        "cases/test72/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":5415697,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":25877,\"points\":0,\"proof_decode_us\":979562,\"read_us\":75009,\"statistics\":{\"bijections\":0,\"branches\":49171,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":50871,\"interval_generated_terms\":308206,\"interval_generated_variables\":12011,\"interval_lifts\":21,\"linear_terms\":20195433,\"menu_generated_rows\":22408,\"menu_generated_terms\":880619,\"menu_generated_variables\":300425,\"menu_lifts\":2,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":155805,\"peak_live_facts\":112076,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":1996426,\"work\":156483074},\"status\":\"VERIFIED\",\"total_us\":6496145}\n",
+      "stderr": "",
+      "seconds": 6.598737958120182
+    }
+  ],
+  "negative_checks": [
+    {
+      "mutation": "lost_primary_observation",
+      "rule_broken": "Change a mapped retained primary while retaining its observation obligations.",
+      "exit_code": 2,
+      "result": {
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 180000000
+        },
+        "message": "INVALID obligation mismatch: expected Le; obligation 0",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "d6c487c11c6effbfae92c1523998d5dca60e076294700707b0d7b2c7236ced72",
+      "rpx_sha256": "9bf2da36060b0b6aea64ebe711f1c9d288ff4744b68666ea8c06773daccb783c",
+      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "caller_objective_mismatch",
+      "rule_broken": "Weaken objective relation in certificate without changing the caller request.",
+      "exit_code": 2,
+      "result": {
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 180000000
+        },
+        "message": "INVALID requested contract mismatch",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "0c75bb949b0371e44d2d0f1dab370a32970da3f0862fab26dd84bcb506c70a78",
+      "rpx_sha256": "b5c131aea7c968525fffd1e1120adf86eff939275ad70cd2ab5460faec9fbb32",
+      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "lost_source_premise",
+      "rule_broken": "Drop a substantive source row premise from a forward derivation.",
+      "exit_code": 2,
+      "result": {
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 180000000
+        },
+        "message": "INVALID obligation mismatch: expected Le; obligation 16159",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "e76b26debb4515ea3ee777887909ee2812006aab497a7ef0a3988514e8997504",
+      "rpx_sha256": "f2e8f58a772bfb1c340b10c97afffca80c401070cfa18212a13719c1a426743f",
+      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "false_forward_lp",
+      "rule_broken": "Request and certificate both claim the unsupported source LP direction; integer clique Cases cannot justify the LP map.",
+      "exit_code": 2,
+      "result": {
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 180000000
+        },
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "bfd7ce1c6de8d4584a7bd6d684331a34856d3ee1045ca3394531380b0cb90e91",
+      "rpx_sha256": "9135cfdba91d8c7a8fb5e42b99ea6965c16db4299936bdbfbc79f944f3a9427e",
+      "request_sha256": "506c9ebb0baa7c5c9c33fef50c238740a30c08ae25ce37da2d32a970276a3bcd"
+    }
+  ],
+  "kernel_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+  "per_claim_work_profile": {
+    "path": "cases/test72/work_profile.json",
+    "sha256": "53e4919cf921c0643be0328ad33633d977f131b14d47918a27d1ea4f9f2f8839",
+    "results": {
+      "kernel_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+      "claims": [
+        {
+          "claim": 1,
+          "rpa_bytes": 199777423,
+          "rpa_sha256": "f987d501b065866ac62e19c6952d9e280101c6d00b35ac763c4a8b3a2553b3a1",
+          "request_sha256": "e5626b31059b3cb73b14349db6a7bd763e6cd17757d87165b8fb60131f23786a",
+          "runs": [
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "assemble",
+                "cases/test72/profile_1.rpa",
+                "cases/test72/profile_1.rpx"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"rpx_bytes\":175682494,\"status\":\"ASSEMBLED\",\"total_us\":2249148}\n",
+              "stderr": "",
+              "seconds": 2.4120435831137
+            },
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "verify",
+                "--work",
+                "200000000",
+                "cases/test72/source.mcm",
+                "cases/test72/target.mcm",
+                "cases/test72/profile_1.rpx",
+                "cases/test72/profile_1.json"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4451322,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":200000000},\"model_decode_us\":23137,\"points\":0,\"proof_decode_us\":814426,\"read_us\":21887,\"statistics\":{\"bijections\":0,\"branches\":25861,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":19409868,\"menu_generated_rows\":22408,\"menu_generated_terms\":880619,\"menu_generated_variables\":300425,\"menu_lifts\":2,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":75636,\"peak_live_facts\":112076,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":1701841,\"work\":109081571},\"status\":\"VERIFIED\",\"total_us\":5310772}\n",
+              "stderr": "",
+              "seconds": 5.439954458968714
+            }
+          ],
+          "rpx_sha256": "99065798b592f351cbaef98bfc7823a6f72248ab49ad70c7d98b63673c69ede3",
+          "work": 109081571,
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 200000000
+          },
+          "status": "VERIFIED"
+        },
+        {
+          "claim": 0,
+          "rpa_bytes": 15761043,
+          "rpa_sha256": "dd1a4b66abaf4254bfb1272a9058e94b145d10404f7987b7cc5f3fe3668f73f0",
+          "request_sha256": "27d3398cf276ca3816b65f726deeabb27f067fa4bc3ed2cd447406b931564c1e",
+          "runs": [
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "assemble",
+                "cases/test72/profile_0.rpa",
+                "cases/test72/profile_0.rpx"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"rpx_bytes\":9293295,\"status\":\"ASSEMBLED\",\"total_us\":81798}\n",
+              "stderr": "",
+              "seconds": 0.09491287497803569
+            },
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "verify",
+                "--work",
+                "1000000000",
+                "cases/test72/source.mcm",
+                "cases/test72/target.mcm",
+                "cases/test72/profile_0.rpx",
+                "cases/test72/profile_0.json"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":84660,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":23568,\"points\":0,\"proof_decode_us\":30665,\"read_us\":2091,\"statistics\":{\"bijections\":0,\"branches\":23310,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":219010,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":21797,\"peak_live_facts\":3304,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":124901,\"work\":3189350},\"status\":\"VERIFIED\",\"total_us\":140984}\n",
+              "stderr": "",
+              "seconds": 0.15078833303414285
+            }
+          ],
+          "rpx_sha256": "709a0c3d60ef4c0b3a466e1c170148d92488d9937e06ceab7cf2795f044a7a1b",
+          "work": 3189350,
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "status": "VERIFIED"
+        },
+        {
+          "claim": 2,
+          "rpa_bytes": 13221915,
+          "rpa_sha256": "c675897392c9429f2fb76728a26e71e9aa7dd2df82f487be32c8d1835ed9f5e1",
+          "request_sha256": "8daca0e8c95024fcddd8ab4c20f7b69b62936f63abb1c708026f27eb46a28116",
+          "runs": [
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "assemble",
+                "cases/test72/profile_2.rpa",
+                "cases/test72/profile_2.rpx"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"rpx_bytes\":11646910,\"status\":\"ASSEMBLED\",\"total_us\":128871}\n",
+              "stderr": "",
+              "seconds": 0.13997808401472867
+            },
+            {
+              "command": [
+                "/Users/bhz/Code/kernel/target/release/rpx",
+                "verify",
+                "--work",
+                "1000000000",
+                "cases/test72/source.mcm",
+                "cases/test72/target.mcm",
+                "cases/test72/profile_2.rpx",
+                "cases/test72/profile_2.json"
+              ],
+              "exit_code": 0,
+              "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":526524,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":23505,\"points\":0,\"proof_decode_us\":49106,\"read_us\":1538,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":50871,\"interval_generated_terms\":308206,\"interval_generated_variables\":12011,\"interval_lifts\":21,\"linear_terms\":566555,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":58372,\"peak_live_facts\":40990,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":169684,\"work\":44212153},\"status\":\"VERIFIED\",\"total_us\":600673}\n",
+              "stderr": "",
+              "seconds": 0.6122924590017647
+            }
+          ],
+          "rpx_sha256": "be43588c484cb4ce6519e5bdbfb4c33818b0fa0528a91d87dc60f5fbdce0b0ce",
+          "work": 44212153,
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "status": "VERIFIED"
+        }
+      ]
+    }
+  },
+  "kernel_limits_note": "Default work limit 1000000000; no override is required. Explicit --work 180000000 additionally verified as a comfortable measured work margin. The final run uses no flags for generic replay.",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 4234598,
+      "sha256": "297057615e4c611abf57fd89dccea83a4fd869e66367a872aba7558957f8d196"
+    },
+    "target.mcm": {
+      "bytes": 1987285,
+      "sha256": "5bee074f04136fc035d9511a7c83e77e2d791318b0f0c8bcb440103569a3f058"
+    },
+    "proof.rpx": {
+      "bytes": 196622652,
+      "sha256": "7ed12fb09177eb6462dccc8a565766fcc7eb930bb30f802337564af66429cc48"
+    },
+    "request.json": {
+      "bytes": 87585,
+      "sha256": "89957bcb642c9d0decce92fdc266f1ace43e9fc6607bcbdd62e964ec78f5f77c"
+    }
+  },
+  "limits": {
+    "depth": 64,
+    "live_facts": 1000000,
+    "work": 1000000000
+  },
+  "verify_statistics": {
+    "bijections": 0,
+    "branches": 49171,
+    "flow_generated_rows": 0,
+    "flow_generated_terms": 0,
+    "flow_generated_variables": 0,
+    "flow_lifts": 0,
+    "injectivity_coordinates": 0,
+    "injectivity_generated_rows": 0,
+    "injectivity_generated_terms": 0,
+    "injectivity_generated_variables": 0,
+    "interval_generated_rows": 50871,
+    "interval_generated_terms": 308206,
+    "interval_generated_variables": 12011,
+    "interval_lifts": 21,
+    "linear_terms": 20195433,
+    "menu_generated_rows": 22408,
+    "menu_generated_terms": 880619,
+    "menu_generated_variables": 300425,
+    "menu_lifts": 2,
+    "objective_level_domains": 0,
+    "objective_level_generated_rows": 0,
+    "objective_level_generated_terms": 0,
+    "obligations": 155805,
+    "peak_live_facts": 112076,
+    "plotkin_pairs": 0,
+    "point_coefficient_terms": 0,
+    "points": 0,
+    "signed_generated_rows": 0,
+    "signed_generated_terms": 0,
+    "signed_generated_variables": 0,
+    "signed_lifts": 0,
+    "substitution_terms": 1996426,
+    "work": 156483074
+  },
+  "rpx_bytes": 196622652,
+  "assemble_byte_deterministic": true,
+  "deterministic_reverify_count": 2,
+  "artifact_hashes_stable_after_receipt": true,
+  "recorded_override_limits": {
+    "depth": 64,
+    "live_facts": 1000000,
+    "work": 180000000
+  }
+}

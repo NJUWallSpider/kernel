@@ -1,0 +1,8 @@
+{
+  "baseline": "/Users/bhz/Code/kernel/audit/checkpoints/v5-source",
+  "candidate": "/Users/bhz/Code/kernel/bench/shared-scope-prototype",
+  "only_changed_source": "crates/core/src/verify.rs",
+  "before_sha256": "3aeb52871caef0bf8287e173b52225cb46d56f3b79f72519d559d5087de45478",
+  "after_sha256": "c21e14f1f4176eecddf98466fc7fc6b522d8f57495852ca8b163c892e72ad4a2",
+  "note": "No mathematical rule, codec, schema, parser or dependency changes. Work counts remove actual eliminated copies."
+}

@@ -1,0 +1,10 @@
+NAME SCOPE_SOURCE
+ROWS
+ N obj
+COLUMNS
+ x obj 1
+ z obj 1
+RHS
+BOUNDS
+ UP bound x 1
+ENDATA

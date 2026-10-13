@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+    "assemble",
+    "/Users/bhz/Code/kernel/cases/test47/attempts/linear-and/proof.rpa",
+    "/Users/bhz/Code/kernel/audit/validation/v7-resource-repairs/rejected-deep-attempt.rpx"
+  ],
+  "exit_code": 3,
+  "result": {
+    "message": "RESOURCE_LIMIT RPA: recursion limit exceeded at line 1 column 5501025",
+    "status": "RESOURCE_LIMIT"
+  },
+  "stderr": "",
+  "rpa_sha256": "9031ec41222edfbb6feef0b50ac688485b2d0c7704f7758593af34984469c4a8",
+  "kernel_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "historical_receipt": "cases/test47/attempts/linear-and/preparation.json",
+  "historical_receipt_sha256": "2adffe37bd00af568456800e7f74cffd5f0246f2e69633ebe8b0af31efdeba5c",
+  "note": "The exact historical RPA still exceeds the unchanged parser nesting limit. Only its error classification is corrected. No mathematical conclusion is drawn and the historical receipt is preserved."
+}

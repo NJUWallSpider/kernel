@@ -1,0 +1,19 @@
+{
+  "baseline": "/Users/bhz/Code/kernel/audit/checkpoints/v7-source",
+  "prototype": "/Users/bhz/Code/kernel/bench/rational-shortcuts-prototype",
+  "changed": {
+    "crates/core/src/model.rs": {
+      "before": "8500c1604eba519b0294068678078c2342389d584307ececa0251869951a80ca",
+      "after": "e6569d66d48efae4f11ec0d7414e1ee6a3009ebe7b831c9f01c39532784fa0ef"
+    },
+    "crates/core/src/verify.rs": {
+      "before": "c98fc999caaeb204bd829520fb675e1cc7e448dc9ef6e02b25056d5aef66a736",
+      "after": "2745303a6fdff4b98d9e0c6d42db601b2411b33d2cf1b6ddbc97a74335391887"
+    }
+  },
+  "added": {
+    "crates/core/src/rational_shortcuts_audit.rs": "c69087248a577f45e0d6b895354e55b1465ef04a4f1fc955ad5c4d4286f5533a",
+    "tests/vectors/rational_shortcuts_oracle.json": "607841611c774413d3ca4b82dc7e68ee535e962d27da5652b37766df0543adb8"
+  },
+  "generator_sha256": "cab89021fc7ace5e5f12443d76659db4266a7a40569fd47162429d4b5dbebd35"
+}

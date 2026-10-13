@@ -1,0 +1,43 @@
+   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/audit/checkpoints/delivery-78-working-source/crates/core)
+   Compiling subflow-next-audit v0.0.0 (/Users/bhz/Code/kernel/audit/subflow-next)
+warning: method `difference` is never used
+   --> src/../../checkpoints/delivery-78-working-source/crates/core/src/build_support.rs:117:19
+    |
+ 17 | impl Support {
+    | ------------ method in this implementation
+...
+117 |     pub(crate) fn difference(self, a: &Expr, b: &Expr) -> Result<Expr, String> {
+    |                   ^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `subflow-next-audit` (lib) generated 1 warning
+warning: `subflow-next-audit` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.52s
+     Running unittests src/lib.rs (target/subflow-next/debug/deps/subflow_next_audit-06d4c09ea729f161)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/builder.rs (target/subflow-next/debug/deps/builder-9f369d4f0c9b100d)
+
+running 9 tests
+test empty_demand_zero_demand_no_arcs_and_source_equal_sink_policy ... ok
+test every_node_premise_detects_extra_supply_wrong_orientation_or_negative_flow ... ok
+test malformed_middle_group_and_old_scope_expressions_are_rejected ... ok
+test all_scalar_intermediate_bit_limits_survive_cancellation ... ok
+test unchecked_builder_does_not_certify_false_or_missing_reference_premises ... ok
+test simultaneous_groups_affine_constants_duplicate_sinks_and_prefix_are_exact ... ok
+test independently_clipping_arcs_and_violating_each_joint_obligation_fail ... ok
+test work_and_dimension_limits_are_preflighted_and_exact_work_is_reusable ... ok
+test fraction_oracle_983_joint_constructions_and_every_symbolic_field ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.87s
+
+   Doc-tests subflow_next_audit
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

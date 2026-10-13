@@ -1,0 +1,14 @@
+{
+  "status": "PROOF_NOT_COMPLETED",
+  "counts": {
+    "edge_ors": 426,
+    "path_ands": 91,
+    "parallel_ors": 2,
+    "signed_paths": 305,
+    "joint_subflow_arcs": 606,
+    "joint_subflow_nodes": 180,
+    "complete_output_obligations": 1697
+  },
+  "preparation_seconds": 5.0958595419999995,
+  "rpa_bytes": 2073459
+}

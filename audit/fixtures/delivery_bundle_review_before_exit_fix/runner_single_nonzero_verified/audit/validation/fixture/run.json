@@ -1,0 +1,51 @@
+{
+  "recorded_utc": "2026-10-11T11:13:45.909163+00:00",
+  "source_root": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified",
+  "source_sha256": {},
+  "kernel_sha256": "9079db325131e943caeee331974cf29ee0ec89e03387a3ef17991b33590c1eff",
+  "lock_sha256": "286ff303681c4862dfbe7c9eb4ee8d8b0ab111e8b120011443271831cfa33c90",
+  "commands": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified/target/validation-fixture/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified/cases/mock/source.mcm",
+        "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified/cases/mock/target.mcm",
+        "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified/cases/mock/proof.rpx",
+        "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_single_nonzero_verified/cases/mock/request.json"
+      ],
+      "exit_code": 1,
+      "seconds": 0.100528042,
+      "stdout": "{\"status\": \"VERIFIED\", \"statistics\": {\"work\": 1, \"obligations\": 1, \"peak_live_facts\": 1}, \"claims\": 1, \"points\": 0, \"bijections\": 0, \"improvements\": 0}\n",
+      "stderr": ""
+    }
+  ],
+  "replayed": [
+    {
+      "case": "mock",
+      "exit_code": 1,
+      "result": {
+        "status": "VERIFIED",
+        "statistics": {
+          "work": 1,
+          "obligations": 1,
+          "peak_live_facts": 1
+        },
+        "claims": 1,
+        "points": 0,
+        "bijections": 0,
+        "improvements": 0
+      },
+      "artifacts": {
+        "source.mcm": "7653e6dbafe16da2946d670e808e1dd3f34ce753d1fe870071bda71163dbd109",
+        "target.mcm": "4ae5d423ff47803525a444ecf680e496a5cf321cb4779ef970690db20d4cbc40",
+        "proof.rpx": "212cd5949791947261977a3eb0cc9e4a8ac3d32330838530a669313f4b2006e6",
+        "request.json": "9837d85521df854519eb79b121601614d621696df92081994c459cf51d79d758",
+        "proof.rpa": "f5b295c256933f80d1948d37245c5293949f84ce48a518e5b34ee57efe34d047"
+      }
+    }
+  ],
+  "all_replayed_verified": true,
+  "functional_delivery_complete": false,
+  "note": "Replay verifies prepared certificates enumerated at start only; unprepared corpus targets remain outstanding. See audit/acceptance.json for denominator."
+}

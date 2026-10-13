@@ -1,0 +1,161 @@
+{
+  "case_id": "test20",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test20-nomf-B1/input/model.mps",
+    "sha256": "596fb7ab90b92a85e0bbe21e54c8dc988914d7a9fd3646e8e273fa4837cb83f2"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test20-nomf-B1/output/reformulated.mps",
+    "sha256": "c88d0b78235d6d18c6971ed0683b43486d39013962bc0ee9fdfea17eb8193bb1"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test20-nomf-B1/output/audit.json",
+    "sha256": "23c1e66d320e3bc378744c35ab8fec478e8ab80aeb44e69583462b7aeb10fbfa"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test20.py",
+    "sha256": "c11c91630d4348f36ce6353c22e039507f242acdaa1661390c02471cbe50b992"
+  },
+  "claims": "Complete integer and LP affine bijections, all retained coordinates and every objective value preserved, both inverse identities in both domains. The24 demand offsets are proved from actual full balance combinations; no claim assumes supply equals demand.",
+  "counts": {
+    "source_variables": 13873,
+    "target_variables": 13849,
+    "source_rows": 3202,
+    "target_rows": 3138,
+    "claims": 4,
+    "obligations_by_claim": [
+      45355,
+      45419,
+      45286,
+      45350
+    ]
+  },
+  "preparation_seconds": 4.012986166999999,
+  "rpa_bytes": 5160620,
+  "rpa_sha256": "d09ecd1540613cb2cf8554b3453bf11b0b554b9d7ab792e29ef54c04943918b1",
+  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test20-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test20/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":1968520,\"parse_us\":50006,\"read_us\":388,\"rows\":3202,\"status\":\"CANONICALIZED\",\"total_us\":67533,\"variables\":13873}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test20-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test20/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":1952747,\"parse_us\":45813,\"read_us\":375,\"rows\":3138,\"status\":\"CANONICALIZED\",\"total_us\":63854,\"variables\":13849}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test20/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test20/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":3604378,\"status\":\"ASSEMBLED\",\"total_us\":49628}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test20/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test20/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test20/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test20/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":567076,\"model_decode_us\":36408,\"points\":0,\"proof_decode_us\":15118,\"read_us\":1213,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":310774,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":181410,\"peak_live_facts\":73,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":372714,\"work\":2499882},\"status\":\"VERIFIED\",\"total_us\":619815}\n",
+      "stderr": ""
+    }
+  ],
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 1968520,
+      "sha256": "687454d469b93c8f96207096bfabf75224909727f64a9b77b7db59640dd38f97"
+    },
+    "target.mcm": {
+      "bytes": 1952747,
+      "sha256": "1888f5e3675cc6ea45dff0a372502fdf3bbca123b7a284d074158f0382a7eb38"
+    },
+    "proof.rpx": {
+      "bytes": 3604378,
+      "sha256": "c0269c024c0fab19666409c9baaa9374bf2ce24042713583009badf07caf6c5e"
+    },
+    "request.json": {
+      "bytes": 2459969,
+      "sha256": "60f4ffe91a580bf2e69c1fcdf6212afb43ed98076f1ba48ff22ff1ca91e23c0c"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "wrong_offset",
+      "rule_broken": "Changes a reconstructed demand constant while preserving both inverse contracts.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 45331",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "e207f2b21554347e86bd952d55128e328551477a29fdd9860c972f02fd00a821",
+      "rpx_sha256": "c5225334bc7064dee84feb838ec18608e06715cec75912fa893f3580b7d3d4fc"
+    },
+    {
+      "mutation": "wrong_balance",
+      "rule_broken": "Corrupts a middle balance multiplier in a full offset derivation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 15179",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "4ae677e8528cd3566c88572da2bf5645cf6bc72b9900329c7c509113fcebaf40",
+      "rpx_sha256": "0e0014e20882e860d0b7c24bc09b2b57808701c9ba021c9a1ac3fe9e5289f84a"
+    },
+    {
+      "mutation": "missing_middle",
+      "rule_broken": "Deletes a middle original-row obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 15000",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "7243ae1d3060840f46a58209656b2440e4d2a3b0943ada24caa70a19471dd62e",
+      "rpx_sha256": "dfea9655e876d8ac9f3da0bbb30b2e5620e057b8744f438b15d057acef85e81c"
+    },
+    {
+      "mutation": "lp_integer_borrow",
+      "rule_broken": "Adds an integer fact to a relaxed-domain proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "6d44fb182b12dffcd52f7152d627d7088e569d6dae520886218a51f78893a526",
+      "rpx_sha256": "40a22c5cb5a647b51e43f37c253f15f080fcb909b8175ac0acaab9626163611e"
+    },
+    {
+      "mutation": "weakened_contract",
+      "rule_broken": "Certificate drops objective equality while the independent caller still requires it.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID requested contract mismatch",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "79c9dea5e087fa5f3ef5e781883bb48c4ddebcb12422e36143cd6cfdc8dbc25f",
+      "rpx_sha256": "8c0d19c2e250048047d161ea937135f3dfe108b705b341eb9e87a3e3a7ca1404"
+    }
+  ]
+}

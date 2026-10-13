@@ -1,0 +1,1 @@
+{"claims": [{"reverse": false, "input_integers": false, "output_integers": false, "objective": "Equal", "projection": [], "inverse": null, "affine_projection": [[{"constant": "0", "terms": [[0, "1"]]}, {"constant": "0", "terms": [[0, "1"]]}]]}], "points": [], "bijections": []}

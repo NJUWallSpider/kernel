@@ -1,0 +1,9 @@
+NAME bench
+ROWS
+ N OBJ
+COLUMNS
+ x0 OBJ 0
+RHS
+BOUNDS
+ BV b x0
+ENDATA

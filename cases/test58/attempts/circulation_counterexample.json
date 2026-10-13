@@ -1,0 +1,70 @@
+{
+  "status": "REGRESSION_FIXTURE_NOT_ACCEPTANCE",
+  "lemma": "For common-source nonnegative flow f with nonnegative sink demands totaling B, choose g with identical balances, 0<=g_e<=f_e and g_e<=B on every arc, allowing loops/disconnected circulations.",
+  "nodes": 2,
+  "arcs": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "B": 82,
+  "f": [
+    82,
+    82,
+    82
+  ],
+  "g": [
+    82,
+    0,
+    0
+  ],
+  "balances": [
+    82,
+    -82
+  ],
+  "merged_f": [
+    164,
+    82
+  ],
+  "merged_g": [
+    82,
+    0
+  ],
+  "kernel_checks": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point_request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":0,\"execute_us\":20,\"model_decode_us\":54,\"points\":1,\"proof_decode_us\":49,\"read_us\":87,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":0,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":0,\"peak_live_facts\":0,\"plotkin_pairs\":0,\"point_coefficient_terms\":6,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":0,\"work\":28},\"status\":\"VERIFIED\",\"total_us\":210}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point_request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID point: infeasible point (witness 0)\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    }
+  ]
+}

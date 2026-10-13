@@ -1,0 +1,41 @@
+{
+  "mutation": "infeasible_constant_return",
+  "rule_broken": "The fixed feasible return point is changed to have binary value2.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/next-contracts-initial/release/rpx",
+        "assemble",
+        "cases/test36/attacks/infeasible_constant_return.rpa",
+        "cases/test36/attacks/infeasible_constant_return.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":85725521,\"status\":\"ASSEMBLED\",\"total_us\":854814}\n",
+      "stderr": "",
+      "wall_seconds": 0.9104151250000001,
+      "binary_sha256_before": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875",
+      "binary_sha256_after": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/next-contracts-initial/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/infeasible_constant_return.rpx",
+        "cases/test36/complete-improvement/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID non-tautological exact obligation; obligation 1\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 2.122586958999996,
+      "binary_sha256_before": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875",
+      "binary_sha256_after": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+    }
+  ],
+  "rpa_sha256": "c68c8a721420fb600b6c43fe995682487e187aa0fdf323c540c7f3e8b53f51f7",
+  "rpx_sha256": "cc4d97742da866db3802aea9cdf25d5b6cf63e151cb4814b5f56a596e997b6f9",
+  "request": "cases/test36/complete-improvement/request.json",
+  "request_sha256": "ca96e0e67889b8834be3555f84ffd6bffa80ec09249208b7d674c48ad7bd4528"
+}

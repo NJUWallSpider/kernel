@@ -1,0 +1,201 @@
+{
+  "format": "actual-model-direction-bundle-v1",
+  "case_id": "test46",
+  "source": {
+    "path": "cases/test46/source.mcm",
+    "sha256": "2f07c2090f0ec98f1042a40e321cde175642f2e04653c009fc3a0aa900f17ec5"
+  },
+  "target": {
+    "path": "cases/test46/target.mcm",
+    "sha256": "a99509a4ecf58aedfeb2f8f061ed3e7994a59f5a2d8156d787f7a55f966c2dee"
+  },
+  "directions": [
+    {
+      "direction": 0,
+      "claim_summary": {
+        "reverse": false,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/mi-forward/proof.rpa",
+      "rpx": "cases/test46/mi-forward/proof.rpx",
+      "request": "cases/test46/mi-forward/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 183934850,
+          "sha256": "ed1c630e32d926145e95c996a10ddf0cedb839878719db1201881b3f043e43ed"
+        },
+        "proof.rpx": {
+          "bytes": 184634642,
+          "sha256": "30365859dbac6c6cf8d3f641bdb1b2f08d71336e93eab98288211a4ad070be21"
+        },
+        "request.json": {
+          "bytes": 861798,
+          "sha256": "5287e10c11120bf5e070985b4d7cc83d2256916de0e63beddb1b3d6651b4412d"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-forward/proof.rpx",
+          "cases/test46/mi-forward/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":39947369,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":416818,\"points\":0,\"proof_decode_us\":2476328,\"read_us\":96443,\"statistics\":{\"bijections\":0,\"branches\":18010,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":163271657,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":187150,\"peak_live_facts\":344878,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":186282,\"work\":391209842},\"status\":\"VERIFIED\",\"total_us\":42936958}\n",
+        "stderr": "",
+        "wall_seconds": 43.107654416,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-forward/proof.rpx",
+          "cases/test46/mi-forward/request.json"
+        ],
+        "exit_code": 3,
+        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+        "stderr": "",
+        "wall_seconds": 8.931349166000004,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      }
+    },
+    {
+      "direction": 1,
+      "claim_summary": {
+        "reverse": true,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/mi-reverse/proof.rpa",
+      "rpx": "cases/test46/mi-reverse/proof.rpx",
+      "request": "cases/test46/mi-reverse/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 234499424,
+          "sha256": "8d8a31df133e713689399b67ca286abb131186be508813fbd08f5df4f43f2f17"
+        },
+        "proof.rpx": {
+          "bytes": 156755175,
+          "sha256": "87952e15f550907b7253310a1bddf7c3fdefac356bbff5b9cd2f3e03d8ee6f88"
+        },
+        "request.json": {
+          "bytes": 861797,
+          "sha256": "8b23727aa9deda3f5ba3578496ddf4da1324f5d9af292ee326ee040a1dc22db1"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-reverse/proof.rpx",
+          "cases/test46/mi-reverse/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4974403,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":185255,\"points\":0,\"proof_decode_us\":792004,\"read_us\":26690,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5978352}\n",
+        "stderr": "",
+        "wall_seconds": 6.091341709000005,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/mi-reverse/proof.rpx",
+          "cases/test46/mi-reverse/request.json"
+        ],
+        "exit_code": 3,
+        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+        "stderr": "",
+        "wall_seconds": 4.2272642499999975,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      }
+    },
+    {
+      "direction": 2,
+      "claim_summary": {
+        "reverse": true,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 61036
+      },
+      "rpa": "cases/test46/lp-only/proof.rpa",
+      "rpx": "cases/test46/lp-only/proof.rpx",
+      "request": "cases/test46/lp-only/request.json",
+      "artifacts": {
+        "proof.rpa": {
+          "bytes": 14451698,
+          "sha256": "e091d55817aebe0653217b116f35ed27fb88237c9bc21460511b73eab0ef9c7e"
+        },
+        "proof.rpx": {
+          "bytes": 10275133,
+          "sha256": "68ad8fb26e1c5b9d6c6cca5855d0256307dbdd4de7c0a29391c839c10e08eeb0"
+        },
+        "request.json": {
+          "bytes": 861799,
+          "sha256": "e03a7cf75040860b96e629dc04bd18e4e569c34200aff450705cfce390c628d4"
+        }
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/lp-only/proof.rpx",
+          "cases/test46/lp-only/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":418198,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":174337,\"points\":0,\"proof_decode_us\":61552,\"read_us\":5295,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":659382}\n",
+        "stderr": "",
+        "wall_seconds": 0.678164417000005,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      },
+      "former_100m_run": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+          "verify",
+          "--work",
+          "100000000",
+          "cases/test46/source.mcm",
+          "cases/test46/target.mcm",
+          "cases/test46/lp-only/proof.rpx",
+          "cases/test46/lp-only/request.json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":412708,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"model_decode_us\":186333,\"points\":0,\"proof_decode_us\":60985,\"read_us\":4324,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":664350}\n",
+        "stderr": "",
+        "wall_seconds": 0.6794180830000016,
+        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+      }
+    }
+  ],
+  "meaning": "All three listed complete claims must pass against the same exact source and target; no single direction represents the whole contract."
+}

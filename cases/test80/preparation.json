@@ -1,0 +1,289 @@
+{
+  "case_id": "test80",
+  "status": "VERIFIED",
+  "protocol_status": "WORKING_VERSION_9_NOT_FROZEN",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps",
+    "sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/output/reformulated.mps",
+    "sha256": "e9ed1eebeab13231d6a5b84d0caf2ca8370ec9820a7963e656c2f54f87ea3905"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test80.py",
+    "sha256": "a88ba55d9cdbb79a1478c332a6b92c2a819369efc41da0853f4c92ee3340255c"
+  },
+  "claims": "Global original minimum -160 with complete source attainment; complete affine inverse bijection between every original integer optimizer and every integer feasible point of the actual target. Suboptimal original points and LP equivalence are not claimed.",
+  "counts": {
+    "source_variables": 14387,
+    "source_rows": 10765,
+    "source_row_terms": 64073,
+    "target_variables": 2801,
+    "target_rows": 175,
+    "target_row_terms": 2800,
+    "proven_link_vector_pairs": 528,
+    "proven_onehot_y_vectors": 221,
+    "fixed_original_coordinates": 3331,
+    "allocated_ids": 79429,
+    "obligations_by_claim": [
+      8580,
+      22966,
+      56729
+    ],
+    "steps_by_claim": [
+      1,
+      79429,
+      786
+    ]
+  },
+  "preparation_seconds": 30.086801709,
+  "rpa_bytes": 12630928,
+  "rpa_sha256": "541948125afb5df6b3cdd991b83894ede9d95808925b24d6603ffb43a670334c",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/test80-baseline/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test80/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":2419758,\"parse_us\":27364,\"read_us\":710,\"rows\":10765,\"status\":\"CANONICALIZED\",\"total_us\":36552,\"variables\":14387}\n",
+      "stderr": "",
+      "wall_seconds": 1.0706509160000017
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/test80-baseline/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test80/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":185035,\"parse_us\":1438,\"read_us\":53,\"rows\":175,\"status\":\"CANONICALIZED\",\"total_us\":2256,\"variables\":2801}\n",
+      "stderr": "",
+      "wall_seconds": 0.005783375000000035
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/test80-baseline/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test80/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test80/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":9130685,\"status\":\"ASSEMBLED\",\"total_us\":100385}\n",
+      "stderr": "",
+      "wall_seconds": 0.10805820800000276
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/test80-baseline/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test80/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test80/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test80/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test80/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":125920,\"model_decode_us\":10918,\"points\":1,\"proof_decode_us\":32913,\"read_us\":1126,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":848557,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":1,\"objective_level_generated_rows\":1,\"objective_level_generated_terms\":3331,\"obligations\":88275,\"peak_live_facts\":79429,\"plotkin_pairs\":0,\"point_coefficient_terms\":67404,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":70752,\"work\":4881992},\"status\":\"VERIFIED\",\"total_us\":170877}\n",
+      "stderr": "",
+      "wall_seconds": 0.17969770899999915
+    }
+  ],
+  "kernel_binary_sha256": "dfadf56afe6c023bbf3a51eb5f4f1de1a4bb1bcf0c8cbe001c3ffcb35013eb5c",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 2419758,
+      "sha256": "178612387f875b85588733c9a4fe31441e22d68619290f2f9e27dbda4906661b"
+    },
+    "target.mcm": {
+      "bytes": 185035,
+      "sha256": "119b4629a5b0cd022a19c6530cb9bb9c2b9002394107569557cc7fc3cf9aa343"
+    },
+    "proof.rpx": {
+      "bytes": 9130685,
+      "sha256": "f31bc3705ce9cff25671a5a781d8bd528069057899cb40e6eb08330a73bee6ee"
+    },
+    "request.json": {
+      "bytes": 494,
+      "sha256": "c3cdfa25e1477c1648883d72e1b414c4c2d8bfc90ea705d35480bf78f2e1218b"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "negative_global_bound_multiplier",
+      "rule_broken": "A source lower bound is multiplied negatively in the unrestricted global bound proof.",
+      "rpa_sha256": "f95b1e968919cd1031b5666423dbb161caf095f5b6c34bf4cf96ff77c4830172",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130685,
+        "status": "ASSEMBLED",
+        "total_us": 103586
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID linear premise kind or multiplier",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "97fec79b67ebe84bbe6bc0da9352673c39e566a1f18a392d2bd60b82ecd0fec3",
+      "wall_seconds": 0.20109458299999994
+    },
+    {
+      "mutation": "wrong_round_integer_expression",
+      "rule_broken": "A middle X-Y rounding step borrows INT(X), which is a different expression.",
+      "rpa_sha256": "5aa7721284754fa07dfebdcec360804751f55acccd52b36fedd024f548c2eee9",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130685,
+        "status": "ASSEMBLED",
+        "total_us": 103874
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID rounding premises",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "90921f7d60c0147a50b399bedab13f8686e81ad77283cade40a95a2b351701dd",
+      "wall_seconds": 0.24530266700000025
+    },
+    {
+      "mutation": "lost_optimal_level_contract",
+      "rule_broken": "The source-face direction removes its caller-requested objective level.",
+      "rpa_sha256": "f77f7db2051159dc8f3d91a5021d5d4c4c75934d8abef00dfee2daa2683b5669",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130651,
+        "status": "ASSEMBLED",
+        "total_us": 99071
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID requested contract mismatch",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "3c5f9c003cb7e1fd7640cf766753bcaf8f937ed576d712f9537a46b8ceea9579",
+      "wall_seconds": 0.16825966599999997
+    },
+    {
+      "mutation": "omitted_original_inverse_coordinate",
+      "rule_broken": "The forward face map omits its last original-source coordinate inverse check.",
+      "rpa_sha256": "6ee5a391b3424a52e49c84b1db21650fc3bb518465f457b04a1686e492053aa1",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130677,
+        "status": "ASSEMBLED",
+        "total_us": 93370
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "8b84f6c4da6654630d9d3cd6cbe067238b2ecb60077aef9a8e2d4c30d0c64ea9",
+      "wall_seconds": 0.25815029199999984
+    },
+    {
+      "mutation": "omitted_inverse_level_membership",
+      "rule_broken": "The reverse map omits mandatory membership in the opposing objective-level domain.",
+      "rpa_sha256": "15e7814c03a5de20216b65cbdb43e314f411417bd3b2c3540bd07718ba4229cf",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130681,
+        "status": "ASSEMBLED",
+        "total_us": 92041
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "1a1377a634096c94a611b38b8357a7292de218b3626b5149aaa5d2ef2140803f",
+      "wall_seconds": 0.3092936670000004
+    },
+    {
+      "mutation": "wrong_unlinked_reconstruction",
+      "rule_broken": "An independent original assignment coordinate is reconstructed from another target choice.",
+      "rpa_sha256": "f45f7ba4e9243d12b62d3b5767bd1f13a974a376e45afa088b7e62f25c3ac526",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130685,
+        "status": "ASSEMBLED",
+        "total_us": 90812
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID non-tautological exact obligation; obligation 11990",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "faf0dcc325c574bda9787ca5313fe714e5fbe507d3e89e4e829cdbc5c92c0159",
+      "wall_seconds": 0.24497125000000075
+    },
+    {
+      "mutation": "suboptimal_attainment_point",
+      "rule_broken": "The claimed attaining source point changes one P from zero to one, giving objective -159.",
+      "rpa_sha256": "2d8bce944cc4e6831b4372ff34f64b36cb9f472203716267ce64deb9b64161f3",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130686,
+        "status": "ASSEMBLED",
+        "total_us": 95317
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID point: objective value mismatch (witness 0)",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "795b0404711dc7b8c5db1c7bf8d68ba6ec389bcd3f56665624246ba30d6b357d",
+      "wall_seconds": 0.28561079199999995
+    },
+    {
+      "mutation": "missing_middle_original_row",
+      "rule_broken": "A middle actual source-row obligation is omitted from the reverse proof.",
+      "rpa_sha256": "e35be84cb028bdf1b85f6246e8d13e138b33a91b407b1cdc91ad325d03c1a419",
+      "assemble_exit_code": 0,
+      "assembly": {
+        "rpx_bytes": 9130681,
+        "status": "ASSEMBLED",
+        "total_us": 93544
+      },
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 48543",
+        "status": "INVALID"
+      },
+      "rpx_sha256": "50447ead0547395cfa4ce26e8ce07373e8642cb281f9db9e16aa3dc9b9885e12",
+      "wall_seconds": 0.27164658400000086
+    },
+    {
+      "mutation": "version_downgrade",
+      "rule_broken": "The RPA header is downgraded to V8 while requesting an objective-level domain.",
+      "rpa_sha256": "9bb835e1d6bd77610c8d164a41f22a0a4b6de98bd65b9e93163e3f4ee9acb5d7",
+      "assemble_exit_code": 2,
+      "assembly": {
+        "message": "INVALID RPA version does not allow requested extension",
+        "status": "INVALID"
+      },
+      "wall_seconds": 0.08472583400000033
+    }
+  ],
+  "attack_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/attack_test80.py",
+    "sha256": "9510364469da631e7aeb33df1a6158cc5c0ae61f37bade89065224e2575b0edc"
+  },
+  "attack_kernel_sha256": "dfadf56afe6c023bbf3a51eb5f4f1de1a4bb1bcf0c8cbe001c3ffcb35013eb5c",
+  "attack_seconds": 13.269860875000001,
+  "attack_storage": "Exact deterministic mutation recipes and full outcomes/hashes retained; large temporary mutated RPA/RPX files removed after each rejection. Positive artifacts remain unchanged.",
+  "kernel_source": {
+    "snapshot": "/Users/bhz/Code/kernel/bench/builder-support-baseline",
+    "manifest": "/Users/bhz/Code/kernel/audit/builder_support_baseline.json",
+    "manifest_sha256": "4f65c0b0c00ff131734f06376fe13ac62bc0f58933aa219f070481c231bdd0a4",
+    "status": "Internal comparison snapshot; objective-level protocol not frozen."
+  },
+  "independent_oracle": {
+    "path": "/Users/bhz/Code/kernel/audit/optimal_face80_oracle.json",
+    "sha256": "62da05dd27b49e54eb7fabd84e275e134bca5ccc2f7dcbf5011aeca05b52f576",
+    "status": "PASS"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "fixed-strict-improvement-and-full-image-performance-v1",
+  "fixed_on": "2026-10-11",
+  "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+  "kernel_sha256": "5cb441c3b38ab7b3aea01ca880ef720207001cad9e253b5256b714946c9b1c38",
+  "fixture_manifest": "bench/strict_image_fixture_manifest.json",
+  "preparation_repetitions": 3,
+  "verification_repetitions": 9,
+  "rss_repetitions": 3,
+  "synthetic": [
+    {"name":"strict-n1","kind":"strict","coordinates":1},
+    {"name":"strict-n64","kind":"strict","coordinates":64},
+    {"name":"strict-n4096","kind":"strict","coordinates":4096},
+    {"name":"image-n1","kind":"image","coordinates":1},
+    {"name":"image-n64","kind":"image","coordinates":64},
+    {"name":"image-n4096","kind":"image","coordinates":4096}
+  ],
+  "actual_cases": [],
+  "mathematics": "Both source and target encode every coordinate of a continuous [0,1]^n cube with objective sum x. Strict: one caller-bound positive predicate P=sum x and a complete all-zero output tuple, every source bound checked, exact objective margin P. This proves strict improvement for every P>0 while preserving the strict boundary. Image: a complete feasible source point x_i=2/3 and a full identity affine map; exactly the last target upper bound is 1/2, so the complete mapped point violates that actual target bound. No containment claim, partial tuple or missing domain is substituted.",
+  "sampling": "Absolute capability baseline, no speed ratio against older versions that lack these tasks. Fresh processes, nine verify samples and three independent /usr/bin/time -l RSS samples. Exact logical statistics must match; all non-VERIFIED exits, missing RSS and mismatches are retained as failures. Warm filesystem cache after preparation; no cache flush.",
+  "preparation": "Three fresh independent Python processes generate complete MCM bytes, RPA and caller requests, followed by production RPA assembly. Report internal generation, full generation+assembly process wall, all byte sizes, decode, execute, full kernel wall and RSS. No MPS canonicalization cost is implied for direct synthetic MCM generation.",
+  "isolation": "Official measurements wait for coordinator clear and an explicit recorded isolation note. Non-isolated mathematical diagnostics are saved separately and excluded from official timing. The prior subflow workload manifest is unchanged."
+}

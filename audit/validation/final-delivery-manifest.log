@@ -1,0 +1,18 @@
+{
+  "status": "DELIVERED_WITH_DOCUMENTED_LIMITATIONS",
+  "created_utc": "2026-10-11T11:59:34.597189+00:00",
+  "functional_delivery_complete": true,
+  "cold_tests": 262,
+  "final_corpus_kernel_calls": 83,
+  "historical_compatible_requests": 78,
+  "fixed_regression_processes": 712,
+  "new_capability_processes": 264,
+  "supplementary_timed_calls": 72,
+  "excluded_followup_warmups": 8,
+  "kernel": {
+    "path": "/Users/bhz/Code/kernel/target/validation-v10-complete/release/rpx",
+    "bytes": 1735504,
+    "sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+  },
+  "scope": "Evidence index, not a proof authority or protocol freeze. Retains test65 performance regression and trusted-builder/formal-proof limitations."
+}

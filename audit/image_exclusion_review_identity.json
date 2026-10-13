@@ -1,0 +1,9 @@
+{
+  "status": "PASS_SOURCE_REVIEW_NOT_FORMAL_PROOF",
+  "files": {
+    "crates/core/src/point.rs": "80507b147f820ebf3be3b1c3767341e3dc1f50782b0c86c98412b0d624405da3",
+    "crates/core/tests/image_exclusion.rs": "136c368c844a4c6e995d41c7de1f357a31038485fa2ce0e8ad03d19053d38268",
+    "audit/IMAGE_EXCLUSION_REVIEW.md": "4cf32b5a090acd1f89e3fa9ce5c1bf8365f785774c99c7fb37f437fac157033f",
+    "audit/validation/completed-46-62-83-independent.json": "9461ac5ffbbc0bc540a1aab4ddec379c356f9ef556aed629aa098c6d578ab159"
+  }
+}

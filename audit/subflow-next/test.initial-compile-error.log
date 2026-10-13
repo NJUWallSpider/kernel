@@ -1,0 +1,60 @@
+   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/audit/checkpoints/delivery-78-working-source/crates/core)
+   Compiling subflow-next-audit v0.0.0 (/Users/bhz/Code/kernel/audit/subflow-next)
+warning: method `difference` is never used
+   --> src/../../checkpoints/delivery-78-working-source/crates/core/src/build_support.rs:117:19
+    |
+ 17 | impl Support {
+    | ------------ method in this implementation
+...
+117 |     pub(crate) fn difference(self, a: &Expr, b: &Expr) -> Result<Expr, String> {
+    |                   ^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `subflow-next-audit` (lib) generated 1 warning
+error[E0283]: type annotations needed
+    --> tests/builder.rs:162:68
+     |
+ 162 |             r.model.rows.iter().map(|r| r.expr.terms.len() as u64).sum()
+     |                                                                    ^^^ cannot infer type of the type parameter `S` declared on the method `sum`
+     |
+     = note: multiple `impl`s satisfying `_: Sum<u64>` found in the following crates: `core`, `num_bigint`:
+             - impl Sum for u64;
+             - impl<T> Sum<T> for BigInt
+               where <BigInt as Add<T>>::Output == BigInt, BigInt: Add<T>, BigInt: ?Sized;
+             - impl<T> Sum<T> for BigUint
+               where <BigUint as Add<T>>::Output == BigUint, BigUint: Add<T>, BigUint: ?Sized;
+note: required by a bound in `std::iter::Iterator::sum`
+    --> /Users/bhz/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/iter/traits/iterator.rs:3674:12
+     |
+3671 |     fn sum<S>(self) -> S
+     |        --- required by a bound in this associated function
+...
+3674 |         S: [const] Sum<Self::Item>,
+     |            ^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `Iterator::sum`
+help: consider specifying the generic argument
+     |
+ 162 |             r.model.rows.iter().map(|r| r.expr.terms.len() as u64).sum::<S>()
+     |                                                                       +++++
+
+error[E0283]: type annotations needed
+   --> tests/builder.rs:162:68
+    |
+160 | /         assert_eq!(
+161 | |             r.statistics.generated_terms,
+162 | |             r.model.rows.iter().map(|r| r.expr.terms.len() as u64).sum()
+    | |                                                                    ^^^ cannot infer type of the type parameter `S` declared on the method `sum`
+163 | |         );
+    | |_________- type must be known at this point
+    |
+    = note: multiple `impl`s satisfying `u64: PartialEq<_>` found in the following crates: `core`, `serde_json`:
+            - impl PartialEq for u64;
+            - impl PartialEq<Value> for u64;
+help: consider specifying the generic argument
+    |
+162 |             r.model.rows.iter().map(|r| r.expr.terms.len() as u64).sum::<S>()
+    |                                                                       +++++
+
+warning: `subflow-next-audit` (lib test) generated 1 warning (1 duplicate)
+For more information about this error, try `rustc --explain E0283`.
+error: could not compile `subflow-next-audit` (test "builder") due to 2 previous errors

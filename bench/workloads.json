@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "fixed_on": "2026-10-11",
+  "repetitions": 9,
+  "identity_sizes": [1, 1000, 10000],
+  "dense_row_sizes": [100, 1000, 5000],
+  "rational_sizes": [10, 1000],
+  "notes": "First runnable verifier baseline. Mandatory additional families (history, shared chains, branching, real theorem) remain outstanding and must not disappear from final report. Every sample launches a fresh process; internal timings and process latency reported separately."
+}

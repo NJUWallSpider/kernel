@@ -1,0 +1,1 @@
+[{"reverse": false, "input_integers": true, "output_integers": true, "objective": "Equal", "projection": [[12, 5], [6, 1], [10, 0]], "inverse": 1}, {"reverse": true, "input_integers": true, "output_integers": true, "objective": "Equal", "projection": [[5, 12], [1, 6], [0, 10]], "inverse": 0}]

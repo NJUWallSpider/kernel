@@ -1,0 +1,165 @@
+{
+  "case_id": "test53",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/input/model.mps",
+    "sha256": "edca24fb2c7aae84cc29499c21118be1429121f9a6c56aafbd0a4f4b30b9e83d"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/output/reformulated.mps",
+    "sha256": "d43fba98eecca173923d9fb760606903037cc910d7595d3d90cf023053b71e4e"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/output/audit.json",
+    "sha256": "c465ccc41f6bfecade0967a37f1ee60745ebbcd54356cbed77ef82976720e4aa"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test53.py",
+    "sha256": "6b8d5214e20549962904914c4d41e4c6292bc02e1cc11b14d80554b8d36ac0e1"
+  },
+  "claims": "Complete same-coordinate mixed-integer feasible-set bijection and exact objective with both complete inverse identities; target LP inclusion and an actual full 156-coordinate source-LP point outside target LP prove strict strengthening. Twenty-six lower bounds on continuous epigraph variables are proved by integer Cases on five actual integer loads and their actual fixed sum, without assuming continuous epigraph integrality. Every equality row shift, removed equality and model obligation is checked.",
+  "counts": {
+    "source_variables": 156,
+    "target_variables": 156,
+    "source_rows": 161,
+    "target_rows": 160,
+    "rounded_max_load_bounds": 26,
+    "integer_load_cases": 130,
+    "epigraph_row_shifts": 130,
+    "removed_dependent_equalities": 1,
+    "claims": 3,
+    "points": 1,
+    "obligations_by_claim": [
+      915,
+      916,
+      630
+    ]
+  },
+  "preparation_seconds": 0.16324375000000002,
+  "rpa_sha256": "2beda15c48f49dcc981b72e778877e1e3bf724a351e98639ee491c4f3181df69",
+  "rpa_bytes": 270190,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test53/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":81227,\"parse_us\":1099,\"read_us\":41,\"rows\":161,\"status\":\"CANONICALIZED\",\"total_us\":1673,\"variables\":156}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test53/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":52029,\"parse_us\":639,\"read_us\":32,\"rows\":160,\"status\":\"CANONICALIZED\",\"total_us\":935,\"variables\":156}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test53/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test53/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":251774,\"status\":\"ASSEMBLED\",\"total_us\":2892}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test53/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test53/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test53/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test53/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":9998,\"model_decode_us\":773,\"points\":1,\"proof_decode_us\":1233,\"read_us\":76,\"statistics\":{\"bijections\":0,\"branches\":130,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":37962,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":2461,\"peak_live_facts\":312,\"plotkin_pairs\":0,\"point_coefficient_terms\":3720,\"points\":1,\"substitution_terms\":9930,\"work\":155335},\"status\":\"VERIFIED\",\"total_us\":12080}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 81227,
+      "sha256": "7dda2c15d72dd302f7e62dcec6230b34c571cd8e97aeffe367feef27220c809b"
+    },
+    "target.mcm": {
+      "bytes": 52029,
+      "sha256": "5664a8fe951d37b253e253b9376c085a43fa886e6236adf60cfc0e1a4f4860ba"
+    },
+    "proof.rpx": {
+      "bytes": 251774,
+      "sha256": "e401359a40c8589ee92555700a59d69e1ee17de39ccda030f16312854b49b62a"
+    },
+    "request.json": {
+      "bytes": 4414,
+      "sha256": "5bf0bcc483a9581549db5512c437bf98b7eea042bd4981c9184bfe6e59d1e3c3"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_load_integrality",
+      "rule_broken": "Weakens an exhaustive integer load split to a sign split.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "8f216fc08b3a4bb835376c8beceab7feb2129b64828b2b28d28d10f34c0ad95b",
+      "rpx_sha256": "2eac48522ed080eb45c049eb0aa05358b191ae8c1ddf49be1f25d688aa34e09a"
+    },
+    {
+      "mutation": "missing_fixed_sum_premise",
+      "rule_broken": "Drops an actual assignment equality from the load-sum identity.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID contradiction witness",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "d443df500cc46d38a15eaf9633c403ffc434039cd218f0638528948df90671dd",
+      "rpx_sha256": "77bccbc54c280aeb877b0a66de5e6aaeed094d9be08add4100dd237ec9016866"
+    },
+    {
+      "mutation": "wrong_epigraph_shift",
+      "rule_broken": "Changes the signed equality multiplier used to sparsify an actual epigraph row.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 442",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "05167f18587fde3cc2b3c07d8fd71e0cbf0bd8afcf42d6da24ab1335fc0c0490",
+      "rpx_sha256": "ea880d362ee6e96636d7633462cec3264034586f432ded34d598f960be348dd8"
+    },
+    {
+      "mutation": "infeasible_strictness_point",
+      "rule_broken": "Sets one source point epigraph below its actual lower bound.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID point: strictness witness is not feasible in the inclusion output LP (witness 0)",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "a734cab900ded1bd3d0f93229f19e8110bb2600934ec9bc7495fe782e6832c91",
+      "rpx_sha256": "5d811a9afa3ab98031cc70e7812bdf57d6a314cdd60e3774ddeb90b0899446f2"
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits an original-coordinate inverse obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "44150ec9a4008ac5f8c1d9da1c2229a6f1b10704e00fd4829eedf042dc49d93a",
+      "rpx_sha256": "4ece4eab872457974e959daee0cbaf6899970c988a006ebfb93b635aaabb90b5"
+    }
+  ]
+}

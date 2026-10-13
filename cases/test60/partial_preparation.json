@@ -1,0 +1,100 @@
+{
+  "case_id": "test60",
+  "status": "PROOF_NOT_COMPLETED",
+  "component_status": "VERIFIED_PARTIAL_CONTRACT_ONLY",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps",
+    "sha256": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/reformulated.lp",
+    "sha256": "1336fe0e73c0f68dc8ae5c32e40fe4b11b3edd9e4f9b17f7548d6c4c0c0cfdad"
+  },
+  "counts": {
+    "obligations_by_claim": [
+      12049,
+      9541,
+      30461
+    ],
+    "steps_by_claim": [
+      8914,
+      6406,
+      5016
+    ],
+    "affine_observations_per_claim": 2508
+  },
+  "required_missing": [
+    "Integer target-to-source reconstruction with simultaneous optional-menu selections.",
+    "Full injectivity/bijection responsibility for original binary options and uniquely defined auxiliaries."
+  ],
+  "preparation_seconds": 11.461220916999999,
+  "rpa_sha256": "74cc83816f5c4eb96bcf0a355c28e55cccc8d1e154d09fe1ef60f6a8fa84f884",
+  "rpa_bytes": 9219305,
+  "kernel_runs": [
+    {
+      "command": [
+        "/private/tmp/rpx-v6-original-scope-corpus-audit",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test60/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":4268962,\"parse_us\":1356884,\"read_us\":2787,\"rows\":717,\"status\":\"CANONICALIZED\",\"total_us\":1792789,\"variables\":13640}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/rpx-v6-original-scope-corpus-audit",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/reformulated.lp",
+        "/Users/bhz/Code/kernel/cases/test60/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":848257,\"parse_us\":223701,\"read_us\":99,\"rows\":2016,\"status\":\"CANONICALIZED\",\"total_us\":303766,\"variables\":2508}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/rpx-v6-original-scope-corpus-audit",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test60/partial.rpa",
+        "/Users/bhz/Code/kernel/cases/test60/partial.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":8713874,\"status\":\"ASSEMBLED\",\"total_us\":1226747}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/rpx-v6-original-scope-corpus-audit",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test60/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test60/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test60/partial.rpx",
+        "/Users/bhz/Code/kernel/cases/test60/partial.request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"claims\":3,\"execute_us\":13556327,\"model_decode_us\":529848,\"points\":0,\"proof_decode_us\":603922,\"read_us\":1723,\"statistics\":{\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":823494,\"obligations\":52051,\"peak_live_facts\":8914,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":910896,\"work\":4920321},\"status\":\"VERIFIED\",\"total_us\":14691820}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "863dfc652e6ad30fb869895b9c1606370056caeb059b6a76f1cc9d5bc2d12899",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 4268962,
+      "sha256": "0676bd26ad2dd3a845093f909772290c3b59b8f9c8e650b9706d4036215a3bc7"
+    },
+    "target.mcm": {
+      "bytes": 848257,
+      "sha256": "aa095f5a010beeb3411aff2238ff332aa9192af7e9695ba567c026de8c704ac9"
+    },
+    "partial.rpx": {
+      "bytes": 8713874,
+      "sha256": "22aa7cd28848037cb76343ffe40d2b1e6ddc959d01148683e52e1e056b103e60"
+    },
+    "partial.request.json": {
+      "bytes": 1374118,
+      "sha256": "728a0c77fed61413426a1d070ae1c9d2224774a28e4f4f8e7597ef1a6d2f795c"
+    }
+  }
+}

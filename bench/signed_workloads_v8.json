@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "fixed_on": "2026-10-11",
+  "repetitions": 9,
+  "counts": [1, 16, 512],
+  "capacity_seeds": [["0", 811], ["2/7", 812], ["212", 813]],
+  "real_cases": [27],
+  "notes": "Fixed before any V8 performance modification. Nine signed-decomposition workloads use independent exact MCM encoding, variable and row permutations, renamed coordinates, affine real-flow shifts/scales, alternating complement activation expressions, rational costs and objective constants. Every output domain/row/affine observation/objective is verified. Add the unchanged full actual27 certificate. Nine fresh process timings and three separate RSS observations per workload. Preparation and assembly are separate single measurements; no nonexistent synthetic MPS stage is reported."
+}

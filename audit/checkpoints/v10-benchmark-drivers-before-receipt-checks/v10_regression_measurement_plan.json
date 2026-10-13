@@ -1,0 +1,32 @@
+{
+  "status": "FIXED_BEFORE_MEASUREMENT",
+  "purpose": "Retain existing V1 and extended fixed benchmark workloads unchanged; quantify working V10 overhead on identical old mathematical tasks. No comparison on newly unsupported-old tasks.",
+  "old_binary": "target/validation-wave-rpx-2026-10-11/release/rpx",
+  "old_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+  "old_source_snapshot": "audit/checkpoints/delivery-78-working-source",
+  "candidate": "final cold source/build containing the consolidated V10 draft; exact identity to be recorded before the first sample",
+  "matrices": {
+    "bench/workloads.json": "53df8eaf013fcfd4db2dce4f25a016cde206fa6687b93abdb7aafc79798a016c",
+    "bench/extended_workloads.json": "ea6ee554f582195d72715e25118af4987316ebd5e3571b68cb8571e3b94da788",
+    "tools/benchmark.py": "992cd8112a572b8e79c8e512e2bccdd0ce1e0c5e6a97cf6613641e41f892b407",
+    "tools/benchmark_extended.py": "a6846094e575bfad7890b253e3d176ff87829f9cd288f073264a7b8837c57d76"
+  },
+  "workload_counts": {
+    "initial": 8,
+    "extended": 23
+  },
+  "fresh_verification_repetitions": 9,
+  "RSS_repetitions": {
+    "initial": 1,
+    "extended": 3
+  },
+  "order": [
+    "old-initial",
+    "candidate-initial",
+    "old-extended",
+    "candidate-extended"
+  ],
+  "warm_filesystem": true,
+  "preconditions": "All task workers confirm idle; no heavy preparation/build/test/replay running. Host/user/OS activity remains uncontrolled.",
+  "reports": "Preserve every observation, including failures/outliers; show distributions, complete process and internal stages, physical sizes and logical stats. Preparation measured separately; previous real author times remain receipts, not hidden fresh measurements."
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "kernel-core",
+    "--locked"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 74.150578709,
+  "log": "/Users/bhz/Code/kernel/audit/validation/v8/core-tests.log",
+  "passed_tests": 198,
+  "initial_targeted_test_correction": "The new integration test initially expected18 obligations but the existing counter counts13 terminal obligations, not the5 extension premises. The test expectation was corrected; production code was unchanged."
+}

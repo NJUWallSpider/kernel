@@ -1,0 +1,6 @@
+strict-n1 True {'min': 6.069875, 'median': 6.069875, 'max': 6.069875}
+strict-n64 True {'min': 2.878042, 'median': 2.878042, 'max': 2.878042}
+strict-n4096 True {'min': 11.920708, 'median': 11.920708, 'max': 11.920708}
+image-n1 True {'min': 2.664375, 'median': 2.664375, 'max': 2.664375}
+image-n64 True {'min': 2.352333, 'median': 2.352333, 'max': 2.352333}
+image-n4096 True {'min': 10.256334, 'median': 10.256334, 'max': 10.256334}

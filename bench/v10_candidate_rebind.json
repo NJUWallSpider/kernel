@@ -1,0 +1,38 @@
+{
+  "status": "FIXED_BEFORE_FORMAL_MEASUREMENTS",
+  "reason": "Root requested final cold-built candidate identity. Only binary and build receipt identities changed; workloads, order, sizes, repetitions, fixture bytes and old nonisolated diagnostics are unchanged.",
+  "binary": {
+    "path": "/Users/bhz/Code/kernel/target/validation-v10-candidate/release/rpx",
+    "sha256": "9c19559bc14cff03e968e1b0c39700ede6c7ef9c2cc534e3f4061ea532f364ec"
+  },
+  "source_build_receipt": "audit/validation/v10-candidate-cold-build.json",
+  "source_build_receipt_sha256": "483f0bec952e3d9a92e5a2613e05262c9c57cbed049ac205a04e66a4fba865c6",
+  "configs": [
+    {
+      "original": "bench/subflow_workloads_v10_draft.json",
+      "original_sha256": "560711fc72a1b9d46b75b0f9d61157561483a0e8f4c5d569f74097eab682c4d5",
+      "rebound": "bench/subflow_workloads_v10_candidate.json",
+      "rebound_sha256": "1b6ee91cf37242e634daf9c73b62024b4cb91dbceefe89967bace648d9b1f1a3",
+      "changed_keys": [
+        "build_receipt",
+        "build_receipt_sha256",
+        "kernel_sha256"
+      ],
+      "normalized_json_diff": "bench/subflow_v10_candidate_rebind.diff",
+      "diff_sha256": "3f040fadc5bc8d6588c633545302e87c6e8a8a009e12ec38e9e1ec3e4fabfed0"
+    },
+    {
+      "original": "bench/strict_image_workloads_v10_draft.json",
+      "original_sha256": "cb864b1613fc92a0c6b9be6c8cdde697e38362b8491ed7d6ab2a179c90982468",
+      "rebound": "bench/strict_image_workloads_v10_candidate.json",
+      "rebound_sha256": "00cc7d274df1052ffd3dcd7427ebe8342c7dff47aabca2fca0bfe58895b4d30f",
+      "changed_keys": [
+        "build_receipt",
+        "build_receipt_sha256",
+        "kernel_sha256"
+      ],
+      "normalized_json_diff": "bench/strict_image_v10_candidate_rebind.diff",
+      "diff_sha256": "417757c3c4437319d923d8d6dcce953758e3dfc14393c6938e2b7e027b02647f"
+    }
+  ]
+}

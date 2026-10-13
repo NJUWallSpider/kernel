@@ -1,0 +1,4630 @@
+{
+  "schema": "remaining-requirements-audit-1",
+  "assessment_date": "2026-10-11",
+  "scope": "All 37 PROOF_NOT_COMPLETED cases in the immutable 44/81 acceptance snapshot. Later completion receipts are supplemental; this file does not change acceptance.json.",
+  "acceptance_snapshot": {
+    "path": "audit/remaining_requirements_acceptance_snapshot.json.gz",
+    "gzip_sha256": "b1e67d626cbeea068b84669fa7e33d377e7e47c835a133531c0a534cbcb3c657",
+    "uncompressed_sha256": "cf999d2018b0120c1f85733cf3ff87dcce3750aca4a67a367ea6baf10b45fe5c",
+    "summary": {
+      "total_runs": 81,
+      "model_pairs_present": 81,
+      "statuses": {
+        "PROOF_NOT_COMPLETED": 37,
+        "VERIFIED": 44
+      },
+      "verified_cases": [
+        "test9",
+        "test11",
+        "test12",
+        "test13",
+        "test14",
+        "test15",
+        "test16",
+        "test18",
+        "test19",
+        "test20",
+        "test21",
+        "test23",
+        "test25",
+        "test26",
+        "test27",
+        "test28",
+        "test30",
+        "test33",
+        "test35",
+        "test38",
+        "test40",
+        "test43",
+        "test44",
+        "test47",
+        "test48",
+        "test49",
+        "test50",
+        "test54",
+        "test57",
+        "test59",
+        "test60",
+        "test63",
+        "test65",
+        "test68",
+        "test69",
+        "test70",
+        "test71",
+        "test75",
+        "test77",
+        "test78",
+        "test79",
+        "test84",
+        "test87",
+        "test88"
+      ],
+      "families_with_certified_example": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "all_families": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "functional_delivery_complete": false
+    }
+  },
+  "corpus_inventory": {
+    "path": "audit/corpus_inventory.json",
+    "sha256": "a277cf8b47928309fcb384ff330eed63e18e839ffb6405432dcf85a8aef1591c"
+  },
+  "capability_baseline": {
+    "frozen": "V8",
+    "working": "V9 objective-level contracts; test80 VERIFIED but protocol not frozen",
+    "production_changes_by_this_audit": false,
+    "new_format_proposed": false
+  },
+  "evidence_policy": [
+    "Reports and audit metadata are untrusted evidence used to propose proofs, never accepted premises.",
+    "High confidence does not imply VERIFIED. No failed candidate here is treated as a refuted transformation.",
+    "Every actual source/target model and report in these entries was rebound by full SHA-256, not merely a filename or family tag.",
+    "Resource risks are forecasts unless an entry links an actual RESOURCE_LIMIT receipt. This audit ran no new kernel certificate, benchmark or preparer."
+  ],
+  "counts": {
+    "baseline_total": 81,
+    "baseline_verified": 44,
+    "baseline_remaining": 37,
+    "verified_after_snapshot_in_this_set": 6,
+    "still_uncompleted_at_cutoff": 31,
+    "later_verified_ids": [
+      "test17",
+      "test22",
+      "test32",
+      "test37",
+      "test42",
+      "test80"
+    ]
+  },
+  "conclusions": {
+    "mathematical_rule_candidate": [
+      {
+        "name": "common-source bounded subflow",
+        "cases": [
+          "test58"
+        ],
+        "status": "paused isolated design; no production rule or frozen version",
+        "distinction": "Existing FlowLift decomposes a fixed aggregate including circulation; SignedLift chooses signs. Neither by itself produces a smaller capacity-bounded aggregate with the same demands."
+      }
+    ],
+    "contract_semantics": [
+      {
+        "name": "all-optimizer domain",
+        "cases": [
+          "test80"
+        ],
+        "status": "working V9 implemented and actual case verified, not frozen"
+      },
+      {
+        "name": "strict improvement / optimizer exclusion",
+        "cases": [
+          "test36",
+          "test83 (ancillary strict-dominance claim only)"
+        ],
+        "status": "design requirement, not implemented"
+      },
+      {
+        "name": "point exclusion without inclusion",
+        "cases": [
+          "test62 (ancillary fractional claim)"
+        ],
+        "status": "possible minimal point-contract extension, not implemented"
+      }
+    ],
+    "unresolved_existing_rule_completions": [
+      {
+        "cases": [
+          "test61"
+        ],
+        "requirement": "actual continuous local hull completion by exact interval/Farkas witnesses"
+      },
+      {
+        "cases": [
+          "test72"
+        ],
+        "requirement": "ordered integer completion and ancillary fractional epigraph completion; measure existing bounded-prefix expansion"
+      },
+      {
+        "cases": [
+          "test67"
+        ],
+        "requirement": "compact finite local coloring refutations plus an explicit full coloring point"
+      }
+    ],
+    "not_justified_as_new_theorems": [
+      "Conditional simplex extrema (51/52/76): Lin plus selected-minimum Cases.",
+      "Top-k/weighted cardinality bounds (10/36): threshold box inequalities plus integer Round.",
+      "Five-cycle/clique/continuous epigraph bounds (66/73/53): bounded scalar Cases and Round on actual integer expressions.",
+      "Pair-selector LP completion (46): exact four-corner IntervalLift, not unchecked real multiplication.",
+      "Bounded Boolean existential completion (61/62/74): local truth Cases with joint old-scope intervals, not whole-model branch products."
+    ]
+  },
+  "representation_priorities": [
+    {
+      "cases": [
+        "test10",
+        "test31",
+        "test34",
+        "test39",
+        "test46",
+        "test56"
+      ],
+      "experiment": "Shared sparse affine expressions/maps and balanced row/contributor trees",
+      "requirement": "Compare exact same complete claims, bytes, expanded terms, actual work, decode/execute/total time, preparation time and RSS; retain full output checking."
+    },
+    {
+      "cases": [
+        "test24",
+        "test36",
+        "test72",
+        "test74"
+      ],
+      "experiment": "Shared prefix/capped-count/Boolean templates and synchronized interval layers",
+      "requirement": "First measure a scalar existing-rule certificate. DAG sharing and scalar-equivalent batching can reduce representation cost but cannot establish an absent joint-existence theorem."
+    },
+    {
+      "cases": [
+        "test66",
+        "test86"
+      ],
+      "experiment": "Optional repeated local-proof batch",
+      "requirement": "Only adopt after fixed A/B measurement and exact scalar-reference/negative tests; no case IDs or trusted metadata shortcuts."
+    }
+  ],
+  "fixed_pressure_reference": {
+    "case": "test78",
+    "receipt": "cases/test78/preparation.json",
+    "rpx_bytes": 92054445,
+    "rpa_bytes": 105561392,
+    "work": 55606781,
+    "branches": 11344,
+    "obligations": 28644,
+    "menu_generated_binary_variables": 133280,
+    "kernel_execution_us": 3071705,
+    "total_verification_us": 3621032,
+    "preparation_wall_seconds": 201.1718,
+    "preparation_pause_note": "Wall time includes a root-requested stop. Observed paused interval 08:22:55..08:24:33 UTC was 98 seconds; actual stop slightly preceded first observation. No exact active-time subtraction is claimed.",
+    "measurement_status": "single actual-case diagnostic, NOT isolated performance benchmark",
+    "pause_evidence": "audit/test78_preparation_pause.json"
+  },
+  "cases": [
+    {
+      "case_id": "test8",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and objective, in both directions.",
+        "lp": "Target relaxation is a strict subset of source relaxation, on the same coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "Prove the 441 redundant gates by actual resource-row containment and 315 cardinalities by disjoint-pair sums.",
+        "For each of 2,457 x<=8y links, split binary y and combine unconditional x<=3 with x>=0; similarly tighten 2,016 gates from 1200 to the actual 6/9/12 cover bounds.",
+        "Use complete identity maps, check every unchanged row too, and verify the full fractional witness with x_C0001=3 and y_C2458=3/8."
+      ],
+      "representation_or_resource_risk": "Extract and share exact resource-cover facts; avoid repeating whole capacity rows for each link. Actual LP importer is already supported.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The full historical execution trajectory is absent, but the actual LP pair and final report are present. Rediscover exact cover multipliers if they were not persisted; never use the report as a premise.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test8-20261003-213957",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.lp",
+            "bytes": 1458516,
+            "sha256": "0ec26e88de81a520118449cc34af8cb6141251865d31b830aeef286b4daaa590",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test8-20261003-213957/input/model.lp",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.lp",
+            "bytes": 1437550,
+            "sha256": "8bcd0bd34e210e49464276c94dbc8ee3fea6b7903a28820e913f4b27b5147864",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test8-20261003-213957/output/reformulated.lp",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 7633,
+        "sha256": "35934b1a1935c09c4eb3e33c4bcc1cb466d0728fb1cbd4f197bce96bd3870641",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test8-20261003-213957/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed formulation"
+          },
+          {
+            "line": 3,
+            "text": "## Decision"
+          },
+          {
+            "line": 8,
+            "text": "## Structural facts"
+          },
+          {
+            "line": 21,
+            "text": "## Hypotheses investigated"
+          },
+          {
+            "line": 30,
+            "text": "## Committed edits and mathematical justification"
+          },
+          {
+            "line": 45,
+            "text": "## Exact verification and direct-parent audits"
+          },
+          {
+            "line": 57,
+            "text": "## Exercised behavior and strictness"
+          },
+          {
+            "line": 68,
+            "text": "## Limitations"
+          },
+          {
+            "line": 71,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [
+        "persisted full execution trajectory not present; final report/audits remain available"
+      ],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test10",
+      "actual_contract": {
+        "integer": "Retained integer projection and every objective value; deleted loads/selectors need complete joint reconstruction.",
+        "lp": "Target projected relaxation is strictly stronger; the natural lift and full fractional exclusion witness must be checked."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "Cases",
+        "IntervalLift",
+        "affine_projection",
+        "FiberStrictness"
+      ],
+      "minimal_proof_route": [
+        "Substitute all 200 eliminated loads exactly and enumerate only the four retained selector bits for conditional fixed-charge budgets.",
+        "For sorted weights use t=w_(M+1) and the exact box consequence sum(w_i*x_i)>=t*sum(x_i)-sum(max(0,t-w_i)); combine the conditional budget, then Round the integer count to each of 170 M bounds.",
+        "Reconstruct the deleted integer selector by a bounded Boolean AND; for the LP direction use a continuous interval satisfying its actual two selector inequalities.",
+        "Build the complete fractional assignment described in the report, then refute the target observation fiber using a violated retained activation bound."
+      ],
+      "representation_or_resource_risk": "190,402 source variables and a 190,200-term budget make repeated full-row copies expensive. Share budget/one-hot sums and keep sparse substitution; no resource result is claimed before construction.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "bounded_boolean_completion",
+        "wide_affine",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 28943745,
+            "sha256": "7de49fa93c12ca12479d782406e9d4b1ae844b2fd93b810be7146efb5f8ac961",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 26556515,
+            "sha256": "2b303ef650fff92aebff3fe2405c912e19f39ada3e84c32748f891be67acc9f8",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11262,
+        "sha256": "4710087558ac6d29ec80550a264ac78787c965f01319f46d1b27daa0266f59f0",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact load elimination, selector projection, and budget-derived activation strengthening"
+          },
+          {
+            "line": 3,
+            "text": "## Result"
+          },
+          {
+            "line": 17,
+            "text": "## MPS interpretation and reliability"
+          },
+          {
+            "line": 25,
+            "text": "## Structural facts: exact algebra, not inferred application semantics"
+          },
+          {
+            "line": 53,
+            "text": "## Hypotheses investigated and evidence"
+          },
+          {
+            "line": 55,
+            "text": "### 1. Defined continuous variables can be eliminated: proved"
+          },
+          {
+            "line": 59,
+            "text": "### 2. Aggregate activation coefficients can be reduced: proved for 170 groups"
+          },
+          {
+            "line": 77,
+            "text": "### 3. Selector projection admits a small exact replacement: proved"
+          },
+          {
+            "line": 88,
+            "text": "### Rejected or limited hypotheses"
+          },
+          {
+            "line": 96,
+            "text": "## Exact changes and equivalence scope"
+          },
+          {
+            "line": 107,
+            "text": "## Artifact audit and behavioral smoke evidence"
+          },
+          {
+            "line": 121,
+            "text": "## Remaining uncertainty and tradeoffs"
+          },
+          {
+            "line": 125,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test17",
+      "actual_contract": {
+        "integer": "Same-coordinate integer bijection, objective equality and explicit affine inverse maps.",
+        "lp": "Target-to-source inclusion only; the report gives a local fractional example, not a full-model strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Delete 1,046 positive rows using exact conic combinations.",
+        "Prove 44 adjacent binary orders by local Cases and restore all 990 longer weighted orders by chain sums.",
+        "Check complete identity maps in both integer directions and the LP reverse direction."
+      ],
+      "representation_or_resource_risk": "Use shared chain facts rather than one proof for each full order path.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test17-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 16812990,
+            "sha256": "96da5673b0675aff8fdca6e764c905368f42be42f7dcc442c9a96a208b020e11",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test17-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 12391557,
+            "sha256": "1b4b5ec4e2edfb48c8c1b7b8bb8c6f5c5fe1d507b26a9cca9faf570c15085947",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test17-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10410,
+        "sha256": "24bf320dca2926d0893e32bf3265203ffc65d5bae8718b968c597c06a826e2c9",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test17-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact redundancy removal and binary order-chain reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Result"
+          },
+          {
+            "line": 16,
+            "text": "## MPS interpretation and reliability"
+          },
+          {
+            "line": 24,
+            "text": "## Important structure and hypotheses"
+          },
+          {
+            "line": 33,
+            "text": "### Hypotheses rejected or limited"
+          },
+          {
+            "line": 40,
+            "text": "## Exact scope and mathematical certificates"
+          },
+          {
+            "line": 42,
+            "text": "### A. Delete 789 unit packing rows"
+          },
+          {
+            "line": 51,
+            "text": "### B. Delete all 257 positive capacity rows"
+          },
+          {
+            "line": 61,
+            "text": "### C. Replace the complete weighted order by its adjacent binary chain"
+          },
+          {
+            "line": 75,
+            "text": "## Artifact edits and independent audit"
+          },
+          {
+            "line": 94,
+            "text": "## Limitations"
+          },
+          {
+            "line": 98,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test17/preparation.json",
+        "receipt_sha256": "ac1d3c1dc186120e67d270c170c8b3c456c6a78b48c48e05f193e34d75dcfbeb",
+        "attack_count": 4,
+        "protocol_status": "existing_version",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test22",
+      "actual_contract": {
+        "integer": "Both integer and LP observation images and objective values agree: all 211 retained coordinates plus x142+x145 match the target aggregate.",
+        "lp": "Equality of these projected LP images, not a bijection of all original coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Eliminate 171 private continuous pivots and 13 fixed-zero integer coordinates by exact affine formulas.",
+        "Lift the aggregate g in [0,8] as g/2,g/2 into the two equal-cost [0,4] source coordinates.",
+        "Decode both endpoints of all 171 ranged rows and preserve the encoded tiny RHS and objective offset exactly."
+      ],
+      "representation_or_resource_risk": "The missing RANGES support was in an untrusted preparer, not a core semantic gap. No interval theorem is needed for the equal split.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 52679,
+            "sha256": "2750beca58335f18453023ea382c147ac1e5c3fde81c40f831c945047dbfc068",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 22938,
+            "sha256": "9099beb67f0efffcb3e3ca6b5b238127083fb58e9c7a3b93fee674cebaf446ab",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11481,
+        "sha256": "e4ccd5a32afd3113cb9288d37883849bc393bcc722b0e1a15c468e950908eec7",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact affine size reduction"
+          },
+          {
+            "line": 7,
+            "text": "## 1. Complete structural facts used"
+          },
+          {
+            "line": 26,
+            "text": "## 2. Source interpretation"
+          },
+          {
+            "line": 39,
+            "text": "## 3. Hypotheses and outcomes"
+          },
+          {
+            "line": 49,
+            "text": "## 4. Exact final edits"
+          },
+          {
+            "line": 61,
+            "text": "## 5. Proof of equivalence and objective preservation"
+          },
+          {
+            "line": 99,
+            "text": "## 6. Artifact and runtime audit"
+          },
+          {
+            "line": 121,
+            "text": "## 7. Limitations and remaining uncertainty"
+          },
+          {
+            "line": 131,
+            "text": "## 8. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test22/preparation.json",
+        "receipt_sha256": "f7f50d39dd0912c2cf0ad1a51fed5a7e3f6ae3810aefb561b488a488ee60cc65",
+        "attack_count": 4,
+        "protocol_status": "existing_version",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test24",
+      "actual_contract": {
+        "integer": "Preserve feasibility, minimum objective and every retained y choice; forward objective NonIncreasing and reverse Equal. No bijection of all source feasible points.",
+        "lp": "No equality or strict-inclusion claim for the full LP relaxations is required by the report."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Set the 7,693 unused nonnegative-cost binaries to zero without changing y.",
+        "For each of 79 disjoint covers, select the first active old binary through shared prefix AND/priority witnesses. Every new x is at most its old value, so capacity and linking inequalities remain valid.",
+        "Reverse by zero extension; account for the full objective and all 100 integer y domains."
+      ],
+      "representation_or_resource_risk": "Cover sizes 15..40 favor balanced local Cases and shared prefix facts. Do not branch the whole model over all covers.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Unused zero-cost variables need not be zero in every optimum. Canonicalization is a dominance map, not a forced-fixing proof. Total aggregate capacity alone does not establish feasibility.",
+      "capability_clusters": [
+        "monotone_completion",
+        "bounded_boolean_completion"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 1285817,
+            "sha256": "0d3fa532a6c67cf3f69ab54167a74b23e50e45adc4c95f56d9665f39e39e6db4",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 399688,
+            "sha256": "649f6f5fc0a84cca31c1f8eb2f854dceccb5e96d35223beee1476bc7765f210e",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 8759,
+        "sha256": "e6baac77df259dd52ad6c7c1efc81f6dd57a1c1f061944a517d8a4758619a69c",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test24-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact optimality-preserving reduction"
+          },
+          {
+            "line": 3,
+            "text": "## Decision and scope"
+          },
+          {
+            "line": 17,
+            "text": "## MPS interpretation"
+          },
+          {
+            "line": 22,
+            "text": "## Verified structure"
+          },
+          {
+            "line": 32,
+            "text": "## Hypotheses, tests and dispositions"
+          },
+          {
+            "line": 40,
+            "text": "## Exact justification"
+          },
+          {
+            "line": 45,
+            "text": "## Artifact edits and audit"
+          },
+          {
+            "line": 51,
+            "text": "## Limitations"
+          },
+          {
+            "line": 54,
+            "text": "## Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test29",
+      "actual_contract": {
+        "integer": "Zero-extension integer bijection and exact objective values.",
+        "lp": "Target-to-source inclusion; no global strictness is committed."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Derive all 1,756 zero binaries using local head=1 contradictions, one-hot exclusions and previously established zeros.",
+        "Turn the 2,604 reciprocal binary-support classes into equalities with exhaustive local Cases.",
+        "Recover the 180 omitted class equalities from endpoint one-hots minus retained classes; restore every one of the original 69,608 rows."
+      ],
+      "representation_or_resource_risk": "Use balanced sums and shared class facts; a complete wide row per variable would create avoidable quadratic work.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "binary_relation_quotient",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test29-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 35369403,
+            "sha256": "3cf84e53895a04a514c7af55b5394dc3732a43babec80bda3dfccda166d0248d",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test29-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 3654160,
+            "sha256": "364e1196a62eee7f7cffff4530afb2940d9be7fbc842c871c30dd02605269ff0",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test29-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11805,
+        "sha256": "ed2ec70aec616a4f6d4120fd5cce28572511a0a5e224772c8c0adf4a326552d0",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test29-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact support-class reformulation"
+          },
+          {
+            "line": 6,
+            "text": "## 1. Structural facts and representation"
+          },
+          {
+            "line": 21,
+            "text": "### Parsing"
+          },
+          {
+            "line": 30,
+            "text": "## 2. Hypotheses investigated"
+          },
+          {
+            "line": 32,
+            "text": "### Constant objective — proved, not separately modified"
+          },
+          {
+            "line": 36,
+            "text": "### Support exclusion and forced-zero propagation — proved"
+          },
+          {
+            "line": 44,
+            "text": "### Reciprocal class compression — proved over the complete surviving scope"
+          },
+          {
+            "line": 54,
+            "text": "### One redundant balance per endpoint pair — proved"
+          },
+          {
+            "line": 58,
+            "text": "### Other investigated hypotheses"
+          },
+          {
+            "line": 67,
+            "text": "## 3. Mathematical justification of the committed changes"
+          },
+          {
+            "line": 69,
+            "text": "### Zero certificate"
+          },
+          {
+            "line": 75,
+            "text": "### Balance equivalence"
+          },
+          {
+            "line": 97,
+            "text": "### Exhaustive local verification"
+          },
+          {
+            "line": 103,
+            "text": "## 4. Exact modification scope and artifact audit"
+          },
+          {
+            "line": 124,
+            "text": "## 5. Remaining uncertainty and limitations"
+          },
+          {
+            "line": 128,
+            "text": "## 6. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test31",
+      "actual_contract": {
+        "integer": "Preserve the retained integer projection and every objective value; retyped tree flows require integer reconstruction. No full bijection for canonicalized free auxiliaries.",
+        "lp": "No LP equivalence is asserted."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "EqPair",
+        "Cases",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Force 20,320 oversize binaries to zero by rounding actual 21,600 versus 20,600 capacity bounds.",
+        "Prove 9,221 unreachable DAG arcs zero through balance-row induction, 18 ones through saturated rows, and the c213 integer count bound by rounding 21,600*sum(H)<=27,300.",
+        "Use exact component-row identities and group maxima for deleted rows.",
+        "Prove all 13,984 continuous tree-flow coordinates integer by signed cut sums in the actual tree; reconstruct the 141 zero-cost auxiliaries canonically without claiming they were forced."
+      ],
+      "representation_or_resource_risk": "364,417 source variables and about 1.8 million nonzeros. Export shared subtree/cut facts rather than materializing each large cut independently. Size/work limits are unmeasured, not yet a demonstrated RESOURCE_LIMIT.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "linear_elimination",
+        "wide_affine",
+        "integer_rounding"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 204809618,
+            "sha256": "5df2a750b9fe2ef2957094c83e4f1eb1e227cea1a7df67fda6112eeb2622a7ed",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 75884678,
+            "sha256": "694deb5db476d2be8134164fa6e48218ad88b6ee0e6b08237f6c9c252f0746c0",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 14158,
+        "sha256": "dbce53dced599893461d35bca8f56a5933afebe101ea2c58437ee6acf67635bd",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact projected reduction of `s100`"
+          },
+          {
+            "line": 10,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 38,
+            "text": "## 2. Interpretation and parsing"
+          },
+          {
+            "line": 63,
+            "text": "## 3. Claims supporting the reduction"
+          },
+          {
+            "line": 65,
+            "text": "### 3.1 Remove 141 auxiliary binaries and 100 `G` rows by projection"
+          },
+          {
+            "line": 79,
+            "text": "### 3.2 Fix 29,541 arcs to zero"
+          },
+          {
+            "line": 97,
+            "text": "### 3.3 Fix 18 arcs to one"
+          },
+          {
+            "line": 106,
+            "text": "### 3.4 Remove 12 capacity rows and 61 empty at-most-one rows"
+          },
+          {
+            "line": 132,
+            "text": "### 3.5 Replace `c213` by an equivalent at-most-one row"
+          },
+          {
+            "line": 149,
+            "text": "### 3.6 Remove 532 empty flow identities and two dependent flow rows"
+          },
+          {
+            "line": 157,
+            "text": "### 3.7 Make exactly 13,984 zero-cost tree arcs continuous"
+          },
+          {
+            "line": 172,
+            "text": "## 4. Hypotheses rejected or not established"
+          },
+          {
+            "line": 188,
+            "text": "## 5. Exact equivalence and committed scope"
+          },
+          {
+            "line": 202,
+            "text": "## 6. Artifact audit and exercised verification"
+          },
+          {
+            "line": 229,
+            "text": "## 7. Limitations and artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test32",
+      "actual_contract": {
+        "integer": "Unique zero/affine integer reconstruction and exact objective values; 60 target time variables are continuous but must reconstruct integer source coordinates.",
+        "lp": "No LP equality is asserted."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "Cases",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Establish 7,282 explicit zeros and 6,306 impossible one-hot choices from actual start/completion bounds.",
+        "Use componentwise capacity domination and positive-duration precedence paths for 168 capacity and 26 precedence deletions.",
+        "Derive time integrality from integer-coefficient one-hot definitions and check both complete maps."
+      ],
+      "representation_or_resource_risk": "Share one-hot weighted interval facts and path prefixes; the actual proof is owned by corpus_audit.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "linear_elimination",
+        "conditional_bounds"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 9500175,
+            "sha256": "152b62344fb15ee3e080137ea304d998c351f56c3b3bcea3f2a421cdbb7a55f9",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 1594577,
+            "sha256": "edfaa99f6340237168af7fcdfcaeef1dea258e6fe6ee97506633b9c216129190",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10851,
+        "sha256": "c9c6f6f96a847049c9e19ec166fc11318e38a16eaf1069911547d07fd237c94e",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact choice-and-row reduction"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 25,
+            "text": "## 2. MPS interpretation and representation reliability"
+          },
+          {
+            "line": 33,
+            "text": "## 3. Investigated hypotheses and checks"
+          },
+          {
+            "line": 35,
+            "text": "### Impossible choices from explicit bounds — verified"
+          },
+          {
+            "line": 39,
+            "text": "### Capacity dominance after choice removal — verified"
+          },
+          {
+            "line": 43,
+            "text": "### Transitive precedence — verified"
+          },
+          {
+            "line": 49,
+            "text": "### Implied time integrality — verified"
+          },
+          {
+            "line": 53,
+            "text": "## 4. Rejected or bounded hypotheses"
+          },
+          {
+            "line": 60,
+            "text": "## 5. Mathematical justification and evidence"
+          },
+          {
+            "line": 62,
+            "text": "### Zero-variable certificates"
+          },
+          {
+            "line": 66,
+            "text": "### Capacity certificates"
+          },
+          {
+            "line": 70,
+            "text": "### Precedence certificates"
+          },
+          {
+            "line": 83,
+            "text": "### Integrality and equivalence"
+          },
+          {
+            "line": 89,
+            "text": "## 6. Exact committed modifications"
+          },
+          {
+            "line": 99,
+            "text": "## 7. Artifact audit and exercised verification"
+          },
+          {
+            "line": 116,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 122,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": "corpus_audit",
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test32/preparation.json",
+        "receipt_sha256": "36ce7131803bc5869b8cf3eba30f526d2c997e29ea4f986e23a08f8b739dbd84",
+        "attack_count": 5,
+        "protocol_status": "existing_version",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test34",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and exact objective.",
+        "lp": "Strict target subset on the same coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "For each of 231 one-hot groups, prove the aggregate epigraph inequality by balanced local Cases selecting its unique active member.",
+        "Recover every individual inequality by nonnegativity and the group upper bound.",
+        "Validate the full fractional point with x=1/231, y=13/231 and the exact maximum distance epigraph value."
+      ],
+      "representation_or_resource_risk": "Each group has 231 choices; share one-hot search facts and avoid copying all 53,131 original epigraph rows in each leaf.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "wide_affine",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 13739038,
+            "sha256": "17f3805e5b3371f4b26671cdb1c50346f7ec4308333891dbe2e87d0117716af8",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 10222595,
+            "sha256": "43624a949aec1ac21c22c531ea82ac862eb66e7fe6ef47d588b6cd32fb09ce71",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 9646,
+        "sha256": "3e7d33791500bf208e7d9368a51f81d512f0daeae89ad5c657f23bc398344911",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: grouped bounds on z"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Decision and scope"
+          },
+          {
+            "line": 20,
+            "text": "## 2. Parsing and interpretation"
+          },
+          {
+            "line": 28,
+            "text": "## 3. Complete structural facts"
+          },
+          {
+            "line": 42,
+            "text": "## 4. Hypotheses investigated"
+          },
+          {
+            "line": 54,
+            "text": "## 5. Mathematical justification"
+          },
+          {
+            "line": 76,
+            "text": "## 6. Exact edits and serialization"
+          },
+          {
+            "line": 87,
+            "text": "## 7. Artifact audit and smoke evidence"
+          },
+          {
+            "line": 101,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 105,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test36",
+      "actual_contract": {
+        "integer": "Minimum objective is preserved AND every source integer optimizer has all 200 terminal coordinates zero. The latter is stronger than feasible dominance maps.",
+        "lp": "No LP-relaxation claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "Round",
+        "Feasible"
+      ],
+      "minimal_proof_route": [
+        "Construct the componentwise-minimum chain lift: every prefix is the AND of its original binary scope. Positive auxiliary costs make any noncanonical lift strictly improvable.",
+        "Prove the universal intermediate lower bound 2,238 by the 26 layer incidence inequalities and exact top-five box/count bounds.",
+        "Check the complete objective-6,425 feasible point. A canonical lift with an active terminal costs at least 7,283.",
+        "A minimum-preserving map can choose that fixed point in the active-terminal branch; proving that EVERY optimizer has zero terminals additionally needs strict-improvement/optimality-exclusion semantics."
+      ],
+      "representation_or_resource_risk": "37,616 prefix auxiliaries, chains up to roughly 190. Naive sequential lifts exceed nesting limits; balanced scopes/shared prefix expressions are a separate representation problem.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "contract_semantics",
+        "statement": "Caller-bound exclusion of noncanonical or positive-terminal source points from ALL optimizers, via an exact strictly improving feasible witness/map. Unknown optimum prevents replacing this by a fixed objective-level restriction.",
+        "new_trusted_mathematical_rule_required": "not_established",
+        "frozen_v8_support": "ordinary NonIncreasing/Equal maps alone do not assert this property"
+      },
+      "confidence": {
+        "mathematical_route": "medium",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "A positive continuous terminal need not be >=1 at an arbitrary feasible point. The report derives integrality only for a minimum lift. Treating it as a global integer fact would be unsound.",
+      "capability_clusters": [
+        "monotone_completion",
+        "optimality_contract",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 9545875,
+            "sha256": "de0946af79c5b38c09874e753018d2a1986b12a61741454afe8a29dba843a481",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 9526675,
+            "sha256": "12e3b1da5b6573e765127f63e82e894d9d228c27699f8a1f101b676722cc6c1e",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11924,
+        "sha256": "da27ffe9ddff424bb90e2c843365ad48087f0745f03c5b58e1009a69ba57db4f",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact terminal-penalty elimination"
+          },
+          {
+            "line": 3,
+            "text": "## Decision and scope"
+          },
+          {
+            "line": 16,
+            "text": "## 1. Structural facts: complete-scope checks"
+          },
+          {
+            "line": 58,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 81,
+            "text": "## 3. Investigated hypotheses"
+          },
+          {
+            "line": 99,
+            "text": "## 4. Mathematical certificate"
+          },
+          {
+            "line": 101,
+            "text": "### A. Canonical lifts and integrality of the auxiliaries at an optimum"
+          },
+          {
+            "line": 120,
+            "text": "### B. A universal intermediate-cost lower bound of 2,238"
+          },
+          {
+            "line": 147,
+            "text": "### C. A direct feasible witness of objective 6,425"
+          },
+          {
+            "line": 163,
+            "text": "### D. Strict objective dominance"
+          },
+          {
+            "line": 175,
+            "text": "## 5. Exact modifications"
+          },
+          {
+            "line": 199,
+            "text": "## 6. Independent artifact audit and exercised verification"
+          },
+          {
+            "line": 229,
+            "text": "## 7. Uncertainty and limitations"
+          },
+          {
+            "line": 241,
+            "text": "## 8. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test37",
+      "actual_contract": {
+        "integer": "Integer zero/fixed-coordinate affine bijection and equal objective.",
+        "lp": "Strict projected inclusion, with complete source point and target observation-fiber refutation."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "FiberStrictness"
+      ],
+      "minimal_proof_route": [
+        "Prove the four impossible selector binaries zero and the fixed coordinate.",
+        "Build 72 actual path bounds and the 262 strengthened M implications using local binary Cases; retain all 12 nearly balanced decimal rows exactly.",
+        "Check both integer maps, LP reverse inclusion, and the full fractional fiber strictness witness."
+      ],
+      "representation_or_resource_risk": "The complete receipt produced after the snapshot checks 5,269 obligations and 262 local branches. Mathematical path sharing keeps the proof bounded.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 86579,
+            "sha256": "5189af38fee754d9e35e6b6b7838fd55d496a447f794fdc8bfd4015bf5f67a1e",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 98609,
+            "sha256": "5b96c086c4f542e4544506f2ecafc659a0ff1d4b9b8480341a1ad06dc905b1a8",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 12646,
+        "sha256": "4ac430fc132a7401e35a9bf66c0ba7a3aed3339d48abca5309737f272f0a649c",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test37-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Structural facts established over the complete model"
+          },
+          {
+            "line": 25,
+            "text": "## 2. Parsing and interpretation"
+          },
+          {
+            "line": 33,
+            "text": "## 3. Hypotheses and tests"
+          },
+          {
+            "line": 35,
+            "text": "### Box-based big-M tightening and impossible alternatives: proved"
+          },
+          {
+            "line": 54,
+            "text": "### Pair-difference bounds and broader M reduction: proved"
+          },
+          {
+            "line": 70,
+            "text": "### Exact translation invariance: falsified"
+          },
+          {
+            "line": 78,
+            "text": "### Additional impossible alternatives from two active rows: not established"
+          },
+          {
+            "line": 82,
+            "text": "### Strict relaxation strengthening: proved by a full-model witness"
+          },
+          {
+            "line": 94,
+            "text": "## 4. Integer-feasible equivalence and exact objective preservation"
+          },
+          {
+            "line": 108,
+            "text": "## 5. Exact changes and artifact audit"
+          },
+          {
+            "line": 127,
+            "text": "## 6. Limitations"
+          },
+          {
+            "line": 131,
+            "text": "## 7. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": "model_layer (root delegated)",
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test37/preparation.json",
+        "receipt_sha256": "cc5cfe6d02f52d1495aa049d2164647db104c1642a4d37c71dea84e25ae22a88",
+        "attack_count": 8,
+        "protocol_status": "FROZEN_V8_VERIFIER_RPA6_INPUT",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test39",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and objective.",
+        "lp": "Target-to-source inclusion; local examples do not establish global strictness."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Normalize 960 balanced packings by exact equality scaling.",
+        "For the 192 rows 2*sum(D)-z<=2 combine z<=1 and Round integer sum(D) to <=1.",
+        "Remove 1,728 duplicates and 6,564 component equalities by explicit exact row sums; use complete identity maps."
+      ],
+      "representation_or_resource_risk": "242,736 variables and more than 313,000 rows make complete identity checking and repeated component sums the main cost, not a missing graph theorem.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "integer_rounding",
+        "linear_elimination",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 48030515,
+            "sha256": "9f656d4721aebaf080f2b5db10999a700c63cd965841ec2aeeba1c397ea74c35",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 46633777,
+            "sha256": "3c8dbe50089091a5467547a3514c5333c3798ef725f64bc820a6cdfa6fab32f1",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10237,
+        "sha256": "96f374ad67d395c97c7f26c98e851d3631caa7aa303dc330ba4eb9b14d2ac3e6",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact binary clique reformulation and certified row removal"
+          },
+          {
+            "line": 3,
+            "text": "## Result"
+          },
+          {
+            "line": 22,
+            "text": "## 1. Structural facts and interpretation"
+          },
+          {
+            "line": 53,
+            "text": "## 2. Parsing reliability"
+          },
+          {
+            "line": 66,
+            "text": "## 3. Packing hypothesis: exact replacement by one-sided cliques"
+          },
+          {
+            "line": 107,
+            "text": "## 4. Redundancy hypotheses and proofs"
+          },
+          {
+            "line": 134,
+            "text": "## 5. Rejected or limited hypotheses"
+          },
+          {
+            "line": 149,
+            "text": "## 6. Exact edit identification and artifact audit"
+          },
+          {
+            "line": 171,
+            "text": "## 7. Limitations"
+          },
+          {
+            "line": 180,
+            "text": "## 8. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test41",
+      "actual_contract": {
+        "integer": "Unique integer affine/zero reconstruction with exact objective.",
+        "lp": "Target-to-source inclusion; no global strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Use actual balance-row suffix cuts on the eight-node DAG to establish the 28 flow lower bounds.",
+        "Force indicators to one, identify d=t and 84 binary aliases, then derive 160 zero selectors and 148 tighter conditional M bounds.",
+        "Derive nonempty selection from the actual weighted lower bound and binary count; retain all 21 nontrivial weighted caps."
+      ],
+      "representation_or_resource_risk": "The graph only proposes row multipliers; the kernel can check them with scalar rules. Preserve encoded repeating decimals, not idealized 2/3 coefficients.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination",
+        "integer_rounding"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test41-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 3381418,
+            "sha256": "be53e2e6d46f8c196b102b3a6cffc85c808e86820c75ccae61be294faeba7648",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test41-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 3278179,
+            "sha256": "d8a7ad17e30062b83ff39d4017c2060aa0434d80044788c41e1e5d6f572e4418",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test41-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 13147,
+        "sha256": "33ddaed1cb0abbdadec5143c84a5189e71beab280b559c834401ac545cc7c144",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test41-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 21,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 33,
+            "text": "## 3. Investigated hypotheses and verification"
+          },
+          {
+            "line": 35,
+            "text": "### Exact flow cut bounds — proved"
+          },
+          {
+            "line": 55,
+            "text": "### Fixed indicators and duplicate continuous variables — proved"
+          },
+          {
+            "line": 59,
+            "text": "### Impossible interval selectors — proved"
+          },
+          {
+            "line": 69,
+            "text": "### Weighted selector auxiliaries — proved removable"
+          },
+          {
+            "line": 75,
+            "text": "### Binary aliases — proved"
+          },
+          {
+            "line": 79,
+            "text": "## 4. Rejected or limited hypotheses"
+          },
+          {
+            "line": 89,
+            "text": "## 5. Exact commitment and scope"
+          },
+          {
+            "line": 103,
+            "text": "## 6. Equivalence and relaxation justification"
+          },
+          {
+            "line": 111,
+            "text": "## 7. Generated-artifact audit and exercised verification"
+          },
+          {
+            "line": 125,
+            "text": "## 8. Uncertainty and limitations"
+          },
+          {
+            "line": 129,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test42",
+      "actual_contract": {
+        "integer": "Same-coordinate integer bijection and equal objective.",
+        "lp": "Strict inclusion on complete original coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "Round the actual total-capacity requirement to at least 189 ordered activations and propagate the binary prefix.",
+        "Prove the 1,101 gated group reductions with local Cases.",
+        "Restore all 166,500 original links by divide-and-conquer sums and verify the full fractional strictness point."
+      ],
+      "representation_or_resource_risk": "Shared sum trees avoid repeated whole partition rows.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "wide_affine",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test42-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 28190008,
+            "sha256": "e77e2d72d6736a4fe842d943ace2a9858bef3a6af6d7baef679e11b1ce1739ca",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test42-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 24851236,
+            "sha256": "7cc4319320023cb689cfbb435c081ad291cd54549fc2b4e87efcc2bfac4b24aa",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test42-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 9130,
+        "sha256": "9e3833492987cd0d49b71efa7c5ce39c64d9078125b6d260c49b8283662c98bd",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test42-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Decision"
+          },
+          {
+            "line": 9,
+            "text": "## Representation and reliable parsing"
+          },
+          {
+            "line": 15,
+            "text": "## Complete structural facts"
+          },
+          {
+            "line": 31,
+            "text": "## Hypotheses and results"
+          },
+          {
+            "line": 40,
+            "text": "## Exact final scope and equivalence proof"
+          },
+          {
+            "line": 52,
+            "text": "## Artifact audit and exercised verification"
+          },
+          {
+            "line": 65,
+            "text": "## Uncertainty and limitations"
+          },
+          {
+            "line": 69,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test42/preparation.json",
+        "receipt_sha256": "a8245d80c401e35e265cf437d74762517835f2fbd8f3ef9d695257b63cf8c82d",
+        "attack_count": 5,
+        "protocol_status": "existing_version",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test45",
+      "actual_contract": {
+        "integer": "Retained integer and LP projections and every objective value agree; single-use zero-cost binaries are completed canonically, not uniquely.",
+        "lp": "Both projected directions hold with affine maps."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Reconstruct 378 continuous slacks affinely and prove their nonnegativity.",
+        "Set the 462 single-use zero-cost binaries to one and use actual capacity implications for their removed rows.",
+        "Account for 651 duplicates and 21 equality-implied rows; leave all 42 coupled mutually exclusive binaries intact."
+      ],
+      "representation_or_resource_risk": "Pure affine completion; no interval/Boolean existence rule is needed.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 277625,
+            "sha256": "c3d0897fc7b75b0335a43da0fd2919f8d1fa04b0360947d70897ab114b9ca382",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 113289,
+            "sha256": "f65f0aeeb0ae6fb2d1cdc37843f038477e04911edcb403402b06cf601b828e17",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11948,
+        "sha256": "58e78c1fd494c9cd401b7805ee6aafe3e438f12b4870792a68f41abbce80474a",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact projection and redundancy removal"
+          },
+          {
+            "line": 3,
+            "text": "## Result"
+          },
+          {
+            "line": 24,
+            "text": "## MPS interpretation and reliability"
+          },
+          {
+            "line": 36,
+            "text": "## Structural discoveries and tested hypotheses"
+          },
+          {
+            "line": 38,
+            "text": "### Exact duplicates: verified over the entire constraint set"
+          },
+          {
+            "line": 42,
+            "text": "### Single-use continuous slack equalities: 378 verified; three retained"
+          },
+          {
+            "line": 56,
+            "text": "### Equality-implied inequalities: all 21 verified"
+          },
+          {
+            "line": 66,
+            "text": "### Zero-cost single-row binaries: all 462 projected exactly"
+          },
+          {
+            "line": 87,
+            "text": "### Rejected or inconclusive extensions"
+          },
+          {
+            "line": 94,
+            "text": "## Exact edit scope"
+          },
+          {
+            "line": 108,
+            "text": "## Equivalence proof"
+          },
+          {
+            "line": 116,
+            "text": "## Independent generated-artifact audit"
+          },
+          {
+            "line": 136,
+            "text": "## Uncertainty and limitations"
+          },
+          {
+            "line": 140,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test46",
+      "actual_contract": {
+        "integer": "Retained integer projection with unique complete pair-selector reconstruction and equal objective; verify all 60,608 retyped selectors integer.",
+        "lp": "Target-to-source inclusion; the 17 deleted constant factors require a genuine continuous lift as well."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Use the actual objective cap to eliminate 80,785 forbidden high-cost selectors and derive complete marginals for the remaining 49 factors.",
+        "For integer inputs, local unary one-hot Cases force every continuous pair selector to its unique Boolean product.",
+        "For each deleted complete Cartesian factor, retain its exact constant cost and use a four-corner LP coupling: normalized means alpha,beta and t in [max(0,alpha+beta-1),min(alpha,beta)] satisfy normalization and both original index moments.",
+        "Check the objective offset 289 and every deleted source row; no unchecked product of real variables is necessary."
+      ],
+      "representation_or_resource_risk": "159,145 original variables and many pair selectors. Reuse one-hot branch facts; a full endpoint Cartesian branch product is unnecessary. Four-corner construction must be checked against actual corner availability and coefficients.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "bounded_boolean_completion",
+        "continuous_local_completion",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 30957391,
+            "sha256": "01746b7ff40de0d898f927d4cf16a94dbd37d9a4c8982e4d01377e4a6d12513e",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 9397171,
+            "sha256": "f8108bda731f4f246df069f5850193472a6db66f1096a82017e903c670a079bf",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 12389,
+        "sha256": "cc24910b2f224d6450798c6f7beb01e680e813d11967a96f51b31930fb7efc1a",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 7,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 23,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 31,
+            "text": "## 3. Hypotheses investigated"
+          },
+          {
+            "line": 33,
+            "text": "### Forbidden entries: proved"
+          },
+          {
+            "line": 39,
+            "text": "### Redundant objective cap after deletion: proved"
+          },
+          {
+            "line": 43,
+            "text": "### Pair-factor elimination: proved for exactly 17 factors"
+          },
+          {
+            "line": 51,
+            "text": "### Full marginals with continuous pair selectors: proved"
+          },
+          {
+            "line": 66,
+            "text": "### Rejected or inconclusive alternatives"
+          },
+          {
+            "line": 74,
+            "text": "## 4. Final formulation and equivalence"
+          },
+          {
+            "line": 98,
+            "text": "## 5. Exact changes"
+          },
+          {
+            "line": 112,
+            "text": "## 6. Generated-artifact audit"
+          },
+          {
+            "line": 124,
+            "text": "## 7. Limitations and tradeoffs"
+          },
+          {
+            "line": 128,
+            "text": "## 8. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test51",
+      "actual_contract": {
+        "integer": "Unique integer affine reconstruction and every objective value; score/minimum-selector elimination.",
+        "lp": "Strengthened LP direction may be proved; no full strictness point is committed."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Use the actual five-weight simplex to prove 1,094 dominated selectors zero, retaining all four sub-epsilon lower rows.",
+        "Substitute all score equalities and the forced zero-score threshold.",
+        "For each conditional comparison bound, use exhaustive local Cases over a selected minimum candidate; permit ties rather than assuming one-hot selectors."
+      ],
+      "representation_or_resource_risk": "Share five-dimensional simplex extreme-value facts across the 25 groups and 130 conditional comparisons.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_simplex",
+        "conditional_bounds",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test51-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 1079217,
+            "sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test51-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 83130,
+            "sha256": "57de1d1159ecef8ea6922ecf17dbcdd20724537b80fbff04849f3e970b3139ea",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test51-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11595,
+        "sha256": "a2fc90215507296e09546e0bf9ee98902bf229bb4ad2ca15c7d127c0ae33b221",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test51-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Committed result"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 20,
+            "text": "## 2. Parsing and interpretation"
+          },
+          {
+            "line": 26,
+            "text": "## 3. Investigated hypotheses and evidence"
+          },
+          {
+            "line": 35,
+            "text": "## 4. Rejected or restricted hypotheses"
+          },
+          {
+            "line": 45,
+            "text": "## 5. Proof of the exact projection"
+          },
+          {
+            "line": 72,
+            "text": "## 6. Final formulation and exact scope"
+          },
+          {
+            "line": 85,
+            "text": "## 7. Artifact audit and runtime checks"
+          },
+          {
+            "line": 95,
+            "text": "## 8. Remaining uncertainty and limitations"
+          },
+          {
+            "line": 99,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test52",
+      "actual_contract": {
+        "integer": "Unique integer affine reconstruction and every objective value across 266 minimum-score blocks.",
+        "lp": "LP equality is not claimed; any containment direction still needs complete checks."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Prove 12,190 zeros and 55 ones using exact simplex dominance and epsilon=1/100000.",
+        "Eliminate 13,300 scores and 55 thresholds by their actual equalities, keeping four sub-epsilon inequalities.",
+        "Prove the 1,055 conditional M bounds through selected-minimum Cases, including all tied candidates."
+      ],
+      "representation_or_resource_risk": "Fifty candidates per block make naive pairwise repeated dense expressions costly. Cache exact score differences and balanced selected-candidate facts in the untrusted generator.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_simplex",
+        "conditional_bounds",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 11842556,
+            "sha256": "a2f113ce8e78abde370a4a1458e96081504d43b8e64e119c4b5912e1df6f7df8",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 557928,
+            "sha256": "cc6939207aa82187515637f71327ae1ae8ae636dc28cb65d28f7dbf538cc2e16",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 13989,
+        "sha256": "4c4c611fe130f5c3e2359dbd0db60d9903b8790e341534b5d71ae8e9f1a98bd1",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Important structural facts"
+          },
+          {
+            "line": 31,
+            "text": "## 2. MPS interpretation and reliability"
+          },
+          {
+            "line": 41,
+            "text": "## 3. Hypotheses investigated"
+          },
+          {
+            "line": 58,
+            "text": "## 4. Rejected or unresolved hypotheses"
+          },
+          {
+            "line": 66,
+            "text": "## 5. Proof of the committed changes"
+          },
+          {
+            "line": 68,
+            "text": "### Original block identity"
+          },
+          {
+            "line": 72,
+            "text": "### Fixed-zero binaries"
+          },
+          {
+            "line": 76,
+            "text": "### Upper bounds and fixed-one binaries"
+          },
+          {
+            "line": 84,
+            "text": "### Deleted rows and substitutions"
+          },
+          {
+            "line": 92,
+            "text": "## 6. Exact artifact changes"
+          },
+          {
+            "line": 108,
+            "text": "## 7. Audits and exercised verification"
+          },
+          {
+            "line": 118,
+            "text": "## 8. Remaining uncertainty and limits"
+          },
+          {
+            "line": 122,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test53",
+      "actual_contract": {
+        "integer": "Same complete integer feasible vectors and objective.",
+        "lp": "Strict target subset on the same coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "Shift the 130 epigraph rows using exact equalities and remove the dependent assignment row.",
+        "For each of 26 continuous z bounds, branch over the five INTEGER loads: either one load reaches ceil(S/5), or all are <=ceil(S/5)-1 and contradict their sum.",
+        "Verify the full 156-coordinate rational strictness point."
+      ],
+      "representation_or_resource_risk": "Five-way local pigeonhole proofs are small. Never apply Round directly to continuous z.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "integer_rounding",
+        "bounded_boolean_completion",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 115124,
+            "sha256": "edca24fb2c7aae84cc29499c21118be1429121f9a6c56aafbd0a4f4b30b9e83d",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 66913,
+            "sha256": "d43fba98eecca173923d9fb760606903037cc910d7595d3d90cf023053b71e4e",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11247,
+        "sha256": "9f771ff14ea321f5934944b05367f81d7177064861603f88dd274078aaf136dc",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test53-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 7,
+            "text": "## 1. Structural facts and complete scope"
+          },
+          {
+            "line": 29,
+            "text": "## 2. Parsing and interpretation"
+          },
+          {
+            "line": 37,
+            "text": "## 3. Hypotheses tested and outcomes"
+          },
+          {
+            "line": 51,
+            "text": "## 4. Mathematical certificates for all committed edits"
+          },
+          {
+            "line": 53,
+            "text": "### A. Sparsify every epigraph inequality"
+          },
+          {
+            "line": 63,
+            "text": "### B. Strengthen all 26 z lower bounds"
+          },
+          {
+            "line": 89,
+            "text": "### C. Remove exactly one dependent equality"
+          },
+          {
+            "line": 97,
+            "text": "## 5. Exact changes and artifact audit"
+          },
+          {
+            "line": 126,
+            "text": "## 6. Remaining uncertainty and limitations"
+          },
+          {
+            "line": 134,
+            "text": "## 7. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test55",
+      "actual_contract": {
+        "integer": "Retained integer projection and objective values, with a continuous completion rather than a full bijection.",
+        "lp": "Target-to-source inclusion."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Delete 1,024 private continuous y variables and reconstruct each as x/480.",
+        "For each strengthened 120/338/348 link, split only the one or three actual binary activations: any zero forces x=0, all ones activate the exact capacity bound.",
+        "Check all original y bounds, links and the objective."
+      ],
+      "representation_or_resource_risk": "Small local activation patterns suffice; apparent flow-like incidence does not require a flow theorem.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The actual final target is output/model.mps, not the usual reformulated.mps. Model identity is taken from inventory and verified against the file.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test55-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 700641,
+            "sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test55-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/model.mps",
+            "bytes": 462658,
+            "sha256": "41da195497a05ec03ad50aea67c06896e9d978fce673fcbe7dfdcd3bdc5b53fc",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test55-nomf-B1/output/model.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11024,
+        "sha256": "86de5b7ebbd5672109e2b5f8d3030ca84c3e69f444c2298c6b36207c1d53d7a6",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test55-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Committed result: exact auxiliary projection with certified activation bounds"
+          },
+          {
+            "line": 3,
+            "text": "## Decision and scope"
+          },
+          {
+            "line": 11,
+            "text": "## Structural facts and representation"
+          },
+          {
+            "line": 25,
+            "text": "## Hypotheses investigated"
+          },
+          {
+            "line": 36,
+            "text": "## Exact projection proof"
+          },
+          {
+            "line": 67,
+            "text": "## Exact coefficient changes"
+          },
+          {
+            "line": 80,
+            "text": "## Artifact audit and exercised verification"
+          },
+          {
+            "line": 104,
+            "text": "## Uncertainty and limits"
+          },
+          {
+            "line": 112,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test56",
+      "actual_contract": {
+        "integer": "Zero-extension integer bijection and exact objective.",
+        "lp": "Target-to-source inclusion; no strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Round the 48 binary relations 2u-v=0 to force their 96 coordinates zero and propagate actual nonnegative rows.",
+        "Round both endpoints of 78 integer-cardinality intervals and combine by EqPair.",
+        "Use the actual 350-partition sum to subtract common coefficients from eight dense inequalities, then Round; certify the 120 subset deletions."
+      ],
+      "representation_or_resource_risk": "The partition covers 101,656 variables. Repeatedly reconstructing that sum would dominate proof size; one shared fact and sparse residuals suffice mathematically.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "integer_rounding",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test56-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 110313834,
+            "sha256": "487e2c3d96d58b41edce60d9bc21c36f1d8c472f28ec90add4b42408a355df80",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test56-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 54044302,
+            "sha256": "5ad2cd9f33434cd801fabb7c0bd4ba65e1df74c92ce97a28ad0402b2d2ed9a33",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test56-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10730,
+        "sha256": "e9646893ec47dcc7edb4c0500f355cd07cd5b93e306b462e2b434af8ca94dc22",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test56-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Committed exact reformulation"
+          },
+          {
+            "line": 5,
+            "text": "## Structural facts"
+          },
+          {
+            "line": 18,
+            "text": "## Interpretation of the original MPS"
+          },
+          {
+            "line": 24,
+            "text": "## Investigated hypotheses and evidence"
+          },
+          {
+            "line": 26,
+            "text": "### Binary-forced zeros: proved"
+          },
+          {
+            "line": 34,
+            "text": "### Paired integer cardinalities: proved"
+          },
+          {
+            "line": 42,
+            "text": "### Sparse replacements for eight dense rows: proved"
+          },
+          {
+            "line": 59,
+            "text": "### Subset redundancy: proved in the stated scope"
+          },
+          {
+            "line": 63,
+            "text": "### Rejected or inconclusive hypotheses"
+          },
+          {
+            "line": 72,
+            "text": "## Exact committed scope and equivalence"
+          },
+          {
+            "line": 85,
+            "text": "## Artifact audit and verification"
+          },
+          {
+            "line": 95,
+            "text": "## Limitations"
+          },
+          {
+            "line": 99,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test58",
+      "actual_contract": {
+        "integer": "Preserve feasibility and minimum objective, with complete MI forward NonIncreasing and reverse Equal maps; no all-point bijection.",
+        "lp": "No full LP relation is committed."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "SignedLift",
+        "FlowLift"
+      ],
+      "minimal_proof_route": [
+        "Use actual cut equalities for 199 bridges, retaining fixed signed flows and objective constant 205; reconstruct 121 series paths in reverse.",
+        "Reverse the final signed flows jointly with existing SignedLift, then restore every original activation, flow, capacity and objective term.",
+        "Forward, merge the deleted parallel contributions but DO NOT assume their sum still has capacity B=82.",
+        "A proposed common-source bounded subflow construction discards circulations while preserving all demands and 0<=g<=old aggregate, g<=B; local binary Cases can then establish g<=B*y. This joint existence step is not yet certified."
+      ],
+      "representation_or_resource_risk": "A naive whole-map split over edge signs is exponential. Existing SignedLift handles signs but not capacity-preserving rerouting after parallel merging.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "joint_existence_candidate",
+        "statement": "Given a common-source nonnegative flow with nonnegative sink demands of total B, jointly choose g with the same node balances and 0<=g_e<=f_e and g_e<=B on every arc, including loops and disconnected circulations.",
+        "candidate_proof": "Decompose into source-to-demand paths and circulations; retain only demand paths. Every simple path uses each arc at most once and total path weight is at most B.",
+        "necessity": "No compact derivation using current rules has been established. This is a practical proof gap, not a theorem that the ISA cannot express it.",
+        "status": "PAUSED_DESIGN_ONLY; no new version or production rule"
+      },
+      "confidence": {
+        "mathematical_route": "medium",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The source report uses global rerouting/connectivity. Replacing it by local parallel capacity arithmetic is unsound. Isolated draft/oracle work is not a certificate; no final transformation counterexample is known.",
+      "capability_clusters": [
+        "common_source_flow",
+        "monotone_completion"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 262192,
+            "sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 93981,
+            "sha256": "5b3ab31ba40e9162ad96620b852ce6b8c9e13ac359e4299a0c16f44d7b350b90",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 14063,
+        "sha256": "2b5d60f063d379b19fa87e091476098c0c7d7445e7452437d9878cc7c8ba9fcd",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact optimal-value network reduction"
+          },
+          {
+            "line": 7,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 30,
+            "text": "## 2. Interpretation of the MPS"
+          },
+          {
+            "line": 38,
+            "text": "## 3. Hypotheses and verification"
+          },
+          {
+            "line": 46,
+            "text": "### Rejected or limited conclusions"
+          },
+          {
+            "line": 53,
+            "text": "## 4. Mathematical justification"
+          },
+          {
+            "line": 69,
+            "text": "## 5. Exact committed representation"
+          },
+          {
+            "line": 77,
+            "text": "## 6. Independent artifact checks and smoke evidence"
+          },
+          {
+            "line": 90,
+            "text": "## 7. Remaining uncertainty and artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test61",
+      "actual_contract": {
+        "integer": "Unique Boolean reconstruction and equal objective after 3,200 private auxiliaries are removed; cyclic/self-dependent retained variables stay in the same common model.",
+        "lp": "Projected target-to-source containment is also claimed. The report supplies only local strict examples, not full global strictness."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "For integer modes, prove each local relation by exhaustive Cases over at most four retained bits and reconstruct exact pattern indicators through joint old-scope intervals.",
+        "For the LP direction, attempt exact elimination/completion of at most eight private continuous auxiliaries per block, producing IntervalLift lower/upper pairs and explicit Farkas multipliers from the actual 2,070 hull rows.",
+        "Use at most eight synchronized extension waves across 400 groups; every original row still receives an explicit terminal obligation."
+      ],
+      "representation_or_resource_risk": "Local Fourier-Motzkin bounds can grow despite small dimension. Measure certificate width/work before introducing a trusted polyhedral-extension theorem; enumerated hull metadata is not authority.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "existing_rule_route_unfinished",
+        "statement": "Continuous local completion must still be reduced to checked interval premises. No new mathematics is known to be necessary, but this route has not been constructed or measured."
+      },
+      "confidence": {
+        "mathematical_route": "medium_low",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The actual decimal 0.333 is not 1/3. Cycles among retained bits do not invalidate local equivalence, but independently choosing incompatible retained assignments would.",
+      "capability_clusters": [
+        "bounded_boolean_completion",
+        "continuous_local_completion"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test61-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 1414071,
+            "sha256": "87d3a2677d42d01adf21928bc4f97a3cb73a11fb11025ad6fca2039cd66bd3ba",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test61-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 327360,
+            "sha256": "af764f11cb8a7a531c1eb3786edcb9a62361755f29d915d9f92b615b218d27fe",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test61-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 9714,
+        "sha256": "a10392a2f43311db734f2b4cfb7538c127f06c6795ab861566eb9a3f1107d2f1",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test61-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact local-hull reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Structural facts"
+          },
+          {
+            "line": 11,
+            "text": "## MPS interpretation"
+          },
+          {
+            "line": 14,
+            "text": "## Investigated hypotheses and evidence"
+          },
+          {
+            "line": 22,
+            "text": "## Rejected or limited hypotheses"
+          },
+          {
+            "line": 29,
+            "text": "## Exact final edits"
+          },
+          {
+            "line": 36,
+            "text": "## Mathematical justification"
+          },
+          {
+            "line": 43,
+            "text": "## Artifact audit and smoke execution"
+          },
+          {
+            "line": 48,
+            "text": "## Limitations"
+          },
+          {
+            "line": 51,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test62",
+      "actual_contract": {
+        "integer": "Unique Boolean reconstruction and exact objective after 4,000 auxiliaries are removed.",
+        "lp": "Only an explicit full source-LP point whose retained image violates seven target unit clauses; the report expressly does NOT claim global LP containment."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "affine_projection",
+        "Feasible"
+      ],
+      "minimal_proof_route": [
+        "Prove all 500 local relations through bounded truth-table Cases over their actual pattern inputs; use jointly compatible Boolean completions and check all original 7,029 rows.",
+        "Check the complete source fractional point: all retained bits 1/2 and each of k active pattern auxiliaries 1/(2k).",
+        "Separately bind its retained coordinates to the seven violated actual target rows. Existing Strictness/FiberStrictness cannot assert this exclusion alone without an established LP inclusion claim."
+      ],
+      "representation_or_resource_risk": "There are 7,968 audited local assignments; repeated Boolean expression templates are a representation opportunity, not a license to trust their truth tables.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "ancillary_point_contract",
+        "statement": "A complete feasible point whose observation lies outside the other model, without asserting relaxation containment. Current Strictness variants require an inclusion claim.",
+        "new_trusted_mathematical_rule_required": false,
+        "main_integer_relation": "Existing rules suffice; this gap concerns the report's additional fractional-exclusion evidence."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Do not upgrade exclusion of one source point to strict containment. The actual report explicitly disclaims whole-relaxation containment and global feasibility/optimality.",
+      "capability_clusters": [
+        "bounded_boolean_completion",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 1770866,
+            "sha256": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 391887,
+            "sha256": "da140e782c3edf0ac6d7324256d64538e432ffeeecd9e4d58b2c1a1b393915b2",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 9769,
+        "sha256": "3897cd6d209aefd2fe5aa04ad365bdcb7822c6ce91041889c7d3accb5399794e",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact Boolean auxiliary elimination"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 17,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 23,
+            "text": "## 3. Hypotheses and tests"
+          },
+          {
+            "line": 36,
+            "text": "## 4. Rejected or inconclusive hypotheses"
+          },
+          {
+            "line": 42,
+            "text": "## 5. Proof supporting the commitment"
+          },
+          {
+            "line": 48,
+            "text": "## 6. Final formulation"
+          },
+          {
+            "line": 66,
+            "text": "## 7. Exact modifications and generated-artifact audit"
+          },
+          {
+            "line": 80,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 84,
+            "text": "## 9. Final artifact paths"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test64",
+      "actual_contract": {
+        "integer": "Unique complete integer affine bijection and exact objective.",
+        "lp": "No LP equality or full strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Prove 6,875 x1+x2=2y binary aliases by local Cases, 275 opposite pairs by antisymmetry, and 550 w=u equalities.",
+        "Use actual assignment equations for the 69 dependent rows and six integer cost coordinates.",
+        "Replay all 680 ordered saturation deductions to establish 2,816 fixed variables, then prove all 2,546 bound-entailed deletions."
+      ],
+      "representation_or_resource_risk": "Order-dependent fixed facts should be shared, with old scoped facts dropped when no longer needed. The large alias count does not require a new alias theorem.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "binary_relation_quotient",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test64-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 10089711,
+            "sha256": "089cae5774e006a7ceb03543f62efbee1b04d7e15c7f29eff51c88b70f829f26",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test64-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 1949704,
+            "sha256": "f1b136347db6bbcaeb8a5c2696acb53cb70f982a7c5998be6d27b397d960b66a",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test64-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 13241,
+        "sha256": "27936b2276d71ae97e4d59f80f0d4fadf320deba594f32377636e5bbd9ef8e35",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test64-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact integer-equivalent reformulation"
+          },
+          {
+            "line": 6,
+            "text": "## 1. Important structural facts"
+          },
+          {
+            "line": 27,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 37,
+            "text": "## 3. Investigated hypotheses and evidence"
+          },
+          {
+            "line": 39,
+            "text": "### Proved and used"
+          },
+          {
+            "line": 67,
+            "text": "### Rejected, failed, or inconclusive"
+          },
+          {
+            "line": 75,
+            "text": "## 4. Final modification scope and equivalence proof"
+          },
+          {
+            "line": 100,
+            "text": "## 5. Artifact audit and exercised verification"
+          },
+          {
+            "line": 109,
+            "text": "## 6. Uncertainty and limits"
+          },
+          {
+            "line": 115,
+            "text": "## 7. Final artifact paths"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test66",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and objective after 20,484 conditional five-cycle cuts are added.",
+        "lp": "Strict target subset on the same coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "For each of 5,121 five-cycles and four labels, sum the five actual vertex rows, remove nonnegative spokes and divide by two.",
+        "In the active binary gate branch Round the integer cycle sum to <=2; in the zero gate branch use nonnegativity and the original gate rows.",
+        "Check the full fractional cycle-half witness and all other graph coordinates."
+      ],
+      "representation_or_resource_risk": "20,484 repeated short derivations could benefit from a measured scalar-equivalent batch, but no trusted odd-cycle rule is mathematically necessary.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The final artifact is output/model_odd5.mps. Graph metadata proposes row incidences; every actual row and binary domain must be checked.",
+      "capability_clusters": [
+        "integer_rounding",
+        "bounded_boolean_completion",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test66-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 23033486,
+            "sha256": "7c59ac7aeec9976aa443ad6af4e97ab29006e43836b80ad110343c4606977f7f",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test66-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/model_odd5.mps",
+            "bytes": 29030870,
+            "sha256": "8666e2823655451236123ad139467361b0f8bb0c9511f62715cfb87d4ae410e6",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test66-nomf-B1/output/model_odd5.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/REPORT.md",
+        "bytes": 9220,
+        "sha256": "be5baa8e5edc9014c3e0b0a4da35a0726e1d3111e5e5d59818a2b35c9fbaab4e",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test66-nomf-B1/output/REPORT.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: five-cycle matching strengthening"
+          },
+          {
+            "line": 3,
+            "text": "## Decision and exact scope"
+          },
+          {
+            "line": 13,
+            "text": "## Reliable interpretation of the MPS"
+          },
+          {
+            "line": 26,
+            "text": "## Structural facts and evidence"
+          },
+          {
+            "line": 41,
+            "text": "## Hypotheses investigated"
+          },
+          {
+            "line": 49,
+            "text": "## Proof of validity and integer equivalence"
+          },
+          {
+            "line": 59,
+            "text": "## Proof of strict relaxation strengthening"
+          },
+          {
+            "line": 69,
+            "text": "## Written artifact audit"
+          },
+          {
+            "line": 90,
+            "text": "## Limitations"
+          },
+          {
+            "line": 94,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test67",
+      "actual_contract": {
+        "integer": "Same integer feasible vectors and objective after four activations are fixed to one. The report additionally asserts feasibility and minimum value 4.",
+        "lp": "No full LP relation is committed."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Feasible",
+        "input_objective_lower"
+      ],
+      "minimal_proof_route": [
+        "For each activation=0 assumption, export a finite exact local coloring refutation on the actual 17-edge/68-binary subgraph using scalar propagation and Cases.",
+        "Use those facts to justify every bound and roughly 24,000 substituted row terms.",
+        "Construct an explicit full four-edge-coloring outside the kernel and check it as a complete integer point of objective 4; the four activation facts give the matching lower bound."
+      ],
+      "representation_or_resource_risk": "Naive 2^68 search is not a proof plan. An untrusted constrained search should export a compact bounded branch tree; color symmetry may only prune when its renaming argument is itself justified.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "medium",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Do not import Vizing or an external perfect-matching enumeration as trusted authority. The optimum/feasibility claim needs an actual full-model coloring witness, not only the local lower-bound gadget.",
+      "capability_clusters": [
+        "finite_refutation",
+        "bounded_boolean_completion",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test67-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 10724018,
+            "sha256": "746e234942718ed63b6e46f402a76ed55d91eebc1938d9902d14913d57c14058",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test67-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/model.mps",
+            "bytes": 10379898,
+            "sha256": "98ddfc9bdebe4739266557dde374428581e1e448eb072ec6fd2a751d6f1018c7",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test67-nomf-B1/output/model.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10523,
+        "sha256": "b4c405d3803042ab52872d134e37da67917a17062d2e20e71ce1af05b40fe8d4",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test67-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact fixing and substitution"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 30,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 50,
+            "text": "## 3. Hypotheses and tests"
+          },
+          {
+            "line": 73,
+            "text": "## 4. Proof of the fixing"
+          },
+          {
+            "line": 117,
+            "text": "## 5. Final formulation and exact scope"
+          },
+          {
+            "line": 139,
+            "text": "## 6. Artifact audit and exercised verification"
+          },
+          {
+            "line": 164,
+            "text": "## 7. Uncertainty and limitations"
+          },
+          {
+            "line": 176,
+            "text": "## 8. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test72",
+      "actual_contract": {
+        "integer": "Preserve all 2,608 primary binary observations and the minimum completion cost for EACH primary assignment (objective epigraph). Forward Equal, reverse NonIncreasing; auxiliary choices need not be unique.",
+        "lp": "The report also proves equality of each eliminated fractional capacity-block epigraph, not equality of the entire model LP relaxation."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "Cases",
+        "IntervalLift",
+        "MenuLift",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Forward set each new q to the exact old weighted lambda cost and derive every threshold cut by linear combinations.",
+        "For reverse integer completion, sort costs descending and allocate the K free units to the first active primaries: prefix counts w=min(prefix,K), then lambda=y-(w_i-w_(i-1)). Use bounded menus/intervals and Cases to prove the threshold cost bound.",
+        "Construct day-OR, integer shortfall and isolation penalties jointly using actual primary variables; restore all 2,645 retyped integer coordinates. Prove every clique of size <=6 by local Cases.",
+        "For the separate fractional capacity-block statement, construct the continuous greedy fill by exact interval completion and prove its cost from threshold rows; this additional route remains to be built."
+      ],
+      "representation_or_resource_risk": "Actual audit has 275 capacity blocks, maximum 78 terms and K in [6,19]. Reusing the test78 prefix/menu expansion could become large: measure preparation, bytes, work and RSS; prefer shared capped-prefix facts before a new exchange rule.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "existing_rule_route_unfinished",
+        "statement": "Integer ordered completion has an explicit existing-rule route. The ancillary continuous epigraph completion still needs a compact exact interval proof; no new trusted greedy/exchange theorem has been justified."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Do not mistake preservation of minimum completion cost for preservation of every original auxiliary point or every objective value. Use the actual costs and retained threshold rows, not a family label.",
+      "capability_clusters": [
+        "monotone_completion",
+        "continuous_local_completion",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 7103273,
+            "sha256": "8d1ade85b75fa62d06435bab3865f34099892787b79b3d03f7a813bd964fdb17",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 3693280,
+            "sha256": "dbe74c39f9c6083c3c51f007b28af36421d21690f68798ca2fd8daa8b163fef5",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 15455,
+        "sha256": "b15adf7bf5d8de48026cd2fef2400e59376a4845ee21893f271895fa776cab38",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Committed solver-blind reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Result and scope"
+          },
+          {
+            "line": 16,
+            "text": "## MPS interpretation and reliability"
+          },
+          {
+            "line": 26,
+            "text": "## Structural facts and investigated hypotheses"
+          },
+          {
+            "line": 41,
+            "text": "## Exact capacity cost reformulation"
+          },
+          {
+            "line": 83,
+            "text": "## Exact relaxation of retained auxiliary integrality"
+          },
+          {
+            "line": 110,
+            "text": "## Conflict replacement proof"
+          },
+          {
+            "line": 116,
+            "text": "## Exact modifications"
+          },
+          {
+            "line": 129,
+            "text": "## Verification performed"
+          },
+          {
+            "line": 146,
+            "text": "## Limitations"
+          },
+          {
+            "line": 152,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      },
+      "additional_actual_evidence": {
+        "path": "/Users/bhz/Code/reform_test/runs/test72-nomf-B1/output/audit.json",
+        "sha256": "0b978e710b4050cba770e57782b817caf7fd9bf796d78cb0f39a94fdb45a3c9e",
+        "capacity_blocks": 275,
+        "maximum_block_terms": 78,
+        "minimum_K": 6,
+        "maximum_K": 19
+      }
+    },
+    {
+      "case_id": "test73",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and objective.",
+        "lp": "Target-to-source inclusion, with no full strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "For each actual clique of size <=8, prove at most one selected binary by local Cases and the supplied pairwise conflict rows.",
+        "Restore all 4,802 original edges from the 1,339 clique rows and nonnegative bounds, and justify the 24 remaining deletions."
+      ],
+      "representation_or_resource_risk": "At most 128 Boolean leaves per clique before propagation. Summing all pairwise rows alone only gives a weaker count bound, so do not silently replace Cases by one rounding step.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "bounded_boolean_completion"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test73-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 4669262,
+            "sha256": "f76addf3618b4d1abde227467d83c13eaeb7bd2f9876180ee6b38f271e1bf8aa",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test73-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 3832887,
+            "sha256": "7492b0070e6edd34bd1524d629c66b3b5cef9d60bdad37a79fdd19d4f6dd344a",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test73-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 8722,
+        "sha256": "2f6d17ad1acc2e40ffefb05dd846906dd910a64068bfd056227c88d5de05863d",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test73-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact conflict-clique reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 18,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 24,
+            "text": "## 3. Hypotheses investigated"
+          },
+          {
+            "line": 36,
+            "text": "## 4. Rejected and bounded conclusions"
+          },
+          {
+            "line": 42,
+            "text": "## 5. Mathematical justification"
+          },
+          {
+            "line": 52,
+            "text": "## 6. Exact commitment"
+          },
+          {
+            "line": 56,
+            "text": "## 7. Artifact audit and exercised verification"
+          },
+          {
+            "line": 64,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 68,
+            "text": "## 9. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test74",
+      "actual_contract": {
+        "integer": "Retained integer projection and zero objective; private auxiliary reconstruction need not be globally unique.",
+        "lp": "No LP equality or strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "IntervalLift",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "Prove every local retained assignment admitted by the new clauses has a valid private binary witness, using the actual two source inequalities and at most seven retained bits.",
+        "Build joint private completions from bounded Boolean decision functions/AND intervals in synchronized layers.",
+        "Restore all 1,328 fixed variables and account for 26,544 duplicates and 10,486 bound-implied rows."
+      ],
+      "representation_or_resource_risk": "16,140 private variables and 123,344 audited local assignments make template sharing worthwhile. Do not form the product of all local branch trees or assume the retained graph is acyclic.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "medium_high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "bounded_boolean_completion",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 17578329,
+            "sha256": "43d5fe5c5f806dc4616b809a87d19c2cf342206ca5fed138ddd2c0ea7ee179ae",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 11815221,
+            "sha256": "a0087aa9ec82d4f8ad32596eb13a96d7a6905847ceddf3b0dcc5e99b34159863",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 9950,
+        "sha256": "3b4bf2ce4b814f5d1c10883a1777a4b93eb5ef047933e6c5315e919883ee1fb7",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact binary-auxiliary projection and certified redundancy removal"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 26,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 47,
+            "text": "## 3. Hypotheses and tests"
+          },
+          {
+            "line": 68,
+            "text": "## 4. Projection relations and exact edits"
+          },
+          {
+            "line": 100,
+            "text": "## 5. Equivalence proof and evidence"
+          },
+          {
+            "line": 125,
+            "text": "## 6. Artifact audit and final size"
+          },
+          {
+            "line": 155,
+            "text": "## 7. Limitations"
+          },
+          {
+            "line": 171,
+            "text": "## 8. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test76",
+      "actual_contract": {
+        "integer": "Unique integer zero/affine bijection and exact objective.",
+        "lp": "No LP equality is asserted."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Round",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Combine actual prefix resource rows and five one-hot lower bounds to obtain 21+5*x<=25 for the 26 impossible choices; Round their binary values to zero.",
+        "Eliminate all 50 start coordinates by exact weighted one-hot formulas and restore every retained chain row."
+      ],
+      "representation_or_resource_risk": "The completed test77 provides a similar untrusted proof pattern; it is not a premise or substitute for checking this actual model.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_simplex",
+        "integer_rounding",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 422468,
+            "sha256": "92a1c2b62da17a52f4a8c2a450f5d322669806ee09aa5592f5a050d7c225753d",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 296634,
+            "sha256": "b4396bac6bf72bc1cbbfeb06f4c04604ab6c1cee7e4f36dfbc62241d809f8fbf",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10146,
+        "sha256": "560e132c733601144145a3e906cfd510145a45ef2d69743e3564327bcba685e2",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result"
+          },
+          {
+            "line": 7,
+            "text": "## 1. Structural facts established"
+          },
+          {
+            "line": 26,
+            "text": "## 2. Interpretation and parser reliability"
+          },
+          {
+            "line": 34,
+            "text": "## 3. Main hypothesis and its verification"
+          },
+          {
+            "line": 58,
+            "text": "## 4. Auxiliary elimination and equivalence proof"
+          },
+          {
+            "line": 82,
+            "text": "## 5. Other hypotheses, rejected or deferred"
+          },
+          {
+            "line": 93,
+            "text": "## 6. Exact scope of the committed edits"
+          },
+          {
+            "line": 113,
+            "text": "## 7. Artifact audit and exercised verification"
+          },
+          {
+            "line": 121,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 125,
+            "text": "## 9. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": "corpus_audit",
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": "corpus_audit",
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test80",
+      "actual_contract": {
+        "integer": "ALL source integer optimizers are in a complete bijection with target integer feasible points, at minimum objective -160; suboptimal source points are outside the claim.",
+        "lp": "No LP relation is claimed."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Feasible",
+        "input_objective_lower",
+        "working_input_objective_level"
+      ],
+      "minimal_proof_route": [
+        "Prove the unrestricted lower bound f+160=sum(p)+10*sum(1-b)>=0 and verify a complete source point attaining -160.",
+        "Within the caller-bound actual objective level -160, infer all p=0 and b=1 and certify the full affine inverse pair for the actual source and target.",
+        "Check opposing objective-level domain membership as well as map compositions; never infer optimum or nonemptiness solely from a restricted-domain claim."
+      ],
+      "representation_or_resource_risk": "The working V9 proof is already complete; preserve its unpublished protocol status separately from mathematical acceptance.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "contract_semantics_implemented_working",
+        "statement": "Objective-level restricted domains and inverse-domain closure were absent from frozen V8; working V9 implements them. This is a contract feature, not a new scalar inequality theorem.",
+        "status": "WORKING_VERSION_9_NOT_FROZEN"
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "complete_certificate_verified_after_snapshot",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "optimality_contract",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 5711735,
+            "sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 136270,
+            "sha256": "e9ed1eebeab13231d6a5b84d0caf2ca8370ec9820a7963e656c2f54f87ea3905",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11019,
+        "sha256": "2cc5b487c585e608574b3e55073e334965942de3f81a60891a63118ad1cb47e8",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact optimal-face reformulation"
+          },
+          {
+            "line": 5,
+            "text": "## 1. Parsed model and structural facts"
+          },
+          {
+            "line": 50,
+            "text": "## 2. Investigated hypotheses"
+          },
+          {
+            "line": 62,
+            "text": "## 3. Exact optimum and necessary fixings"
+          },
+          {
+            "line": 74,
+            "text": "## 4. Characterization of every optimal solution"
+          },
+          {
+            "line": 88,
+            "text": "## 5. Committed formulation and exact modifications"
+          },
+          {
+            "line": 101,
+            "text": "## 6. Complete reverse audit and generated-artifact verification"
+          },
+          {
+            "line": 115,
+            "text": "## 7. Limitations and scope"
+          },
+          {
+            "line": 121,
+            "text": "## 8. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": "model_layer",
+      "status_after_snapshot": {
+        "status": "VERIFIED",
+        "receipt": "cases/test80/preparation.json",
+        "receipt_sha256": "7fa59c8b28d8354edba949966b2f375a7222389d8e9d4a9ff6cf1cf83e9c53cc",
+        "attack_count": 9,
+        "protocol_status": "WORKING_VERSION_9_NOT_FROZEN",
+        "evidence": "Existing complete preparation receipt inspected; no rerun performed for this inventory."
+      }
+    },
+    {
+      "case_id": "test81",
+      "actual_contract": {
+        "integer": "Zero-extension integer bijection and exact objective.",
+        "lp": "Strict projected inclusion with a full-model source fractional witness."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "FiberStrictness"
+      ],
+      "minimal_proof_route": [
+        "Prove all 3,341 deleted time arcs zero from the actual one-hot/window conditions.",
+        "Derive 762 conditional M bounds and 57 automatic rows, move 65 windows to bounds, and prove the 130 domain-implied deletions.",
+        "Verify the complete 2x2-switch fractional point and refute its target observation fiber using the deleted positive arc and/or actual retained violated row."
+      ],
+      "representation_or_resource_risk": "Share window/path bounds across repeated indicators. All original observations can be expressed with target constants for removed variables.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 2946480,
+            "sha256": "f531b8726878563590ba725efebeaea521448645fe99c5411547b90d9327901b",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 692644,
+            "sha256": "46a9bc42296fcd402a1c9d879c1a59a046820a096e0af5c77c0b43fb05e6d60c",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 11181,
+        "sha256": "ea589c3bfc161c289df265b95da674c353b5aace5ee37795f5dd03ee5031df4a",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final committed result: exact time-window reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Decision"
+          },
+          {
+            "line": 10,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 36,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 53,
+            "text": "## 3. Hypotheses and complete tests"
+          },
+          {
+            "line": 73,
+            "text": "## 4. Rejected or limited hypotheses"
+          },
+          {
+            "line": 83,
+            "text": "## 5. Mathematical justification"
+          },
+          {
+            "line": 129,
+            "text": "## 6. Exact edits"
+          },
+          {
+            "line": 148,
+            "text": "## 7. Artifact audit and smoke evidence"
+          },
+          {
+            "line": 174,
+            "text": "## 8. Uncertainty and limitations"
+          },
+          {
+            "line": 183,
+            "text": "## 9. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test82",
+      "actual_contract": {
+        "integer": "Zero-extension integer bijection and exact objective for this distinct time-window instance.",
+        "lp": "Target-to-source inclusion; no full strictness claim."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Derive this model's 3,315 zero arcs and 792 tightened M rows from its actual windows.",
+        "Certify all 53 automatic rows and the c209 dependent equality deletion.",
+        "Restore all source bounds/rows and compare exact objective constants."
+      ],
+      "representation_or_resource_risk": "Reuse proof-generation patterns from 81 only after rebinding every coefficient and row; the fixed sets differ.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The report explicitly rejects an earlier sign hypothesis and does not fix the 51 diagonal variables. That rejected exploration is not a counterexample to the final model, nor a valid proof premise.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "linear_elimination"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test82-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 2946480,
+            "sha256": "cff340cf4eab300bc65aa7cfe1a26081b4a129c184fd432558eb1bcd15be43cf",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test82-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 680937,
+            "sha256": "8526aa377192e9cda92489dbd4afefbf2b25b3e41844283a234a6095a58c8204",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test82-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 10649,
+        "sha256": "e61c5f5ce2b012de4649cd582b09a6985cab59582a42b0431224d8b9a4cd7fec",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test82-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact reduction and pairwise strengthening"
+          },
+          {
+            "line": 6,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 20,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 26,
+            "text": "## 3. Hypotheses tested, including failures"
+          },
+          {
+            "line": 35,
+            "text": "## 4. Exact justification"
+          },
+          {
+            "line": 37,
+            "text": "### Forced-zero arcs"
+          },
+          {
+            "line": 41,
+            "text": "### Pairwise simplification"
+          },
+          {
+            "line": 63,
+            "text": "### Other exact edits"
+          },
+          {
+            "line": 73,
+            "text": "## 5. Final scope and counts"
+          },
+          {
+            "line": 90,
+            "text": "## 6. Generated-artifact audit and smoke proof"
+          },
+          {
+            "line": 101,
+            "text": "## 7. Uncertainty and limitations"
+          },
+          {
+            "line": 105,
+            "text": "## 8. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test83",
+      "actual_contract": {
+        "integer": "Preserve feasibility, minimum objective and optimal-solution recovery; forward NonIncreasing and reverse Equal, not a bijection of all feasible source points.",
+        "lp": "No LP relation is required by the committed scope."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "affine_projection"
+      ],
+      "minimal_proof_route": [
+        "For each of 61 dominated columns, aggregate its value into two retained columns with disjoint support and strictly lower cost.",
+        "Use balanced contributor-sum upper bounds from actual partition rows to keep every target binary in [0,1].",
+        "Eliminate the 100 singleton coordinates as 1 minus their row sums, preserve the exact encoded objective constant 4989.422626, and reverse by zero extension."
+      ],
+      "representation_or_resource_risk": "Like completed test21, shared partition contributor trees avoid a wide row copy for every representative. Strictly dominated-column exclusion from ALL optima is an ancillary stronger property, not implied by an unqualified NonIncreasing claim alone.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "contract_semantics",
+        "statement": "The report explicitly states that no optimum selects a dominated column. Main minimum-preservation/recovery maps use existing rules, but this additional all-optima exclusion needs caller-bound strict improvement if it is separately machine-certified.",
+        "new_trusted_mathematical_rule_required": false,
+        "primary_relation": "Existing Lin maps suffice for the committed minimum-preservation and recovery relation."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "The report's section 4 explicitly proves no optimum can select a deleted dominated column. Record that ancillary strict-improvement exclusion rather than silently relabeling a minimum-preserving map as the stronger result.",
+      "capability_clusters": [
+        "monotone_completion",
+        "wide_affine",
+        "optimality_contract"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 31983856,
+            "sha256": "58e234e917a3ac7ac2349596066d163252f2c6db453964a4f3e2354238f26109",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 33321305,
+            "sha256": "95a2c698f9cdfaaef9fb4e8798e2edb0d6c0f4bb34f4b86d4262093ab6fe98a8",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 8409,
+        "sha256": "44ab80cb1d47619720cc864ab3c93e6e606775c9090cac93f7d32521744213bc",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Committed result"
+          },
+          {
+            "line": 10,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 25,
+            "text": "## 2. Parsing and exactness"
+          },
+          {
+            "line": 41,
+            "text": "## 3. Investigated hypotheses"
+          },
+          {
+            "line": 63,
+            "text": "## 4. Dominance proof and certificates"
+          },
+          {
+            "line": 78,
+            "text": "## 5. Singleton substitution"
+          },
+          {
+            "line": 101,
+            "text": "## 6. Exact artifact changes"
+          },
+          {
+            "line": 117,
+            "text": "## 7. Generated-artifact audit and execution evidence"
+          },
+          {
+            "line": 134,
+            "text": "## 8. Limitations"
+          },
+          {
+            "line": 145,
+            "text": "## 9. Artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test85",
+      "actual_contract": {
+        "integer": "Zero-extension integer bijection and exact objective.",
+        "lp": "No stronger LP assertion is needed; any additional reverse inclusion must be independently proved."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "EqPair",
+        "inverse"
+      ],
+      "minimal_proof_route": [
+        "Derive all 1,844 zeros from actual nonnegative row propagation.",
+        "Prove 1,908 reciprocal support-class equalities by local binary Cases.",
+        "Restore the 144 omitted class equations, three dependent original equations and every original row."
+      ],
+      "representation_or_resource_risk": "Use shared support-class sums and local facts; this is the same mathematical quotient pattern as 29 with different actual zero deductions.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "binary_relation_quotient",
+        "wide_affine"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 16298241,
+            "sha256": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/reformulated.mps",
+            "bytes": 2353534,
+            "sha256": "682a45c07c4e1b955a529ede145d54e1995920b9e32778d62b92f9a1af696491",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/output/reformulated.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 12142,
+        "sha256": "6a1a7e76329b1237a8eb0ead92324ca53f9256175d5d7abe2d0f5b32f44c0a89",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: exact binary support-block reformulation"
+          },
+          {
+            "line": 3,
+            "text": "## Decision and scope"
+          },
+          {
+            "line": 17,
+            "text": "## Original MPS interpretation"
+          },
+          {
+            "line": 25,
+            "text": "## Structural facts and investigated hypotheses"
+          },
+          {
+            "line": 38,
+            "text": "## Exact equivalence proof"
+          },
+          {
+            "line": 40,
+            "text": "### Certified zeros"
+          },
+          {
+            "line": 46,
+            "text": "### Reciprocal blocks"
+          },
+          {
+            "line": 54,
+            "text": "### Omitted equalities"
+          },
+          {
+            "line": 58,
+            "text": "### Both directions and objective preservation"
+          },
+          {
+            "line": 64,
+            "text": "## Exact edits"
+          },
+          {
+            "line": 75,
+            "text": "## Artifact audit and observed verification"
+          },
+          {
+            "line": 90,
+            "text": "## Remaining uncertainty and limitations"
+          },
+          {
+            "line": 94,
+            "text": "## Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    },
+    {
+      "case_id": "test86",
+      "actual_contract": {
+        "integer": "Same complete integer vectors and exact objective after 250 cover cuts.",
+        "lp": "Strict target subset on the same coordinates."
+      },
+      "existing_composable_rules": [
+        "Lin",
+        "Cases",
+        "inverse",
+        "Strictness"
+      ],
+      "minimal_proof_route": [
+        "For each actual cover incoming+d*y>=d, split binary y. If y=0 the original link forces production zero and node balance plus outgoing nonnegativity yields the cut; if y=1 use nonnegativity.",
+        "Keep complete identity maps and verify the full fractional point p=d, y=d/D, flows=0 on all five blocks."
+      ],
+      "representation_or_resource_risk": "250 small scalar proofs; no new flow existence theorem is involved.",
+      "new_mathematics_or_contract_gap": {
+        "kind": "none_identified",
+        "statement": "No additional trusted mathematical rule is presently justified by the reviewed route."
+      },
+      "confidence": {
+        "mathematical_route": "high",
+        "implementation": "not_yet_executed",
+        "interpretation": "A route assessment is not a soundness proof or VERIFIED status."
+      },
+      "material_or_error_risk": "Actual final model pair is present. No refutation of the committed transformation was found in this report audit; the proposed certificate still must check every actual bound, row, integrality and objective obligation.",
+      "capability_clusters": [
+        "conditional_bounds",
+        "point_contracts"
+      ],
+      "baseline_status": "PROOF_NOT_COMPLETED",
+      "run_directory": "/Users/bhz/Code/reform_test/runs/test86-nomf-B1",
+      "model_identity": {
+        "source_models": [
+          {
+            "path": "input/model.mps",
+            "bytes": 209862,
+            "sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test86-nomf-B1/input/model.mps",
+            "sha256_rechecked": true
+          }
+        ],
+        "final_target_models": [
+          {
+            "path": "output/model_strengthened.mps",
+            "bytes": 202134,
+            "sha256": "4624e38e6396579c7248fd1d38f528a523a4d082a2c3ba7d5033da38f780898f",
+            "absolute_path": "/Users/bhz/Code/reform_test/runs/test86-nomf-B1/output/model_strengthened.mps",
+            "sha256_rechecked": true
+          }
+        ]
+      },
+      "report_evidence": {
+        "path": "output/report.md",
+        "bytes": 7435,
+        "sha256": "dc96a7ac0e49cab5f09de1f46f3cfd964b0a43a12a02086b478129070506167d",
+        "absolute_path": "/Users/bhz/Code/reform_test/runs/test86-nomf-B1/output/report.md",
+        "sha256_rechecked": true,
+        "section_index": [
+          {
+            "line": 1,
+            "text": "# Final commitment: 250 incoming-flow cover inequalities"
+          },
+          {
+            "line": 3,
+            "text": "## 1. Structural facts"
+          },
+          {
+            "line": 15,
+            "text": "## 2. MPS interpretation"
+          },
+          {
+            "line": 19,
+            "text": "## 3. Hypotheses investigated"
+          },
+          {
+            "line": 28,
+            "text": "## 4. Proof of the committed change"
+          },
+          {
+            "line": 40,
+            "text": "## 5. Exact scope and artifact audit"
+          },
+          {
+            "line": 52,
+            "text": "## 6. Remaining uncertainty and limitations"
+          },
+          {
+            "line": 56,
+            "text": "## 7. Final artifacts"
+          }
+        ]
+      },
+      "evidence_depth": "Actual final report proof/limitations read and all actual model/report bytes rebound by SHA-256; proposed routes are not independent full-matrix certificates.",
+      "historical_material_notes": [],
+      "owner_at_cutoff": null,
+      "status_after_snapshot": {
+        "status": "PROOF_NOT_COMPLETED",
+        "owner": null,
+        "evidence": "Read-only route assessment; no complete RPX success claimed here."
+      }
+    }
+  ]
+}

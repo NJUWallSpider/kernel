@@ -1,0 +1,81 @@
+{
+ "case": "test73",
+ "title": "Final commitment: exact conflict-clique reformulation",
+ "run_dir": "/Users/bhz/Code/reform_test/runs/test73-nomf-B1",
+ "preparer": {
+  "path": "tools/prepare_test73.py",
+  "lines": 108,
+  "imports": [
+   "prepare_affine:parse_mps,row_ref",
+   "prepare_test40:expression,expr_json,row_fact,sha",
+   "prepare_test70:SparseBuilder"
+  ],
+  "defs": [
+   "split(builder,wanted,var,left,right,kind='Le') :12",
+   "prepare(a,b,h) :26",
+   "clique(p,vertices) nested :32",
+   "execute(...) :69",
+   "pop_mutation(values,index=-1) :92",
+   "main() :97"
+  ],
+  "emits": "RPA 2 as one JSON line {claims:[3],blocks:[3]} and request.json = the claims array; receipt preparation.json"
+ },
+ "shape": {
+  "orig_vars": 10863,
+  "orig_rows": 14038,
+  "new_vars": 10863,
+  "new_rows": 10551,
+  "orig_nonzeros": 57301,
+  "new_nonzeros": 52350,
+  "edits": "4,802 pairwise conflict rows x_u+x_v<=1 over binary [0,1] vars replaced by 1,339 maximal-clique rows sum(x)<=1 (conflict nonzeros 9,604 -> 4,723); 24 bound-redundant UnderCapLowercap216 rows dropped; 9,212 rows kept; every domain, integrality flag and objective term unchanged",
+  "conflict_graph": "1,769 vertices / 4,802 edges / 86 components; maximal cliques sizes 2..8 = 291/431/348/201/37/19/12; full incidence graph is one 10,805-variable component plus 58 objective-only singletons, so decomposition was rejected"
+ },
+ "reformulation": "Exact conflict-clique reformulation: delete all 4,802 pairwise binary conflict rows x_u+x_v<=1 and replace them with the 1,339 maximal-clique inequalities sum(x)<=1 of their graph (conflict nonzeros 9,604 -> 4,723), plus 24 rows whose exact box maximum cannot exceed their rhs: 10,863/14,038 vars/rows -> 10,863/10,551, nonzeros 57,301 -> 52,350. Variables, bounds, integrality and objective are untouched; the solver still stops at the time limit (200 s -> 179 s).",
+ "claim_class": "Exact row replacement plus bound-certified row deletion: identical integer feasible vectors in all 10,863 original coordinates, pointwise objective equality and both complete identity inverses (3 claims: forward, reverse integer, reverse LP); target relaxation contained in the source relaxation; strict improvement claimed only inside the conflict subsystem, not globally and not as a performance claim.",
+ "claims": [
+  "request.json = 3 claims: forward (reverse false, input/output_integers true, inverse 1), reverse integer (inverse 0), reverse LP (input_integers/output_integers false, inverse null); each is {'objective':'Equal','projection':identity over 10,863 coordinates}; 389,921 B total, 389,589 B (99.91%) the same identity projection, 108 B of scalars per claim.",
+  "Receipt cases/test73/preparation.json: VERIFIED, 3 claims, 179,849 obligations, work 1,715,166 (0.17% of the 1e9 default budget, so no resource pressure), peak live facts 4,826, branches 2,045, linear terms 88,717, substitution terms 214,316; execute 216,822 us of total 306,246 us; proof.rpa 6,691,010 B -> proof.rpx 4,381,916 B; the two MPS canonicalisations cost 66,711 and 55,756 us parse.",
+  "Forward obligation set (1,048 steps, 64,867 checks): 10,863 VarLower + 10,863 VarUpper + 10,863 VarInt + 8,488 RowLower + 921 RowUpper + 94 RowEq + 1,048 clique Locals + 21,727 Exact (projection plus inverse); the two reverse blocks carry 4,826 steps each with 68,354 / 46,628 checks (LP mode drops every VarInt).",
+  "Every added clique row is proved by nested binary Cases on its members: 1,048 top-level splits (the 431+348+201+37+19+12 cliques of size >=3) and 2,045 Cases steps in total, matching the kernel-reported branch count; size-2 cliques are the original rows themselves, used as direct edge refs.",
+  "Reverse blocks restore each of the 4,802 deleted edges from its covering clique row plus VarLower refs for the other clique members, and discharge each of the 24 deleted rows by an exact box maximum (maximum LHS 1 or 2 against RHS 2) built as VarUpper/VarLower terms with constant maximum-rhs (tools/prepare_test73.py:58-59)."
+ ],
+ "proof_encoding": [
+  "RPA 2, a single JSON line {claims:[3],blocks:[3]}, 6,691,010 B: 389,589 B of identity projections plus block 0 steps 1,100,160 B / checks 925,725 B and two reverse step lists of 675,272 B with checks 973,656 / 713,191 B.",
+  "Rule census of proof.rpa: Cases 2,045, Lin 13,742, Assumption 4,090, Witness 4,090, Local 15,787, Return 3; steps_by_claim [1,048, 4,826, 4,826].",
+  "Clique recursion (tools/prepare_test73.py:12-24, :32-39): each split emits a Cases step with integer {'VarInt':var}; the left branch proves the (k-1)-clique inequality under the split assumption and the right branch combines the k-1 pairwise edge rows with the split term, each branch ending in a Witness.",
+  "Reverse rows are Lin steps: each deleted edge rebuilt from its covering clique plus VarLower refs for the remaining support members, each of the 24 redundant rows as VarUpper/VarLower terms with constant box_max - rhs, and every kept target row re-checked by RowLower/RowUpper/RowEq refs.",
+  "Kernel-side safety net from the same file: 3 mutations (missing_selected_clique_assumption, missing_reverse_nonnegativity, missing_inverse_coordinate) each assemble and then verify INVALID at exit 2; assemble is byte-identical on rerun and two repeat verifies agree once *_us fields are dropped."
+ ],
+ "agent_manual_work": [
+  "A 60-line exact free-format MPS parser (parse_mps_exact, Fraction throughout, marker/section/two-pair-record assertions) because names overflow fixed-format MPS fields; a second independent decoder in output/verify.py and a third in tools/prepare_affine.parse_mps were needed for the same 4.7 MB model.",
+  "Row families identified by a hand-written regex that splits row names at c-digits, q-digits or an open paren, then validated algebraically: all 4,802 candidates had to have exactly two distinct integer [0,1] variables, coefficients +1, sense <=, RHS 1 before any graph interpretation.",
+  "Bron-Kerbosch maximal-clique enumeration plus maximality, edge-coverage and duplicate-freeness checks written from scratch in one eval cell (86 components -> 1,339 cliques, sizes 2..8).",
+  "An exhaustive box-redundancy sweep over all 14,038 rows with sign-selected bounds, which found exactly the 24 UnderCapLowercap216 rows (maximum LHS 1 or 2 against RHS 2), and a union-find incidence decomposition that falsified full-model decomposition.",
+  "The 3.8 MB reformulated MPS written by hand: out_lines list built from f-strings, ROWS/COLUMNS/RHS sections re-emitted and the entire original BOUNDS block spliced in verbatim by source line range lines[85099:95962]."
+ ],
+ "preparer_helpers": [
+  "split(builder,wanted,var,left,right,kind='Le') at :12-24 - hand-written local Cases constructor that builds two child SparseBuilder branches, copies child.steps into {'steps','end'} and keeps child facts in a ChainMap.",
+  "clique(p,vertices) at :32-39 - recursive clique-inequality derivation: direct edge ref for size 2, otherwise Cases with left = (rest-clique + assumption) and right = pairwise edges + (len(rest)-1) * assumption.",
+  "SparseBuilder (tools/prepare_test70.py:11) providing lin() accumulation with exact residual assertions in expression space, plus cases_le from tools/prepare_test19.py.",
+  "parse_mps/row_ref from tools/prepare_affine.py (:20, :77) and expression/expr_json/row_fact/sha from tools/prepare_test40.py (:72-81, :87, :147) - the kernel-side model and RPA vocabulary re-implemented in Python.",
+  "Orchestration in the same file: execute()/invoke()/serialize() at :69-90 run canonical/assemble/verify as subprocesses, record receipts, replay three mutations to INVALID and check assemble determinism; pop_mutation() at :92-94 stores the mutation recipes."
+ ],
+ "preparer_lines": 108,
+ "friction": [
+  "Two failing tool calls out of 20, on a case whose kernel verify takes 0.31 s: (1) File <cell>, line 30 - SyntaxError unmatched ')' in the eval that hand-emitted reformulated.mps, costing a re-issued 30-line cell and an extra directory read; (2) exit 1 - AssertionError at the agent's output/verify.py:62 because audit.json wrote the rhs of the 24 redundant rows as a JSON string while the decoded model yields the number 2.",
+  "325.3 s wall over 19 turns and 34,276 characters of eval Python for a case that the kernel verifies in 1,715,166 work units (0.17% of the default budget) and 216,822 us - the effort was hand assembly, not proof search.",
+  "The target model had to be produced by hand-written free-format MPS text, including splicing the original BOUNDS block by source line range, and the audit certificates were an ad-hoc dict schema with no type discipline.",
+  "Three independent MPS decoders were needed for one 4.7 MB model (agent eval, output/verify.py decode(), tools/prepare_affine.parse_mps), each with its own dialect assertions; none is the kernel's canonical reader.",
+  "Whole-artifact text is dominated by the claim scaffolding rather than the reformulation: 381 KB request and 6.4 MB RPA where 389,589 B of each is the same identity projection, and the 4,802 deleted rows are re-derived twice (integers and LP) at 675 KB of steps per reverse block."
+ ],
+ "api_needs": [
+  "RULE_BUILDERS || shared (test39 proves 1,152 balance cliques at 242,736 vars: cases/test39/README.md) || 1 || 1,339 clique rows are proved by 2,045 nested binary Cases hand-assembled at tools/prepare_test73.py:12-39; a kernel binary-clique rule with precondition checks would emit both the forward clique bound and the reverse edge recovery. || fn binary_clique(m:&Model, edges:&[RowRef], clique:&[VarId]) -> Result<CliqueCert,BuildError>; CliqueCert{bound:Step, covers:Vec<RowRef>, restore:Vec<Step>} || split() and clique() (tools/prepare_test73.py:12-24, :32-39) and the hand-written {'Cases':{...}} dict || tools/prepare_test73.py:32-39 / cases/test73/preparation.json (kernel statistics.branches=2045) / digest eval 'Constructing verified conflict cliques'",
+  "TARGET_CONSTRUCTION || universal || 2 || One eval cell hand-wrote the target as free-format MPS text (out_lines f-strings, BOUNDS spliced by source line range lines[85099:95962]) and died with SyntaxError unmatched ')' at line 30; the cell had to be re-issued whole. || fn apply(src:&Model, edits:&[Edit]) -> Result<Model,EditError>; enum Edit{DropRow(RowId), AddRow{name,sense,rhs,terms}}; Model::write_mps(path), Model::write_mcm(path) || the hand-written out_lines MPS emitter in the digest eval 'Writing single reformulation artifact' || digest test73.md transcript eval 'Writing single reformulation artifact' / digest failing result 'File <cell>, line 30'",
+  "EDIT_AUDIT || universal || 3 || The compiler's input is the agent's audit.json (covering_added_row, maximum_lhs). It stored the rhs of the 24 redundant rows as a JSON string (character 2) but as the number 2 elsewhere, so the agent's verify.py:62 asserted. || struct Finding{edits:Vec<EditRecord>, rational:String /* canonical p/q */}; fn check_finding(f:&Finding, src:&Model, tgt:&Model) -> Result<(),FindingError{code,record,field}> || the ad-hoc audit.json schema and the entry['rhs']=int(entry['rhs']) patch in digest eval 'Correcting audit RHS serialization' || /Users/bhz/Code/reform_test/runs/test73-nomf-B1/output/verify.py:62 / digest failing result 'exit 1' / report section 7",
+  "SCOPE_QUERIES || universal || 4 || Found by shape, not names: 4,802 rows validated as exactly two binary [0,1] vars, +1 coefficients, sense Le, rhs 1, and all 14,038 rows swept for box redundancy; the agent hand-wrote an MPS parser and a regex row-family split for that. || fn scan_rows(m:&Model, p:&RowPattern) -> Vec<RowRef>; RowPattern{sense:Le, nnz:2, coefs:[Rational;2], rhs:Rational, vars:Binary01}; fn box_max(m:&Model, r:RowRef) -> (Rational, Vec<(VarId,Rational)>) || parse_mps_exact and the row-validation and redundancy loops in digest evals 'Parsing exact MPS representation' / 'Testing exact redundancy and conflicts' || digest eval 'Testing exact redundancy and conflicts' / digest eval 'Parsing exact MPS representation' / report section 3",
+  "PROJECTION_BINDING || shared (test39's request.json is 10,985,003 B of the same idiom; 7 preparers write [[i,i] for i in range(n)]) || 5 || 389,589 of test73's 389,921 request bytes (99.91%) are three copies of one 10,863-pair identity projection, repeated again inside the RPA; per claim only 108 bytes are scalar. The same idiom makes test39's request 10,985,003 B. || Rust: enum Projection{Identity(u32), Range{start,count}, Explicit(Vec<(u32,u32)>)}; CLI: rpx verify --projection-identity; request side: projection = identity(10863) || projection=[[i,i] for i in range(n)] (tools/prepare_test73.py:27, also test34/test39/test66/test67/test71 preparers) || cases/test73/request.json (3 x 129,863 B projections) / tools/prepare_test73.py:27 / cases/test39/request.json",
+  "WITNESS_CHECKING || shared (test39 also keeps its strictness claim local: cases/test39/README.md) || 6 || 24 rows are deleted since their exact box maximum is <= rhs 2, certified as {rhs, maximum_lhs, maximizing_bounds} and rebuilt as VarUpper/VarLower terms with constant maximum-rhs; strictness stayed local (three columns at 1/2). || fn box_point(m:&Model, r:RowRef) -> (Rational, Vec<(VarId,Rational)>); fn check_point(m:&Model, p:&[(VarId,Rational)], rows:&[RowRef]) -> Result<PointReceipt,PointError> || redundancy_proof{} (digest eval 'Verifying equivalence and bounded scope') and the VarUpper/VarLower Lin at tools/prepare_test73.py:58-59 || tools/prepare_test73.py:58-59 / digest eval 'Verifying equivalence and bounded scope' / report section 4"
+ ],
+ "top_capability": "RULE_BUILDERS",
+ "notes": "Both failing calls (digest 'Failing tool results'): (1) File <cell>, line 30 - SyntaxError unmatched ')' in the cell that hand-wrote reformulated.mps; the API diagnosis is TARGET_CONSTRUCTION, i.e. apply the recorded edit list to the canonical source and let the compiler emit MPS/MCM instead of assembling text in one cell. (2) exit 1 - the agent's output/verify.py:62 AssertionError caused by audit.json storing the rhs of the 24 bound-redundant rows as a JSON string (character 2) while the other section used the number 2; the API diagnosis is EDIT_AUDIT (one validated exact-rational wire form for the finding hand-off) with structured DIAGNOSTICS naming the offending record, which would have rejected the file at write time rather than after a verifier run. The certificate itself is sound: 2,045 nested binary Cases replace 4,802 pairwise rows by 1,339 cliques, and the kernel reports VERIFIED with work 1,715,166 and peak live facts 4,826, so the missing capability is rule construction and typed edit/finding plumbing, not budget policy."
+}

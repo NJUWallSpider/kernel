@@ -1,0 +1,103 @@
+% !TeX program = xelatex
+% Build with XeLaTeX. All normative text is a proposal until v0.1 is frozen.
+\documentclass[UTF8,10pt,a4paper,oneside,fontset=fandol]{ctexbook}
+\usepackage[top=25mm,bottom=25mm,left=26mm,right=24mm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{xcolor,graphicx,listings,fancyhdr,enumitem,microtype,etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\definecolor{rpxblue}{HTML}{173A58}
+\definecolor{rpxgray}{HTML}{F2F4F6}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=rpxblue,urlcolor=rpxblue,
+  pdftitle={RPA/RPX v0.1 ISA 规范手册},pdfauthor={RPX specification working draft},
+  pdfsubject={机器模型、指令集、汇编、二进制格式与验证语义}}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=2em,topsep=5pt}
+\ctexset{chapter={format=\Large\bfseries\color{rpxblue},beforeskip=12pt,afterskip=20pt},
+  section={format=\large\bfseries\color{rpxblue}},subsection={format=\normalsize\bfseries}}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small RPA/RPX v0.1 · 规范草案 D0}
+\fancyhead[R]{\small\nouppercase{\leftmark}}
+\fancyfoot[L]{\small 2026-10-09 · 尚未冻结}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[L]{\small RPA/RPX v0.1 · D0}\fancyfoot[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\lstset{basicstyle=\small\ttfamily,backgroundcolor=\color{rpxgray},
+  frame=single,rulecolor=\color{black!15},framerule=0.3pt,framesep=5pt,
+  breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,
+  tabsize=4,aboveskip=10pt,belowskip=10pt}
+% Every current listing fits a page. Keep the frame and complete example together.
+\BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
+\AfterEndEnvironment{lstlisting}{\end{minipage}\par}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\must}[1]{\textbf{必须：}#1}
+\newcommand{\proposal}[2]{\par\smallskip\noindent\textbf{修订提案 #1。}#2\par\smallskip}
+% Inline code accepts raw underscores/dollars and escaped TeX punctuation.
+\ExplSyntaxOn
+\cs_generate_variant:Nn \tl_replace_all:Nnn {Nxx}
+\cs_new_protected:Npn \rpx_code:n #1 {
+  \group_begin:\ttfamily
+  \tl_set:Nx \l_tmpa_tl {\tl_to_str:n {#1}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\%}} {\char_generate:nn {37}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\_}} {\char_generate:nn {95}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\$}} {\char_generate:nn {36}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\#}} {\char_generate:nn {35}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\&}} {\char_generate:nn {38}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\{}} {\char_generate:nn {123}{12}}
+  \tl_replace_all:Nxx \l_tmpa_tl {\tl_to_str:n {\}}} {\char_generate:nn {125}{12}}
+  \tl_use:N \l_tmpa_tl\group_end:}
+\NewDocumentCommand{\code}{m}{
+  \mode_if_math:TF {\text{\rpx_code:n {#1}}}{\rpx_code:n {#1}}}
+\ExplSyntaxOff
+\pdfstringdefDisableCommands{\def\code#1{#1}}
+\begin{document}
+\frontmatter
+\hypersetup{pageanchor=false}
+\pagenumbering{gobble}
+\begin{titlepage}
+\color{rpxblue}
+\vspace*{12mm}
+\noindent{\fontsize{54}{62}\selectfont\bfseries RPX}\par
+\vspace{7mm}
+\noindent{\Huge\bfseries RPA/RPX v0.1}\par
+\vspace{4mm}
+\noindent{\LARGE ISA 规范手册}\par
+\vspace{9mm}
+\noindent\rule{\textwidth}{1pt}\par
+\vspace{7mm}
+\noindent{\large Reformulation Proof Assembly}\par
+\noindent{\large Reformulation Proof eXecutable}\par
+\vspace{10mm}
+\noindent 机器模型 · 指令集 · 文本汇编 · 二进制格式\par
+\noindent Loader · 执行语义 · 异常与符合性\par
+\vfill
+\noindent\textbf{规范草案 D0}\par
+\noindent 2026 年 10 月 9 日\par
+\vspace{5mm}
+\noindent 本文定义待讨论的 v0.1 规范，不代表现有代码已经实现。\par
+\noindent 标注的修订提案与开放问题须在版本冻结前逐项决定。\par
+\end{titlepage}
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\input{rpx/chapters/introduction}
+\tableofcontents
+\mainmatter
+\input{rpx/chapters/model}
+\input{rpx/chapters/execution}
+\input{rpx/chapters/instructions}
+\input{rpx/chapters/format}
+\input{rpx/chapters/loader}
+\input{rpx/chapters/assembly}
+\input{rpx/chapters/examples}
+\input{rpx/chapters/performance}
+\appendix
+\input{rpx/chapters/revisions}
+\end{document}

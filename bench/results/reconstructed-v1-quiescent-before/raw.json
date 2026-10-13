@@ -1,0 +1,2582 @@
+{
+  "config": {
+    "version": 1,
+    "fixed_on": "2026-10-11",
+    "repetitions": 9,
+    "identity_sizes": [
+      1,
+      1000,
+      10000
+    ],
+    "dense_row_sizes": [
+      100,
+      1000,
+      5000
+    ],
+    "rational_sizes": [
+      10,
+      1000
+    ],
+    "notes": "First runnable verifier baseline. Mandatory additional families (history, shared chains, branching, real theorem) remain outstanding and must not disappear from final report. Every sample launches a fresh process; internal timings and process latency reported separately."
+  },
+  "label": "reconstructed-v1-quiescent-before",
+  "kernel_sha256": "6e9530753ce2cb704a7bbdd010c3f7765e66b72844d2e781b30d695186250837",
+  "source_root": "/Users/bhz/Code/kernel/bench/baseline-source/workspace",
+  "hardware": {
+    "machdep.cpu.brand_string": "Apple M5",
+    "hw.memsize": "17179869184",
+    "hw.ncpu": "10"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "processor": "arm",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)\nbinary: rustc\ncommit-hash: ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96\ncommit-date: 2026-05-25\nhost: aarch64-apple-darwin\nrelease: 1.96.0\nLLVM version: 22.1.2\n",
+  "cache_condition": "warm filesystem after preparation; each observation fresh process, no cache flushing",
+  "sources": {
+    "crates/core/src/codec.rs": "3bb03752f8a9f0e9b4074cc8456c7b9fd714d3aeab64b5baa4bb976dc1d8aa29",
+    "crates/core/src/lib.rs": "f3c36e77fac7f1501a87ae6917b3380804ad98da8a47ab86719cd8861b1efdfe",
+    "crates/core/src/main.rs": "1feab16757151360b57b4a7d0585e7e39118a4d4d8dbdedb7380defe1c797e4d",
+    "crates/core/src/model.rs": "8500c1604eba519b0294068678078c2342389d584307ececa0251869951a80ca",
+    "crates/core/src/proof.rs": "0f871004023792409e7b9f264a709115c6d2b8b035f9a5c321b7872fecad3491",
+    "crates/core/src/rpa.rs": "6fc397e515982d8eaf393dcc2b66274defff814d7946f6053947cf04b3e989ec",
+    "crates/core/src/verify.rs": "f8c55f217ee42831769aeac8ff673045fd2a3d8ddf710dbc9f73b5a40d1e5a8f"
+  },
+  "lock_sha256": "e50906709f3909a07659adc6ffb49f6208a77679c563ec3d973a3e3b7970c78e",
+  "workloads": [
+    {
+      "name": "identity-1",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 610893000,
+          "result": {
+            "mcm_bytes": 146,
+            "parse_us": 245,
+            "read_us": 106,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 759,
+            "variables": 1
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 6535250,
+          "result": {
+            "rpx_bytes": 120,
+            "status": "ASSEMBLED",
+            "total_us": 408
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 17151500,
+          "result": {
+            "claims": 1,
+            "execute_us": 51,
+            "model_decode_us": 30,
+            "proof_decode_us": 7,
+            "read_us": 108,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 196
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 4958375,
+          "result": {
+            "claims": 1,
+            "execute_us": 21,
+            "model_decode_us": 27,
+            "proof_decode_us": 6,
+            "read_us": 87,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 141
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3299125,
+          "result": {
+            "claims": 1,
+            "execute_us": 19,
+            "model_decode_us": 24,
+            "proof_decode_us": 5,
+            "read_us": 77,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 125
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3100292,
+          "result": {
+            "claims": 1,
+            "execute_us": 18,
+            "model_decode_us": 25,
+            "proof_decode_us": 6,
+            "read_us": 80,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 129
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3364708,
+          "result": {
+            "claims": 1,
+            "execute_us": 17,
+            "model_decode_us": 22,
+            "proof_decode_us": 5,
+            "read_us": 69,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 113
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2812792,
+          "result": {
+            "claims": 1,
+            "execute_us": 14,
+            "model_decode_us": 19,
+            "proof_decode_us": 3,
+            "read_us": 59,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 95
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2704042,
+          "result": {
+            "claims": 1,
+            "execute_us": 13,
+            "model_decode_us": 18,
+            "proof_decode_us": 3,
+            "read_us": 56,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 90
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2609042,
+          "result": {
+            "claims": 1,
+            "execute_us": 11,
+            "model_decode_us": 15,
+            "proof_decode_us": 3,
+            "read_us": 50,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 79
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2484000,
+          "result": {
+            "claims": 1,
+            "execute_us": 11,
+            "model_decode_us": 16,
+            "proof_decode_us": 4,
+            "read_us": 52,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 5,
+              "peak_live_facts": 0,
+              "substitution_terms": 1,
+              "work": 21
+            },
+            "status": "VERIFIED",
+            "total_us": 83
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 85,
+        "model.mcm": 146,
+        "proof.rpa": 296,
+        "proof.rpx": 120
+      },
+      "rss_bytes": 1982464,
+      "rss_raw": "        0.00 real         0.00 user         0.00 sys\n             1982464  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 288  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   4  involuntary context switches\n            15151542  instructions retired\n             4943153  cycles elapsed\n             1032504  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 2.484,
+        "process_ms_median": 3.100292,
+        "process_ms_max": 17.1515,
+        "execute_ms_median": 0.017,
+        "verified": 9
+      }
+    },
+    {
+      "name": "identity-1000",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 4236125,
+          "result": {
+            "mcm_bytes": 99830,
+            "parse_us": 1103,
+            "read_us": 24,
+            "rows": 1000,
+            "status": "CANONICALIZED",
+            "total_us": 1812,
+            "variables": 1000
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3499625,
+          "result": {
+            "rpx_bytes": 67053,
+            "status": "ASSEMBLED",
+            "total_us": 1203
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5768125,
+          "result": {
+            "claims": 1,
+            "execute_us": 1848,
+            "model_decode_us": 1084,
+            "proof_decode_us": 206,
+            "read_us": 86,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 3224
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5166875,
+          "result": {
+            "claims": 1,
+            "execute_us": 1760,
+            "model_decode_us": 1035,
+            "proof_decode_us": 189,
+            "read_us": 63,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 3047
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5074000,
+          "result": {
+            "claims": 1,
+            "execute_us": 1729,
+            "model_decode_us": 1047,
+            "proof_decode_us": 190,
+            "read_us": 65,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 3031
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5142333,
+          "result": {
+            "claims": 1,
+            "execute_us": 1684,
+            "model_decode_us": 981,
+            "proof_decode_us": 180,
+            "read_us": 69,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2914
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5009084,
+          "result": {
+            "claims": 1,
+            "execute_us": 1648,
+            "model_decode_us": 964,
+            "proof_decode_us": 188,
+            "read_us": 62,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2862
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5985334,
+          "result": {
+            "claims": 1,
+            "execute_us": 1674,
+            "model_decode_us": 1008,
+            "proof_decode_us": 180,
+            "read_us": 100,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2962
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 6270875,
+          "result": {
+            "claims": 1,
+            "execute_us": 1588,
+            "model_decode_us": 962,
+            "proof_decode_us": 176,
+            "read_us": 153,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2879
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 4665500,
+          "result": {
+            "claims": 1,
+            "execute_us": 1457,
+            "model_decode_us": 881,
+            "proof_decode_us": 154,
+            "read_us": 62,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2554
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 4581084,
+          "result": {
+            "claims": 1,
+            "execute_us": 1531,
+            "model_decode_us": 895,
+            "proof_decode_us": 160,
+            "read_us": 62,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 4001,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 20001
+            },
+            "status": "VERIFIED",
+            "total_us": 2648
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 45499,
+        "model.mcm": 99830,
+        "proof.rpa": 102653,
+        "proof.rpx": 67053
+      },
+      "rss_bytes": 4423680,
+      "rss_raw": "        0.00 real         0.00 user         0.00 sys\n             4423680  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 437  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   4  involuntary context switches\n            85232107  instructions retired\n            16421545  cycles elapsed\n             3473744  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 4.581084,
+        "process_ms_median": 5.142333,
+        "process_ms_max": 6.270875,
+        "execute_ms_median": 1.674,
+        "verified": 9
+      }
+    },
+    {
+      "name": "identity-10000",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 20697334,
+          "result": {
+            "mcm_bytes": 1017830,
+            "parse_us": 9292,
+            "read_us": 66,
+            "rows": 10000,
+            "status": "CANONICALIZED",
+            "total_us": 13930,
+            "variables": 10000
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 8897292,
+          "result": {
+            "rpx_bytes": 670053,
+            "status": "ASSEMBLED",
+            "total_us": 6089
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 28673209,
+          "result": {
+            "claims": 1,
+            "execute_us": 15108,
+            "model_decode_us": 8716,
+            "proof_decode_us": 1583,
+            "read_us": 287,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 25694
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29139709,
+          "result": {
+            "claims": 1,
+            "execute_us": 15583,
+            "model_decode_us": 8580,
+            "proof_decode_us": 1692,
+            "read_us": 243,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 26098
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 28677542,
+          "result": {
+            "claims": 1,
+            "execute_us": 15093,
+            "model_decode_us": 8492,
+            "proof_decode_us": 1615,
+            "read_us": 238,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 25438
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29184833,
+          "result": {
+            "claims": 1,
+            "execute_us": 15166,
+            "model_decode_us": 9215,
+            "proof_decode_us": 1566,
+            "read_us": 227,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 26174
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 28765625,
+          "result": {
+            "claims": 1,
+            "execute_us": 15190,
+            "model_decode_us": 8677,
+            "proof_decode_us": 1590,
+            "read_us": 234,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 25691
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29172125,
+          "result": {
+            "claims": 1,
+            "execute_us": 15125,
+            "model_decode_us": 8867,
+            "proof_decode_us": 1654,
+            "read_us": 300,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 25946
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29455167,
+          "result": {
+            "claims": 1,
+            "execute_us": 15762,
+            "model_decode_us": 8699,
+            "proof_decode_us": 1530,
+            "read_us": 238,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 26229
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29244833,
+          "result": {
+            "claims": 1,
+            "execute_us": 15551,
+            "model_decode_us": 8590,
+            "proof_decode_us": 1520,
+            "read_us": 222,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 25883
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/identity-10000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 29981833,
+          "result": {
+            "claims": 1,
+            "execute_us": 15422,
+            "model_decode_us": 9223,
+            "proof_decode_us": 1650,
+            "read_us": 263,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 40001,
+              "peak_live_facts": 0,
+              "substitution_terms": 10000,
+              "work": 200001
+            },
+            "status": "VERIFIED",
+            "total_us": 26558
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 504499,
+        "model.mcm": 1017830,
+        "proof.rpa": 1074653,
+        "proof.rpx": 670053
+      },
+      "rss_bytes": 24625152,
+      "rss_raw": "        0.02 real         0.02 user         0.00 sys\n            24625152  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                1670  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   5  involuntary context switches\n           720037814  instructions retired\n           120501013  cycles elapsed\n            23708032  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 28.673209,
+        "process_ms_median": 29.172125,
+        "process_ms_max": 29.981833,
+        "execute_ms_median": 15.19,
+        "verified": 9
+      }
+    },
+    {
+      "name": "dense-100",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2604416,
+          "result": {
+            "mcm_bytes": 5879,
+            "parse_us": 74,
+            "read_us": 13,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 345,
+            "variables": 100
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2188625,
+          "result": {
+            "rpx_bytes": 5961,
+            "status": "ASSEMBLED",
+            "total_us": 166
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2619875,
+          "result": {
+            "claims": 1,
+            "execute_us": 332,
+            "model_decode_us": 69,
+            "proof_decode_us": 19,
+            "read_us": 37,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 457
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2530750,
+          "result": {
+            "claims": 1,
+            "execute_us": 372,
+            "model_decode_us": 64,
+            "proof_decode_us": 19,
+            "read_us": 36,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 491
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2368917,
+          "result": {
+            "claims": 1,
+            "execute_us": 355,
+            "model_decode_us": 67,
+            "proof_decode_us": 18,
+            "read_us": 42,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 482
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2597542,
+          "result": {
+            "claims": 1,
+            "execute_us": 359,
+            "model_decode_us": 63,
+            "proof_decode_us": 18,
+            "read_us": 36,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 476
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2289292,
+          "result": {
+            "claims": 1,
+            "execute_us": 386,
+            "model_decode_us": 62,
+            "proof_decode_us": 17,
+            "read_us": 33,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 498
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2483709,
+          "result": {
+            "claims": 1,
+            "execute_us": 355,
+            "model_decode_us": 62,
+            "proof_decode_us": 17,
+            "read_us": 44,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 478
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2728958,
+          "result": {
+            "claims": 1,
+            "execute_us": 357,
+            "model_decode_us": 63,
+            "proof_decode_us": 18,
+            "read_us": 113,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 551
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2286750,
+          "result": {
+            "claims": 1,
+            "execute_us": 367,
+            "model_decode_us": 65,
+            "proof_decode_us": 17,
+            "read_us": 32,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 481
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-100/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2321541,
+          "result": {
+            "claims": 1,
+            "execute_us": 390,
+            "model_decode_us": 63,
+            "proof_decode_us": 18,
+            "read_us": 40,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 302,
+              "peak_live_facts": 0,
+              "substitution_terms": 100,
+              "work": 6753
+            },
+            "status": "VERIFIED",
+            "total_us": 511
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 2247,
+        "model.mcm": 5879,
+        "proof.rpa": 8378,
+        "proof.rpx": 5961
+      },
+      "rss_bytes": 2293760,
+      "rss_raw": "        0.00 real         0.00 user         0.00 sys\n             2293760  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 307  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   4  involuntary context switches\n            26974719  instructions retired\n             6621644  cycles elapsed\n             1311032  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 2.28675,
+        "process_ms_median": 2.483709,
+        "process_ms_max": 2.728958,
+        "execute_ms_median": 0.359,
+        "verified": 9
+      }
+    },
+    {
+      "name": "dense-1000",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3169542,
+          "result": {
+            "mcm_bytes": 58980,
+            "parse_us": 453,
+            "read_us": 15,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 1204,
+            "variables": 1000
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2846292,
+          "result": {
+            "rpx_bytes": 59061,
+            "status": "ASSEMBLED",
+            "total_us": 872
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 24583792,
+          "result": {
+            "claims": 1,
+            "execute_us": 21984,
+            "model_decode_us": 468,
+            "proof_decode_us": 151,
+            "read_us": 47,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 22650
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 25525875,
+          "result": {
+            "claims": 1,
+            "execute_us": 22317,
+            "model_decode_us": 477,
+            "proof_decode_us": 147,
+            "read_us": 106,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 23047
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 23675667,
+          "result": {
+            "claims": 1,
+            "execute_us": 20932,
+            "model_decode_us": 476,
+            "proof_decode_us": 141,
+            "read_us": 50,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 21599
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 25753042,
+          "result": {
+            "claims": 1,
+            "execute_us": 22762,
+            "model_decode_us": 528,
+            "proof_decode_us": 147,
+            "read_us": 50,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 23487
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 22547292,
+          "result": {
+            "claims": 1,
+            "execute_us": 19963,
+            "model_decode_us": 508,
+            "proof_decode_us": 158,
+            "read_us": 50,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 20679
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 23076917,
+          "result": {
+            "claims": 1,
+            "execute_us": 20333,
+            "model_decode_us": 463,
+            "proof_decode_us": 142,
+            "read_us": 49,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 20987
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 22547250,
+          "result": {
+            "claims": 1,
+            "execute_us": 19925,
+            "model_decode_us": 476,
+            "proof_decode_us": 146,
+            "read_us": 46,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 20593
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 22639583,
+          "result": {
+            "claims": 1,
+            "execute_us": 19983,
+            "model_decode_us": 506,
+            "proof_decode_us": 157,
+            "read_us": 53,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 20699
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 23260542,
+          "result": {
+            "claims": 1,
+            "execute_us": 20486,
+            "model_decode_us": 473,
+            "proof_decode_us": 161,
+            "read_us": 52,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 21172
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 23848,
+        "model.mcm": 58980,
+        "proof.rpa": 85778,
+        "proof.rpx": 59061
+      },
+      "rss_bytes": 3637248,
+      "rss_raw": "        0.02 real         0.02 user         0.00 sys\n             3637248  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 389  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                  11  involuntary context switches\n           689564777  instructions retired\n           102658830  cycles elapsed\n             2670928  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 22.54725,
+        "process_ms_median": 23.260542,
+        "process_ms_max": 25.753042,
+        "execute_ms_median": 20.486,
+        "verified": 9
+      }
+    },
+    {
+      "name": "dense-5000",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 6438333,
+          "result": {
+            "mcm_bytes": 298980,
+            "parse_us": 2223,
+            "read_us": 27,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 3922,
+            "variables": 5000
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 5246791,
+          "result": {
+            "rpx_bytes": 295061,
+            "status": "ASSEMBLED",
+            "total_us": 2995
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 493974791,
+          "result": {
+            "claims": 1,
+            "execute_us": 487630,
+            "model_decode_us": 2510,
+            "proof_decode_us": 812,
+            "read_us": 274,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 491226
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 472904584,
+          "result": {
+            "claims": 1,
+            "execute_us": 466639,
+            "model_decode_us": 2333,
+            "proof_decode_us": 756,
+            "read_us": 114,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 469842
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 494160500,
+          "result": {
+            "claims": 1,
+            "execute_us": 487772,
+            "model_decode_us": 2337,
+            "proof_decode_us": 721,
+            "read_us": 120,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 490950
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 505418166,
+          "result": {
+            "claims": 1,
+            "execute_us": 499353,
+            "model_decode_us": 2317,
+            "proof_decode_us": 744,
+            "read_us": 115,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 502529
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 488812625,
+          "result": {
+            "claims": 1,
+            "execute_us": 482580,
+            "model_decode_us": 2319,
+            "proof_decode_us": 730,
+            "read_us": 120,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 485749
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 484731167,
+          "result": {
+            "claims": 1,
+            "execute_us": 476175,
+            "model_decode_us": 2366,
+            "proof_decode_us": 748,
+            "read_us": 111,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 479400
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 479586959,
+          "result": {
+            "claims": 1,
+            "execute_us": 473387,
+            "model_decode_us": 2351,
+            "proof_decode_us": 732,
+            "read_us": 124,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 476594
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 484060459,
+          "result": {
+            "claims": 1,
+            "execute_us": 477811,
+            "model_decode_us": 2340,
+            "proof_decode_us": 815,
+            "read_us": 124,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 481090
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/dense-5000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 484074834,
+          "result": {
+            "claims": 1,
+            "execute_us": 477760,
+            "model_decode_us": 2436,
+            "proof_decode_us": 741,
+            "read_us": 120,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 15002,
+              "peak_live_facts": 0,
+              "substitution_terms": 5000,
+              "work": 12587503
+            },
+            "status": "VERIFIED",
+            "total_us": 481057
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 127848,
+        "model.mcm": 298980,
+        "proof.rpa": 445778,
+        "proof.rpx": 295061
+      },
+      "rss_bytes": 8945664,
+      "rss_raw": "        0.48 real         0.48 user         0.00 sys\n             8945664  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 705  page reclaims\n                   8  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   1  voluntary context switches\n                  49  involuntary context switches\n         15631491320  instructions retired\n          2081531605  cycles elapsed\n             7979344  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 472.904584,
+        "process_ms_median": 484.731167,
+        "process_ms_max": 505.418166,
+        "execute_ms_median": 477.811,
+        "verified": 9
+      }
+    },
+    {
+      "name": "rational-10",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2643708,
+          "result": {
+            "mcm_bytes": 659,
+            "parse_us": 29,
+            "read_us": 14,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 99,
+            "variables": 10
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2174958,
+          "result": {
+            "rpx_bytes": 651,
+            "status": "ASSEMBLED",
+            "total_us": 104
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2072709,
+          "result": {
+            "claims": 1,
+            "execute_us": 27,
+            "model_decode_us": 22,
+            "proof_decode_us": 6,
+            "read_us": 35,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 90
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1954208,
+          "result": {
+            "claims": 1,
+            "execute_us": 26,
+            "model_decode_us": 22,
+            "proof_decode_us": 6,
+            "read_us": 34,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 88
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1963917,
+          "result": {
+            "claims": 1,
+            "execute_us": 25,
+            "model_decode_us": 21,
+            "proof_decode_us": 8,
+            "read_us": 33,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 87
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1979209,
+          "result": {
+            "claims": 1,
+            "execute_us": 25,
+            "model_decode_us": 21,
+            "proof_decode_us": 5,
+            "read_us": 32,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 83
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1912417,
+          "result": {
+            "claims": 1,
+            "execute_us": 24,
+            "model_decode_us": 20,
+            "proof_decode_us": 5,
+            "read_us": 34,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 83
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2050667,
+          "result": {
+            "claims": 1,
+            "execute_us": 26,
+            "model_decode_us": 20,
+            "proof_decode_us": 5,
+            "read_us": 40,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 91
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1944750,
+          "result": {
+            "claims": 1,
+            "execute_us": 26,
+            "model_decode_us": 20,
+            "proof_decode_us": 5,
+            "read_us": 32,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 83
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1855209,
+          "result": {
+            "claims": 1,
+            "execute_us": 25,
+            "model_decode_us": 19,
+            "proof_decode_us": 4,
+            "read_us": 32,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 80
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-10/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2079291,
+          "result": {
+            "claims": 1,
+            "execute_us": 25,
+            "model_decode_us": 20,
+            "proof_decode_us": 5,
+            "read_us": 34,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 32,
+              "peak_live_facts": 0,
+              "substitution_terms": 10,
+              "work": 228
+            },
+            "status": "VERIFIED",
+            "total_us": 84
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 306,
+        "model.mcm": 659,
+        "proof.rpa": 998,
+        "proof.rpx": 651
+      },
+      "rss_bytes": 2048000,
+      "rss_raw": "        0.00 real         0.00 user         0.00 sys\n             2048000  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 292  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   4  involuntary context switches\n            15878190  instructions retired\n             4815773  cycles elapsed\n             1065272  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 1.855209,
+        "process_ms_median": 1.963917,
+        "process_ms_max": 2.079291,
+        "execute_ms_median": 0.025,
+        "verified": 9
+      }
+    },
+    {
+      "name": "rational-1000",
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mps",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3245250,
+          "result": {
+            "mcm_bytes": 58980,
+            "parse_us": 566,
+            "read_us": 16,
+            "rows": 1,
+            "status": "CANONICALIZED",
+            "total_us": 1225,
+            "variables": 1000
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 2779916,
+          "result": {
+            "rpx_bytes": 59061,
+            "status": "ASSEMBLED",
+            "total_us": 931
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26738459,
+          "result": {
+            "claims": 1,
+            "execute_us": 23998,
+            "model_decode_us": 577,
+            "proof_decode_us": 148,
+            "read_us": 51,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24774
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 24629292,
+          "result": {
+            "claims": 1,
+            "execute_us": 21522,
+            "model_decode_us": 584,
+            "proof_decode_us": 151,
+            "read_us": 54,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 22311
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26652334,
+          "result": {
+            "claims": 1,
+            "execute_us": 23701,
+            "model_decode_us": 621,
+            "proof_decode_us": 160,
+            "read_us": 52,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24534
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26566917,
+          "result": {
+            "claims": 1,
+            "execute_us": 23658,
+            "model_decode_us": 593,
+            "proof_decode_us": 147,
+            "read_us": 64,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24462
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 25372083,
+          "result": {
+            "claims": 1,
+            "execute_us": 22595,
+            "model_decode_us": 581,
+            "proof_decode_us": 154,
+            "read_us": 51,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 23381
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26929750,
+          "result": {
+            "claims": 1,
+            "execute_us": 23905,
+            "model_decode_us": 596,
+            "proof_decode_us": 162,
+            "read_us": 60,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24723
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26477667,
+          "result": {
+            "claims": 1,
+            "execute_us": 23289,
+            "model_decode_us": 597,
+            "proof_decode_us": 148,
+            "read_us": 59,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24093
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26581458,
+          "result": {
+            "claims": 1,
+            "execute_us": 23602,
+            "model_decode_us": 577,
+            "proof_decode_us": 156,
+            "read_us": 55,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24390
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/bench/baseline-source/workspace/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/model.mcm",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/generated/rational-1000/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 26836541,
+          "result": {
+            "claims": 1,
+            "execute_us": 23905,
+            "model_decode_us": 583,
+            "proof_decode_us": 146,
+            "read_us": 50,
+            "statistics": {
+              "branches": 0,
+              "linear_terms": 0,
+              "obligations": 3002,
+              "peak_live_facts": 0,
+              "substitution_terms": 1000,
+              "work": 517503
+            },
+            "status": "VERIFIED",
+            "total_us": 24684
+          }
+        }
+      ],
+      "bytes": {
+        "model.mps": 27848,
+        "model.mcm": 58980,
+        "proof.rpa": 85778,
+        "proof.rpx": 59061
+      },
+      "rss_bytes": 3604480,
+      "rss_raw": "        0.02 real         0.02 user         0.00 sys\n             3604480  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                 387  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   0  voluntary context switches\n                   5  involuntary context switches\n           731633808  instructions retired\n           110788666  cycles elapsed\n             2638160  peak memory footprint\n",
+      "summary": {
+        "process_ms_min": 24.629292,
+        "process_ms_median": 26.581458,
+        "process_ms_max": 26.92975,
+        "execute_ms_median": 23.658,
+        "verified": 9
+      }
+    }
+  ]
+}

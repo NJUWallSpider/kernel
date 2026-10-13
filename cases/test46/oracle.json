@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "independent": "Python Fraction; no preparer, kernel, solver, or float arithmetic imports",
+  "seed": 460051,
+  "checks": {
+    "onehot_pairs": 1015,
+    "integer_marginal_tables": 834,
+    "lp_interval_couplings": 8748,
+    "cost_cutoff": 60
+  },
+  "generated_values_sha256": "df50e8da8b8773919c4c6dd00100c0ee2768e71c79e35f0984cfa6556be31318",
+  "scope": "Generalized integer moment uniqueness, binary marginal forcing, exact real interval/corner coupling, and positive-cost cutoff. Full actual model proof is separate."
+}

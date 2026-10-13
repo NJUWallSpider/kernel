@@ -1,0 +1,1 @@
+Later coordination found other case preparation/verification subprocesses might overlap. This is exploratory only. baseline-v1-quiescent is the first run after all three workers explicitly confirmed no active subprocesses.

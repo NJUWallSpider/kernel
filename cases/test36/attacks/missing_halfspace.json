@@ -1,0 +1,42 @@
+{
+  "mutation": "missing_halfspace",
+  "rule_broken": "Removing the domain restriction must not permit the identity projection from arbitrary source points.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "assemble",
+        "cases/test36/attacks/missing_halfspace.rpa",
+        "cases/test36/attacks/missing_halfspace.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":2445644,\"status\":\"ASSEMBLED\",\"total_us\":21094}\n",
+      "stderr": "",
+      "wall_seconds": 0.0276109579999968,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/missing_halfspace.rpx",
+        "cases/test36/attacks/missing_halfspace.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID fact reference or type\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 0.07204862500000075,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpa_sha256": "10d3cde40e0c8ce0e1f2a9c1d8a5b5bbbf811b98c1fb5e3d43460d2d123f08ba",
+  "rpx_sha256": "bef4ca6a10574860c4fa10129c41f49d93a8556f9f438c1765028e66050f83b7",
+  "request": "cases/test36/attacks/missing_halfspace.request.json",
+  "request_sha256": "db5e6bf7d42ae1822e190e81c9fdb45e3d198c890b09b31fb56f689db1812e23",
+  "caller_request_matches_mutated_claim": true
+}

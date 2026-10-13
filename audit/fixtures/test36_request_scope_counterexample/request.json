@@ -1,0 +1,61 @@
+{
+  "claims": [
+    {
+      "reverse": false,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "NonIncreasing",
+      "projection": [],
+      "inverse": null,
+      "input_objective_lower": "0"
+    },
+    {
+      "reverse": true,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "projection": [],
+      "inverse": null
+    }
+  ],
+  "improvements": [
+    {
+      "target": false,
+      "integers": true,
+      "positive": {
+        "constant": "0",
+        "terms": [
+          [
+            1,
+            "1"
+          ]
+        ]
+      }
+    }
+  ],
+  "points": [
+    {
+      "Feasible": {
+        "target": false,
+        "integers": true,
+        "objective": "0"
+      }
+    },
+    {
+      "ImageExclusion": {
+        "point_in_target": false,
+        "map": [
+          {
+            "constant": "0",
+            "terms": [
+              [
+                0,
+                "1"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

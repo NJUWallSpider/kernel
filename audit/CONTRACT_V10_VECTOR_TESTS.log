@@ -1,0 +1,10 @@
+
+running 2 tests
+test independent_combined_image_and_improvement_bytes_match_text_and_verify ... ok
+test independent_combined_vector_rejects_all_truncations_versions_and_reserved_flags ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/crates/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.50s
+     Running tests/contract_v10_vectors.rs (target/debug/deps/contract_v10_vectors-ea801983d052f12e)

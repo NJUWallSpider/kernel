@@ -1,0 +1,1300 @@
+{
+  "case_id": "test10",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/input/model.mps",
+    "sha256": "7de49fa93c12ca12479d782406e9d4b1ae844b2fd93b810be7146efb5f8ac961"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/reformulated.mps",
+    "sha256": "2b303ef650fff92aebff3fe2405c912e19f39ada3e84c32748f891be67acc9f8"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/changes.json",
+    "sha256": "1690ea84de47b48bdc1d04533cdddeff5e8b24df0389e339c3536070b5d6139f"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test10.py",
+    "sha256": "d3ebc984225cc4ad37c8cd13d2f7f2a8dd135c251473d2f69198932fb93a5062"
+  },
+  "counts": {
+    "source_variables": 190402,
+    "target_variables": 190201,
+    "source_rows": 2303,
+    "target_rows": 2105,
+    "eliminated_loads": 200,
+    "tightened_activations": 170,
+    "selector_intervals_per_reverse": 1,
+    "retained_coordinates_per_claim": 190201,
+    "claims": 3,
+    "fiber_contradiction": "159/25",
+    "thresholds": [
+      {
+        "row": "R1901",
+        "M": 303,
+        "threshold": "7963902951/20000000",
+        "box_correction": "4509207458201/100000000",
+        "conditional_fixed_charge": "219837837431/2500000"
+      },
+      {
+        "row": "R1902",
+        "M": 445,
+        "threshold": "52287723489/100000000",
+        "box_correction": "9121311430753/100000000",
+        "conditional_fixed_charge": "257210356051/2500000"
+      },
+      {
+        "row": "R1903",
+        "M": 601,
+        "threshold": "65902164771/100000000",
+        "box_correction": "16174888935163/100000000",
+        "conditional_fixed_charge": "162022766967/5000000"
+      },
+      {
+        "row": "R1904",
+        "M": 620,
+        "threshold": "13574058451/20000000",
+        "box_correction": "3475052042733/20000000",
+        "conditional_fixed_charge": "162022766967/5000000"
+      },
+      {
+        "row": "R1905",
+        "M": 314,
+        "threshold": "4165555611/10000000",
+        "box_correction": "5074352640637/100000000",
+        "conditional_fixed_charge": "405288660887/5000000"
+      },
+      {
+        "row": "R1906",
+        "M": 272,
+        "threshold": "36940261097/100000000",
+        "box_correction": "1839438563493/50000000",
+        "conditional_fixed_charge": "164974606273/1250000"
+      },
+      {
+        "row": "R1907",
+        "M": 632,
+        "threshold": "69060088309/100000000",
+        "box_correction": "9061254767071/50000000",
+        "conditional_fixed_charge": "401919913767/5000000"
+      },
+      {
+        "row": "R1908",
+        "M": 416,
+        "threshold": "6276882001/12500000",
+        "box_correction": "4112134849983/50000000",
+        "conditional_fixed_charge": "699369957217/5000000"
+      },
+      {
+        "row": "R1909",
+        "M": 614,
+        "threshold": "33610316883/50000000",
+        "box_correction": "3394908789643/20000000",
+        "conditional_fixed_charge": "253231413481/2500000"
+      },
+      {
+        "row": "R1910",
+        "M": 481,
+        "threshold": "11126891571/20000000",
+        "box_correction": "10664837355621/100000000",
+        "conditional_fixed_charge": "267611293527/5000000"
+      },
+      {
+        "row": "R1911",
+        "M": 387,
+        "threshold": "47563593261/100000000",
+        "box_correction": "1431838872203/20000000",
+        "conditional_fixed_charge": "130117775071/2500000"
+      },
+      {
+        "row": "R1912",
+        "M": 256,
+        "threshold": "4447394159/12500000",
+        "box_correction": "3322867794061/100000000",
+        "conditional_fixed_charge": "222004015207/5000000"
+      },
+      {
+        "row": "R1913",
+        "M": 580,
+        "threshold": "2593545757/4000000",
+        "box_correction": "15549444123507/100000000",
+        "conditional_fixed_charge": "135749929171/2500000"
+      },
+      {
+        "row": "R1915",
+        "M": 297,
+        "threshold": "39031520809/100000000",
+        "box_correction": "534159999391/12500000",
+        "conditional_fixed_charge": "113085941893/1250000"
+      },
+      {
+        "row": "R1916",
+        "M": 385,
+        "threshold": "9500225189/20000000",
+        "box_correction": "3567532297751/50000000",
+        "conditional_fixed_charge": "623640382587/5000000"
+      },
+      {
+        "row": "R1919",
+        "M": 530,
+        "threshold": "60379435979/100000000",
+        "box_correction": "204289832257/1562500",
+        "conditional_fixed_charge": "394879875323/10000000"
+      },
+      {
+        "row": "R1920",
+        "M": 262,
+        "threshold": "36588695113/100000000",
+        "box_correction": "3584903568331/100000000",
+        "conditional_fixed_charge": "35748768149/625000"
+      },
+      {
+        "row": "R1921",
+        "M": 785,
+        "threshold": "82879784477/100000000",
+        "box_correction": "27824909782463/100000000",
+        "conditional_fixed_charge": "457484235427/5000000"
+      },
+      {
+        "row": "R1922",
+        "M": 285,
+        "threshold": "38106832971/100000000",
+        "box_correction": "4004306368373/100000000",
+        "conditional_fixed_charge": "698088384767/5000000"
+      },
+      {
+        "row": "R1923",
+        "M": 266,
+        "threshold": "3669695457/10000000",
+        "box_correction": "361348795759/10000000",
+        "conditional_fixed_charge": "310476354561/2500000"
+      },
+      {
+        "row": "R1924",
+        "M": 564,
+        "threshold": "63293881751/100000000",
+        "box_correction": "14666140359141/100000000",
+        "conditional_fixed_charge": "471169236137/5000000"
+      },
+      {
+        "row": "R1925",
+        "M": 324,
+        "threshold": "4227035387/10000000",
+        "box_correction": "5271731119873/100000000",
+        "conditional_fixed_charge": "568440037347/5000000"
+      },
+      {
+        "row": "R1926",
+        "M": 459,
+        "threshold": "27039681939/50000000",
+        "box_correction": "1986295562001/20000000",
+        "conditional_fixed_charge": "451478598807/5000000"
+      },
+      {
+        "row": "R1927",
+        "M": 513,
+        "threshold": "7313046887/12500000",
+        "box_correction": "1209324214989/10000000",
+        "conditional_fixed_charge": "697273686617/5000000"
+      },
+      {
+        "row": "R1928",
+        "M": 388,
+        "threshold": "47606949587/100000000",
+        "box_correction": "7176016615503/100000000",
+        "conditional_fixed_charge": "17555778367/312500"
+      },
+      {
+        "row": "R1929",
+        "M": 477,
+        "threshold": "432932061/781250",
+        "box_correction": "10559601863021/100000000",
+        "conditional_fixed_charge": "67561727493/1250000"
+      },
+      {
+        "row": "R1930",
+        "M": 300,
+        "threshold": "39549640251/100000000",
+        "box_correction": "4427927318551/100000000",
+        "conditional_fixed_charge": "226166693337/5000000"
+      },
+      {
+        "row": "R1931",
+        "M": 872,
+        "threshold": "91634266619/100000000",
+        "box_correction": "35072964648793/100000000",
+        "conditional_fixed_charge": "104310033801/2500000"
+      },
+      {
+        "row": "R1932",
+        "M": 315,
+        "threshold": "41663585309/100000000",
+        "box_correction": "2538440919161/50000000",
+        "conditional_fixed_charge": "705287160217/5000000"
+      },
+      {
+        "row": "R1934",
+        "M": 523,
+        "threshold": "29735649939/50000000",
+        "box_correction": "6297912993991/50000000",
+        "conditional_fixed_charge": "67488319473/1250000"
+      },
+      {
+        "row": "R1935",
+        "M": 804,
+        "threshold": "42516542781/50000000",
+        "box_correction": "7383740264563/25000000",
+        "conditional_fixed_charge": "478006387517/5000000"
+      },
+      {
+        "row": "R1936",
+        "M": 451,
+        "threshold": "5301862409/10000000",
+        "box_correction": "4724124141139/50000000",
+        "conditional_fixed_charge": "312613695987/5000000"
+      },
+      {
+        "row": "R1939",
+        "M": 345,
+        "threshold": "5491918253/12500000",
+        "box_correction": "91057646647/1562500",
+        "conditional_fixed_charge": "388350921487/5000000"
+      },
+      {
+        "row": "R1940",
+        "M": 793,
+        "threshold": "84000906997/100000000",
+        "box_correction": "14355466241031/50000000",
+        "conditional_fixed_charge": "489599267547/5000000"
+      },
+      {
+        "row": "R1941",
+        "M": 313,
+        "threshold": "10399469863/25000000",
+        "box_correction": "202249686801/4000000",
+        "conditional_fixed_charge": "572922129947/5000000"
+      },
+      {
+        "row": "R1942",
+        "M": 410,
+        "threshold": "24901126963/50000000",
+        "box_correction": "4026595241277/50000000",
+        "conditional_fixed_charge": "51713055589/625000"
+      },
+      {
+        "row": "R1943",
+        "M": 297,
+        "threshold": "39031520809/100000000",
+        "box_correction": "534159999391/12500000",
+        "conditional_fixed_charge": "483806465827/5000000"
+      },
+      {
+        "row": "R1944",
+        "M": 584,
+        "threshold": "6527826879/10000000",
+        "box_correction": "987828476273/6250000",
+        "conditional_fixed_charge": "541788216997/5000000"
+      },
+      {
+        "row": "R1945",
+        "M": 352,
+        "threshold": "8866196821/20000000",
+        "box_correction": "59658983707/1000000",
+        "conditional_fixed_charge": "639847011267/5000000"
+      },
+      {
+        "row": "R1946",
+        "M": 290,
+        "threshold": "19326722103/50000000",
+        "box_correction": "2080903435957/50000000",
+        "conditional_fixed_charge": "126928347893/1250000"
+      },
+      {
+        "row": "R1947",
+        "M": 319,
+        "threshold": "10462226351/25000000",
+        "box_correction": "205429276779/4000000",
+        "conditional_fixed_charge": "159055391683/1250000"
+      },
+      {
+        "row": "R1948",
+        "M": 491,
+        "threshold": "56361310843/100000000",
+        "box_correction": "11018781351979/100000000",
+        "conditional_fixed_charge": "39792673227/312500"
+      },
+      {
+        "row": "R1949",
+        "M": 286,
+        "threshold": "19081254099/50000000",
+        "box_correction": "804045896659/20000000",
+        "conditional_fixed_charge": "494409298067/5000000"
+      },
+      {
+        "row": "R1950",
+        "M": 526,
+        "threshold": "14957875679/25000000",
+        "box_correction": "6392455967979/50000000",
+        "conditional_fixed_charge": "236209178397/5000000"
+      },
+      {
+        "row": "R1951",
+        "M": 532,
+        "threshold": "30247129503/50000000",
+        "box_correction": "3283891472919/25000000",
+        "conditional_fixed_charge": "115633983041/2500000"
+      },
+      {
+        "row": "R1952",
+        "M": 442,
+        "threshold": "10397839703/20000000",
+        "box_correction": "8988732320933/100000000",
+        "conditional_fixed_charge": "340044201997/5000000"
+      },
+      {
+        "row": "R1953",
+        "M": 735,
+        "threshold": "78791933053/100000000",
+        "box_correction": "12361780016249/50000000",
+        "conditional_fixed_charge": "157865635613/1250000"
+      },
+      {
+        "row": "R1954",
+        "M": 351,
+        "threshold": "22144563987/50000000",
+        "box_correction": "1487791253147/25000000",
+        "conditional_fixed_charge": "293522795481/2500000"
+      },
+      {
+        "row": "R1955",
+        "M": 377,
+        "threshold": "46965603227/100000000",
+        "box_correction": "6930765235627/100000000",
+        "conditional_fixed_charge": "312968235061/2500000"
+      },
+      {
+        "row": "R1956",
+        "M": 322,
+        "threshold": "5245532723/12500000",
+        "box_correction": "1034565472209/20000000",
+        "conditional_fixed_charge": "468192679027/5000000"
+      },
+      {
+        "row": "R1958",
+        "M": 265,
+        "threshold": "36687260179/100000000",
+        "box_correction": "225681828099/6250000",
+        "conditional_fixed_charge": "631818777537/5000000"
+      },
+      {
+        "row": "R1959",
+        "M": 457,
+        "threshold": "6745255609/12500000",
+        "box_correction": "9877646695319/100000000",
+        "conditional_fixed_charge": "694037008517/5000000"
+      },
+      {
+        "row": "R1960",
+        "M": 550,
+        "threshold": "62431468897/100000000",
+        "box_correction": "3546241825593/25000000",
+        "conditional_fixed_charge": "674710017117/5000000"
+      },
+      {
+        "row": "R1961",
+        "M": 414,
+        "threshold": "12503539499/25000000",
+        "box_correction": "407040835387/5000000",
+        "conditional_fixed_charge": "198571397493/5000000"
+      },
+      {
+        "row": "R1963",
+        "M": 403,
+        "threshold": "9790456749/20000000",
+        "box_correction": "1541631984843/20000000",
+        "conditional_fixed_charge": "188908807691/2500000"
+      },
+      {
+        "row": "R1964",
+        "M": 480,
+        "threshold": "55505033869/100000000",
+        "box_correction": "2120516883671/20000000",
+        "conditional_fixed_charge": "653613910017/5000000"
+      },
+      {
+        "row": "R1965",
+        "M": 277,
+        "threshold": "37380868303/100000000",
+        "box_correction": "3799928759331/100000000",
+        "conditional_fixed_charge": "439525297217/5000000"
+      },
+      {
+        "row": "R1966",
+        "M": 419,
+        "threshold": "50351289413/100000000",
+        "box_correction": "8281183174351/100000000",
+        "conditional_fixed_charge": "302622538567/5000000"
+      },
+      {
+        "row": "R1967",
+        "M": 342,
+        "threshold": "43704035011/100000000",
+        "box_correction": "5748165793359/100000000",
+        "conditional_fixed_charge": "304762866141/2500000"
+      },
+      {
+        "row": "R1968",
+        "M": 280,
+        "threshold": "37691211509/100000000",
+        "box_correction": "3886773542301/100000000",
+        "conditional_fixed_charge": "612165565697/5000000"
+      },
+      {
+        "row": "R1969",
+        "M": 273,
+        "threshold": "9262828419/25000000",
+        "box_correction": "3709194481053/100000000",
+        "conditional_fixed_charge": "684616192117/5000000"
+      },
+      {
+        "row": "R1970",
+        "M": 260,
+        "threshold": "9038265557/25000000",
+        "box_correction": "3471183826599/100000000",
+        "conditional_fixed_charge": "637704623287/5000000"
+      },
+      {
+        "row": "R1972",
+        "M": 331,
+        "threshold": "43154187609/100000000",
+        "box_correction": "5562941260929/100000000",
+        "conditional_fixed_charge": "162875842051/2500000"
+      },
+      {
+        "row": "R1973",
+        "M": 414,
+        "threshold": "12503539499/25000000",
+        "box_correction": "407040835387/5000000",
+        "conditional_fixed_charge": "600823009237/5000000"
+      },
+      {
+        "row": "R1974",
+        "M": 299,
+        "threshold": "4933964209/12500000",
+        "box_correction": "4404549344851/100000000",
+        "conditional_fixed_charge": "359339474127/5000000"
+      },
+      {
+        "row": "R1975",
+        "M": 298,
+        "threshold": "39379837123/100000000",
+        "box_correction": "43770782567/1000000",
+        "conditional_fixed_charge": "134485299081/2500000"
+      },
+      {
+        "row": "R1976",
+        "M": 686,
+        "threshold": "37501819981/50000000",
+        "box_correction": "5507546194529/25000000",
+        "conditional_fixed_charge": "67853958763/1250000"
+      },
+      {
+        "row": "R1977",
+        "M": 330,
+        "threshold": "2666957991/6250000",
+        "box_correction": "2701557341343/50000000",
+        "conditional_fixed_charge": "347214546837/5000000"
+      },
+      {
+        "row": "R1978",
+        "M": 510,
+        "threshold": "29205628461/50000000",
+        "box_correction": "12045509688913/100000000",
+        "conditional_fixed_charge": "496549357417/5000000"
+      },
+      {
+        "row": "R1979",
+        "M": 365,
+        "threshold": "45520366473/100000000",
+        "box_correction": "3196402167137/50000000",
+        "conditional_fixed_charge": "590289415007/5000000"
+      },
+      {
+        "row": "R1980",
+        "M": 367,
+        "threshold": "1425404857/3125000",
+        "box_correction": "6426783049897/100000000",
+        "conditional_fixed_charge": "689956145217/5000000"
+      },
+      {
+        "row": "R1982",
+        "M": 340,
+        "threshold": "348651633/800000",
+        "box_correction": "570629873917/10000000",
+        "conditional_fixed_charge": "412537762241/10000000"
+      },
+      {
+        "row": "R1983",
+        "M": 790,
+        "threshold": "83255407921/100000000",
+        "box_correction": "28120636978717/100000000",
+        "conditional_fixed_charge": "703990191467/5000000"
+      },
+      {
+        "row": "R1984",
+        "M": 370,
+        "threshold": "9222881209/20000000",
+        "box_correction": "1322335021823/20000000",
+        "conditional_fixed_charge": "223385735307/5000000"
+      },
+      {
+        "row": "R1985",
+        "M": 336,
+        "threshold": "43444373589/100000000",
+        "box_correction": "2829960033559/50000000",
+        "conditional_fixed_charge": "704919950217/5000000"
+      },
+      {
+        "row": "R1987",
+        "M": 287,
+        "threshold": "19107845639/50000000",
+        "box_correction": "807098605451/20000000",
+        "conditional_fixed_charge": "57487527859/625000"
+      },
+      {
+        "row": "R1988",
+        "M": 256,
+        "threshold": "4447394159/12500000",
+        "box_correction": "3322867794061/100000000",
+        "conditional_fixed_charge": "153316729861/2500000"
+      },
+      {
+        "row": "R1989",
+        "M": 424,
+        "threshold": "3169092437/6250000",
+        "box_correction": "6586260916/78125",
+        "conditional_fixed_charge": "78259084417/2000000"
+      },
+      {
+        "row": "R1990",
+        "M": 359,
+        "threshold": "11253333957/25000000",
+        "box_correction": "1552194990773/25000000",
+        "conditional_fixed_charge": "77268088029/625000"
+      },
+      {
+        "row": "R1991",
+        "M": 404,
+        "threshold": "615248777/1250000",
+        "box_correction": "62530222111/800000",
+        "conditional_fixed_charge": "281151240557/5000000"
+      },
+      {
+        "row": "R1993",
+        "M": 432,
+        "threshold": "25556829981/50000000",
+        "box_correction": "8605387497369/100000000",
+        "conditional_fixed_charge": "639195640947/5000000"
+      },
+      {
+        "row": "R1995",
+        "M": 491,
+        "threshold": "56361310843/100000000",
+        "box_correction": "11018781351979/100000000",
+        "conditional_fixed_charge": "592345161647/5000000"
+      },
+      {
+        "row": "R1996",
+        "M": 336,
+        "threshold": "43444373589/100000000",
+        "box_correction": "2829960033559/50000000",
+        "conditional_fixed_charge": "121854236713/1250000"
+      },
+      {
+        "row": "R1998",
+        "M": 876,
+        "threshold": "4593464969/5000000",
+        "box_correction": "7055733655417/20000000",
+        "conditional_fixed_charge": "385595960267/5000000"
+      },
+      {
+        "row": "R1999",
+        "M": 639,
+        "threshold": "69870093251/100000000",
+        "box_correction": "4659282350889/25000000",
+        "conditional_fixed_charge": "17676689881/156250"
+      },
+      {
+        "row": "R2000",
+        "M": 294,
+        "threshold": "38796698501/100000000",
+        "box_correction": "525463008973/12500000",
+        "conditional_fixed_charge": "451710866007/5000000"
+      },
+      {
+        "row": "R2001",
+        "M": 762,
+        "threshold": "16183284047/20000000",
+        "box_correction": "5261854042269/20000000",
+        "conditional_fixed_charge": "707188085217/5000000"
+      },
+      {
+        "row": "R2002",
+        "M": 590,
+        "threshold": "65500654069/100000000",
+        "box_correction": "3983927324397/25000000",
+        "conditional_fixed_charge": "318684089547/5000000"
+      },
+      {
+        "row": "R2003",
+        "M": 475,
+        "threshold": "55140653241/100000000",
+        "box_correction": "10428803729199/100000000",
+        "conditional_fixed_charge": "504081254937/5000000"
+      },
+      {
+        "row": "R2004",
+        "M": 287,
+        "threshold": "19107845639/50000000",
+        "box_correction": "807098605451/20000000",
+        "conditional_fixed_charge": "249358891157/5000000"
+      },
+      {
+        "row": "R2005",
+        "M": 370,
+        "threshold": "9222881209/20000000",
+        "box_correction": "1322335021823/20000000",
+        "conditional_fixed_charge": "370861280237/5000000"
+      },
+      {
+        "row": "R2006",
+        "M": 397,
+        "threshold": "48463404051/100000000",
+        "box_correction": "117380511137/1562500",
+        "conditional_fixed_charge": "549062658567/5000000"
+      },
+      {
+        "row": "R2007",
+        "M": 740,
+        "threshold": "19842997347/25000000",
+        "box_correction": "6287979451483/25000000",
+        "conditional_fixed_charge": "106524606733/1250000"
+      },
+      {
+        "row": "R2008",
+        "M": 259,
+        "threshold": "3604980173/10000000",
+        "box_correction": "3444336097119/100000000",
+        "conditional_fixed_charge": "125386906613/1250000"
+      },
+      {
+        "row": "R2009",
+        "M": 459,
+        "threshold": "27039681939/50000000",
+        "box_correction": "1986295562001/20000000",
+        "conditional_fixed_charge": "362324027377/5000000"
+      },
+      {
+        "row": "R2010",
+        "M": 431,
+        "threshold": "10221182881/20000000",
+        "box_correction": "1720408283349/20000000",
+        "conditional_fixed_charge": "35441620309/625000"
+      },
+      {
+        "row": "R2011",
+        "M": 282,
+        "threshold": "37875230917/100000000",
+        "box_correction": "1969280709137/50000000",
+        "conditional_fixed_charge": "19956353877/312500"
+      },
+      {
+        "row": "R2012",
+        "M": 331,
+        "threshold": "43154187609/100000000",
+        "box_correction": "5562941260929/100000000",
+        "conditional_fixed_charge": "144997031403/1250000"
+      },
+      {
+        "row": "R2013",
+        "M": 281,
+        "threshold": "2362300537/6250000",
+        "box_correction": "61194473791/1562500",
+        "conditional_fixed_charge": "310606591931/2500000"
+      },
+      {
+        "row": "R2015",
+        "M": 313,
+        "threshold": "10399469863/25000000",
+        "box_correction": "202249686801/4000000",
+        "conditional_fixed_charge": "624602213897/5000000"
+      },
+      {
+        "row": "R2017",
+        "M": 292,
+        "threshold": "19348572181/50000000",
+        "box_correction": "4174523831183/100000000",
+        "conditional_fixed_charge": "542373165817/5000000"
+      },
+      {
+        "row": "R2018",
+        "M": 725,
+        "threshold": "77954132637/100000000",
+        "box_correction": "24109971538309/100000000",
+        "conditional_fixed_charge": "56691268983/1250000"
+      },
+      {
+        "row": "R2021",
+        "M": 256,
+        "threshold": "4447394159/12500000",
+        "box_correction": "3322867794061/100000000",
+        "conditional_fixed_charge": "137749778521/2500000"
+      },
+      {
+        "row": "R2022",
+        "M": 297,
+        "threshold": "39031520809/100000000",
+        "box_correction": "534159999391/12500000",
+        "conditional_fixed_charge": "215157816837/5000000"
+      },
+      {
+        "row": "R2023",
+        "M": 496,
+        "threshold": "2852329293/5000000",
+        "box_correction": "11357191538853/100000000",
+        "conditional_fixed_charge": "68811006599/625000"
+      },
+      {
+        "row": "R2024",
+        "M": 278,
+        "threshold": "18701562397/50000000",
+        "box_correction": "3806116063829/100000000",
+        "conditional_fixed_charge": "155025895471/2500000"
+      },
+      {
+        "row": "R2026",
+        "M": 442,
+        "threshold": "10397839703/20000000",
+        "box_correction": "8988732320933/100000000",
+        "conditional_fixed_charge": "369563068327/5000000"
+      },
+      {
+        "row": "R2027",
+        "M": 683,
+        "threshold": "74475236609/100000000",
+        "box_correction": "10833908716151/50000000",
+        "conditional_fixed_charge": "149808609601/2500000"
+      },
+      {
+        "row": "R2028",
+        "M": 272,
+        "threshold": "36940261097/100000000",
+        "box_correction": "1839438563493/50000000",
+        "conditional_fixed_charge": "150698581401/2500000"
+      },
+      {
+        "row": "R2030",
+        "M": 710,
+        "threshold": "1922959499/2500000",
+        "box_correction": "23366168665241/100000000",
+        "conditional_fixed_charge": "704743258817/5000000"
+      },
+      {
+        "row": "R2031",
+        "M": 326,
+        "threshold": "21163634071/50000000",
+        "box_correction": "5290277486789/100000000",
+        "conditional_fixed_charge": "70320883009/625000"
+      },
+      {
+        "row": "R2032",
+        "M": 292,
+        "threshold": "19348572181/50000000",
+        "box_correction": "4174523831183/100000000",
+        "conditional_fixed_charge": "126871712531/2500000"
+      },
+      {
+        "row": "R2033",
+        "M": 272,
+        "threshold": "36940261097/100000000",
+        "box_correction": "1839438563493/50000000",
+        "conditional_fixed_charge": "238997151731/2500000"
+      },
+      {
+        "row": "R2034",
+        "M": 274,
+        "threshold": "371738579/1000000",
+        "box_correction": "3742771598429/100000000",
+        "conditional_fixed_charge": "441225492567/5000000"
+      },
+      {
+        "row": "R2035",
+        "M": 309,
+        "threshold": "8202193731/20000000",
+        "box_correction": "4873700039963/100000000",
+        "conditional_fixed_charge": "82537159599/625000"
+      },
+      {
+        "row": "R2036",
+        "M": 276,
+        "threshold": "37267173353/100000000",
+        "box_correction": "3768435258181/100000000",
+        "conditional_fixed_charge": "126698447941/2500000"
+      },
+      {
+        "row": "R2037",
+        "M": 302,
+        "threshold": "39808149899/100000000",
+        "box_correction": "4505763906833/100000000",
+        "conditional_fixed_charge": "291685449087/5000000"
+      },
+      {
+        "row": "R2038",
+        "M": 264,
+        "threshold": "3665830611/10000000",
+        "box_correction": "3603236421299/100000000",
+        "conditional_fixed_charge": "462977339227/5000000"
+      },
+      {
+        "row": "R2039",
+        "M": 430,
+        "threshold": "2552144669/5000000",
+        "box_correction": "857487935497/10000000",
+        "conditional_fixed_charge": "305209196851/2500000"
+      },
+      {
+        "row": "R2040",
+        "M": 275,
+        "threshold": "4658157897/12500000",
+        "box_correction": "3767908049329/100000000",
+        "conditional_fixed_charge": "707348602767/5000000"
+      },
+      {
+        "row": "R2041",
+        "M": 373,
+        "threshold": "46339625781/100000000",
+        "box_correction": "1339069142113/20000000",
+        "conditional_fixed_charge": "309584079717/5000000"
+      },
+      {
+        "row": "R2042",
+        "M": 592,
+        "threshold": "16386270799/25000000",
+        "box_correction": "7980990281737/50000000",
+        "conditional_fixed_charge": "403346440517/5000000"
+      },
+      {
+        "row": "R2043",
+        "M": 391,
+        "threshold": "1196238131/2500000",
+        "box_correction": "3635381703857/50000000",
+        "conditional_fixed_charge": "317552374201/2500000"
+      },
+      {
+        "row": "R2044",
+        "M": 328,
+        "threshold": "42588103161/100000000",
+        "box_correction": "671964418429/12500000",
+        "conditional_fixed_charge": "80575312859/625000"
+      },
+      {
+        "row": "R2045",
+        "M": 257,
+        "threshold": "1117088583/3125000",
+        "box_correction": "3365961909749/100000000",
+        "conditional_fixed_charge": "389987792641/10000000"
+      },
+      {
+        "row": "R2046",
+        "M": 601,
+        "threshold": "65902164771/100000000",
+        "box_correction": "16174888935163/100000000",
+        "conditional_fixed_charge": "20422407863/500000"
+      },
+      {
+        "row": "R2047",
+        "M": 819,
+        "threshold": "43129253683/50000000",
+        "box_correction": "30529178410637/100000000",
+        "conditional_fixed_charge": "40124277367/312500"
+      },
+      {
+        "row": "R2049",
+        "M": 271,
+        "threshold": "36932218661/100000000",
+        "box_correction": "1838344792197/50000000",
+        "conditional_fixed_charge": "26439833491/625000"
+      },
+      {
+        "row": "R2051",
+        "M": 285,
+        "threshold": "38106832971/100000000",
+        "box_correction": "4004306368373/100000000",
+        "conditional_fixed_charge": "681793305967/5000000"
+      },
+      {
+        "row": "R2052",
+        "M": 298,
+        "threshold": "39379837123/100000000",
+        "box_correction": "43770782567/1000000",
+        "conditional_fixed_charge": "556157511307/5000000"
+      },
+      {
+        "row": "R2053",
+        "M": 320,
+        "threshold": "41862771139/100000000",
+        "box_correction": "205606758187/4000000",
+        "conditional_fixed_charge": "660266145417/5000000"
+      },
+      {
+        "row": "R2054",
+        "M": 862,
+        "threshold": "18185557361/20000000",
+        "box_correction": "34461483377487/100000000",
+        "conditional_fixed_charge": "403546963073/10000000"
+      },
+      {
+        "row": "R2055",
+        "M": 267,
+        "threshold": "36799310193/100000000",
+        "box_correction": "3640816908931/100000000",
+        "conditional_fixed_charge": "314081806501/2500000"
+      },
+      {
+        "row": "R2056",
+        "M": 256,
+        "threshold": "4447394159/12500000",
+        "box_correction": "3322867794061/100000000",
+        "conditional_fixed_charge": "48880381659/625000"
+      },
+      {
+        "row": "R2057",
+        "M": 543,
+        "threshold": "61774579443/100000000",
+        "box_correction": "13824679230707/100000000",
+        "conditional_fixed_charge": "239300013567/5000000"
+      },
+      {
+        "row": "R2058",
+        "M": 632,
+        "threshold": "69060088309/100000000",
+        "box_correction": "9061254767071/50000000",
+        "conditional_fixed_charge": "220856569487/5000000"
+      },
+      {
+        "row": "R2059",
+        "M": 447,
+        "threshold": "10555153083/20000000",
+        "box_correction": "1167389798761/12500000",
+        "conditional_fixed_charge": "378507700277/5000000"
+      },
+      {
+        "row": "R2060",
+        "M": 498,
+        "threshold": "1790471919/3125000",
+        "box_correction": "11480883251629/100000000",
+        "conditional_fixed_charge": "246760620681/2500000"
+      },
+      {
+        "row": "R2061",
+        "M": 341,
+        "threshold": "10909265737/25000000",
+        "box_correction": "5725261347813/100000000",
+        "conditional_fixed_charge": "70780650409/625000"
+      },
+      {
+        "row": "R2062",
+        "M": 259,
+        "threshold": "3604980173/10000000",
+        "box_correction": "3444336097119/100000000",
+        "conditional_fixed_charge": "709644300117/5000000"
+      },
+      {
+        "row": "R2063",
+        "M": 523,
+        "threshold": "29735649939/50000000",
+        "box_correction": "6297912993991/50000000",
+        "conditional_fixed_charge": "313976412321/2500000"
+      },
+      {
+        "row": "R2064",
+        "M": 774,
+        "threshold": "82137548377/100000000",
+        "box_correction": "27246516144197/100000000",
+        "conditional_fixed_charge": "236493458267/5000000"
+      },
+      {
+        "row": "R2065",
+        "M": 268,
+        "threshold": "36822844759/100000000",
+        "box_correction": "3647124172619/100000000",
+        "conditional_fixed_charge": "96498527413/1250000"
+      },
+      {
+        "row": "R2066",
+        "M": 297,
+        "threshold": "39031520809/100000000",
+        "box_correction": "534159999391/12500000",
+        "conditional_fixed_charge": "187338708111/2500000"
+      },
+      {
+        "row": "R2067",
+        "M": 399,
+        "threshold": "48635010573/100000000",
+        "box_correction": "1516163797217/20000000",
+        "conditional_fixed_charge": "119393761993/1250000"
+      },
+      {
+        "row": "R2068",
+        "M": 789,
+        "threshold": "83225559693/100000000",
+        "box_correction": "28097056878597/100000000",
+        "conditional_fixed_charge": "284116082691/2500000"
+      },
+      {
+        "row": "R2071",
+        "M": 409,
+        "threshold": "621968563/1250000",
+        "box_correction": "4017417619647/50000000",
+        "conditional_fixed_charge": "134037626713/1250000"
+      },
+      {
+        "row": "R2072",
+        "M": 292,
+        "threshold": "19348572181/50000000",
+        "box_correction": "4174523831183/100000000",
+        "conditional_fixed_charge": "221152210907/5000000"
+      },
+      {
+        "row": "R2073",
+        "M": 273,
+        "threshold": "9262828419/25000000",
+        "box_correction": "3709194481053/100000000",
+        "conditional_fixed_charge": "642144341047/5000000"
+      },
+      {
+        "row": "R2074",
+        "M": 769,
+        "threshold": "20438755629/25000000",
+        "box_correction": "13475570906859/50000000",
+        "conditional_fixed_charge": "119210704743/1250000"
+      },
+      {
+        "row": "R2076",
+        "M": 365,
+        "threshold": "45520366473/100000000",
+        "box_correction": "3196402167137/50000000",
+        "conditional_fixed_charge": "9798119041/250000"
+      },
+      {
+        "row": "R2077",
+        "M": 570,
+        "threshold": "63867030729/100000000",
+        "box_correction": "14991457203253/100000000",
+        "conditional_fixed_charge": "384790220617/5000000"
+      },
+      {
+        "row": "R2078",
+        "M": 365,
+        "threshold": "45520366473/100000000",
+        "box_correction": "3196402167137/50000000",
+        "conditional_fixed_charge": "299749442371/2500000"
+      },
+      {
+        "row": "R2079",
+        "M": 256,
+        "threshold": "4447394159/12500000",
+        "box_correction": "3322867794061/100000000",
+        "conditional_fixed_charge": "693358487467/5000000"
+      },
+      {
+        "row": "R2081",
+        "M": 824,
+        "threshold": "87176275177/100000000",
+        "box_correction": "31283791660197/100000000",
+        "conditional_fixed_charge": "671461440317/5000000"
+      },
+      {
+        "row": "R2082",
+        "M": 259,
+        "threshold": "3604980173/10000000",
+        "box_correction": "3444336097119/100000000",
+        "conditional_fixed_charge": "351034250497/5000000"
+      },
+      {
+        "row": "R2083",
+        "M": 371,
+        "threshold": "46260800223/100000000",
+        "box_correction": "6665987349153/100000000",
+        "conditional_fixed_charge": "272910248477/5000000"
+      },
+      {
+        "row": "R2084",
+        "M": 452,
+        "threshold": "10609221581/20000000",
+        "box_correction": "4730335483329/50000000",
+        "conditional_fixed_charge": "431982482577/5000000"
+      },
+      {
+        "row": "R2085",
+        "M": 551,
+        "threshold": "6250275739/10000000",
+        "box_correction": "2844849452403/20000000",
+        "conditional_fixed_charge": "348078726927/5000000"
+      },
+      {
+        "row": "R2087",
+        "M": 557,
+        "threshold": "15688299861/25000000",
+        "box_correction": "7181565189997/50000000",
+        "conditional_fixed_charge": "295468811261/2500000"
+      },
+      {
+        "row": "R2089",
+        "M": 363,
+        "threshold": "45253274161/100000000",
+        "box_correction": "1259086922653/20000000",
+        "conditional_fixed_charge": "302759078011/2500000"
+      },
+      {
+        "row": "R2091",
+        "M": 258,
+        "threshold": "8960279863/25000000",
+        "box_correction": "3390287387117/100000000",
+        "conditional_fixed_charge": "688498527317/5000000"
+      },
+      {
+        "row": "R2092",
+        "M": 513,
+        "threshold": "7313046887/12500000",
+        "box_correction": "1209324214989/10000000",
+        "conditional_fixed_charge": "343807754147/5000000"
+      },
+      {
+        "row": "R2093",
+        "M": 428,
+        "threshold": "50887269599/100000000",
+        "box_correction": "8508047586441/100000000",
+        "conditional_fixed_charge": "8241458863/78125"
+      },
+      {
+        "row": "R2094",
+        "M": 357,
+        "threshold": "44813078651/100000000",
+        "box_correction": "6136961626127/100000000",
+        "conditional_fixed_charge": "160276213881/2500000"
+      },
+      {
+        "row": "R2095",
+        "M": 714,
+        "threshold": "77064817217/100000000",
+        "box_correction": "11735279888603/50000000",
+        "conditional_fixed_charge": "276252998847/5000000"
+      },
+      {
+        "row": "R2096",
+        "M": 264,
+        "threshold": "3665830611/10000000",
+        "box_correction": "3603236421299/100000000",
+        "conditional_fixed_charge": "451161831957/5000000"
+      },
+      {
+        "row": "R2097",
+        "M": 266,
+        "threshold": "3669695457/10000000",
+        "box_correction": "361348795759/10000000",
+        "conditional_fixed_charge": "449193048437/5000000"
+      },
+      {
+        "row": "R2098",
+        "M": 524,
+        "threshold": "59541321441/100000000",
+        "box_correction": "6316258643497/50000000",
+        "conditional_fixed_charge": "527957441127/5000000"
+      },
+      {
+        "row": "R2100",
+        "M": 937,
+        "threshold": "98106780279/100000000",
+        "box_correction": "8183607976219/20000000",
+        "conditional_fixed_charge": "335348901987/5000000"
+      }
+    ]
+  },
+  "preparation_seconds": 46.785452291999995,
+  "rpa_sha256": "c560fdd4ef616f664daee6dfe40d6f00c90098afecddd9d06fd61b2f7060cca8",
+  "rpa_bytes": 109887225,
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test10/source.mcm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.955240707999998,
+      "stdout": "{\"mcm_bytes\":24337297,\"parse_us\":670421,\"read_us\":4430,\"rows\":2303,\"status\":\"CANONICALIZED\",\"total_us\":922402,\"variables\":190402}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test10/target.mcm"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.3823209590000047,
+      "stdout": "{\"mcm_bytes\":25554017,\"parse_us\":971765,\"read_us\":3201,\"rows\":2105,\"status\":\"CANONICALIZED\",\"total_us\":1363034,\"variables\":190201}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test10/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test10/proof.rpx"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.5546903330000035,
+      "stdout": "{\"rpx_bytes\":74866770,\"status\":\"ASSEMBLED\",\"total_us\":1517258}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test10/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test10/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test10/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test10/request.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.804422416999998,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":10582711,\"model_decode_us\":665322,\"points\":1,\"proof_decode_us\":504691,\"read_us\":12309,\"statistics\":{\"bijections\":0,\"branches\":181,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":10,\"interval_generated_terms\":22,\"interval_generated_variables\":2,\"interval_lifts\":2,\"linear_terms\":2542206,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":2099322,\"peak_live_facts\":693,\"plotkin_pairs\":0,\"point_coefficient_terms\":761756,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":3044073,\"work\":56913507},\"status\":\"VERIFIED\",\"total_us\":11765033}\n",
+      "stderr": ""
+    }
+  ],
+  "negative_checks": [],
+  "claims": "Full retained-coordinate MI projection and every objective value in both directions; target LP inclusion with full load and selector reconstruction; a complete source LP point and target observation-fiber refutation prove strict projected LP strengthening. No feasible-point bijection is requested.",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 24337297,
+      "sha256": "53cf00689792ed9aeacbc8dde0e72c9214e4573ac4f0dad625303e2ea2922b38"
+    },
+    "target.mcm": {
+      "bytes": 25554017,
+      "sha256": "432ac441af78ce4e1ddd07ef1742313b7927fe9f193c64a0804bbd0e7b4a64b1"
+    },
+    "proof.rpx": {
+      "bytes": 74866770,
+      "sha256": "13cbaf1ed0729f42bbaec5719df8634dd3796f6dcbcca0137db7e1045b3af9d0"
+    },
+    "request.json": {
+      "bytes": 8465517,
+      "sha256": "c162db8266fe4e64f304e9006fc8422f9460ca03d4e7c78329f6d94418ddc05d"
+    }
+  }
+}

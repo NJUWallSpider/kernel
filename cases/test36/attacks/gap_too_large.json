@@ -1,0 +1,41 @@
+{
+  "mutation": "gap_too_large",
+  "rule_broken": "858 saving is changed to859 without a stronger objective proof.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "assemble",
+        "cases/test36/attacks/gap_too_large.rpa",
+        "cases/test36/attacks/gap_too_large.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":85725520,\"status\":\"ASSEMBLED\",\"total_us\":900179}\n",
+      "stderr": "",
+      "wall_seconds": 0.9745333340000002,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/gap_too_large.rpx",
+        "cases/test36/complete-improvement/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID obligation mismatch: expected Le; obligation 75833\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 2.405672124999999,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpa_sha256": "07b88685c39b86c89eca29f853cdca083d24bb959e87aa4a885853f3c226f0d8",
+  "rpx_sha256": "a119f7b24a6446e9911b574d2853790f2b3c29d1d462d5ba2b1757de968712b6",
+  "request": "cases/test36/complete-improvement/request.json",
+  "request_sha256": "ca96e0e67889b8834be3555f84ffd6bffa80ec09249208b7d674c48ad7bd4528"
+}

@@ -1,0 +1,20 @@
+--- bench/subflow_workloads_v10_draft.json
++++ bench/subflow_workloads_v10_complete.json
+@@ -2,7 +2,7 @@
+   "schema": "fixed-subflow-functional-and-performance-v1",
+   "fixed_on": "2026-10-11",
+   "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+-  "kernel_sha256": "5cb441c3b38ab7b3aea01ca880ef720207001cad9e253b5256b714946c9b1c38",
++  "kernel_sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+   "preparation_repetitions": 3,
+   "verification_repetitions": 9,
+   "rss_repetitions": 3,
+@@ -68,5 +68,7 @@
+   "mathematics": "Bidirectional star plus one loop at every node: m=3n-2. Complete old continuous model has nonnegative coordinates and all n balance equalities, with one unit demand at each non-source node. Width1 uses a single coordinate per arc. Width4 uses positive rational affine sums, so every old coordinate, constant and coefficient is checked. Groups share the old point and scale demands/flows by 1+g/7. Target preserves the complete old domain/objective and appends all joint subflow coordinates, [0,B] bounds, node balances and g<=f rows. Full prefix projection is requested.",
+   "sampling": "Fresh processes; nine verification samples and three separate /usr/bin/time -l RSS samples per workload. Warm filesystem cache after preparation; no forced cache flush. Every process must return VERIFIED and have identical logical statistics. Missing RSS, any nonzero exit or any non-VERIFIED status is a failed workload, never omitted from a timing summary.",
+   "preparation": "Three separate Python exact author processes generate full independent MCM bytes, complete RPA and request; each is followed by the production RPA assembler. Include process wall, internal generation time and assembly cost, all physical sizes and hashes. Synthetic MCM is written directly with the independent documented-format writer, so no synthetic MPS parse cost is implied. Real test58 preparation remains its archived actual receipt and is not remeasured in this matrix.",
+-  "isolation": "Official timing is allowed only after root confirms other owned heavy processes are idle. Preparation diagnostics performed during concurrent functional validation must be labeled non-isolated and excluded from the official report. No production optimization or adaptive scale changes are planned."
++  "isolation": "Official timing is allowed only after root confirms other owned heavy processes are idle. Preparation diagnostics performed during concurrent functional validation must be labeled non-isolated and excluded from the official report. No production optimization or adaptive scale changes are planned.",
++  "build_receipt": "audit/validation/v10-complete-cold-build.json",
++  "build_receipt_sha256": "0cee8b90424ceb90d7e2a9530ec0049c3762ce2ed518cbb2c07ed7d15a0a9531"
+ }

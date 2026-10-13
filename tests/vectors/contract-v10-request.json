@@ -1,0 +1,1 @@
+{"claims":[],"points":[{"ImageExclusion":{"point_in_target":false,"map":[{"constant":"0","terms":[[0,"1"]]}]}}],"improvements":[{"target":false,"integers":true,"positive":{"constant":"0","terms":[[0,"1"]]}},{"target":false,"integers":true,"positive":{"constant":"0","terms":[[0,"1"]]}}]}

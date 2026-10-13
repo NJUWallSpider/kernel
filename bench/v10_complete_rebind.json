@@ -1,0 +1,51 @@
+{
+  "status": "FIXED_BEFORE_FORMAL_MEASUREMENTS",
+  "reason": "Final complete cold build binds all three fixed matrices. Only binary/build receipt identities differ from their original pre-diagnostic configurations. All workload fields, order, sizes, counts and artifact manifests remain unchanged. Prior candidates/diagnostics preserved.",
+  "binary": {
+    "path": "/Users/bhz/Code/kernel/target/validation-v10-complete/release/rpx",
+    "bytes": 1735504,
+    "sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+  },
+  "source_build_receipt": "audit/validation/v10-complete-cold-build.json",
+  "source_build_receipt_sha256": "0cee8b90424ceb90d7e2a9530ec0049c3762ce2ed518cbb2c07ed7d15a0a9531",
+  "configs": [
+    {
+      "original": "bench/subflow_workloads_v10_draft.json",
+      "original_sha256": "560711fc72a1b9d46b75b0f9d61157561483a0e8f4c5d569f74097eab682c4d5",
+      "rebound": "bench/subflow_workloads_v10_complete.json",
+      "rebound_sha256": "211e494d1a552e8bb85cefe9b046eaefd6c3404854fb0967b0b3f72e0ca8fc58",
+      "changed_keys": [
+        "build_receipt",
+        "build_receipt_sha256",
+        "kernel_sha256"
+      ],
+      "normalized_json_diff": "bench/subflow_v10_complete_rebind.diff",
+      "diff_sha256": "a1ab0a22e4a9b1068d0bac58b640aa261a183f5fbe81eabb11ec20ce43e6a834"
+    },
+    {
+      "original": "bench/strict_image_workloads_v10_draft.json",
+      "original_sha256": "cb864b1613fc92a0c6b9be6c8cdde697e38362b8491ed7d6ab2a179c90982468",
+      "rebound": "bench/strict_image_workloads_v10_complete.json",
+      "rebound_sha256": "d805a56d85caf360a8d9172102d31ee2e5cacc2b5fc2f54e4102274cccb3b53a",
+      "changed_keys": [
+        "build_receipt",
+        "build_receipt_sha256",
+        "kernel_sha256"
+      ],
+      "normalized_json_diff": "bench/strict_image_v10_complete_rebind.diff",
+      "diff_sha256": "96cb6eeb2583c4165f5dadbae7cd010595b821e083d496c72cd3dfdd0fa2d710"
+    },
+    {
+      "original": "bench/halfspace_workloads_v10_draft.json",
+      "original_sha256": "768fddf2c4034969eaf2bb40084456f88c451d3d216654f162bc3ce62bcdad95",
+      "rebound": "bench/halfspace_workloads_v10_complete.json",
+      "rebound_sha256": "d3bfe5c075f793f13d211b3a9eb4d13cde13acb892027327e8f621c6864017fc",
+      "changed_keys": [
+        "build_receipt",
+        "build_receipt_sha256"
+      ],
+      "normalized_json_diff": "bench/halfspace_v10_complete_rebind.diff",
+      "diff_sha256": "cc5b56ace8db8f934c0ca12fc4b722ffc3c53e738d69968521c3e549b81db3e8"
+    }
+  ]
+}

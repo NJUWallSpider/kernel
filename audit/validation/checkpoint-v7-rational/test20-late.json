@@ -1,0 +1,58 @@
+{
+  "command": [
+    "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+    "verify",
+    "/Users/bhz/Code/kernel/cases/test20/source.mcm",
+    "/Users/bhz/Code/kernel/cases/test20/target.mcm",
+    "/Users/bhz/Code/kernel/cases/test20/proof.rpx",
+    "/Users/bhz/Code/kernel/cases/test20/request.json"
+  ],
+  "exit_code": 0,
+  "result": {
+    "bijections": 0,
+    "claims": 4,
+    "execute_us": 100371,
+    "model_decode_us": 20667,
+    "points": 0,
+    "proof_decode_us": 11689,
+    "read_us": 2780,
+    "statistics": {
+      "bijections": 0,
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "injectivity_coordinates": 0,
+      "injectivity_generated_rows": 0,
+      "injectivity_generated_terms": 0,
+      "injectivity_generated_variables": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 310774,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 181410,
+      "peak_live_facts": 73,
+      "plotkin_pairs": 0,
+      "point_coefficient_terms": 0,
+      "points": 0,
+      "substitution_terms": 372714,
+      "work": 2499882
+    },
+    "status": "VERIFIED",
+    "total_us": 135507
+  },
+  "stderr": "",
+  "kernel_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": "687454d469b93c8f96207096bfabf75224909727f64a9b77b7db59640dd38f97",
+    "target.mcm": "1888f5e3675cc6ea45dff0a372502fdf3bbca123b7a284d074158f0382a7eb38",
+    "proof.rpx": "c0269c024c0fab19666409c9baaa9374bf2ce24042713583009badf07caf6c5e",
+    "request.json": "60f4ffe91a580bf2e69c1fcdf6212afb43ed98076f1ba48ff22ff1ca91e23c0c"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "lp_borrow_integer",
+  "reason": "The forward claim is switched to LP input while retaining source-integer proof premises.",
+  "base_direction": 0,
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+        "assemble",
+        "cases/test46/attacks/lp_borrow_integer.rpa",
+        "cases/test46/attacks/lp_borrow_integer.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":184634642,\"status\":\"ASSEMBLED\",\"total_us\":1999314}\n",
+      "stderr": "",
+      "wall_seconds": 2.1188436249999825,
+      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/attacks/lp_borrow_integer.rpx",
+        "cases/test46/attacks/lp_borrow_integer.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID fact reference or type\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 1.1410724170000037,
+      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+    }
+  ],
+  "artifacts": {
+    "lp_borrow_integer.rpa": {
+      "sha256": "202cef3717740ec63c91de0fc01059233a0c556fa7f89ba0a1c40f9e0de0bbae",
+      "bytes": 183934851
+    },
+    "lp_borrow_integer.request.json": {
+      "sha256": "1feb6f35e97a48134a1e95a72b6cdc2ae078564173add88454db89eb573bfdae",
+      "bytes": 861799
+    },
+    "lp_borrow_integer.rpx": {
+      "sha256": "c778875dc7594b0e4f7e245978e01296833fd34cb4f11e206f1312632dc1a230",
+      "bytes": 184634642
+    }
+  }
+}

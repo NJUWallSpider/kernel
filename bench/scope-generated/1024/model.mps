@@ -1,0 +1,9 @@
+NAME scope
+ROWS
+ N OBJ
+COLUMNS
+ x OBJ 0
+RHS
+BOUNDS
+ BV b x
+ENDATA

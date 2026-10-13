@@ -1,0 +1,92 @@
+{
+ "case": "test85",
+ "title": "Final commitment: exact binary support-block reformulation",
+ "run_dir": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1",
+ "preparer": {
+  "path": "tools/prepare_test85.py",
+  "lines": 5,
+  "imports": [
+   "prepare_test29:execute,quotient"
+  ],
+  "defs": [
+   "<none: the file is a docstring, one import, and execute(85,lambda a,b,h:quotient(a,b,h,85),__file__) at :5>"
+  ],
+  "effective_generator": {
+   "path": "tools/prepare_test29.py",
+   "lines": 143,
+   "defs": [
+    "prove :13",
+    "split_case :19",
+    "zero_extension :31",
+    "quotient :54",
+    "execute :119"
+   ],
+   "imports": [
+    "prepare_affine:parse_mps,row_ref",
+    "prepare_test40:expression,expr_json,plus,mul,sha",
+    "prepare_test57:substitute",
+    "prepare_test70:SparseBuilder",
+    "prepare_test88:Builder (via prepare_test70)"
+   ]
+  }
+ },
+ "shape": {
+  "orig_vars": 10404,
+  "orig_rows": 40962,
+  "orig_nonzeros": 517112,
+  "orig_integers": 10404,
+  "new_vars": 8560,
+  "new_rows": 1923,
+  "new_nonzeros": 47136,
+  "edits": "delete 1,844 proved-zero binary variables; drop 7,116 automatic zero-positive L rows; replace 33,684 residual support rows x_p<=sum(S) by 1,908 signed reciprocal equalities sum(A)-sum(B)=0 (1,764 emitted, 144 omitted); drop 3 of 162 original exact-one equalities (NOD0,NOD1,NOD21); keep 159 originals",
+  "reductions": "17.72% variables, 95.31% constraints, 90.88% nonzeros"
+ },
+ "reformulation": "Exact binary support-block reformulation: a certified fixed-point zero closure (1,120 empty-support rows -> 1,092 initial -> 1,844 zeros) removes forced-zero coordinates, then every residual reciprocal support block (x_a<=sum(B) for all a in A, x_b<=sum(A) for all b in B, each side inside an exact-one group) is replaced by the equality sum(A)-sum(B)=0, exact on the binary domain; 10,404/40,962 -> 8,560/1,923 vars/rows and 517,112 -> 47,136 constraint nonzeros, objective coefficients preserved (sum=81).",
+ "claim_class": "Weighted two-sided zero-extension bijection over 3 claims (forward integer, reverse integer, reverse LP): identical integer feasible vectors on the 8,560 retained coordinates, every removed coordinate fixed to 0, objective 'Equal' on each claim, both full 10,404-coordinate inverse identities; kernel status VERIFIED.",
+ "claims": [
+  "request.json = 3 claims from the hard-coded triple at tools/prepare_test29.py:36 [(False,True),(True,True),(True,False)]: forward integer (inverse 1), reverse integer (inverse 0), reverse relaxed (input_integers=output_integers=false, inverse null); 303,194 B total.",
+  "Each claim is {reverse,input_integers,output_integers,objective:'Equal',projection:8,560 pairs,inverse}; projection maps target coordinate -> source coordinate (first pair [2,0]), so 8,560 of 10,404 source coordinates are retained.",
+  "Return.checks per claim 46,568 / 89,295 / 70,331 (preparation.json counts.obligations_by_claim); the forward claim's 10,404 coordinate checks are VarLower/VarUpper/VarInt or the literal 'Exact' (tools/prepare_test29.py:47-48).",
+  "One objective obligation per claim: diff = substitute(out.objective,mapping) - inp.objective discharged as an equality with the zero facts (tools/prepare_test29.py:45-46); constant 81 is a preserved-coefficient identity, not an offset.",
+  "Kernel verify statistics (preparation.json kernel_runs[3].stdout): obligations 206,194, branches 3,816, linear_terms 4,332,956, substitution_terms 981,320, work 17,373,584, peak_live_facts 39,375; execute_us 1,488,990."
+ ],
+ "proof_encoding": [
+  "RPA 2 header plus one JSON line {claims:[3],blocks:[3]}, 49,351,343 B (47.1 MB), written by json.dumps(cert,separators=(',',':')) at tools/prepare_test29.py:122; the same cert['claims'] object is written verbatim to request.json.",
+  "steps per claim 39,375 / 38,319 / 38,319; each block is {steps:[...],end:{Return:{map:[expression JSONs],checks:[...]}}} (tools/prepare_test29.py:50), maps holding 8,560 (forward) or 10,404 (reverse) entries.",
+  "Rule census of proof.rpa (verify statistics): linear_terms 4,332,956 dominates; every lift/generated-row counter (flow, interval, menu, signed, plotkin, injectivity, objective_level, points) is 0, so the whole certificate is Lin + EqPair + Cases + VarLower/VarUpper/VarInt facts.",
+  "branches = 3,816 [INFERENCE: two Cases per reciprocal block, one per direction, matching tools/prepare_test29.py:87-95]; each Lin step carries explicit [ref,\"coefficient\"] pairs, which is what makes 5 generator lines weigh 47.1 MB.",
+  "Artifacts: proof.rpx 41,805,160 B, source.mcm 11,704,428 B, target.mcm 1,487,775 B; assemble 1.23 s, verify execute 1.49 s, preparation 43.49 s; RPA text budget is 256 MiB, so this case uses 18% of it."
+ ],
+ "agent_manual_work": [
+  "Wrote two independent exact MPS decoders (token parser for section positions and a fixed-field decoder using line[4:12]/line[24:36] slices) over all 630,257 source lines with fractions.Fraction; eval census: Fraction(13), collections(43), hashlib(4); no framework member and no solver was touched.",
+  "Derived all 1,844 ordered zero derivations by hand (fixed-point support closure) and recorded variable + original_support_row in audit.json['zero_derivations'].",
+  "Derived the block decomposition by hand: 33,684 residual rows grouped into 3,816 classes by (source exact-one group, complete support set), paired into 1,908 reciprocal blocks with a verified unique reverse partner, then 144 edges with category sets partitioning both endpoints.",
+  "Chose the omissions and their certificates by hand: 144 omitted category equalities (largest coefficient count, deterministic tie-break) plus 3 original equalities NOD0/NOD1/NOD21, written into audit.json['edge_dependencies'] and ['removed_original_equalities'].",
+  "Wrote the final fixed-field MPS and a third decoder to audit it (2,109,426 B audit.json, verification.json PASS over 9 named checks, SHA-256 of both models)."
+ ],
+ "preparer_helpers": [
+  "split_case(p,kind,wanted,split,integer,left,right) at tools/prepare_test29.py:19-30 - local Cases constructor that allocates an id, runs two child builders against computed assumptions and appends a raw {'Cases':{...}} dict; duplicates Builder.cases at tools/prepare_test88.py:47-58.",
+  "prove(p,kind,wanted,terms,constant) at tools/prepare_test29.py:13-18 - rule chooser that returns the literal 'Exact' when the wanted fact is trivially true and otherwise emits Lin; decides obligation kind without any kernel-side check.",
+  "zero_extension(a,b,f,zeros,forward_rows,reverse_builder,reverse_rows) at tools/prepare_test29.py:31-51 - the 3-claim envelope: builds map/projection/inverse per claim, emits VarLower/VarUpper/VarInt coordinate checks and the Return map.",
+  "direction(A,B,group) nested at tools/prepare_test29.py:87-95 - per-block half proof: aggregate Lin over the |A| support rows, upper Lin from the group equality plus VarLower facts, Int Lin over VarInt facts, then a Cases split on sum(B) with two Witness Lin branches.",
+  "SparseBuilder.lin(kind,terms,expected,constant) at tools/prepare_test70.py:14-31 - incremental coefficient accumulator whose only preconditions are asserts (kind compatibility, constant sign, Int denominators, exact-residual equality); no typed error, no location."
+ ],
+ "preparer_lines": 5,
+ "friction": [
+  "The 5-line case exists only as an import: tools/prepare_test85.py:3 reuses prepare_test29.quotient, and reuse required forking the shared file - it now carries 'if case==85' at tools/prepare_test29.py:101-102 to rebuild the 3 removed original equalities from audit['removed_original_equalities'].",
+  "Plan-schema knowledge is inline and unnamed: tools/prepare_test29.py:78-79 remaps the agent vocabulary (left_group->left_equality, right_group->right_equality, left_variables->positive_variables, right_variables->negative_variables, retained->omitted) and :55-56 selects d['row'] vs d['original_support_row'] by case number.",
+  "No preflight: 5 lines of Python emit 49,351,343 B / 206,194 obligations / work 17,373,584 with no size or work estimate, and the generator only learns the size from rpa.stat().st_size afterwards (tools/prepare_test29.py:122).",
+  "Failures locate by obligation index only: mutation 'wrong_zero_extension' yields 'INVALID obligation mismatch: expected Eq; obligation 36164' (preparation.json negative_checks[1]); mapping that index back to a block/row/zero record is manual.",
+  "Preconditions are scattered asserts (tools/prepare_test29.py:56, :62, :86, :93-94, :96) that raise bare AssertionError for any of the 1,908 blocks or 1,844 zeros, and the same helper must keep serving test29 (tools/prepare_test29.py:145)."
+ ],
+ "api_needs": [
+  "BATCH_TEMPLATES || shared (test29 runs the same tools/prepare_test29.py quotient) || 1 || 1,908 reciprocal blocks, 1,844 zeros and 3 claim variants are one op over many instances; the 5-line driver (prepare_test85.py:3) expands them to 49,351,343 B of RPA, one [ref,coefficient] pair per occurrence. || {'Batch':{'rule':'reciprocal_block','instances':[['C0000000','NOD0X1','NOD1X1',[A vars],[B vars]],...]}} as one atomic step expanded at assemble time; fn batch(rpa:&mut Rpa,tpl:RuleId,instances:&[Args])->Result<usize,BuildError> || the Python loop at tools/prepare_test29.py:92-95 that materialises 1,908 separate Cases/Lin/EqPair step dicts || tools/prepare_test85.py:3 / tools/prepare_test29.py:92-95 / /tmp/rpx-digests/test85.md (report: 1,908 reciprocal blocks, 144 omitted, 1,764 emitted)",
+  "RULE_BUILDERS || universal || 1 || prepare_test29.py:87-95 hand-assembles 6 Lin steps plus a Cases split per block, and Builder.eqpair (prepare_test88.py:44) checks only kind equality and negation; binary/exact-one preconditions are bare asserts over 206,194 obligations. || fn reciprocal_block(m:&Model,l:RowId,r:RowId,a:&[VarId],b:&[VarId])->Result<EqPair,BuildError> with pre A<=supp(l), B<=supp(r), A and B disjoint, rhs(l)=rhs(r)=1, all binary; BuildError{claim,point,step,rule} || direction() and split_case() (tools/prepare_test29.py:19-30,87-95) plus the assert-only Builder.lin/eqpair (tools/prepare_test88.py:36-46) || tools/prepare_test29.py:87-95 / tools/prepare_test88.py:44-46 / cases/test85/preparation.json (statistics.obligations=206194, linear_terms=4332956)",
+  "REUSE_LIBRARY || shared (test29 - tools/prepare_test29.py:145 is its own entry point) || 2 || test85's generator is 5 lines because tools/prepare_test85.py:3 imports prepare_test29.quotient, and reuse required editing that shared 143-line file, which now carries 'if case==85' at :101 to rebuild 3 removed original equalities. || rules/reciprocal-block.toml {min_format:2,params:[left_group,right_group,left_vars,right_vars],pre:[exact_one,disjoint,binary]} referenced by name from the case plan and hashed into preparation.json; CLI: rpx rule show reciprocal-block || 'from prepare_test29 import execute,quotient' plus the case==85 fork at tools/prepare_test29.py:101-102 || tools/prepare_test85.py:2-5 / tools/prepare_test29.py:101-102 / tools/prepare_test29.py:145",
+  "EDIT_AUDIT || shared (test29 consumes the same helper with balance_classes/zero_deductions) || 2 || Construction is driven by the agent's 2,109,426 B audit.json, whose keys are remapped inline (prepare_test29.py:78-79) and whose field names change by case (:55-56); nothing validates the plan against source/target first. || Plan::load(p)->Result<Plan,PlanError> over versioned records Zero{variable,row}, Block{name,lgroup,rgroup,lvars,rvars,retained}, RemovedEq{row,combination}; Plan::validate(&source,&target) before emitting any step || the inline audit remap (tools/prepare_test29.py:78-79) and the case-keyed field choice at :55-56 || tools/prepare_test29.py:55-56,78-79 / /Users/bhz/Code/reform_test/runs/test85-nomf-B1/output/audit.json (schema exact-support-reformulation-1)",
+  "CLAIM_PLANNING || universal || 3 || The 3-claim contract is hard-coded at tools/prepare_test29.py:36 as [(False,True),(True,True),(True,False)]; each claim's 8,560-entry projection, coordinate checks and inverse flag 1/0/null are built by hand at :32-49. || fn claims(plan:&Plan,source:&Model,target:&Model)->Vec<Claim>; Claim{reverse,input_integers,output_integers,objective,projection,inverse,obligations}; CLI rpx plan source.mcm target.mcm --plan plan.json --out request.json || the hard-coded triple at tools/prepare_test29.py:36 and the hand-built projection/inverse maps at :32-49 || tools/prepare_test29.py:36,45-49 / cases/test85/request.json (3 claims, 8560-entry projections, inverse 1/0/null)",
+  "WORK_PREFLIGHT || universal || 3 || 5 lines of Python emit 49,351,343 B RPA, 206,194 obligations and work 17,373,584 with no estimate, while verify reports peak_live_facts 39,375 against a 256 MiB RPA text budget; batched vs expanded form must be chosen before writing. || fn preflight(plan:&Plan,source:&Model,target:&Model,limits:&Limits)->Preflight{per_claim:[{work,obligations,peak_live_facts,text_bytes}],expanded_bytes,batched_bytes}; CLI rpx preflight source.mcm target.mcm request.json --rpa proof.rpa || nothing - the generator only learns its size from rpa.stat().st_size after writing 47.1 MB (tools/prepare_test29.py:122) || cases/test85/preparation.json (rpa_bytes=49351343, kernel_runs[3].stdout statistics) / tools/prepare_test29.py:122"
+ ],
+ "top_capability": "BATCH_TEMPLATES",
+ "notes": "verify: 206,194 obligations, work 17,373,584, branches 3,816, all lift/menu counters 0; audit zeros carry only {variable,original_support_row}, so all 1,844 take the short circuit at prepare_test29.py:59."
+}

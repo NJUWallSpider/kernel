@@ -1,0 +1,153 @@
+{
+  "case_id": "test11",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test11-nomf-B1/input/model.mps",
+    "sha256": "5eba0cee82ebced037c1c8a33653bf4be2380d010c4fdbac97ce203e741806a7"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test11-nomf-B1/output/model_reformulated.mps",
+    "sha256": "67e1b696b67674283e1fdc76cc7f8c07e5320de75a6ef5743ea57f4d95ea1743"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test11-nomf-B1/output/audit.json",
+    "sha256": "c0cf0332aa24a40e0c9edde5a062f621bdeac77c584175194fb925ce63c6533d"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test11.py",
+    "sha256": "2bbbff8aa8d8c072f88cf4190adb981800069fa7c3a789ee70b4174497095dcb"
+  },
+  "claims": "Full integer and LP affine bijections with all retained-coordinate observations, exact objective equality and both complete inverse identities. Actual source equalities justify every alias, while exact target box and dominance deductions restore all removed source rows.",
+  "counts": {
+    "source_variables": 62529,
+    "target_variables": 40488,
+    "source_rows": 121161,
+    "target_rows": 90561,
+    "aliases": 22041,
+    "box_redundancies": 6543,
+    "dominance_redundancies": 2016,
+    "claims": 4,
+    "obligations_by_claim": [
+      265483,
+      305155,
+      256411,
+      296083
+    ]
+  },
+  "preparation_seconds": 31.662932125,
+  "rpa_sha256": "df5c79482f3fa42a959199e7056f1c235f9943f706deb47c3bff91aaa40604c2",
+  "rpa_bytes": 41081450,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test11-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test11/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":17444972,\"parse_us\":380229,\"read_us\":10883,\"rows\":121161,\"status\":\"CANONICALIZED\",\"total_us\":522105,\"variables\":62529}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test11-nomf-B1/output/model_reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test11/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":13768240,\"parse_us\":295262,\"read_us\":2335,\"rows\":90561,\"status\":\"CANONICALIZED\",\"total_us\":402054,\"variables\":40488}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test11/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test11/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":27215640,\"status\":\"ASSEMBLED\",\"total_us\":355792}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test11/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test11/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test11/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test11/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":2216122,\"model_decode_us\":295383,\"points\":0,\"proof_decode_us\":118098,\"read_us\":6992,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":1027916,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":1123132,\"peak_live_facts\":39858,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":1863428,\"work\":13004302},\"status\":\"VERIFIED\",\"total_us\":2636595}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 17444972,
+      "sha256": "dd09277a86615947e6036bf98d22641b95572ad14052cb3ae421e6371025982e"
+    },
+    "target.mcm": {
+      "bytes": 13768240,
+      "sha256": "76a26a5b514b027bef61f507c764f0b55690cd9465d3cae426130cf5ab8220c7"
+    },
+    "proof.rpx": {
+      "bytes": 27215640,
+      "sha256": "457d2a4b4efa1e3fe2d2af494be71247b0b80f83779305f4088c33e68ab749f9"
+    },
+    "request.json": {
+      "bytes": 2178892,
+      "sha256": "f66b75fab7bbd24c56d39479b0549bd3361a7639b895289e0e2815856bb7c369"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_alias",
+      "rule_broken": "Drops an actual alias equality from a changed retained row proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 71908",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "ccc44247b01c201814831ec360825491efad32db04ea8be0336d8d8e97dbdd00",
+      "rpx_sha256": "80386abcaea45333c7b528421ffd4984f2ff1915e25db81ebb517add817dee45"
+    },
+    {
+      "mutation": "wrong_recovery",
+      "rule_broken": "Recovers an eliminated alias with the wrong constant.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 225288",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "e5c00435ae0f698a41bbb947825e7a43b0b75ca47f56d45f44c4abfc7eb6ceb0",
+      "rpx_sha256": "21da5e36897bec5f9cf59d0ace59613a8250de09c254226fcc9213905f4a692c"
+    },
+    {
+      "mutation": "missing_dominance",
+      "rule_broken": "Drops a target dominance-row premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 106047",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "857d09ddd1ecf3318dd18799e3d3e33947d29f48fe242c1f010680ccfc2a9f0e",
+      "rpx_sha256": "433a8269049e4dc82f95f679c4e17268288021ebdfbd0163315274dc217246b1"
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits one requested full inverse coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "1fe938fb04b0ed32fc72cfe713696c12c71695df338d5a0bc87d844a4a978e53",
+      "rpx_sha256": "4385fae0eb98e3d0c4ef1cfdb3d36b52dc8939ac352d208e8b6120cdd28c4ac9"
+    }
+  ]
+}

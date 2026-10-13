@@ -1,0 +1,111 @@
+{
+  "case_id": "test65",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/input/model.mps",
+    "sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/output/model_reformulated.mps",
+    "sha256": "8abffc6ef1543f8df63b477286ca98334a931c24db4e3bc5b6a1a5fc50890a6b"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/output/audit.json",
+    "sha256": "917ad1c19771b6552eaa2c31263b7cff81892928af3d7568b47343cdd706d59c"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_affine.py",
+    "sha256": "54f89df9cc66ccc2fa7fb2992771ef9ca9b42ed9098c2f86e8491b3c0fea5858"
+  },
+  "claims": "Original-coordinate feasible-set equality, including integer and LP domains, pointwise objective equality, every coordinate preserved, both affine inverse identities.",
+  "counts": {
+    "source_variables": 154978,
+    "target_variables": 154978,
+    "source_rows": 277594,
+    "target_rows": 225040,
+    "claims": 4,
+    "obligations_by_claim": [
+      716263,
+      768817,
+      689976,
+      742530
+    ],
+    "linear_steps_by_claim": [
+      0,
+      52554,
+      0,
+      52554
+    ]
+  },
+  "independent_parse_seconds": 6.890020625,
+  "preparation_seconds": 61.439372125,
+  "rpa_sha256": "e5e8e733495e6353e2baba911c5cdcf3ebc6ed1348143d9b0e9a577de2f8a969",
+  "rpa_bytes": 91484236,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test65/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":32241762,\"parse_us\":544866,\"read_us\":14136,\"rows\":277594,\"status\":\"CANONICALIZED\",\"total_us\":739489,\"variables\":154978}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/output/model_reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test65/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":27144024,\"parse_us\":427934,\"read_us\":6574,\"rows\":225040,\"status\":\"CANONICALIZED\",\"total_us\":573923,\"variables\":154978}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test65/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test65/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":57125072,\"status\":\"ASSEMBLED\",\"total_us\":564783}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test65/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test65/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test65/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test65/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"claims\":4,\"execute_us\":3853224,\"model_decode_us\":374677,\"proof_decode_us\":178589,\"read_us\":12033,\"statistics\":{\"branches\":0,\"linear_terms\":630648,\"obligations\":2917586,\"peak_live_facts\":52554,\"substitution_terms\":3735424,\"work\":22434220},\"status\":\"VERIFIED\",\"total_us\":4418523}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "c699e384668b14aab4c38b3cb9545f7142d77d2f2d742bd0bbd167570a5d9fe5",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 32241762,
+      "sha256": "e0139d8fc958d4c57d6debf7b405649a504168c645c604925174692dbf694745"
+    },
+    "target.mcm": {
+      "bytes": 27144024,
+      "sha256": "140bbcf1ed4dab613f90b65892e00a9ceeda112288b00012bd51c24eac4dc496"
+    },
+    "proof.rpx": {
+      "bytes": 57125072,
+      "sha256": "a6df2695309353b3527397f66e1a128b82222a4629b1995e18b591a1833d444a"
+    },
+    "request.json": {
+      "bytes": 9030156,
+      "sha256": "6ac9d5593f2e1be082629965685d431609a59ec9b6eebee7de2b550ae7808c39"
+    }
+  }
+}

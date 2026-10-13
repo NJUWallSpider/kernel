@@ -1,0 +1,3185 @@
+{
+  "seed": 1179206226,
+  "cases": [
+    {
+      "lower": [
+        "3",
+        "-6"
+      ],
+      "upper": [
+        "10/3",
+        "-25/6"
+      ],
+      "coefficients": [
+        "2",
+        "2"
+      ],
+      "constant": "5/9",
+      "minimum": "-49/9",
+      "maximum": "-10/9",
+      "output_lower": "-317/45",
+      "output_upper": "22/45",
+      "point": "-14/45",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1",
+        "6",
+        "-9/5"
+      ],
+      "upper": [
+        "7/5",
+        "34/5",
+        "-22/15"
+      ],
+      "coefficients": [
+        "-4/3",
+        "0",
+        "4/3"
+      ],
+      "constant": "-2/5",
+      "minimum": "-14/3",
+      "maximum": "-166/45",
+      "output_lower": "-26/3",
+      "output_upper": "14/45",
+      "point": "-20/3",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1",
+        "-10/9",
+        "-2",
+        "-9/11"
+      ],
+      "upper": [
+        "15/4",
+        "22/45",
+        "-7/4",
+        "-5/33"
+      ],
+      "coefficients": [
+        "-4/5",
+        "-1",
+        "6/5",
+        "-5/6"
+      ],
+      "constant": "-4/3",
+      "minimum": "-1405/198",
+      "maximum": "-1208/495",
+      "output_lower": "-1537/198",
+      "output_upper": "-878/495",
+      "point": "-1049/220",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-3/11",
+        "-8/7",
+        "0",
+        "-1/4",
+        "2/3"
+      ],
+      "upper": [
+        "-3/11",
+        "-17/21",
+        "11/13",
+        "3/8",
+        "41/21"
+      ],
+      "coefficients": [
+        "1/6",
+        "-1/7",
+        "2",
+        "-1/8",
+        "-3/7"
+      ],
+      "constant": "1/3",
+      "minimum": "-16561/34496",
+      "maximum": "1270669/672672",
+      "output_lower": "-68305/34496",
+      "output_upper": "2279677/672672",
+      "point": "1775173/672672",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1",
+        "-1/5"
+      ],
+      "upper": [
+        "23/12",
+        "29/30"
+      ],
+      "coefficients": [
+        "5/3",
+        "-1"
+      ],
+      "constant": "-3/4",
+      "minimum": "-1/20",
+      "maximum": "119/45",
+      "output_lower": "-81/20",
+      "output_upper": "299/45",
+      "point": "-41/20",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/4",
+        "-4",
+        "0"
+      ],
+      "upper": [
+        "39/44",
+        "-3",
+        "1"
+      ],
+      "coefficients": [
+        "-2/3",
+        "-2/5",
+        "4/3"
+      ],
+      "constant": "0",
+      "minimum": "67/110",
+      "maximum": "83/30",
+      "output_lower": "-43/110",
+      "output_upper": "113/30",
+      "point": "557/330",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-7/8",
+        "0",
+        "-1/5",
+        "7/4"
+      ],
+      "upper": [
+        "-1/8",
+        "2/3",
+        "9/5",
+        "103/52"
+      ],
+      "coefficients": [
+        "-5/9",
+        "-8/9",
+        "-2",
+        "-7/8"
+      ],
+      "constant": "0",
+      "minimum": "-328891/56160",
+      "maximum": "-929/1440",
+      "output_lower": "-441211/56160",
+      "output_upper": "1951/1440",
+      "point": "511/1440",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/9",
+        "-3",
+        "3/8",
+        "-3/11",
+        "3/10"
+      ],
+      "upper": [
+        "35/18",
+        "-9/7",
+        "13/8",
+        "52/11",
+        "4/5"
+      ],
+      "coefficients": [
+        "4/3",
+        "6",
+        "1/6",
+        "2",
+        "6"
+      ],
+      "constant": "8/7",
+      "minimum": "-2559989/166320",
+      "maximum": "1754101/166320",
+      "output_lower": "-2975789/166320",
+      "output_upper": "2169901/166320",
+      "point": "-2767889/166320",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "4/7",
+        "-5/6"
+      ],
+      "upper": [
+        "4/7",
+        "-1/3"
+      ],
+      "coefficients": [
+        "-4/9",
+        "-3/2"
+      ],
+      "constant": "-1/2",
+      "minimum": "-16/63",
+      "maximum": "125/252",
+      "output_lower": "-505/252",
+      "output_upper": "283/126",
+      "point": "61/504",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-7/2",
+        "5/6",
+        "-1/2"
+      ],
+      "upper": [
+        "-53/18",
+        "73/66",
+        "7/6"
+      ],
+      "coefficients": [
+        "-4/3",
+        "-2",
+        "7/4"
+      ],
+      "constant": "-2/3",
+      "minimum": "409/2376",
+      "maximum": "35/8",
+      "output_lower": "-1175/2376",
+      "output_upper": "121/24",
+      "point": "113/24",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "2/3",
+        "4",
+        "5/4",
+        "1"
+      ],
+      "upper": [
+        "17/3",
+        "23/5",
+        "5/4",
+        "13/4"
+      ],
+      "coefficients": [
+        "1",
+        "-7/4",
+        "-4/3",
+        "-3"
+      ],
+      "constant": "8/3",
+      "minimum": "-242/15",
+      "maximum": "-10/3",
+      "output_lower": "-52/3",
+      "output_upper": "-32/15",
+      "point": "-251/15",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "-9/8",
+        "-5/7",
+        "-7/3",
+        "2/5"
+      ],
+      "upper": [
+        "2/5",
+        "9/8",
+        "43/28",
+        "23/3",
+        "7/5"
+      ],
+      "coefficients": [
+        "-8/3",
+        "5/3",
+        "1",
+        "-4",
+        "-7/2"
+      ],
+      "constant": "0",
+      "minimum": "-32947/840",
+      "maximum": "3923/280",
+      "output_lower": "-34627/840",
+      "output_upper": "4483/280",
+      "point": "-10589/840",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1/9",
+        "-6"
+      ],
+      "upper": [
+        "31/45",
+        "-27/5"
+      ],
+      "coefficients": [
+        "1/3",
+        "2/7"
+      ],
+      "constant": "-4/5",
+      "minimum": "-2411/945",
+      "maximum": "-1997/945",
+      "output_lower": "-3671/945",
+      "output_upper": "-737/945",
+      "point": "-1367/945",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "2",
+        "-3/8",
+        "3/5"
+      ],
+      "upper": [
+        "10/3",
+        "69/8",
+        "17/20"
+      ],
+      "coefficients": [
+        "-1/6",
+        "3",
+        "0"
+      ],
+      "constant": "2",
+      "minimum": "23/72",
+      "maximum": "661/24",
+      "output_lower": "-73/72",
+      "output_upper": "231/8",
+      "point": "-25/72",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-7/3",
+        "2/3",
+        "-3/2",
+        "-2/5"
+      ],
+      "upper": [
+        "-4/3",
+        "29/21",
+        "-19/26",
+        "7/45"
+      ],
+      "coefficients": [
+        "1/6",
+        "1",
+        "2/5",
+        "-6/5"
+      ],
+      "constant": "7/4",
+      "minimum": "1117/900",
+      "maximum": "253597/81900",
+      "output_lower": "-1583/900",
+      "output_upper": "499297/81900",
+      "point": "88811/40950",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "5/3",
+        "-7/2",
+        "-9/7",
+        "-1/3",
+        "7/10"
+      ],
+      "upper": [
+        "71/39",
+        "1/2",
+        "-2/7",
+        "0",
+        "28/15"
+      ],
+      "coefficients": [
+        "-1/3",
+        "-5/6",
+        "-2/7",
+        "-6/5",
+        "-4"
+      ],
+      "constant": "-7",
+      "minimum": "-1766743/114660",
+      "maximum": "-58843/8820",
+      "output_lower": "-1812607/114660",
+      "output_upper": "-11063/1764",
+      "point": "-57079/8820",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-5/4",
+        "0"
+      ],
+      "upper": [
+        "-33/52",
+        "2/5"
+      ],
+      "coefficients": [
+        "-6",
+        "-1/2"
+      ],
+      "constant": "-8/5",
+      "minimum": "261/130",
+      "maximum": "59/10",
+      "output_lower": "1309/1170",
+      "output_upper": "611/90",
+      "point": "1829/1170",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-5",
+        "2",
+        "6/5"
+      ],
+      "upper": [
+        "-14/3",
+        "32/11",
+        "6/5"
+      ],
+      "coefficients": [
+        "-3/2",
+        "-2/7",
+        "8"
+      ],
+      "constant": "1/2",
+      "minimum": "12527/770",
+      "maximum": "596/35",
+      "output_lower": "11911/770",
+      "output_upper": "624/35",
+      "point": "25639/1540",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1/7",
+        "-3/4",
+        "-11/9",
+        "1/11"
+      ],
+      "upper": [
+        "-6/91",
+        "3/4",
+        "1/36",
+        "29/77"
+      ],
+      "coefficients": [
+        "-8/7",
+        "1",
+        "5/8",
+        "-1/2"
+      ],
+      "constant": "2/3",
+      "minimum": "-484415/504504",
+      "maximum": "240895/155232",
+      "output_lower": "-628559/504504",
+      "output_upper": "285247/155232",
+      "point": "263071/155232",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-3",
+        "-10/9",
+        "2",
+        "0",
+        "7/3"
+      ],
+      "upper": [
+        "-33/13",
+        "-1/9",
+        "21/8",
+        "7/10",
+        "71/15"
+      ],
+      "coefficients": [
+        "7/3",
+        "-5/9",
+        "-1",
+        "1",
+        "-2/3"
+      ],
+      "constant": "3/2",
+      "minimum": "-36349/3240",
+      "maximum": "-35072/5265",
+      "output_lower": "-45421/3240",
+      "output_upper": "-4066/1053",
+      "point": "-8177/648",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/10",
+        "-3/5"
+      ],
+      "upper": [
+        "103/110",
+        "19/60"
+      ],
+      "coefficients": [
+        "0",
+        "7/3"
+      ],
+      "constant": "-4/3",
+      "minimum": "-41/15",
+      "maximum": "-107/180",
+      "output_lower": "-47/15",
+      "output_upper": "-7/36",
+      "point": "-599/360",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1",
+        "7/5",
+        "-1/2"
+      ],
+      "upper": [
+        "2/7",
+        "9/5",
+        "-1/10"
+      ],
+      "coefficients": [
+        "-1/3",
+        "-5/9",
+        "-1/9"
+      ],
+      "constant": "-5/2",
+      "minimum": "-1129/315",
+      "maximum": "-26/9",
+      "output_lower": "-1444/315",
+      "output_upper": "-17/9",
+      "point": "-43/18",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/2",
+        "-5/6",
+        "1",
+        "-1/2"
+      ],
+      "upper": [
+        "45/26",
+        "2/3",
+        "12/11",
+        "1/2"
+      ],
+      "coefficients": [
+        "-5/2",
+        "3/2",
+        "1/3",
+        "2/3"
+      ],
+      "constant": "-3",
+      "minimum": "-223/26",
+      "maximum": "-667/132",
+      "output_lower": "-327/26",
+      "output_upper": "-139/132",
+      "point": "-275/26",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-8/11",
+        "1/2",
+        "-1/11",
+        "-10/9",
+        "-1/11"
+      ],
+      "upper": [
+        "-2/33",
+        "5/2",
+        "43/11",
+        "13/18",
+        "91/88"
+      ],
+      "coefficients": [
+        "5/9",
+        "8/5",
+        "1",
+        "-5",
+        "1/2"
+      ],
+      "constant": "-1/3",
+      "minimum": "-608/165",
+      "maximum": "64697/4752",
+      "output_lower": "-1433/165",
+      "output_upper": "88457/4752",
+      "point": "235933/47520",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-11",
+        "-10/3"
+      ],
+      "upper": [
+        "1",
+        "26/3"
+      ],
+      "coefficients": [
+        "-5/4",
+        "-4/3"
+      ],
+      "constant": "-4/5",
+      "minimum": "-2449/180",
+      "maximum": "3131/180",
+      "output_lower": "-2509/180",
+      "output_upper": "3191/180",
+      "point": "3161/180",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-10/9",
+        "-9/11",
+        "-1"
+      ],
+      "upper": [
+        "2/9",
+        "87/55",
+        "0"
+      ],
+      "coefficients": [
+        "-1/4",
+        "-8/3",
+        "-1/7"
+      ],
+      "constant": "3",
+      "minimum": "-1261/990",
+      "maximum": "7765/1386",
+      "output_lower": "-3241/990",
+      "output_upper": "10537/1386",
+      "point": "-2251/990",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-4/3",
+        "2",
+        "-3/2",
+        "-5/8"
+      ],
+      "upper": [
+        "5/12",
+        "23/7",
+        "-1/2",
+        "5/8"
+      ],
+      "coefficients": [
+        "-7/6",
+        "1",
+        "-2/3",
+        "5/4"
+      ],
+      "constant": "-1/7",
+      "minimum": "1861/2016",
+      "maximum": "13063/2016",
+      "output_lower": "517/2016",
+      "output_upper": "14407/2016",
+      "point": "533/144",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/5",
+        "-3/4",
+        "-1/2",
+        "-2/5",
+        "-2"
+      ],
+      "upper": [
+        "18/5",
+        "29/20",
+        "0",
+        "21/10",
+        "-5/3"
+      ],
+      "coefficients": [
+        "1",
+        "7/2",
+        "1",
+        "2",
+        "-1/3"
+      ],
+      "constant": "1/3",
+      "minimum": "-1237/360",
+      "maximum": "111/8",
+      "output_lower": "-449/72",
+      "output_upper": "667/40",
+      "point": "611/40",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "0"
+      ],
+      "upper": [
+        "0",
+        "1"
+      ],
+      "coefficients": [
+        "-4/5",
+        "7/5"
+      ],
+      "constant": "4/7",
+      "minimum": "4/7",
+      "maximum": "97/35",
+      "output_lower": "-17/7",
+      "output_upper": "202/35",
+      "point": "-13/14",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "2",
+        "-3/4"
+      ],
+      "upper": [
+        "4/3",
+        "2",
+        "-13/44"
+      ],
+      "coefficients": [
+        "3",
+        "-2/3",
+        "1/3"
+      ],
+      "constant": "-1/3",
+      "minimum": "-23/12",
+      "maximum": "295/132",
+      "output_lower": "-109/36",
+      "output_upper": "1325/396",
+      "point": "7/44",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-5/8",
+        "0",
+        "5/11",
+        "3"
+      ],
+      "upper": [
+        "-13/40",
+        "2/3",
+        "7/11",
+        "13/3"
+      ],
+      "coefficients": [
+        "-4/3",
+        "4/3",
+        "1/6",
+        "-7/5"
+      ],
+      "constant": "-7/9",
+      "minimum": "-3136/495",
+      "maximum": "-1559/495",
+      "output_lower": "-6601/495",
+      "output_upper": "1906/495",
+      "point": "347/990",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "7/4",
+        "-4/5",
+        "3/10",
+        "1/3",
+        "-8/9"
+      ],
+      "upper": [
+        "19/4",
+        "4/45",
+        "43/10",
+        "37/39",
+        "-8/9"
+      ],
+      "coefficients": [
+        "-1/5",
+        "-3/4",
+        "-4/7",
+        "0",
+        "4"
+      ],
+      "constant": "3/5",
+      "minimum": "-8101/1260",
+      "maximum": "-725/252",
+      "output_lower": "-16921/1260",
+      "output_upper": "1039/252",
+      "point": "-12511/1260",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "7/8",
+        "-1"
+      ],
+      "upper": [
+        "23/8",
+        "3"
+      ],
+      "coefficients": [
+        "1",
+        "1/8"
+      ],
+      "constant": "-3/4",
+      "minimum": "0",
+      "maximum": "5/2",
+      "output_lower": "-4",
+      "output_upper": "13/2",
+      "point": "5/4",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1/6",
+        "-11/9",
+        "-4/9"
+      ],
+      "upper": [
+        "59/78",
+        "-80/117",
+        "-5/18"
+      ],
+      "coefficients": [
+        "-7/3",
+        "-8/7",
+        "7/9"
+      ],
+      "constant": "-6/7",
+      "minimum": "-32231/14742",
+      "maximum": "404/567",
+      "output_lower": "-91199/14742",
+      "output_upper": "2672/567",
+      "point": "1538/567",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "7/10",
+        "-8/11",
+        "-1",
+        "-5/8"
+      ],
+      "upper": [
+        "11/5",
+        "13/88",
+        "-9/11",
+        "-1/24"
+      ],
+      "coefficients": [
+        "-7/6",
+        "-4/9",
+        "-2",
+        "-6/7"
+      ],
+      "constant": "-7/8",
+      "minimum": "-50873/27720",
+      "maximum": "32357/27720",
+      "output_lower": "-438953/27720",
+      "output_upper": "420437/27720",
+      "point": "-244913/27720",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "4",
+        "1/5",
+        "-10",
+        "-7/9"
+      ],
+      "upper": [
+        "-3/10",
+        "45/11",
+        "11/30",
+        "-28/3",
+        "35/36"
+      ],
+      "coefficients": [
+        "7/4",
+        "7/9",
+        "-1/2",
+        "-1/3",
+        "-4/7"
+      ],
+      "constant": "-1",
+      "minimum": "41/15",
+      "maximum": "4225/792",
+      "output_lower": "7/5",
+      "output_upper": "5281/792",
+      "point": "31949/7920",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "4/3",
+        "-5/4"
+      ],
+      "upper": [
+        "23/15",
+        "-7/12"
+      ],
+      "coefficients": [
+        "-1/5",
+        "-8"
+      ],
+      "constant": "-1/7",
+      "minimum": "738/175",
+      "maximum": "1007/105",
+      "output_lower": "563/175",
+      "output_upper": "1112/105",
+      "point": "2119/210",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/8",
+        "3/4",
+        "-5/11"
+      ],
+      "upper": [
+        "7/8",
+        "11/4",
+        "12/143"
+      ],
+      "coefficients": [
+        "-1",
+        "0",
+        "-1/9"
+      ],
+      "constant": "-3/7",
+      "minimum": "-31541/24024",
+      "maximum": "-4175/5544",
+      "output_lower": "-52133/24024",
+      "output_upper": "577/5544",
+      "point": "-41837/24024",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "5/8",
+        "-4/9",
+        "0",
+        "-8/9"
+      ],
+      "upper": [
+        "89/104",
+        "17/63",
+        "12/11",
+        "37/9"
+      ],
+      "coefficients": [
+        "-5/8",
+        "-8/3",
+        "0",
+        "3"
+      ],
+      "constant": "-5/6",
+      "minimum": "-747625/157248",
+      "maximum": "21245/1728",
+      "output_lower": "-957289/157248",
+      "output_upper": "23549/1728",
+      "point": "592835/157248",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/7",
+        "-2/9",
+        "-1/10",
+        "-5/4",
+        "-9/5"
+      ],
+      "upper": [
+        "-3/35",
+        "59/18",
+        "-1/10",
+        "-47/44",
+        "6/5"
+      ],
+      "coefficients": [
+        "5/4",
+        "-6/5",
+        "1/5",
+        "2/5",
+        "-8/7"
+      ],
+      "constant": "4/9",
+      "minimum": "-18073/3150",
+      "maximum": "21917/9900",
+      "output_lower": "-24373/3150",
+      "output_upper": "41717/9900",
+      "point": "31817/9900",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-9/5",
+        "-6"
+      ],
+      "upper": [
+        "-11/20",
+        "-29/6"
+      ],
+      "coefficients": [
+        "7/5",
+        "1/5"
+      ],
+      "constant": "1/9",
+      "minimum": "-812/225",
+      "maximum": "-1463/900",
+      "output_lower": "-2299/450",
+      "output_upper": "-113/900",
+      "point": "-3923/900",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/7",
+        "-9",
+        "6/11"
+      ],
+      "upper": [
+        "3/7",
+        "-4",
+        "18/11"
+      ],
+      "coefficients": [
+        "8/7",
+        "-7/2",
+        "3"
+      ],
+      "constant": "7/9",
+      "minimum": "82001/4851",
+      "maximum": "365539/9702",
+      "output_lower": "77689/4851",
+      "output_upper": "124721/3234",
+      "point": "529541/19404",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1",
+        "0",
+        "4/11",
+        "6/7"
+      ],
+      "upper": [
+        "-1",
+        "9/11",
+        "50/77",
+        "150/77"
+      ],
+      "coefficients": [
+        "1",
+        "1/2",
+        "-1/2",
+        "8/3"
+      ],
+      "constant": "-1/4",
+      "minimum": "219/308",
+      "maximum": "1285/308",
+      "output_lower": "-397/308",
+      "output_upper": "1901/308",
+      "point": "1593/308",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-11/9",
+        "-2/11",
+        "5/11",
+        "-8/11",
+        "-7/6"
+      ],
+      "upper": [
+        "61/9",
+        "31/11",
+        "16/11",
+        "54/77",
+        "23/6"
+      ],
+      "coefficients": [
+        "5/3",
+        "6/7",
+        "4/3",
+        "1/7",
+        "5/7"
+      ],
+      "constant": "1",
+      "minimum": "-6337/4158",
+      "maximum": "567263/29106",
+      "output_lower": "-12805/4158",
+      "output_upper": "612539/29106",
+      "point": "-9571/4158",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "-12/7"
+      ],
+      "upper": [
+        "6/5",
+        "-9/7"
+      ],
+      "coefficients": [
+        "0",
+        "5/4"
+      ],
+      "constant": "2",
+      "minimum": "-1/7",
+      "maximum": "11/28",
+      "output_lower": "-9/7",
+      "output_upper": "43/28",
+      "point": "1/8",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-12/7",
+        "-8/7",
+        "1"
+      ],
+      "upper": [
+        "-17/14",
+        "-13/42",
+        "7/2"
+      ],
+      "coefficients": [
+        "-8/7",
+        "1/9",
+        "7/6"
+      ],
+      "constant": "-5/6",
+      "minimum": "703/441",
+      "maximum": "27385/5292",
+      "output_lower": "-2384/441",
+      "output_upper": "64429/5292",
+      "point": "45907/5292",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "2/5",
+        "-1/10",
+        "1/3",
+        "-3/5"
+      ],
+      "upper": [
+        "9/10",
+        "1/15",
+        "29/15",
+        "33/20"
+      ],
+      "coefficients": [
+        "-4/9",
+        "3/2",
+        "-5/6",
+        "7/8"
+      ],
+      "constant": "7/5",
+      "minimum": "-463/360",
+      "maximum": "3583/1440",
+      "output_lower": "-1003/360",
+      "output_upper": "5743/1440",
+      "point": "-733/360",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "2",
+        "-2",
+        "5/7",
+        "-2/5",
+        "4"
+      ],
+      "upper": [
+        "27/8",
+        "-8/9",
+        "12/7",
+        "-12/55",
+        "11/2"
+      ],
+      "coefficients": [
+        "-4/3",
+        "-4",
+        "1",
+        "5",
+        "-3/8"
+      ],
+      "constant": "-1/3",
+      "minimum": "-4663/1008",
+      "maximum": "635/154",
+      "output_lower": "-10711/1008",
+      "output_upper": "1559/154",
+      "point": "-5573/22176",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-3/7",
+        "-11/3"
+      ],
+      "upper": [
+        "68/21",
+        "-1/3"
+      ],
+      "coefficients": [
+        "-7/9",
+        "-6"
+      ],
+      "constant": "8/7",
+      "minimum": "118/189",
+      "maximum": "493/21",
+      "output_lower": "55/189",
+      "output_upper": "500/21",
+      "point": "331/14",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-11/9",
+        "-6/5",
+        "-2/3"
+      ],
+      "upper": [
+        "-37/45",
+        "-2/5",
+        "5/6"
+      ],
+      "coefficients": [
+        "2/5",
+        "3/5",
+        "-6"
+      ],
+      "constant": "-5/4",
+      "minimum": "-6713/900",
+      "maximum": "1963/900",
+      "output_lower": "-11213/900",
+      "output_upper": "6463/900",
+      "point": "-8963/900",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "0",
+        "-3/5",
+        "1/4"
+      ],
+      "upper": [
+        "-1",
+        "6",
+        "-3/5",
+        "19/20"
+      ],
+      "coefficients": [
+        "-1",
+        "-1/3",
+        "8/7",
+        "4/7"
+      ],
+      "constant": "1/8",
+      "minimum": "-397/280",
+      "maximum": "55/56",
+      "output_lower": "-2311/840",
+      "output_upper": "389/168",
+      "point": "-61/280",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1/3",
+        "-2/11",
+        "-10/7",
+        "4/11",
+        "-11/7"
+      ],
+      "upper": [
+        "23/21",
+        "79/110",
+        "-13/14",
+        "139/110",
+        "-100/77"
+      ],
+      "coefficients": [
+        "-1",
+        "5/7",
+        "-1/4",
+        "4/3",
+        "1/3"
+      ],
+      "constant": "1",
+      "minimum": "-59/1848",
+      "maximum": "3991/1155",
+      "output_lower": "-1409/5544",
+      "output_upper": "12743/3465",
+      "point": "12358/3465",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-5/8",
+        "-1/3"
+      ],
+      "upper": [
+        "19/8",
+        "5/12"
+      ],
+      "coefficients": [
+        "7",
+        "-7/9"
+      ],
+      "constant": "3/4",
+      "minimum": "-853/216",
+      "maximum": "3809/216",
+      "output_lower": "-961/216",
+      "output_upper": "3917/216",
+      "point": "-907/216",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/10",
+        "-12/5",
+        "-6"
+      ],
+      "upper": [
+        "37/40",
+        "-2/5",
+        "-65/12"
+      ],
+      "coefficients": [
+        "4/7",
+        "-2",
+        "1"
+      ],
+      "constant": "-3/2",
+      "minimum": "-457/70",
+      "maximum": "-667/420",
+      "output_lower": "-2351/210",
+      "output_upper": "431/140",
+      "point": "-487/120",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/5",
+        "-10/7",
+        "-9/11",
+        "-1"
+      ],
+      "upper": [
+        "11/60",
+        "-3/7",
+        "15/22",
+        "0"
+      ],
+      "coefficients": [
+        "-1/4",
+        "-8/5",
+        "-2/5",
+        "3/4"
+      ],
+      "constant": "2/7",
+      "minimum": "-359/3696",
+      "maximum": "2309/770",
+      "output_lower": "-3527/3696",
+      "output_upper": "2969/770",
+      "point": "377/110",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-12/11",
+        "-10",
+        "-3/10",
+        "-6",
+        "-7/10"
+      ],
+      "upper": [
+        "9/22",
+        "-49/6",
+        "-3/10",
+        "-11/2",
+        "-37/110"
+      ],
+      "coefficients": [
+        "-1/9",
+        "-3/2",
+        "1/2",
+        "3/2",
+        "7/9"
+      ],
+      "constant": "5/4",
+      "minimum": "1489/396",
+      "maximum": "3053/396",
+      "output_lower": "6653/1980",
+      "output_upper": "16057/1980",
+      "point": "7049/1980",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-2/9",
+        "-1"
+      ],
+      "upper": [
+        "67/63",
+        "-7/12"
+      ],
+      "coefficients": [
+        "-3/2",
+        "-3/8"
+      ],
+      "constant": "7/8",
+      "minimum": "-337/672",
+      "maximum": "19/12",
+      "output_lower": "-785/672",
+      "output_upper": "9/4",
+      "point": "727/1344",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-3/10",
+        "-7/3",
+        "-9"
+      ],
+      "upper": [
+        "7/10",
+        "7/6",
+        "-71/9"
+      ],
+      "coefficients": [
+        "5/6",
+        "2",
+        "-4/3"
+      ],
+      "constant": "3/5",
+      "minimum": "3349/540",
+      "maximum": "931/60",
+      "output_lower": "2509/540",
+      "output_upper": "3073/180",
+      "point": "2933/180",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-7/4",
+        "-1/2",
+        "-5",
+        "1/4"
+      ],
+      "upper": [
+        "-7/6",
+        "5/6",
+        "-44/9",
+        "53/36"
+      ],
+      "coefficients": [
+        "3/4",
+        "-1/9",
+        "-5/2",
+        "5"
+      ],
+      "constant": "3/2",
+      "minimum": "5861/432",
+      "maximum": "493/24",
+      "output_lower": "4349/432",
+      "output_upper": "577/24",
+      "point": "5105/432",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "2/7",
+        "5/6",
+        "-2/3",
+        "3/2",
+        "2"
+      ],
+      "upper": [
+        "23/56",
+        "11/6",
+        "-1/4",
+        "5/2",
+        "3"
+      ],
+      "coefficients": [
+        "1/8",
+        "7/3",
+        "-4/9",
+        "5/8",
+        "8/9"
+      ],
+      "constant": "-1/2",
+      "minimum": "1447/336",
+      "maximum": "101057/12096",
+      "output_lower": "445/112",
+      "output_upper": "105089/12096",
+      "point": "153149/24192",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-5/11",
+        "-9/10"
+      ],
+      "upper": [
+        "17/11",
+        "91/10"
+      ],
+      "coefficients": [
+        "1/3",
+        "4/9"
+      ],
+      "constant": "0",
+      "minimum": "-91/165",
+      "maximum": "2257/495",
+      "output_lower": "-421/165",
+      "output_upper": "3247/495",
+      "point": "2752/495",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-12/5",
+        "-4/5",
+        "-2/9"
+      ],
+      "upper": [
+        "-31/15",
+        "-2/5",
+        "5/18"
+      ],
+      "coefficients": [
+        "-1",
+        "1/4",
+        "-2"
+      ],
+      "constant": "-8/7",
+      "minimum": "53/315",
+      "maximum": "1009/630",
+      "output_lower": "-3727/315",
+      "output_upper": "8569/630",
+      "point": "-1837/315",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "5/8",
+        "-1/9",
+        "-3",
+        "-3/2"
+      ],
+      "upper": [
+        "9/8",
+        "32/117",
+        "-16/9",
+        "-11/18"
+      ],
+      "coefficients": [
+        "-4/9",
+        "1/6",
+        "-1",
+        "-1/5"
+      ],
+      "constant": "-5/2",
+      "minimum": "-151/135",
+      "maximum": "1993/3510",
+      "output_lower": "-241/135",
+      "output_upper": "4333/3510",
+      "point": "-1933/7020",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "7/11",
+        "-10/3",
+        "1/9",
+        "-1/5",
+        "1"
+      ],
+      "upper": [
+        "115/77",
+        "-7/3",
+        "7/9",
+        "38/35",
+        "4/3"
+      ],
+      "coefficients": [
+        "0",
+        "-3/2",
+        "-5/6",
+        "-8/5",
+        "5/2"
+      ],
+      "constant": "8/3",
+      "minimum": "59359/9450",
+      "maximum": "15157/1350",
+      "output_lower": "2659/9450",
+      "output_upper": "23257/1350",
+      "point": "19207/1350",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1/3",
+        "0"
+      ],
+      "upper": [
+        "-1/3",
+        "2/5"
+      ],
+      "coefficients": [
+        "1/3",
+        "-4"
+      ],
+      "constant": "1/4",
+      "minimum": "-263/180",
+      "maximum": "5/36",
+      "output_lower": "-623/180",
+      "output_upper": "77/36",
+      "point": "-443/180",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "-3/2",
+        "2"
+      ],
+      "upper": [
+        "12/13",
+        "7/2",
+        "4"
+      ],
+      "coefficients": [
+        "4/3",
+        "1/9",
+        "-6"
+      ],
+      "constant": "2/3",
+      "minimum": "-47/2",
+      "maximum": "-2273/234",
+      "output_lower": "-51/2",
+      "output_upper": "-1805/234",
+      "point": "-1943/117",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-8/9",
+        "-2",
+        "-5",
+        "-3/4"
+      ],
+      "upper": [
+        "-7/18",
+        "-15/8",
+        "-24/5",
+        "1/4"
+      ],
+      "coefficients": [
+        "-1",
+        "-1",
+        "3/7",
+        "-1"
+      ],
+      "constant": "-1/3",
+      "minimum": "-233/504",
+      "maximum": "1573/1260",
+      "output_lower": "-953/504",
+      "output_upper": "3373/1260",
+      "point": "2473/1260",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-6",
+        "-9/7",
+        "-5/4",
+        "2",
+        "-11/2"
+      ],
+      "upper": [
+        "-23/4",
+        "-1/28",
+        "-19/44",
+        "21/10",
+        "-9/2"
+      ],
+      "coefficients": [
+        "-1/9",
+        "2/7",
+        "4/3",
+        "-8/5",
+        "1"
+      ],
+      "constant": "-3/2",
+      "minimum": "-518401/44100",
+      "maximum": "-49153/5390",
+      "output_lower": "-959401/44100",
+      "output_upper": "4747/5390",
+      "point": "-738901/44100",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "-7/11"
+      ],
+      "upper": [
+        "6/5",
+        "100/33"
+      ],
+      "coefficients": [
+        "4/7",
+        "6"
+      ],
+      "constant": "2/3",
+      "minimum": "-860/231",
+      "maximum": "22562/1155",
+      "output_lower": "-1553/231",
+      "output_upper": "26027/1155",
+      "point": "9131/1155",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "5/6",
+        "-3/4",
+        "1/10"
+      ],
+      "upper": [
+        "77/78",
+        "1/4",
+        "133/130"
+      ],
+      "coefficients": [
+        "-1/2",
+        "-6",
+        "-7/5"
+      ],
+      "constant": "-4/5",
+      "minimum": "-16481/3900",
+      "maximum": "943/300",
+      "output_lower": "-32081/3900",
+      "output_upper": "2143/300",
+      "point": "1543/300",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-2/5",
+        "-1",
+        "-5/6",
+        "-11/9"
+      ],
+      "upper": [
+        "-16/65",
+        "-2/13",
+        "-49/66",
+        "-46/45"
+      ],
+      "coefficients": [
+        "-7/5",
+        "7/8",
+        "6/5",
+        "7/4"
+      ],
+      "constant": "5/4",
+      "minimum": "-56611/23400",
+      "maximum": "-32317/32175",
+      "output_lower": "-122131/23400",
+      "output_upper": "57773/32175",
+      "point": "-89371/23400",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/3",
+        "-4/7",
+        "1/5",
+        "-1/5",
+        "5/6"
+      ],
+      "upper": [
+        "4/3",
+        "8/35",
+        "3/5",
+        "-1/5",
+        "5/6"
+      ],
+      "coefficients": [
+        "-1/3",
+        "-1/3",
+        "1/3",
+        "-7/4",
+        "8"
+      ],
+      "constant": "3/2",
+      "minimum": "10159/1260",
+      "maximum": "11083/1260",
+      "output_lower": "9319/1260",
+      "output_upper": "11923/1260",
+      "point": "10621/1260",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-11/6",
+        "-1/2"
+      ],
+      "upper": [
+        "-5/4",
+        "7/18"
+      ],
+      "coefficients": [
+        "-3/2",
+        "1/2"
+      ],
+      "constant": "-1/8",
+      "minimum": "3/2",
+      "maximum": "203/72",
+      "output_lower": "7/6",
+      "output_upper": "227/72",
+      "point": "215/72",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3",
+        "7/8",
+        "-1"
+      ],
+      "upper": [
+        "8",
+        "97/56",
+        "-8/9"
+      ],
+      "coefficients": [
+        "1",
+        "5/7",
+        "0"
+      ],
+      "constant": "-1/4",
+      "minimum": "27/8",
+      "maximum": "3523/392",
+      "output_lower": "13/8",
+      "output_upper": "4209/392",
+      "point": "5/2",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-7/10",
+        "-6/7",
+        "1/7",
+        "-1"
+      ],
+      "upper": [
+        "1/10",
+        "64/7",
+        "31/21",
+        "-5/11"
+      ],
+      "coefficients": [
+        "6/7",
+        "-1/5",
+        "1/8",
+        "-2/3"
+      ],
+      "constant": "2/3",
+      "minimum": "-2663/1848",
+      "maximum": "71/40",
+      "output_lower": "-3125/1848",
+      "output_upper": "81/40",
+      "point": "1543/9240",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "1/2",
+        "1",
+        "-5",
+        "-7/9",
+        "2/3"
+      ],
+      "upper": [
+        "15/22",
+        "11/6",
+        "-13/3",
+        "25/72",
+        "2/3"
+      ],
+      "coefficients": [
+        "3",
+        "4/9",
+        "2/3",
+        "-7/2",
+        "-8/5"
+      ],
+      "constant": "1",
+      "minimum": "-641/240",
+      "maximum": "3901/1485",
+      "output_lower": "-2243/720",
+      "output_upper": "4561/1485",
+      "point": "4231/1485",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "-10/3"
+      ],
+      "upper": [
+        "-2/3",
+        "-38/15"
+      ],
+      "coefficients": [
+        "-6/5",
+        "-1/2"
+      ],
+      "constant": "3/5",
+      "minimum": "8/3",
+      "maximum": "52/15",
+      "output_lower": "2/3",
+      "output_upper": "82/15",
+      "point": "5/3",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1/2",
+        "-3/5",
+        "-11/3"
+      ],
+      "upper": [
+        "23/2",
+        "-19/65",
+        "-10/3"
+      ],
+      "coefficients": [
+        "-4",
+        "-1/3",
+        "-3/8"
+      ],
+      "constant": "-3/4",
+      "minimum": "-17707/390",
+      "maximum": "113/40",
+      "output_lower": "-8951/195",
+      "output_upper": "133/40",
+      "point": "-66421/3120",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "2/5",
+        "-2/7",
+        "-7",
+        "-5/11"
+      ],
+      "upper": [
+        "8/5",
+        "-12/91",
+        "-7",
+        "111/22"
+      ],
+      "coefficients": [
+        "-1",
+        "-5/8",
+        "-7/2",
+        "4/7"
+      ],
+      "constant": "-4/7",
+      "minimum": "110867/5005",
+      "maximum": "40949/1540",
+      "output_lower": "196709/10010",
+      "output_upper": "44799/1540",
+      "point": "21437/770",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/2",
+        "-5/9",
+        "-3/8",
+        "2",
+        "1/2"
+      ],
+      "upper": [
+        "6/5",
+        "23/72",
+        "59/56",
+        "14/5",
+        "1/2"
+      ],
+      "coefficients": [
+        "3/2",
+        "-1/2",
+        "2",
+        "6/7",
+        "3"
+      ],
+      "constant": "-7/3",
+      "minimum": "727/1008",
+      "maximum": "7247/1260",
+      "output_lower": "-2801/1008",
+      "output_upper": "11657/1260",
+      "point": "-1037/1008",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-11/10",
+        "-1/3"
+      ],
+      "upper": [
+        "-11/10",
+        "-2/9"
+      ],
+      "coefficients": [
+        "-3",
+        "-1"
+      ],
+      "constant": "-5/2",
+      "minimum": "46/45",
+      "maximum": "17/15",
+      "output_lower": "-224/45",
+      "output_upper": "107/15",
+      "point": "97/90",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-1/10",
+        "3",
+        "-3/2"
+      ],
+      "upper": [
+        "9/10",
+        "41/11",
+        "3/2"
+      ],
+      "coefficients": [
+        "-2/7",
+        "8/9",
+        "-7/5"
+      ],
+      "constant": "1",
+      "minimum": "55/42",
+      "maximum": "44641/6930",
+      "output_lower": "-1/42",
+      "output_upper": "53881/6930",
+      "point": "49261/6930",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "2",
+        "-12/11",
+        "7/4"
+      ],
+      "upper": [
+        "6/7",
+        "2",
+        "-12/11",
+        "83/36"
+      ],
+      "coefficients": [
+        "-5/8",
+        "-1/3",
+        "-3",
+        "-3/4"
+      ],
+      "constant": "1/7",
+      "minimum": "1789/3696",
+      "maximum": "5309/3696",
+      "output_lower": "-3491/3696",
+      "output_upper": "10589/3696",
+      "point": "-851/3696",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-12",
+        "3/4",
+        "-3/11",
+        "-12",
+        "-5/2"
+      ],
+      "upper": [
+        "-75/7",
+        "79/52",
+        "13/33",
+        "-12",
+        "-13/10"
+      ],
+      "coefficients": [
+        "7/8",
+        "7/8",
+        "-2",
+        "5/8",
+        "1/2"
+      ],
+      "constant": "-5/3",
+      "minimum": "-7409/352",
+      "maximum": "-1188631/68640",
+      "output_lower": "-22931/1056",
+      "output_upper": "-380957/22880",
+      "point": "-1316693/68640",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/5",
+        "-1"
+      ],
+      "upper": [
+        "31/35",
+        "11"
+      ],
+      "coefficients": [
+        "3/5",
+        "-1/6"
+      ],
+      "constant": "1",
+      "minimum": "-161/150",
+      "maximum": "1783/1050",
+      "output_lower": "-87/50",
+      "output_upper": "2483/1050",
+      "point": "711/350",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "-11/9",
+        "0"
+      ],
+      "upper": [
+        "3/2",
+        "19/9",
+        "5/7"
+      ],
+      "coefficients": [
+        "-7/5",
+        "4/3",
+        "-1"
+      ],
+      "constant": "5/3",
+      "minimum": "-5249/1890",
+      "maximum": "121/27",
+      "output_lower": "-7139/1890",
+      "output_upper": "148/27",
+      "point": "-3097/945",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-3",
+        "-8/7",
+        "-1/10",
+        "-3/11"
+      ],
+      "upper": [
+        "-25/11",
+        "-12/35",
+        "3/2",
+        "2/33"
+      ],
+      "coefficients": [
+        "3/7",
+        "-1/8",
+        "5/3",
+        "8/3"
+      ],
+      "constant": "5",
+      "minimum": "3307/1155",
+      "maximum": "9467/1386",
+      "output_lower": "2537/1155",
+      "output_upper": "10391/1386",
+      "point": "6107/1260",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-9/4",
+        "1/3",
+        "-10/9",
+        "-1",
+        "-5/2"
+      ],
+      "upper": [
+        "-9/4",
+        "10/3",
+        "-17/18",
+        "-1",
+        "-5/2"
+      ],
+      "coefficients": [
+        "1/5",
+        "5/7",
+        "-1/5",
+        "2",
+        "-1/3"
+      ],
+      "constant": "2/9",
+      "minimum": "-1219/1260",
+      "maximum": "1523/1260",
+      "output_lower": "-2059/1260",
+      "output_upper": "2363/1260",
+      "point": "1943/1260",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-9/5",
+        "6/11"
+      ],
+      "upper": [
+        "-1",
+        "6/11"
+      ],
+      "coefficients": [
+        "-3/7",
+        "2/3"
+      ],
+      "constant": "0",
+      "minimum": "61/77",
+      "maximum": "437/385",
+      "output_lower": "-157/385",
+      "output_upper": "899/385",
+      "point": "74/385",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-4",
+        "-7/8",
+        "7/2"
+      ],
+      "upper": [
+        "-2",
+        "1/8",
+        "11/2"
+      ],
+      "coefficients": [
+        "0",
+        "-7/2",
+        "0"
+      ],
+      "constant": "7/3",
+      "minimum": "91/48",
+      "maximum": "259/48",
+      "output_lower": "263/240",
+      "output_upper": "1487/240",
+      "point": "175/48",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/11",
+        "-5/8",
+        "-5/4",
+        "-9"
+      ],
+      "upper": [
+        "38/33",
+        "-1/8",
+        "-31/28",
+        "-25/3"
+      ],
+      "coefficients": [
+        "5/8",
+        "1",
+        "-5/7",
+        "-5/6"
+      ],
+      "constant": "7/2",
+      "minimum": "407353/38808",
+      "maximum": "23077/1848",
+      "output_lower": "368545/38808",
+      "output_upper": "24925/1848",
+      "point": "24001/1848",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "5/11",
+        "-11/8",
+        "-3",
+        "0",
+        "-1"
+      ],
+      "upper": [
+        "139/88",
+        "5/8",
+        "-11/6",
+        "6/5",
+        "-10/13"
+      ],
+      "coefficients": [
+        "0",
+        "-8/5",
+        "3/8",
+        "5/8",
+        "-1/3"
+      ],
+      "constant": "7/3",
+      "minimum": "145/312",
+      "maximum": "1183/240",
+      "output_lower": "-271/312",
+      "output_upper": "501/80",
+      "point": "-21/104",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/2",
+        "-1/2"
+      ],
+      "upper": [
+        "7/2",
+        "-1/2"
+      ],
+      "coefficients": [
+        "1/4",
+        "-4/7"
+      ],
+      "constant": "-5/9",
+      "minimum": "-73/504",
+      "maximum": "305/504",
+      "output_lower": "-1081/504",
+      "output_upper": "1313/504",
+      "point": "29/126",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-4",
+        "1/6",
+        "-5/8"
+      ],
+      "upper": [
+        "-48/13",
+        "25/18",
+        "-17/40"
+      ],
+      "coefficients": [
+        "2",
+        "1",
+        "8/9"
+      ],
+      "constant": "1",
+      "minimum": "-133/18",
+      "maximum": "-6287/1170",
+      "output_lower": "-187/18",
+      "output_upper": "-2777/1170",
+      "point": "-2266/585",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-8/7",
+        "2/3",
+        "1",
+        "7/9"
+      ],
+      "upper": [
+        "3/28",
+        "47/21",
+        "1",
+        "94/63"
+      ],
+      "coefficients": [
+        "-1/2",
+        "0",
+        "-4",
+        "-6/7"
+      ],
+      "constant": "-8/7",
+      "minimum": "-7615/1176",
+      "maximum": "-110/21",
+      "output_lower": "-9631/1176",
+      "output_upper": "-74/21",
+      "point": "-8623/1176",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "5/6",
+        "-2/3",
+        "-1/2",
+        "0",
+        "-2"
+      ],
+      "upper": [
+        "3/2",
+        "13/21",
+        "3/22",
+        "8",
+        "-7/4"
+      ],
+      "coefficients": [
+        "-2/3",
+        "-2/3",
+        "-1/2",
+        "-5/4",
+        "1/3"
+      ],
+      "constant": "3/4",
+      "minimum": "-15797/1386",
+      "maximum": "11/36",
+      "output_lower": "-29657/1386",
+      "output_upper": "371/36",
+      "point": "-10249/1848",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-9/5",
+        "-6"
+      ],
+      "upper": [
+        "-3/10",
+        "-11/2"
+      ],
+      "coefficients": [
+        "-4/3",
+        "1/8"
+      ],
+      "constant": "3/4",
+      "minimum": "2/5",
+      "maximum": "197/80",
+      "output_lower": "-11/10",
+      "output_upper": "317/80",
+      "point": "257/80",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1/3",
+        "1",
+        "0"
+      ],
+      "upper": [
+        "2/3",
+        "4/3",
+        "0"
+      ],
+      "coefficients": [
+        "5/8",
+        "-1",
+        "5"
+      ],
+      "constant": "-3",
+      "minimum": "-109/24",
+      "maximum": "-43/12",
+      "output_lower": "-907/168",
+      "output_upper": "-229/84",
+      "point": "-835/168",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1/4",
+        "-5/3",
+        "-1/2",
+        "-11/6"
+      ],
+      "upper": [
+        "7/12",
+        "1/6",
+        "-1/2",
+        "-11/6"
+      ],
+      "coefficients": [
+        "1/2",
+        "1/7",
+        "-4/3",
+        "7/8"
+      ],
+      "constant": "1/3",
+      "minimum": "-325/336",
+      "maximum": "-97/336",
+      "output_lower": "-577/336",
+      "output_upper": "155/336",
+      "point": "-211/336",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-3",
+        "-3/7",
+        "-3",
+        "-6/7",
+        "-2/3"
+      ],
+      "upper": [
+        "-5/3",
+        "16/77",
+        "-20/9",
+        "10/21",
+        "5/6"
+      ],
+      "coefficients": [
+        "2/3",
+        "-2",
+        "-1/6",
+        "5/9",
+        "-1/4"
+      ],
+      "constant": "2",
+      "minimum": "-12137/16632",
+      "maximum": "506/189",
+      "output_lower": "-28769/16632",
+      "output_upper": "695/189",
+      "point": "1201/378",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "0",
+        "4/5"
+      ],
+      "upper": [
+        "9/5",
+        "43/35"
+      ],
+      "coefficients": [
+        "-1",
+        "-4/7"
+      ],
+      "constant": "-4/7",
+      "minimum": "-753/245",
+      "maximum": "-36/35",
+      "output_lower": "-1243/245",
+      "output_upper": "34/35",
+      "point": "-998/245",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/7",
+        "-7/3",
+        "5/3"
+      ],
+      "upper": [
+        "9/14",
+        "-3/2",
+        "59/21"
+      ],
+      "coefficients": [
+        "-1/2",
+        "0",
+        "2"
+      ],
+      "constant": "-1/7",
+      "minimum": "241/84",
+      "maximum": "227/42",
+      "output_lower": "-11/84",
+      "output_upper": "353/42",
+      "point": "695/168",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "3/10",
+        "5/4",
+        "-11/10",
+        "0"
+      ],
+      "upper": [
+        "17/10",
+        "87/44",
+        "43/70",
+        "4"
+      ],
+      "coefficients": [
+        "-8/7",
+        "-1/2",
+        "1/2",
+        "-1"
+      ],
+      "constant": "-2",
+      "minimum": "-29203/3080",
+      "maximum": "-149/56",
+      "output_lower": "-50763/3080",
+      "output_upper": "243/56",
+      "point": "47/56",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-4",
+        "-2/5",
+        "-1",
+        "-1/2",
+        "-4"
+      ],
+      "upper": [
+        "-28/9",
+        "-1/5",
+        "1/3",
+        "23/2",
+        "3/2"
+      ],
+      "coefficients": [
+        "5/9",
+        "-1/2",
+        "-1/2",
+        "-3/2",
+        "4/3"
+      ],
+      "constant": "0",
+      "minimum": "-4477/180",
+      "maximum": "2789/1620",
+      "output_lower": "-4837/180",
+      "output_upper": "6029/1620",
+      "point": "-4657/180",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-7/10",
+        "-10"
+      ],
+      "upper": [
+        "0",
+        "-77/8"
+      ],
+      "coefficients": [
+        "7/5",
+        "-8/3"
+      ],
+      "constant": "2/3",
+      "minimum": "3803/150",
+      "maximum": "82/3",
+      "output_lower": "3443/150",
+      "output_upper": "446/15",
+      "point": "7903/300",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "6/5",
+        "-11/3",
+        "-1"
+      ],
+      "upper": [
+        "79/20",
+        "-128/39",
+        "2"
+      ],
+      "coefficients": [
+        "4",
+        "2/3",
+        "-2/5"
+      ],
+      "constant": "3/2",
+      "minimum": "55/18",
+      "maximum": "18149/1170",
+      "output_lower": "277/126",
+      "output_upper": "134063/8190",
+      "point": "130553/8190",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/4",
+        "7/3",
+        "7/4",
+        "1/4"
+      ],
+      "upper": [
+        "3",
+        "16/3",
+        "7/4",
+        "7/12"
+      ],
+      "coefficients": [
+        "-7/8",
+        "-2/5",
+        "-3",
+        "-7/4"
+      ],
+      "constant": "5/7",
+      "minimum": "-17329/1680",
+      "maximum": "-22051/3360",
+      "output_lower": "-6523/560",
+      "output_upper": "-5857/1120",
+      "point": "-18449/1680",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-9/2",
+        "-5/2",
+        "-1/3",
+        "-9",
+        "-3"
+      ],
+      "upper": [
+        "-4",
+        "-11/8",
+        "7/6",
+        "-71/9",
+        "-2"
+      ],
+      "coefficients": [
+        "-3/8",
+        "-3/2",
+        "-4",
+        "7",
+        "3/4"
+      ],
+      "constant": "0",
+      "minimum": "-3185/48",
+      "maximum": "-7193/144",
+      "output_lower": "-1067/16",
+      "output_upper": "-7145/144",
+      "point": "-4187/72",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-5/11",
+        "0"
+      ],
+      "upper": [
+        "-5/11",
+        "6/5"
+      ],
+      "coefficients": [
+        "-7/8",
+        "7/4"
+      ],
+      "constant": "-1/7",
+      "minimum": "157/616",
+      "maximum": "7253/3080",
+      "output_lower": "-3539/616",
+      "output_upper": "25733/3080",
+      "point": "16493/3080",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/10",
+        "-3",
+        "0"
+      ],
+      "upper": [
+        "13/10",
+        "-29/11",
+        "3/2"
+      ],
+      "coefficients": [
+        "6/5",
+        "-7/4",
+        "0"
+      ],
+      "constant": "2/5",
+      "minimum": "5911/1100",
+      "maximum": "721/100",
+      "output_lower": "2543/550",
+      "output_upper": "199/25",
+      "point": "10997/2200",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "3/4",
+        "-1",
+        "-9/11",
+        "-11/2"
+      ],
+      "upper": [
+        "11/12",
+        "-1/12",
+        "-3/44",
+        "-119/26"
+      ],
+      "coefficients": [
+        "-8/5",
+        "-3/5",
+        "1/2",
+        "4"
+      ],
+      "constant": "3/4",
+      "minimum": "-1523/66",
+      "maximum": "-104057/5720",
+      "output_lower": "-811/33",
+      "output_upper": "-95477/5720",
+      "point": "-708151/34320",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "4/7",
+        "3/5",
+        "3/8",
+        "-9/11",
+        "-1"
+      ],
+      "upper": [
+        "73/42",
+        "23/5",
+        "83/72",
+        "15/22",
+        "-11/13"
+      ],
+      "coefficients": [
+        "-5",
+        "-2",
+        "0",
+        "-3/4",
+        "-2"
+      ],
+      "constant": "-1/6",
+      "minimum": "-675723/40040",
+      "maximum": "-7439/4620",
+      "output_lower": "-2347489/120120",
+      "output_upper": "1627/1540",
+      "point": "-1279/4620",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-12/5",
+        "-7"
+      ],
+      "upper": [
+        "23/5",
+        "-19/3"
+      ],
+      "coefficients": [
+        "7",
+        "1/2"
+      ],
+      "constant": "-7/3",
+      "minimum": "-679/30",
+      "maximum": "267/10",
+      "output_lower": "-763/30",
+      "output_upper": "59/2",
+      "point": "-721/30",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-4",
+        "-5/6",
+        "-2"
+      ],
+      "upper": [
+        "-18/5",
+        "5/12",
+        "-1"
+      ],
+      "coefficients": [
+        "3/4",
+        "2/3",
+        "1/2"
+      ],
+      "constant": "4/5",
+      "minimum": "-169/45",
+      "maximum": "-191/90",
+      "output_lower": "-991/180",
+      "output_upper": "-67/180",
+      "point": "-529/180",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-2/3",
+        "1/4",
+        "1/5",
+        "-9/7"
+      ],
+      "upper": [
+        "-1/6",
+        "29/20",
+        "26/55",
+        "-2/7"
+      ],
+      "coefficients": [
+        "-7/2",
+        "-1",
+        "1",
+        "-2/3"
+      ],
+      "constant": "4",
+      "minimum": "74/21",
+      "maximum": "34249/4620",
+      "output_lower": "67/21",
+      "output_upper": "35789/4620",
+      "point": "11673/1540",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "1/8",
+        "-4",
+        "-5/7",
+        "-3/4",
+        "-1/2"
+      ],
+      "upper": [
+        "27/88",
+        "-3",
+        "29/77",
+        "-17/28",
+        "-1/6"
+      ],
+      "coefficients": [
+        "-1/8",
+        "4/3",
+        "-1/5",
+        "8",
+        "-1/3"
+      ],
+      "constant": "-7/6",
+      "minimum": "-2784889/221760",
+      "maximum": "-4359/448",
+      "output_lower": "-2883449/221760",
+      "output_upper": "-37439/4032",
+      "point": "-944723/73920",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-10",
+        "-1/3"
+      ],
+      "upper": [
+        "-44/5",
+        "-1/4"
+      ],
+      "coefficients": [
+        "7/6",
+        "-1"
+      ],
+      "constant": "-6/5",
+      "minimum": "-757/60",
+      "maximum": "-167/15",
+      "output_lower": "-877/60",
+      "output_upper": "-137/15",
+      "point": "-95/8",
+      "direction": "upper",
+      "strict": false
+    },
+    {
+      "lower": [
+        "-4/9",
+        "-4",
+        "1"
+      ],
+      "upper": [
+        "8/63",
+        "-4",
+        "2"
+      ],
+      "coefficients": [
+        "1",
+        "-1/2",
+        "-1"
+      ],
+      "constant": "-2/9",
+      "minimum": "-2/3",
+      "maximum": "19/21",
+      "output_lower": "-10/9",
+      "output_upper": "85/63",
+      "point": "71/63",
+      "direction": "upper",
+      "strict": true
+    },
+    {
+      "lower": [
+        "5/2",
+        "1/3",
+        "3",
+        "-8/9"
+      ],
+      "upper": [
+        "75/26",
+        "41/15",
+        "14/3",
+        "-70/99"
+      ],
+      "coefficients": [
+        "2/3",
+        "-4",
+        "2/5",
+        "-3/8"
+      ],
+      "constant": "0",
+      "minimum": "-5149/660",
+      "maximum": "544/195",
+      "output_lower": "-43963/4620",
+      "output_upper": "6148/1365",
+      "point": "-40003/4620",
+      "direction": "lower",
+      "strict": true
+    },
+    {
+      "lower": [
+        "-1",
+        "-4/9",
+        "6/5",
+        "-1",
+        "-1"
+      ],
+      "upper": [
+        "7/4",
+        "14/9",
+        "7/5",
+        "-4/7",
+        "-4/5"
+      ],
+      "coefficients": [
+        "-7/9",
+        "6/7",
+        "3/2",
+        "1/3",
+        "-7/5"
+      ],
+      "constant": "2/3",
+      "minimum": "9521/6300",
+      "maximum": "767/126",
+      "output_lower": "6721/6300",
+      "output_upper": "823/126",
+      "point": "5319/1400",
+      "direction": "upper",
+      "strict": false
+    }
+  ]
+}

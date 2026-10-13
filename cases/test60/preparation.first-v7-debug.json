@@ -1,0 +1,147 @@
+{
+  "case_id": "test60",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps",
+    "sha256": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/reformulated.lp",
+    "sha256": "1336fe0e73c0f68dc8ae5c32e40fe4b11b3edd9e4f9b17f7548d6c4c0c0cfdad"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/audit.json",
+    "sha256": "891e391dd5dfbadd6c5083d338effe9324db127664addd2285932edb881d8826"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_menu_cases.py",
+    "sha256": "f8edad750e963adbb230d4c0c5885f2ed639e96d4efc4e5a0927177c108dc8c0"
+  },
+  "claims": "Complete objective-preserving integer bijection: affine forward, simultaneous optional-menu reverse, complete right inverse on every target coordinate, and generic doubled-source injectivity on every original coordinate including continuous auxiliaries. Both full LP directions preserve every menu activation/index aggregate and objective, hence group/resource/objective image equality. No LP point bijection claimed.",
+  "counts": {
+    "source_variables": 13640,
+    "source_rows": 717,
+    "target_variables": 2508,
+    "target_rows": 2016,
+    "menus": 1254,
+    "source_options": 13550,
+    "claims": 4,
+    "bijections": 1,
+    "affine_observations_per_claim": 2508,
+    "ordinary_component_counts": {
+      "obligations_by_claim": [
+        12049,
+        9541,
+        30461
+      ],
+      "steps_by_claim": [
+        8914,
+        6406,
+        5016
+      ],
+      "affine_observations_per_claim": 2508
+    },
+    "integer_reverse": {
+      "generated_variables": 13550,
+      "generated_rows": 2508,
+      "body_steps": 717,
+      "obligations": 46519
+    },
+    "injectivity_root_steps": 13640,
+    "injectivity_equalities": 13640
+  },
+  "preparation_seconds": 52.652723875,
+  "rpa_sha256": "c982f1903a1d5b555fe4fd023107c1eb3561210501a18a1b3486571c68d7fdb2",
+  "rpa_bytes": 122979323,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/debug/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test60/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":4268962,\"parse_us\":1380801,\"read_us\":5219,\"rows\":717,\"status\":\"CANONICALIZED\",\"total_us\":1822968,\"variables\":13640}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/debug/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/reformulated.lp",
+        "/Users/bhz/Code/kernel/cases/test60/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":848257,\"parse_us\":223436,\"read_us\":449,\"rows\":2016,\"status\":\"CANONICALIZED\",\"total_us\":304658,\"variables\":2508}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/debug/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test60/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test60/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":90516456,\"status\":\"ASSEMBLED\",\"total_us\":12911504}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/debug/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test60/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test60/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test60/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test60/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":1,\"claims\":4,\"execute_us\":67933017,\"model_decode_us\":611074,\"points\":0,\"proof_decode_us\":4674256,\"read_us\":11332,\"statistics\":{\"bijections\":1,\"branches\":67750,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":13640,\"injectivity_generated_rows\":3942,\"injectivity_generated_terms\":435586,\"injectivity_generated_variables\":27280,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":8177938,\"menu_generated_rows\":2508,\"menu_generated_terms\":28354,\"menu_generated_variables\":13550,\"menu_lifts\":1,\"obligations\":112210,\"peak_live_facts\":13640,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":1181655,\"work\":39126580},\"status\":\"VERIFIED\",\"total_us\":73229679}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "8fd95c4f2acdba7a560408ee1c68e3f830707d18fb4032a408d2a6e00c3be16c",
+  "negative_checks": [
+    {
+      "mutation": "missing_menu_premise",
+      "rule_broken": "Omits the activation integrality premise of one optional-menu lift.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID menu: exactly six premise references required",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "3d7b0fad3e1c516e118985112f48e003fb2771cf52867e33af4d179b9775abf6",
+      "rpx_sha256": "5c3d531bcc69613908343605af373e564a6ea1cb3ecd153058744d172f53842e"
+    },
+    {
+      "mutation": "duplicate_recovery",
+      "rule_broken": "Assigns two distinct source options the same generated coordinate, violating original constraints or exact moments.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 5",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "c4eb794dbe415a9421e9f5c7ae9a3d88950724a61b7d463f2e2a19cbb8c273ec",
+      "rpx_sha256": "43c980edbecf04dd3afc2e83334fa22b8cf3cd6dbb7b3c10ea3481dd247a92c5"
+    }
+  ],
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 4268962,
+      "sha256": "0676bd26ad2dd3a845093f909772290c3b59b8f9c8e650b9706d4036215a3bc7"
+    },
+    "target.mcm": {
+      "bytes": 848257,
+      "sha256": "aa095f5a010beeb3411aff2238ff332aa9192af7e9695ba567c026de8c704ac9"
+    },
+    "proof.rpx": {
+      "bytes": 90516456,
+      "sha256": "70083b2b28087f082c5cb9e1a844c17dd534250396c91e321554eeb11d169bf6"
+    },
+    "request.json": {
+      "bytes": 1832200,
+      "sha256": "c56334aaa8281c69e61567455f637bb61cb1ab3ef4c3c9c0eb7c77d2dce86b40"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "status": "INDEPENDENT_CHECKED_NOT_KERNEL_CERTIFIED",
+  "checks": {
+    "source_relaxed_uniform": {
+      "objective": "-128/7",
+      "violations": [],
+      "checked_variables": 1024,
+      "checked_rows": 1024
+    },
+    "target_relaxed_uniform": {
+      "objective": "-128/7",
+      "violations": [
+        {
+          "kind": "RowUpper",
+          "index": 1024,
+          "residual": "44/7"
+        }
+      ],
+      "checked_variables": 1024,
+      "checked_rows": 1025
+    },
+    "source_integer_optimal": {
+      "objective": "-12",
+      "violations": [],
+      "checked_variables": 1024,
+      "checked_rows": 1024
+    },
+    "target_integer_optimal": {
+      "objective": "-12",
+      "violations": [],
+      "checked_variables": 1024,
+      "checked_rows": 1025
+    },
+    "target_relaxed_optimal": {
+      "objective": "-12",
+      "violations": [],
+      "checked_variables": 1024,
+      "checked_rows": 1025
+    }
+  },
+  "hamming_distance_pair_histogram": {
+    "2": 28160,
+    "4": 168960,
+    "6": 236544,
+    "8": 84480,
+    "10": 5632
+  },
+  "all_pairs_examined": 523776,
+  "low_distance_pairs_with_actual_common_row": 197120
+}

@@ -1,0 +1,288 @@
+\chapter{RPX 二进制文件格式}\label{ch:format}
+
+\section{通用编码约定}
+所有多字节整数采用 little endian。字段宽度是文件协议的一部分，与宿主 C ABI、Rust 布局、指针宽度无关。
+实现必须按偏移解码字段；不得把宿主结构体的隐式 padding 当成文件字节。
+\code{u8/u16/u32/u64} 分别表示 8、16、32、64 位无符号整数。
+没有浮点字段、指针、原生对象或可执行宿主机器码。
+
+\proposal{P-07}{本章固定原草案未明确的 header padding、ScalarPool 记录、map 记录及各 split 的长度布局。
+这些字节布局共同构成 D0 的候选 wire format；不得在实现中分别选择不同解释。}
+
+设 $\operatorname{align}_a(z)$ 为大于等于 $z$ 的最小 $a$ 的倍数。
+所有加法、乘法和向上对齐都必须检测溢出，且转换为宿主索引前必须验证可表示性。
+不能先使用 wrapping arithmetic 再比较文件边界。
+所有明确规定的 padding 与 reserved 字节必须为零；未知的逻辑 flag 必须拒绝。
+
+文件由 128 B header、section directory 和若干 section 构成。directory 从字节 128 开始。
+各 section 的起始偏移都是 64 的倍数。section 之间的未使用间隙必须为零。
+header 的 \code{file_bytes} 必须恰好等于实际读取的文件长度；不允许尾随未声明数据。
+
+\section{Header}
+\label{sec:rpx-header}
+固定 header 长度为 128 B，\code{header_units=16}。
+\begin{longtable}{r r l p{76mm}}
+\toprule 偏移 & 字节数 & 字段 & v0.1 要求 \\\midrule
+\endfirsthead
+\toprule 偏移 & 字节数 & 字段 & v0.1 要求 \\\midrule\endhead
+0 & 4 & \code{magic} & 字节 \code{52 50 58 00}，即 RPX 后接 NUL。\\
+4 & 1 & \code{endian} & 1；只接受 little endian。\\
+5 & 1 & \code{major} & 0。\\
+6 & 1 & \code{minor} & 1。\\
+7 & 1 & \code{header_units} & 16，以 8 B 为单位。\\
+8 & 4 & \code{flags} & 0；全部保留。\\
+12 & 4 & \code{reserved0} & 0；显式字段，不是 ABI padding。\\
+16 & 8 & \code{file_bytes} & 实际文件长度。\\
+24 & 32 & \code{source_sha256} & canonical source model 的 SHA-256 原始 digest。\\
+56 & 32 & \code{target_sha256} & canonical target model 的 SHA-256 原始 digest。\\
+88 & 4 & \code{contract_flags} & 见下文的 contract 编码。\\
+92 & 4 & \code{section_count} & directory entry 数量。\\
+96 & 8 & \code{section_dir_offset} & 128。\\
+104 & 24 & \code{reserved1} & 全零。\\
+\bottomrule
+\end{longtable}
+
+SHA 字段不是 UTF-8 十六进制字符串。assembler 将文本中的 64 个 hexadecimal 字符转换为 32 个 digest 字节。
+source 与 target 的顺序永远不因执行方向交换；交换的是 VM 的 input/output model 绑定。
+原草案 C 结构体的字段若直接逐项写出只有 124 B。本布局用 \code{reserved0} 显式补齐 4 B，并固定偏移。
+
+\subsection{Contract word}
+\begin{longtable}{l p{110mm}}
+\toprule 位 & 含义 \\\midrule\endfirsthead
+\toprule 位 & 含义 \\\midrule\endhead
+0 & 启用 Forward。\\
+1 & 启用 Reverse。\\
+2 & \code{opt-equivalent} profile。\\
+3 & \code{feasibility-equivalent} profile。\\
+5:4 & Forward objective relation：0 NONE，1 EQ，2 LE，3 保留。\\
+7:6 & Reverse objective relation：0 NONE，1 EQ，2 LE，3 保留。\\
+31:8 & 保留，必须为零。\\
+\bottomrule
+\end{longtable}
+本草案的两个 profile 均要求启用两个方向。位 2 和位 3 必须恰有一个为 1。
+\code{opt-equivalent} 要求每个方向的 objective relation 均为 EQ 或 LE。
+\code{feasibility-equivalent} 允许 NONE、EQ 或 LE；如果选择 EQ/LE，相关 obligation 仍必须检查。
+位模式不符合这些条件时为 \code{E_CONTRACT}。
+
+例：双向 objective equality 的 optimum-equivalence 编码为
+\code{0x00000057}，文件字节为 \code{57 00 00 00}。
+header 声明必须与调用者要求相容，不能用更弱的 profile 绕过调用者请求。
+将来若加入仅单方向的 implication profile，必须另行定义版本或明确扩展，不能悄悄放宽本段约束。
+
+\section{Section directory}
+每个 entry 长度为 32 B。
+\begin{center}\begin{tabular}{r r l}
+\toprule entry 内偏移 & 宽度 & 字段 \\\midrule
+0 & 2 & \code{type:u16} \\
+2 & 2 & \code{flags:u16} \\
+4 & 4 & \code{alignment:u32} \\
+8 & 8 & \code{offset:u64} \\
+16 & 8 & \code{length:u64} \\
+24 & 8 & \code{count:u64} \\\bottomrule
+\end{tabular}\end{center}
+
+directory 长度为 $32\times\code{section_count}$。其范围必须包含于文件。
+\code{alignment} 必须为 64，\code{offset} 必须为 64 的倍数。
+\code{offset+length} 必须无溢出且不超过 \code{file_bytes}。
+任何非空 section 不得与 header、directory 或其他 section 相交。
+entry 按 \code{offset} 非降序排列；同一 type 不得重复。零长度 section 可以共享一个对齐偏移，因为其字节范围为空。
+所有 section 的 offset 必须不小于 directory 末尾向上对齐至 64 B 后的偏移，空 section 亦然。
+directory 和最后一个 section 之间的 padding 也属于必须为零的未使用间隙。
+
+\code{flags} 的位 0 表示 OPTIONAL，其他位保留。
+所有已知的逻辑 section 必须 \code{flags=0}；WITNESS 与 DEBUG 必须 \code{flags=1}。
+未知 type 只有在 OPTIONAL 为 1 时可跳过；跳过的数据绝不能参与证明。
+未知 mandatory section 为 \code{E_UNSUPPORTED}。未知 opcode 始终拒绝，不能由 OPTIONAL section flag 覆盖。
+
+\begin{longtable}{l l l p{65mm}}
+\toprule type & 名称 & count 的单位 & 存在性与布局 \\\midrule\endfirsthead
+\toprule type & 名称 & count 的单位 & 存在性与布局 \\\midrule\endhead
+\code{0x0001} & SCALAR\_POOL & scalar entry & 必需；可空，变长记录。\\
+\code{0x0010} & FWD\_EXPR\_INDEX & expression & Forward 必需；16 B/entry。\\
+\code{0x0011} & FWD\_EXPR\_TERMS & term & Forward 必需；8 B/entry。\\
+\code{0x0020} & REV\_EXPR\_INDEX & expression & Reverse 必需；16 B/entry。\\
+\code{0x0021} & REV\_EXPR\_TERMS & term & Reverse 必需；8 B/entry。\\
+\code{0x0030} & FWD\_MAP & map record & Forward 必需；记录流。\\
+\code{0x0031} & REV\_MAP & map record & Reverse 必需；记录流。\\
+\code{0x0040} & FWD\_TAPE & instruction & Forward 必需；包括所有嵌套指令。\\
+\code{0x0041} & REV\_TAPE & instruction & Reverse 必需；包括所有嵌套指令。\\
+\code{0x0050} & WITNESS & byte & 可选；count 必须等于 length。\\
+\code{0x00F0} & DEBUG & byte & 可选；count 必须等于 length。\\
+\bottomrule
+\end{longtable}
+两个方向的 pool 使用同一个 ScalarPool，却有各自独立的 ExprId 空间。ExprId 不得跨方向引用。
+TAPE 的 count 统计每个 split header 一次、每个 child instruction 一次，包括 unreachable tail 的指令；不统计 padding。
+基础 profile 启用双方向，因而共有 9 个必需 section；它们可以按 offset 排列，不要求按 type 排列。
+当 count 为 9 时，directory 在 416 处结束，首个 section 最早在 448 处开始。
+
+\section{ScalarRef 与 ScalarPool}
+\subsection{内联整数}
+\code{ScalarRef} 是一个 u32。bit 31 为 1 时，低 31 位为二补码有符号整数。
+令 $s=\code{raw}\mathbin{\&}\code{0x7FFFFFFF}$，则
+\[
+\operatorname{decode}(\code{raw})=
+\begin{cases}s,&s<2^{30},\\s-2^{31},&s\ge 2^{30}.\end{cases}
+\]
+范围是 $[-2^{30},2^{30}-1]$，不是完整 i32 范围。
+\begin{center}\begin{tabular}{r l l}
+\toprule 值 & ScalarRef & little-endian 字节 \\\midrule
+0 & \code{0x80000000} & \code{00 00 00 80} \\
+1 & \code{0x80000001} & \code{01 00 00 80} \\
+-1 & \code{0xFFFFFFFF} & \code{FF FF FF FF} \\
+$-2^{30}$ & \code{0xC0000000} & \code{00 00 00 C0} \\
+$2^{30}-1$ & \code{0xBFFFFFFF} & \code{FF FF FF BF} \\\bottomrule
+\end{tabular}\end{center}
+所有可内联的整数必须使用该编码，不能放入 ScalarPool。
+bit 31 为 0 时，全部 31 位为 ScalarPool index；index 必须小于 pool count。
+ScalarPool 的 count 不得超过 $2^{31}$，因为更大的索引没有可表示的 ScalarRef。
+
+\subsection{Pool 记录}
+设 scalar count 为 $N$。section 前 $16N$ 字节是索引表。
+每个 entry 包含 \code{data_offset:u64}、\code{numerator_bytes:u32} 和
+\code{denominator_bytes:u32}，偏移依次为 0、8、12。
+\code{data_offset} 相对于 SCALAR\_POOL section 起始位置，指向记录的 sign 字节。
+索引表之后是按 entry 顺序紧密连接的数据记录，不含内部 padding：
+\begin{lstlisting}
+sign:u8 | numerator_magnitude[numerator_bytes] |
+          denominator_magnitude[denominator_bytes]
+\end{lstlisting}
+sign=0 表示正，sign=1 表示负，其他值非法。
+两个 magnitude 都是 unsigned little-endian，不含符号位；长度必须大于零，最高有效字节不得为零。
+分母必须为正，分子必须非零，$\gcd(|p|,q)=1$。
+零必须内联，因此没有 pool 内的正零、负零或 \code{0/1}。
+整数的 denominator magnitude 是单字节 \code{01}，且仅在超出内联范围时允许。
+
+第一条记录的 data offset 必须为 $16N$，后续记录偏移必须等于前一条记录结束位置。
+最后一条记录必须恰好在 section 末尾结束。$N=0$ 时 length 必须为零。
+ScalarPool 允许重复的 canonical rational；pool index 不构成数学数值身份。
+若实现使用 intern 或 hash 快路径，其结果仍必须服从精确数值相等。
+
+例：一个只包含 $1/10$ 的 pool，count=1，length=19。
+\begin{lstlisting}
+10 00 00 00 00 00 00 00  01 00 00 00 01 00 00 00
+00 01 0A
+\end{lstlisting}
+前 16 B 是 offset=16、numerator bytes=1、denominator bytes=1；后 3 B 是 sign=0、numerator=1、denominator=10。
+
+\section{Expression pool}
+\label{sec:expr-pool}
+每个方向有一个 expression pool，由该方向的 index section 与 terms section 组成。
+一个 pool entry 由一个 ExprIndex 记录及其 \code{term_offset}/\code{term_count}
+指向的 term range 组成。ExprId 是该方向 index section 的零基 entry 序号。
+\subsection{ExprIndex}
+每个 ExprIndex 为 16 B：
+\begin{center}\begin{tabular}{r r l}
+\toprule 偏移 & 宽度 & 字段 \\\midrule
+0 & 8 & \code{term_offset:u64} \\
+8 & 4 & \code{term_count:u32} \\
+12 & 4 & \code{constant:ScalarRef} \\\bottomrule
+\end{tabular}\end{center}
+每个方向的 expression count 不得超过 $2^{32}$，因为 ExprId 编码为 u32。
+\code{term_offset} 是相对于对应 TERMS section 的\textbf{字节偏移}，必须是 8 的倍数。
+\code{term_offset+8*term_count} 必须位于 TERMS section 内。
+index section 的 length 必须等于 $16\times\code{count}$。
+
+\subsection{ExprTerm}
+每个 ExprTerm 为 8 B：\code{var_id:u32} 位于偏移 0，\code{coefficient:ScalarRef} 位于偏移 4。
+terms section 的 length 必须等于 $8\times\code{count}$。
+每个 expression 的 variable ID 必须严格升序、位于当前 input model 范围内，且每个 coefficient 解码后非零。
+constant 与 coefficient 均须解码为 canonical rational。
+零表达式表示为 term count=0、constant=内联零。
+
+不同 expression 可以共享合法 term range；不同 ExprId 可以表示同一个 canonical expression。
+这里的 canonical 要求是数学表达式的有序、合并、精确表示，不要求 pool 全局去重。
+因此 \code{ExprId(a)==ExprId(b)} 可以作为相同表达式的充分条件，反向推论不成立。
+重复 pool entry 不得使 \code{EQ.PAIR}、CHECK 或 split merge 错误拒绝数学上精确相同的表达式。
+
+\section{FactRef}
+\code{FactRef} 是 u32，tag 为 bits 31:28，index 为 bits 27:0。
+\begin{longtable}{l l p{83mm}}
+\toprule tag & 文本形式 & 指向的事实 \\\midrule\endfirsthead
+\toprule tag & 文本形式 & 指向的事实 \\\midrule\endhead
+\code{0x0} & \code{\%n} & 当前方向 derived fact；index 是不可复用的 FactId。\\
+\code{0x1} & \code{@in.r[n].hi} & 输入 row 的有限 upper side，LE。\\
+\code{0x2} & \code{@in.r[n].lo} & 输入 row 的有限 lower side，LE。\\
+\code{0x3} & \code{@in.r[n].eq} & 输入 equality row，EQ。\\
+\code{0x4} & \code{@in.v[n].hi} & 输入 variable 的有限 upper bound，LE。\\
+\code{0x5} & \code{@in.v[n].lo} & 输入 variable 的有限 lower bound，LE。\\
+\code{0x6} & \code{@in.v[n].int} & 输入 integer/binary variable 的整数性，INT。\\
+\code{0x7} & \code{@case[n]} & 当前 scope 向外数 n 层的 split assumption。\\
+\code{0x8--0xF} & 无 & 保留；基础 v0.1 拒绝。\\
+\bottomrule
+\end{longtable}
+不存在的有限 side、非 equality 的 eq 引用、连续变量的 int 引用均非法。
+\code{@case} 等于 \code{@case[0]}；index 1 指父 split 的 assumption，不包括没有 assumption 的 root。
+derived fact 的 live、scope 与 future 检查见第\ref{ch:execution}章。
+模型的可引用 row/variable 数量以及全部 syntactic derived fact slot 数量均不得超过 $2^{28}$。
+
+\section{Map section}
+map section 是一串独立记录，记录起始地址以 8 B 对齐。header 为 8 B：
+\begin{lstlisting}
+kind:u8 | flags:u8 | reserved:u16 | payload_bytes:u32
+\end{lstlisting}
+flags 与 reserved 必须为零。record count 包含所有 map header。下一记录位置计算如下，padding 为零：
+\begin{lstlisting}
+next_pc = align8(pc + 8 + payload_bytes)
+\end{lstlisting}
+未知 kind 拒绝；没有可跳过的 map 扩展。
+
+\begin{longtable}{l l p{78mm}}
+\toprule kind & 名称 & payload（字段均为 u32） \\\midrule\endfirsthead
+\toprule kind & 名称 & payload（字段均为 u32） \\\midrule\endhead
+\code{0x00} & COPY\_RANGE & out start, in start, count, reserved=0；16 B。\\
+\code{0x01} & COPY\_PAIRS & pair count, reserved=0，然后 pair count 组 (out var, in var)；$8+8n$ B。\\
+\code{0x02} & CONST & out var, scalar ref；8 B。\\
+\code{0x03} & AFF & out var, expr id；8 B。\\
+\code{0x04} & DEFER & out start, count；8 B，覆盖连续输出变量。\\
+\bottomrule
+\end{longtable}
+range count 与 pair count 必须大于零。所有 range 的末端计算必须检测溢出，输入和输出 ID 都必须合法。
+各输出变量必须被 map section 恰好覆盖一次：赋予一个 unconditional mapping，或声明 DEFER。
+COPY\_RANGE 等价于 $n$ 个对应 COPY 定义，COPY\_PAIRS 等价于各 pair 定义。
+这些记录不产生 FactId，不自动 discharge 任何 obligation。
+DEFER 初始化为 UNASSIGNED，只有 tape 中的 MAP 指令可以在其路径上定义；静态已定义变量不可重写。
+
+\section{Instruction stream}
+\label{sec:instruction-header}
+每条 instruction 的 header 是 8 B：
+\begin{center}\begin{tabular}{r r l}
+\toprule 偏移 & 宽度 & 字段 \\\midrule
+0 & 1 & \code{opcode:u8} \\
+1 & 1 & \code{flags:u8} \\
+2 & 2 & \code{aux:u16} \\
+4 & 4 & \code{payload_bytes:u32} \\\bottomrule
+\end{tabular}\end{center}
+header 开始地址必须 8 B 对齐；opcode-specific payload 长度必须精确符合第\ref{ch:instructions}章，而不只是“至少足够”。
+\code{next_pc=align8(pc+8+payload_bytes)}，必须落在当前 block 范围内。
+padding 不参与 payload 长度计算。base opcode 以外的 byte 值，包括预留的 batch 与 theorem opcode，都返回 \code{E_UNSUPPORTED}。
+
+\subsection{隐式结果编号}
+producer payload 包含期望的 out ExprId，不包含目标 FactId。
+FactId 根据完整语法结构确定：普通 producer 占一个 slot；split 先按 case 顺序遍历所有 child 的定义，再占 \code{aux} 个 merged result slot。
+NOP、CHECK、MAP、DROP、RET、YIELD 与 CLOSE.FALSE 不产生 slot。
+格式合法但语义不可达的 instruction 仍占其语法 slot，不提交 live fact。
+该规则属于 P-03，确保跳过不可达语义不会改变后续 case 的编号。
+
+\subsection{Split 内部字节范围}
+BIN 与 SIGN 的固定 payload 为 16 B，THR 为 16 B。
+child byte length 包含该 child 的全部 instruction header、payload、instruction padding 与嵌套 split；必须是 8 的倍数且大于零。
+children 紧密连接，父 instruction 的 payload 必须恰好容纳固定字段和全部 child ranges。
+每个 child 都从独立的 8 B 边界开始，不允许跨 child 的 instruction 或引用本不存在的第三支。
+
+RANGE 固定字段为 24 B，随后是 \code{branch_count} 个 u32 child length；该表末尾补零至 8 B 对齐，再连接所有 child。
+其 payload 长度必须满足
+\[
+\operatorname{align}_8(24+4N)+\sum_{i=0}^{N-1} B_i.
+\]
+其他二支 split 的 payload 长度为 $16+B_0+B_1$。
+全部值必须在 u32 payload 长度与实际文件边界内可表示。
+branch terminal、yield arity 和 proof state 的要求见执行章及指令章。
+
+\section{可选数据和版本边界}
+基础 v0.1 的 WITNESS 与 DEBUG 是不可信的 opaque byte section。
+它们不产生 fact，不提供额外 assumption，不定义 mapping，不 discharge obligation，也不能指定忽略错误。
+DEBUG 可以保存行号、符号和注释，具体 schema 尚未冻结；不影响数学判定。
+如果将来 WITNESS 含有证明必需的逻辑输入，它必须使用新定义的 mandatory section 或明确版本扩展。
+
+v0.1 不忽略未来 minor version，不执行保留 opcode，也不接受未声明的 CALL checker。
+可选非逻辑 metadata 可以扩展；证明语义的扩展必须有显式的版本与能力约定。

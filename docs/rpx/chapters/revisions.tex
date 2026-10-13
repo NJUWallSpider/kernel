@@ -1,0 +1,60 @@
+\chapter{修订提案、开放问题与冻结检查}\label{app:revisions}
+
+\section{提案登记}
+以下条目列出 D0 为使原草案可独立审阅而补充的候选规则。
+它们在相关章节中给出完整行为；本表不表示已通过审议。
+后续修改应保留编号，并记录接受、修改或撤回的决定。
+
+\begin{longtable}{l p{110mm}}
+\toprule 编号 & 候选决定 \\\midrule\endfirsthead
+\toprule 编号 & 候选决定 \\\midrule\endhead
+P-01 & 目标统一为最小化；文件声明与调用者要求绑定；双向 EQ/LE 推出 optimum equivalence，F/G 不要求互逆。\\
+P-02 & 每支从相同父状态开始；DONE 取可达支交集；不同 mapping 可封存为 SEALED\_PIECEWISE；混合已定义/未定义立即拒绝。\\
+P-03 & FactId 按语法深度优先顺序分配，split 子支定义先于 merged outputs；不可达指令仍占 slot；DROP 仅释放当前 scope 的 live facts。\\
+P-04 & INT.AFF 允许任意有理数倍 EQ 项，同时保持整数 offset 和 INT multiplier 为整数。\\
+P-05 & CHECK 的 EXACT flag 由 kernel 验证恒真/结构整数性条件，不是 assembler 的成功声明；不分配可见 FactId。\\
+P-06 & 验证 SPLIT.SIGN 两个覆盖范围；用于解重建时，零优先选择 le 支，以定义确定性映射。\\
+P-07 & 明确 Header 偏移、ScalarPool、map 记录、全部 instruction payload、padding/count 和可选非逻辑 metadata 边界。\\
+\bottomrule
+\end{longtable}
+
+\section{开放问题}
+\begin{longtable}{l p{110mm}}
+\toprule 编号 & 冻结前或独立工具发布前的决定 \\\midrule\endfirsthead
+\toprule 编号 & 冻结前或独立工具发布前的决定 \\\midrule\endhead
+O-01 & MCM 的独立 canonical 文件序列化、SHA 覆盖范围与 schema 版本。数学接口已定义，文件 ABI 尚未定义。\\
+O-02 & MPS 输入 dialect、decimal/二进制浮点来源语义、缺省 bounds、ranges、names、目标方向与 unsupported constructs 的完整转换规则。\\
+O-03 & 面向数值解的独立 mapping 重建接口、输出格式与 metadata schema；本手册已有 guard/映射数学规则，但没有实现该工具。\\
+O-04 & Batch、theorem registry 与能力协商。基础 v0.1 一律拒绝保留 opcode；未来发布必须单独审阅。\\
+O-05 & 资源限额的默认 profile、数值错误码和可重复 benchmark 数据集。格式硬边界已固定，部署限额尚未冻结。\\
+\bottomrule
+\end{longtable}
+
+O-01 与 O-02 阻止宣称完整文件工具链已经互通，但不阻止使用明确绑定的内存 canonical model 接口讨论和验证 RPX 语义。
+若最终发布采用该接口而不同时发布 MCM/MPS 工具，发布说明必须明确这一范围。
+
+\section{冻结检查点}
+\begin{enumerate}
+\item 确认两个 profile、目标方向、offset 与调用者 policy，并证明 contract 定理的前提完整。
+\item 接受或修订 branch 事务、三态 mapping、混合定义拒绝、obligation 交集及 root false 的规则。
+\item 确认 FactId 编号、scope-local DROP、静态 YIELD 的 ExprView 与 exact proposition equality。
+\item 确认全部 28 个 opcode 的字段、长度、flags、aux、类型前提与错误条件；不存在未定义的核心 mnemonic。
+\item 确认 ScalarPool、ExprPool、Map、Header、Directory 的编码，特别是 count、padding、overflow 和 mandatory/optional 行为。
+\item 逐条审阅第\ref{ch:examples}章三个完整双向证明，使每个成功路径都有完整 mappings 和 obligations。
+\item 为 wire format 准备 Header、ScalarRef、ScalarPool、每个 opcode、nested split 与 malformed 文件的 golden vectors。
+本手册给出的若干向量是起点，不能冒充覆盖全部 opcode 的测试套件。
+\item 为接受结果、unsupported、resource limit 和 I/O failure 定义公开接口与诊断约定。
+\item 确认核心规范不借助 proof search、浮点容差或隐藏 theorem 获得接受结果。
+\item 所有接受的修订同步到示例与文档，再将草案状态改为 frozen v0.1；冻结后不改写已发布字段含义。
+\end{enumerate}
+
+\section{修订记录}
+\begin{longtable}{l l p{86mm}}
+\toprule 日期 & 修订 & 内容 \\\midrule\endfirsthead
+\toprule 日期 & 修订 & 内容 \\\midrule\endhead
+2026-10-09 & D0 & 首次整理完整中文 LaTeX 手册；采用原始 28-opcode 核心，登记 P-01 至 P-07，提供完整双向示例和候选 wire format。\\
+\bottomrule
+\end{longtable}
+
+本文的专业排版与章节组织不构成规范已经成熟的证据。
+数学接受条件、字节级互通、失败案例和独立实现的一致性，才是下一阶段逐步审阅的对象。

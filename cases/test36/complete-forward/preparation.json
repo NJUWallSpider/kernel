@@ -1,0 +1,55 @@
+{
+  "case_id": "test36",
+  "status": "PROOF_NOT_COMPLETED",
+  "scope": "forward",
+  "kernel_binary": {
+    "path": "/Users/bhz/Code/kernel/target/next-contracts-initial/release/rpx",
+    "sha256": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+  },
+  "preparation_seconds": 49.918682083,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/next-contracts-initial/release/rpx",
+        "assemble",
+        "cases/test36/complete-forward/proof.rpa",
+        "cases/test36/complete-forward/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":86614101,\"status\":\"ASSEMBLED\",\"total_us\":1131235}\n",
+      "stderr": "",
+      "binary_sha256_before": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875",
+      "binary_sha256_after": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/next-contracts-initial/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/complete-forward/proof.rpx",
+        "cases/test36/complete-forward/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":1950263,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":52190,\"points\":0,\"proof_decode_us\":337338,\"read_us\":11158,\"statistics\":{\"bijections\":0,\"branches\":78833,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":5765634,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":151268,\"peak_live_facts\":276367,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":150464,\"signed_generated_terms\":543958,\"signed_generated_variables\":150464,\"signed_lifts\":19,\"substitution_terms\":150464,\"work\":222198767},\"status\":\"VERIFIED\",\"total_us\":2350949}\n",
+      "stderr": "",
+      "binary_sha256_before": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875",
+      "binary_sha256_after": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
+    }
+  ],
+  "partial_status": "VERIFIED",
+  "artifacts": {
+    "proof.rpa": {
+      "bytes": 130373596,
+      "sha256": "0ee543e3cc37983e2f820bf49a9601a5a5efa47006a437201601f1258b181391"
+    },
+    "proof.rpx": {
+      "bytes": 86614101,
+      "sha256": "abc3f6095fe8d0547c6e02c18849ed06ecee603b7e70f700f84ceb08c82b232c"
+    },
+    "request.json": {
+      "bytes": 135,
+      "sha256": "c99996fee3cefe93ad2fb40969bc912c5710e02033e4040be2d5bd0a6408820d"
+    }
+  }
+}

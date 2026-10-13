@@ -1,0 +1,326 @@
+{
+  "case_id": "test58",
+  "status": "BLOCKED",
+  "acceptance": false,
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/input/model.mps",
+    "sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/reformulated.mps",
+    "sha256": "5b3ab31ba40e9162ad96620b852ce6b8c9e13ac359e4299a0c16f44d7b350b90"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/audit.json",
+    "sha256": "4db0925b0b848750a80b7e53b3e0956bd6af9c0ff17fc3664ba9f88f8bff7367"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test58.py",
+    "sha256": "5f67cc435f58edf06b43ea61d999d17d18d8c6eb40e574df724c1670c54579ee"
+  },
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "claims": "Feasibility and minimum objective preservation via complete MI forward NonIncreasing and reverse Equal maps; no full LP relation and no all-point bijection.",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":291217,\"parse_us\":3936,\"read_us\":55,\"rows\":1750,\"status\":\"CANONICALIZED\",\"total_us\":5650,\"variables\":2500}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test58-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":94252,\"parse_us\":1197,\"read_us\":55,\"rows\":785,\"status\":\"CANONICALIZED\",\"total_us\":1813,\"variables\":607}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/reverse.rpa",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/reverse.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":189534,\"status\":\"ASSEMBLED\",\"total_us\":4595}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/reverse.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/reverse_request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":5804,\"model_decode_us\":3489,\"points\":0,\"proof_decode_us\":1170,\"read_us\":299,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":3932,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":6751,\"peak_live_facts\":183,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":1212,\"signed_generated_terms\":3030,\"signed_generated_variables\":1212,\"signed_lifts\":1,\"substitution_terms\":4210,\"work\":203145},\"status\":\"VERIFIED\",\"total_us\":10762}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt.rpa",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":1156376,\"status\":\"ASSEMBLED\",\"total_us\":22225}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt_request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 1372\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mps",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":474,\"parse_us\":72,\"read_us\":31,\"rows\":4,\"status\":\"CANONICALIZED\",\"total_us\":279,\"variables\":3}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mps",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":358,\"parse_us\":47,\"read_us\":29,\"rows\":3,\"status\":\"CANONICALIZED\",\"total_us\":229,\"variables\":2}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point.rpa",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":96,\"status\":\"ASSEMBLED\",\"total_us\":247}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/input_point_request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":0,\"execute_us\":20,\"model_decode_us\":54,\"points\":1,\"proof_decode_us\":49,\"read_us\":87,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":0,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":0,\"peak_live_facts\":0,\"plotkin_pairs\":0,\"point_coefficient_terms\":6,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":0,\"work\":28},\"status\":\"VERIFIED\",\"total_us\":210}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point.rpa",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":82,\"status\":\"ASSEMBLED\",\"total_us\":180}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_input.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/counterexample_merged.mcm",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point.rpx",
+        "/Users/bhz/Code/kernel/cases/test58/attempts/merged_point_request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID point: infeasible point (witness 0)\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    }
+  ],
+  "negative_checks": [],
+  "reverse": {
+    "command": [
+      "/Users/bhz/Code/kernel/target/release/rpx",
+      "verify",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/source.mcm",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/target.mcm",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/reverse.rpx",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/reverse_request.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":5804,\"model_decode_us\":3489,\"points\":0,\"proof_decode_us\":1170,\"read_us\":299,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":3932,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":6751,\"peak_live_facts\":183,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":1212,\"signed_generated_terms\":3030,\"signed_generated_variables\":1212,\"signed_lifts\":1,\"substitution_terms\":4210,\"work\":203145},\"status\":\"VERIFIED\",\"total_us\":10762}\n",
+    "stderr": ""
+  },
+  "local_merge_attempt": {
+    "command": [
+      "/Users/bhz/Code/kernel/target/release/rpx",
+      "verify",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/source.mcm",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/target.mcm",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt.rpx",
+      "/Users/bhz/Code/kernel/cases/test58/attempts/local_merge_attempt_request.json"
+    ],
+    "exit_code": 2,
+    "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 1372\",\"status\":\"INVALID\"}\n",
+    "stderr": ""
+  },
+  "blocker": {
+    "kind": "practical_joint_existence_gap_not_ISA_inexpressibility_theorem",
+    "obligation": "After merging paths 143 into 142 and 228 into 226, jointly reroute within activated support, preserve all balances and impose |F_p|<=82 Z_p without increasing activation cost. Local arithmetic provides only |merged flow|<=164.",
+    "lemma_needed": "For common-source nonnegative flow f with nonnegative sink demands totaling B, choose g with identical balances, 0<=g_e<=f_e and g_e<=B on every arc, allowing loops/disconnected circulations.",
+    "alternative_attempt": "FlowLift commodity decomposition was inspected: generated arc-total equalities require sum_k f[k,e]=f[e], not <=f[e], so circulations remain and no per-commodity or aggregate B bound is generated. SignedLift only preserves signed net flows and activated capacities; it cannot change balances by cycle cancellation. Per-arc interval choices are not independent because conservation couples them.",
+    "smallest_local_merge_counterexample": {
+      "nodes": [
+        "s",
+        "t"
+      ],
+      "arcs": [
+        [
+          "s",
+          "t"
+        ],
+        [
+          "s",
+          "t"
+        ],
+        [
+          "t",
+          "s"
+        ]
+      ],
+      "B": 82,
+      "flows": [
+        82,
+        82,
+        82
+      ],
+      "balances": {
+        "s": 82,
+        "t": -82
+      },
+      "merged_forward_flow": 164,
+      "capacity": 82,
+      "circulation_free_solution": [
+        82,
+        0,
+        0
+      ]
+    },
+    "qualification": "The lemma is mathematically true by path/circulation decomposition; existing Split/Lin can in principle encode explicit cycle cancellation or spanning-tree cases. No proof of fundamental ISA impossibility is claimed. A compact complete such route was not established."
+  },
+  "counts": {
+    "original_edges": 625,
+    "bridge_cut_equalities_checked": 199,
+    "series_internal_nodes": 121,
+    "retained_paths": 303,
+    "reverse_signed_decompositions": 303
+  },
+  "artifacts": {
+    "reverse.rpx": {
+      "bytes": 189534,
+      "sha256": "8dfc9b41cfde8bae7ac42b78846308a96d2e90ca625f5eebb37b14ce76f29d98"
+    },
+    "counterexample_merged.mps": {
+      "bytes": 227,
+      "sha256": "141b6dea959116cda8ab8d0d842469d3f7aee1c36ce427311db672ea1d15f228"
+    },
+    "input_point_request.json": {
+      "bytes": 88,
+      "sha256": "b6132c621bc43b0d51d42249e86cdcf00902e38508d9e6a40c8677faa2a66531"
+    },
+    "merged_point.rpx": {
+      "bytes": 82,
+      "sha256": "de9fddafa4dd57e9a537376b7fe2b3811fc5add71db2743a3e252c129c6ec62f"
+    },
+    "local_merge_attempt.rpa": {
+      "bytes": 1090147,
+      "sha256": "3f2cf559512fdcc2afe2e92e6e534fac584c0799abb00678658e7870396c35ff"
+    },
+    "input_point.rpa": {
+      "bytes": 142,
+      "sha256": "88ec8cacabddd27fbc641107e4a9eac3270d5b9cfaefa565b00ca44fb78d7183"
+    },
+    "counterexample_merged.mcm": {
+      "bytes": 358,
+      "sha256": "687d0b33f76718cc6edf0a11a6c58b73e95d24d37f7bcfd1a3755a978f9f05cc"
+    },
+    "reverse_request.json": {
+      "bytes": 115,
+      "sha256": "662ee1b0fc1f0726c8039a46173a8349e76a8916a805608e5b0d67deec7d0ee6"
+    },
+    "local_merge_attempt_request.json": {
+      "bytes": 124,
+      "sha256": "7b644ecc8036553743231d7d944c3b21b228cd051637aa86d6d7df6d37df1c75"
+    },
+    "target.mcm": {
+      "bytes": 94252,
+      "sha256": "d5911c9f3045d37943f026f3b65ebfc4306785bb9137fb3428869e07a16cf41e"
+    },
+    "reverse_partial.json": {
+      "bytes": 1657,
+      "sha256": "67287e7dce781ff456a1550341127f7f0952266afec9c699a91ad3014d1a2b0f"
+    },
+    "reverse.rpa": {
+      "bytes": 279590,
+      "sha256": "60cdc43d61e87b4d51ec6641dea774e7e1607113484f9467d8fa58d24e19fae0"
+    },
+    "counterexample_input.mcm": {
+      "bytes": 474,
+      "sha256": "6c52abb5a93b30477b3eea25248f68ccf16b199e6aa0bdd972668f23b75c300a"
+    },
+    "local_merge_attempt.rpx": {
+      "bytes": 1156376,
+      "sha256": "f3fd21425c2d011c197cfef8859cd41cec8ef6828fb1ce03f6787e554e55a723"
+    },
+    "merged_point.rpa": {
+      "bytes": 137,
+      "sha256": "a037f535fea790ae7fe485d3fb5359917cc3a5ec29113f2ca188675b2c597867"
+    },
+    "source.mcm": {
+      "bytes": 291217,
+      "sha256": "e2a54f1a22a035d9b7f1d2bc7f15f04a56de499d2ea7a77088e00181ad95159c"
+    },
+    "input_point.rpx": {
+      "bytes": 96,
+      "sha256": "1ce5070d1135b0160368b942541d404d5414f8e0d9df4e5f201dcc77d3932bfa"
+    },
+    "counterexample_input.mps": {
+      "bytes": 290,
+      "sha256": "cecc65e5eb9ea7d58621873894ee96bf08cc7d2f0c1aafcf4f206c0bd373150a"
+    },
+    "merged_point_request.json": {
+      "bytes": 87,
+      "sha256": "de7c79b1c94b7f1d608db50371b9bbf60a3956a9e44d0c647ddc5c7d195fda1d"
+    },
+    "circulation_counterexample.json": {
+      "bytes": 2701,
+      "sha256": "1652c6fc4085a446e03b58ebf0ac31d466962149d4d84eebcd720a45c0af273a"
+    }
+  },
+  "preparation_seconds": 0.8839026670902967
+}

@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "base_checkpoint": "audit/checkpoints/v6-original-scopes-source",
+  "pre_merge_backup": "audit/checkpoints/v6-boxed-before-scope",
+  "reproducer": "audit/merge_scope_v6.py",
+  "prototype": "bench/shared-scope-prototype/crates/core/src/verify.rs",
+  "prototype_sha256": "c21e14f1f4176eecddf98466fc7fc6b522d8f57495852ca8b163c892e72ad4a2",
+  "independent_scope_test_sha256": "7b6c251088e53368fbe0bfe8f1d656e60f9fbaaf0e5cdbaf905568d9f15b58d9",
+  "before_sha256": {
+    "crates/core/src/proof.rs": "d0a48ade9ca3a531a8196e1aa230a26b75d801af17aade5afb72d11f402076e0",
+    "crates/core/src/codec.rs": "3efec24de846b13662344659ad89485c6f8426376928e4ec004526bbbbd1a629",
+    "crates/core/src/verify.rs": "54eed43f4080b7a589459b16473995bf1b4720a670e45702679b5a29c88778e6",
+    "crates/core/tests/local_cases.rs": "76b537a8a2eb15538e00035b926954300ecfc5f2e627f05ea9dbb0b76911df22",
+    "crates/core/tests/plotkin.rs": "81637776f92f2a948427d2c1c2b65e67d764f3c0c5bfd2aa80be3232170c1e32",
+    "crates/core/tests/refutation.rs": "21165c0b87b426b3cc0cfc9b9fa233a40c812d23983c0ba21c7ff0b33800d672"
+  },
+  "after_sha256": {
+    "crates/core/src/proof.rs": "d0a48ade9ca3a531a8196e1aa230a26b75d801af17aade5afb72d11f402076e0",
+    "crates/core/src/codec.rs": "3efec24de846b13662344659ad89485c6f8426376928e4ec004526bbbbd1a629",
+    "crates/core/src/verify.rs": "28d77e53b3fd1c63e6ab0af40c28704b636d756978dcae66cadad35fa71b0bab",
+    "crates/core/tests/local_cases.rs": "76b537a8a2eb15538e00035b926954300ecfc5f2e627f05ea9dbb0b76911df22",
+    "crates/core/tests/plotkin.rs": "81637776f92f2a948427d2c1c2b65e67d764f3c0c5bfd2aa80be3232170c1e32",
+    "crates/core/tests/refutation.rs": "21165c0b87b426b3cc0cfc9b9fa233a40c812d23983c0ba21c7ff0b33800d672",
+    "crates/core/src/scope_state_audit.rs": "7b6c251088e53368fbe0bfe8f1d656e60f9fbaaf0e5cdbaf905568d9f15b58d9"
+  },
+  "source_equivalence": "All prototype code matches exactly after removing V6 refutation additions and unboxing Cases pattern; both V6 root initializations independently use Facts::new.",
+  "format_semantics": "Unchanged. Codec, proof types and all existing tests are byte-identical to pre-merge files. Work accounting now charges actual ancestor probes instead of whole-map copying.",
+  "validation": [
+    {
+      "command": "cargo test --workspace --locked",
+      "exit_code": 101,
+      "core_tests_passed": 154,
+      "log": "audit/scope_v6_tests.log",
+      "failure": "Python wrapper test process could not start: missing libpython3.13.dylib; all core suites completed successfully."
+    },
+    {
+      "command": "cargo test -p kernel-core --lib --tests --locked",
+      "exit_code": 0,
+      "passed": 154,
+      "failed": 0,
+      "log": "audit/scope_v6_core_tests.log"
+    },
+    {
+      "review": "model_layer independently re-read V6 port; fresh mapping/refutation state, refutation restrictions, Split recursion and extension scope preserved. No new finding."
+    },
+    {
+      "command": "cargo build --release -p kernel-core --bin rpx --locked",
+      "exit_code": 0,
+      "log": "audit/scope_v6_release_build.log"
+    }
+  ],
+  "unchanged_wire_source_files": [
+    "crates/core/src/proof.rs",
+    "crates/core/src/codec.rs"
+  ],
+  "cargo_lock_sha256": "e50906709f3909a07659adc6ffb49f6208a77679c563ec3d973a3e3b7970c78e",
+  "binary": {
+    "path": "/Users/bhz/Code/kernel/target/release/rpx",
+    "sha256": "425a40c6b259bb9db45d9e1a2fac56dece8ad60c2226a314c783595e0a19e608",
+    "bytes": 1464304
+  },
+  "diff": "audit/scope_v6_merge.diff"
+}

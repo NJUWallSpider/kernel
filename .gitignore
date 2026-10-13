@@ -1,0 +1,33 @@
+# Rust build outputs. Nested prototype/checkpoint workspaces carry their own
+# target/ directories (bench/*/target, audit/**/target).
+target/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+dist/
+build/
+
+# LaTeX build intermediates (docs/Makefile runs latexmk -outdir=.build)
+**/.build/
+**/docs/*.aux
+**/docs/*.fls
+**/docs/*.fdb_latexmk
+**/docs/*.log
+**/docs/*.out
+**/docs/*.synctex.gz
+**/docs/*.toc
+**/docs/*.xdv
+
+# Heavy generated delivery artifacts. These stay on disk and are bound by
+# SHA-256 in the tracked manifests (audit/corpus_inventory.json,
+# cases/*/preparation*.json, audit/checkpoints/*.json), not by Git.
+*.rpa
+*.rpx
+*.mcm
+audit/acceptance.json
+
+# macOS
+.DS_Store

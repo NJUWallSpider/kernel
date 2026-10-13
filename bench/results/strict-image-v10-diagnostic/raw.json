@@ -1,0 +1,1538 @@
+{
+  "config": {
+    "schema": "fixed-strict-improvement-and-full-image-performance-v1",
+    "fixed_on": "2026-10-11",
+    "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+    "kernel_sha256": "5cb441c3b38ab7b3aea01ca880ef720207001cad9e253b5256b714946c9b1c38",
+    "fixture_manifest": "bench/strict_image_fixture_manifest.json",
+    "preparation_repetitions": 3,
+    "verification_repetitions": 9,
+    "rss_repetitions": 3,
+    "synthetic": [
+      {
+        "name": "strict-n1",
+        "kind": "strict",
+        "coordinates": 1
+      },
+      {
+        "name": "strict-n64",
+        "kind": "strict",
+        "coordinates": 64
+      },
+      {
+        "name": "strict-n4096",
+        "kind": "strict",
+        "coordinates": 4096
+      },
+      {
+        "name": "image-n1",
+        "kind": "image",
+        "coordinates": 1
+      },
+      {
+        "name": "image-n64",
+        "kind": "image",
+        "coordinates": 64
+      },
+      {
+        "name": "image-n4096",
+        "kind": "image",
+        "coordinates": 4096
+      }
+    ],
+    "actual_cases": [],
+    "mathematics": "Both source and target encode every coordinate of a continuous [0,1]^n cube with objective sum x. Strict: one caller-bound positive predicate P=sum x and a complete all-zero output tuple, every source bound checked, exact objective margin P. This proves strict improvement for every P>0 while preserving the strict boundary. Image: a complete feasible source point x_i=2/3 and a full identity affine map; exactly the last target upper bound is 1/2, so the complete mapped point violates that actual target bound. No containment claim, partial tuple or missing domain is substituted.",
+    "sampling": "Absolute capability baseline, no speed ratio against older versions that lack these tasks. Fresh processes, nine verify samples and three independent /usr/bin/time -l RSS samples. Exact logical statistics must match; all non-VERIFIED exits, missing RSS and mismatches are retained as failures. Warm filesystem cache after preparation; no cache flush.",
+    "preparation": "Three fresh independent Python processes generate complete MCM bytes, RPA and caller requests, followed by production RPA assembly. Report internal generation, full generation+assembly process wall, all byte sizes, decode, execute, full kernel wall and RSS. No MPS canonicalization cost is implied for direct synthetic MCM generation.",
+    "isolation": "Official measurements wait for coordinator clear and an explicit recorded isolation note. Non-isolated mathematical diagnostics are saved separately and excluded from official timing. The prior subflow workload manifest is unchanged."
+  },
+  "config_sha256": "cb864b1613fc92a0c6b9be6c8cdde697e38362b8491ed7d6ab2a179c90982468",
+  "script_sha256": "477ef5579948d709087a29483fb627fb2b4187a0cba56524ff31e51dabdd1ce5",
+  "independent_mcm_writer_sha256": "f365185aa68cd472f1519743d3c612785ac02a056aa90cdfe56daa60cecdbf06",
+  "kernel": {
+    "path": "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+    "sha256": "5cb441c3b38ab7b3aea01ca880ef720207001cad9e253b5256b714946c9b1c38"
+  },
+  "source_build_receipt_sha256": "2b6a6ed475299df7467710a8c6e8963fd97a6a6ad1481ad8a1d5aedb26e2b78c",
+  "diagnostic_nonisolated": true,
+  "isolation_note": null,
+  "cache": "Warm after generation/assembly, independent process per sample, no cache flush",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)\nbinary: rustc\ncommit-hash: ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96\ncommit-date: 2026-05-25\nhost: aarch64-apple-darwin\nrelease: 1.96.0\nLLVM version: 22.1.2\n",
+  "hardware": {
+    "machdep.cpu.brand_string": "Apple M5",
+    "hw.memsize": "17179869184",
+    "hw.ncpu": "10"
+  },
+  "workloads": [
+    {
+      "name": "strict-n1",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "strict-n1",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0"
+            ],
+            "wall_ns": 46941000,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 701541,
+              "name": "strict-n1",
+              "source_variables": 1,
+              "source_rows": 0,
+              "target_variables": 1,
+              "target_rows": 0,
+              "source_terms": 1,
+              "target_terms": 1,
+              "proof_steps": 0,
+              "complete_obligations": 3,
+              "full_point_coordinates": null,
+              "caller_bound_coordinate_count": 1,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/proof.rpx"
+            ],
+            "wall_ns": 3589500,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 138,
+              "status": "ASSEMBLED",
+              "total_us": 395
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n1/prepare0/request.json"
+          ],
+          "wall_ns": 6069875,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 60,
+            "improvements": 1,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 71,
+            "points": 0,
+            "proof_decode_us": 20,
+            "read_us": 184,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "improvements": 1,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 3,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 11
+            },
+            "status": "VERIFIED",
+            "total_us": 335
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 118,
+          "sha256": "0677eb62c08a24bb8dc0c45f0ccca7048103afdef349d6d5d9de8cc2fa738939"
+        },
+        "target.mcm": {
+          "bytes": 118,
+          "sha256": "566a9cc35acb3cac220c4f5392baa09ab5d99c0c1b7eb10e98dad7777cad0288"
+        },
+        "proof.rpa": {
+          "bytes": 285,
+          "sha256": "f76ae3214efd39719e2ade76a238046c86cb7ebef02031a5f033ae6dd2a26178"
+        },
+        "proof.rpx": {
+          "bytes": 138,
+          "sha256": "c2bd56a323028dd45dc99912487ba423a8d950211f7d70837f0ac65fd381766f"
+        },
+        "request.json": {
+          "bytes": 111,
+          "sha256": "22110822eb47485ed77d7aa33cb778f87a7f91de66bb276c268e88ceb01c5fdc"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 701541,
+        "name": "strict-n1",
+        "source_variables": 1,
+        "source_rows": 0,
+        "target_variables": 1,
+        "target_rows": 0,
+        "source_terms": 1,
+        "target_terms": 1,
+        "proof_steps": 0,
+        "complete_obligations": 3,
+        "full_point_coordinates": null,
+        "caller_bound_coordinate_count": 1,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "improvements": 1,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 3,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 11
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 6.069875,
+          "median": 6.069875,
+          "max": 6.069875
+        },
+        "read_us": {
+          "min": 184,
+          "median": 184,
+          "max": 184
+        },
+        "model_decode_us": {
+          "min": 71,
+          "median": 71,
+          "max": 71
+        },
+        "proof_decode_us": {
+          "min": 20,
+          "median": 20,
+          "max": 20
+        },
+        "execute_us": {
+          "min": 60,
+          "median": 60,
+          "max": 60
+        },
+        "total_us": {
+          "min": 335,
+          "median": 335,
+          "max": 335
+        },
+        "preparation_process_ms": {
+          "min": 50.5305,
+          "median": 50.5305,
+          "max": 50.5305
+        },
+        "generation_internal_ms": {
+          "min": 0.701541,
+          "median": 0.701541,
+          "max": 0.701541
+        },
+        "assembly_us": {
+          "min": 395,
+          "median": 395,
+          "max": 395
+        }
+      }
+    },
+    {
+      "name": "strict-n64",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "strict-n64",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0"
+            ],
+            "wall_ns": 39478167,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 2245708,
+              "name": "strict-n64",
+              "source_variables": 64,
+              "source_rows": 0,
+              "target_variables": 64,
+              "target_rows": 0,
+              "source_terms": 64,
+              "target_terms": 64,
+              "proof_steps": 0,
+              "complete_obligations": 129,
+              "full_point_coordinates": null,
+              "caller_bound_coordinate_count": 64,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/proof.rpx"
+            ],
+            "wall_ns": 2662333,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 2847,
+              "status": "ASSEMBLED",
+              "total_us": 149
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n64/prepare0/request.json"
+          ],
+          "wall_ns": 2878042,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 73,
+            "improvements": 1,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 47,
+            "points": 0,
+            "proof_decode_us": 41,
+            "read_us": 50,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "improvements": 1,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 129,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 452
+            },
+            "status": "VERIFIED",
+            "total_us": 211
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 3764,
+          "sha256": "480522a27c4d627166b5bc84aedd4b2f4e3987565d75c4c46316cc1f8d925141"
+        },
+        "target.mcm": {
+          "bytes": 3764,
+          "sha256": "035b60d98afc722b63aba0d14c9019ede247612135e7669c202c0e95a63ae7cf"
+        },
+        "proof.rpa": {
+          "bytes": 3615,
+          "sha256": "4ea631acc6d88a3d0234ed2e5ab2980bf226b0bd16353bc936f412d876293546"
+        },
+        "proof.rpx": {
+          "bytes": 2847,
+          "sha256": "bec17017884dc45272a594358c98d7f13abe61cdab695bec1cd509a1b66121aa"
+        },
+        "request.json": {
+          "bytes": 669,
+          "sha256": "033b833327d61f5b9383274a4b2346d41d20c0357260234003ffa0c74569c02c"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 2245708,
+        "name": "strict-n64",
+        "source_variables": 64,
+        "source_rows": 0,
+        "target_variables": 64,
+        "target_rows": 0,
+        "source_terms": 64,
+        "target_terms": 64,
+        "proof_steps": 0,
+        "complete_obligations": 129,
+        "full_point_coordinates": null,
+        "caller_bound_coordinate_count": 64,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "improvements": 1,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 129,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 452
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 2.878042,
+          "median": 2.878042,
+          "max": 2.878042
+        },
+        "read_us": {
+          "min": 50,
+          "median": 50,
+          "max": 50
+        },
+        "model_decode_us": {
+          "min": 47,
+          "median": 47,
+          "max": 47
+        },
+        "proof_decode_us": {
+          "min": 41,
+          "median": 41,
+          "max": 41
+        },
+        "execute_us": {
+          "min": 73,
+          "median": 73,
+          "max": 73
+        },
+        "total_us": {
+          "min": 211,
+          "median": 211,
+          "max": 211
+        },
+        "preparation_process_ms": {
+          "min": 42.1405,
+          "median": 42.1405,
+          "max": 42.1405
+        },
+        "generation_internal_ms": {
+          "min": 2.245708,
+          "median": 2.245708,
+          "max": 2.245708
+        },
+        "assembly_us": {
+          "min": 149,
+          "median": 149,
+          "max": 149
+        }
+      }
+    },
+    {
+      "name": "strict-n4096",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "strict-n4096",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0"
+            ],
+            "wall_ns": 173257500,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 121472542,
+              "name": "strict-n4096",
+              "source_variables": 4096,
+              "source_rows": 0,
+              "target_variables": 4096,
+              "target_rows": 0,
+              "source_terms": 4096,
+              "target_terms": 4096,
+              "proof_steps": 0,
+              "complete_obligations": 8193,
+              "full_point_coordinates": null,
+              "caller_bound_coordinate_count": 4096,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/proof.rpx"
+            ],
+            "wall_ns": 4970042,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 176223,
+              "status": "ASSEMBLED",
+              "total_us": 1976
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/strict-n4096/prepare0/request.json"
+          ],
+          "wall_ns": 11920708,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 2413,
+            "improvements": 1,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 2594,
+            "points": 0,
+            "proof_decode_us": 1009,
+            "read_us": 261,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "improvements": 1,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 8193,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 28676
+            },
+            "status": "VERIFIED",
+            "total_us": 6277
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 244714,
+          "sha256": "e8066f31c3782c7d66db40b7db8cfbbfaf80cdd5ec8ec026f218e3afea7a9283"
+        },
+        "target.mcm": {
+          "bytes": 244714,
+          "sha256": "0beeeee10a8a884d97337862bf0b964eb8a03360316802bcee4f96d83cdbe827"
+        },
+        "proof.rpa": {
+          "bytes": 224403,
+          "sha256": "63eaacff8aef46dab21b626f8bb51d989ce0cf3d885e0fa34861c91871ea2c2a"
+        },
+        "proof.rpx": {
+          "bytes": 176223,
+          "sha256": "de21181720e34115a75fdff2c4e23b90ab78b747078fb9f9b5b8f6da2f9d2b69"
+        },
+        "request.json": {
+          "bytes": 44049,
+          "sha256": "88b0c59bcc21e2630f8188d8c304b99c661319e9e7a2c6851803400ccefc5552"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 121472542,
+        "name": "strict-n4096",
+        "source_variables": 4096,
+        "source_rows": 0,
+        "target_variables": 4096,
+        "target_rows": 0,
+        "source_terms": 4096,
+        "target_terms": 4096,
+        "proof_steps": 0,
+        "complete_obligations": 8193,
+        "full_point_coordinates": null,
+        "caller_bound_coordinate_count": 4096,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "improvements": 1,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 8193,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 28676
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 11.920708,
+          "median": 11.920708,
+          "max": 11.920708
+        },
+        "read_us": {
+          "min": 261,
+          "median": 261,
+          "max": 261
+        },
+        "model_decode_us": {
+          "min": 2594,
+          "median": 2594,
+          "max": 2594
+        },
+        "proof_decode_us": {
+          "min": 1009,
+          "median": 1009,
+          "max": 1009
+        },
+        "execute_us": {
+          "min": 2413,
+          "median": 2413,
+          "max": 2413
+        },
+        "total_us": {
+          "min": 6277,
+          "median": 6277,
+          "max": 6277
+        },
+        "preparation_process_ms": {
+          "min": 178.227542,
+          "median": 178.227542,
+          "max": 178.227542
+        },
+        "generation_internal_ms": {
+          "min": 121.472542,
+          "median": 121.472542,
+          "max": 121.472542
+        },
+        "assembly_us": {
+          "min": 1976,
+          "median": 1976,
+          "max": 1976
+        }
+      }
+    },
+    {
+      "name": "image-n1",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "image-n1",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0"
+            ],
+            "wall_ns": 58017375,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 540375,
+              "name": "image-n1",
+              "source_variables": 1,
+              "source_rows": 0,
+              "target_variables": 1,
+              "target_rows": 0,
+              "source_terms": 1,
+              "target_terms": 1,
+              "proof_steps": 0,
+              "complete_obligations": null,
+              "full_point_coordinates": 1,
+              "caller_bound_coordinate_count": 1,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/proof.rpx"
+            ],
+            "wall_ns": 2855208,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 102,
+              "status": "ASSEMBLED",
+              "total_us": 164
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n1/prepare0/request.json"
+          ],
+          "wall_ns": 2664375,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 10,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 22,
+            "points": 1,
+            "proof_decode_us": 16,
+            "read_us": 49,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 0,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 1,
+              "points": 1,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 10
+            },
+            "status": "VERIFIED",
+            "total_us": 97
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 117,
+          "sha256": "20148ce5ff765ab113ff4ee00a164b3928804f1bcd6e714b4cebe64241257670"
+        },
+        "target.mcm": {
+          "bytes": 117,
+          "sha256": "cf40a3114bce49298c99b4cf4b7a9a5e2e8a7f0d8506fd7a04865e06a9fab0d0"
+        },
+        "proof.rpa": {
+          "bytes": 159,
+          "sha256": "32c741d3928dc7d7ec2d9bd304521bc84e6062e894dda5ce4bee0a707916a760"
+        },
+        "proof.rpx": {
+          "bytes": 102,
+          "sha256": "99622fc7c362cc8d8e0b86661cda052417adc0984a463cae0417d99eed367987"
+        },
+        "request.json": {
+          "bytes": 113,
+          "sha256": "58d3df1034765efa9d6a08ed01318ed0fcbbec8141dd777f7c5a292641db63a5"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 540375,
+        "name": "image-n1",
+        "source_variables": 1,
+        "source_rows": 0,
+        "target_variables": 1,
+        "target_rows": 0,
+        "source_terms": 1,
+        "target_terms": 1,
+        "proof_steps": 0,
+        "complete_obligations": null,
+        "full_point_coordinates": 1,
+        "caller_bound_coordinate_count": 1,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 0,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 1,
+        "points": 1,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 10
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 2.664375,
+          "median": 2.664375,
+          "max": 2.664375
+        },
+        "read_us": {
+          "min": 49,
+          "median": 49,
+          "max": 49
+        },
+        "model_decode_us": {
+          "min": 22,
+          "median": 22,
+          "max": 22
+        },
+        "proof_decode_us": {
+          "min": 16,
+          "median": 16,
+          "max": 16
+        },
+        "execute_us": {
+          "min": 10,
+          "median": 10,
+          "max": 10
+        },
+        "total_us": {
+          "min": 97,
+          "median": 97,
+          "max": 97
+        },
+        "preparation_process_ms": {
+          "min": 60.872583,
+          "median": 60.872583,
+          "max": 60.872583
+        },
+        "generation_internal_ms": {
+          "min": 0.540375,
+          "median": 0.540375,
+          "max": 0.540375
+        },
+        "assembly_us": {
+          "min": 164,
+          "median": 164,
+          "max": 164
+        }
+      }
+    },
+    {
+      "name": "image-n64",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "image-n64",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0"
+            ],
+            "wall_ns": 42938958,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 3285416,
+              "name": "image-n64",
+              "source_variables": 64,
+              "source_rows": 0,
+              "target_variables": 64,
+              "target_rows": 0,
+              "source_terms": 64,
+              "target_terms": 64,
+              "proof_steps": 0,
+              "complete_obligations": null,
+              "full_point_coordinates": 64,
+              "caller_bound_coordinate_count": 64,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/proof.rpx"
+            ],
+            "wall_ns": 2495792,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 3189,
+              "status": "ASSEMBLED",
+              "total_us": 192
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n64/prepare0/request.json"
+          ],
+          "wall_ns": 2352333,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 50,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 56,
+            "points": 1,
+            "proof_decode_us": 63,
+            "read_us": 57,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 0,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 64,
+              "points": 1,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 577
+            },
+            "status": "VERIFIED",
+            "total_us": 226
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 3763,
+          "sha256": "bbdd0582059d6c9d575d780cb8f146b306984239649df9a0170d8309d2278a98"
+        },
+        "target.mcm": {
+          "bytes": 3763,
+          "sha256": "7c697d9ea9bbf63c844e44089d3567f95f7881c1ac1513d222e8018028f9e25d"
+        },
+        "proof.rpa": {
+          "bytes": 2796,
+          "sha256": "ffbc37e9bbd95d03466473259081b83205b3769ad27b8b732edfd632a9435b85"
+        },
+        "proof.rpx": {
+          "bytes": 3189,
+          "sha256": "8954072bd796fad06008fe02f24065d77b67fd6dfb69466547f8aa395f4339df"
+        },
+        "request.json": {
+          "bytes": 2372,
+          "sha256": "55f06fdf39f735e8065b76369d179d392d48e667b36c9b62a29a944d46b22474"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 3285416,
+        "name": "image-n64",
+        "source_variables": 64,
+        "source_rows": 0,
+        "target_variables": 64,
+        "target_rows": 0,
+        "source_terms": 64,
+        "target_terms": 64,
+        "proof_steps": 0,
+        "complete_obligations": null,
+        "full_point_coordinates": 64,
+        "caller_bound_coordinate_count": 64,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 0,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 64,
+        "points": 1,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 577
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 2.352333,
+          "median": 2.352333,
+          "max": 2.352333
+        },
+        "read_us": {
+          "min": 57,
+          "median": 57,
+          "max": 57
+        },
+        "model_decode_us": {
+          "min": 56,
+          "median": 56,
+          "max": 56
+        },
+        "proof_decode_us": {
+          "min": 63,
+          "median": 63,
+          "max": 63
+        },
+        "execute_us": {
+          "min": 50,
+          "median": 50,
+          "max": 50
+        },
+        "total_us": {
+          "min": 226,
+          "median": 226,
+          "max": 226
+        },
+        "preparation_process_ms": {
+          "min": 45.43475,
+          "median": 45.43475,
+          "max": 45.43475
+        },
+        "generation_internal_ms": {
+          "min": 3.285416,
+          "median": 3.285416,
+          "max": 3.285416
+        },
+        "assembly_us": {
+          "min": 192,
+          "median": 192,
+          "max": 192
+        }
+      }
+    },
+    {
+      "name": "image-n4096",
+      "preparation": [
+        {
+          "generation": {
+            "command": [
+              "python3",
+              "/Users/bhz/Code/kernel/tools/benchmark_subflow.py",
+              "--config",
+              "bench/strict_image_workloads_v10_draft.json",
+              "--generate",
+              "image-n4096",
+              "--directory",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0"
+            ],
+            "wall_ns": 142367042,
+            "exit_code": 0,
+            "result": {
+              "status": "GENERATED_EXACT_CHECKED",
+              "generation_ns": 89110791,
+              "name": "image-n4096",
+              "source_variables": 4096,
+              "source_rows": 0,
+              "target_variables": 4096,
+              "target_rows": 0,
+              "source_terms": 4096,
+              "target_terms": 4096,
+              "proof_steps": 0,
+              "complete_obligations": null,
+              "full_point_coordinates": 4096,
+              "caller_bound_coordinate_count": 4096,
+              "independent_point_and_margin_check": true
+            },
+            "stderr": ""
+          },
+          "assembly": {
+            "command": [
+              "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+              "assemble",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/proof.rpa",
+              "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/proof.rpx"
+            ],
+            "wall_ns": 11406709,
+            "exit_code": 0,
+            "result": {
+              "rpx_bytes": 200757,
+              "status": "ASSEMBLED",
+              "total_us": 3725
+            },
+            "stderr": ""
+          }
+        }
+      ],
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/subflow-production/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/source.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/target.mcm",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/results/strict-image-v10-diagnostic/fixtures/image-n4096/prepare0/request.json"
+          ],
+          "wall_ns": 10256334,
+          "exit_code": 0,
+          "result": {
+            "bijections": 0,
+            "claims": 0,
+            "execute_us": 2536,
+            "limits": {
+              "depth": 64,
+              "live_facts": 1000000,
+              "work": 1000000000
+            },
+            "model_decode_us": 1927,
+            "points": 1,
+            "proof_decode_us": 2492,
+            "read_us": 232,
+            "statistics": {
+              "bijections": 0,
+              "branches": 0,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "injectivity_coordinates": 0,
+              "injectivity_generated_rows": 0,
+              "injectivity_generated_terms": 0,
+              "injectivity_generated_variables": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 0,
+              "menu_generated_rows": 0,
+              "menu_generated_terms": 0,
+              "menu_generated_variables": 0,
+              "menu_lifts": 0,
+              "objective_level_domains": 0,
+              "objective_level_generated_rows": 0,
+              "objective_level_generated_terms": 0,
+              "obligations": 0,
+              "peak_live_facts": 0,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 4096,
+              "points": 1,
+              "signed_generated_rows": 0,
+              "signed_generated_terms": 0,
+              "signed_generated_variables": 0,
+              "signed_lifts": 0,
+              "substitution_terms": 0,
+              "work": 36865
+            },
+            "status": "VERIFIED",
+            "total_us": 7187
+          },
+          "stderr": ""
+        }
+      ],
+      "rss": [],
+      "preparation_note": "Synthetic independent MCM + RPA generation with Fraction joint-point check; no MPS canonicalization. Fresh author/assembler process every repetition.",
+      "artifacts": {
+        "source.mcm": {
+          "bytes": 244713,
+          "sha256": "057045c543a153d4048e6fc2732b650d696d379ef41bd66fc970d79a884bec00"
+        },
+        "target.mcm": {
+          "bytes": 244713,
+          "sha256": "6d06f51aefac0e44995972651929364f40836cf301c83fd13ad4b35344e7457f"
+        },
+        "proof.rpa": {
+          "bytes": 179232,
+          "sha256": "954be10dc434a24708cd136066b2ff9081187faacadf5ddafa620a4650b47d86"
+        },
+        "proof.rpx": {
+          "bytes": 200757,
+          "sha256": "b547d0cbb923fba4902145324f46372ed0c70d25e4e9815ba5780f306d206d95"
+        },
+        "request.json": {
+          "bytes": 154616,
+          "sha256": "c70117609c6aa992cdd70eded746aecddd0a551f749d52b62f40d7121601d8f3"
+        }
+      },
+      "generation_counts": {
+        "status": "GENERATED_EXACT_CHECKED",
+        "generation_ns": 89110791,
+        "name": "image-n4096",
+        "source_variables": 4096,
+        "source_rows": 0,
+        "target_variables": 4096,
+        "target_rows": 0,
+        "source_terms": 4096,
+        "target_terms": 4096,
+        "proof_steps": 0,
+        "complete_obligations": null,
+        "full_point_coordinates": 4096,
+        "caller_bound_coordinate_count": 4096,
+        "independent_point_and_margin_check": true
+      },
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 0,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 0,
+        "peak_live_facts": 0,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 4096,
+        "points": 1,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 36865
+      },
+      "all_verified": true,
+      "summary": {
+        "process_ms": {
+          "min": 10.256334,
+          "median": 10.256334,
+          "max": 10.256334
+        },
+        "read_us": {
+          "min": 232,
+          "median": 232,
+          "max": 232
+        },
+        "model_decode_us": {
+          "min": 1927,
+          "median": 1927,
+          "max": 1927
+        },
+        "proof_decode_us": {
+          "min": 2492,
+          "median": 2492,
+          "max": 2492
+        },
+        "execute_us": {
+          "min": 2536,
+          "median": 2536,
+          "max": 2536
+        },
+        "total_us": {
+          "min": 7187,
+          "median": 7187,
+          "max": 7187
+        },
+        "preparation_process_ms": {
+          "min": 153.773751,
+          "median": 153.773751,
+          "max": 153.773751
+        },
+        "generation_internal_ms": {
+          "min": 89.110791,
+          "median": 89.110791,
+          "max": 89.110791
+        },
+        "assembly_us": {
+          "min": 3725,
+          "median": 3725,
+          "max": 3725
+        }
+      }
+    }
+  ],
+  "fixed_artifact_manifest_sha256": null,
+  "status": "ALL_VERIFIED_DIAGNOSTIC_NONISOLATED"
+}

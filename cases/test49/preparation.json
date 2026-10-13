@@ -1,0 +1,166 @@
+{
+  "case_id": "test49",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/input/model.mps",
+    "sha256": "a946eb24419ddb5e84228338ad7fd0833edfad5c5037b1dd956010bbcdfe57ff"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/output/reformulated.mps",
+    "sha256": "be7d1643d229e14429e5cb3c817803337f281a79b0e8d47407607b47b5911cb4"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/output/audit.json",
+    "sha256": "6054e44c6172bb9c40d7892c2b630618f8a1205bc9e9018c14798f8a2f0da60b"
+  },
+  "witness_input": {
+    "path": "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/output/witnesses.json",
+    "sha256": "ba8387f4226a145cc7465ed5b78a90d23a17ba570e1e5c72a67411e469216bb0"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test49.py",
+    "sha256": "4362e152195a0b3842607c0a4caff8e564300fa1dd12ca13852ce7b8b96eda6e"
+  },
+  "claims": "Same complete integer feasible vectors and objective under named-coordinate bijection; target LP strictly contained in source LP via complete reverse inclusion and exact full separating point. Both full integer tree/circulation vectors are checked on both actual models. No optimum or LP objective improvement is asserted.",
+  "counts": {
+    "source_variables": 2013,
+    "target_variables": 2013,
+    "source_rows": 233,
+    "target_rows": 252,
+    "claims": 3,
+    "point_claims": 5,
+    "rounded_cuts": 20,
+    "obligations_by_claim": [
+      9586,
+      9567,
+      5907
+    ]
+  },
+  "preparation_seconds": 0.165075167,
+  "rpa_sha256": "d7c2ab527814f817e546f57a85aa7bc4de220f199f89459f7be69be19ec771b5",
+  "rpa_bytes": 688028,
+  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test49/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":183349,\"parse_us\":5068,\"read_us\":65,\"rows\":233,\"status\":\"CANONICALIZED\",\"total_us\":7256,\"variables\":2013}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test49-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test49/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":209004,\"parse_us\":5102,\"read_us\":58,\"rows\":252,\"status\":\"CANONICALIZED\",\"total_us\":7343,\"variables\":2013}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test49/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test49/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":579820,\"status\":\"ASSEMBLED\",\"total_us\":6486}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test49/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test49/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test49/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test49/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":52038,\"model_decode_us\":4588,\"points\":5,\"proof_decode_us\":1848,\"read_us\":163,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4993,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":25060,\"peak_live_facts\":60,\"plotkin_pairs\":0,\"point_coefficient_terms\":19278,\"points\":5,\"substitution_terms\":18579,\"work\":212771},\"status\":\"VERIFIED\",\"total_us\":58637}\n",
+      "stderr": ""
+    }
+  ],
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 183349,
+      "sha256": "5e204af8e1ce8bab61af2ec448689cb6084ae576643a2cc4924a064382b13bd1"
+    },
+    "target.mcm": {
+      "bytes": 209004,
+      "sha256": "cbb37dcdca7acca0b551f0bbb4a5e3ad4f20b7222c375080875126f1ee536cdd"
+    },
+    "proof.rpx": {
+      "bytes": 579820,
+      "sha256": "2ac481967f1e10d4ae4f5b6d0ed04aa09bea205c8bc6461665eafb43833e8e95"
+    },
+    "request.json": {
+      "bytes": 308477,
+      "sha256": "bb360f16e2840763b4c3f082fa7a07310f9bfd48eac5f3e83b1df4eed9d42ead"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "continuous_integer",
+      "rule_broken": "Replace an integer cut premise by an actual continuous flow coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "5667ce1a012ff9eae36d82a07fb7462e3bda386b0b73ea8256440c2a83309bad",
+      "rpx_sha256": "74a08331096bce7949749eddeea2fe0393fc1c02f58b3c75c17a88b8e336b65b"
+    },
+    {
+      "mutation": "wrong_cut_multiplier",
+      "rule_broken": "Corrupt a middle capacity premise coefficient.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID rounding premises",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "85f5a0aec63999ceb6a8122c59afa033f2b9ee17f7e7aa8f792a2cf91731d9d3",
+      "rpx_sha256": "daf267fdc30545abd3210ce6514205106e3e65d898a59cdad1aa32368d8d8553"
+    },
+    {
+      "mutation": "missing_obligation",
+      "rule_broken": "Delete a middle full-model bound obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Int; obligation 500",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "4f0c53815b00f3485770e7e45bfe6b8ade558f0efb60e0160ef421c8bdb05a7b",
+      "rpx_sha256": "0fd3a2a0c8c790a57cab421dbf13fb292c88ac540fe8a3b8105d99df346cee4e"
+    },
+    {
+      "mutation": "false_strictness",
+      "rule_broken": "Supply an integer-feasible point of both models as the separating LP point.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID point: strictness witness violates no actual inclusion input bound or row (witness 0)",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "541cdbf2a3da3173659e728f04ef85d833a996353e7feab4ec5b7f0400cd8779",
+      "rpx_sha256": "e14af93dae55a630ea281aa0e7ebd144cdb159757238e090f2d4c1035e627b2d"
+    },
+    {
+      "mutation": "wrong_coordinate",
+      "rule_broken": "Replace one mapped source coordinate with zero while retaining the full requested bijection.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 1500",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "5417670908670f9a8ee54fe05311ccff66892184a8a1e688344813f05208ada6",
+      "rpx_sha256": "69e04e55f3858be1d5d49a5a13a1c1b6f41345df4742d11c2f53fbcb892af0ce"
+    }
+  ]
+}

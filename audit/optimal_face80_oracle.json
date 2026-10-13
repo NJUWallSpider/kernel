@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "independence": "Standard-library Fraction/product calculations; no imports from proof preparers, Rust or solvers.",
+  "objective_lower_and_all_fixings": 3937,
+  "complete_local_assignment_patterns": 20500,
+  "rounding_implication_values": 1464,
+  "nonuniform_rational_zero_sum_patterns": 510,
+  "elapsed_seconds": 0.047611584,
+  "generator_sha256": "909fda9e8b708b42277962b69de12953b14b2cf89c94cf08d0fba4b45931bd73"
+}

@@ -1,0 +1,121 @@
+\chapter{Loader、验证结果与可信边界}\label{ch:loader}
+
+\section{输入与输出}
+一次验证请求包含 canonical source model、canonical target model、RPX 字节序列以及调用者要求的 contract。
+模型提供者必须给出已验证的模型结构和与其对应的 digest，或允许 loader 按已规定的 canonical 序列化重新计算 digest。
+仅有两个由不可信文件自行提供的 hash 字符串，不能证明它们绑定了调用者的模型。
+
+verifier 必须返回明确的判定类别，而不把所有失败归并成“数学命题为假”。
+\begin{longtable}{l p{107mm}}
+\toprule 结果 & 含义 \\\midrule\endfirsthead
+\toprule 结果 & 含义 \\\midrule\endhead
+\code{VERIFIED} & 所需全部方向成功，contract 已证明。\\
+\code{INVALID} & 格式、引用、证明、映射或 obligation 违反规范。\\
+\code{UNSUPPORTED} & 文件版本、mandatory section、opcode 或能力未被本 verifier 支持。\\
+\code{RESOURCE_LIMIT} & 已公布的资源预算被超过；不表示证明错误。\\
+\code{IO_ERROR} & 无法取得完整稳定的文件或模型数据；不表示证明错误。\\
+\bottomrule
+\end{longtable}
+上述名称是接口草案，不是已经冻结的 CLI exit code ABI。
+任何非 VERIFIED 结果都不得被调用者解释为 reformulation 正确。
+
+\section{处理阶段}
+建议采用以下顺序；同一阶段内可使用等价的确定性检查顺序。
+不得在尚未确认 byte range 合法时读取其内容。
+
+\begin{enumerate}
+\item \textbf{取得稳定输入。} 获取文件实际长度、只读字节视图和两个模型。
+在整个验证期间，已检查的字节与模型不得变化。
+\item \textbf{检查 header。} 验证 magic、版本、endianness、长度、reserved、directory offset 和 contract word。
+\item \textbf{检查 directory。} 对每个 entry 检查大小、alignment、count、存在性、重复与不相交范围。
+\item \textbf{绑定模型与 contract。} 比较 source/target digest，验证模型的 ID 范围与调用者要求；构造每个方向的完整 obligation 集合。
+\item \textbf{验证 pool。} 验证所有 ScalarPool 记录以及两个 expression pool 的 canonical 条件、引用范围和变量范围。
+\item \textbf{验证逻辑 section 结构。} 解码 map section；检查整条 tape 的 header、精确 payload 长度、flags、padding、嵌套范围和 terminal。
+计数全部 instruction 与 syntactic fact slot，包含不可达部分。
+\item \textbf{执行 Forward。} 绑定 Source 为 input、Target 为 output，应用静态 map，建立全新的方向状态，顺序验证 tape。
+\item \textbf{执行 Reverse。} 丢弃 Forward 的方向局部状态，重新绑定模型，使用独立 pool、mapping、facts 与 obligations。
+\item \textbf{提交结果。} 两个所需方向均成功后才报告 VERIFIED；可同时给出结构计数和运行统计。
+\end{enumerate}
+
+结构验证和 proof execution 可以各扫描一次 tape。这不是 proof DAG 构建，也不需要保存每条 instruction 的对象。
+实现可以使用显式有界 frame stack 重复解码 header，而非依赖宿主函数递归。
+预验证层只确认候选字段和 byte range；数学推导与动态 live/scope 条件仍由执行层验证。
+
+\section{必需的结构检查}
+\subsection{区间与整数}
+验证 $o+\ell$ 时必须先检测 overflow，再要求 $o+\ell\le B$。
+验证固定记录大小时必须检测 $c\times s$ 的 overflow，并要求等于声明 length。
+验证对齐时不能仅检测 file offset，还须检查每条 child instruction 的起点与终点。
+map range 的 \code{start+count}、RANGE 的 case count、FactId slot 总数也适用相同原则。
+
+所有 section 起点必须位于 directory 末尾向上对齐后的 body 区域，即使其 length 为零。
+除基础格式允许的空 section 外，section 的字节必须能被对应 layout 精确消费。
+map 与 tape 的 declared count 必须与实际扫描计数相同。不得因提前 RET、false 或未知 metadata 而跳过 count 核验。
+
+\subsection{未执行区域}
+kernel 证明 scope 不可达后，不再检查该 scope 中后续 instruction 的数学效果与动态 fact 可用性。
+但整个文件的格式仍须有效：未知 opcode、越界 payload、错误 flags、非法 pool 和不完整 child range 仍拒绝。
+它们不能隐藏在死分支里。
+语法上的 producer 仍占其 FactId slot；它不会产生可以引用的 live fact。
+这种区分必须由实现明确保持，不能用一个未经检查的 byte skip 代替完整结构验证。
+
+\section{执行检查与提交原子性}
+一条 producer 必须先取得全部操作数、验证 kind 和作用域、执行精确算术、比较期望表达式，最后提交 live fact。
+不成功的 producer 不产生部分 fact。
+CHECK 在全部核验通过后才把对应 obligation 置为 DONE。
+MAP 在检查 output ID、DEFER 状态与 expression 合法后才写入 mapping。
+DROP range 必须先验证全部成员可释放，再进行释放；不得在中途错误时暴露一个看似继续有效的部分状态。
+
+验证错误可以终止整个请求，故不要求 verifier 在错误后继续执行。
+原子性的用途是确保成功执行路径与错误诊断不受半完成 instruction 的影响。
+任何算术快路径必须保持同样的提交规则。
+
+\section{诊断类别}
+\label{sec:diagnostics}
+\begin{longtable}{l p{105mm}}
+\toprule 符号 & 典型原因 \\\midrule\endfirsthead
+\toprule 符号 & 典型原因 \\\midrule\endhead
+\code{E_FORMAT} & magic、长度、padding、reserved、alignment、重复或重叠 section、payload/count 不符。\\
+\code{E_VERSION} & 不支持的 major/minor、endianness 或 header size。\\
+\code{E_UNSUPPORTED} & 未知 mandatory section、未知/保留 opcode、未声明的扩展能力。\\
+\code{E_HASH} & source 或 target digest 与模型绑定不符。\\
+\code{E_CONTRACT} & 非法 contract word、调用者要求不符、目标方向或关系不匹配。\\
+\code{E_SCALAR} & ScalarRef 越界、非 canonical rational、零分母、非法符号或 magnitude、错误内联形式。\\
+\code{E_EXPR} & 重复/乱序变量、零 coefficient、非 canonical affine expression。\\
+\code{E_REF} & ID 越界、非法 tag、不存在的 input side、future/dead/out-of-scope fact、不存在的 assumption。\\
+\code{E_KIND} & instruction 要求的 LE/EQ/INT 类型不符。\\
+\code{E_SCOPE} & 祖先 fact 的局部 DROP、RET/YIELD/terminal 位于非法 scope。\\
+\code{E_BRANCH} & case 不完整、yield arity 或 proposition 不一致、split 前提不符合规则。\\
+\code{E_PROOF} & 线性组合不等、LE 负 multiplier、BOX 上界失败、整数系数/取整/矛盾条件失败。\\
+\code{E_MAP} & 重复赋值、静态覆盖不完整、非法 DEFER 写入、混合已定义/未定义汇合、非法封存。\\
+\code{E_OBLIGATION} & 错误/重复 CHECK、代换不匹配、遗漏输出 domain/row/objective obligation。\\
+\bottomrule
+\end{longtable}
+错误应附带方向、绝对 file offset、opcode、scope 路径和具体 reason；DEBUG 行号仅可作为额外不可信展示信息。
+同一字节流可能违反多个条件，D0 不冻结“第一个错误”的全球优先级或数值 error code。
+错误类别的目的在于使拒绝原因可检查，不要求在一个无效文件上完成所有诊断。
+
+\section{资源预算}
+调用者可以设置最大文件大小、scalar 编码长度、算术 bit length、split 深度、case 数、live fact 数、临时累加器大小或运行时间。
+达到这些限制必须报告 RESOURCE\_LIMIT，并指明限额。
+不得把算术 overflow 转换成饱和数、浮点近似或“先接受再复核”。
+格式字段本身规定的不可表示范围是 INVALID；实现额外公布的资源限制是 RESOURCE\_LIMIT。
+
+即时 31-bit integer 不意味着所有运算都限制在 31 bit。
+精确算术可以随证明增长；用有限整数快路径时，overflow 必须触发无损提升，或明确的资源失败。
+对非常大的合法 count，必须先核验 byte range 和资源限额，再申请容量或循环展开。
+
+\section{文件映射与稳定性}
+\code{mmap} 只提供字节视图；只读打开不保证验证期间文件不变。
+输入必须是稳定快照，可采用受控不可变文件、平台快照或自有不可变缓冲区；所有读取须来自同一份已验证数据。
+kernel 可依赖 canonical model 与不可变 byte slice，将操作系统映射约束留在 I/O 层；直接读入缓冲区同样符合规范。
+在 Rust 中，file-backed mapping 的安全前提由 I/O 层满足；memmap2 文档明确指出外部修改可破坏其安全假设。
+\footnote{\url{https://docs.rs/memmap2/latest/memmap2/struct.Mmap.html}}
+
+\section{可信计算基与扩展}
+基础可信计算基包含：canonical model 的语义和绑定、边界检查、精确有理算术、core 指令 checker、scope/mapping/obligation 状态机，以及最终 contract 判定。
+assembler、证书生成器、solver、DEBUG、压缩工具、proof 优化工具均不自动属于可信逻辑。
+
+将来加入 \code{CALL_THM} 时，必须显式给出 theorem ID、参数 schema、checker 版本和调用者允许列表。
+未知 theorem 不可解释为成功。基础 v0.1 对 opcode \code{0xF0} 统一拒绝；不读取一个隐藏的“插件成功”标记。
+batch 扩展也必须定义完整展开与可观察状态，而非仅证明它最终得到某个相似的 fact。

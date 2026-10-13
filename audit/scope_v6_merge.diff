@@ -1,0 +1,180 @@
+--- audit/checkpoints/v6-boxed-before-scope/crates/core/src/verify.rs
++++ crates/core/src/verify.rs
+@@ -45,16 +45,48 @@
+         Ok(Expr{constant:self.constant,terms})
+     }
+ }
++// Each child borrows an immutable parent and stores only its own changes.
++// Deleted inherited IDs are masked locally; a reused ID is visible in local first.
++// No child can mutate a sibling or parent. All parent borrows end before a Cases
++// conclusion is inserted. Whole Split's right branch may consume its parent state.
++struct Facts<'a> {
++    parent: Option<&'a Facts<'a>>,
++    local: HashMap<u32,Fact>,
++    deleted: std::collections::HashSet<u32>,
++    count: usize,
++}
++impl<'a> Facts<'a> {
++    fn new()->Self {Self{parent:None,local:HashMap::new(),deleted:Default::default(),count:0}}
++    fn fork(&self)->Facts<'_> {Facts{parent:Some(self),local:HashMap::new(),deleted:Default::default(),count:self.count}}
++    fn lookup(&self,id:&u32)->(Option<&Fact>,usize) {
++        if let Some(f)=self.local.get(id){return (Some(f),1);}
++        if self.deleted.contains(id){return (None,2);}
++        match self.parent {None=>(None,2),Some(parent)=>{let (fact,probes)=parent.lookup(id);(fact,probes+2)}}
++    }
++    fn len(&self)->usize {self.count}
++    fn try_reserve(&mut self,n:usize)->Result<(),std::collections::TryReserveError> {self.local.try_reserve(n)}
++    fn insert(&mut self,id:u32,f:Fact) {self.local.insert(id,f);self.count+=1;}
++    fn remove(&mut self,id:&u32)->Result<(bool,usize),String> {
++        let (found,mut probes)=self.lookup(id);
++        if found.is_none(){return Ok((false,probes));}
++        let inherited=if let Some(parent)=self.parent {let (fact,p)=parent.lookup(id);probes+=p;fact.is_some()}else{false};
++        if inherited && !self.deleted.contains(id) {
++            self.deleted.try_reserve(1).map_err(|_|"RESOURCE_LIMIT scope deletion allocation")?;
++            self.deleted.insert(*id);
++        }
++        self.local.remove(id);self.count-=1;Ok((true,probes))
++    }
++}
+ struct Context<'a> { refutation:bool, input: &'a Model, output: &'a Model, claim: &'a Claim, inverse: Option<&'a [Expr]>, limits: &'a Limits, stats: &'a mut Statistics }
+ impl Context<'_> {
+     fn charge(&mut self,n:usize)->Result<(),String> {
+         self.stats.work=self.stats.work.checked_add(n as u64).ok_or("RESOURCE_LIMIT work overflow")?;
+         if self.stats.work>self.limits.work { return Err("RESOURCE_LIMIT proof work budget".into()); } Ok(())
+     }
+-    fn get(&mut self,r:&Ref, live:&HashMap<u32,Fact>, assumptions:&[Fact])->Result<Fact,String> {
++    fn get(&mut self,r:&Ref, live:&Facts<'_>, assumptions:&[Fact])->Result<Fact,String> {
+         let bad=||"INVALID fact reference or type".to_string();
+         let f=match r {
+-            Ref::Local(i)=>live.get(i).cloned().ok_or_else(bad)?,
++            Ref::Local(i)=>{let (fact,probes)=live.lookup(i);self.charge(probes)?;fact.cloned().ok_or_else(bad)?},
+             Ref::Assumption(i)=>assumptions.get(*i as usize).cloned().ok_or_else(bad)?,
+             Ref::VarLower(i)=>{ let v=self.input.vars.get(*i as usize).ok_or_else(bad)?; let mut e=Expr::var(*i).scaled(&(-Q::one()))?; e.constant=v.lower.clone().ok_or_else(bad)?; Fact{kind:Kind::Le,expr:e} },
+             Ref::VarUpper(i)=>{ let v=self.input.vars.get(*i as usize).ok_or_else(bad)?; let mut e=Expr::var(*i); e.constant=-v.upper.clone().ok_or_else(bad)?; Fact{kind:Kind::Le,expr:e} },
+@@ -75,11 +107,11 @@
+         } result.finish()
+     }
+ 
+-    fn obligation(&mut self,kind:Kind,e:Expr,r:&Ref,live:&HashMap<u32,Fact>,assumptions:&[Fact])->Result<(),String> {
++    fn obligation(&mut self,kind:Kind,e:Expr,r:&Ref,live:&Facts<'_>,assumptions:&[Fact])->Result<(),String> {
+         self.stats.obligations+=1;
+         self.check_fact(kind,e,r,live,assumptions)
+     }
+-    fn check_fact(&mut self,kind:Kind,e:Expr,r:&Ref,live:&HashMap<u32,Fact>,assumptions:&[Fact])->Result<(),String> {
++    fn check_fact(&mut self,kind:Kind,e:Expr,r:&Ref,live:&Facts<'_>,assumptions:&[Fact])->Result<(),String> {
+         e.validate(self.input.vars.len())?;self.charge(e.terms.len()+1)?;
+         if *r==Ref::Exact {
+             let valid=match kind {
+@@ -91,7 +123,7 @@
+         let f=self.get(r,live,assumptions)?;
+         if (f.kind==kind || f.kind==Kind::Eq) && f.expr==e {Ok(())} else {Err(format!("INVALID obligation mismatch: expected {kind:?}"))}
+     }
+-    fn plotkin(&mut self,bits:u32,distance:u32,variables:&[(u32,u64)],cliques:&[Ref],live:&HashMap<u32,Fact>,assumptions:&[Fact])->Result<Fact,String>{
++    fn plotkin(&mut self,bits:u32,distance:u32,variables:&[(u32,u64)],cliques:&[Ref],live:&Facts<'_>,assumptions:&[Fact])->Result<Fact,String>{
+         if !(1..=64).contains(&bits)||!(1..=64).contains(&distance)||2*distance<=bits{
+             return Err("INVALID Plotkin parameters".into());
+         }
+@@ -136,7 +168,7 @@
+         terms.extend(variables.iter().map(|(i,_)|(*i,Q::one())));terms.sort_unstable_by_key(|(i,_)|*i);
+         Ok(Fact{kind:Kind::Le,expr:Expr{constant:-Q::from_integer(bound.into()),terms}})
+     }
+-    fn steps(&mut self,steps:&[Step],live:&mut HashMap<u32,Fact>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String> {
++    fn steps(&mut self,steps:&[Step],live:&mut Facts<'_>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String> {
+         if depth>self.limits.depth {return Err("RESOURCE_LIMIT branch depth".into());}
+         for step in steps {
+             self.charge(1)?;
+@@ -167,7 +199,7 @@
+                     let mut e=z.expr;e.constant+=Q::from_integer(ceil);
+                     (*id,Fact{kind:Kind::Le,expr:e})
+                 },
+-                Step::Drop{ids}=>{self.charge(ids.len())?;for id in ids {if live.remove(id).is_none(){return Err("INVALID drop of absent fact".into());}}continue},
++                Step::Drop{ids}=>{self.charge(ids.len())?;for id in ids {let (removed,probes)=live.remove(id)?;self.charge(probes)?;if !removed{return Err("INVALID drop of absent fact".into());}}continue},
+                 Step::EqPair{id,positive,negative}=>{
+                     let a=self.get(positive,live,assumptions)?;let b=self.get(negative,live,assumptions)?;
+                     if a.kind!=Kind::Le || b.kind!=Kind::Le || a.expr.scaled(&(-Q::one()))?!=b.expr {return Err("INVALID equality pair".into());}
+@@ -178,42 +210,42 @@
+                     if depth>=self.limits.depth{return Err("RESOURCE_LIMIT branch depth".into());}
+                     self.charge(expression.terms.len()+split.terms.len()+1)?;
+                     let (a,b)=self.split_facts(split,integer,live,assumptions)?;
+-                    self.charge(live.values().map(|f|f.expr.terms.len()+1).sum())?;
++                    self.charge(1)?; // constant-size child scope
+                     self.stats.branches+=1;
+                     assumptions.push(a);
+-                    self.derivation(left,*kind,expression,live.clone(),assumptions,depth+1)?;assumptions.pop();
+-                    self.charge(live.values().map(|f|f.expr.terms.len()+1).sum())?;
++                    self.derivation(left,*kind,expression,live.fork(),assumptions,depth+1)?;assumptions.pop();
++                    self.charge(1)?; // constant-size child scope
+                     assumptions.push(b);
+-                    self.derivation(right,*kind,expression,live.clone(),assumptions,depth+1)?;assumptions.pop();
++                    self.derivation(right,*kind,expression,live.fork(),assumptions,depth+1)?;assumptions.pop();
+                     (*id,Fact{kind:*kind,expr:expression.clone()})
+                 },
+             };
+             f.expr.validate(self.input.vars.len())?;
+-            if live.contains_key(&id) {return Err("INVALID live fact register overwritten".into());}
++            let (existing,probes)=live.lookup(&id);self.charge(probes)?;if existing.is_some() {return Err("INVALID live fact register overwritten".into());}
+             if live.len()>=self.limits.live_facts {return Err("RESOURCE_LIMIT live facts".into());}
+             live.try_reserve(1).map_err(|_|"RESOURCE_LIMIT fact allocation")?; live.insert(id,f);
+             self.stats.peak_live_facts=self.stats.peak_live_facts.max(live.len());
+         }
+         Ok(())
+     }
+-    fn split_facts(&mut self,expression:&Expr,integer:&Option<Ref>,live:&HashMap<u32,Fact>,assumptions:&[Fact])->Result<(Fact,Fact),String>{
++    fn split_facts(&mut self,expression:&Expr,integer:&Option<Ref>,live:&Facts<'_>,assumptions:&[Fact])->Result<(Fact,Fact),String>{
+         expression.validate(self.input.vars.len())?;
+         if let Some(r)=integer {let f=self.get(r,live,assumptions)?;if f.kind!=Kind::Int || f.expr!=*expression{return Err("INVALID integer split witness".into());}}
+         let mut e=expression.scaled(&(-Q::one()))?;if integer.is_some(){e.constant+=Q::one();}e.validate(self.input.vars.len())?;
+         Ok((Fact{kind:Kind::Le,expr:expression.clone()},Fact{kind:Kind::Le,expr:e}))
+     }
+-    fn absurd(&mut self,r:&Ref,live:&HashMap<u32,Fact>,assumptions:&[Fact])->Result<(),String>{
++    fn absurd(&mut self,r:&Ref,live:&Facts<'_>,assumptions:&[Fact])->Result<(),String>{
+         let f=self.get(r,live,assumptions)?;
+         if f.expr.terms.is_empty() && ((f.kind==Kind::Le && f.expr.constant.is_positive()) || (f.kind==Kind::Eq && !f.expr.constant.is_zero())) {Ok(())} else {Err("INVALID contradiction witness".into())}
+     }
+-    fn derivation(&mut self,d:&Derivation,kind:Kind,expression:&Expr,mut live:HashMap<u32,Fact>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String>{
++    fn derivation(&mut self,d:&Derivation,kind:Kind,expression:&Expr,mut live:Facts<'_>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String>{
+         self.steps(&d.steps,&mut live,assumptions,depth)?;
+         match &d.end {
+             DerivationEnd::Witness(r)=>self.check_fact(kind,expression.clone(),r,&live,assumptions),
+             DerivationEnd::Absurd(r)=>self.absurd(r,&live,assumptions),
+         }
+     }
+-    fn run(&mut self,block:&Block,mut live:HashMap<u32,Fact>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String> {
++    fn run(&mut self,block:&Block,mut live:Facts<'_>,assumptions:&mut Vec<Fact>,depth:usize)->Result<(),String> {
+         if self.refutation && !matches!(block.end,End::Absurd{..}|End::Split{..}){return Err("INVALID refutation requires only Absurd/Split endpoints".into());}
+         self.steps(&block.steps,&mut live,assumptions,depth)?;
+         match &block.end {
+@@ -253,10 +285,10 @@
+             End::Split{expression,integer,left,right}=>{
+                 if depth>=self.limits.depth{return Err("RESOURCE_LIMIT branch depth".into());}
+                 let (a,b)=self.split_facts(expression,integer,&live,assumptions)?;
+-                self.charge(live.values().map(|f|f.expr.terms.len()+1).sum())?;
++                self.charge(1)?; // constant-size child scope
+                 self.stats.branches+=1;
+                 assumptions.push(a);
+-                self.run(left,live.clone(),assumptions,depth+1)?;assumptions.pop();
++                self.run(left,live.fork(),assumptions,depth+1)?;assumptions.pop();
+                 assumptions.push(b);
+                 self.run(right,live,assumptions,depth+1)?;assumptions.pop();Ok(())
+             },
+@@ -324,7 +356,7 @@
+             for e in map {e.validate(output.vars.len())?;}
+             Some(map.as_slice())
+         }else{None};
+-        Context{refutation:false,input,output,claim,inverse,limits,stats:&mut stats}.run(block,HashMap::new(),&mut Vec::new(),1)?;
++        Context{refutation:false,input,output,claim,inverse,limits,stats:&mut stats}.run(block,Facts::new(),&mut Vec::new(),1)?;
+     }Ok(stats)
+ }
+ 
+@@ -334,6 +366,10 @@
+     model.validate()?;
+     let claim=Claim{reverse:false,input_integers:false,output_integers:false,objective:Objective::None,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None};
+     let mut stats=Statistics::default();
+-    Context{refutation:true,input:model,output:model,claim:&claim,inverse:None,limits,stats:&mut stats}.run(block,HashMap::new(),&mut Vec::new(),1)?;
++    Context{refutation:true,input:model,output:model,claim:&claim,inverse:None,limits,stats:&mut stats}.run(block,Facts::new(),&mut Vec::new(),1)?;
+     Ok(stats)
+ }
++
++#[cfg(test)]
++#[path="scope_state_audit.rs"]
++mod scope_state_audit;

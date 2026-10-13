@@ -1,0 +1,1019 @@
+{
+  "case_id": "test83",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/input/model.mps",
+    "sha256": "58e234e917a3ac7ac2349596066d163252f2c6db453964a4f3e2354238f26109"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/output/reformulated.mps",
+    "sha256": "95a2c698f9cdfaaef9fb4e8798e2edb0d6c0f4bb34f4b86d4262093ab6fe98a8"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/output/audit.json",
+    "sha256": "96bdfe0ac1459232be9b04f3992337bd07e08c4bfc0daf87f33362308280c2cb"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test83.py",
+    "sha256": "39c6dbc7b445801bd629974e38f55617f8f8248aac0e3ca99892ffb47fffd03c"
+  },
+  "claims": "Complete integer source-to-target feasible map with objective NonIncreasing and complete target-to-source feasible recovery with objective Equal. Minimum objective and optimal-solution recovery follow. Exact affine observations preserve affected retained contributor sums and recover aggregate singleton coordinates; all 61 dominance replacements and 100 singleton substitutions checked. No bijection of all source feasible points, original-coordinate projection, LP relation, numeric optimum, or separately caller-bound all-optimizer dominated-column exclusion claimed. Ancillary exact negative-saving residual is documented as a non-claim.",
+  "counts": {
+    "source_variables": 65832,
+    "target_variables": 65671,
+    "source_rows": 100,
+    "target_rows": 100,
+    "dominated_columns": 61,
+    "singleton_substitutions": 100,
+    "objective_constant": "2494711313/500000",
+    "claims": 2,
+    "affine_observations": 152,
+    "multi_contributor_groups": 52,
+    "bound_tree_rows": 29,
+    "steps_by_claim": [
+      351,
+      100
+    ],
+    "obligations_by_claim": [
+      197266,
+      197749
+    ]
+  },
+  "ancillary_dominated_column_exclusion": {
+    "status": "DOCUMENTED_NON_CLAIM_NOT_CALLER_BOUND",
+    "statement": "No original optimum selects any of the 61 dominated columns is not separately machine-certified by this request.",
+    "exact_objective_difference_modulo_source_equalities": {
+      "constant": "0",
+      "terms": [
+        [
+          254,
+          "-2608791/250000"
+        ],
+        [
+          300,
+          "-1603637/1000000"
+        ],
+        [
+          542,
+          "-2748587/1000000"
+        ],
+        [
+          818,
+          "-277213/500000"
+        ],
+        [
+          825,
+          "-3509309/500000"
+        ],
+        [
+          1785,
+          "-464723/250000"
+        ],
+        [
+          3115,
+          "-416951/250000"
+        ],
+        [
+          3270,
+          "-1809849/250000"
+        ],
+        [
+          3274,
+          "-318089/200000"
+        ],
+        [
+          5337,
+          "-52103/100000"
+        ],
+        [
+          5514,
+          "-7136477/1000000"
+        ],
+        [
+          6559,
+          "-4169187/1000000"
+        ],
+        [
+          7479,
+          "-6614999/1000000"
+        ],
+        [
+          8010,
+          "-2204137/1000000"
+        ],
+        [
+          8297,
+          "-102591/50000"
+        ],
+        [
+          8466,
+          "-4390747/500000"
+        ],
+        [
+          8597,
+          "-4877867/1000000"
+        ],
+        [
+          8972,
+          "-1177613/250000"
+        ],
+        [
+          9406,
+          "-24249/8000"
+        ],
+        [
+          10617,
+          "-1189049/200000"
+        ],
+        [
+          10906,
+          "-2346767/250000"
+        ],
+        [
+          11134,
+          "-2633487/250000"
+        ],
+        [
+          12590,
+          "-19988/15625"
+        ],
+        [
+          12712,
+          "-6418969/1000000"
+        ],
+        [
+          12858,
+          "-2103199/1000000"
+        ],
+        [
+          13166,
+          "-745847/200000"
+        ],
+        [
+          18486,
+          "-1015879/1000000"
+        ],
+        [
+          20321,
+          "-1044241/250000"
+        ],
+        [
+          22687,
+          "-2405311/500000"
+        ],
+        [
+          23568,
+          "-161497/1000000"
+        ],
+        [
+          23621,
+          "-39103/10000"
+        ],
+        [
+          24070,
+          "-1997837/250000"
+        ],
+        [
+          24658,
+          "-2917667/500000"
+        ],
+        [
+          27740,
+          "-88939/100000"
+        ],
+        [
+          28212,
+          "-10455369/1000000"
+        ],
+        [
+          32118,
+          "-1718569/250000"
+        ],
+        [
+          33538,
+          "-6519609/1000000"
+        ],
+        [
+          34093,
+          "-3758243/1000000"
+        ],
+        [
+          34354,
+          "-210823/100000"
+        ],
+        [
+          34989,
+          "-236199/1000000"
+        ],
+        [
+          36583,
+          "-2628019/1000000"
+        ],
+        [
+          38946,
+          "-191601/125000"
+        ],
+        [
+          39045,
+          "-1290663/1000000"
+        ],
+        [
+          40175,
+          "-191601/125000"
+        ],
+        [
+          41021,
+          "-26669/8000"
+        ],
+        [
+          41657,
+          "-8847999/1000000"
+        ],
+        [
+          42803,
+          "-1790543/1000000"
+        ],
+        [
+          45271,
+          "-7796247/500000"
+        ],
+        [
+          45763,
+          "-119203/250000"
+        ],
+        [
+          47382,
+          "-88939/100000"
+        ],
+        [
+          51196,
+          "-163213/125000"
+        ],
+        [
+          51359,
+          "-2927139/500000"
+        ],
+        [
+          54183,
+          "-753487/500000"
+        ],
+        [
+          54784,
+          "-55977/50000"
+        ],
+        [
+          57531,
+          "-38501/31250"
+        ],
+        [
+          57945,
+          "-58377/40000"
+        ],
+        [
+          58539,
+          "-19872357/1000000"
+        ],
+        [
+          60759,
+          "-2103199/1000000"
+        ],
+        [
+          61086,
+          "-1982167/1000000"
+        ],
+        [
+          62749,
+          "-1191367/1000000"
+        ],
+        [
+          63433,
+          "-1189049/200000"
+        ]
+      ]
+    },
+    "source_equality_multipliers": [
+      [
+        0,
+        "-7615773/250000"
+      ],
+      [
+        1,
+        "-36"
+      ],
+      [
+        2,
+        "-559017/12500"
+      ],
+      [
+        3,
+        "-50"
+      ],
+      [
+        4,
+        "-2576941/62500"
+      ],
+      [
+        5,
+        "-559017/25000"
+      ],
+      [
+        6,
+        "-21213203/500000"
+      ],
+      [
+        7,
+        "-26248809/500000"
+      ],
+      [
+        8,
+        "-32015621/500000"
+      ],
+      [
+        9,
+        "-12747549/250000"
+      ],
+      [
+        10,
+        "-1677051/25000"
+      ],
+      [
+        11,
+        "-30"
+      ],
+      [
+        12,
+        "-559017/25000"
+      ],
+      [
+        13,
+        "-32015621/500000"
+      ],
+      [
+        14,
+        "-30413813/500000"
+      ],
+      [
+        15,
+        "-29154759/500000"
+      ],
+      [
+        16,
+        "-30413813/500000"
+      ],
+      [
+        17,
+        "-3952847/125000"
+      ],
+      [
+        18,
+        "-32015621/500000"
+      ],
+      [
+        19,
+        "-31622777/500000"
+      ],
+      [
+        20,
+        "-4506939/125000"
+      ],
+      [
+        21,
+        "-841432/15625"
+      ],
+      [
+        22,
+        "-36055513/500000"
+      ],
+      [
+        23,
+        "-60"
+      ],
+      [
+        24,
+        "-1677051/25000"
+      ],
+      [
+        25,
+        "-559017/25000"
+      ],
+      [
+        26,
+        "-10"
+      ],
+      [
+        27,
+        "-1264911/100000"
+      ],
+      [
+        28,
+        "-7458217/125000"
+      ],
+      [
+        29,
+        "-12747549/250000"
+      ],
+      [
+        30,
+        "-17464249/500000"
+      ],
+      [
+        31,
+        "-68"
+      ],
+      [
+        32,
+        "-24758837/500000"
+      ],
+      [
+        33,
+        "-36055513/500000"
+      ],
+      [
+        34,
+        "-41036569/500000"
+      ],
+      [
+        35,
+        "-41400483/500000"
+      ],
+      [
+        36,
+        "-21213203/500000"
+      ],
+      [
+        37,
+        "-42426407/500000"
+      ],
+      [
+        38,
+        "-2123161/31250"
+      ],
+      [
+        39,
+        "-559017/25000"
+      ],
+      [
+        40,
+        "-28861739/500000"
+      ],
+      [
+        41,
+        "-12747549/250000"
+      ],
+      [
+        42,
+        "-6835203/100000"
+      ],
+      [
+        43,
+        "-31890437/500000"
+      ],
+      [
+        44,
+        "-29154759/500000"
+      ],
+      [
+        45,
+        "-4433537/62500"
+      ],
+      [
+        46,
+        "-34205263/500000"
+      ],
+      [
+        47,
+        "-13901439/250000"
+      ],
+      [
+        48,
+        "-8786353/100000"
+      ],
+      [
+        49,
+        "-16970563/500000"
+      ],
+      [
+        50,
+        "-841432/15625"
+      ],
+      [
+        51,
+        "-2828427/125000"
+      ],
+      [
+        52,
+        "-559017/62500"
+      ],
+      [
+        53,
+        "-22803509/500000"
+      ],
+      [
+        54,
+        "-7615773/125000"
+      ],
+      [
+        55,
+        "-7301541/125000"
+      ],
+      [
+        56,
+        "-23194827/500000"
+      ],
+      [
+        57,
+        "-1811077/100000"
+      ],
+      [
+        58,
+        "-8902247/250000"
+      ],
+      [
+        59,
+        "-4506939/125000"
+      ],
+      [
+        60,
+        "-12747549/250000"
+      ],
+      [
+        61,
+        "-12747549/250000"
+      ],
+      [
+        62,
+        "-17464249/250000"
+      ],
+      [
+        63,
+        "-46518813/500000"
+      ],
+      [
+        64,
+        "-49929951/500000"
+      ],
+      [
+        65,
+        "-40496913/500000"
+      ],
+      [
+        66,
+        "-1370732/15625"
+      ],
+      [
+        67,
+        "-10688779/250000"
+      ],
+      [
+        68,
+        "-486621/20000"
+      ],
+      [
+        69,
+        "-21095023/500000"
+      ],
+      [
+        70,
+        "-4957633/62500"
+      ],
+      [
+        71,
+        "-4494441/100000"
+      ],
+      [
+        72,
+        "-5031153/125000"
+      ],
+      [
+        73,
+        "-6149187/125000"
+      ],
+      [
+        74,
+        "-3473111/62500"
+      ],
+      [
+        75,
+        "-3913119/125000"
+      ],
+      [
+        76,
+        "-4924429/125000"
+      ],
+      [
+        77,
+        "-31064449/500000"
+      ],
+      [
+        78,
+        "-5110773/100000"
+      ],
+      [
+        79,
+        "-21095023/500000"
+      ],
+      [
+        80,
+        "-6896557/125000"
+      ],
+      [
+        81,
+        "-728869/15625"
+      ],
+      [
+        82,
+        "-21095023/500000"
+      ],
+      [
+        83,
+        "-486621/10000"
+      ],
+      [
+        84,
+        "-23021729/500000"
+      ],
+      [
+        85,
+        "-35355339/500000"
+      ],
+      [
+        86,
+        "-2298097/62500"
+      ],
+      [
+        87,
+        "-2404423/62500"
+      ],
+      [
+        88,
+        "-18"
+      ],
+      [
+        89,
+        "-32249031/500000"
+      ],
+      [
+        90,
+        "-25612497/500000"
+      ],
+      [
+        91,
+        "-2298097/62500"
+      ],
+      [
+        92,
+        "-20248457/500000"
+      ],
+      [
+        93,
+        "-2408319/100000"
+      ],
+      [
+        94,
+        "-14866069/500000"
+      ],
+      [
+        95,
+        "-7632169/250000"
+      ],
+      [
+        96,
+        "-17204651/500000"
+      ],
+      [
+        97,
+        "-5315073/125000"
+      ],
+      [
+        98,
+        "-2186607/62500"
+      ],
+      [
+        99,
+        "-24041631/500000"
+      ]
+    ],
+    "saving_by_removed_variable": {
+      "x255": "2608791/250000",
+      "x301": "1603637/1000000",
+      "x543": "2748587/1000000",
+      "x819": "277213/500000",
+      "x826": "3509309/500000",
+      "x1786": "464723/250000",
+      "x3116": "416951/250000",
+      "x3271": "1809849/250000",
+      "x3275": "318089/200000",
+      "x5338": "52103/100000",
+      "x5515": "7136477/1000000",
+      "x6560": "4169187/1000000",
+      "x7480": "6614999/1000000",
+      "x8011": "2204137/1000000",
+      "x8298": "102591/50000",
+      "x8467": "4390747/500000",
+      "x8598": "4877867/1000000",
+      "x8973": "1177613/250000",
+      "x9407": "24249/8000",
+      "x10618": "1189049/200000",
+      "x10907": "2346767/250000",
+      "x11135": "2633487/250000",
+      "x12591": "19988/15625",
+      "x12713": "6418969/1000000",
+      "x12859": "2103199/1000000",
+      "x13167": "745847/200000",
+      "x18487": "1015879/1000000",
+      "x20322": "1044241/250000",
+      "x22688": "2405311/500000",
+      "x23569": "161497/1000000",
+      "x23622": "39103/10000",
+      "x24071": "1997837/250000",
+      "x24659": "2917667/500000",
+      "x27741": "88939/100000",
+      "x28213": "10455369/1000000",
+      "x32119": "1718569/250000",
+      "x33539": "6519609/1000000",
+      "x34094": "3758243/1000000",
+      "x34355": "210823/100000",
+      "x34990": "236199/1000000",
+      "x36584": "2628019/1000000",
+      "x38947": "191601/125000",
+      "x39046": "1290663/1000000",
+      "x40176": "191601/125000",
+      "x41022": "26669/8000",
+      "x41658": "8847999/1000000",
+      "x42804": "1790543/1000000",
+      "x45272": "7796247/500000",
+      "x45764": "119203/250000",
+      "x47383": "88939/100000",
+      "x51197": "163213/125000",
+      "x51360": "2927139/500000",
+      "x54184": "753487/500000",
+      "x54785": "55977/50000",
+      "x57532": "38501/31250",
+      "x57946": "58377/40000",
+      "x58540": "19872357/1000000",
+      "x60760": "2103199/1000000",
+      "x61087": "1982167/1000000",
+      "x62750": "1191367/1000000",
+      "x63434": "1189049/200000"
+    },
+    "minimum_strict_saving": "161497/1000000",
+    "maximum_strict_saving": "19872357/1000000",
+    "deterministic_recipe": "Parse actual source supports and exact costs; validate disjoint replacement support identities; form F_j=x_j+sum(removed assigned to j), singleton q_s likewise. Substituted target objective minus source objective minus sum(-singleton_cost_r*source_row_eq_r) equals -sum(strict_saving_i*x_i). prepare() asserts the full exact residual and emits its nonpositive bound via original VarLower premises. This is residual evidence, not an optimizer-exclusion caller contract."
+  },
+  "preparation_seconds": 77.03861270914786,
+  "rpa_bytes": 76583859,
+  "rpa_sha256": "d112b2b1cc21505dac82883f5fb476f95299e762f4d2c1cae6110ae280a201e2",
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test83/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":21587794,\"parse_us\":1021397,\"read_us\":15452,\"rows\":100,\"status\":\"CANONICALIZED\",\"total_us\":1381678,\"variables\":65832}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test83-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test83/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":21568557,\"parse_us\":982024,\"read_us\":7714,\"rows\":100,\"status\":\"CANONICALIZED\",\"total_us\":1393180,\"variables\":65671}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":84303277,\"status\":\"ASSEMBLED\",\"total_us\":2448420}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test83/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":10032132,\"model_decode_us\":590234,\"points\":0,\"proof_decode_us\":1618931,\"read_us\":27697,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4216370,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":395015,\"peak_live_facts\":351,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":5884228,\"work\":30922823},\"status\":\"VERIFIED\",\"total_us\":12268994}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test83/deterministic.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":84303277,\"status\":\"ASSEMBLED\",\"total_us\":3973436}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test83/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":11104642,\"model_decode_us\":844134,\"points\":0,\"proof_decode_us\":1909378,\"read_us\":52532,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4216370,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":395015,\"peak_live_facts\":351,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":5884228,\"work\":30922823},\"status\":\"VERIFIED\",\"total_us\":13910686}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test83/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test83/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":14523085,\"model_decode_us\":581029,\"points\":0,\"proof_decode_us\":2128213,\"read_us\":30391,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4216370,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":395015,\"peak_live_facts\":351,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":5884228,\"work\":30922823},\"status\":\"VERIFIED\",\"total_us\":17262718}\n",
+      "stderr": ""
+    }
+  ],
+  "negative_checks": [
+    {
+      "mutation": "lost_contributor",
+      "rule_broken": "Omits a dominated source contributor from a target aggregate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 4416",
+        "status": "INVALID"
+      },
+      "assemble": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "assemble",
+          "/Users/bhz/Code/kernel/cases/test83/lost_contributor.rpa",
+          "/Users/bhz/Code/kernel/cases/test83/lost_contributor.rpx"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"rpx_bytes\":84303259,\"status\":\"ASSEMBLED\",\"total_us\":2151820}\n",
+        "stderr": ""
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/lost_contributor.rpx",
+          "/Users/bhz/Code/kernel/cases/test83/request.json"
+        ],
+        "exit_code": 2,
+        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 4416\",\"status\":\"INVALID\"}\n",
+        "stderr": ""
+      },
+      "rpa_sha256": "c48d37b84e8552c4857e60fc95baea8c3a6c945c2b3d43f0578107d9773cf2c9",
+      "rpx_sha256": "1cd17adc09d8881e9fbc440e2080d74e7ebb41e085c0dead1ae228800edcbff8",
+      "storage": "Temporary mutations deleted; deterministic recipe in preparer."
+    },
+    {
+      "mutation": "missing_partition_premise",
+      "rule_broken": "Drops a true partition equality from a shared aggregate upper bound.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 36532",
+        "status": "INVALID"
+      },
+      "assemble": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "assemble",
+          "/Users/bhz/Code/kernel/cases/test83/missing_partition_premise.rpa",
+          "/Users/bhz/Code/kernel/cases/test83/missing_partition_premise.rpx"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"rpx_bytes\":84303255,\"status\":\"ASSEMBLED\",\"total_us\":1912799}\n",
+        "stderr": ""
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/missing_partition_premise.rpx",
+          "/Users/bhz/Code/kernel/cases/test83/request.json"
+        ],
+        "exit_code": 2,
+        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 36532\",\"status\":\"INVALID\"}\n",
+        "stderr": ""
+      },
+      "rpa_sha256": "15610e3969200ce366450bb44ded4e9fa84171dbcf37428e34c1eb1f4f0ede49",
+      "rpx_sha256": "ad956ab416f9a03b8d8f7c27d91df53d03e64b7787e99e26cc76497aa4d99770",
+      "storage": "Temporary mutations deleted; deterministic recipe in preparer."
+    },
+    {
+      "mutation": "wrong_saving",
+      "rule_broken": "Changes a strict-saving multiplier needed for complete objective nonincrease.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 197113",
+        "status": "INVALID"
+      },
+      "assemble": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "assemble",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_saving.rpa",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_saving.rpx"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"rpx_bytes\":84303272,\"status\":\"ASSEMBLED\",\"total_us\":3944400}\n",
+        "stderr": ""
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_saving.rpx",
+          "/Users/bhz/Code/kernel/cases/test83/request.json"
+        ],
+        "exit_code": 2,
+        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 197113\",\"status\":\"INVALID\"}\n",
+        "stderr": ""
+      },
+      "rpa_sha256": "080e1247d0b68a6bbd4554e7d0b10b5da116bf4b5184f7c97d8279aef4d346ce",
+      "rpx_sha256": "025b560b77af0112ad486d6abd65e5159d1eb6ce4b956ab1434fac5c829156ec",
+      "storage": "Temporary mutations deleted; deterministic recipe in preparer."
+    },
+    {
+      "mutation": "wrong_singleton_recovery",
+      "rule_broken": "Changes the exact constant in a recovered singleton.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 0",
+        "status": "INVALID"
+      },
+      "assemble": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "assemble",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_singleton_recovery.rpa",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_singleton_recovery.rpx"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"rpx_bytes\":84303276,\"status\":\"ASSEMBLED\",\"total_us\":2078438}\n",
+        "stderr": ""
+      },
+      "verify": {
+        "command": [
+          "/Users/bhz/Code/kernel/target/release/rpx",
+          "verify",
+          "/Users/bhz/Code/kernel/cases/test83/source.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/target.mcm",
+          "/Users/bhz/Code/kernel/cases/test83/wrong_singleton_recovery.rpx",
+          "/Users/bhz/Code/kernel/cases/test83/request.json"
+        ],
+        "exit_code": 2,
+        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 0\",\"status\":\"INVALID\"}\n",
+        "stderr": ""
+      },
+      "rpa_sha256": "77c9636cd9b3c6523e4e84b85c5149229308bda4b037458b816f991336815923",
+      "rpx_sha256": "d07790094daf94c427679f0327e1a9054030f8a23773165aa609dc8076c0e448",
+      "storage": "Temporary mutations deleted; deterministic recipe in preparer."
+    }
+  ],
+  "assemble_byte_deterministic": true,
+  "verify_semantics_deterministic": true,
+  "determinism_comparison": "Exact status, claim counts and complete execution statistics; wall-clock *_us fields intentionally excluded.",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 21587794,
+      "sha256": "0c55507a972faaa484b07966061b467eda18fe047d85cd1a11d338c47df1ae1f"
+    },
+    "target.mcm": {
+      "bytes": 21568557,
+      "sha256": "c35edd50bec5deec734f57c311a3d37def041fc6970df4f4fb1c9cb90aeb6a96"
+    },
+    "proof.rpx": {
+      "bytes": 84303277,
+      "sha256": "2e9c8bbb1f156391cce214d04ca32340aa430a343f1470b1a52e47d9b4364d6c"
+    },
+    "request.json": {
+      "bytes": 24622657,
+      "sha256": "9aad6eb44438eddabbac9f03554106e72e1807e7ec412c77bf3b922ea3350043"
+    }
+  }
+}

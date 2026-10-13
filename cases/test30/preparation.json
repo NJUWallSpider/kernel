@@ -1,0 +1,151 @@
+{
+  "case_id": "test30",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test30-nomf-B1/input/model.mps",
+    "sha256": "704f4ed3e861a1665958b576c96b9e9dd33de847e711932da76a36fd4a86d7ae"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test30-nomf-B1/output/reformulated.mps",
+    "sha256": "f3322c7ffc6e04e084d7e8fedd65c6ccdd22d264207759dcbf60ce27c40853ec"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test30-nomf-B1/output/audit.json",
+    "sha256": "38735fd6306545fed64795e07e94a0985afbd5f704f93dfcf7ec4a9faa7b3151"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test30.py",
+    "sha256": "ab09c90d9843be1d3292edc1649e50d03bcb9ddcafe629b09c1198fc35daa6a4"
+  },
+  "claims": "Four complete objective-preserving integer and LP projection directions with every retained-coordinate observation. Actual source equalities prove aliases and private-binary projection; checked joint real intervals restore all 930 free auxiliaries. Every source domain and row is checked; no bijection is claimed.",
+  "counts": {
+    "source_variables": 35378,
+    "target_variables": 32337,
+    "source_rows": 16516,
+    "target_rows": 14717,
+    "free_auxiliary_intervals": 930,
+    "nonnegative_auxiliaries": 31,
+    "aliases": 620,
+    "private_binaries": 1460,
+    "singleton_rows": 640,
+    "box_redundancies": 220,
+    "duplicates": 29,
+    "claims": 4
+  },
+  "preparation_seconds": 6.686103334,
+  "rpa_sha256": "4e6772ca22714da4dc2f4ddef9589f9ed6e230dba36945b249a0b0429e614968",
+  "rpa_bytes": 16302197,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test30-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test30/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":4613312,\"parse_us\":48362,\"read_us\":492,\"rows\":16516,\"status\":\"CANONICALIZED\",\"total_us\":65229,\"variables\":35378}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test30-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test30/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":4348930,\"parse_us\":46089,\"read_us\":476,\"rows\":14717,\"status\":\"CANONICALIZED\",\"total_us\":61683,\"variables\":32337}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test30/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test30/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":10418378,\"status\":\"ASSEMBLED\",\"total_us\":89171}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test30/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test30/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test30/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test30/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":172759,\"model_decode_us\":38815,\"points\":0,\"proof_decode_us\":27822,\"read_us\":2151,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":5580,\"interval_generated_terms\":17720,\"interval_generated_variables\":1860,\"interval_lifts\":2,\"linear_terms\":80332,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":525092,\"peak_live_facts\":3552,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":494352,\"work\":6663662},\"status\":\"VERIFIED\",\"total_us\":241547}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 4613312,
+      "sha256": "fb7825f30c34b782f02cc4c2c39fd35c7d12081d4483fded2d9d823dd686b58f"
+    },
+    "target.mcm": {
+      "bytes": 4348930,
+      "sha256": "b094b90d0c31bd2e8c1c9c492ec933f7cb4976252c116470165f941f73254535"
+    },
+    "proof.rpx": {
+      "bytes": 10418378,
+      "sha256": "78cc75a8b5403328ec6f417e6c72b68780bcc62c4dd63984d3480d8e7aedb671"
+    },
+    "request.json": {
+      "bytes": 1731788,
+      "sha256": "efe4204f681e83b01072dad6398d668baba77f905d850a015d866d2e51f53b1c"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_alias",
+      "rule_broken": "Drops an actual alias equality premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 96826",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "a3f28bc094891aa690a59cfeb3d679d6eb77a40d6523bf25d75aa1ff68f08941",
+      "rpx_sha256": "c8b9b21ead65fe8779d30378c1b5b21a0356fbb56774437c90db12516cfec65e"
+    },
+    {
+      "mutation": "wrong_interval",
+      "rule_broken": "Changes an interval endpoint while keeping its checked premise unchanged.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "ebfeab1d550bc2713840a0e2c89132340a7e6ab9acb6b9a6baec360c1d279412",
+      "rpx_sha256": "9d050ad02809e6e9aca467db1f017fb0b29c5befaaadd233f78f7509995c2600"
+    },
+    {
+      "mutation": "missing_private_bound",
+      "rule_broken": "Omits a nonnegative private-variable premise from a projected row.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 98686",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "6577de6ed86f8a79c7ca0c79ae6f92d0f76bc74b567b856f91f3170bff806252",
+      "rpx_sha256": "43f1216962cfde29a828f2848e5809ebc726f652d6b58935b41dd15cd48013c2"
+    },
+    {
+      "mutation": "missing_projection",
+      "rule_broken": "Omits a requested retained-coordinate observation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "5e77bbb79a68ed269050c657075a36d609693e34222686566aa86a90468a03e7",
+      "rpx_sha256": "d5b6de0c22a5fbe0f83c251052b12890f325672c31548fc9ba441dcf71063989"
+    }
+  ]
+}

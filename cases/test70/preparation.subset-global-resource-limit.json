@@ -1,0 +1,113 @@
+{
+  "case_id": "test70",
+  "status": "RESOURCE_LIMIT",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/input/model.mps",
+    "sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/output/reformulated.mps",
+    "sha256": "0f72e270d2aed92478202672ab865a318cfdc83faa66f1c7ec7bc2396e26fa07"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/output/audit.json",
+    "sha256": "8c6a74198b3373400e5b751029c25806bf6465b8e7e8a3111316b26848479cb7"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test70_subset_global.py",
+    "sha256": "7c3c1afc41e9d8e0efc183b4f846ec2509ebd26d58adf2de519d4c9a8447a265"
+  },
+  "claims": "Complete same-coordinate integer feasible-set bijection with exact objective and full inverse identities, plus objective-preserving target-LP inclusion into source LP. Every gate cover is an explicit linear combination of actual unchanged rows and bounds; no global strict LP claim.",
+  "counts": {
+    "source_variables": 48417,
+    "target_variables": 48417,
+    "source_rows": 2187,
+    "target_rows": 2187,
+    "gate_tightenings": 1975,
+    "packing_sources": 82,
+    "naive_cancellation_refs": 18244585,
+    "shared_cancellation_refs": 1218424,
+    "subset_cache_entries": 792853,
+    "forward_steps": 662175,
+    "claims": 3,
+    "obligations_by_claim": [
+      244273,
+      244273,
+      147439
+    ]
+  },
+  "preparation_seconds": 109.31760566700001,
+  "rpa_sha256": "a3e9ab183175bd98720b8b93bd7244241cb12a5719e2618d5b80a090f6d6a689",
+  "rpa_bytes": 135032934,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test70/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":39062258,\"parse_us\":535740,\"read_us\":30646,\"rows\":2187,\"status\":\"CANONICALIZED\",\"total_us\":729545,\"variables\":48417}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test70/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":39061422,\"parse_us\":624439,\"read_us\":12278,\"rows\":2187,\"status\":\"CANONICALIZED\",\"total_us\":809710,\"variables\":48417}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test70/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test70/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":116386221,\"status\":\"ASSEMBLED\",\"total_us\":1291333}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test70/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test70/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test70/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test70/request.json"
+      ],
+      "exit_code": 3,
+      "stdout": "{\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 39062258,
+      "sha256": "6700f534955c041dbd4f205f03fc4cda633b8d494479c701367512f9d9a7fe6f"
+    },
+    "target.mcm": {
+      "bytes": 39061422,
+      "sha256": "1b848d29a49b1db92e2b4b7f56069c96a9ea8d2679dc4749034c9a2dab959891"
+    },
+    "proof.subset-global.rpa": {
+      "bytes": 135032934,
+      "sha256": "a3e9ab183175bd98720b8b93bd7244241cb12a5719e2618d5b80a090f6d6a689"
+    },
+    "proof.subset-global.rpx": {
+      "bytes": 116386221,
+      "sha256": "6d1d38dc16904262b83938715c4263d3ccf4bf5bb99fa5ce513e3a2919558704"
+    },
+    "request.json": {
+      "bytes": 1967189,
+      "sha256": "00093e28d4a2d492a33dcd65299d5d0a831b81700f9ad908c9b31a18d2971025"
+    }
+  }
+}

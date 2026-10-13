@@ -1,0 +1,62 @@
+//! `rpx`: command-line shell over [`kernel_core::api`].
+//!
+//! Argument parsing, stdout and exit codes only. Every operation, every status
+//! classification and every report field lives in the library façade, so a
+//! programmatic caller and this binary cannot drift apart.
+
+use kernel_core::{api, verify::Limits};
+use std::env;
+
+const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | assemble input.rpa output.rpx | disassemble input.rpx output.rpa | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx request.json (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
+
+fn verify_args(a: &[String]) -> Result<([&str; 4], Limits), String> {
+    let mut limits = Limits::default();
+    let mut paths = [""; 4];
+    let mut count = 0;
+    let mut args = a.iter();
+    while let Some(arg) = args.next() {
+        match arg.as_str() {
+            "--work" => limits.work = args.next().ok_or(USAGE)?.parse().map_err(|_| USAGE)?,
+            "--live-facts" => limits.live_facts = args.next().ok_or(USAGE)?.parse().map_err(|_| USAGE)?,
+            path => {
+                if path.starts_with("--") || count == paths.len() {
+                    return Err(USAGE.into());
+                }
+                paths[count] = path;
+                count += 1;
+            }
+        }
+    }
+    if count != paths.len() {
+        return Err(USAGE.into());
+    }
+    Ok((paths, limits))
+}
+
+fn run(args: &[String]) -> Result<serde_json::Value, api::Error> {
+    match args.get(1).map(String::as_str) {
+        Some("canonical") if args.len() == 4 => api::canonicalize_path(&args[2], &args[3]),
+        Some("assemble") if args.len() == 4 => api::assemble_paths(&args[2], &args[3]),
+        Some("disassemble") if args.len() == 4 => api::disassemble_paths(&args[2], &args[3]),
+        Some("verify") => {
+            let (paths, limits) = verify_args(&args[2..]).map_err(api::Error::from_message)?;
+            api::verify_paths(paths[0], paths[1], paths[2], paths[3], &limits).map_err(|error| error.with_limits(limits))
+        }
+        Some("inspect-model") if args.len() == 3 => api::inspect_model_path(&args[2]),
+        Some("export-model") if args.len() == 4 => api::export_model_paths(&args[2], &args[3]),
+        _ => Err(api::Error::from_message(USAGE.into())),
+    }
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    let (value, code) = match run(&args) {
+        Ok(value) => (value, api::Status::Verified.exit_code()),
+        Err(error) => {
+            let code = error.status().exit_code();
+            (error.to_json(), code)
+        }
+    };
+    println!("{value}");
+    std::process::exit(code);
+}

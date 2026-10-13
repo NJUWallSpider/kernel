@@ -1,0 +1,176 @@
+{
+  "case_id": "test47",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test47-nomf-B1/input/model.mps",
+    "sha256": "181f02fd634306ad6431f21d5e8115f3e8112f2e7d2bebed1690475b49acc4af"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test47-nomf-B1/output/reformulated.mps",
+    "sha256": "b95536060089ab7446077a8b5324e228d7fb69ad6b6d3a1967b21286d2831f5f"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test47.py",
+    "sha256": "63405c798652e760a453fbe4df47defd7ff3d401f1d081f11fa57dc38920f954"
+  },
+  "claims": "Both integer directions preserve every attainable objective value, original continuous y and total binary cardinality; no named-choice identity, bijection or LP claim.",
+  "counts": {
+    "stages": 31,
+    "intervals": 620,
+    "rows": 8370,
+    "allocated_ids": 113334
+  },
+  "depths": {
+    "json_max_depth": 126,
+    "proof_max_depth": 38
+  },
+  "preparation_seconds": 31.650323375,
+  "rpa_sha256": "f005c4efea6e7af56c0518cee246e0322d1c5c834c4f3cc979851a7de82019f4",
+  "rpa_bytes": 22149067,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test47-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test47/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":43567,\"parse_us\":1692,\"read_us\":54,\"rows\":13,\"status\":\"CANONICALIZED\",\"total_us\":2658,\"variables\":151}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test47-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test47/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":33666,\"parse_us\":1328,\"read_us\":50,\"rows\":13,\"status\":\"CANONICALIZED\",\"total_us\":2328,\"variables\":118}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test47/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test47/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":20219652,\"status\":\"ASSEMBLED\",\"total_us\":279492}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test47/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test47/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test47/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test47/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":2536776,\"model_decode_us\":1260,\"points\":0,\"proof_decode_us\":89559,\"read_us\":2335,\"statistics\":{\"bijections\":0,\"branches\":8959,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":8370,\"interval_generated_terms\":226562,\"interval_generated_variables\":620,\"interval_lifts\":31,\"linear_terms\":7969870,\"menu_generated_rows\":4,\"menu_generated_terms\":12,\"menu_generated_variables\":6,\"menu_lifts\":1,\"obligations\":837,\"peak_live_facts\":12274,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":21653,\"work\":38691982},\"status\":\"VERIFIED\",\"total_us\":2629930}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
+  "negative_checks": [
+    {
+      "mutation": "missing_interval_pair",
+      "rule_broken": "A prefix AND interval omits one lower-upper compatibility premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID interval: missing or surplus lower-upper pair checks",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "8e7b77889171a712d80f517b6e24096765b17282492b17354fa4b2ad5f455e0d",
+      "rpx_sha256": "496553c4458fe92a1a8c371266ef4271f4a90db76de405361d458c998e93bfe7"
+    },
+    {
+      "mutation": "continuous_integer_witness",
+      "rule_broken": "The first integer sum split cites a new continuous interval coordinate as its integrality witness.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "98d586791dd67231066217a9aad41d7fd823923030aa8afa3bf5576ad117ce65",
+      "rpx_sha256": "a2f29724d91bd08a345014aa0e9eeb0de123ccdff0789fe57113cf447d4a3594"
+    },
+    {
+      "mutation": "negative_cover_multiplier",
+      "rule_broken": "One covering improvement inequality has a negative linear multiplier.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID linear premise kind or multiplier",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "87de6a0457d71c3020ce6bd9eb28ea480ac4c0dd51d2904df8b9a18935d1de86",
+      "rpx_sha256": "a8baf5430f1901ef0cbffb05293bc2bfac37eae977bb7d99a3d6508073f936a5"
+    },
+    {
+      "mutation": "wrong_objective_multiplier",
+      "rule_broken": "The objective proof replaces the exact selected-count multiplier 1/100000 by one.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 366",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "f269a4ecbfb8f86119bf0e4ad0472171fd6c7d7dbd5b9a3b3a31ec4f02e3b28c",
+      "rpx_sha256": "4f73f852cd6e596d1b0d40f1c045109fecb3457f8f914c7ae36bd989dfaee671"
+    },
+    {
+      "mutation": "missing_count_observation",
+      "rule_broken": "The final Return omits the required selected-count observation check.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "eaaf435ed8c4dab87f862dedaa8abe8e395f6a032cd6a6dab1216c93ee95698a",
+      "rpx_sha256": "b717c2bca5e27062ff7e176886cdab17a8447fd30c0545a5a33ef305a3c2a7c4"
+    },
+    {
+      "mutation": "wrong_menu_maximum",
+      "rule_broken": "A reverse menu claims maximum one for an actual aggregate count bounded by two.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "7630c6f6779118ad9d1f6959f8e95a5e9716a36bd37b62305cc7d1457651ceca",
+      "rpx_sha256": "6c9a7fe5a16796e7ccb069c436a0aac8bdf67d586134fd2d0ab0f3929d97fbd1"
+    },
+    {
+      "mutation": "incomplete_pair_reconstruction",
+      "rule_broken": "The reverse map omits the both-selected state from one original binary.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 69",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "95b0bcf3cd3df287574f106482469990b725c3d42804528c3734182d0de50649",
+      "rpx_sha256": "cf2d3d7f6018da1a421287d29e141bb05d1742724541ae2050f0a61d5125a55f"
+    }
+  ],
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 43567,
+      "sha256": "15cf10a946a7aef703fe64ef020cd61645678dbad3af68d7502f5e27ee58b583"
+    },
+    "target.mcm": {
+      "bytes": 33666,
+      "sha256": "9a58deb9b32644bfc5ef1798189d8ee46fdd60518e7de054d750eac27645c214"
+    },
+    "proof.rpx": {
+      "bytes": 20219652,
+      "sha256": "ece8b5430cfe955decabdcdc79d5a3b691c1c97c96273f85e1c1a4cf8a57e99a"
+    },
+    "request.json": {
+      "bytes": 5303,
+      "sha256": "b530069089012b0fc482cbdaff666d16952812d2b6f4ceca075205b79e89886c"
+    }
+  }
+}

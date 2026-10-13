@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "fixed_on": "2026-10-11",
+  "repetitions": 3,
+  "sizes": [256, 1024, 4096],
+  "semantics": "For size n, establish n live exact LE facts, then n local Cases each using an inherited fact in both branches and dropping its exported result. One complete binary identity claim. Same model, RPA/RPX, claims and scopes before/after; current whole-state clone baseline has quadratic copies. Default 100 million work budget retained. No weakening or auxiliary-model workaround.",
+  "motivation": "Actual test18 needs many integrality-derived aliases. Benchmark frozen before any shared-scope implementation. Record a resource failure as failure, never a timing success."
+}

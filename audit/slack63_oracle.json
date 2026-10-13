@@ -1,0 +1,735 @@
+{
+  "status": "PASS",
+  "seed": 6488209,
+  "complete_actual_points": 103,
+  "integer_points": 102,
+  "fractional_points": 1,
+  "roundtrip_coordinates_per_point": 3002,
+  "scenarios": [
+    {
+      "scenario": 0,
+      "integer": true,
+      "height": "877/3",
+      "objective": "877/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 1,
+      "integer": true,
+      "height": "298",
+      "objective": "298",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 2,
+      "integer": true,
+      "height": "129",
+      "objective": "129",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 3,
+      "integer": true,
+      "height": "385/3",
+      "objective": "385/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 4,
+      "integer": true,
+      "height": "134",
+      "objective": "134",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 5,
+      "integer": true,
+      "height": "120",
+      "objective": "120",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 6,
+      "integer": true,
+      "height": "367/3",
+      "objective": "367/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 7,
+      "integer": true,
+      "height": "163",
+      "objective": "163",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 8,
+      "integer": true,
+      "height": "116",
+      "objective": "116",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 9,
+      "integer": true,
+      "height": "400/3",
+      "objective": "400/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 10,
+      "integer": true,
+      "height": "115",
+      "objective": "115",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 11,
+      "integer": true,
+      "height": "147",
+      "objective": "147",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 12,
+      "integer": true,
+      "height": "349/3",
+      "objective": "349/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 13,
+      "integer": true,
+      "height": "132",
+      "objective": "132",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 14,
+      "integer": true,
+      "height": "176",
+      "objective": "176",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 15,
+      "integer": true,
+      "height": "277/3",
+      "objective": "277/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 16,
+      "integer": true,
+      "height": "129",
+      "objective": "129",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 17,
+      "integer": true,
+      "height": "103",
+      "objective": "103",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 18,
+      "integer": true,
+      "height": "394/3",
+      "objective": "394/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 19,
+      "integer": true,
+      "height": "112",
+      "objective": "112",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 20,
+      "integer": true,
+      "height": "120",
+      "objective": "120",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 21,
+      "integer": true,
+      "height": "328/3",
+      "objective": "328/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 22,
+      "integer": true,
+      "height": "109",
+      "objective": "109",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 23,
+      "integer": true,
+      "height": "116",
+      "objective": "116",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 24,
+      "integer": true,
+      "height": "307/3",
+      "objective": "307/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 25,
+      "integer": true,
+      "height": "100",
+      "objective": "100",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 26,
+      "integer": true,
+      "height": "134",
+      "objective": "134",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 27,
+      "integer": true,
+      "height": "352/3",
+      "objective": "352/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 28,
+      "integer": true,
+      "height": "110",
+      "objective": "110",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 29,
+      "integer": true,
+      "height": "109",
+      "objective": "109",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 30,
+      "integer": true,
+      "height": "418/3",
+      "objective": "418/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 31,
+      "integer": true,
+      "height": "97",
+      "objective": "97",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 32,
+      "integer": true,
+      "height": "111",
+      "objective": "111",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 33,
+      "integer": true,
+      "height": "418/3",
+      "objective": "418/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 34,
+      "integer": true,
+      "height": "113",
+      "objective": "113",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 35,
+      "integer": true,
+      "height": "148",
+      "objective": "148",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 36,
+      "integer": true,
+      "height": "331/3",
+      "objective": "331/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 37,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 38,
+      "integer": true,
+      "height": "127",
+      "objective": "127",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 39,
+      "integer": true,
+      "height": "403/3",
+      "objective": "403/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 40,
+      "integer": true,
+      "height": "108",
+      "objective": "108",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 41,
+      "integer": true,
+      "height": "115",
+      "objective": "115",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 42,
+      "integer": true,
+      "height": "355/3",
+      "objective": "355/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 43,
+      "integer": true,
+      "height": "148",
+      "objective": "148",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 44,
+      "integer": true,
+      "height": "121",
+      "objective": "121",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 45,
+      "integer": true,
+      "height": "415/3",
+      "objective": "415/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 46,
+      "integer": true,
+      "height": "124",
+      "objective": "124",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 47,
+      "integer": true,
+      "height": "126",
+      "objective": "126",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 48,
+      "integer": true,
+      "height": "439/3",
+      "objective": "439/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 49,
+      "integer": true,
+      "height": "125",
+      "objective": "125",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 50,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 51,
+      "integer": true,
+      "height": "316/3",
+      "objective": "316/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 52,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 53,
+      "integer": true,
+      "height": "139",
+      "objective": "139",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 54,
+      "integer": true,
+      "height": "337/3",
+      "objective": "337/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 55,
+      "integer": true,
+      "height": "114",
+      "objective": "114",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 56,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 57,
+      "integer": true,
+      "height": "448/3",
+      "objective": "448/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 58,
+      "integer": true,
+      "height": "107",
+      "objective": "107",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 59,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 60,
+      "integer": true,
+      "height": "430/3",
+      "objective": "430/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 61,
+      "integer": true,
+      "height": "178",
+      "objective": "178",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 62,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 63,
+      "integer": true,
+      "height": "352/3",
+      "objective": "352/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 64,
+      "integer": true,
+      "height": "93",
+      "objective": "93",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 65,
+      "integer": true,
+      "height": "140",
+      "objective": "140",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 66,
+      "integer": true,
+      "height": "379/3",
+      "objective": "379/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 67,
+      "integer": true,
+      "height": "125",
+      "objective": "125",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 68,
+      "integer": true,
+      "height": "106",
+      "objective": "106",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 69,
+      "integer": true,
+      "height": "382/3",
+      "objective": "382/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 70,
+      "integer": true,
+      "height": "115",
+      "objective": "115",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 71,
+      "integer": true,
+      "height": "156",
+      "objective": "156",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 72,
+      "integer": true,
+      "height": "373/3",
+      "objective": "373/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 73,
+      "integer": true,
+      "height": "146",
+      "objective": "146",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 74,
+      "integer": true,
+      "height": "129",
+      "objective": "129",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 75,
+      "integer": true,
+      "height": "406/3",
+      "objective": "406/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 76,
+      "integer": true,
+      "height": "136",
+      "objective": "136",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 77,
+      "integer": true,
+      "height": "113",
+      "objective": "113",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 78,
+      "integer": true,
+      "height": "331/3",
+      "objective": "331/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 79,
+      "integer": true,
+      "height": "132",
+      "objective": "132",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 80,
+      "integer": true,
+      "height": "130",
+      "objective": "130",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 81,
+      "integer": true,
+      "height": "382/3",
+      "objective": "382/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 82,
+      "integer": true,
+      "height": "120",
+      "objective": "120",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 83,
+      "integer": true,
+      "height": "136",
+      "objective": "136",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 84,
+      "integer": true,
+      "height": "328/3",
+      "objective": "328/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 85,
+      "integer": true,
+      "height": "126",
+      "objective": "126",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 86,
+      "integer": true,
+      "height": "91",
+      "objective": "91",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 87,
+      "integer": true,
+      "height": "409/3",
+      "objective": "409/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 88,
+      "integer": true,
+      "height": "133",
+      "objective": "133",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 89,
+      "integer": true,
+      "height": "165",
+      "objective": "165",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 90,
+      "integer": true,
+      "height": "349/3",
+      "objective": "349/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 91,
+      "integer": true,
+      "height": "118",
+      "objective": "118",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 92,
+      "integer": true,
+      "height": "122",
+      "objective": "122",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 93,
+      "integer": true,
+      "height": "388/3",
+      "objective": "388/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 94,
+      "integer": true,
+      "height": "119",
+      "objective": "119",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 95,
+      "integer": true,
+      "height": "137",
+      "objective": "137",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 96,
+      "integer": true,
+      "height": "475/3",
+      "objective": "475/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 97,
+      "integer": true,
+      "height": "130",
+      "objective": "130",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 98,
+      "integer": true,
+      "height": "101",
+      "objective": "101",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 99,
+      "integer": true,
+      "height": "364/3",
+      "objective": "364/3",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 100,
+      "integer": true,
+      "height": "109",
+      "objective": "109",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 101,
+      "integer": true,
+      "height": "109",
+      "objective": "109",
+      "below_peak_slack": "-1/2"
+    },
+    {
+      "scenario": 102,
+      "integer": false,
+      "height": "237771064013922403313/2978267599590983700",
+      "objective": "237771064013922403313/2978267599590983700",
+      "below_peak_slack": "-1/2"
+    }
+  ],
+  "source_sha256": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+  "target_sha256": "da9a863f642b3bac5ceee5bfeacc3eef3256cb4854f6d876b70d72dcdfba8cde",
+  "elapsed_seconds": 17.561360125,
+  "scope": "Independent Fraction point oracle, supplemental to actual universal RPX certificate."
+}

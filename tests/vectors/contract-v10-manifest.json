@@ -1,0 +1,196 @@
+{
+  "writer_sha256": "0f6db9790072fbcf65aab79882966f10cca022acadbc640c833802a5352fdc56",
+  "format": "WORKING_VERSION_10_NOT_FROZEN",
+  "scope": "Raw independent Python struct bytes: source binary x in[0,1], source objective7+x; target x=0. Source LP point1/2 has identity image outside target. Two same-source improvements verify Predicate and Constant margins, with PositiveRefutation at boundary.",
+  "offsets": {
+    "point_flags": 32,
+    "improvement_1_flags": 102,
+    "improvement_2_flags": 208,
+    "predicate_margin_tag": 190,
+    "constant_margin_tag": 368
+  },
+  "negative_mutations": {
+    "invalid-contract-v10-point-flags0.rpx": {
+      "offset": 32,
+      "value": 2
+    },
+    "invalid-contract-v10-point-flags1.rpx": {
+      "offset": 33,
+      "value": 1
+    },
+    "invalid-contract-v10-point-flags2.rpx": {
+      "offset": 34,
+      "value": 1
+    },
+    "invalid-contract-v10-point-flags3.rpx": {
+      "offset": 35,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement1-flags0.rpx": {
+      "offset": 102,
+      "value": 4
+    },
+    "invalid-contract-v10-improvement1-flags1.rpx": {
+      "offset": 103,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement1-flags2.rpx": {
+      "offset": 104,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement1-flags3.rpx": {
+      "offset": 105,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement2-flags0.rpx": {
+      "offset": 208,
+      "value": 4
+    },
+    "invalid-contract-v10-improvement2-flags1.rpx": {
+      "offset": 209,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement2-flags2.rpx": {
+      "offset": 210,
+      "value": 1
+    },
+    "invalid-contract-v10-improvement2-flags3.rpx": {
+      "offset": 211,
+      "value": 1
+    },
+    "invalid-contract-v10-predicate-margin0.rpx": {
+      "offset": 190,
+      "value": 2
+    },
+    "invalid-contract-v10-predicate-margin1.rpx": {
+      "offset": 191,
+      "value": 1
+    },
+    "invalid-contract-v10-predicate-margin2.rpx": {
+      "offset": 192,
+      "value": 1
+    },
+    "invalid-contract-v10-predicate-margin3.rpx": {
+      "offset": 193,
+      "value": 1
+    },
+    "invalid-contract-v10-constant-margin0.rpx": {
+      "offset": 368,
+      "value": 2
+    },
+    "invalid-contract-v10-constant-margin1.rpx": {
+      "offset": 369,
+      "value": 1
+    },
+    "invalid-contract-v10-constant-margin2.rpx": {
+      "offset": 370,
+      "value": 1
+    },
+    "invalid-contract-v10-constant-margin3.rpx": {
+      "offset": 371,
+      "value": 1
+    }
+  },
+  "files": {
+    "contract-v10-source.mcm": {
+      "bytes": 108,
+      "sha256": "121a9d46c80c8ec053232f32de69effcada2c17237f4be6bf401c3bd8a47fc42"
+    },
+    "contract-v10-target.mcm": {
+      "bytes": 107,
+      "sha256": "14ebe9aae51c2a136f0314539532b7cb73114adbe28991e886741d0109228045"
+    },
+    "contract-v10.rpx": {
+      "bytes": 386,
+      "sha256": "e5d49fc82432fa4acbccd18ac04cb42f79016e1cdcd5d67447367129934261aa"
+    },
+    "contract-v10.rpa": {
+      "bytes": 853,
+      "sha256": "7036953a01d2ee5ce43067d3436830cd769eb5da59546e0171c06e42de8e5813"
+    },
+    "contract-v10-request.json": {
+      "bytes": 288,
+      "sha256": "2e732f478989b8f789538e6b57833f26dc0bf612b7f3a0b355251d8ada4d13cc"
+    },
+    "invalid-contract-v10-point-flags0.rpx": {
+      "bytes": 386,
+      "sha256": "7098a4a9d367812adfb21909750959a40f673eaa757fcaaa0de5d698de5340c0"
+    },
+    "invalid-contract-v10-point-flags1.rpx": {
+      "bytes": 386,
+      "sha256": "a202a5941f501ccd4b8c80f09c814fcb35296918b1141796add9cd6620522a90"
+    },
+    "invalid-contract-v10-point-flags2.rpx": {
+      "bytes": 386,
+      "sha256": "2a84b6116998b7f4dd08cb96c79a5dd733cd7285805f7862d6ab6bc3443ba0a6"
+    },
+    "invalid-contract-v10-point-flags3.rpx": {
+      "bytes": 386,
+      "sha256": "f0542ddad05781fae246ef4a29ac21b45630adb8480362b43433af846191ffd8"
+    },
+    "invalid-contract-v10-improvement1-flags0.rpx": {
+      "bytes": 386,
+      "sha256": "4e675dd2e9bc52e97ca1d472ac11b52d1555da84dad4b535e247b7340d7c750e"
+    },
+    "invalid-contract-v10-improvement1-flags1.rpx": {
+      "bytes": 386,
+      "sha256": "06fe340c7b56a6d49a021ed3edc6ffa721fd22ba4a341c89dc250af993b4b2a5"
+    },
+    "invalid-contract-v10-improvement1-flags2.rpx": {
+      "bytes": 386,
+      "sha256": "362c12b802355c608fff00c68ba9cec5ccafb8c8de9ace651173480e8378f9d4"
+    },
+    "invalid-contract-v10-improvement1-flags3.rpx": {
+      "bytes": 386,
+      "sha256": "a1b3326192d1d238156474fb5904bc8e518e0d9128a05ce4884185924be4ed51"
+    },
+    "invalid-contract-v10-improvement2-flags0.rpx": {
+      "bytes": 386,
+      "sha256": "28b66ebd410cbbc87ca783a8bf6eeae0d61f70d2460c256efd8575463ddea27c"
+    },
+    "invalid-contract-v10-improvement2-flags1.rpx": {
+      "bytes": 386,
+      "sha256": "d082e6ca6e4db12e216ebf4e56947ae46ad3396509bfaec010466b9aa83de4ff"
+    },
+    "invalid-contract-v10-improvement2-flags2.rpx": {
+      "bytes": 386,
+      "sha256": "0368ac9cfebbb9ece00c37ef1aca733a9e202924ee03bd18fb6ca716f8d82112"
+    },
+    "invalid-contract-v10-improvement2-flags3.rpx": {
+      "bytes": 386,
+      "sha256": "0881085d0950fd838b11e75e8c2d6756d90b8a523c7e2f4803203409a9aaa5ab"
+    },
+    "invalid-contract-v10-predicate-margin0.rpx": {
+      "bytes": 386,
+      "sha256": "3b58e9b691f64b619e9cadb668d0d86310c6a63f8bb6a2a2e9b4e102b35b5285"
+    },
+    "invalid-contract-v10-predicate-margin1.rpx": {
+      "bytes": 386,
+      "sha256": "4aaf5b1a48a10b97e9811fe6a556a00cc02cde5de00e36588beb90d443c8c529"
+    },
+    "invalid-contract-v10-predicate-margin2.rpx": {
+      "bytes": 386,
+      "sha256": "91cbf6f0f6f8e7eec29440f50d46ac4f8752877045fc62a32e15ca1081b40526"
+    },
+    "invalid-contract-v10-predicate-margin3.rpx": {
+      "bytes": 386,
+      "sha256": "8c78389e708e97d55473d681847077d93ee0e4f8f3bb5a04946ae59ae8ef56c6"
+    },
+    "invalid-contract-v10-constant-margin0.rpx": {
+      "bytes": 386,
+      "sha256": "4d86b1398c72b343523f255803d080e460c8893b4747dad38a649d713af8edff"
+    },
+    "invalid-contract-v10-constant-margin1.rpx": {
+      "bytes": 386,
+      "sha256": "e60b4e4d056930bc52fe812616018a481c61a084c9379d237ba014c7dcd0d537"
+    },
+    "invalid-contract-v10-constant-margin2.rpx": {
+      "bytes": 386,
+      "sha256": "af94be0bd53cc6db02e7325d74ea2df7c0179bfe5e756481a489571445409df1"
+    },
+    "invalid-contract-v10-constant-margin3.rpx": {
+      "bytes": 386,
+      "sha256": "3790ef715c0b35b2b8b7c206a8a9c03f655e3596adfae51933ae5eafb3ee1333"
+    }
+  }
+}

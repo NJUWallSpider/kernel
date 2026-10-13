@@ -1,0 +1,1 @@
+fn main(){println!("{{\"step\":{},\"expr\":{},\"block\":{},\"end\":{}}}",std::mem::size_of::<kernel_core::proof::Step>(),std::mem::size_of::<kernel_core::model::Expr>(),std::mem::size_of::<kernel_core::proof::Block>(),std::mem::size_of::<kernel_core::proof::End>());}

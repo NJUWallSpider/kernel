@@ -1,0 +1,56 @@
+{
+ "case": "test77",
+ "report_title": "Final commitment: exact substitution and redundancy removal",
+ "top_capability": "RULE_BUILDERS",
+ "shape": {
+  "source": "1536 vars / 351 rows / 5687 constraint nonzeros / 1284 integers / 375620 B MPS",
+  "target": "1486 vars / 259 rows / 4505 constraint nonzeros / 1284 integers"
+ },
+ "reformulation": "Delete the 50 defined start columns s#j and their c02_j defining equalities; rewrite the 8 retained completion rows c03_j as the row combination c03_j + c02_j (coefficient -1 on s#j becomes -t(x) on each choice); delete the 42 completion rows whose maximum completion is at most 171 (witness c03_20); drop 58 of the 201 z#k <= 25 upper bounds (50 choice-simplex, 8 active-set containment at k=25..32 via z#33); rename NAME test77 to reform77. Resource recurrences are kept sparse.",
+ "claim_class": "four complete directions of an affine bijection (MI and LP relaxations), objective-preserving, with explicit per-coordinate projection and inverse identities; no optimum, feasibility or strictness claim",
+ "edit_summary": "92 rows deleted (50 c02_j + 42 dominated c03_j), 50 columns deleted, 8 rows rewritten (groups 6/15/17/20/22/34/48/49), 58 of 201 bounds removed; 5,687 -> 4,505 constraint nonzeros, 1,536 -> 1,486 variables, 351 -> 259 rows.",
+ "claims": [
+  "4 claims = (integer, LP) x (forward, reverse); objective Equal in all; projection = 1,486 index pairs (identity by name, s#1..s#50 removed); inverse pairing [1,0,3,2]",
+  "Obligations per claim 7,479 / 7,679 / 6,195 / 6,395 = 27,748 terminal obligations; 122,718 linear terms, 33,836 substitution terms, 482,960 work units, peak live facts 401",
+  "The LP pair differs from the MI pair only by the 1,284 dropped VarInt obligations; nothing claims an optimum, feasibility or strictness (171 is an implied lower bound only)",
+  "Forward 108 steps: 100 Eq alias steps s#j = sum t(x)x (normalizer 1/coefficient) plus 8 retained c03_j row combinations",
+  "Reverse 401 steps: 100 reconstructed start-bound Le steps, 1 makespan lower bound (171), a 200-row prefix-sum chain, 58 bound certificates, 42 restored completion rows"
+ ],
+ "proof_encoding": [
+  "RPA 1 plus {claims, blocks}; proof.rpa 1,096,164 B -> proof.rpx 858,244 B; 4 blocks, 1,018 Lin steps (600 Eq, 418 Le), 16,416 terms, zero branches, zero EqPair/Cases/lifts",
+  "Steps per block 108 / 401 / 108 / 401; largest step 210 terms (containment differences); 243 steps have exactly 2 terms",
+  "Return maps carry 1,486 (forward) / 1,536 (reverse) expression JSONs, 50 of the reverse ones 2-58-term reconstructions of s#j; map bytes 55,359 / 71,849",
+  "checks hold 14,560 literal Exact entries and 13,188 typed refs, ordered bounds, integer, rows, objective, projection, inverse; bytes 88,482 / 90,996 / 78,210 / 80,724",
+  "Blocks 2 and 3 are byte-identical to blocks 0 and 1 at step and map level (347,322 B of the RPA); the 62,891 B claims array is embedded in the RPA and written again as request.json 62,892 B"
+ ],
+ "agent_manual_work": [
+  "Hand-wrote an exact Fraction MPS parser (field positions, one coefficient per record, 178 INTORG/INTEND blocks) and a second independent field-position reader in output/verify.py:10, then cross-checked them",
+  "Proved the 50-group structure by exhaustive assertion: contiguous choice coefficients, endpoints equal to the s#j bounds, each choice carrying exactly a -w/+w pair in c01_t and c01_(t+p)",
+  "Constructed both sides of the 201-state cumulative expansion z#k = sum over active choices of w_j x and compared full rational coefficient maps",
+  "Enumerated 190 distinct active sets, 166 inclusion-maximal, and selected the 143 retained z#k bounds (50 choice-simplex + 8 containment certificates)",
+  "Hand-wrote the target model: fixed-field MPS writer with mps_pair(), one integer-marker block, 61-column assertions, plus audit.json and report.md"
+ ],
+ "preparer_helpers": [
+  "prepare_affine.py:20-79 parse_mps/row_ref: 56-line MPS reader to a typed model (vars/rows/objective, Fraction, MARKER and duplicate accumulation) plus row sense -> {'RowEq','RowLower','RowUpper'} ref",
+  "prepare_test40.py:72-86 expression/plus/mul/substitute/expr_json (+:18 q for D exponents, :147 sha): exact rational affine expressions; substitute() maps every wanted row and the objective; 77 of 90 preparers import it",
+  "prepare_test88.py:18-57 Builder: step allocation, typed refs, lin() with precondition asserts (kind compatibility, c>=0 for Le, integrality), eqpair/cases; 32 preparers import it",
+  "prepare_test48.py:17-55 Proof (lookup (kind,signature)->ref, so 14,560 obligations return literal Exact) and :106-127 emit_checks (enumerates the 27,748 obligations in contract order); 9 preparers import it",
+  "Dead weight: expr_json imported at prepare_test77.py:12 and never used; prepare_test48.py:15 pulls prepare_test23.py:15 extend and audit_test23.py into the closure though nothing in this path calls them (both hashed at :151)"
+ ],
+ "friction": [
+  "The agent's edit is inert: the run's output/audit.json (50 eliminated_variables with reconstruction, 92 deleted_rows, 8 modified_rows, 58 removed_upper_bounds with certificates) is never opened by prepare_test77.py (the word audit appears only at :5 and :151); the edit is re-derived by set difference (:25,:49) and name matching (:23)",
+  "Witnesses are hardcoded: witness=20 with assert common==171 (:81-82) and assert methods=={'simplex':50,'containment':8} (:130); which 8 c03_j survive is implicit in the loop guard at :87",
+  "Blocks 2 and 3 redo blocks 0 and 1 because build_reverse is called twice (:134); the RPA has no way to say one step set discharges both the integer and the relaxed reading",
+  "No step handles: the six attacks (README:52) needed a trace dict of Local ids (:84,:98,:128) and raw-JSON patching by id (:177-186)",
+  "The coordinate correspondence is inferred: projection pairs come from name lookup (:23,:57) and the 1,486 pairs are re-enumerated in 4 claims (62,892 B request, embedded again in the RPA)"
+ ],
+ "notes": "Import collapse for the 1,363-line 6-module generator: parse_mps+row_ref -> MODEL_READBACK; expression/plus/mul/substitute/expr_json/q/sha -> EXACT_ARITHMETIC; Builder.lin/eqpair/cases -> RULE_BUILDERS; Proof.lookup/prove + emit_checks -> CLAIM_PLANNING; prepare_test77's own group/claim/projection/trace logic (lines 23-136) -> EDIT_AUDIT plus claim-side projection binding; the six mutations (:170-190) -> COUNTEREXAMPLE_TESTING. Only about 8 symbols are used directly (expr_json is unused); the 1,363 lines exclude audit_test23.py (104 lines), which is hashed at :151.",
+ "api_needs": [
+  "RULE_BUILDERS || universal || 1 || 1,018 hand-written Lin steps in 4 blocks (108/401/108/401); the only builder is a Python class reached through 3 sibling imports and every kind, multiplier and term list is typed by hand. No family-1 constructor exists. || fn lin(&mut self,kind:Kind,terms:&[(Ref,Rat)],expected:&Expr,constant:Rat)->Ref with the preconditions of prepare_test88.py:35-42; fn affine_direction(src:&Model,dst:&Model,map:&[Expr],mode:Mode)->ClaimBlock || prepare_test88.py:18-57 Builder.lin/eqpair/cases; prepare_test48.py:17-55 Proof || tools/prepare_test88.py:35-42 / tools/prepare_test48.py:17-55 / cases/test77/preparation.json",
+  "CLAIM_PLANNING || universal || 1 || emit_checks hand-enumerates 27,748 obligations (7,479/7,679/6,195/6,395) and prove() routes each to the literal Exact (14,560) or a ref; the LP blocks then repeat both directions step-for-step, duplicating 347,322 B of the 1,096,164 B RPA. || fn plan(claim:&Claim,src:&Model,dst:&Model)->Vec<Obligation>; fn discharge(&mut self,o:&Obligation)->Verdict{Exact|Fact(Ref)|Step(Ref)}; fn share(&mut self,b:Block,claims:&[ClaimId]) so one step set serves the integer and relaxed reading. || prepare_test48.py:106-127 emit_checks, Proof.prove; the second build_reverse at prepare_test77.py:134 || tools/prepare_test48.py:106-127 / cases/test77/preparation.json / cases/test77/proof.rpa:1",
+  "EDIT_AUDIT || shared (test20, test22, test67, test79, test88) || 2 || output/audit.json held 50 eliminated variables with reconstruction maps, 92 deleted rows, 8 rewritten rows and 58 certified bound removals; prepare_test77.py never reads it (audit occurs only in its docstring and the hash list at line 151). || struct Edit{eliminated:Vec<(ColId,Expr,RowRef)>,deleted_rows:Vec<(RowRef,Dominance)>,rewritten:Vec<(RowRef,RowCombination)>,dropped_bounds:Vec<(ColId,Cert)>}, Cert=Simplex|Containment{k:Rat}; fn check_edit(&Edit,src,dst)->Vec<Violation> || set-difference discovery at prepare_test77.py:25,49; the unread run output/audit.json || /tmp/rpx-digests/test77.md:612 / /Users/bhz/Code/reform_test/runs/test77-nomf-B1/output/audit.json / tools/prepare_test77.py:25",
+  "EXACT_ARITHMETIC || universal || 2 || Every wanted expression is substitute(row_fact(row,sense),map) over 259 rows, the objective difference and 50 reconstructions, on a hand-rolled {constant,terms} type with Fraction, D/d exponents and JSON; 77 of 90 preparers import it. || pub struct Expr{constant:Rat,terms:BTreeMap<VarId,Rat>}; Expr::substitute(&self,f:impl Fn(VarId)->Expr)->Expr; Rat::parse_mps(&str)->Result<Rat> (accepts D/d exponents); Expr::to_json()/from_json() in the exact {'constant','terms'} form || prepare_test40.py:18 q() and :72-86 expression/plus/mul/substitute/expr_json || tools/prepare_test40.py:72-86 / tools/prepare_test77.py:35-44 / tools/prepare_test40.py:18",
+  "MODEL_READBACK || universal || 3 || Four independent MPS readers live in this case (two inside the imported helpers, output/verify.py:10, the digest eval), yet RPA refs are positional ({'RowEq':201}): index stability between compiler and canonicalizer is the contract. || Model::load(path:mps|mcm)->Result<Model>; m.var_id(name)->VarId, m.row_id(name)->RowId, m.fact(Ref)->Expr, m.ref_of(row,sense)->Ref; rpx export-model JSON publishing the same indices. CLI: rpx read-model mcm --json || prepare_affine.py:20-79 parse_mps/row_ref, prepare_test40.py:20-70 parse_mps, verify.py:10-77 load || tools/prepare_affine.py:20-79 / /Users/bhz/Code/reform_test/runs/test77-nomf-B1/output/verify.py:10 / /tmp/rpx-digests/test77.md:337",
+  "COUNTEREXAMPLE_TESTING || shared (prepare_test48.py:299-328 runs the same attack harness; 65 of 90 preparers emit negative_checks) || 3 || Six attacks (missing obligation, shifted reconstruction, wrong multiplier, dropped recurrence, wrong witness, doubled bound) were aimed by step id from a hand-kept trace dict of Local ids, patching raw JSON before asserting exit 2 INVALID. || let h=p.lin_named(\"simplex_upper\",..)->StepId; enum Mutation{DropObligation(usize),ScaleTerm(StepId,usize,Rat),SetConstant(StepId,Rat),SwapRef(StepId,usize,Ref),DropTerm(StepId,usize)}; fn expect(&self,e:Expect::Invalid)->Receipt || the trace dict at prepare_test77.py:84,98,128 and the deepcopy/patch harness at :177-191 || tools/prepare_test77.py:170-190 / tools/prepare_test48.py:301 / cases/test77/README.md:52"
+ ]
+}

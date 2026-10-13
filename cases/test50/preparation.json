@@ -1,0 +1,159 @@
+{
+  "case_id": "test50",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/input/model.mps",
+    "sha256": "b0035015f487623d8eae05675a43b4f788dfcb7cc9842cb6f515115e64101ec7"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/output/model_reformulated.mps",
+    "sha256": "c5024aa442a44c089fd2958de27873271f16364142a14bdc862a7670f08e41ab"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/output/audit.json",
+    "sha256": "0536ce5735df17e64c5dce47fcf2cd23ad01d5d8963b84934c7ab00f57f6c50d"
+  },
+  "proof_hints": {
+    "path": "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/output/proof_certificates.json",
+    "sha256": "fd410a0149828f2a5c4ddd9ef16eb02d414532e8495a0b57fdf4d951f47fa775"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test50.py",
+    "sha256": "7abeb5b7a9d57487a227ed60f3d82cb67f5dd78a1c38d19de9b7af5adee06f4a"
+  },
+  "claims": "Complete identity correspondence for all original coordinates and the objective, in integer and continuous-relaxation modes, including full inverse identities. All11935 removed integer declarations are recovered from actual target constraints with ordinary integer Cases/Lin rules.",
+  "counts": {
+    "source_variables": 28926,
+    "target_variables": 28926,
+    "source_rows": 23294,
+    "target_rows": 20024,
+    "implied_integrality_variables": 11935,
+    "conditional_groups": 320,
+    "opposite_row_pairs": 320,
+    "aggregate_equalities": 10,
+    "empty_tautologies": 2940,
+    "claims": 4,
+    "obligations_by_claim": [
+      152720,
+      167925,
+      135729,
+      138999
+    ]
+  },
+  "preparation_seconds": 47.183923625,
+  "rpa_sha256": "0b448c4d598a8e1a900fa5b8d0c15360b4e05dd898a32a1f8f54214d98c25db6",
+  "rpa_bytes": 47843897,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test50/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":7581218,\"parse_us\":122147,\"read_us\":4556,\"rows\":23294,\"status\":\"CANONICALIZED\",\"total_us\":168020,\"variables\":28926}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test50-nomf-B1/output/model_reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test50/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":7147206,\"parse_us\":110150,\"read_us\":2490,\"rows\":20024,\"status\":\"CANONICALIZED\",\"total_us\":158917,\"variables\":28926}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test50/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test50/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":34781823,\"status\":\"ASSEMBLED\",\"total_us\":410193}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test50/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test50/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test50/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test50/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":4403208,\"model_decode_us\":86717,\"points\":0,\"proof_decode_us\":123119,\"read_us\":5022,\"statistics\":{\"bijections\":0,\"branches\":11200,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":10281115,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":595373,\"peak_live_facts\":12585,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":1160504,\"work\":29858280},\"status\":\"VERIFIED\",\"total_us\":4618066}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 7581218,
+      "sha256": "ae7ba4c0bba056b7d6a5d417fc44a8f9094e92c1ce2d20acb8e027c07281a4a5"
+    },
+    "target.mcm": {
+      "bytes": 7147206,
+      "sha256": "c59ea0f59745013379705c2b8f01bd68c38a290821ee39b784406a74a1e09c4c"
+    },
+    "proof.rpx": {
+      "bytes": 34781823,
+      "sha256": "797a54a5fd8fdd58eba757005ba29688a86f1c24b76eb29e2364c642727e4cf8"
+    },
+    "request.json": {
+      "bytes": 1531420,
+      "sha256": "c6a3fed49b68f0cd7a28419b97c222557435c063a712c4729e77c11f56dd7a74"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "continuous_split",
+      "rule_broken": "Attempts to use an explicitly relaxed coordinate as an integer split premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "6427bbb81f141629112705d702c2d56d1e1821672682c77fb1abc33e9fd0141a",
+      "rpx_sha256": "4191b27d261f8fbc21a223139189415f6523dc5591484d6776c7ee0bce996c03"
+    },
+    {
+      "mutation": "missing_active_balance",
+      "rule_broken": "Omits the actual balance equality from an active-case integrality proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID equality pair",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "d6a52a5fdfd287bc00846fd11d349fccf1eaeaed6017f74837e50451d079104e",
+      "rpx_sha256": "f1c8bc7c7b7d8ce80620e1e5343056ea4ebef18788f0dabf01379ded572b0e2c"
+    },
+    {
+      "mutation": "wrong_opposite_pair",
+      "rule_broken": "Repeats the same inequality instead of proving its opposite.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID equality pair",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "5c3b297fee51a896367ace18428f0bb3274cc2317f8c74a992b48ccc40c30117",
+      "rpx_sha256": "b95b503323a785c6e228d84e245d99f8ad6daf4c4c6b8f68945f3ca43a775904"
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits one requested full identity composition coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "5240300bcc5a52ea82dd1bd31ab97604cf53550ee20cbbdf4cceb008223c1959",
+      "rpx_sha256": "fb0c47fb804423dc383d5e25774a1824fbe13b75beb9c008ff05678848d04b42"
+    }
+  ]
+}

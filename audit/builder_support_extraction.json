@@ -1,0 +1,114 @@
+{
+  "schema": "builder-support-extraction-v1",
+  "recorded_utc": "2026-10-11T08:51:34.170476+00:00",
+  "status": "PASS",
+  "baseline_manifest": "audit/builder_support_baseline.json",
+  "production_sources": {
+    "crates/core/src/build_support.rs": "217261bfa2b544d4a9ff2b8200e06a5e4adb945149cc8112ad8643ee718a1e97",
+    "crates/core/src/flow.rs": "c73f9550aa51733d3a36ca940a909026338f6b760168d55d6583b486c84a017c",
+    "crates/core/src/rpa.rs": "3b11cf56dc1be3331a2f7ad18fa9abd8b893afb47d29bd015e10062f0ba6818b",
+    "crates/core/src/lib.rs": "06b1c06a2ce92af576e90e45ef1db00b3bfa06abfb97c5e88eb169694bfcc38c",
+    "crates/core/src/interval.rs": "ab73f962c221394486b6ba9b46060781645d7cd603df1b6bb845cd7ffb0894c9",
+    "crates/core/src/injectivity.rs": "549fb347769e7eb854b3a4192805f50431cfac82d7c989976049ebe127ef0a39",
+    "crates/core/src/verify.rs": "0907fd78e1cd7b472aea6ac4a4739b1313fe8c18d919d072276ca3d126479248",
+    "crates/core/src/scope_state_audit.rs": "7b6c251088e53368fbe0bfe8f1d656e60f9fbaaf0e5cdbaf905568d9f15b58d9",
+    "crates/core/src/main.rs": "faad34cbc0e62f5bf7fd22962f10890d94d48e377dac27fe783c15239cc6349a",
+    "crates/core/src/codec.rs": "1366312d9eba87e7b0ae21c5c38191bca2b7ff32c49643c466b9c4636dbfd7f8",
+    "crates/core/src/level.rs": "b69086946a141cb7070d490e25ae85673286b25d843e01107d619c978d42890f",
+    "crates/core/src/proof.rs": "ea0100aa87b7e15caead42392c6eb716f1d7b47b0046c4716acc5ab759fe629b",
+    "crates/core/src/menu.rs": "3b557c76ed645f603f20a3726ad8f39aae6f5f17cdd21bad6608e9f9d8dd91df",
+    "crates/core/src/point.rs": "2eaab77bd2727b87b239d509163e87a52386d06c1a2fc6a82ebfe3d0c4b2d37c",
+    "crates/core/src/model.rs": "cc16acb0691b3243339f0a2f7cbf40d38268d433319365e06be0c01dcfb0a2de",
+    "crates/core/src/signed.rs": "9fe9b6403a2fe280092ec835d85e939d04dcddea5508e1d910629703c21aa8e0",
+    "crates/core/src/lp.rs": "98d1fe80f5e9409a5f8e6a5cf9363634ad4e9fad4bffb7902ecaa69381ab77f8",
+    "crates/core/src/rational_shortcuts_audit.rs": "c69087248a577f45e0d6b895354e55b1465ef04a4f1fc955ad5c4d4286f5533a"
+  },
+  "core_tests": [
+    {
+      "label": "baseline",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kernel-core",
+        "--locked",
+        "--lib",
+        "--tests",
+        "--manifest-path",
+        "bench/builder-support-baseline/Cargo.toml",
+        "--target-dir",
+        "target/builder-support-baseline"
+      ],
+      "exit_code": 0,
+      "passed": 210,
+      "log": "audit/builder_support_baseline_tests.log",
+      "sha256": "6c29033ceca8dba103b6cad9a471efc13c6a1f7d05ea8eb09317b15214506a37"
+    },
+    {
+      "label": "candidate",
+      "command": [
+        "cargo",
+        "test",
+        "-p",
+        "kernel-core",
+        "--locked",
+        "--lib",
+        "--tests"
+      ],
+      "exit_code": 0,
+      "passed": 210,
+      "log": "audit/builder_support_tests.log",
+      "sha256": "934b9901973b4b37319df17ad1e6f9800cf541046ed408a52b085d694edefd17"
+    }
+  ],
+  "differential": "audit/validation/builder-support-differential-v2/result.json",
+  "complete_replay": "audit/validation/builder-support-corpus/result.json",
+  "line_counts": {
+    "flow": {
+      "before": 434,
+      "after": 318
+    },
+    "interval": {
+      "before": 334,
+      "after": 183
+    },
+    "menu": {
+      "before": 350,
+      "after": 199
+    },
+    "signed": {
+      "before": 248,
+      "after": 121
+    },
+    "point": {
+      "before": 481,
+      "after": 403
+    },
+    "injectivity": {
+      "before": 233,
+      "after": 187
+    },
+    "level": {
+      "before": 64,
+      "after": 78
+    }
+  },
+  "shared_module_lines": 254,
+  "wire_or_math_change": false,
+  "new_independent_lemma_checker": false,
+  "formal_verification_claim": false,
+  "intentional_changes": [
+    "Common fallible indexed-name formatting for flow, interval and point instead of format! allocation.",
+    "Checked prefix.len()+32 replaces unguarded capacity addition in fixed-prefix menu/signed names.",
+    "Objective-level exhausted name budget now uses common preparation-work error text; resource category and charge threshold unchanged.",
+    "Point/level allocation and count diagnostic details use shared wording; not a wire or claim change."
+  ],
+  "performance": "No speedup claim. Corpus wall times are development diagnostics, not a controlled comparison.",
+  "net_source_lines_removed": 401,
+  "independent_review": {
+    "path": "audit/BUILDER_SUPPORT_REVIEW.md",
+    "sha256": "744d9bacfd2fa32347dee2a9250ff363012334227e315f42e04f64b873dba8a7",
+    "identity": "audit/builder_support_review_identity.json",
+    "scope": "read-only source comparison; no separate reviewer test execution"
+  }
+}

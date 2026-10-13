@@ -1,0 +1,114 @@
+{
+ "case": "test29",
+ "headline": "Exact support-class reformulation: 69,608 rows -> 2,624 by (a) proving 1,756 variables zero through one-choice exclusivity plus support exhaustion, then (b) quotienting the 69,408 support rows into 5,208 directed support classes, emitted as 2,604 reciprocal balance equalities with 180 omitted as row identities. 17,680 vars -> 15,924; nonzeros 1,162,000 -> 87,996; RPA 102,533,067 bytes (97.8 MiB) for 3 claims.",
+ "source_model": {
+  "vars": 17680,
+  "rows": 69608,
+  "nonzeros": 1162000,
+  "integers": 17680,
+  "structure": "200 E rows = two complete one-choice partitions (100 NOD0..NOD99 + 100 others, all +1 = 1); 69,408 L rows all of shape x_h - sum_{s in S} x_s <= 0; all coefficients +-1; objective all +1 (= sum of the 100 A rows, constant 100)",
+  "evidence": "/tmp/rpx-digests/test29.md report section 1"
+ },
+ "target_model": {
+  "vars": 15924,
+  "rows": 2624,
+  "nonzeros": 87996,
+  "inequalities": 0,
+  "structure": "all 200 original equalities retained (zero-substituted) + 2,424 added E class-balance rows (RHS 0, +1 on H, -1 on S) named CB*; 180 omitted balances identified in the audit"
+ },
+ "kernel_case": {
+  "dir": "cases/test29/",
+  "status": "VERIFIED",
+  "preparation_seconds": 93.35,
+  "artifacts": {
+   "source.mcm": 24994823,
+   "target.mcm": 2712914,
+   "proof.rpa": 102533067,
+   "proof.rpx": 87372640,
+   "request.json": 605702
+  },
+  "verify_statistics": "branches=5220, claims=3, bijections=0, points=0; assemble/verify byte- and result-deterministic"
+ },
+ "claims": [
+  "claim0: forward (reverse=false, input/output integers, objective Equal, inverse=1) 15,924-coordinate zero-extension map; 84,001 obligations (preparation.json counts.obligations_by_claim[0])",
+  "claim1: backward integer (reverse=true, integers, inverse=0); 154,497 obligations",
+  "claim2: backward rational (reverse=true, non-integral, no inverse) i.e. target LP relaxation included in the source's; 120,893 obligations",
+  "kernel wording: 'Complete original-coordinate zero-extension integer feasible-set bijection, exact objective values, every retained coordinate preserved, both full inverse identities; independently verified objective-preserving target-to-source LP inclusion. No feasibility, optimality or global strictness assertion.' (preparation.json claims)",
+  "request.json is literally cert['claims']: 605,702 bytes, each claim carrying a 15,924-entry projection list (tools/prepare_test29.py:122)"
+ ],
+ "proof_encoding": [
+  "RPA 2 text = 'RPA 2' header line + one-line json.dumps(cert) where cert = {claims, blocks[3]}; 102,533,067 bytes -> 87,372,640-byte proof.rpx",
+  "Step census (measured on cases/test29/proof.rpa): 183,241 Lin, 5,220 Cases, 4,360 EqPair, 3 Return; 'Int' occurs only as a Lin kind, 5,208 times = 2 per balance direction; leaf refs VarLower 3,008,396 / VarUpper 47,772 / VarInt 94,628 / literal 'Exact' 92,994",
+  "blocks[0] forward = 36,636,903 bytes (49,409 Lin, 5,220 Cases, 4,360 EqPair); blocks[1] = 32,845,736, blocks[2] = 32,444,697, and their steps arrays are byte-identical, 29,962,051 bytes each",
+  "Each Return carries map over every output coordinate plus exactly one check ref per obligation; the kernel's branch counter (5,220) matches the emitted Cases count"
+ ],
+ "agent_manual_work": [
+  "Two hand-written exact MPS readers: a whitespace token parser plus a whole-file fixed-field cross-check of every ROWS/COLUMNS/RHS/BOUNDS record (digest transcript, eval 'Mapping MPS sections' and 'Cross-checking source MPS interpretation')",
+  "BFS forced-zero closure with an ordered witness per variable (1,756 zeros; each reason = an earlier proved zero or a named shared one-choice equality) and an independent replay",
+  "Full support-class partition by hand: 360 directed endpoint pairs, 5,208 directed classes, 180 unordered pairs, reciprocity/coverage/disjointness checks, plus the 180 omitted-balance linear identities",
+  "A standalone 201-line output/verify.py (std-lib only, no solver) re-deriving everything from the written MPS, including all 6,786,800 endpoint-choice pairs and both artifact hashes",
+  "The 3,329,898-byte output/audit.json edit description (schema exact-support-class-reformulation-1) that the kernel-side preparer consumes as its only semantic input"
+ ],
+ "preparer": {
+  "path": "tools/prepare_test29.py",
+  "lines": 143,
+  "defs": [
+   "prove:13",
+   "split_case:19",
+   "zero_extension:31",
+   "quotient:54",
+   "execute:119"
+  ],
+  "imports": [
+   "prepare_affine.parse_mps,row_ref",
+   "prepare_test40.expression,expr_json,plus,mul,sha",
+   "prepare_test57.substitute",
+   "prepare_test70.SparseBuilder (subclasses prepare_test88.Builder for Lin/EqPair/Cases emission)"
+  ],
+  "entry": "execute(29, lambda a,b,h: quotient(a,b,h,29), __file__) at lines 143",
+  "emits": "RPA 2 + json.dumps({'claims','blocks'}) with (',',':') separators; request.json = cert['claims']; then 4 kernel calls (canonical x2, assemble, verify), 2 determinism reruns of assemble/verify, and 3 mutated-RPA negative checks (missing_inverse, wrong_zero_extension, missing_linear_premise) each requiring exit 2 + INVALID",
+  "counts": "source_variables 17680, target_variables 15924, source_rows 69608, target_rows 2624, zero_variables 1756, claims 3, steps_by_claim [48549,66916,66916], obligations_by_claim [84001,154497,120893], reciprocal_blocks 2604, omitted_blocks 180",
+  "reuse": "prepare_test85 imports quotient; prepare_test56 imports execute, prove, zero_extension (tools/prepare_test85.py:3, tools/prepare_test56.py:4) - the same code path also serves test85's 'support_blocks' audit schema via the case branch at line 83"
+ },
+ "preparer_helpers": [
+  "prove (line 13): 'Exact' shortcut + reference reuse + Lin fallback, so identical rows/refs collapse instead of re-deriving (92,994 literal 'Exact' obligations in the emitted cert)",
+  "split_case (line 19): generic two-branch Cases wrapper mixing Witness and Absurd ends with ChainMap fact inheritance",
+  "zero_extension (line 31): the 3-claim matrix [(forward,int),(backward,int),(backward,rational)] with map/projection/inverse/objective-difference obligation lists - shared with test56",
+  "quotient (line 54): zero deductions (line 56-74), residual rows + (head,frozenset(support)) rowlookup (77-82), class balances (86-95), restored omitted balance (105), reverse row checks (107-115)",
+  "execute (line 119): sha-pinned run dir -> cases/test29, kernel subprocess receipts, determinism and negative-check harness"
+ ],
+ "measurements": {
+  "rpa_total_bytes": 102533067,
+  "rpa_limit_mib": 256,
+  "blocks_bytes": [
+   36636903,
+   32845736,
+   32444697
+  ],
+  "identical_steps_array_bytes_in_blocks_1_and_2": 29962051,
+  "duplicate_share_of_rpa": 0.2922,
+  "cases_in_rpa": 5220,
+  "lin_in_rpa": 183241,
+  "eqpair_in_rpa": 4360,
+  "int_lin_kind_in_rpa": 5208,
+  "kernel_verify_statistics_branches": 5220,
+  "endpoint_pairs_enumerated_by_agent": 6786800,
+  "compatible": 468432,
+  "note": "block/byte counts measured directly from cases/test29/proof.rpa; step counts and obligation counts as recorded in cases/test29/preparation.json"
+ },
+ "friction": [
+  "No scope/incidence API on the compiler side: supports are re-derived with a private MPS parser and each of the 69,608 rows is materialised (f.refexpr at tools/prepare_test29.py:78) so that (head, frozenset(support)) keys can be hashed; SparseBuilder's docstring states it exists to avoid repeated copies of large support maps (tools/prepare_test70.py:13-14)",
+  "The semantic content of the reformulation is the agent's bespoke 3.3 MB audit.json (schema exact-support-class-reformulation-1); the preparer reads h['balance_classes'] / h['zero_deductions'] raw and only sha-pins the file, so the contract between 'justified finding' and 'certificate builder' is undocumented data",
+  "Mass obligations are emitted as individual Python dicts: 182,381 steps and 359,391 obligations produce a 102,533,067-byte RPA (40% of the 256 MiB text cap), of which 29,962,051 bytes are a byte-identical copy of blocks[1].steps inside blocks[2]",
+  "Failure receipts are string-only: the three mutation attacks returned {'status':'INVALID','message':'INVALID obligation mismatch: expected Eq; obligation 66321'} and {'status':'INVALID','message':'INVALID equality pair'} with no code/location fields, on claims of 154,497 obligations",
+  "The 6,786,800-pair endpoint-check oracle was written twice by hand (agent eval, then output/verify.py:172-186) and is not re-run by the kernel-side pipeline, which trusts audit.json's verification counts"
+ ],
+ "api_needs": [
+  "SCOPE_QUERIES || universal || 1 || All 69,408 L rows are x_h - sum_{s in S} x_s <= 0 and each variable lies in exactly one of two 100-row one-choice partitions; 69,608 rows vs 17,680 columns, so row->(head,support), var->scope and support grouping need indexes. || trait ScopeIndex { fn support(&self,r:RowIdx)->Support{head:VarIdx,support:VarSet}; fn scopes_of(&self,v:VarIdx)->[ScopeIdx;2]; fn rows_by_support(&self,sig:&[VarIdx])->&[RowIdx]; fn one_choice_partition(&self)->[ScopeSet;2]; } || prepare_affine.parse_mps + SparseBuilder.refexpr over all 69,608 rows + the agent's dict/frozenset support maps || tools/prepare_test29.py:77-82 / tools/prepare_test70.py:13-14",
+  "RULE_BUILDERS || shared (test85, test56) || 2 || Each balance is hand-built 5,208 times as aggregate-Lin + Int-Lin + Cases + EqPair, and the 180 omitted balances as row identities; no constructor checks class coverage, disjointness or reciprocity. || fn support_balance(&mut self,h:&ClassRef,s:&ClassRef)->Result<Ref,BuildError>; fn omitted_balance(&mut self,eq_a:Ref,eq_b:Ref,kept:&[Ref])->Result<Ref,BuildError>; fn zero_by_exhaustion(row:Ref,prior:&[Ref])->Result<Ref,BuildError> || direction()/aggregate Lin + Int Lin + split_case + eqpair chain (tools/prepare_test29.py:88-95) and restored[] at line 105 || tools/prepare_test29.py:88-95 / tools/prepare_test29.py:105",
+  "BATCH_TEMPLATES || shared (test85, test56) || 3 || One homogeneous obligation per source row or per (H,S) class: steps 48,549/66,916/66,916 and obligations 84,001/154,497/120,893 for 3 claims, each written as a full Python dict (RPA 102,533,067 bytes; 92,994 literal Exact checks). || RPA node {\"ForEach\":{\"domain\":{\"kind\":\"rows\",\"filter\":\"has_support_head\"},\"as\":\"r\",\"body\":<step-template>}} expanded by assemble; assembly reports expanded steps and obligations per claim || the per-record Python loops at tools/prepare_test29.py:36-49, 77-82 and 88-95 || cases/test29/preparation.json counts.steps_by_claim / tools/prepare_test29.py:36-49",
+  "NEW:PROOF_SHARING || shared (test56, test85) || 4 || blocks[1] and blocks[2] hold a byte-identical 29,962,051-byte steps array (only the VarInt obligations differ): 29.2% of the 102,533,067-byte RPA is duplicated. Blocks are separate scopes, so no construct can reference a sibling's steps. || {\"lets\":[{\"id\":\"replay_back\",\"steps\":[...]}],\"blocks\":[{\"steps\":{\"Ref\":\"replay_back\"}}]} or assembler-level sharing: rpx assemble --share-identical-blocks resolves {\"Ref\":id} to an earlier identical step array || serialising reverse_builder.steps twice at tools/prepare_test29.py:50 || cases/test29/proof.rpa blocks[1].steps vs blocks[2].steps / cases/test29/preparation.json counts.steps_by_claim",
+  "EDIT_AUDIT || universal || 5 || The target is generated from the agent's bespoke 3,329,898-byte audit.json (balance_classes: H/S variable sets + omit flag; ordered zero_deductions); the preparer reads raw keys and only sha-pins the file. || fn edits_from_json(path:&Path)->Result<EditSet,EditError>; struct EditSet{balances:Vec<ClassBalance{H:VarSet,S:VarSet,omit:bool}>,zeros:Vec<ZeroCert{var,row,reasons}>}; fn bind(&self,&Model,&Model)->Result<Report,EditError> || h['zero_deductions']/h['balance_classes'] reads at tools/prepare_test29.py:55,83 and the audit.json sha assertion inside execute() || tools/prepare_test29.py:83 / /Users/bhz/Code/reform_test/runs/test29-nomf-B1/output/audit.json (balance_classes[0], zero_deductions[0])",
+  "ORACLE_CHECKS || shared (test85) || 6 || Equivalence rests on the class partition covering both endpoint domains exactly and on compatible(h,s) <=> equal retained-balance signature; the agent enumerated 6,786,800 endpoint pairs (468,432 compatible) by hand, twice. || fn oracle_class_partition(src:&Model,tgt:&Model,cls:&[ClassBalance])->Result<OracleReport{checked:u64,compatible:u64,mismatches:u64},ObligationRef>; re-derives supports from source rows and compares them with the target balance signatures || output/verify.py:172-186 inline enumeration and its hand copy inside the agent's eval snippets || /Users/bhz/Code/reform_test/runs/test29-nomf-B1/output/verify.py:172-186 / /Users/bhz/Code/reform_test/runs/test29-nomf-B1/output/audit.json verification block"
+ ]
+}

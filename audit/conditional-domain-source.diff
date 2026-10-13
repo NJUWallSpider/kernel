@@ -1,0 +1,370 @@
+--- audit/conditional-domain-before/proof.rs
++++ crates/core/src/proof.rs
+@@ -24,6 +24,10 @@
+     /// This alone asserts neither optimality nor nonemptiness.
+     #[serde(default,with="crate::rpa::option_scalar",skip_serializing_if="Option::is_none")]
+     pub input_objective_level: Option<Q>,
++    /// V10: restrict the original input coordinates to this affine expression <= 0.
++    /// No feasibility, optimality or whole-model inclusion follows by itself.
++    #[serde(default,skip_serializing_if="Option::is_none")]
++    pub input_halfspace: Option<Expr>,
+ }
+ #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum Objective { None, Equal, NonIncreasing }
+--- audit/conditional-domain-before/codec.rs
++++ crates/core/src/codec.rs
+@@ -426,13 +426,14 @@
+     if c.claims.len() != c.blocks.len() { return Err(invalid("claim/block count mismatch")); }
+     let mut w = Writer::new_version(b"RPX\0",certificate_version(c)?)?; w.count(c.claims.len())?;
+     for claim in &c.claims {
+-        w.u8(u8::from(claim.reverse) | (u8::from(claim.input_integers) << 1) | (u8::from(claim.output_integers) << 2))?;
++        w.u8(u8::from(claim.reverse) | (u8::from(claim.input_integers) << 1) | (u8::from(claim.output_integers) << 2) | (u8::from(claim.input_halfspace.is_some()) << 3))?;
+         w.u8(match claim.objective { Objective::None => 0, Objective::Equal => 1, Objective::NonIncreasing => 2 })?; w.u16(0)?;
+         w.count(claim.projection.len())?; for (i, o) in &claim.projection { w.u32(*i)?; w.u32(*o)?; }
+         match claim.inverse { None => w.u8(0)?, Some(i) => { w.u8(1)?; w.u32(i)?; } }
+         if w.version>=3{w.option_q(&claim.input_objective_lower)?;}
+         if w.version>=5{w.count(claim.affine_projection.len())?;for (input,output) in &claim.affine_projection{w.expr(input)?;w.expr(output)?;}}
+         if w.version>=9{w.option_q(&claim.input_objective_level)?;}
++        if let Some(expression)=&claim.input_halfspace{w.expr(expression)?;}
+     }
+     w.count(c.blocks.len())?; for b in &c.blocks { w.block(b, 1)?; }
+     if w.version>=3{
+@@ -471,7 +472,7 @@
+     let mut count=0usize;
+     let mut version=if !c.bijections.is_empty(){7}else if c.points.iter().any(|p|p.refutation.is_some()||matches!(p.claim,PointClaim::FiberStrictness{..})){6}else if c.claims.iter().any(|c|!c.affine_projection.is_empty()){5}else if !c.points.is_empty()||c.claims.iter().any(|c|c.input_objective_lower.is_some()){3}else{1};
+     if c.claims.iter().any(|c|c.input_objective_level.is_some()){version=9;}
+-    if !c.improvements.is_empty()||c.points.iter().any(|p|matches!(p.claim,PointClaim::ImageExclusion{..})){version=10;}
++    if !c.improvements.is_empty()||c.points.iter().any(|p|matches!(p.claim,PointClaim::ImageExclusion{..}))||c.claims.iter().any(|c|c.input_halfspace.is_some()){version=10;}
+     while let Some((node,depth))=stack.pop(){
+         if depth>MAX_DEPTH{return Err(resource("block depth limit"));}
+         let steps=match node{
+@@ -509,7 +510,7 @@
+ pub fn decode_certificate(bytes: &[u8]) -> Result<Certificate, String> {
+     let mut r = Reader::new(bytes, b"RPX\0")?; let n = r.count(9)?; let mut claims = reserve(n)?;
+     for _ in 0..n {
+-        let flags = r.u8()?; if flags & !7 != 0 { return Err(invalid("claim reserved flags")); }
++        let flags = r.u8()?; if flags & !(if r.version>=10{15}else{7}) != 0 { return Err(invalid("claim reserved flags")); }
+         let objective = match r.u8()? { 0 => Objective::None, 1 => Objective::Equal, 2 => Objective::NonIncreasing, _ => return Err(invalid("objective relation")) };
+         if r.u16()? != 0 { return Err(invalid("claim reserved field")); }
+         let n = r.count(8)?; let mut projection = reserve(n)?;
+@@ -519,7 +520,8 @@
+         let mut affine_projection=vec![];
+         if r.version>=5{let n=r.count(34)?;affine_projection=reserve(n)?;for _ in 0..n{affine_projection.push((r.expr()?,r.expr()?));}}
+         let input_objective_level=if r.version>=9{r.option_q()?}else{None};
+-        claims.push(Claim { input_objective_level, reverse: flags & 1 != 0, input_integers: flags & 2 != 0, output_integers: flags & 4 != 0, objective, projection, affine_projection,inverse,input_objective_lower });
++        let input_halfspace=if flags&8!=0{Some(r.expr()?)}else{None};
++        claims.push(Claim { input_halfspace, input_objective_level, reverse: flags & 1 != 0, input_integers: flags & 2 != 0, output_integers: flags & 4 != 0, objective, projection, affine_projection,inverse,input_objective_lower });
+     }
+     let n = r.count(12)?; if n != claims.len() { return Err(invalid("claim/block count mismatch")); }
+     let mut blocks = reserve(n)?; for _ in 0..n { blocks.push(r.block(1)?); }
+@@ -563,7 +565,7 @@
+     fn expr(n: i64) -> Expr { Expr { constant: q(n, 1), terms: Vec::new() } }
+     fn certificate() -> Certificate {
+         Certificate { improvements:vec![], bijections:vec![], points:vec![],
+-            claims: vec![Claim {input_objective_level:None, affine_projection:vec![], input_objective_lower:None, reverse: false, input_integers: true, output_integers: true, objective: Objective::Equal, projection: vec![(0, 0)], inverse: Some(0) }],
++            claims: vec![Claim {input_halfspace:None,input_objective_level:None, affine_projection:vec![], input_objective_lower:None, reverse: false, input_integers: true, output_integers: true, objective: Objective::Equal, projection: vec![(0, 0)], inverse: Some(0) }],
+             blocks: vec![Block { steps: vec![Step::Lin { id: 3, kind: Kind::Le, constant: q(-1, 3), terms: vec![(Ref::VarLower(0), q(1, 2))] }, Step::Round { id: 4, le: Ref::Local(3), integer: Ref::VarInt(0) }, Step::Drop { ids: vec![3] }], end: End::Split { expression: expr(0), integer: Some(Ref::VarInt(0)), left: Box::new(Block { steps: vec![], end: End::Return { map: vec![expr(0)], checks: vec![Ref::Exact] } }), right: Box::new(Block { steps: vec![], end: End::Absurd { fact: Ref::Assumption(0) } }) } }],
+         }
+     }
+@@ -612,7 +614,7 @@
+     #[test] fn count_unknown_tag_and_reserved_rejected() {
+         let mut b = encode_certificate(&Certificate { improvements:vec![], bijections:vec![], points:vec![], claims: vec![], blocks: vec![] }).unwrap(); b[16..20].copy_from_slice(&u32::MAX.to_le_bytes());
+         assert!(decode_certificate(&b).unwrap_err().starts_with("RESOURCE_LIMIT:"));
+-        let c = Certificate { improvements:vec![], bijections:vec![], points:vec![], claims: vec![Claim {input_objective_level:None, affine_projection:vec![], input_objective_lower:None, reverse: false, input_integers: false, output_integers: false, objective: Objective::None, projection: vec![], inverse: None }], blocks: vec![Block { steps: vec![], end: End::Absurd { fact: Ref::Exact } }] };
++        let c = Certificate { improvements:vec![], bijections:vec![], points:vec![], claims: vec![Claim {input_halfspace:None,input_objective_level:None, affine_projection:vec![], input_objective_lower:None, reverse: false, input_integers: false, output_integers: false, objective: Objective::None, projection: vec![], inverse: None }], blocks: vec![Block { steps: vec![], end: End::Absurd { fact: Ref::Exact } }] };
+         let mut b = encode_certificate(&c).unwrap(); b[37] = 255; assert!(decode_certificate(&b).unwrap_err().contains("unknown terminal"));
+         let mut b = encode_certificate(&c).unwrap(); b[20] = 128; assert!(decode_certificate(&b).unwrap_err().contains("claim reserved"));
+     }
+--- audit/conditional-domain-before/verify.rs
++++ crates/core/src/verify.rs
+@@ -14,6 +14,12 @@
+ impl Default for Limits { fn default()->Self { Self { work: 1_000_000_000, live_facts: 1_000_000, depth:64 } } }
+ #[derive(Default, Debug, Serialize)]
+ pub struct Statistics {
++    #[serde(skip_serializing_if="zero_counter")]
++    pub halfspace_domains:u64,
++    #[serde(skip_serializing_if="zero_counter")]
++    pub halfspace_generated_rows:u64,
++    #[serde(skip_serializing_if="zero_counter")]
++    pub halfspace_generated_terms:u64,
+     #[serde(skip_serializing_if="zero_counter")]
+     pub subflow_lifts:u64,
+     #[serde(skip_serializing_if="zero_counter")]
+@@ -429,7 +435,7 @@
+     // restricted inclusion before accepting any directional proof in this call.
+     for point in &requested.points{if let PointClaim::Strictness{inclusion_claim}|PointClaim::FiberStrictness{inclusion_claim}=point{
+         let claim=requested.claims.get(*inclusion_claim as usize).ok_or("INVALID strictness inclusion claim index")?;
+-        if claim.input_objective_level.is_some(){return Err("INVALID strictness requires unrestricted inclusion domain".into());}
++        if claim.input_objective_level.is_some()||claim.input_halfspace.is_some(){return Err("INVALID strictness requires unrestricted inclusion domain".into());}
+     }}
+     let mut stats=verify_claims(source,target,cert,&requested.claims,&requested.bijections,limits)?;
+     for witness in &cert.bijections{
+@@ -446,7 +452,7 @@
+     for witness in &cert.improvements{
+         let input=if witness.claim.target{target}else{source};
+         witness.claim.positive.validate(input.vars.len())?;
+-        let claim=Claim{reverse:false,input_integers:witness.claim.integers,output_integers:witness.claim.integers,objective:Objective::NonIncreasing,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None,input_objective_level:None};
++        let claim=Claim{reverse:false,input_integers:witness.claim.integers,output_integers:witness.claim.integers,objective:Objective::NonIncreasing,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None,input_objective_level:None,input_halfspace:None};
+         let mut context=Context{improvement:Some(&witness.claim),compositions:&[],refutation:false,input,output:input,claim:&claim,inverse:None,inverse_level:None,limits,stats:&mut stats};
+         context.charge(witness.claim.positive.terms.len()+1)?;
+         let mut assumptions=Vec::new();assumptions.try_reserve_exact(1).map_err(|_|"RESOURCE_LIMIT improvement assumption allocation")?;
+@@ -477,7 +483,7 @@
+         if pair.forward_claim==pair.reverse_claim||!seen_pairs.insert((pair.forward_claim,pair.reverse_claim)){return Err("INVALID duplicate or self bijection pair".into());}
+         let forward=requested.get(pair.forward_claim as usize).ok_or("INVALID bijection forward index")?;
+         let reverse=requested.get(pair.reverse_claim as usize).ok_or("INVALID bijection reverse index")?;
+-        if forward.input_objective_level.is_some()||reverse.input_objective_level.is_some(){return Err("INVALID V7 bijection requires unrestricted domains".into());}
++        if forward.input_objective_level.is_some()||reverse.input_objective_level.is_some()||forward.input_halfspace.is_some()||reverse.input_halfspace.is_some(){return Err("INVALID V7 bijection requires unrestricted domains".into());}
+         if forward.reverse==reverse.reverse||forward.input_integers!=reverse.output_integers||forward.output_integers!=reverse.input_integers{return Err("INVALID bijection direction or domain".into());}
+         let End::Return{map,..}=&cert.blocks[pair.forward_claim as usize].end else{return Err("INVALID bijection forward requires root affine Return".into());};
+         let (input,output)=if forward.reverse{(target,source)}else{(source,target)};
+@@ -489,11 +495,13 @@
+         if let Some(lower)=&claim.input_objective_lower{check_q(lower)?;}
+         if let Some(level)=&claim.input_objective_level{check_q(level)?;}
+         let (input,output)=if claim.reverse{(target,source)}else{(source,target)};
++        if let Some(expression)=&claim.input_halfspace{expression.validate(input.vars.len())?;}
+         for (i,o) in &claim.affine_projection{i.validate(input.vars.len())?;o.validate(output.vars.len())?;}
+         let mut seen=std::collections::HashSet::new();
+         for &(i,o) in &claim.projection {if i as usize>=input.vars.len() || o as usize>=output.vars.len() || !seen.insert((i,o)){return Err("INVALID projection coordinate".into());}}
+         let inverse=if let Some(j)=claim.inverse {
+             let other=requested.get(j as usize).ok_or("INVALID inverse claim reference")?;
++            if claim.input_halfspace.is_some()||other.input_halfspace.is_some(){return Err("INVALID inverse with input halfspace is unsupported".into());}
+             if other.reverse==claim.reverse || other.input_integers!=claim.output_integers || other.output_integers!=claim.input_integers {return Err("INVALID inverse claim direction/domain".into());}
+             if !matches!(block.end,End::Return{..}) {return Err("INVALID inverse requires affine terminal maps".into());}
+             let End::Return{map,..}=&cert.blocks[j as usize].end else{return Err("INVALID inverse requires affine terminal maps".into());};
+@@ -503,12 +511,19 @@
+         }else{None};
+         let inverse_level=claim.inverse.and_then(|i|requested[i as usize].input_objective_level.as_ref());
+         if let Some(level)=inverse_level{check_q(level)?;}
+-        let domain=claim.input_objective_level.as_ref().map(|level|crate::level::prepare_domain(input,level,&remaining_limits(limits,stats.work)?)).transpose()?;
++        let domain=if claim.input_objective_level.is_some()||claim.input_halfspace.is_some(){Some(crate::level::prepare_restricted_domain(input,claim.input_objective_level.as_ref(),claim.input_halfspace.as_ref(),&remaining_limits(limits,stats.work)?)?)}else{None};
+         if let Some(domain)=&domain{
+             stats.work=stats.work.checked_add(domain.statistics.work).ok_or("RESOURCE_LIMIT objective level work")?;
++            if claim.input_objective_level.is_some(){
+             stats.objective_level_domains=stats.objective_level_domains.checked_add(1).ok_or("RESOURCE_LIMIT objective level counter")?;
+-            stats.objective_level_generated_rows=stats.objective_level_generated_rows.checked_add(domain.statistics.generated_rows).ok_or("RESOURCE_LIMIT objective level row counter")?;
+-            stats.objective_level_generated_terms=stats.objective_level_generated_terms.checked_add(domain.statistics.generated_terms).ok_or("RESOURCE_LIMIT objective level term counter")?;
++            stats.objective_level_generated_rows=stats.objective_level_generated_rows.checked_add(1).ok_or("RESOURCE_LIMIT objective level row counter")?;
++            stats.objective_level_generated_terms=stats.objective_level_generated_terms.checked_add(input.objective.terms.len() as u64).ok_or("RESOURCE_LIMIT objective level term counter")?;
++            }
++            if let Some(expression)=&claim.input_halfspace{
++                stats.halfspace_domains=stats.halfspace_domains.checked_add(1).ok_or("RESOURCE_LIMIT halfspace counter")?;
++                stats.halfspace_generated_rows=stats.halfspace_generated_rows.checked_add(1).ok_or("RESOURCE_LIMIT halfspace row counter")?;
++                stats.halfspace_generated_terms=stats.halfspace_generated_terms.checked_add(expression.terms.len() as u64).ok_or("RESOURCE_LIMIT halfspace term counter")?;
++            }
+         }
+         let input=domain.as_ref().map(|d|&d.model).unwrap_or(input);
+         Context{improvement:None,compositions:compositions.get(claim_index).map(Vec::as_slice).unwrap_or(&[]),refutation:false,input,output,claim,inverse,inverse_level,limits,stats:&mut stats}.run(block,Facts::new(),&mut Vec::new(),1)?;
+@@ -519,7 +534,7 @@
+ /// This entry point has fresh fact/assumption state and never verifies a mapping.
+ pub fn verify_lp_refutation(model:&Model,block:&Block,limits:&Limits)->Result<Statistics,String>{
+     model.validate()?;
+-    let claim=Claim{input_objective_level:None,reverse:false,input_integers:false,output_integers:false,objective:Objective::None,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None};
++    let claim=Claim{input_halfspace:None,input_objective_level:None,reverse:false,input_integers:false,output_integers:false,objective:Objective::None,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None};
+     let mut stats=Statistics::default();
+     Context{improvement:None,compositions:&[],refutation:true,input:model,output:model,claim:&claim,inverse:None,inverse_level:None,limits,stats:&mut stats}.run(block,Facts::new(),&mut Vec::new(),1)?;
+     Ok(stats)
+@@ -530,7 +545,7 @@
+ }
+ fn merge_statistics(stats:&mut Statistics,other:Statistics)->Result<(),String>{
+     macro_rules! add{($($f:ident),*)=>{$(stats.$f=stats.$f.checked_add(other.$f).ok_or("RESOURCE_LIMIT statistics overflow")?;)*}}
+-    add!(subflow_lifts,subflow_generated_variables,subflow_generated_rows,subflow_generated_terms,improvements,objective_level_domains,objective_level_generated_rows,objective_level_generated_terms,signed_lifts,signed_generated_variables,signed_generated_rows,signed_generated_terms,obligations,linear_terms,substitution_terms,branches,work,bijections,injectivity_coordinates,injectivity_generated_variables,injectivity_generated_rows,injectivity_generated_terms,menu_lifts,menu_generated_variables,menu_generated_rows,menu_generated_terms,flow_lifts,flow_generated_variables,flow_generated_rows,flow_generated_terms,interval_lifts,interval_generated_variables,interval_generated_rows,interval_generated_terms,plotkin_pairs,points,point_coefficient_terms);
++    add!(halfspace_domains,halfspace_generated_rows,halfspace_generated_terms,subflow_lifts,subflow_generated_variables,subflow_generated_rows,subflow_generated_terms,improvements,objective_level_domains,objective_level_generated_rows,objective_level_generated_terms,signed_lifts,signed_generated_variables,signed_generated_rows,signed_generated_terms,obligations,linear_terms,substitution_terms,branches,work,bijections,injectivity_coordinates,injectivity_generated_variables,injectivity_generated_rows,injectivity_generated_terms,menu_lifts,menu_generated_variables,menu_generated_rows,menu_generated_terms,flow_lifts,flow_generated_variables,flow_generated_rows,flow_generated_terms,interval_lifts,interval_generated_variables,interval_generated_rows,interval_generated_terms,plotkin_pairs,points,point_coefficient_terms);
+     stats.peak_live_facts=stats.peak_live_facts.max(other.peak_live_facts);Ok(())
+ }
+ /// Check injectivity of the supplied complete affine map on the actual input
+@@ -541,7 +556,7 @@
+     if proof.checks.len()!=domain.equalities.len(){return Err("INVALID injectivity equality check count".into());}
+     let mut stats=Statistics{work:domain.statistics.work,bijections:1,injectivity_coordinates:domain.equalities.len() as u64,injectivity_generated_variables:domain.statistics.generated_variables,injectivity_generated_rows:domain.statistics.generated_rows,injectivity_generated_terms:domain.statistics.generated_terms,..Statistics::default()};
+     if stats.work>limits.work{return Err("RESOURCE_LIMIT proof work budget".into());}
+-    let claim=Claim{input_objective_level:None,reverse:false,input_integers,output_integers:false,objective:Objective::None,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None};
++    let claim=Claim{input_halfspace:None,input_objective_level:None,reverse:false,input_integers,output_integers:false,objective:Objective::None,projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None};
+     let mut context=Context{improvement:None,compositions:&[],refutation:false,input:&domain.model,output:&domain.model,claim:&claim,inverse:None,inverse_level:None,limits,stats:&mut stats};
+     let mut facts=Facts::new();let mut assumptions=Vec::new();
+     context.steps(&proof.steps,&mut facts,&mut assumptions,1)?;
+--- audit/conditional-domain-before/point.rs
++++ crates/core/src/point.rs
+@@ -171,7 +171,7 @@
+             .claims
+             .get(index as usize)
+             .ok_or_else(|| invalid("strictness inclusion claim index"))?;
+-        if claim.input_objective_level.is_some(){return Err(invalid("strictness requires unrestricted inclusion domain"));}
++        if claim.input_objective_level.is_some()||claim.input_halfspace.is_some(){return Err(invalid("strictness requires unrestricted inclusion domain"));}
+         if claim.input_integers || claim.output_integers {
+             return Err(invalid("strictness requires an LP-to-LP inclusion claim"));
+         }
+@@ -244,7 +244,7 @@
+             .claims
+             .get(index as usize)
+             .ok_or_else(|| invalid("fiber strictness inclusion claim index"))?;
+-        if claim.input_objective_level.is_some(){return Err(invalid("strictness requires unrestricted inclusion domain"));}
++        if claim.input_objective_level.is_some()||claim.input_halfspace.is_some(){return Err(invalid("strictness requires unrestricted inclusion domain"));}
+         if claim.input_integers || claim.output_integers {
+             return Err(invalid(
+                 "fiber strictness requires an LP-to-LP inclusion claim",
+--- audit/conditional-domain-before/level.rs
++++ crates/core/src/level.rs
+@@ -1,11 +1,12 @@
+-//! Exact objective-level input domains, constructed from the actual whole model.
++//! Caller-bound affine restrictions on the actual complete input model.
+ //!
+-//! This is a caller-declared restriction, not an optimum or attainment theorem.
+-//! All original variables, bounds, rows and objective remain unchanged prefixes.
++//! This construction establishes no feasibility, optimality or attainment claim.
++//! The original variables, bounds, rows and objective remain unchanged prefixes.
+ use crate::build_support::{Budget, Support};
+ const SUPPORT: Support = Support::new("objective level");
+-use crate::model::{check_q, Model, Row, MAX_ROWS, MAX_TERMS, MAX_VARS, Q};
++use crate::model::{Expr, MAX_ROWS, MAX_TERMS, MAX_VARS, Model, Q, Row, check_q};
+ use crate::verify::Limits;
++use num_traits::Zero;
+ use serde::Serialize;
+ 
+ fn resource(s: &str) -> String {
+@@ -23,56 +24,118 @@
+     pub equality_row: u32,
+     pub statistics: LevelStatistics,
+ }
++#[derive(Debug)]
++pub struct RestrictedDomain {
++    pub model: Model,
++    pub equality_row: Option<u32>,
++    pub halfspace_row: Option<u32>,
++    pub statistics: LevelStatistics,
++}
+ 
+-/// Copy the actual input and append `input.objective == level` at its last row.
+-/// No feasibility, optimality, attainment, output inclusion or inverse conclusion
+-/// follows from this operation alone. The caller must bind this level to its
+-/// requested contract and independently prove every required mapping obligation.
++/// Preserve the V9 level-only API, row layout, naming and work accounting.
+ pub fn prepare_domain(input: &Model, level: &Q, limits: &Limits) -> Result<LevelDomain, String> {
+-    if input.vars.len() > MAX_VARS || input.rows.len() >= MAX_ROWS {
++    let domain = prepare_restricted_domain(input, Some(level), None, limits)?;
++    Ok(LevelDomain {
++        model: domain.model,
++        equality_row: domain.equality_row.ok_or("INVALID missing level row")?,
++        statistics: domain.statistics,
++    })
++}
++
++/// Copy the complete input once, append the optional actual-objective equality,
++/// then append the optional caller-specified affine halfspace `expression <= 0`.
++/// Both restrictions refer exclusively to the original input coordinates.
++/// No whole-model, nonempty-domain or optimum conclusion follows from this alone.
++pub fn prepare_restricted_domain(
++    input: &Model,
++    level: Option<&Q>,
++    halfspace: Option<&Expr>,
++    limits: &Limits,
++) -> Result<RestrictedDomain, String> {
++    let generated_rows = usize::from(level.is_some()) + usize::from(halfspace.is_some());
++    if generated_rows == 0 {
++        return Err("INVALID empty input restriction".into());
++    }
++    let rows = SUPPORT.add(input.rows.len(), generated_rows)?;
++    if input.vars.len() > MAX_VARS || rows > MAX_ROWS {
+         return Err(resource("expanded dimensions"));
+     }
+-    check_q(level)?;
+-    let rows = SUPPORT.add(input.rows.len(), 1)?;
++    if let Some(level) = level {
++        check_q(level)?;
++    }
++    let level_terms = if level.is_some() {
++        input.objective.terms.len()
++    } else {
++        0
++    };
++    let halfspace_terms = halfspace.map_or(0, |expression| expression.terms.len());
++    let generated_terms = SUPPORT.add(level_terms, halfspace_terms)?;
+     let (terms, mut work) = SUPPORT.model_size(input)?;
+-    if SUPPORT.add(terms, input.objective.terms.len())? > MAX_TERMS {
++    if SUPPORT.add(terms, generated_terms)? > MAX_TERMS {
+         return Err(resource("expanded term count"));
+     }
+-    // Copy and two validations, the generated row, exact normalization and names.
++    // Prefix copy and two model validations, generated expressions and names.
++    // With one objective-level row this is the original V9 budget formula.
+     work = SUPPORT.add(
+         SUPPORT.mul(work, 3)?,
+         SUPPORT.add(
+-            SUPPORT.mul(SUPPORT.add(input.objective.terms.len(), 1)?, 4)?,
+-            32,
++            SUPPORT.mul(SUPPORT.add(generated_terms, generated_rows)?, 4)?,
++            SUPPORT.mul(32, generated_rows)?,
+         )?,
+     )?;
+     let mut budget = Budget::new(SUPPORT, limits.work);
+     budget.charge(work)?;
+     input.validate()?;
+-    // A fact reference will normalize this difference; check it before copying.
+-    check_q(&(&input.objective.constant - level))?;
+-    let mut names = SUPPORT.names(
+-        input.rows.iter().map(|r| r.name.as_str()),
+-        input.rows.len(),
+-        "$rpx_level_row_",
+-    )?;
+-    let name = names.fresh(&mut budget)?;
+-    let equality_row = u32::try_from(input.rows.len()).map_err(|_| resource("row index width"))?;
++    if let Some(level) = level {
++        // A fact reference normalizes this difference; reject an oversized
++        // intermediate before allocating the copied model.
++        check_q(&(&input.objective.constant - level))?;
++    }
++    if let Some(expression) = halfspace {
++        expression.validate(input.vars.len())?;
++    }
+     let mut model = SUPPORT.copy_prefix(input, input.vars.len(), rows)?;
+-    model.rows.push(Row {
+-        name,
+-        expr: SUPPORT.copy_expr(&input.objective)?,
+-        lower: Some(level.clone()),
+-        upper: Some(level.clone()),
+-    });
++    let mut equality_row = None;
++    if let Some(level) = level {
++        let mut names = SUPPORT.names(
++            input.rows.iter().map(|r| r.name.as_str()),
++            input.rows.len(),
++            "$rpx_level_row_",
++        )?;
++        equality_row =
++            Some(u32::try_from(model.rows.len()).map_err(|_| resource("row index width"))?);
++        model.rows.push(Row {
++            name: names.fresh(&mut budget)?,
++            expr: SUPPORT.copy_expr(&input.objective)?,
++            lower: Some(level.clone()),
++            upper: Some(level.clone()),
++        });
++    }
++    let mut halfspace_row = None;
++    if let Some(expression) = halfspace {
++        let mut names = SUPPORT.names(
++            input.rows.iter().map(|r| r.name.as_str()),
++            input.rows.len(),
++            "$rpx_halfspace_row_",
++        )?;
++        halfspace_row =
++            Some(u32::try_from(model.rows.len()).map_err(|_| resource("row index width"))?);
++        model.rows.push(Row {
++            name: names.fresh(&mut budget)?,
++            expr: SUPPORT.copy_expr(expression)?,
++            lower: None,
++            upper: Some(Q::zero()),
++        });
++    }
+     model.validate()?;
+-    Ok(LevelDomain {
++    Ok(RestrictedDomain {
+         model,
+         equality_row,
++        halfspace_row,
+         statistics: LevelStatistics {
+             work: budget.used(),
+-            generated_rows: 1,
+-            generated_terms: input.objective.terms.len() as u64,
++            generated_rows: generated_rows as u64,
++            generated_terms: generated_terms as u64,
+         },
+     })
+ }

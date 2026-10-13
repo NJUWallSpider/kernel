@@ -1,0 +1,176 @@
+{
+  "case_id": "test32",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/input/model.mps",
+    "sha256": "152b62344fb15ee3e080137ea304d998c351f56c3b3bcea3f2a421cdbb7a55f9"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/output/reformulated.mps",
+    "sha256": "edfaa99f6340237168af7fcdfcaeef1dea258e6fe6ee97506633b9c216129190"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/output/audit.json",
+    "sha256": "c9ad940dcbbcd75e0743770fe12695de2b2119a2e679624d758925e4749e4875"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test32.py",
+    "sha256": "abc0523db0c6db65d8fe16596bd6e187c63ada2a0d7468cad0bb5fe32d2f3a00"
+  },
+  "claims": "Complete integer zero-extension affine bijection with all retained-coordinate observations, exact objective and both inverse identities, plus objective-preserving target LP inclusion. Explicit Cases refute 6306 out-of-bound one-hot selections, all 60 original integer time coordinates follow from actual target definitions, and every deleted capacity/precedence row is restored. No forward LP equivalence or global strictness is asserted.",
+  "counts": {
+    "source_variables": 18380,
+    "target_variables": 4792,
+    "source_rows": 576,
+    "target_rows": 382,
+    "original_fixed_zero": 7282,
+    "binary_onehot_exclusions": 6306,
+    "restored_time_integrality": 60,
+    "removed_capacity_rows": 168,
+    "removed_precedence_rows": 26,
+    "weighted_subset_nodes": 60099,
+    "claims": 3,
+    "obligations_by_claim": [
+      37871,
+      65301,
+      42129
+    ],
+    "steps_by_claim": [
+      87153,
+      452,
+      392
+    ]
+  },
+  "preparation_seconds": 4.733876125,
+  "rpa_sha256": "d4b586fe3f88a05fd9985bf176d92d69ce6b8ce0e08019c220c6decdffe79e2f",
+  "rpa_bytes": 17009508,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test32/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":2848152,\"parse_us\":34854,\"read_us\":1500,\"rows\":576,\"status\":\"CANONICALIZED\",\"total_us\":45883,\"variables\":18380}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test32-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test32/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":983598,\"parse_us\":9585,\"read_us\":189,\"rows\":382,\"status\":\"CANONICALIZED\",\"total_us\":12951,\"variables\":4792}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test32/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test32/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":11492509,\"status\":\"ASSEMBLED\",\"total_us\":110151}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test32/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test32/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test32/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test32/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":633060,\"model_decode_us\":18890,\"points\":0,\"proof_decode_us\":42395,\"read_us\":1720,\"statistics\":{\"bijections\":0,\"branches\":6306,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":7570118,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":145301,\"peak_live_facts\":87153,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":137899,\"work\":17552874},\"status\":\"VERIFIED\",\"total_us\":696065}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 2848152,
+      "sha256": "e1b25a8718297fba864e1181cd425a0f6a783be184d8e094ca3d9b02eec7b8ad"
+    },
+    "target.mcm": {
+      "bytes": 983598,
+      "sha256": "f27d25e6314f3981a5f6768f4a2fd4ad2a045fc5d985162834e6bdfc65f1c0f1"
+    },
+    "proof.rpx": {
+      "bytes": 11492509,
+      "sha256": "ae7a7d71a2eb5c2971785b7e9e363c38bae75e07c057b06f929421f0b12e5d5f"
+    },
+    "request.json": {
+      "bytes": 174941,
+      "sha256": "fd64d139bee2efda6b831305ae2d7f4177855d20b35020628ccc04954e439319"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_binary_domain",
+      "rule_broken": "Replaces a binary split with a sign split whose right assumption is weaker.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID contradiction witness",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "180fd1f794b4621db50fc301be3a9f22dcccb626e42e2911d1f9267d8529994c",
+      "rpx_sha256": "d799cd0608c5522b9effb38612156bee67fd44124a9b365ebf49b491c6eda6a0",
+      "storage": "Temporary full mutated files removed after hash and result capture; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "missing_time_bound",
+      "rule_broken": "Omits the explicit time bound from a refuted selection branch.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID contradiction witness",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "d486d6f2d0cc11ded01768dbf0613f298b5033756461da73f8daef63e3df99fe",
+      "rpx_sha256": "8aca69a69f182fae5c7edaed589ff7a8093d92de3b4e496cb606ed90a13a2bee",
+      "storage": "Temporary full mutated files removed after hash and result capture; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "missing_duration_premise",
+      "rule_broken": "Omits a nonnegative choice contribution from a duration proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 55231",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "88afb5a760748c7294ea2e8f53e1e08d23e4b293c38d855ad112a18dfa2f8eab",
+      "rpx_sha256": "0ce92094ef81dc3006479f854e7d4779b09abd02e73f1e58f09de301e8486e62",
+      "storage": "Temporary full mutated files removed after hash and result capture; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "missing_time_integrality",
+      "rule_broken": "Discards an integer-choice premise needed to recover an original integer time coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Int; obligation 8",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "347584c280fe045768beeb16cc3f65507d987d596ae6300b281a2858fda26e42",
+      "rpx_sha256": "2be020a8cc3a009324c058f0afa6f92a49ce9d65a6f733c2af3cc3cc76b70c49",
+      "storage": "Temporary full mutated files removed after hash and result capture; deterministic recipe retained in preparer."
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits one complete inverse-coordinate obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "8d624a48ec7bddc88b3c47c37804bd23e170e8ca9c1517920c20ca44bae8c24b",
+      "rpx_sha256": "e30a4e161a077f18ad3cc22d97ae5c3e6a229e96ea71ab9468caed9e931d1875",
+      "storage": "Temporary full mutated files removed after hash and result capture; deterministic recipe retained in preparer."
+    }
+  ]
+}

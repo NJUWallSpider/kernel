@@ -1,0 +1,18 @@
+{
+  "status": "REVIEWED_DOCUMENT_CORRECTIONS_NO_PRODUCTION_FINDING",
+  "method": "independent source/document comparison; no new execution",
+  "protocol_status": "V8 last frozen; implemented objective-level V9 remains unfrozen",
+  "files": {
+    "docs/CURRENT_FORMAT.md": "d6fe37056aa5a28527add08d5e2d55264d1ce3e2c3281f64327182263ee664e6",
+    "crates/core/src/codec.rs": "1366312d9eba87e7b0ae21c5c38191bca2b7ff32c49643c466b9c4636dbfd7f8",
+    "crates/core/src/proof.rs": "ea0100aa87b7e15caead42392c6eb716f1d7b47b0046c4716acc5ab759fe629b",
+    "crates/core/src/rpa.rs": "3b11cf56dc1be3331a2f7ad18fa9abd8b893afb47d29bd015e10062f0ba6818b",
+    "crates/core/src/verify.rs": "0907fd78e1cd7b472aea6ac4a4739b1313fe8c18d919d072276ca3d126479248",
+    "crates/core/src/model.rs": "cc16acb0691b3243339f0a2f7cbf40d38268d433319365e06be0c01dcfb0a2de",
+    "crates/core/src/point.rs": "2eaab77bd2727b87b239d509163e87a52386d06c1a2fc6a82ebfe3d0c4b2d37c",
+    "crates/core/src/main.rs": "faad34cbc0e62f5bf7fd22962f10890d94d48e377dac27fe783c15239cc6349a",
+    "crates/core/src/level.rs": "b69086946a141cb7070d490e25ae85673286b25d843e01107d619c978d42890f",
+    "crates/core/src/build_support.rs": "217261bfa2b544d4a9ff2b8200e06a5e4adb945149cc8112ad8643ee718a1e97"
+  },
+  "review_report_sha256": "e321c1afeff954c9b1c0432866494b3e30e12303421a0e91084dc5bed7a032aa"
+}

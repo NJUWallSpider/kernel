@@ -1,0 +1,202 @@
+{
+  "writer_sha256": "4bbeefecb817ffa94c2324644b4efe91cd883de099dec0b3a072bd982dfc88b4",
+  "format": "WORKING_VERSION_10_NOT_FROZEN",
+  "scope": "Continuous x\u2208[0,1] to x\u2208[0,1/2] with equal 7+x objective and identity projection, conditional on x\u22121/2<=0. Second vector also restricts input objective=15/2 and uses appended halfspace row1 after level row0.",
+  "wire": {
+    "halfspace": {
+      "claim_flags_offset": 20,
+      "halfspace_expr_offset": 43,
+      "rpx_bytes": 170,
+      "conditional_row_index": 0
+    },
+    "level-halfspace": {
+      "claim_flags_offset": 20,
+      "halfspace_expr_offset": 57,
+      "rpx_bytes": 184,
+      "conditional_row_index": 1
+    }
+  },
+  "mutations": {
+    "invalid-conditional-flags.rpx": {
+      "kind": "byte",
+      "offset": 20,
+      "value": 16
+    },
+    "invalid-conditional-reserved2.rpx": {
+      "kind": "byte",
+      "offset": 22,
+      "value": 1
+    },
+    "invalid-conditional-reserved3.rpx": {
+      "kind": "byte",
+      "offset": 23,
+      "value": 1
+    },
+    "invalid-conditional-header6.rpx": {
+      "kind": "byte",
+      "offset": 6,
+      "value": 1
+    },
+    "invalid-conditional-header7.rpx": {
+      "kind": "byte",
+      "offset": 7,
+      "value": 1
+    },
+    "invalid-conditional-cleared_presence_flag.rpx": {
+      "kind": "byte",
+      "offset": 20,
+      "value": 0
+    },
+    "invalid-conditional-version1.rpx": {
+      "kind": "version",
+      "version": 1
+    },
+    "invalid-conditional-version2.rpx": {
+      "kind": "version",
+      "version": 2
+    },
+    "invalid-conditional-version3.rpx": {
+      "kind": "version",
+      "version": 3
+    },
+    "invalid-conditional-version4.rpx": {
+      "kind": "version",
+      "version": 4
+    },
+    "invalid-conditional-version5.rpx": {
+      "kind": "version",
+      "version": 5
+    },
+    "invalid-conditional-version6.rpx": {
+      "kind": "version",
+      "version": 6
+    },
+    "invalid-conditional-version7.rpx": {
+      "kind": "version",
+      "version": 7
+    },
+    "invalid-conditional-version8.rpx": {
+      "kind": "version",
+      "version": 8
+    },
+    "invalid-conditional-version9.rpx": {
+      "kind": "version",
+      "version": 9
+    },
+    "invalid-conditional-inserted-option-tag.rpx": {
+      "kind": "inserted-option-tag",
+      "offset": 43
+    }
+  },
+  "all_truncations_tested_by": "crates/core/tests/conditional_wire.rs",
+  "files": {
+    "conditional-source.mcm": {
+      "bytes": 120,
+      "sha256": "232a2ed582097d476aa9c17c45d8a2e892cee9c0dda796b37446e2bc986afc30"
+    },
+    "conditional-target.mcm": {
+      "bytes": 120,
+      "sha256": "08d81860eb9350c5ca8247727cf5dfa6a962014335409a465980add71e605b86"
+    },
+    "conditional-halfspace.rpx": {
+      "bytes": 170,
+      "sha256": "bf2db6eddd57ff70020a647b61933fe8a6ba83407dc486cdea18785ffef61f7e"
+    },
+    "conditional-halfspace.rpa": {
+      "bytes": 340,
+      "sha256": "305478aaaa7f8857523e94cd762ef564b4bc7804884498559082d2f428df10fb"
+    },
+    "conditional-halfspace-request.json": {
+      "bytes": 190,
+      "sha256": "968e3e93ebf446dc1df075de9774b47901bac90793620ca20bd8fb9c24c189f7"
+    },
+    "conditional-level-halfspace.rpx": {
+      "bytes": 184,
+      "sha256": "e5cbcb9156d32d363f02d4fdda7eaeef356a40832057138d8d49290b1d53d98d"
+    },
+    "conditional-level-halfspace.rpa": {
+      "bytes": 371,
+      "sha256": "8e90820e897ad456c9cfa25a3aedfc616f4b6dafe0e81d712949087079f4a896"
+    },
+    "conditional-level-halfspace-request.json": {
+      "bytes": 221,
+      "sha256": "a5434353cb8aff6a40771b2fb65a2dc7b0eb505591f4329e0272144879c4b0ee"
+    },
+    "conditional-old-none.rpx": {
+      "bytes": 252,
+      "sha256": "78dfc1c9a7311747886ebab412d6d89dc9cece175b750f258d47ba78a5b0d91d"
+    },
+    "conditional-old-none.rpa": {
+      "bytes": 483,
+      "sha256": "41bd7884200876e81ed87bdf40c738fbf457509cb2733859255e703f8c9067c6"
+    },
+    "conditional-old-none-request.json": {
+      "bytes": 232,
+      "sha256": "ed0dc59e1253a52c84535bb81d05a0241fac927435d28de2e50b2cbc0e2a8ea1"
+    },
+    "invalid-conditional-flags.rpx": {
+      "bytes": 170,
+      "sha256": "3e25c79d09e04746abcbdb6578ef7f24d0f398c83ad68859c2b6da829ebebcfb"
+    },
+    "invalid-conditional-reserved2.rpx": {
+      "bytes": 170,
+      "sha256": "c78e55ed5ad4dc63a6da705862cfa3783cf9087d6d76158571578a779814861d"
+    },
+    "invalid-conditional-reserved3.rpx": {
+      "bytes": 170,
+      "sha256": "7dceedd9f92d06656d977cb283840d32a51089d0f6ca47a1df0a835cfc74109a"
+    },
+    "invalid-conditional-header6.rpx": {
+      "bytes": 170,
+      "sha256": "1d351c482f289ec585ead6c15bd98b8c2c350dc894f5de4a1240207fd33a7e0b"
+    },
+    "invalid-conditional-header7.rpx": {
+      "bytes": 170,
+      "sha256": "d0169d7ff7d44b8fb15431287d8a7e27b0fe53bf4c2a113798617c1a7572f92b"
+    },
+    "invalid-conditional-cleared_presence_flag.rpx": {
+      "bytes": 170,
+      "sha256": "44278f929425c2706f144d08366d26c195efdf6a2a5ccd643c1dede8a5bf17d5"
+    },
+    "invalid-conditional-version1.rpx": {
+      "bytes": 170,
+      "sha256": "8cce6b8cb24cc2ad25fa84edbe18917310bc74fdb90d40b8e221d6946ba5dfd9"
+    },
+    "invalid-conditional-version2.rpx": {
+      "bytes": 170,
+      "sha256": "8ca7d6c88a4bf81ef785a38c55eaf78fb8a4b7f79c1e5ec6cfd79d746ab2d7d3"
+    },
+    "invalid-conditional-version3.rpx": {
+      "bytes": 170,
+      "sha256": "446b9a3946327292069511380c780c3b276e4e118af71597c5aa7d4c6e796dcc"
+    },
+    "invalid-conditional-version4.rpx": {
+      "bytes": 170,
+      "sha256": "7f89c592b630943d1571d50097e4e3e0587e3dbc3cf9cf0ca6980b31694a117c"
+    },
+    "invalid-conditional-version5.rpx": {
+      "bytes": 170,
+      "sha256": "c1fb040f5187b1e1035e135946f309ce67f4729fe9a01554308e1da78a733400"
+    },
+    "invalid-conditional-version6.rpx": {
+      "bytes": 170,
+      "sha256": "dc0c7cf68cadb96d1deff23125480b16142d9fe9f550e241089c81e8cf067516"
+    },
+    "invalid-conditional-version7.rpx": {
+      "bytes": 170,
+      "sha256": "f47b1b3d4b2e0294145ed435f0c54ef00ed8b69f81c2ed76bce2401629c3647b"
+    },
+    "invalid-conditional-version8.rpx": {
+      "bytes": 170,
+      "sha256": "e1574030320bb39aac630acef522cc1bf0478f84598f82a5d9888f2caca833bf"
+    },
+    "invalid-conditional-version9.rpx": {
+      "bytes": 170,
+      "sha256": "3dd36e87483b5ab9b60c45d6f866eb936e9969c2d185441f8d7463dbadb71823"
+    },
+    "invalid-conditional-inserted-option-tag.rpx": {
+      "bytes": 171,
+      "sha256": "4d17632fa8e3b8ad156230b131bd19fc42f9cdb10c326dc588cf24eb923831cb"
+    }
+  }
+}

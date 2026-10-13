@@ -1,0 +1,16 @@
+{
+  "status": "GENERATED_EXACT_CHECKED",
+  "generation_ns": 513500,
+  "name": "halfspace-n1",
+  "source_variables": 1,
+  "source_rows": 0,
+  "target_variables": 1,
+  "target_rows": 0,
+  "source_terms": 1,
+  "target_terms": 1,
+  "proof_steps": 0,
+  "complete_obligations": 4,
+  "caller_bound_coordinate_count": 1,
+  "expected_generated_domain_rows": 1,
+  "independent_nonempty_restriction_checked": true
+}

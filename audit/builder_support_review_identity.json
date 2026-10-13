@@ -1,0 +1,88 @@
+{
+  "status": "REVIEWED_NO_SEMANTIC_FINDING",
+  "review_method": "independent read-only source comparison; no new builds/tests",
+  "baseline": "bench/builder-support-baseline",
+  "baseline_status": "internal working snapshot; objective-level version not frozen",
+  "files": [
+    {
+      "path": "crates/core/src/build_support.rs",
+      "baseline_sha256": null,
+      "candidate_sha256": "217261bfa2b544d4a9ff2b8200e06a5e4adb945149cc8112ad8643ee718a1e97",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/flow.rs",
+      "baseline_sha256": "c727a8da123fb8551c34b0ec20d5db626c4b8a37459c30af5ab190548f5b394e",
+      "candidate_sha256": "c73f9550aa51733d3a36ca940a909026338f6b760168d55d6583b486c84a017c",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/interval.rs",
+      "baseline_sha256": "6eecd46a6f19079f2517a089ad6038cba9f7760dafe342e299a9d22463fa1566",
+      "candidate_sha256": "ab73f962c221394486b6ba9b46060781645d7cd603df1b6bb845cd7ffb0894c9",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/menu.rs",
+      "baseline_sha256": "431c274583cc63cc2c6e83b5e1dd7f9f9d2c4ba82031d8a1354a041d5cbf6d32",
+      "candidate_sha256": "3b557c76ed645f603f20a3726ad8f39aae6f5f17cdd21bad6608e9f9d8dd91df",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/signed.rs",
+      "baseline_sha256": "e74e943595cc3f1e78b0d57831b2a665495f6c87fb16711bbc7a88418e76f9a0",
+      "candidate_sha256": "9fe9b6403a2fe280092ec835d85e939d04dcddea5508e1d910629703c21aa8e0",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/point.rs",
+      "baseline_sha256": "5653428881b8cadbaec03632511e99dff97fb81274f5d3e7cfc0875e0fb49e4d",
+      "candidate_sha256": "2eaab77bd2727b87b239d509163e87a52386d06c1a2fc6a82ebfe3d0c4b2d37c",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/injectivity.rs",
+      "baseline_sha256": "d61e8b75d0a7ec6420459ca8f75b512bd6b666535e2467403d100c3c2ce39e73",
+      "candidate_sha256": "549fb347769e7eb854b3a4192805f50431cfac82d7c989976049ebe127ef0a39",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/level.rs",
+      "baseline_sha256": "975d49fc938f9286b0f7115f64ec47f47682e04e922c090f6244de2c6574f433",
+      "candidate_sha256": "b69086946a141cb7070d490e25ae85673286b25d843e01107d619c978d42890f",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/lib.rs",
+      "baseline_sha256": "eec92608feaa9c7ce48c070c97d4560257e728d0bc8331a8dab17b07949ed0d5",
+      "candidate_sha256": "06b1c06a2ce92af576e90e45ef1db00b3bfa06abfb97c5e88eb169694bfcc38c",
+      "byte_identical": false
+    },
+    {
+      "path": "crates/core/src/verify.rs",
+      "baseline_sha256": "0907fd78e1cd7b472aea6ac4a4739b1313fe8c18d919d072276ca3d126479248",
+      "candidate_sha256": "0907fd78e1cd7b472aea6ac4a4739b1313fe8c18d919d072276ca3d126479248",
+      "byte_identical": true
+    },
+    {
+      "path": "crates/core/src/proof.rs",
+      "baseline_sha256": "ea0100aa87b7e15caead42392c6eb716f1d7b47b0046c4716acc5ab759fe629b",
+      "candidate_sha256": "ea0100aa87b7e15caead42392c6eb716f1d7b47b0046c4716acc5ab759fe629b",
+      "byte_identical": true
+    },
+    {
+      "path": "crates/core/src/codec.rs",
+      "baseline_sha256": "1366312d9eba87e7b0ae21c5c38191bca2b7ff32c49643c466b9c4636dbfd7f8",
+      "candidate_sha256": "1366312d9eba87e7b0ae21c5c38191bca2b7ff32c49643c466b9c4636dbfd7f8",
+      "byte_identical": true
+    },
+    {
+      "path": "crates/core/src/rpa.rs",
+      "baseline_sha256": "3b11cf56dc1be3331a2f7ad18fa9abd8b893afb47d29bd015e10062f0ba6818b",
+      "candidate_sha256": "3b11cf56dc1be3331a2f7ad18fa9abd8b893afb47d29bd015e10062f0ba6818b",
+      "byte_identical": true
+    }
+  ],
+  "review_report_sha256": "744d9bacfd2fa32347dee2a9250ff363012334227e315f42e04f64b873dba8a7",
+  "inspected_differential_result_sha256": "84353cebac67c65b028d6d31c99d4e8029e616cb1436cab124a25be2acd8b209"
+}

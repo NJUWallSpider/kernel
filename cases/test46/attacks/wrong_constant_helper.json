@@ -1,0 +1,52 @@
+{
+  "name": "wrong_constant_helper",
+  "reason": "One removed source constant table cost helper is mapped to 18 instead of 17.",
+  "base_direction": 1,
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+        "assemble",
+        "cases/test46/attacks/wrong_constant_helper.rpa",
+        "cases/test46/attacks/wrong_constant_helper.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":156755175,\"status\":\"ASSEMBLED\",\"total_us\":2073912}\n",
+      "stderr": "",
+      "wall_seconds": 2.218869374999997,
+      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/attacks/wrong_constant_helper.rpx",
+        "cases/test46/attacks/wrong_constant_helper.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID obligation mismatch: expected Eq; obligation 477435\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 4.384906625000042,
+      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
+      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+    }
+  ],
+  "artifacts": {
+    "wrong_constant_helper.rpa": {
+      "sha256": "ed74ab32cf9a89b7ebbba543c726f7efa92317413ad2884f3e76954ca96c9b30",
+      "bytes": 234499424
+    },
+    "wrong_constant_helper.request.json": {
+      "sha256": "8b23727aa9deda3f5ba3578496ddf4da1324f5d9af292ee326ee040a1dc22db1",
+      "bytes": 861797
+    },
+    "wrong_constant_helper.rpx": {
+      "sha256": "9de32a0a749a60461212112b51c64b6bde9b5bb25e68f5cb7171afc216226f36",
+      "bytes": 156755175
+    }
+  }
+}

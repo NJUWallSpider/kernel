@@ -1,0 +1,141 @@
+{
+  "status": "PRODUCTION_INTEGRATED_AND_ACTUAL_TEST58_VERIFIED_WORKING_DRAFT",
+  "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+  "tests": {
+    "passed": 250,
+    "subflow_tests": 14,
+    "independent_fraction_cases": 983,
+    "command": "cargo test -p kernel-core --locked --target-dir target/subflow-production",
+    "exit_code": 0
+  },
+  "build": {
+    "command": "cargo build -p kernel-core --bin rpx --release --locked --target-dir target/subflow-production",
+    "exit_code": 0,
+    "binary": {
+      "path": "target/subflow-production/release/rpx",
+      "sha256": "5cb441c3b38ab7b3aea01ca880ef720207001cad9e253b5256b714946c9b1c38",
+      "bytes": 1718320
+    }
+  },
+  "actual_case": {
+    "receipt": "cases/test58/preparation.json",
+    "status": "VERIFIED",
+    "negative_checks": 8,
+    "all_negative_invalid": true
+  },
+  "source_capture": "After successful full suite and dedicated release build; root performed coordinated proof/codec/verify integration. This agent owns subflow.rs and its integration tests only.",
+  "artifacts": {
+    "Cargo.toml": {
+      "bytes": 203,
+      "sha256": "561900e9aa9f82628587fc1135b3b6a80d3d536d2b50fd84001b0831c927fc44"
+    },
+    "Cargo.lock": {
+      "bytes": 6570,
+      "sha256": "e50906709f3909a07659adc6ffb49f6208a77679c563ec3d973a3e3b7970c78e"
+    },
+    "crates/core/Cargo.toml": {
+      "bytes": 357,
+      "sha256": "0432e7894ec5a6cc6561c0950440431063b6c5e409af3b67336d1fb1e319a422"
+    },
+    "crates/core/src/build_support.rs": {
+      "bytes": 8236,
+      "sha256": "217261bfa2b544d4a9ff2b8200e06a5e4adb945149cc8112ad8643ee718a1e97"
+    },
+    "crates/core/src/codec.rs": {
+      "bytes": 46134,
+      "sha256": "9441d86ae67cb30ac4b32c24f6ceec5be1d31e7e0cf523457a637d1c837d6d1a"
+    },
+    "crates/core/src/flow.rs": {
+      "bytes": 12932,
+      "sha256": "c73f9550aa51733d3a36ca940a909026338f6b760168d55d6583b486c84a017c"
+    },
+    "crates/core/src/injectivity.rs": {
+      "bytes": 6646,
+      "sha256": "549fb347769e7eb854b3a4192805f50431cfac82d7c989976049ebe127ef0a39"
+    },
+    "crates/core/src/interval.rs": {
+      "bytes": 7341,
+      "sha256": "ab73f962c221394486b6ba9b46060781645d7cd603df1b6bb845cd7ffb0894c9"
+    },
+    "crates/core/src/level.rs": {
+      "bytes": 2962,
+      "sha256": "b69086946a141cb7070d490e25ae85673286b25d843e01107d619c978d42890f"
+    },
+    "crates/core/src/lib.rs": {
+      "bytes": 894,
+      "sha256": "0dfb93b293aa997351c51db087861111c083d1f5f276ba786e1ed2ba584533df"
+    },
+    "crates/core/src/lp.rs": {
+      "bytes": 25323,
+      "sha256": "98d1fe80f5e9409a5f8e6a5cf9363634ad4e9fad4bffb7902ecaa69381ab77f8"
+    },
+    "crates/core/src/main.rs": {
+      "bytes": 5876,
+      "sha256": "5a1b9d7067491d5977738a0e579b62ae213aefa961cb75d7c07a12895145c622"
+    },
+    "crates/core/src/menu.rs": {
+      "bytes": 7672,
+      "sha256": "3b557c76ed645f603f20a3726ad8f39aae6f5f17cdd21bad6608e9f9d8dd91df"
+    },
+    "crates/core/src/model.rs": {
+      "bytes": 41504,
+      "sha256": "cc16acb0691b3243339f0a2f7cbf40d38268d433319365e06be0c01dcfb0a2de"
+    },
+    "crates/core/src/point.rs": {
+      "bytes": 17455,
+      "sha256": "80507b147f820ebf3be3b1c3767341e3dc1f50782b0c86c98412b0d624405da3"
+    },
+    "crates/core/src/proof.rs": {
+      "bytes": 9866,
+      "sha256": "08e290bae0258ad5a36e74d866d9dce7a3f5d34d210af83655dbcd9354e716d3"
+    },
+    "crates/core/src/rational_shortcuts_audit.rs": {
+      "bytes": 3968,
+      "sha256": "c69087248a577f45e0d6b895354e55b1465ef04a4f1fc955ad5c4d4286f5533a"
+    },
+    "crates/core/src/rpa.rs": {
+      "bytes": 4345,
+      "sha256": "7debee79e773e18f0743b6ff60c2608e35e5cba6966a776864a9b449ed915ba8"
+    },
+    "crates/core/src/scope_state_audit.rs": {
+      "bytes": 9121,
+      "sha256": "7b6c251088e53368fbe0bfe8f1d656e60f9fbaaf0e5cdbaf905568d9f15b58d9"
+    },
+    "crates/core/src/signed.rs": {
+      "bytes": 6875,
+      "sha256": "9fe9b6403a2fe280092ec835d85e939d04dcddea5508e1d910629703c21aa8e0"
+    },
+    "crates/core/src/subflow.rs": {
+      "bytes": 12889,
+      "sha256": "53b5e07d80121b2a7367579643a41db68bcf33b84d44a0c7e293e6165202666a"
+    },
+    "crates/core/src/verify.rs": {
+      "bytes": 46690,
+      "sha256": "a4b5f05c2831cc10211f1a90315192bf4a714b561c67d060340d9eb95571697a"
+    },
+    "crates/core/tests/subflow.rs": {
+      "bytes": 25158,
+      "sha256": "fd33e214de2103c513de1278fa7d11613dbdbfa63540391959c0d043047f3273"
+    },
+    "audit/subflow-next/production-test.log": {
+      "bytes": 1520,
+      "sha256": "bc1c2d57ad389ad83c65b3189716b3126413adf18915f2429d0eee12cebbcacb"
+    },
+    "audit/subflow-next/production-full-tests.log": {
+      "bytes": 23895,
+      "sha256": "8c051d4aa2d232fdd7ac7b43c197f679071e680fdc481bf7af2ba1ec3b79c936"
+    },
+    "audit/subflow-next/production-build.log": {
+      "bytes": 616,
+      "sha256": "b5bce89f9e7c468f8ba7c603dd9e15250c9c138999dbf429aba88f01912d44cf"
+    },
+    "tools/prepare_test58_full.py": {
+      "bytes": 22962,
+      "sha256": "87bf2aa998f3df730d8d435dfafa6542febf53adcddac8105decd19bdf059929"
+    },
+    "cases/test58/preparation.json": {
+      "bytes": 9510,
+      "sha256": "95624fedd3fabc7bea7d5d2f4db46e96c530df05cd1b82e5756380d05aa4591a"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+NAME shared_switch_generalization
+ROWS
+ N obj
+ E r245411162_root
+ G r245411162_d0_L1
+ G r245411162_d0_L0
+ L r245411162_d0_U1
+ L budget
+ L r245411162_d0_U0
+COLUMNS
+ mark0 'MARKER' 'INTORG'
+ r245411162_switch obj 0
+ r245411162_switch r245411162_d0_L1 -0.3
+ r245411162_switch r245411162_d0_L0 0.3
+ r245411162_switch r245411162_d0_U1 0.3
+ r245411162_switch budget 1
+ r245411162_switch r245411162_d0_U0 -0.3
+ mark1 'MARKER' 'INTEND'
+ r245411162_output obj 3
+ r245411162_output r245411162_root 1
+ mark2 'MARKER' 'INTORG'
+ r245411162_fixed obj 0
+ r245411162_fixed budget 3
+ mark3 'MARKER' 'INTEND'
+ r245411162_d0 obj 0
+ r245411162_d0 r245411162_root -1
+ r245411162_d0 r245411162_d0_L1 1
+ r245411162_d0 r245411162_d0_L0 1
+ r245411162_d0 r245411162_d0_U1 1
+ r245411162_d0 r245411162_d0_U0 1
+RHS
+ rhs obj 0.4
+ rhs r245411162_root 0
+ rhs r245411162_d0_L1 0.7
+ rhs r245411162_d0_L0 0.7
+ rhs r245411162_d0_U1 1.3
+ rhs budget 2
+ rhs r245411162_d0_U0 0.7
+BOUNDS
+ UP b r245411162_switch 1
+ UP b r245411162_output 1
+ UP b r245411162_fixed 0
+ UP b r245411162_d0 1
+ENDATA

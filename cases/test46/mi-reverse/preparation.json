@@ -1,0 +1,60 @@
+{
+  "case_id": "test46",
+  "status": "PROOF_NOT_COMPLETED",
+  "scope": "Complete MI reverse direction only; full bundle pending",
+  "partial_claim_status": "VERIFIED",
+  "counts": {
+    "obligations": 538773,
+    "root_steps": 738622,
+    "body_steps": 35693,
+    "continuous_pair_integer_proofs": 60608,
+    "intervals": 17234
+  },
+  "preparation_seconds": 313.547785083,
+  "kernel_binary": {
+    "path": "/Users/bhz/Code/kernel/target/release/rpx",
+    "sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
+  },
+  "work_policy": 1000000000,
+  "preparer_sha256": "5f54117c80bc101a71e0e87466620be71de1dc70e315bc310dad97642f5b0d24",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test46/mi-reverse/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test46/mi-reverse/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":156755175,\"status\":\"ASSEMBLED\",\"total_us\":2562759}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test46/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test46/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test46/mi-reverse/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test46/mi-reverse/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4985206,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":160434,\"points\":0,\"proof_decode_us\":671365,\"read_us\":22966,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5839971}\n",
+      "stderr": ""
+    }
+  ],
+  "artifacts": {
+    "proof.rpa": {
+      "bytes": 234499424,
+      "sha256": "8d8a31df133e713689399b67ca286abb131186be508813fbd08f5df4f43f2f17"
+    },
+    "proof.rpx": {
+      "bytes": 156755175,
+      "sha256": "87952e15f550907b7253310a1bddf7c3fdefac356bbff5b9cd2f3e03d8ee6f88"
+    },
+    "request.json": {
+      "bytes": 861797,
+      "sha256": "8b23727aa9deda3f5ba3578496ddf4da1324f5d9af292ee326ee040a1dc22db1"
+    }
+  }
+}

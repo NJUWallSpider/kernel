@@ -1,0 +1,387 @@
+{
+  "config": {
+    "version": 1,
+    "fixed_on": "2026-10-11",
+    "repetitions": 3,
+    "sizes": [
+      256,
+      1024,
+      4096
+    ],
+    "semantics": "For size n, establish n live exact LE facts, then n local Cases each using an inherited fact in both branches and dropping its exported result. One complete binary identity claim. Same model, RPA/RPX, claims and scopes before/after; current whole-state clone baseline has quadratic copies. Default 100 million work budget retained. No weakening or auxiliary-model workaround.",
+    "motivation": "Actual test18 needs many integrality-derived aliases. Benchmark frozen before any shared-scope implementation. Record a resource failure as failure, never a timing success."
+  },
+  "diagnostic": true,
+  "source_root": "/Users/bhz/Code/kernel/audit/checkpoints/v5-source",
+  "kernel_sha256": "25fe3dc93909a271abdb1a7f6005e91d3bfb706dec1feb6cf8e259f806eef4e1",
+  "source_sha256": {
+    "crates/core/src/codec.rs": "41c968edd04bafb9c61301aff8acd2875c1e67f489dac6adfab370db597a4d81",
+    "crates/core/src/flow.rs": "2e7da4ba4aace684da03e0df56688e54124f73d20b86c01734ca4689c6dd85b8",
+    "crates/core/src/interval.rs": "9bd4250459d15e42cc5c10569028a321fbebb6d0e3d4efa75ab0916865cbd3b8",
+    "crates/core/src/lib.rs": "d552ad0985ef3e501bd8a36116100d79839a813d2b4d20af4089ed38b5395c7f",
+    "crates/core/src/lp.rs": "98d1fe80f5e9409a5f8e6a5cf9363634ad4e9fad4bffb7902ecaa69381ab77f8",
+    "crates/core/src/main.rs": "6eb1849005ca24676ceaae25c0b02832a129a83515d77d2108ac2b0406c36a53",
+    "crates/core/src/model.rs": "8500c1604eba519b0294068678078c2342389d584307ececa0251869951a80ca",
+    "crates/core/src/point.rs": "2e34b255533027e689927d000693d0754bb98fbf1a251badcc9c95aa737352fa",
+    "crates/core/src/proof.rs": "9b70c5d77f5ef5a2da0044fb6ceb75f477f904bec2c8671983ee0e4e652cd3ed",
+    "crates/core/src/rpa.rs": "971602b7eb8a10cb41d4f3f6091029d2d5efb9f21e1de8eff63864e7c582a2d0",
+    "crates/core/src/verify.rs": "3aeb52871caef0bf8287e173b52225cb46d56f3b79f72519d559d5087de45478"
+  },
+  "lock_sha256": "e50906709f3909a07659adc6ffb49f6208a77679c563ec3d973a3e3b7970c78e",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)\nbinary: rustc\ncommit-hash: ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96\ncommit-date: 2026-05-25\nhost: aarch64-apple-darwin\nrelease: 1.96.0\nLLVM version: 22.1.2\n",
+  "cache_condition": "warm after preparation, fresh process, no cache flush",
+  "workloads": [
+    {
+      "name": "parent-256-branches-256",
+      "generation_ns": 6541584,
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/model.mps",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 6589125,
+          "result": {
+            "mcm_bytes": 88,
+            "parse_us": 147,
+            "read_us": 36,
+            "rows": 0,
+            "status": "CANONICALIZED",
+            "total_us": 297,
+            "variables": 1
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 4286375,
+          "result": {
+            "rpx_bytes": 47984,
+            "status": "ASSEMBLED",
+            "total_us": 804
+          }
+        }
+      ],
+      "artifacts": {
+        "model.mcm": {
+          "bytes": 88,
+          "sha256": "88e6b680c43a307832cef93a2b8f9ecabbf51ba3539d40e340a5edfc86d0e6d6"
+        },
+        "proof.rpa": {
+          "bytes": 90315,
+          "sha256": "1f8d4764adbf0f7b2d0aee9391af6c06b2a33904aaa349263a032180eac9216c"
+        },
+        "proof.rpx": {
+          "bytes": 47984,
+          "sha256": "3c1b212613e92b403f66f9bd3faef8f98171fb33d476f3ed959cdb6238cd60a3"
+        },
+        "request.json": {
+          "bytes": 127,
+          "sha256": "144b40e7e243af3108b814b2f73de07006c17d3cd165e1ae598fcb3618fb809d"
+        }
+      },
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/scope-generated/256/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 10151167,
+          "result": {
+            "claims": 1,
+            "execute_us": 5650,
+            "model_decode_us": 52,
+            "points": 0,
+            "proof_decode_us": 198,
+            "read_us": 96,
+            "statistics": {
+              "branches": 256,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 256,
+              "obligations": 4,
+              "peak_live_facts": 257,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "substitution_terms": 0,
+              "work": 267535
+            },
+            "status": "VERIFIED",
+            "total_us": 5996
+          }
+        }
+      ],
+      "rss": [],
+      "status_counts": {
+        "VERIFIED": 1
+      },
+      "summary": {
+        "process_ms": {
+          "min": 10.151167,
+          "median": 10.151167,
+          "max": 10.151167
+        },
+        "execute_ms": {
+          "min": 5.65,
+          "median": 5.65,
+          "max": 5.65
+        }
+      }
+    },
+    {
+      "name": "parent-1024-branches-1024",
+      "generation_ns": 6762667,
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/model.mps",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3604041,
+          "result": {
+            "mcm_bytes": 88,
+            "parse_us": 24,
+            "read_us": 35,
+            "rows": 0,
+            "status": "CANONICALIZED",
+            "total_us": 168,
+            "variables": 1
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 8106083,
+          "result": {
+            "rpx_bytes": 191600,
+            "status": "ASSEMBLED",
+            "total_us": 3281
+          }
+        }
+      ],
+      "artifacts": {
+        "model.mcm": {
+          "bytes": 88,
+          "sha256": "88e6b680c43a307832cef93a2b8f9ecabbf51ba3539d40e340a5edfc86d0e6d6"
+        },
+        "proof.rpa": {
+          "bytes": 363539,
+          "sha256": "20b6a98ed3e286b5b67f773c171650ee82a99c7ff8540a365953364e52ec7bec"
+        },
+        "proof.rpx": {
+          "bytes": 191600,
+          "sha256": "ee4c19816041d918575a79ab40021c0cd2fac4310c1134e382d4302bc760dbed"
+        },
+        "request.json": {
+          "bytes": 127,
+          "sha256": "144b40e7e243af3108b814b2f73de07006c17d3cd165e1ae598fcb3618fb809d"
+        }
+      },
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/scope-generated/1024/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 246205791,
+          "result": {
+            "claims": 1,
+            "execute_us": 237285,
+            "model_decode_us": 30,
+            "points": 0,
+            "proof_decode_us": 2105,
+            "read_us": 199,
+            "statistics": {
+              "branches": 1024,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 1024,
+              "obligations": 4,
+              "peak_live_facts": 1025,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "substitution_terms": 0,
+              "work": 4215823
+            },
+            "status": "VERIFIED",
+            "total_us": 239619
+          }
+        }
+      ],
+      "rss": [],
+      "status_counts": {
+        "VERIFIED": 1
+      },
+      "summary": {
+        "process_ms": {
+          "min": 246.205791,
+          "median": 246.205791,
+          "max": 246.205791
+        },
+        "execute_ms": {
+          "min": 237.285,
+          "median": 237.285,
+          "max": 237.285
+        }
+      }
+    },
+    {
+      "name": "parent-4096-branches-4096",
+      "generation_ns": 46277292,
+      "preparation": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "canonical",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/model.mps",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/model.mcm"
+          ],
+          "exit_code": 0,
+          "wall_ns": 3509042,
+          "result": {
+            "mcm_bytes": 88,
+            "parse_us": 23,
+            "read_us": 28,
+            "rows": 0,
+            "status": "CANONICALIZED",
+            "total_us": 135,
+            "variables": 1
+          }
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/proof.rpa",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/proof.rpx"
+          ],
+          "exit_code": 0,
+          "wall_ns": 16468666,
+          "result": {
+            "rpx_bytes": 766064,
+            "status": "ASSEMBLED",
+            "total_us": 9371
+          }
+        }
+      ],
+      "artifacts": {
+        "model.mcm": {
+          "bytes": 88,
+          "sha256": "88e6b680c43a307832cef93a2b8f9ecabbf51ba3539d40e340a5edfc86d0e6d6"
+        },
+        "proof.rpa": {
+          "bytes": 1463315,
+          "sha256": "b058b5cae1efc832439fe7c10079a7f33cef10f9abd226c2693f5abd2a14bd79"
+        },
+        "proof.rpx": {
+          "bytes": 766064,
+          "sha256": "5a9977335dba9995574bb50a6c2ec717fda8f383a22286a31fa9f13a972e27bc"
+        },
+        "request.json": {
+          "bytes": 127,
+          "sha256": "144b40e7e243af3108b814b2f73de07006c17d3cd165e1ae598fcb3618fb809d"
+        }
+      },
+      "samples": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/validation-checkpoint-v5/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/model.mcm",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/proof.rpx",
+            "/Users/bhz/Code/kernel/bench/scope-generated/4096/request.json"
+          ],
+          "exit_code": 0,
+          "wall_ns": 1102406375,
+          "result": {
+            "claims": 1,
+            "execute_us": 1092393,
+            "model_decode_us": 28,
+            "points": 0,
+            "proof_decode_us": 4572,
+            "read_us": 248,
+            "statistics": {
+              "branches": 4096,
+              "flow_generated_rows": 0,
+              "flow_generated_terms": 0,
+              "flow_generated_variables": 0,
+              "flow_lifts": 0,
+              "interval_generated_rows": 0,
+              "interval_generated_terms": 0,
+              "interval_generated_variables": 0,
+              "interval_lifts": 0,
+              "linear_terms": 4096,
+              "obligations": 4,
+              "peak_live_facts": 4097,
+              "plotkin_pairs": 0,
+              "point_coefficient_terms": 0,
+              "points": 0,
+              "substitution_terms": 0,
+              "work": 67194895
+            },
+            "status": "VERIFIED",
+            "total_us": 1097241
+          }
+        }
+      ],
+      "rss": [],
+      "status_counts": {
+        "VERIFIED": 1
+      },
+      "summary": {
+        "process_ms": {
+          "min": 1102.406375,
+          "median": 1102.406375,
+          "max": 1102.406375
+        },
+        "execute_ms": {
+          "min": 1092.393,
+          "median": 1092.393,
+          "max": 1092.393
+        }
+      }
+    }
+  ]
+}

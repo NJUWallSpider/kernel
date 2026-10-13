@@ -1,0 +1,11 @@
+[package]
+name="builder-support-probe"
+version="0.0.0"
+edition="2024"
+[workspace]
+[dependencies]
+kernel-core={path="/Users/bhz/Code/kernel/bench/builder-support-baseline/crates/core"}
+serde_json="=1.0.152"
+[[bin]]
+name="probe"
+path="/Users/bhz/Code/kernel/tools/builder_support_probe.rs"

@@ -1,0 +1,16 @@
+{
+  "status": "GENERATED_EXACT_CHECKED",
+  "generation_ns": 121472542,
+  "name": "strict-n4096",
+  "source_variables": 4096,
+  "source_rows": 0,
+  "target_variables": 4096,
+  "target_rows": 0,
+  "source_terms": 4096,
+  "target_terms": 4096,
+  "proof_steps": 0,
+  "complete_obligations": 8193,
+  "full_point_coordinates": null,
+  "caller_bound_coordinate_count": 4096,
+  "independent_point_and_margin_check": true
+}

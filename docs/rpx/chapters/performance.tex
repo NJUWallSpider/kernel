@@ -1,0 +1,115 @@
+\chapter{执行成本、实现建议与测量}\label{ch:performance}
+
+\section{成本模型的边界}
+本章是说明性内容，定义测量方法而不承诺未实现系统的性能。
+令 $B$ 为 RPX 字节数，$W_{\rm lin}$ 为线性推导所访问的 coefficient 项总数，
+$W_{\rm sub}$ 为 mapping 代换访问的项总数，$C_{\rm exact}$ 为所有精确算术的 bit complexity。
+合理的目标模型是
+\[
+T=O(B+W_{\rm lin}+W_{\rm sub}+C_{\rm exact}+W_{\rm state}).
+\]
+$W_{\rm state}$ 包含 map 初始化、obligation 初始化与分支状态回滚/汇合。
+如果一次请求还需从文件验证两个模型并计算 digest，还须计入 $|M_S|+|M_T|$ 的读取与校验成本。
+已验证的稳定模型缓存可以让后续请求复用这部分工作；缓存键必须绑定真实 canonical 数据。
+
+“线性扫描 tape”不表示全部数学工作都与 instruction 数成正比。
+一条包含很长 sparse row 的 LIN 或 CHECK 可以比许多短 instruction 更昂贵。
+完整结构扫描和语义扫描各执行一次仍为 $O(B)$；无需为每条指令建立 DAG node。
+
+\section{代换成本}
+对于输出 row $r$ 和 mappings $y_j=E_j(x)$，代换为
+\[
+A_rE(x)-u_r=c_r+\sum_{j\in\operatorname{supp}(A_r)}a_{rj}E_j(x).
+\]
+一次直接展开访问的 terms 数由
+\[
+\sum_{j\in\operatorname{supp}(A_r)}\operatorname{nnz}(E_j)
+\]
+控制，而不是仅由 $\operatorname{nnz}(A_r)$ 控制。
+不同 $E_j$ 之间的变量可以重合、相消，也可能使结果显著变稠密。
+相同 row 的重复代换还会产生重复读取成本。
+
+稳定的 unconditional mapping 可以缓存其代换结果或保持 COPY 引用路径。
+分支内的 mapping 状态必须参与 cache 身份，退出和回滚时不能保留错误路径的结果。
+SEALED\_PIECEWISE 不允许后续代换，因此不会要求缓存一般 piecewise AST。
+
+\section{精确算术与累加器}
+建议对机器整数或小有理数使用 checked arithmetic，对不能表示的中间值无损提升到大整数。
+ScalarRef 的内联编码只减少文件和解码开销；它本身不规定算术对象，也不自动避免 BigRational 分配。
+目标 expression 已由证书提供，kernel 可以计算 residual 并检查所有系数与 constant 恰为零。
+
+可选择的精确累加器包括 sorted sparse merge、hash accumulator 或带 touched 集合的 dense accumulator。
+选择依赖模型维度、每条推导访问项数和 coefficient 分布。
+使用 dense 工作区时，建议只清理 touched entry，避免每条 instruction 都遍历全部 input variables。
+证书已经携带 canonical 输出，可利用它完成精确相等检查，不必为每次中间计算创建永久 expression 对象。
+
+hash、modular arithmetic 或数值过滤器只能在有严格证明的条件下作为加速步骤。
+hash 相同不是表达式相等的证明；浮点 residual 很小不是 residual 为零的证明。
+接受路径最终必须服从本规范的精确数学关系。
+
+\section{Fact 存储与内存统计}
+原草案给出的 8 B LiveFact 示意对应一种紧凑表达式身份与 scope 编码：
+\begin{lstlisting}
+expr_handle:u32 | scope:u16 | kind:u8 | flags:u8
+\end{lstlisting}
+它不是文件 ABI，也不是所有 ExprView 的强制实现布局。
+static YIELD、kernel 生成的 assumption view 或独立 canonical model 可能需要另一种内部引用。
+live 索引、scope frame、allocator、scalar 解码缓存也有额外成本。
+
+将历史 FactId 直接存入不可缩短的 vector，再把 dead 标记置位，仍然会保留与 total fact slot 数量成正比的表项。
+若希望 mutable fact 状态与 peak live facts 成正比，需要可回收的 live 索引或可回收分块表。
+FactId 保持逻辑 SSA；物理存储槽可以重复使用，但不可让旧 FactRef 指向新定义。
+
+完整 mutable memory 至少包括
+\[
+\text{mapping/obligations}+\text{live facts}+\text{scope journals}
++\text{arithmetic workspace}+\text{bounded caches}.
+\]
+只读模型和 RPX 映射也会占虚拟地址空间及实际 resident pages。
+统计必须分清逻辑 live fact 数、可变堆内存、mapped bytes 和 peak RSS；不能将其中一个当成另一个。
+
+\section{Batch 与高层 theorem 的边界}
+未来 batch opcode 必须有明确的有限 core 展开：
+\[
+\operatorname{BATCH}(I_1,\ldots,I_n)\equiv I_1;\ldots;I_n.
+\]
+展开不仅须保留数学命题，还须规定 operand 检查、FactId、scope、mapping、obligation 与失败行为。
+如果 fused encoding 省略临时物理 fact，它仍必须与规定的可观察逻辑状态一致。
+不能通过 batch 名称引入只能由额外 theorem 才能推出的结论。
+基础 v0.1 不支持这些保留 opcode；先使 core checker 正确，再另行发布 batch 扩展。
+
+高层 theorem 可以缩短证明本身，其收益包括更少的 coefficient 访问而非仅更小的 dispatch 开销。
+它同时扩大可信逻辑边界，必须与编码优化分别统计、审阅和报告。
+
+\section{与 VIPR 的可比实验}
+VIPR 的证明本身也可以顺序验证，并携带最后引用信息以释放不再需要的 constraints。
+其证书整理工具可以构建依赖图与拓扑排序，不能把整理阶段的成本误算为每次基础验证的必要成本。
+\footnote{K. K. H. Cheung, A. Gleixner, D. E. Steffy, \emph{Verifying Integer Programming Results}, IPCO 2017.
+\url{https://arxiv.org/abs/1611.08832}}
+
+RPX 的预期工程收益包括二进制解码、连续 sparse 存储、小整数快路径和结构化 scope 管理。
+这些是待验证的假设，不是现有 benchmark 结果。
+完整 reformulation verification 还承担双向 mapping 和输出 obligations；VIPR 对一个模型的目标界证明不能直接作为同命题的基准。
+
+建议将同一份共同规则子集中的证明分别编码成 VIPR 与 RPX，保持推导、coefficients 和结论相同。
+对整数、小有理数和大有理数分别测量，并记录算术库、CPU、编译选项和线程数。
+单线程和多线程实验分别报告；VIPR 的当前项目提供并行 checker，不能以线程数不等的测试推导格式优势。
+\footnote{\url{https://github.com/scipopt/vipr}}
+
+\begin{longtable}{l p{105mm}}
+\toprule 测量项 & 必须明确的条件 \\\midrule\endfirsthead
+\toprule 测量项 & 必须明确的条件 \\\midrule\endhead
+端到端时间 & 模型读入、digest、loader、proof execution 是否全部计入。\\
+验证时间 & 排除 assembler/证书整理时，单独报告被排除部分的成本。\\
+I/O 与解码 & cold/warm cache 分别报告；不能混用。\\
+算术成本 & coefficient 访问数、bit length 分布、promotion 和 gcd 工作量。\\
+状态成本 & split 数、深度、yield 数、mapping/obligation 变更与回滚。\\
+内存 & peak RSS、mapped bytes、live facts、累计事实数、工作区上限。\\
+证书大小 & 完整文件，包括 pools、tapes、metadata；另报是否压缩。\\
+重复性 & 固定证书集合、硬件、库版本和计时方法，报告多次重复的分布。\\
+\bottomrule
+\end{longtable}
+
+例如精确算术占总运行时间的 70\% 时，只消除其他全部成本的加速上限为 $1/0.7\approx1.43$。
+这是 Amdahl 型的假设算例，不是 RPX 与 VIPR 的实测比值。
+只有共同证明实验通过后，再独立测量三个完整 reformulation 示例及更大模型，才能决定下一轮应优化解码、算术还是代换。

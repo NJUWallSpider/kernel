@@ -1,0 +1,30 @@
+{
+  "schema": "rpx-original-contract-scope-gates-v1",
+  "cases": {
+    "mock": {
+      "status": "REVIEWED_COMPLETE_REQUEST",
+      "requests": [
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_middle_nonzero_verified/cases/mock/p0/request.json",
+          "sha256": "9837d85521df854519eb79b121601614d621696df92081994c459cf51d79d758",
+          "bytes": 159
+        },
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_middle_nonzero_verified/cases/mock/p1/request.json",
+          "sha256": "f72e1698a5619e87359f42fa2a62cadf3b2e28ac368143d5492ef9bea3bbac0c",
+          "bytes": 158
+        },
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_middle_nonzero_verified/cases/mock/p2/request.json",
+          "sha256": "caea7b36792ef24511248cf11211ef3ac2df72478f75bec1bae855fec10854cb",
+          "bytes": 160
+        },
+        {
+          "path": "/Users/bhz/Code/kernel/audit/fixtures/delivery_bundle_review/runner_middle_nonzero_verified/cases/mock/combined-request.json",
+          "sha256": "ae5b3409994fa42b719a2e66479101d7ef3e9b6491429c9e829625ec596f7c31",
+          "bytes": 471
+        }
+      ]
+    }
+  }
+}

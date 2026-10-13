@@ -1,0 +1,9 @@
+identity-1 {"process_ms_min": 1.825209, "process_ms_median": 1.8975, "process_ms_max": 2.089583, "execute_ms_median": 0.01, "verified": 9}
+identity-1000 {"process_ms_min": 3.393208, "process_ms_median": 3.51275, "process_ms_max": 4.765167, "execute_ms_median": 0.628, "verified": 9}
+identity-10000 {"process_ms_min": 18.951167, "process_ms_median": 19.61375, "process_ms_max": 20.088084, "execute_ms_median": 6.5, "verified": 9}
+dense-100 {"process_ms_min": 1.839625, "process_ms_median": 2.049792, "process_ms_max": 2.848458, "execute_ms_median": 0.059, "verified": 9}
+dense-1000 {"process_ms_min": 2.942959, "process_ms_median": 3.124083, "process_ms_max": 3.548583, "execute_ms_median": 0.48, "verified": 9}
+dense-5000 {"process_ms_min": 7.311709, "process_ms_median": 7.526959, "process_ms_max": 7.776041, "execute_ms_median": 2.328, "verified": 9}
+rational-10 {"process_ms_min": 1.838041, "process_ms_median": 2.072375, "process_ms_max": 3.719959, "execute_ms_median": 0.019, "verified": 9}
+rational-1000 {"process_ms_min": 3.40025, "process_ms_median": 3.709875, "process_ms_max": 4.0095, "execute_ms_median": 0.972, "verified": 9}
+/Users/bhz/Code/kernel/bench/results/v10-regression-new-initial/raw.json

@@ -1,0 +1,252 @@
+   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/crates/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.88s
+     Running unittests src/lib.rs (target/debug/deps/kernel_core-720bcc6207e0164d)
+
+running 30 tests
+test codec::tests::noncanonical_expression_rejected ... ok
+test codec::tests::golden_empty_certificate ... ok
+test codec::tests::all_v3_point_fields_and_reserved_bytes ... ok
+test codec::tests::scalar_vectors_and_canonical_failures ... ok
+test codec::tests::count_unknown_tag_and_reserved_rejected ... ok
+test model::tests::constant_models_and_unknown_json_fields ... ok
+test model::tests::binary_bounds_are_intersections ... ok
+test codec::tests::nested_unknown_tags_and_depth_budget ... ok
+test model::tests::exact_numbers_and_budget ... ok
+test model::tests::fixed_continuation_and_repeated_coefficients ... ok
+test model::tests::fixed_free_ambiguity_regressions ... ok
+test codec::tests::model_roundtrip ... ok
+test model::tests::negative_upper_default_lower_and_contradiction ... ok
+test codec::tests::all_proof_variants_roundtrip ... ok
+test model::tests::integer_marker_defaults_and_explicit_bounds ... ok
+test model::tests::objective_offset_and_maximize ... ok
+test model::tests::resources_keep_resource_status ... ok
+test model::tests::range_sign_semantics ... ok
+test model::tests::validates_canonical_expr_and_rational ... ok
+test tests::reference_vectors ... ok
+test verify::scope_state_audit::every_ancestor_lookup_probe_is_reported ... ok
+test model::tests::unsupported_and_malformed_mps_rejected ... ok
+test verify::scope_state_audit::logical_limit_and_duplicate_insert_guards_match_copied_maps ... ok
+test verify::scope_state_audit::inherited_drop_reuse_and_second_drop_never_resurrect_ancestors ... ok
+test verify::scope_state_audit::nested_mask_then_local_definition_drop_remains_hidden ... ok
+test verify::scope_state_audit::whole_split_right_can_consume_unchanged_parent_after_left_fork ... ok
+test model::tests::deterministic_mps_mutations_do_not_panic ... ok
+test codec::tests::deterministic_byte_mutations_are_total_and_canonical ... ok
+test verify::scope_state_audit::sixty_four_ancestor_scopes_keep_counts_masks_and_probe_costs ... ok
+test verify::scope_state_audit::copied_map_oracle_128_seeded_state_trees ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.47s
+
+     Running unittests src/main.rs (target/debug/deps/rpx-637893ecd9161fd6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adversarial_review.rs (target/debug/deps/adversarial_review-5b6d1cb8d1b7f561)
+
+running 15 tests
+test dead_live_duplicate_and_redefined_registers ... ok
+test every_leaf_needs_every_output_obligation ... ok
+test accumulator_constant_product_is_bounded_before_cancellation ... ok
+test integer_and_binary_domains_cannot_be_assumed ... ok
+test inverse_compositions_reject_two_collapsing_maps ... ok
+test all_branch_assumptions_belong_to_one_path ... ok
+test malformed_public_values_and_resource_arithmetic_cannot_accept ... ok
+test equality_transfer_to_integer_is_sound_and_exact ... ok
+test invalid_linear_premises_are_checked_even_at_zero_weight ... ok
+test empty_domain_closure_is_directional ... ok
+test objective_constant_and_requested_contract_are_binding ... ok
+test projection_cannot_be_omitted_or_replaced_by_feasibility ... ok
+test sibling_facts_do_not_leak_and_parent_drop_is_private ... ok
+test negative_rounding_matches_mathematical_floor_and_ceil ... ok
+test rounding_and_integer_split_bound_every_intermediate ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.77s
+
+     Running tests/binary_vectors.rs (target/debug/deps/binary_vectors-310dc01438573643)
+
+running 6 tests
+test malformed_vectors_reject_for_the_documented_rule ... ok
+test independently_encoded_fiber_refutation_verifies ... ok
+test independently_encoded_joint_flow_extension_verifies ... ok
+test independently_encoded_interval_and_affine_observation_verify ... ok
+test independently_encoded_models_and_certificates_verify ... ok
+test independently_encoded_v3_theorem_bound_and_point_verify ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fiber_points.rs (target/debug/deps/fiber_points-dce0d22e3dd98ede)
+
+running 11 tests
+test missing_surplus_and_wrong_index_refutations_reject ... ok
+test original_observation_dimensions_lp_modes_and_evaluation_budget_are_checked ... ok
+test mapping_and_other_witness_live_facts_do_not_enter_refutations ... ok
+test empty_observation_strictness_requires_an_actually_empty_input ... ok
+test integer_declarations_cannot_refute_a_nonempty_lp_fiber ... ok
+test reverse_direction_and_affine_output_constants_are_exact ... ok
+test noninjective_input_fiber_checks_coordinate_and_affine_observations_together ... ok
+test complete_mapping_point_fiber_and_refutation_share_one_work_budget ... ok
+test sibling_facts_do_not_leak_and_only_refutation_endpoints_are_allowed ... ok
+test valid_separator_never_bypasses_inclusion_or_output_point_feasibility ... ok
+test independent_fraction_box_projection_oracle_120_cases ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/flow_builder.rs (target/debug/deps/flow_builder-822a63b9e1785e2d)
+
+running 6 tests
+test malformed_graph_dimensions_domains_and_premises_reject ... ok
+test generated_names_do_not_conflict_with_actual_model_names ... ok
+test extension_is_explicitly_unchecked_and_preserves_input_prefix ... ok
+test work_dimensions_and_intermediate_demands_are_bounded ... ok
+test affine_flow_constants_parallel_arcs_and_loops_are_exact ... ok
+test independent_fraction_joint_construction_97_vectors ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s
+
+     Running tests/flow_lift.rs (target/debug/deps/flow_lift-171796af5c43684a)
+
+running 6 tests
+test child_extension_does_not_escape_to_sibling_and_inverse_is_rejected ... ok
+test every_flow_premise_uses_pre_extension_scope ... ok
+test nested_lifts_preserve_old_witness_coordinates_and_objective ... ok
+test joint_lift_preserves_all_arcs_circulations_and_objective ... ok
+test target_constraints_integrality_and_common_objective_are_not_bypassed ... ok
+test flow_graph_dimensions_resource_and_versions_are_checked ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s
+
+     Running tests/interval_builder.rs (target/debug/deps/interval_builder-62109de5ae158cbf)
+
+running 7 tests
+test bounds_cannot_reference_any_new_coordinate_or_malformed_rational ... ok
+test original_prefix_objective_domains_and_colliding_names_are_preserved ... ok
+test unchecked_preparation_does_not_claim_false_pair_is_proved ... ok
+test free_one_sided_and_empty_family_are_total_extensions ... ok
+test every_lower_major_pair_and_generated_row_sign_is_explicit ... ok
+test pair_product_work_and_scalar_intermediates_are_bounded ... ok
+test independent_fraction_interval_oracle_241_vectors ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
+     Running tests/interval_lift.rs (target/debug/deps/interval_lift-842450ef96dc7f8c)
+
+running 8 tests
+test one_sided_empty_and_multiple_choices_have_one_common_extension ... ok
+test affine_observation_alone_requires_v5_and_old_bytes_stay_unchanged ... ok
+test every_interval_pair_and_parent_scope_reference_is_checked ... ok
+test free_real_choices_do_not_prove_integer_or_coupled_outputs ... ok
+test interval_scope_inverse_and_nested_depth_are_explicit ... ok
+test signed_affine_observation_and_pointwise_objective_are_preserved ... ok
+test original_affine_dimensions_and_claim_order_are_binding ... ok
+test interval_wire_mutations_versions_truncations_and_work_limits ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/local_cases.rs (target/debug/deps/local_cases-ee42c326db185d9c)
+
+running 9 tests
+test local_contradiction_closes_only_its_covered_branch ... ok
+test local_drops_are_transactional_and_parent_export_is_fresh ... ok
+test local_recursion_obeys_shared_depth_and_work_limits ... ok
+test eq_pair_requires_opposite_le_propositions ... ok
+test child_facts_cannot_escape_or_become_sibling_premises ... ok
+test both_branches_must_prove_the_same_parent_proposition ... ok
+test version_one_rejects_new_logic_and_v1_fixture_stays_identical ... ok
+test binary_product_alias_is_proved_without_branching_the_output_map ... ok
+test v2_decoder_truncation_and_nested_mutations_are_total ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/lp.rs (target/debug/deps/lp-ae1fbfb8370b7e9b)
+
+running 10 tests
+test constant_models_comments_and_case_sensitive_names ... ok
+test ranges_and_zero_declarations_preserve_order ... ok
+test signed_scientific_bounds_and_empty_semi ... ok
+test named_multiline_and_single_line_unnamed_rows ... ok
+test limits_are_resource_errors ... ok
+test affine_terms_constants_and_exact_maximization ... ok
+test general_and_binary_bounds_intersections ... ok
+test rejects_unsupported_and_ambiguous_inputs ... ok
+test deterministic_lp_mutations_are_total ... ok
+test python_fraction_generated_models_match ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/oracle.rs (target/debug/deps/oracle-1987b1df999bff09)
+
+running 1 test
+test independent_fraction_oracle_4000_vectors ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.11s
+
+     Running tests/plotkin.rs (target/debug/deps/plotkin-88dc3937d4a9e497)
+
+running 10 tests
+test full_width_labels_and_empty_selected_set_are_defined ... ok
+test request_resource_errors_preserve_their_category ... ok
+test every_close_pair_and_every_clique_term_is_checked ... ok
+test global_objective_lower_is_exact_requested_and_last ... ok
+test v3_wire_text_and_legacy_request_compatibility ... ok
+test plotkin_inside_cases_requires_version_three ... ok
+test checked_local_cliques_are_allowed_and_dead_references_reject ... ok
+test plotkin_all_domain_label_and_parameter_premises_are_binding ... ok
+test plotkin_matches_independent_exhaustive_binary_sets_and_permutations ... ok
+test v3_truncation_mutation_and_work_limits_are_total ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+     Running tests/points.rs (target/debug/deps/points-51394a5d3a9bc09e)
+
+running 18 tests
+test requested_contract_cannot_be_changed_omitted_or_reordered ... ok
+test full_request_supports_feasibility_without_mapping_claims ... ok
+test canonical_rationals_are_checked_before_early_feasibility_exit ... ok
+test domain_flag_only_requires_declared_integer_variables ... ok
+test selected_model_is_actual_source_or_target ... ok
+test arithmetic_checks_product_partial_sum_and_input_bit_limits ... ok
+test objective_uses_exact_normalized_sense_and_constant ... ok
+test strictness_does_not_bypass_the_mapping_proof_in_full_verifier ... ok
+test full_request_proves_strictness_and_applies_one_shared_work_limit ... ok
+test feasible_checks_one_common_point_and_all_bounds_rows ... ok
+test strictness_rejects_non_lp_inclusion_and_bad_claim_index ... ok
+test strictness_reverse_direction_and_zero_dimension ... ok
+test strictness_requires_actual_output_feasibility_and_input_violation ... ok
+test strictness_rejects_partial_duplicate_and_out_of_range_projections ... ok
+test strictness_row_violation_and_permuted_complete_projection ... ok
+test zero_dimension_constants_and_inconsistent_bounds ... ok
+test work_budget_is_shared_across_points_and_counts_coefficient_visits ... ok
+test independent_fraction_point_oracle_480_vectors ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/refutation.rs (target/debug/deps/refutation-75e58f2f319e5461)
+
+running 5 tests
+test return_and_existence_endpoints_cannot_refute_even_an_empty_model ... ok
+test refutation_is_lp_only_and_requires_a_checked_contradiction ... ok
+test local_cases_may_derive_refutation_but_state_never_leaks_between_calls ... ok
+test refutation_all_branches_are_checked_and_siblings_are_isolated ... ok
+test v6_point_refutation_wire_depth_and_versions_are_checked ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/semantics.rs (target/debug/deps/semantics-0f6ad74e0f440014)
+
+running 12 tests
+test fractional_integer_multiplier_rejected ... ok
+test lp_may_not_borrow_integer_domain ... ok
+test budget_exhaustion_is_distinct ... ok
+test dead_fact_and_overwrite_rejected ... ok
+test contradiction_is_checked_and_handles_infeasible_model ... ok
+test full_model_and_request_binding ... ok
+test invalid_middle_linear_reference ... ok
+test exact_negative_rounding ... ok
+test missing_extra_and_wrong_mapping ... ok
+test real_piecewise_common_map_and_sibling_isolation ... ok
+test rpa_strict_fields_version_and_numbers ... ok
+test actual_binary_identity_roundtrip ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

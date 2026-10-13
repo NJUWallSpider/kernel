@@ -1,0 +1,22 @@
+all actual fields classified 37616 200 191
+canonical stage 0 items 2000 vars 45816 facts 49053
+canonical stage 1 items 2000 vars 53816 facts 92853
+canonical stage 2 items 2000 vars 61816 facts 136653
+canonical stage 3 items 2000 vars 69816 facts 180453
+canonical stage 4 items 2000 vars 77816 facts 224253
+canonical stage 5 items 2000 vars 85816 facts 268053
+canonical stage 6 items 2000 vars 93816 facts 311853
+canonical stage 7 items 2000 vars 101816 facts 355653
+canonical stage 8 items 2000 vars 109816 facts 399453
+canonical stage 9 items 2000 vars 117816 facts 443253
+canonical stage 10 items 2000 vars 125816 facts 487053
+canonical stage 11 items 2000 vars 133816 facts 530853
+canonical stage 12 items 2000 vars 141816 facts 574653
+canonical stage 13 items 2000 vars 149816 facts 618453
+canonical stage 14 items 2000 vars 157816 facts 662253
+canonical stage 15 items 2000 vars 165816 facts 706053
+canonical stage 16 items 2000 vars 173816 facts 749853
+canonical stage 17 items 2000 vars 181816 facts 793653
+canonical stage 18 items 1616 vars 188280 facts 827789
+{"bijections":0,"claims":0,"execute_us":1718721,"improvements":1,"limits":{"depth":64,"live_facts":1000000,"work":1000000000},"model_decode_us":46354,"points":0,"proof_decode_us":290457,"read_us":10876,"statistics":{"bijections":0,"branches":78833,"flow_generated_rows":0,"flow_generated_terms":0,"flow_generated_variables":0,"flow_lifts":0,"improvements":1,"injectivity_coordinates":0,"injectivity_generated_rows":0,"injectivity_generated_terms":0,"injectivity_generated_variables":0,"interval_generated_rows":0,"interval_generated_terms":0,"interval_generated_variables":0,"interval_lifts":0,"linear_terms":5647218,"menu_generated_rows":0,"menu_generated_terms":0,"menu_generated_variables":0,"menu_lifts":0,"objective_level_domains":0,"objective_level_generated_rows":0,"objective_level_generated_terms":0,"obligations":151668,"peak_live_facts":275968,"plotkin_pairs":0,"point_coefficient_terms":0,"points":0,"signed_generated_rows":150464,"signed_generated_terms":543958,"signed_generated_variables":150464,"signed_lifts":19,"substitution_terms":150864,"work":221882135},"status":"VERIFIED","total_us":2066408}
+

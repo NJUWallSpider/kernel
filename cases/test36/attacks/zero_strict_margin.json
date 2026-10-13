@@ -1,0 +1,41 @@
+{
+  "mutation": "zero_strict_margin",
+  "rule_broken": "A zero predicate multiplier does not certify a strict decrease.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "assemble",
+        "cases/test36/attacks/zero_strict_margin.rpa",
+        "cases/test36/attacks/zero_strict_margin.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":85725518,\"status\":\"ASSEMBLED\",\"total_us\":937318}\n",
+      "stderr": "",
+      "wall_seconds": 1.007812084000001,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/zero_strict_margin.rpx",
+        "cases/test36/complete-improvement/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID improvement margin must be strictly positive\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 2.0412247080000014,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpa_sha256": "72b2900d048dc1b9e70bf249fb47a963e0b52db7b567df18e8c4e309de44153a",
+  "rpx_sha256": "3e6ca5f952b5f845347d13db879b1bb4708d12fd5c543df50ce9fcac91577560",
+  "request": "cases/test36/complete-improvement/request.json",
+  "request_sha256": "ca96e0e67889b8834be3555f84ffd6bffa80ec09249208b7d674c48ad7bd4528"
+}

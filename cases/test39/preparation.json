@@ -1,0 +1,174 @@
+{
+  "case_id": "test39",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/input/model.mps",
+    "sha256": "9f656d4721aebaf080f2b5db10999a700c63cd965841ec2aeeba1c397ea74c35"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/output/reformulated.mps",
+    "sha256": "3c8dbe50089091a5467547a3514c5333c3798ef725f64bc820a6cdfa6fab32f1"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/output/audit.json",
+    "sha256": "fe24194b57d41cca94edcc95a94c478598a2f05a30357de83a71484bddae0f3b"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test39.py",
+    "sha256": "0f1153cac1491bf6bb6b9d10135356a891a3c0c2b31a316e1819b64e96520625"
+  },
+  "claims": "Complete original-coordinate mixed-integer feasible-set equality and pointwise objective equality with full identity observations and both inverse identities; objective-preserving target LP inclusion. All 1152 clique replacements,192 integer rounding arguments,6564 removed equalities,1728 duplicates,all242736 domains and every actual row are checked. No global LP strictness is asserted from a merely local witness.",
+  "counts": {
+    "source_variables": 242736,
+    "target_variables": 242736,
+    "source_rows": 322248,
+    "target_rows": 313956,
+    "balance_clique_replacements": 1152,
+    "integer_rounded_cliques": 192,
+    "restored_dependent_equalities": 6564,
+    "restored_duplicates": 1728,
+    "claims": 3,
+    "obligations_by_claim": [
+      1058773,
+      1067065,
+      816025
+    ],
+    "steps_by_claim": [
+      1536,
+      7716,
+      7716
+    ]
+  },
+  "preparation_seconds": 17.662818792,
+  "rpa_sha256": "8f696681bd1fac3fdce5fd8523471f9b6b52796b77abfc48be5cecf3889156a2",
+  "rpa_bytes": 87156815,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test39/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":52104388,\"parse_us\":697662,\"read_us\":18462,\"rows\":322248,\"status\":\"CANONICALIZED\",\"total_us\":915822,\"variables\":242736}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test39-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test39/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":50810432,\"parse_us\":545584,\"read_us\":4765,\"rows\":313956,\"status\":\"CANONICALIZED\",\"total_us\":730893,\"variables\":242736}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test39/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test39/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":53838719,\"status\":\"ASSEMBLED\",\"total_us\":464464}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test39/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test39/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test39/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test39/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":1380897,\"model_decode_us\":453411,\"points\":0,\"proof_decode_us\":187268,\"read_us\":15390,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":932128,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":2941863,\"peak_live_facts\":7716,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":5444144,\"work\":29341771},\"status\":\"VERIFIED\",\"total_us\":2036966}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 52104388,
+      "sha256": "38ed6364df051e12ff6c5d17be5797fff4e7dcaef58114bd47d51c036029ea2c"
+    },
+    "target.mcm": {
+      "bytes": 50810432,
+      "sha256": "0b0cfec17b1ebdf4bfbbd65a950bb68e395a5fdfbd1e65cd08d3d13894ae3e4a"
+    },
+    "proof.rpx": {
+      "bytes": 53838719,
+      "sha256": "9e6cc6f18b6254d7f64f37934fd195cee76447f847e0667af4d61969ee773149"
+    },
+    "request.json": {
+      "bytes": 10985003,
+      "sha256": "a92b1d3c778703f5d1c097a5ee7aab812f9f1b41b8c84096593cefeb1e680338"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_extra_binary_bound",
+      "rule_broken": "Omits the extra binary upper bound needed for a rounded clique.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID rounding premises",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "b8f42783a18b3b211c6d0dddee21553c5dc580fd2951f0c222efec7b92848675",
+      "rpx_sha256": "d2a2b52023d9e43981a892b9a5ecd8eb42b3b96de57e6a8977eaaba09058ab3e",
+      "storage": "Temporary large mutated files removed after exact hash and execution recording; deterministic recipe retained."
+    },
+    {
+      "mutation": "wrong_rounding_domain",
+      "rule_broken": "Claims a continuous coordinate is integer in the rounding premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "80a638c8c8e01670577339971732542cd454499f562f313ff41a02b9432430ca",
+      "rpx_sha256": "378370f1553e88e79e1ffa259625935b0e434ad5ad18da58544b7066c62069cf",
+      "storage": "Temporary large mutated files removed after exact hash and execution recording; deterministic recipe retained."
+    },
+    {
+      "mutation": "missing_dependent_row",
+      "rule_broken": "Omits a retained component equality from a deleted equality reconstruction.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 263328",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "44986244fffdfc6e2545d515aab88b4d3232b4245a83a3473a7561fd5340e566",
+      "rpx_sha256": "3ab5a1a1c080c57ccc50624eefeb17197037dcacc7fcd1c1b027703f0d4056a6",
+      "storage": "Temporary large mutated files removed after exact hash and execution recording; deterministic recipe retained."
+    },
+    {
+      "mutation": "missing_reverse_nonnegativity",
+      "rule_broken": "Drops the extra binary lower bound needed to recover an original packing row.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 262800",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "f709b3cb2907ff0228e5ae48a6d32d36f95a08cd6f2ab439ee384b5e64c8060d",
+      "rpx_sha256": "f86bc1c52e40faff4adf5331bcf012937a1e6d096dac4e8ff88d55b41e8813ff",
+      "storage": "Temporary large mutated files removed after exact hash and execution recording; deterministic recipe retained."
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits a complete inverse-coordinate obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "df3fb1019ff54b33e776d68002cd3bff33ea746684b6095461f9759aa7997d54",
+      "rpx_sha256": "47c01e387bf1b7d13684e7b5e3b3164c8c6254f5423b49ba72d1e6a34d215df9",
+      "storage": "Temporary large mutated files removed after exact hash and execution recording; deterministic recipe retained."
+    }
+  ]
+}

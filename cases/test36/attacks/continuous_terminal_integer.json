@@ -1,0 +1,41 @@
+{
+  "mutation": "continuous_terminal_integer",
+  "rule_broken": "An original continuous terminal is used as the integer split fact.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "assemble",
+        "cases/test36/attacks/continuous_terminal_integer.rpa",
+        "cases/test36/attacks/continuous_terminal_integer.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":85725520,\"status\":\"ASSEMBLED\",\"total_us\":1120547}\n",
+      "stderr": "",
+      "wall_seconds": 1.2047505840000028,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/continuous_terminal_integer.rpx",
+        "cases/test36/complete-improvement/request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID fact reference or type\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 2.024681833999999,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpa_sha256": "67ee8c88fbe3ab1963d8dd9b17ef1031f9f0eca2989a3208ddc3ca36b1d1bc18",
+  "rpx_sha256": "34a9a184dcd41b91966b3f0d56e149205b6a11fe36e6f554b7f08f8d7e26f98c",
+  "request": "cases/test36/complete-improvement/request.json",
+  "request_sha256": "ca96e0e67889b8834be3555f84ffd6bffa80ec09249208b7d674c48ad7bd4528"
+}

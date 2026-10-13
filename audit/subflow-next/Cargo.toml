@@ -1,0 +1,13 @@
+[package]
+name = "subflow-next-audit"
+version = "0.0.0"
+edition = "2024"
+
+[workspace]
+
+[dependencies]
+kernel-core = { path = "../checkpoints/delivery-78-working-source/crates/core" }
+num-bigint = { version = "0.4", features = ["serde"] }
+num-traits = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

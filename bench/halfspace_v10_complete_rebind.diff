@@ -1,0 +1,13 @@
+--- bench/halfspace_workloads_v10_draft.json
++++ bench/halfspace_workloads_v10_complete.json
+@@ -3,8 +3,8 @@
+   "fixed_on": "2026-10-11",
+   "protocol_status": "WORKING_VERSION_10_NOT_FROZEN",
+   "kernel_sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+-  "build_receipt": "audit/conditional-domain-implementation.json",
+-  "build_receipt_sha256": "5e313dc604dc1ebcd99c756a8b7c232f3758caa4ee42278f056d98f96eb773d1",
++  "build_receipt": "audit/validation/v10-complete-cold-build.json",
++  "build_receipt_sha256": "0cee8b90424ceb90d7e2a9530ec0049c3762ce2ed518cbb2c07ed7d15a0a9531",
+   "fixture_manifest": "bench/halfspace_fixture_manifest.json",
+   "preparation_repetitions": 3,
+   "verification_repetitions": 9,

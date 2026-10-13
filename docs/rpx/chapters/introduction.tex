@@ -1,0 +1,43 @@
+\chapter*{阅读约定与文档状态}
+\addcontentsline{toc}{chapter}{阅读约定与文档状态}
+
+RPA 是 \emph{Reformulation Proof Assembly}；RPX 是 \emph{Reformulation Proof eXecutable}。
+\code{.rpa} 文件描述证明、映射和分支；\code{.rpx} 文件保存 proof VM 可直接读取的有序二进制指令流。
+本文讨论普通有理系数 MILP 的 reformulation correctness：给定源模型与目标模型，证明约定的可行性和目标关系。
+
+本文的基线是本项目讨论中的 v0.1 草案。基线包括三种 fact、28 个 core opcode、两个执行方向、表达式池与结构化 case。
+为使一份手册能够独立阅读，D0 为原草案中尚未给出完整编码或状态规则的部分提供了明确的\textbf{修订提案}。
+这些提案是可供审阅的候选规范，不是已获批准的版本冻结决定。源代码中的现有功能不构成本规范的隐含实现。
+
+\section*{规范性用语}
+\addcontentsline{toc}{section}{规范性用语}
+“必须”“不得”“拒绝”描述符合此草案的实现所需的行为；“建议”描述推荐做法；“可以”描述允许的选择。
+数学语义、字节布局、操作数约束与成功条件是规范性内容。算法建议、内存示意、性能预期与工具输出样例是说明性内容。
+文档状态为草案并不允许 verifier 对已声明的规则采取宽松解释；它表示规则本身仍可在审阅后修改。
+
+\section*{手册的边界}
+\addcontentsline{toc}{section}{手册的边界}
+基础 v0.1 定义精确线性推导、整数性、取整、仿射映射、输出模型验证义务（obligation，定义见第\ref{ch:model}章）与结构化 split。
+本手册不要求 proof search、LP/MIP 求解器、JIT、任意跳转或一般图算法。
+指令 tape 是已经安排好验证顺序的证书。assembler 可以进行任意不可信的优化与搜索，最终产生的文件仍须逐条通过 kernel 检查。
+
+批量编码与高层 theorem 被预留，但基础 v0.1 不接受其 opcode。
+MCM 的规范数学接口在第\ref{ch:model}章定义；独立的 MCM 文件序列化和完整 MPS 接入规范仍是开放问题 O-01、O-02。
+它们不会由 RPX loader 猜测或补全。
+
+\section*{建议阅读顺序}
+\addcontentsline{toc}{section}{建议阅读顺序}
+数学与可信边界审阅从第\ref{ch:model}章和第\ref{ch:execution}章开始。
+assembler 与 VM 实现者再阅读第\ref{ch:instructions}章、第\ref{ch:format}章及第\ref{ch:loader}章。
+第\ref{ch:assembly}章定义文本层，第\ref{ch:examples}章提供完整证明实例。
+附录列出待决提案、开放问题和版本冻结检查点，供后续逐项修订。
+
+\section*{本草案的符合性范围}
+\addcontentsline{toc}{section}{本草案的符合性范围}
+\begin{description}
+\item[基础 verifier] 实现全部 core 指令、已启用方向、完整格式检查和规定的 contract 检查。
+\item[assembler] 产生符合格式的 RPX；任何 assembler 判断均不代替 verifier 的验证。
+\item[disassembler] 对合法结构产生语义可重组的规范文本，不承担数学证明正确性的认证。
+\item[扩展 verifier] 额外公布支持的扩展版本与可信 checker；不得把扩展支持混同于基础 v0.1。
+\end{description}
+没有部分 core 支持的“基础符合性”。实现阶段可以报告 \code{UNSUPPORTED}，但不能把未检查的程序报告为 \code{VERIFIED}。

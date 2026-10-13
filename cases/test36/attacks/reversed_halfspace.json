@@ -1,0 +1,42 @@
+{
+  "mutation": "reversed_halfspace",
+  "rule_broken": "The reversed halfspace P>=0 does not force the nonnegative terminals to vanish.",
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "assemble",
+        "cases/test36/attacks/reversed_halfspace.rpa",
+        "cases/test36/attacks/reversed_halfspace.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":2449279,\"status\":\"ASSEMBLED\",\"total_us\":22170}\n",
+      "stderr": "",
+      "wall_seconds": 0.028490167000001065,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "cases/test36/source.mcm",
+        "cases/test36/target.mcm",
+        "cases/test36/attacks/reversed_halfspace.rpx",
+        "cases/test36/attacks/reversed_halfspace.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID equality pair\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 0.19891691699999825,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpa_sha256": "a489e537b4b9c0af48dd31905e01c874846f7219ec17288e41f8afd21898d396",
+  "rpx_sha256": "d41305919c7792ccd2e5fe9e1f5ccae5c420234eaad3357af246a143d4c4e67d",
+  "request": "cases/test36/attacks/reversed_halfspace.request.json",
+  "request_sha256": "ec1eb73dca9634dd43c65171dad48b3228a5e78fb18c9fb1bc0fbab6a9236927",
+  "caller_request_matches_mutated_claim": true
+}

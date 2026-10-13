@@ -1,0 +1,115 @@
+{
+  "case": "test34",
+  "digest": "/tmp/rpx-digests/test34.md",
+  "kernel_case": "cases/test34/",
+  "run_dir": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1",
+  "preparer": {
+    "path": "tools/prepare_test34.py",
+    "lines": 119,
+    "imports": [
+      "fractions.Fraction",
+      "pathlib.Path",
+      "collections.ChainMap",
+      "argparse,csv,json,subprocess,time",
+      "prepare_affine: parse_mps, row_ref",
+      "prepare_test40: expression, plus, mul, expr_json, row_fact, sha",
+      "prepare_test70: SparseBuilder (subclass of Builder in prepare_test88)"
+    ],
+    "defs": [
+      "forward_tree(:12-16)",
+      "weighted_zero(:19-22)",
+      "aggregate_cases(:25-37)",
+      "reverse_tree(:40-43)",
+      "split_upper(:46-49)",
+      "prepare(:52-92)",
+      "main(:95-119)"
+    ],
+    "emits": [
+      "'RPA 3\\n' + one json.dumps(cert) line (proof.rpa, 185,396,387 B)",
+      "request.json = {claims: cert.claims, points: [p.claim]} (2,184,640 B)",
+      "5 negative-check mutations, each rewriting the whole RPA text, re-assembling and re-verifying (:107-114)"
+    ]
+  },
+  "models": {
+    "source": {
+      "path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/input/model.mps",
+      "bytes": 13739038,
+      "variables": 53593,
+      "integers": 53592,
+      "rows": 106954,
+      "nonzeros": 266805,
+      "sha256": "17f3805e5b3371f4b26671cdb1c50346f7ec4308333891dbe2e87d0117716af8"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/reformulated.mps",
+      "bytes": 10222595,
+      "variables": 53593,
+      "integers": 53592,
+      "rows": 53824,
+      "nonzeros": 213675,
+      "sha256": "43624a949aec1ac21c22c531ea82ac862eb66e7fe6ef47d588b6cd32fb09ce71"
+    },
+    "structure": "231 disjoint one-hot equality groups of 231 binaries each (53,361 members, RHS 1), 231 y binaries with sum y = 13, one continuous z >= 0, 53,361 link rows x - y <= 0, 53,130 rows d_ij*x_ij - z <= 0 with exact positive rational d, 231 identical rows -z <= 0, 231 y-links per y; every group has exactly one zero-distance member."
+  },
+  "edit_semantics": "Row-set replacement with strengthening - not a bound change and not a pure deletion. Target = source minus 53,130 rows d_ij*x_ij - z <= 0 minus the 231 identical rows -z <= 0, plus 231 rows sum_j d_ij*x_ij - z <= 0 (named AGG_<one-hot row>). The 231 -z<=0 rows are a true deletion (implied by the bound z >= 0); the 53,130 replaced rows are subsumed by the aggregate for x >= 0, d >= 0, so the relaxed set shrinks strictly (a source-LP-feasible fractional point violates all 231 aggregates). The tightened object is therefore a NEW ROW whose LHS is the group weighted sum, not a tightened variable bound. Columns, bounds, integrality, RHS, objective are numerically unchanged; only the model NAME changes cosmetically. Counts: -53,130 rows (49.68%) and -53,130 nonzeros (19.91%).",
+  "claims": [
+    "Claim 0 {reverse:false, input_integers:true, output_integers:true, objective:'Equal', inverse:1}: forward integer inclusion; all 53,824 target rows are checked - 231 aggregates derived per group by exhaustive integer Cases, 53,593 retained rows cited directly; projection is the identity on all 53,593 coordinates.",
+    "Claim 1 {reverse:true, input/output_integers:true, inverse:0}: reverse integer inclusion; the 53,361 deleted rows are re-derived - 53,130 from the aggregate plus sibling nonnegativity (split_upper), 231 from {VarLower:z} - while retained rows are cited.",
+    "Claim 2 {reverse:true, input/output_integers:false, inverse:None}: target LP inclusion into the source LP; the request binds the strictness point to this index ({\"Strictness\":{\"inclusion_claim\":2}}).",
+    "Point 0: 53,593 exact rational values (x = 1/231 on all 53,361 one-hot members, y = 13/231 on the 231 y variables, z = 6080563905636779/28875000000000); every source row and bound passes and all 231 aggregate rows are violated.",
+    "Contract: complete original-coordinate mixed-integer feasible-set equality plus exact objective equality plus reciprocal full identity inverses (53,593 'Exact' obligations each way), with strict LP strengthening certified by point 0; no optimum restriction or objective monotonicity assumed."
+  ],
+  "proof_encoding": [
+    "'RPA 3' header plus a single JSON line of 185,396,387 B: {claims:[3], blocks:[3 nested blocks], points:[1]}; measured top-level offsets: claims+identity projections 0-2,184,597, forward block 2,184,597-125,873,442, reverse-integer block -156,084,729, reverse-LP block -184,967,316.",
+    "Forward block (231 groups): a balanced depth-8 tree of Cases{kind:'Le', expression:(subtree weighted sum minus z), split:(integer subset sum), integer:(derived Int fact), left/right:{steps, end:{Witness}}}; leaves cite the actual individual RowUpper row, or {VarLower:z} for the zero-distance member.",
+    "Per Cases branch: EqPair converts the branch assumption into the sibling's zero-sum equality, a Lin step derives the checked zero-sibling weighted contribution (weighted_zero), and the final Lin combines the selected subtree bound with that contribution into the aggregate expression.",
+    "Reverse block: a tree of nonnegativity facts -w_j*x_j <= 0 (Lin over VarLower), then split_upper Lin steps that add the sibling nonnegativity to the aggregate bound to recover each individual row; the 231 -z<=0 rows are discharged by {VarLower:z}.",
+    "Return per claim: map = 53,593 identity expressions, checks = VarLower/VarUpper (+VarInt inside integral claims) per variable, one ref per output row, one 'Exact' for objective equality plus 53,593 'Exact' inverse coordinates; obligations 321,788 / 374,918 / 267,733."
+  ],
+  "agent_manual_work": [
+    "Wrote an exact Fraction MPS reader (266,805 nonzeros, no duplicate entries) plus a second independent Decimal-to-Fraction reader (independent_mps, the digest census's only 'framework member', cited 3 times) and compared complete source and final parses.",
+    "Wrote the target MPS by hand: a decimal_string serializer that asserts the denominator is 2^a*5^b, integer marker balancing, RHS and BOUNDS re-emission, 'numerically normalized without rounding' (digest eval 'Writing exact aggregate formulation').",
+    "Built the structural census by hand: row-family inference over 106,954 rows, per-variable occurrence assertions, 231x231 edge map, distance symmetry 53,361/53,361, duplicate row signatures (one class of 231 '-z<=0'), 53,096 distinct objective/distance ratios.",
+    "Verified local one-hot equivalence by hand over all 53,361 selections, evaluated a deterministic integer point (exact objective 1136597332631812634681891264041177/125000000000000000000000000000) and the 1/231 strictness witness against both serialized models.",
+    "Emitted row_changes.csv (6,007,057 B, 53,361 records: 231 delete_redundant, 53,130 replace_with_group_aggregate) and audit.json (73,439 B) as the machine-readable proof scope the preparer later re-checks."
+  ],
+  "preparer_helpers": [
+    "forward_tree (tools/prepare_test34.py:12-16): per-tree-node subset sum, weighted sum, subtree maximum, nonnegativity, integrality and complement (weighted-zero) facts.",
+    "aggregate_cases (:25-37): recursive Cases emission with EqPair assumption conversion, zero-sibling weighted lemma and bound combination; depth 8, 53,130 records.",
+    "reverse_tree (:40-43) and split_upper (:46-49): nonnegativity tree plus per-member recovery of each replaced individual row.",
+    "weighted_zero (:19-22): the checked nonnegative weighted sibling contribution.",
+    "SparseBuilder.lin (tools/prepare_test70.py:14-30) and Builder (tools/prepare_test88.py:18-44): hand-rolled local-fact builders, both reading raw canonical-model JSON because no public proof-construction API exists."
+  ],
+  "friction": [
+    "The domain agent's single failing tool call was its own Python SyntaxError (unmatched ')', digest 'File \"<cell>\", line 32'); no kernel rejection was ever exercised during the reformulation run.",
+    "The kernel has no aggregation rule, so 53,130 Cases records and 964,439 obligations were composed by hand, including every derived precondition (Int fact, nonnegativity, complement, zero-sibling lemma).",
+    "Each of the 5 negative checks rewrites the entire 185 MB RPA text and re-assembles plus re-verifies (tools/prepare_test34.py:113), because there is no cheaper way to re-verify one claim.",
+    "Recorded INVALID receipts carry only a message (for example 'INVALID obligation mismatch: expected Le; obligation 160785') with no group or member attribution, although the API now adds code and location.",
+    "The identity projection/inverse is written out in full - 53,593 pairs in request.json (2,184,640 B, essentially the whole file) and again in the claims section of every RPA (first 2,184,597 B)."
+  ],
+  "kernel_receipts": {
+    "status": "VERIFIED",
+    "exit_code": 0,
+    "obligations": 964439,
+    "branches": 53130,
+    "work": 46977300,
+    "peak_live_facts": 212751,
+    "linear_terms": 8451847,
+    "rpx_bytes": 116032429,
+    "rpa_bytes": 185396387,
+    "request_bytes": 2184640,
+    "source_mcm_bytes": 13892166,
+    "target_mcm_bytes": 10707360,
+    "preparation_seconds": 35.606,
+    "verify_execute_seconds": 11.177,
+    "source": "cases/test34/preparation.json (kernel_runs, counts, artifacts) / cases/test34/README.md:9"
+  },
+  "api_needs": [
+    "RULE_BUILDERS || case_only || 1 || Kernel has no aggregation rule: README calls the proof 'an explicit composition of ordinary Lin, EqPair and Cases, not a trusted one-hot aggregation theorem'; the preparer hand-codes three tree recursions over all 231 groups. || fn onehot_aggregate(m:&Model, g:&Group, d:&[(VarId,Q)], z:VarId, mode:AggMode) -> Result<Block,BuildError>; AggMode::{IntCases,ReverseDominance,SplitUpper}; the split is a derived subset-sum Int fact. || forward_tree(:12-16), aggregate_cases(:25-37), reverse_tree(:40-43), split_upper(:46-49) in prepare_test34.py; 53,130 hand-built Cases records || tools/prepare_test34.py:25-37 / cases/test34/README.md:5 / cases/test34/preparation.json (counts.local_integer_cases 53130)",
+    "BATCH_TEMPLATES || universal || 2 || 231 same-shaped group proofs expand to 53,130 branches, 964,439 obligations and 185,396,387 B of RPA (69% of the 256 MiB text cap); the same 212,751-step reverse tree is serialized twice (root_steps_by_claim 159621,212751,212751). || fn batch(template:&Rule, groups:&[Group], mode:Emit) -> Blocks; Emit::{Expand, Pool}; Pool registers one named step block and references it from claims 1 and 2; returns a per-group byte estimate. || the per-group loop at tools/prepare_test34.py:62-70 and the duplicate blocks.append({'steps':p.steps}) at :90 that serializes the reverse tree twice || cases/test34/preparation.json:42-46,50 / docs/CURRENT_FORMAT.md:380,390 / tools/prepare_test34.py:90",
+    "SCOPE_QUERIES || universal || 3 || Grouped-bound reasoning starts from incidence: 231 one-hot groups of 231 members, each member's distance row and coefficient, z's 53,361-row incidence; the agent hand-wrote that scan, the preparer re-derives it from MCM JSON. || fn one_hot_groups(&self)->Vec<Group>; fn row_family(&self,g:&Group,shared:VarId)->Vec<(VarId,RowId,Q)>; fn incidence(&self,v:VarId)->RowIds; fn coef(&self,r:RowId,v:VarId)->Q || the agent's per-variable occurrence asserts and prepare_test34.py:63-65 member/weight re-derivation || /tmp/rpx-digests/test34.md (eval 'Verifying complete assignment structure') / tools/prepare_test34.py:63-65",
+    "TARGET_CONSTRUCTION || shared || 4 || No kernel path builds the target: the agent hand-wrote an MPS emitter (decimal_string asserts den==1) for 53,361 row deletions plus 231 added rows; the glossed edits (delete column, tighten bound) omit this kind. || enum Edit{DeleteRows(Vec<RowId>), AddRows(Vec<RowSpec>), ReplaceRowFamily{deleted:Vec<RowId>,added:RowSpec,group:GroupId}}; fn apply(src:&Model,edits:&[Edit])->Result<Model,EditError>; rpx construct src.mcm edits.json target.mcm || the hand-written MPS writer (digest eval 'Writing exact aggregate formulation') and the target re-derivation beside the source in prepare_test34.py:52-71 || /tmp/rpx-digests/test34.md (eval 'Writing exact aggregate formulation') / tools/prepare_test34.py:52-71 / /tmp/rpx-digests/brief.md (case-index rows test33, test49: row deletion)",
+    "EDIT_AUDIT || universal || 5 || The claim is a row-set replacement: the certificate must bind 53,361 deleted rows and 231 added rows to it; the agent emitted a 6,007,057 B CSV (231 delete_redundant, 53,130 replace_with_group_aggregate), re-checked per record. || {\"edits\":[{\"kind\":\"replace_row_family\",\"group\":g,\"deleted\":[row],\"added\":{\"name\":\"AGG_R0\",\"terms\":[[var,\"n/d\"]],\"z\":\"-1\"},\"source_lines\":[n]}]} with an exact per-record diff. || row_changes.csv (53,361 hand-written records) and its per-record re-derivation at tools/prepare_test34.py:54,66-67 || tools/prepare_test34.py:54,66-67 / /Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/row_changes.csv / cases/test34/preparation.json (row_manifest)",
+    "WITNESS_CHECKING || universal || 6 || The only strictness evidence is a 53,593-coordinate point bound to claim 2; prepare_test34.py:91 expands it from 3 class values (1/231, 13/231, max(d)/231) and it must satisfy every source row and bound and violate a target row. || fn witness_from_scopes(m:&Model, sv:&[ScopeValue]) -> Vec<Q>; fn check_point(m:&Model, p:&[Q]) -> PointReport{feasible_rows,violated_rows}; points:[{\"Strictness\":{\"inclusion_claim\":2}}] || prepare_test34.py:91 index classification of 53,593 coordinates plus the untrusted audit.json strict_relaxation_witness strings || tools/prepare_test34.py:91 / cases/test34/README.md:3,7 / cases/test34/preparation.json (negative_checks infeasible_strictness_point)"
+  ]
+}

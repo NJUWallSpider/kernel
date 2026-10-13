@@ -1,0 +1,319 @@
+{
+  "case_id": "test52",
+  "status": "VERIFIED",
+  "depths": {
+    "json_max_depth": 33,
+    "proof_max_depth": 7
+  },
+  "candidate_order": "Ascending source canonical variable index; balanced splits bisect this fixed order.",
+  "proof_preparer_dependencies": [
+    {
+      "path": "/Users/bhz/Code/kernel/tools/prepare_test51.py",
+      "sha256": "2d198e5be7416979ff2ad1aa8e0ee31b47c3b75b49334abf1ca821765925145c"
+    }
+  ],
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/input/model.mps",
+    "sha256": "a2f113ce8e78abde370a4a1458e96081504d43b8e64e119c4b5912e1df6f7df8"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/output/reformulated.mps",
+    "sha256": "cc6939207aa82187515637f71327ae1ae8ae636dc28cb65d28f7dbf538cc2e16"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/output/audit.json",
+    "sha256": "b8c2c82c7aef46f13519b30298df5ac57eb967595b0ca2f4bef2e4aab1f20cb7"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test52.py",
+    "sha256": "eb56c3dc2ecb607508d8f9a0e0dcddc5ea498bfe05aa4299fa2a7b683a9b4120"
+  },
+  "claims": "Complete integer feasible-set bijection by projection and unique affine reconstruction, preserving every feasible objective value, all surviving coordinate observations, and both full inverse identities. All actual five-weight simplex blocks, domains, score definitions, strictly dominated selector zeros, forced selector ones, eliminated thresholds, four mandatory sub-epsilon gap rows, and conditional selected-minimum bounds are checked. Ties are retained. Objective-preserving target-LP inclusion into the source LP is additionally proved; LP equality and strictness are not claimed.",
+  "counts": {
+    "source_variables": 26871,
+    "target_variables": 1271,
+    "source_rows": 53467,
+    "target_rows": 2326,
+    "groups": 266,
+    "fixed_zero_binaries": 12190,
+    "fixed_one_binaries": 55,
+    "eliminated_scores": 13300,
+    "eliminated_thresholds": 55,
+    "conditional_upper_bounds": 1055,
+    "retained_exceptional_gap_rows": 4,
+    "claims": 3,
+    "steps_by_claim": [
+      115811,
+      101257,
+      151543
+    ],
+    "obligations_by_claim": [
+      33850,
+      109481,
+      94910
+    ]
+  },
+  "preparation_seconds": 140.78243554197252,
+  "rpa_sha256": "65e3fb45439cf853010dd7c8fec8ae10ded21ec54495f132d1f6fb8e5d021515",
+  "rpa_bytes": 78134488,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test52/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":7465464,\"parse_us\":485164,\"read_us\":5187,\"rows\":53467,\"status\":\"CANONICALIZED\",\"total_us\":638111,\"variables\":26871}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test52-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test52/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":499845,\"parse_us\":40707,\"read_us\":183,\"rows\":2326,\"status\":\"CANONICALIZED\",\"total_us\":60521,\"variables\":1271}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":50227346,\"status\":\"ASSEMBLED\",\"total_us\":2906319}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test52/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":13230575,\"model_decode_us\":235519,\"points\":0,\"proof_decode_us\":957955,\"read_us\":10990,\"statistics\":{\"bijections\":0,\"branches\":30479,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":2812574,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":238241,\"peak_live_facts\":151543,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":887844,\"work\":14598974},\"status\":\"VERIFIED\",\"total_us\":14435039}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test52/deterministic.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":50227346,\"status\":\"ASSEMBLED\",\"total_us\":2592697}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test52/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":15638592,\"model_decode_us\":324087,\"points\":0,\"proof_decode_us\":863410,\"read_us\":10913,\"statistics\":{\"bijections\":0,\"branches\":30479,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":2812574,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":238241,\"peak_live_facts\":151543,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":887844,\"work\":14598974},\"status\":\"VERIFIED\",\"total_us\":16837002}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test52/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test52/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":15803758,\"model_decode_us\":203249,\"points\":0,\"proof_decode_us\":945729,\"read_us\":11610,\"statistics\":{\"bijections\":0,\"branches\":30479,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":2812574,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":238241,\"peak_live_facts\":151543,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":887844,\"work\":14598974},\"status\":\"VERIFIED\",\"total_us\":16964346}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "negative_checks": [
+    {
+      "mutation": "missing_simplex_premise",
+      "rule_broken": "Drops a nonnegative weight premise from an exact simplex extreme-value proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID contradiction witness",
+        "status": "INVALID"
+      },
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test52/missing_simplex_premise.rpa",
+            "/Users/bhz/Code/kernel/cases/test52/missing_simplex_premise.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":50227317,\"status\":\"ASSEMBLED\",\"total_us\":2981682}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/missing_simplex_premise.rpx",
+            "/Users/bhz/Code/kernel/cases/test52/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID contradiction witness\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "rpa_sha256": "a7530f8fc13207903344a83b86ae9c5026de5dd7fd4cb5fae84eb36848d45786",
+      "rpx_sha256": "4300ad73bf1e134a54bd1fcf7ff599ae12c7d6d2590bee4c19e0fb654ff71062",
+      "storage": "Temporary mutation artifacts removed; deterministic mutation recipe retained in the preparer."
+    },
+    {
+      "mutation": "wrong_case_integrality",
+      "rule_broken": "Uses a continuous simplex weight as an integer Cases split witness.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test52/wrong_case_integrality.rpa",
+            "/Users/bhz/Code/kernel/cases/test52/wrong_case_integrality.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":50227346,\"status\":\"ASSEMBLED\",\"total_us\":3091533}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/wrong_case_integrality.rpx",
+            "/Users/bhz/Code/kernel/cases/test52/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID fact reference or type\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "rpa_sha256": "e81e72ae2e827fc75481817eabcf41a7f1e8dd584c164c3febe06d2797a24934",
+      "rpx_sha256": "9cb666f21a50d47f92b3cfdfbdc43ae2eff630cc5b6441ba4c17531e9934844c",
+      "storage": "Temporary mutation artifacts removed; deterministic mutation recipe retained in the preparer."
+    },
+    {
+      "mutation": "missing_exceptional_gap",
+      "rule_broken": "Replaces the required retained sub-epsilon gap obligation by an unchecked identity.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID non-tautological exact obligation; obligation 3920",
+        "status": "INVALID"
+      },
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test52/missing_exceptional_gap.rpa",
+            "/Users/bhz/Code/kernel/cases/test52/missing_exceptional_gap.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":50227342,\"status\":\"ASSEMBLED\",\"total_us\":3157892}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/missing_exceptional_gap.rpx",
+            "/Users/bhz/Code/kernel/cases/test52/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID non-tautological exact obligation; obligation 3920\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "rpa_sha256": "005778c6a71e89d6c30fbb1e58b042fdab6d1e2b4871864401c6ec92f896c96f",
+      "rpx_sha256": "5431741d987d6498fab429164b6a1c26c1b4809769b118257f2df7766914f027",
+      "storage": "Temporary mutation artifacts removed; deterministic mutation recipe retained in the preparer."
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits a full inverse-coordinate reconstruction obligation.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "kernel_runs": [
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "assemble",
+            "/Users/bhz/Code/kernel/cases/test52/missing_inverse.rpa",
+            "/Users/bhz/Code/kernel/cases/test52/missing_inverse.rpx"
+          ],
+          "exit_code": 0,
+          "stdout": "{\"rpx_bytes\":50227338,\"status\":\"ASSEMBLED\",\"total_us\":2606619}\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/bhz/Code/kernel/target/release/rpx",
+            "verify",
+            "/Users/bhz/Code/kernel/cases/test52/source.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/target.mcm",
+            "/Users/bhz/Code/kernel/cases/test52/missing_inverse.rpx",
+            "/Users/bhz/Code/kernel/cases/test52/request.json"
+          ],
+          "exit_code": 2,
+          "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
+          "stderr": ""
+        }
+      ],
+      "rpa_sha256": "461f73ab5314c59b3f4a20b99d7763f9fe7272ce0b1f626edd2bade8499e201c",
+      "rpx_sha256": "da7f48262839b20b2765337857a03494d0b6949c26d40a97da2aa21b85cdca97",
+      "storage": "Temporary mutation artifacts removed; deterministic mutation recipe retained in the preparer."
+    }
+  ],
+  "assembly_deterministic": true,
+  "verification_deterministic": true,
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 7465464,
+      "sha256": "245d9aac1ce0e308b70167346edcb621118f51d7fff8cc0de20457903bec0d7e"
+    },
+    "target.mcm": {
+      "bytes": 499845,
+      "sha256": "26cafe84375e3a69d5004eee746e5bca5c68c670833c98f10cf43b48e34f36f0"
+    },
+    "proof.rpx": {
+      "bytes": 50227346,
+      "sha256": "69aa6f8155bfc871b1ac63056d9fa4ec5811106ab408d166684881b58af512a2"
+    },
+    "request.json": {
+      "bytes": 44984,
+      "sha256": "d4ccf2d340020695b5b71de30a0db356ea1f07520736bfb6c5c516957e81c5c2"
+    }
+  }
+}

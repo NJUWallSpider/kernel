@@ -1,0 +1,48 @@
+{
+  "name": "wrong_round_integrality",
+  "reason": "The aggregate forbidden-selector rounding uses an unrelated single variable INT.",
+  "base_direction": 0,
+  "status": "INVALID",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "cases/test46/attacks/wrong_round_integrality.rpa",
+        "cases/test46/attacks/wrong_round_integrality.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":184634642,\"status\":\"ASSEMBLED\",\"total_us\":2968963}\n",
+      "stderr": "",
+      "wall_seconds": 3.5279054169999995
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "cases/test46/source.mcm",
+        "cases/test46/target.mcm",
+        "cases/test46/attacks/wrong_round_integrality.rpx",
+        "cases/test46/attacks/wrong_round_integrality.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID rounding premises\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 2.034789499999988
+    }
+  ],
+  "artifacts": {
+    "wrong_round_integrality.rpa": {
+      "sha256": "f25fb17fa62baa0cce2952e8259d6ebf077215f4e6a55ebc14c40987da5ab75d",
+      "bytes": 183934851
+    },
+    "wrong_round_integrality.request.json": {
+      "sha256": "5287e10c11120bf5e070985b4d7cc83d2256916de0e63beddb1b3d6651b4412d",
+      "bytes": 861798
+    },
+    "wrong_round_integrality.rpx": {
+      "sha256": "f4a5529a00fd9e487777b8a3b4de689b5bbf19e122b01e0b826be75c3b2fcf5e",
+      "bytes": 184634642
+    }
+  }
+}

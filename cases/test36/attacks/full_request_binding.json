@@ -1,0 +1,28 @@
+{
+  "mutation": "full_request_binding",
+  "rule_broken": "The complete caller request changes its input-domain halfspace while the complete certificate retains the original domain; no claim or improvement is omitted from the request.",
+  "status": "INVALID",
+  "scope": "Complete three-direction plus strict-improvement certificate and complete request",
+  "runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test36/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test36/attacks/full_request_binding.request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID requested contract mismatch\",\"status\":\"INVALID\"}\n",
+      "stderr": "",
+      "wall_seconds": 1.115932625,
+      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
+      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    }
+  ],
+  "rpx": "/Users/bhz/Code/kernel/cases/test36/proof.rpx",
+  "rpx_sha256": "b18816f163849610d30d3269331a5b7b384ab6c8c21ed7716b9531819eb44f77",
+  "request": "/Users/bhz/Code/kernel/cases/test36/attacks/full_request_binding.request.json",
+  "request_sha256": "ae2fca9f4504324d1bd9d0ab8fe3847e4f6336108a33b58df959e8aa38a9a828"
+}

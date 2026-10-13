@@ -1,0 +1,14 @@
+{
+  "fixed_matrix": "bench/signed_workloads_v8.json",
+  "all_120_verified": true,
+  "checkpoint_sha256": "31ae84f4f181a8e1226baadd710dc69c985e0996064291ae9cfef9efc5417a80",
+  "case_workers_held_computation": true,
+  "hold_acknowledgments": {
+    "corpus_audit": "Idle after ledger refresh, no preparation/verification/hashing; test12 not yet started.",
+    "draft_audit": "Owned78preparer PID11231 SIGSTOP, no kernel child, resumed after run; interval retained in audit/test78_preparation_pause.json.",
+    "model_layer": "Idle; only file edits, no test/audit/build computations."
+  },
+  "root_checkpoint_finished_before_timing": true,
+  "operating_system_and_unrelated_apps_controlled": false,
+  "outliers_removed": false
+}

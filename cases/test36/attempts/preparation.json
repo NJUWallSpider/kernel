@@ -1,0 +1,175 @@
+{
+  "case_id": "test36",
+  "status": "BLOCKED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/input/model.mps",
+    "sha256": "de0946af79c5b38c09874e753018d2a1986b12a61741454afe8a29dba843a481"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/reformulated.mps",
+    "sha256": "12e3b1da5b6573e765127f63e82e894d9d228c27699f8a1f101b676722cc6c1e"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/audit.json",
+    "sha256": "ad36190d12b2ccfc7d70add3e32e2b43b24a2f13d764f693c81d769303cb5dd0"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test36.py",
+    "sha256": "bf8bf0c619c750a0184ecdb6c06f954a0a8f9abfc9bb19e1fccd7e23b7a2a782"
+  },
+  "claims": "Minimum objective preserved and every source integer optimizer has all 200 terminal coordinates zero; no LP claim. This full contract is NOT certified.",
+  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":5485835,\"parse_us\":69241,\"read_us\":1118,\"rows\":37617,\"status\":\"CANONICALIZED\",\"total_us\":88344,\"variables\":37816}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":5472635,\"parse_us\":65459,\"read_us\":1136,\"rows\":37617,\"status\":\"CANONICALIZED\",\"total_us\":84494,\"variables\":37616}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/reachable.rpa",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/reachable.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":2423943,\"status\":\"ASSEMBLED\",\"total_us\":23983}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/reachable.rpx",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/reachable_request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":58060,\"model_decode_us\":47018,\"points\":1,\"proof_decode_us\":7461,\"read_us\":1191,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":0,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":75834,\"peak_live_facts\":0,\"plotkin_pairs\":0,\"point_coefficient_terms\":150864,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":150464,\"work\":1282551},\"status\":\"VERIFIED\",\"total_us\":113730}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/reachable.rpx",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/strong_request.json"
+      ],
+      "exit_code": 2,
+      "stdout": "{\"message\":\"INVALID request: unknown field `all_source_optimizer_coordinates_zero`, expected one of `reverse`, `input_integers`, `output_integers`, `objective`, `projection`, `affine_projection`, `inverse`, `input_objective_lower`, `input_objective_level` at line 1 column 162\",\"status\":\"INVALID\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/positive_terminal.rpa",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/positive_terminal.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":498091,\"status\":\"ASSEMBLED\",\"total_us\":6874}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/positive_terminal.rpx",
+        "/Users/bhz/Code/kernel/cases/test36/attempts/positive_terminal_request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":0,\"execute_us\":25975,\"model_decode_us\":44458,\"points\":1,\"proof_decode_us\":1677,\"read_us\":1081,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":0,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":0,\"peak_live_facts\":0,\"plotkin_pairs\":0,\"point_coefficient_terms\":150864,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":0,\"work\":452596},\"status\":\"VERIFIED\",\"total_us\":73191}\n",
+      "stderr": ""
+    }
+  ],
+  "negative_checks": [],
+  "blocker": {
+    "failing_command": [
+      "/Users/bhz/Code/kernel/target/release/rpx",
+      "verify",
+      "/Users/bhz/Code/kernel/cases/test36/attempts/source.mcm",
+      "/Users/bhz/Code/kernel/cases/test36/attempts/target.mcm",
+      "/Users/bhz/Code/kernel/cases/test36/attempts/reachable.rpx",
+      "/Users/bhz/Code/kernel/cases/test36/attempts/strong_request.json"
+    ],
+    "kernel_error": "{\"message\":\"INVALID request: unknown field `all_source_optimizer_coordinates_zero`, expected one of `reverse`, `input_integers`, `output_integers`, `objective`, `projection`, `affine_projection`, `inverse`, `input_objective_lower`, `input_objective_level` at line 1 column 162\",\"status\":\"INVALID\"}\n",
+    "missing_contract": "Caller-bound universal strict-improvement/optimality exclusion with a condition on source terminal positivity or noncanonical lift.",
+    "why_existing_rules_do_not_suffice": "Lin/Cases/IntervalLift/Round/Feasible discharge directional obligations only. Objective::NonIncreasing does not bind strict improvement to terminal positivity. V9 input_objective_level accepts one known rational and explicitly asserts neither optimality nor attainment. Here the optimum is unknown; 6425 is only a feasible upper bound, and noncanonical continuous source lifts have a continuum of objective levels. Thus fixed-level V9 optimizer bijection as in test80 is not applicable without a new caller contract.",
+    "routes_examined": [
+      "Intended all-optimizer caller statement rejected as unknown Claim field.",
+      "V9 fixed objective level: cannot bind unknown optimum; independently certified feasible noncanonical positive terminal 1/4850 at objective 6426 demonstrates no unrestricted terminal-integrality assertion."
+    ],
+    "v9_usage": "Not used in any accepted certificate; examined its exact semantics in proof.rs and level.rs."
+  },
+  "reachable_evidence": "NON-ACCEPTANCE subset: complete objective-equal target-to-source zero extension and source feasible witness objective 6425 VERIFIED; positive-terminal source counterexample at 6426 VERIFIED. Forward minimum-preservation map is not certified here, and these checks do not imply the full requested contract.",
+  "counts": {
+    "source_variables": 37816,
+    "target_variables": 37616,
+    "terminal_coordinates": 200
+  },
+  "preparation_seconds": 1.785623790929094,
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 5485835,
+      "sha256": "89baea991f8e7cfc6c41bd615792b2f7583689fa5fa22c02f4093ab661c91635"
+    },
+    "target.mcm": {
+      "bytes": 5472635,
+      "sha256": "3753da3029c78878b8b9c93f171663a131e1509c8ff7c78a270c631ca8c64810"
+    },
+    "reachable.rpx": {
+      "bytes": 2423943,
+      "sha256": "a15bb9d85868731ae2d45eaba1c0a87de24cbc93513254bb2c5d61fa92f43cac"
+    },
+    "reachable_request.json": {
+      "bytes": 202,
+      "sha256": "7cddf9efdaf0f35d555f392153ba8d469fad5d72c4ee8eca1dd61489713bd945"
+    },
+    "positive_terminal.rpx": {
+      "bytes": 498091,
+      "sha256": "373ed398ff561676e878b7f93779d019f6b882d78431cac8bf3b5c7e880e1cca"
+    }
+  },
+  "schema_gap_sketch": [
+    "Proposed caller-bound contract: Exclusion(input=source integer feasible set, condition=P(x)).",
+    "Meaning: every feasible x satisfying P has an actual source-feasible y with f(y)<f(x).",
+    "The proof must supply a complete y map (possibly case-split or existential lift).",
+    "Every source row, variable domain, and integrality obligation for y must be checked.",
+    "The strict objective obligation must be independently bound to the caller condition.",
+    "For dominated columns use P(x): sum(deleted integer coordinates)>0.",
+    "An exact gap identity f(y)-f(x)=-sum(strict_saving_i*x_i) suffices there.",
+    "For test36 use P(x): some terminal>0 or the lift is noncanonical.",
+    "A noncanonical lift needs a source-feasible smaller lift and a strictly positive saving.",
+    "The canonical active-terminal branch can use the 6425 witness against the 7283 bound.",
+    "Composition proves every source optimizer avoids P without knowing the optimum.",
+    "Claim currently declares only directional inclusion plus equality/nonincrease and observations.",
+    "Objective has no strict or condition-indexed relation.",
+    "PointClaim only certifies a particular point or strict LP image inclusion.",
+    "input_objective_lower is a universal numerical lower bound, not an improving-map contract.",
+    "input_objective_level restricts to one fixed rational; it does not bind an existential optimum.",
+    "test80 uses V9 with proved known optimum -160 and attainment; test36 lacks that premise.",
+    "No new trusted chain-AND theorem is necessarily needed; the missing piece is caller semantics."
+  ]
+}

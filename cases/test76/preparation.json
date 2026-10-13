@@ -1,0 +1,162 @@
+{
+  "case_id": "test76",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/input/model.mps",
+    "sha256": "92a1c2b62da17a52f4a8c2a450f5d322669806ee09aa5592f5a050d7c225753d"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/output/reformulated.mps",
+    "sha256": "b4396bac6bf72bc1cbbfeb06f4c04604ab6c1cee7e4f36dfbc62241d809f8fbf"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/output/audit.json",
+    "sha256": "ee7fce9cb8b3fcfcbbb7d198f9d26d651cfa91db3f8d23b3629a9b61961808c7"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test76.py",
+    "sha256": "8b6717ce5c2cea8e0dfc4472ea29328bc91fd6fcf55fb8bdfc37b815e3df5d0d"
+  },
+  "claims": "Complete integer affine bijection with all retained coordinates, pointwise objective equality and both inverse identities, plus target LP inclusion. Twenty-six binary zeros are proved from actual capacity-chain equations, mandatory one-hot contributions, explicit capacity bound, and integer rounding. Fifty continuous auxiliaries are uniquely recovered and every eliminated bound and replaced row checked. No forward LP equality or strictness claim.",
+  "counts": {
+    "source_variables": 1758,
+    "target_variables": 1682,
+    "source_rows": 351,
+    "target_rows": 301,
+    "capacity_binary_zeros": 26,
+    "continuous_affine_substitutions": 50,
+    "claims": 3,
+    "obligations_by_claim": [
+      8537,
+      8689,
+      5550
+    ]
+  },
+  "preparation_seconds": 0.422895375,
+  "rpa_sha256": "0419945e5c57850d7ec65b0a7c47e3c229a3cac631309e3b5ae0d1a6e03af47f",
+  "rpa_bytes": 920390,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test76/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":211597,\"parse_us\":2648,\"read_us\":72,\"rows\":351,\"status\":\"CANONICALIZED\",\"total_us\":3841,\"variables\":1758}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test76-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test76/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":201000,\"parse_us\":2241,\"read_us\":88,\"rows\":301,\"status\":\"CANONICALIZED\",\"total_us\":3050,\"variables\":1682}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test76/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test76/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":709068,\"status\":\"ASSEMBLED\",\"total_us\":7809}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test76/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test76/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test76/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test76/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":19563,\"model_decode_us\":2074,\"points\":0,\"proof_decode_us\":3011,\"read_us\":138,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":37232,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":22776,\"peak_live_facts\":259,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":29144,\"work\":282306},\"status\":\"VERIFIED\",\"total_us\":24786}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 211597,
+      "sha256": "b7fe67e82cade63f0ad3490791199617d9d8eaef9b1e66e219ac5cd68c551942"
+    },
+    "target.mcm": {
+      "bytes": 201000,
+      "sha256": "7567c7667a1a9c9bca2a1a5d5223648f0501777bfc3fd406fceaf25a3c02f248"
+    },
+    "proof.rpx": {
+      "bytes": 709068,
+      "sha256": "24ba9c3b5ab456e033df056aeb8715cc2cfc85149553784654cffc5ae3e63882"
+    },
+    "request.json": {
+      "bytes": 54290,
+      "sha256": "c90ff7d592880af9b69fafa0629f40e46d70991d53dc42a363040ec624269b47"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_capacity_bound",
+      "rule_broken": "Omits the actual capacity bound from the common mandatory-load proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID rounding premises",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "bd6526adc395ffcffe486f871315196e96ceb9dd46046ce6df592e55a4da11c6",
+      "rpx_sha256": "9aeef0451715d652d1724162cc0c5bc74d2c104863b2feca1f229ff5190aad87"
+    },
+    {
+      "mutation": "wrong_rounding_domain",
+      "rule_broken": "Uses a continuous time coordinate as the rounding integrality premise.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID fact reference or type",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "a6db01e0bea5c055feab6266fedb1df297f44e8ece3b3bbc7bd2358c43a1009e",
+      "rpx_sha256": "c5ad8f68b390ca5e6c1074c8b9002916b595cf52a2807016c2a32bcd28c02634"
+    },
+    {
+      "mutation": "wrong_auxiliary_recovery",
+      "rule_broken": "Changes one recovered continuous coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 8487",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "96bf65ed8747add77fd8907d21a49b4bc35f54882634ae96b728da6e26ec8b80",
+      "rpx_sha256": "be8e26973be8bd959c1a620374d003825c98b8f8e6089dc679f4229b1e4f76a1"
+    },
+    {
+      "mutation": "missing_auxiliary_bound",
+      "rule_broken": "Drops a one-hot premise needed to bound a recovered auxiliary.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Le; obligation 4873",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "b20ef203c76b794da2948899ee0851c7c1b80821c98f60f757bf78a28a96c972",
+      "rpx_sha256": "783a35b37c6b219adef442a97b7dbe4644b2439da0252cc98f6bd171d81ac4e7"
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits one full inverse identity.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "7003de85d5e9bd518c60a58b3c8323c227f064aa18886f5ace9c1ff02adc6060",
+      "rpx_sha256": "4330c179f926f8708cadcfb566f696db455d74e552b649ac482edcff969572c4"
+    }
+  ]
+}

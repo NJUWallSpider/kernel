@@ -1,0 +1,44 @@
+[
+  {
+    "path": "crates/core/src/codec.rs",
+    "measured_hash": "3bb03752f8a9f0e9b4074cc8456c7b9fd714d3aeab64b5baa4bb976dc1d8aa29",
+    "snapshot_hash": "3bb03752f8a9f0e9b4074cc8456c7b9fd714d3aeab64b5baa4bb976dc1d8aa29",
+    "identical": true
+  },
+  {
+    "path": "crates/core/src/lib.rs",
+    "measured_hash": "f3c36e77fac7f1501a87ae6917b3380804ad98da8a47ab86719cd8861b1efdfe",
+    "snapshot_hash": "f3c36e77fac7f1501a87ae6917b3380804ad98da8a47ab86719cd8861b1efdfe",
+    "identical": true
+  },
+  {
+    "path": "crates/core/src/main.rs",
+    "measured_hash": "1feab16757151360b57b4a7d0585e7e39118a4d4d8dbdedb7380defe1c797e4d",
+    "snapshot_hash": "1feab16757151360b57b4a7d0585e7e39118a4d4d8dbdedb7380defe1c797e4d",
+    "identical": true
+  },
+  {
+    "path": "crates/core/src/model.rs",
+    "measured_hash": "9184244333ee7c058e1a2feeb94f7f2545f091fca5b28aa47e56381b9709f232",
+    "snapshot_hash": "8500c1604eba519b0294068678078c2342389d584307ececa0251869951a80ca",
+    "identical": false
+  },
+  {
+    "path": "crates/core/src/proof.rs",
+    "measured_hash": "0f871004023792409e7b9f264a709115c6d2b8b035f9a5c321b7872fecad3491",
+    "snapshot_hash": "0f871004023792409e7b9f264a709115c6d2b8b035f9a5c321b7872fecad3491",
+    "identical": true
+  },
+  {
+    "path": "crates/core/src/rpa.rs",
+    "measured_hash": "6fc397e515982d8eaf393dcc2b66274defff814d7946f6053947cf04b3e989ec",
+    "snapshot_hash": "6fc397e515982d8eaf393dcc2b66274defff814d7946f6053947cf04b3e989ec",
+    "identical": true
+  },
+  {
+    "path": "crates/core/src/verify.rs",
+    "measured_hash": "f8c55f217ee42831769aeac8ff673045fd2a3d8ddf710dbc9f73b5a40d1e5a8f",
+    "snapshot_hash": "f8c55f217ee42831769aeac8ff673045fd2a3d8ddf710dbc9f73b5a40d1e5a8f",
+    "identical": true
+  }
+]

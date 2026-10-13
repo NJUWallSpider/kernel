@@ -1,0 +1,152 @@
+{
+  "case_id": "test16",
+  "status": "VERIFIED",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-B1/input/model.mps",
+    "sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4"
+  },
+  "target": {
+    "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-B1/output/reformulated.mps",
+    "sha256": "e35eb281c7891176eba6c287d47eb261fccce40b5ffb25297fed787a02f6ce45"
+  },
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-B1/output/audit.json",
+    "sha256": "ca0e1968d365fc6ea6c9e24228d486df7e0ed7b59ade416f4f91476d82a9bbf1"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test16.py",
+    "sha256": "d9a27524b149e49ad7a9563e97528bff37effb5d521f15ee168a01ab53239ddd"
+  },
+  "claims": "Complete integer and LP zero-extension affine bijections with every retained original coordinate, exact objective equality and both full inverse identities. Every forced-zero fact follows from actual source rows and bounds; all original domains and removed rows are checked after recovery.",
+  "counts": {
+    "source_variables": 228350,
+    "target_variables": 198848,
+    "source_rows": 126512,
+    "target_rows": 100518,
+    "forced_zero_variables": 29502,
+    "ordered_zero_steps": 25842,
+    "claims": 4,
+    "obligations_by_claim": [
+      816098,
+      867079,
+      815946,
+      866745
+    ]
+  },
+  "preparation_seconds": 44.710042083,
+  "rpa_sha256": "deb570d806909939804d48b1fdeac7257b4dd00008906903ff5d50cf818756ce",
+  "rpa_bytes": 115034428,
+  "kernel_runs": [
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test16-nomf-B1/input/model.mps",
+        "/Users/bhz/Code/kernel/cases/test16/source.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":28974956,\"parse_us\":430912,\"read_us\":4503,\"rows\":126512,\"status\":\"CANONICALIZED\",\"total_us\":606723,\"variables\":228350}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "canonical",
+        "/Users/bhz/Code/reform_test/runs/test16-nomf-B1/output/reformulated.mps",
+        "/Users/bhz/Code/kernel/cases/test16/target.mcm"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"mcm_bytes\":24643450,\"parse_us\":356121,\"read_us\":2307,\"rows\":100518,\"status\":\"CANONICALIZED\",\"total_us\":512433,\"variables\":198848}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "assemble",
+        "/Users/bhz/Code/kernel/cases/test16/proof.rpa",
+        "/Users/bhz/Code/kernel/cases/test16/proof.rpx"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"rpx_bytes\":72419456,\"status\":\"ASSEMBLED\",\"total_us\":660772}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
+        "verify",
+        "/Users/bhz/Code/kernel/cases/test16/source.mcm",
+        "/Users/bhz/Code/kernel/cases/test16/target.mcm",
+        "/Users/bhz/Code/kernel/cases/test16/proof.rpx",
+        "/Users/bhz/Code/kernel/cases/test16/request.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":2396283,\"model_decode_us\":392373,\"points\":0,\"proof_decode_us\":215502,\"read_us\":12059,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":884948,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":3365868,\"peak_live_facts\":110017,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":3158850,\"work\":23040268},\"status\":\"VERIFIED\",\"total_us\":3016217}\n",
+      "stderr": ""
+    }
+  ],
+  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
+  "artifacts": {
+    "source.mcm": {
+      "bytes": 28974956,
+      "sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "target.mcm": {
+      "bytes": 24643450,
+      "sha256": "21c81b9add9d07f73b8ba45dcdb418b794331813268c4ef134ec104b4332f54e"
+    },
+    "proof.rpx": {
+      "bytes": 72419456,
+      "sha256": "a3136185842dc7bf2ebfd74f6a2cd8d94492b33c2393147773dd6c60288e10db"
+    },
+    "request.json": {
+      "bytes": 11947692,
+      "sha256": "397e957c244570657f974d87ddf65ed9af0161978e3c56380f78a7cf3dd6c3be"
+    }
+  },
+  "negative_checks": [
+    {
+      "mutation": "missing_zero_row",
+      "rule_broken": "Omits a source-row premise needed to establish a zero fact.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID equality pair",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "f47807a1ccfef4f85d03c3220fb63deef2e41c57c6b9bfd4dc2e2cc14747f452",
+      "rpx_sha256": "593de717b6838da6f3d37a599bdbca7da1d75f066c87bda26571e4002a2b7749"
+    },
+    {
+      "mutation": "wrong_zero_recovery",
+      "rule_broken": "Recovers a proved-zero source variable with value one.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 588903",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "97b1d71c573e67aa5db8c865b8aed361bfb4e78ccbffae33473ca676ec752958",
+      "rpx_sha256": "c6bc8094c10db62278e4d25493962a829d4b1219c7c9b44c0c51c9415527126a"
+    },
+    {
+      "mutation": "missing_objective_term",
+      "rule_broken": "Omits a removed variable contribution from the exact objective proof.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID obligation mismatch: expected Eq; obligation 388899",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "7de5f3fe284064157ff688e0c6ae2923c1048fcef0c70c8e59b01c1f04005a91",
+      "rpx_sha256": "d29a14243cf1de964b6c6efcb771fbf16124d7e22ead43de482d3a4cca57d84a"
+    },
+    {
+      "mutation": "missing_inverse",
+      "rule_broken": "Omits an explicitly requested full composition coordinate.",
+      "exit_code": 2,
+      "result": {
+        "message": "INVALID missing obligation",
+        "status": "INVALID"
+      },
+      "rpa_sha256": "dbabfa3b95ea6e7f254a102eaabd11f1f8c6cb8353e37842784cce3adb230d16",
+      "rpx_sha256": "a22098bbd760e698195b544984632c15d1ef707d71afa11fa767bed8ff478561"
+    }
+  ]
+}

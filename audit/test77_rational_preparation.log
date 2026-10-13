@@ -1,0 +1,28 @@
+{
+  "case_id": "test77",
+  "status": "VERIFIED",
+  "counts": {
+    "source_variables": 1536,
+    "target_variables": 1486,
+    "source_rows": 351,
+    "target_rows": 259,
+    "claims": 4,
+    "restored_start_variables": 50,
+    "restored_completion_rows": 42,
+    "restored_upper_bounds": 58,
+    "obligations_by_claim": [
+      7479,
+      7679,
+      6195,
+      6395
+    ],
+    "linear_steps_by_claim": [
+      108,
+      401,
+      108,
+      401
+    ]
+  },
+  "preparation_seconds": 1.071015042,
+  "rpa_bytes": 1096164
+}

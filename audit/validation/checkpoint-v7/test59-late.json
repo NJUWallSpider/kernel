@@ -1,0 +1,62 @@
+{
+  "command": [
+    "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
+    "verify",
+    "/Users/bhz/Code/kernel/cases/test59/source.mcm",
+    "/Users/bhz/Code/kernel/cases/test59/target.mcm",
+    "/Users/bhz/Code/kernel/cases/test59/proof.rpx",
+    "/Users/bhz/Code/kernel/cases/test59/request.json"
+  ],
+  "exit_code": 0,
+  "seconds": 7.686909,
+  "stdout": "{\"bijections\":1,\"claims\":4,\"execute_us\":6759386,\"model_decode_us\":52571,\"points\":0,\"proof_decode_us\":522769,\"read_us\":42829,\"statistics\":{\"bijections\":1,\"branches\":78835,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":16021,\"injectivity_generated_rows\":7693,\"injectivity_generated_terms\":458950,\"injectivity_generated_variables\":32042,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":6830737,\"menu_generated_rows\":5476,\"menu_generated_terms\":34311,\"menu_generated_variables\":15806,\"menu_lifts\":1,\"obligations\":160289,\"peak_live_facts\":18573,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":1306812,\"work\":38506669},\"status\":\"VERIFIED\",\"total_us\":7377555}\n",
+  "stderr": "",
+  "result": {
+    "bijections": 1,
+    "claims": 4,
+    "execute_us": 6759386,
+    "model_decode_us": 52571,
+    "points": 0,
+    "proof_decode_us": 522769,
+    "read_us": 42829,
+    "statistics": {
+      "bijections": 1,
+      "branches": 78835,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "injectivity_coordinates": 16021,
+      "injectivity_generated_rows": 7693,
+      "injectivity_generated_terms": 458950,
+      "injectivity_generated_variables": 32042,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 6830737,
+      "menu_generated_rows": 5476,
+      "menu_generated_terms": 34311,
+      "menu_generated_variables": 15806,
+      "menu_lifts": 1,
+      "obligations": 160289,
+      "peak_live_facts": 18573,
+      "plotkin_pairs": 0,
+      "point_coefficient_terms": 0,
+      "points": 0,
+      "substitution_terms": 1306812,
+      "work": 38506669
+    },
+    "status": "VERIFIED",
+    "total_us": 7377555
+  },
+  "source_checkpoint": "audit/checkpoints/v7-source",
+  "kernel_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
+  "artifacts": {
+    "source.mcm": "abed1e67ad0c01827edbdff54b39f63e987ad8e016f810b53e52cbbbaa3fd0a8",
+    "target.mcm": "890eeae313a442f3b9f3bd52971550ef121362697d2698509a57cea22b122b5e",
+    "proof.rpx": "eff2da494f2c7570ccbd9b399d9c131ca77ebbff58e2af3195def921d8bf937e",
+    "request.json": "448dd755d248bf781caa88d341a9e47bd90bc4938eb1cd715c5c2d36aec05166"
+  },
+  "note": "Same fresh build as checkpoint-v7/run.json. This certificate was prepared after that run enumerated the other15 cases. Timing diagnostic only."
+}
