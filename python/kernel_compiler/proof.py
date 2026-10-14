@@ -406,6 +406,35 @@ class Builder:
         plan = _PivotPlan(self, definitions)
         return [self._rewrite_plan(fact, plan) for fact in facts]
 
+    def derive_substitution(self, goal, definitions, residual, *, kind=None):
+        """Restore one explicit goal from a supplied proof of its reduced form.
+
+        The selected ordered equations must reduce ``goal`` to exactly the
+        supplied residual Fact. Reversing their cancellation coefficients then
+        emits one ordinary Lin step; no residual or equation is discovered.
+        """
+        self._visible(residual)
+        return self._derive_substitution_plan(goal, _PivotPlan(self, definitions), residual, kind=kind)
+
+    def _derive_substitution_plan(self, goal, plan, residual, *, kind=None):
+        self._visible(residual)
+        goal = self._expression(goal)
+        kind = residual.kind if kind is None else kind
+        constant, coefficients, cancellation = plan.reduce(goal)
+        if constant != residual.expression.constant or coefficients != residual.expression.terms:
+            raise BuildError("Substitution residual mismatch: selected equations do not produce the supplied proved residual")
+        return self.lin(kind, [(residual, 1), *((fact, -multiplier) for fact, multiplier in cancellation)],
+                        expect=goal)
+
+    def derive_substitution_many(self, items, definitions, *, kind=None):
+        """Restore explicit (goal, residual) pairs with one ordered pivot plan.
+
+        An explicit result kind is common to the batch; otherwise each item
+        uses its residual's kind. Ordinary Lin premise restrictions still apply.
+        """
+        plan = _PivotPlan(self, definitions)
+        return [self._derive_substitution_plan(goal, plan, residual, kind=kind) for goal, residual in items]
+
     def substitution(self, definitions, *, goals=()):
         """Rewrite affected model facts and prove supplied equality expressions.
 

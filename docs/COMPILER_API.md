@@ -81,10 +81,16 @@ target = target.replace_row("gate", expr=target.var("x")-target.var("a"), upper=
 target = target.with_bounds("x", lower=0, upper=1)
 target = target.with_integrality(["x"], False)
 target.ledger.to_json()
-source.diff(target)
+source.diff(target).to_json()
 target.write_mps("output/reformulated.mps")
 target.write_mcm("output/target.mcm")
 ```
+
+Both `target.ledger` and `source.diff(target)` are `EditLedger` tuples,
+iterable over `Edit` objects with `.kind`, `.subject`, `.before`, `.after`,
+and `.reason`. Their `to_json()` returns a **list** of edit dictionaries,
+not a mapping with `.keys()` / `.items()`. The ledger records the edit history;
+`diff` compares the two complete named formulations.
 
 Substitutions are simultaneous in the original source coordinates. Elimination
 renumbers all retained coordinates and rewrites rows and objective. Finite
@@ -221,6 +227,7 @@ rounded = b.round(le_fact, int_fact)
 equality = b.eqpair(positive_le, negative_le)
 b.rewrite(old_fact, {"pivot": proved_definition_eq}, expect=desired_expr)
 b.rewrite_many(your_facts, your_ordered_pivot_equalities)
+b.derive_substitution(your_goal, your_ordered_pivot_equalities, proved_reduced_fact)
 b.substitution(your_ordered_pivot_equalities, goals=your_equality_expressions)
 b.combine_rows("Le", {"packing": 1, ("ranged", "Upper"): 2}, expect=desired_expr)
 b.box_le(your_inequality_expression) # supplied goal, declared variable bounds only
@@ -246,6 +253,26 @@ exactly to zero stay unproved.
 `rewrite` / `rewrite_many` retain separate ordered positions for name/index keys
 that denote the same coordinate. The existing ClaimBuilder `substitution`
 canonicalizes such aliases: the last equation wins at the first key's position.
+
+`derive_substitution(goal, definitions, residual, kind=None)` works in the
+opposite direction: reduce your selected goal using the selected ordered Eq
+pivots, check that it is exactly the supplied proven residual, then reverse the
+cancellation coefficients in one ordinary Lin step. For example, given a row
+`x-2*y=0` and the declared upper bound `y<=1`:
+
+```python
+x, y = b.model.var("x"), b.model.var("y")
+definitions = {"x": b.row("x_equals_twice_y")}
+residual = b.le([(b.upper("y"), 2)], expect=2*y-2)
+upper_x = b.derive_substitution(x-2, definitions, residual)
+```
+
+The default kind is the residual's kind. An explicit kind uses the complete Lin
+premise restrictions below. The helper never guesses a residual or chooses an
+equation, and a scope/drop/residual mismatch is rejected before emitting its
+step. `derive_substitution_many([(goal, residual), ...], definitions, kind=None)`
+reuses one plan; each item defaults to its own residual kind, while an explicit
+kind applies to every item.
 Linear rules check kinds and signs before emitting: Eq uses only Eq premises;
 Le uses arbitrary Eq multiples and nonnegative Le multiples; Int uses Eq
 premises and integer multiples of Int premises. Round requires identical terms
