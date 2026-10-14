@@ -1,0 +1,173 @@
+{
+  "schema": "kernel-compiler-api-performance-comparison-1",
+  "scope": "Fresh same-model MI identity bijection plumbing only; no Agent quality or reformulation acceptance claim",
+  "method": "Sum phase.wall_ns and compare independent process RSS high-water marks; full-plan baseline includes plan cache probes, compact samples include an additional Certificate cache probe. Not controlled repeated distributions.",
+  "later_source_changes": "Later checkpoint changes correct reverse projection-pair orientation, distinguish index/label selectors in completion caching, and reject duplicate nested fields in native assignment metadata. Compact records bind the earlier exact package/binary hashes and are not relabeled as timings of every later revision.",
+  "cases": [
+    {
+      "case": "synthetic-1000",
+      "baseline_record": {
+        "path": "audit/compiler-performance/C1-plumbing-small/synthetic-1000/record.json",
+        "sha256": "6cda8f849af116c7155cd519dd2ac16bdb9a6cdba7288c1c6a875b7d4a8181ac"
+      },
+      "compact_record": {
+        "path": "audit/compiler-performance/C3-compact-small/synthetic-1000/record.json",
+        "sha256": "f9465863202373b3d4dd2d7cc50bbbf991f9dd43048949471b96c1c7ee8659bc"
+      },
+      "source_sha256": "6abf0023c0fcaf15188aab5331bbe8d83ab597dfcaff58510fe86d8ac9b9872b",
+      "kernel_sha256": {
+        "baseline": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a",
+        "compact": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e"
+      },
+      "obligations": [
+        6001,
+        6001
+      ],
+      "verification_statistics_identical": true,
+      "proof_rpx_sha256_identical": true,
+      "request_json_sha256_identical": true,
+      "proof_sha256": "bffe22f6ac5df52ac7961694001c7d3ad23c6da007be37a82ad1fa3ebde5b661",
+      "request_sha256": "f748cb9034e5ed54d7c570f9027f1b3b95fa0619fc4648c7ebe1a6d1fb497225",
+      "phase_sum_ns": {
+        "baseline": 1925496874,
+        "compact": 1156875000
+      },
+      "observed_phase_sum_ratio_baseline_over_compact": 1.6643949207995679,
+      "python_max_rss_bytes": {
+        "baseline": 57933824,
+        "compact": 34275328
+      },
+      "compact_cache_checks": {
+        "model": {
+          "models": 1,
+          "owned_model_files": 1,
+          "completion_mcm_serializations": 1
+        },
+        "completion": {
+          "check_counts": [
+            6001,
+            6001
+          ],
+          "completed_checks_same_object": true,
+          "additional_native_calls": 0,
+          "additional_mcm_serializations": 0
+        },
+        "surface": {
+          "resolve_return_calls": 2,
+          "plan_return_calls": 0,
+          "resolve_calls_during_compile": 0
+        }
+      }
+    },
+    {
+      "case": "test9",
+      "baseline_record": {
+        "path": "audit/compiler-performance/C1-plumbing-small/test9/record.json",
+        "sha256": "29e672f9e74d34ef66bf78586263aa77473c7d6b8ab6adab65240ba5559e94fe"
+      },
+      "compact_record": {
+        "path": "audit/compiler-performance/C3-compact-small/test9/record.json",
+        "sha256": "113b469d9619584e83b783f159a5ce2c3bd65a368f68c3a0dc371ee076660231"
+      },
+      "source_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "kernel_sha256": {
+        "baseline": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a",
+        "compact": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e"
+      },
+      "obligations": [
+        8261,
+        8261
+      ],
+      "verification_statistics_identical": true,
+      "proof_rpx_sha256_identical": true,
+      "request_json_sha256_identical": true,
+      "proof_sha256": "0c4ba87d14f637772580ff6dc4d794f2f6790ed16d5a9de80ad5e891a466fd35",
+      "request_sha256": "5b65b8d77056a788ad366351320c818c28f87945ab7beadaa7d3687a26a96be0",
+      "phase_sum_ns": {
+        "baseline": 753161709,
+        "compact": 293686957
+      },
+      "observed_phase_sum_ratio_baseline_over_compact": 2.564505133947777,
+      "python_max_rss_bytes": {
+        "baseline": 71581696,
+        "compact": 42418176
+      },
+      "compact_cache_checks": {
+        "model": {
+          "models": 1,
+          "owned_model_files": 1,
+          "completion_mcm_serializations": 1
+        },
+        "completion": {
+          "check_counts": [
+            8261,
+            8261
+          ],
+          "completed_checks_same_object": true,
+          "additional_native_calls": 0,
+          "additional_mcm_serializations": 0
+        },
+        "surface": {
+          "resolve_return_calls": 2,
+          "plan_return_calls": 0,
+          "resolve_calls_during_compile": 0
+        }
+      }
+    },
+    {
+      "case": "test16",
+      "baseline_record": {
+        "path": "audit/compiler-performance/C1-plumbing-test16/test16/record.json",
+        "sha256": "d43c51641020e1ebc1a14c96b0eab84ec28158e629f1caa18c2a2001a4451803"
+      },
+      "compact_record": {
+        "path": "audit/compiler-performance/C3-compact-test16/test16/record.json",
+        "sha256": "59238a405242a9043022c00f3612a3d779e47493ec0c603aae7482d78b6801e2"
+      },
+      "source_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "kernel_sha256": {
+        "baseline": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a",
+        "compact": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e"
+      },
+      "obligations": [
+        926083,
+        926083
+      ],
+      "verification_statistics_identical": true,
+      "proof_rpx_sha256_identical": true,
+      "request_json_sha256_identical": true,
+      "proof_sha256": "7a0a376e1a7155dcd2cab19124851974599652571922cf51c079c32074d60345",
+      "request_sha256": "09607c1ad33b230b81ebe65feb9dd1ef3db49c5bc4e7177d95b372f6257b1b81",
+      "phase_sum_ns": {
+        "baseline": 126450871626,
+        "compact": 34608508666
+      },
+      "observed_phase_sum_ratio_baseline_over_compact": 3.6537509560539814,
+      "python_max_rss_bytes": {
+        "baseline": 3845390336,
+        "compact": 2227372032
+      },
+      "compact_cache_checks": {
+        "model": {
+          "models": 1,
+          "owned_model_files": 1,
+          "completion_mcm_serializations": 1
+        },
+        "completion": {
+          "check_counts": [
+            926083,
+            926083
+          ],
+          "completed_checks_same_object": true,
+          "additional_native_calls": 0,
+          "additional_mcm_serializations": 0
+        },
+        "surface": {
+          "resolve_return_calls": 2,
+          "plan_return_calls": 0,
+          "resolve_calls_during_compile": 0
+        }
+      }
+    }
+  ]
+}

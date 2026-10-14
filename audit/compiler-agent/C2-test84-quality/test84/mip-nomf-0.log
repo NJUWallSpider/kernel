@@ -1,0 +1,16 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+Model has either no columns or no rows, so ignoring user constraint matrix data and initialising empty matrix
+LP reformulated has 0 rows; 100 cols; 0 nonzeros
+Solving unconstrained LP
+Solving an unconstrained LP with 100 columns
+
+Model name          : reformulated
+Model status        : Optimal
+Objective value     :  3.7000000000e+01
+P-D objective error :  0.0000000000e+00
+HiGHS run time      :          0.00

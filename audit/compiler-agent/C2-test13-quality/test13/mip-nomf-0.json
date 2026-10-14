@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test13-quality/test13/mip.options",
+    "/Users/bhz/Code/reform_test/runs/test13-nomf-compiler-batch-C2-20261014/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 20.58884,
+  "load_average_at_start": [
+    3.44580078125,
+    2.85595703125,
+    2.771484375
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test13-quality/test13/mip-nomf-0.log",
+  "rows": 11734,
+  "variables": 10399,
+  "nonzeros": 44959,
+  "status": "Optimal",
+  "primal_objective": 125055.0,
+  "dual_bound": 125055.0,
+  "gap": "0%",
+  "gap_tolerance": "0.01%",
+  "solver_seconds": 20.55,
+  "nodes": 2393,
+  "optimal": true
+}

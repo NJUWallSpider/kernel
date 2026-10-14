@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/test84/mip.options",
+    "/Users/bhz/Code/reform_test/runs/test84-nomf-compiler-batch-C2-20261014/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.004572,
+  "load_average_at_start": [
+    3.34521484375,
+    3.55712890625,
+    3.15576171875
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/test84/mip-nomf-2.log",
+  "rows": 0,
+  "variables": 100,
+  "nonzeros": 0,
+  "status": "Optimal",
+  "primal_objective": 37.0,
+  "solver_seconds": 0.0,
+  "dual_bound": 37.0,
+  "optimal": true
+}

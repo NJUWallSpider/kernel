@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/probe-mip.options",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/solver-probe.lp"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.005527,
+  "load_average_at_start": [
+    3.25439453125,
+    3.55224609375,
+    3.14697265625
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/probe-mip.log",
+  "rows": 1,
+  "variables": 1,
+  "nonzeros": 1,
+  "status": "Optimal",
+  "primal_objective": 1.0,
+  "dual_bound": 1.0,
+  "gap": "0%",
+  "gap_tolerance": "0.01%",
+  "solver_seconds": 0.0,
+  "nodes": 0,
+  "optimal": true
+}

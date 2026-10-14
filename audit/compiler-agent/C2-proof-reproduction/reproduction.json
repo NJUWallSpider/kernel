@@ -1,0 +1,50 @@
+[
+  {
+    "case": "test13",
+    "seconds": 10.470144292,
+    "exit_code": 0,
+    "kernel_status": "VERIFIED",
+    "fresh_workspace": "/Users/bhz/Code/reform_test/runs/test13-compiler-proof-repro-C2",
+    "stdout": "{\n  \"bijections\": 0,\n  \"claims\": 4,\n  \"execute_us\": 75046,\n  \"limits\": {\n    \"depth\": 64,\n    \"live_facts\": 1000000,\n    \"work\": 1000000000\n  },\n  \"model_decode_us\": 18920,\n  \"points\": 0,\n  \"proof_decode_us\": 8891,\n  \"read_us\": 709,\n  \"statistics\": {\n    \"bijections\": 0,\n    \"branches\": 0,\n    \"flow_generated_rows\": 0,\n    \"flow_generated_terms\": 0,\n    \"flow_generated_variables\": 0,\n    \"flow_lifts\": 0,\n    \"injectivity_coordinates\": 0,\n    \"injectivity_generated_rows\": 0,\n    \"injectivity_generated_terms\": 0,\n    \"injectivity_generated_variables\": 0,\n    \"interval_generated_rows\": 0,\n    \"interval_generated_terms\": 0,\n    \"interval_generated_variables\": 0,\n    \"interval_lifts\": 0,\n    \"linear_terms\": 75954,\n    \"menu_generated_rows\": 36,\n    \"menu_generated_terms\": 9480,\n    \"menu_generated_variables\": 4722,\n    \"menu_lifts\": 1,\n    \"objective_level_domains\": 0,\n    \"objective_level_generated_rows\": 0,\n    \"objective_level_generated_terms\": 0,\n    \"obligations\": 161364,\n    \"peak_live_facts\": 90,\n    \"plotkin_pairs\": 0,\n    \"point_coefficient_terms\": 0,\n    \"points\": 0,\n    \"signed_generated_rows\": 0,\n    \"signed_generated_terms\": 0,\n    \"signed_generated_variables\": 0,\n    \"signed_lifts\": 0,\n    \"substitution_terms\": 151802,\n    \"work\": 2208150\n  },\n  \"status\": \"VERIFIED\",\n  \"total_us\": 103578\n}\n",
+    "stderr": "",
+    "identical_artifacts": {
+      "source.mcm": true,
+      "target.mcm": true,
+      "proof.rpx": true,
+      "request.json": true,
+      "reformulated.mps": true
+    }
+  },
+  {
+    "case": "test84",
+    "seconds": 0.47466104200000103,
+    "exit_code": 0,
+    "kernel_status": "VERIFIED",
+    "fresh_workspace": "/Users/bhz/Code/reform_test/runs/test84-compiler-proof-repro-C2",
+    "stdout": "{\n  \"bijections\": 0,\n  \"claims\": 2,\n  \"execute_us\": 5395,\n  \"limits\": {\n    \"depth\": 64,\n    \"live_facts\": 1000000,\n    \"work\": 1000000000\n  },\n  \"model_decode_us\": 126,\n  \"points\": 0,\n  \"proof_decode_us\": 1650,\n  \"read_us\": 84,\n  \"statistics\": {\n    \"bijections\": 0,\n    \"branches\": 0,\n    \"flow_generated_rows\": 0,\n    \"flow_generated_terms\": 0,\n    \"flow_generated_variables\": 0,\n    \"flow_lifts\": 0,\n    \"injectivity_coordinates\": 0,\n    \"injectivity_generated_rows\": 0,\n    \"injectivity_generated_terms\": 0,\n    \"injectivity_generated_variables\": 0,\n    \"interval_generated_rows\": 0,\n    \"interval_generated_terms\": 0,\n    \"interval_generated_variables\": 0,\n    \"interval_lifts\": 0,\n    \"linear_terms\": 47015,\n    \"menu_generated_rows\": 0,\n    \"menu_generated_terms\": 0,\n    \"menu_generated_variables\": 0,\n    \"menu_lifts\": 0,\n    \"objective_level_domains\": 0,\n    \"objective_level_generated_rows\": 0,\n    \"objective_level_generated_terms\": 0,\n    \"obligations\": 805,\n    \"peak_live_facts\": 938,\n    \"plotkin_pairs\": 0,\n    \"point_coefficient_terms\": 0,\n    \"points\": 0,\n    \"signed_generated_rows\": 0,\n    \"signed_generated_terms\": 0,\n    \"signed_generated_variables\": 0,\n    \"signed_lifts\": 0,\n    \"substitution_terms\": 0,\n    \"work\": 135415\n  },\n  \"status\": \"VERIFIED\",\n  \"total_us\": 7264\n}\n",
+    "stderr": "",
+    "identical_artifacts": {
+      "source.mcm": true,
+      "target.mcm": true,
+      "proof.rpx": true,
+      "request.json": true,
+      "reformulated.mps": true
+    }
+  },
+  {
+    "case": "test88",
+    "seconds": 5.698660332999999,
+    "exit_code": 0,
+    "kernel_status": "VERIFIED",
+    "fresh_workspace": "/Users/bhz/Code/reform_test/runs/test88-compiler-proof-repro-C2",
+    "stdout": "{\n  \"status\": \"VERIFIED\",\n  \"claims\": 3,\n  \"statistics\": {\n    \"bijections\": 0,\n    \"branches\": 3632,\n    \"flow_generated_rows\": 0,\n    \"flow_generated_terms\": 0,\n    \"flow_generated_variables\": 0,\n    \"flow_lifts\": 0,\n    \"injectivity_coordinates\": 0,\n    \"injectivity_generated_rows\": 0,\n    \"injectivity_generated_terms\": 0,\n    \"injectivity_generated_variables\": 0,\n    \"interval_generated_rows\": 0,\n    \"interval_generated_terms\": 0,\n    \"interval_generated_variables\": 0,\n    \"interval_lifts\": 0,\n    \"linear_terms\": 303688,\n    \"menu_generated_rows\": 0,\n    \"menu_generated_terms\": 0,\n    \"menu_generated_variables\": 0,\n    \"menu_lifts\": 0,\n    \"objective_level_domains\": 0,\n    \"objective_level_generated_rows\": 0,\n    \"objective_level_generated_terms\": 0,\n    \"obligations\": 18650,\n    \"peak_live_facts\": 13654,\n    \"plotkin_pairs\": 0,\n    \"point_coefficient_terms\": 0,\n    \"points\": 0,\n    \"signed_generated_rows\": 0,\n    \"signed_generated_terms\": 0,\n    \"signed_generated_variables\": 0,\n    \"signed_lifts\": 0,\n    \"substitution_terms\": 45536,\n    \"work\": 2343894\n  },\n  \"intended_artifact_audit\": \"exact named-semantic equality\"\n}\n",
+    "stderr": "",
+    "identical_artifacts": {
+      "source.mcm": true,
+      "target.mcm": true,
+      "proof.rpx": true,
+      "request.json": true,
+      "reformulated.mps": true
+    }
+  }
+]

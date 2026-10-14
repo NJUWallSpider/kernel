@@ -1,0 +1,15 @@
+{
+  "schema": "kernel-compiler-api-performance-suite-1",
+  "status": "VERIFIED",
+  "mode": "compact_complete",
+  "kernel_sha256": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e",
+  "cases": [
+    {
+      "case": "test16",
+      "record": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-test16/test16/record.json",
+      "exit_code": 0,
+      "sha256": "59238a405242a9043022c00f3612a3d779e47493ec0c603aae7482d78b6801e2"
+    }
+  ],
+  "note": "One fresh worker observation per case, not repeated latency distributions"
+}

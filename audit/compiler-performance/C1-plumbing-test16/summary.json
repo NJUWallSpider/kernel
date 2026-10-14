@@ -1,0 +1,14 @@
+{
+  "schema": "kernel-compiler-api-performance-suite-1",
+  "status": "VERIFIED",
+  "kernel_sha256": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a",
+  "cases": [
+    {
+      "case": "test16",
+      "record": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/record.json",
+      "exit_code": 0,
+      "sha256": "d43c51641020e1ebc1a14c96b0eab84ec28158e629f1caa18c2a2001a4451803"
+    }
+  ],
+  "note": "One fresh worker observation per case, not repeated latency distributions"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "kernel-compiler-api-performance-suite-1",
+  "status": "VERIFIED",
+  "mode": "compact_complete",
+  "kernel_sha256": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e",
+  "cases": [
+    {
+      "case": "synthetic-1000",
+      "record": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/record.json",
+      "exit_code": 0,
+      "sha256": "f9465863202373b3d4dd2d7cc50bbbf991f9dd43048949471b96c1c7ee8659bc"
+    },
+    {
+      "case": "test9",
+      "record": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/test9/record.json",
+      "exit_code": 0,
+      "sha256": "113b469d9619584e83b783f159a5ce2c3bd65a368f68c3a0dc371ee076660231"
+    }
+  ],
+  "note": "One fresh worker observation per case, not repeated latency distributions"
+}

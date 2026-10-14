@@ -1,0 +1,699 @@
+{
+  "schema": "kernel-compiler-api-performance-1",
+  "case": "synthetic-1000",
+  "mode": "compact_complete",
+  "status": "VERIFIED",
+  "started_utc": "2026-10-14T15:48:00.193649+00:00",
+  "purpose": "Fresh same-model MI identity bijection plumbing; not Agent quality or reformulation acceptance",
+  "source": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/synthetic.mps",
+    "bytes": 90188,
+    "sha256": "6abf0023c0fcaf15188aab5331bbe8d83ab597dfcaff58510fe86d8ac9b9872b"
+  },
+  "kernel": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/kernel.rpx",
+    "sha256": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e"
+  },
+  "python": {
+    "executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "package_hashes": {
+    "python/kernel_compiler/__init__.py": "0ce254a673d21d94cb60b6e5c8cdf006931f659722a65a38cd8eb1632e62aac5",
+    "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "python/kernel_compiler/expr.py": "ad8aebf02c11640f336c9e52aa2bcc2e6069d7c62b21b32ebfe511f6ad414589",
+    "python/kernel_compiler/model.py": "99eb5ca089f042bf9922480f09ef187b7345adca152b6b160a01ceb23b69fcc1",
+    "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "python/kernel_compiler/proof.py": "defb48a7a0768048b4c9cb0d40a42bf72d4eb3f5ba90d72c1f299678c58e37fc",
+    "python/kernel_compiler/session.py": "c64bcf463edcb5493751ca9562651e01cb2aa0e88435ea2542d0153ac9ae92e0",
+    "python/pyproject.toml": "8dbd494e510003c14aeeb91a3aff0010b4230eb569b0715633da6efe2ecabbd0"
+  },
+  "script_sha256": "821e3e6a69f6cf4f3a57bd9abcfd7c87ebb03aa8f83583b59f7496c2e46e2189",
+  "phases": [
+    {
+      "name": "model_load",
+      "wall_ns": 1030828333,
+      "native_calls": 2,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23461888,
+        "native_child_max_rss_bytes": 6684672,
+        "python_user_seconds": 0.059359999999999996,
+        "python_system_seconds": 0.015422,
+        "child_user_seconds": 0.007117,
+        "child_system_seconds": 0.006546
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "proof_construction",
+      "wall_ns": 4083,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23461888,
+        "native_child_max_rss_bytes": 6684672,
+        "python_user_seconds": 0.059669,
+        "python_system_seconds": 0.015602999999999999,
+        "child_user_seconds": 0.007117,
+        "child_system_seconds": 0.006546
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "claim_construction",
+      "wall_ns": 9068750,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23560192,
+        "native_child_max_rss_bytes": 6684672,
+        "python_user_seconds": 0.068551,
+        "python_system_seconds": 0.015820999999999998,
+        "child_user_seconds": 0.007117,
+        "child_system_seconds": 0.006546
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "forward_complete",
+      "wall_ns": 24355375,
+      "native_calls": 1,
+      "json_serializations": 3,
+      "mcm_serializations": 1,
+      "memory_high_water": {
+        "python_max_rss_bytes": 25608192,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.08333499999999999,
+        "python_system_seconds": 0.017929,
+        "child_user_seconds": 0.012808,
+        "child_system_seconds": 0.007847999999999999
+      },
+      "wire_lowering": {
+        "calls": 4,
+        "container_calls": 4
+      }
+    },
+    {
+      "name": "reverse_complete",
+      "wall_ns": 13375292,
+      "native_calls": 1,
+      "json_serializations": 3,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 27443200,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.08773299999999999,
+        "python_system_seconds": 0.019764999999999998,
+        "child_user_seconds": 0.018643,
+        "child_system_seconds": 0.009176
+      },
+      "wire_lowering": {
+        "calls": 4,
+        "container_calls": 4
+      }
+    },
+    {
+      "name": "certificate_cache",
+      "wall_ns": 12620834,
+      "native_calls": 0,
+      "json_serializations": 4,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 29343744,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.099995,
+        "python_system_seconds": 0.020423,
+        "child_user_seconds": 0.018643,
+        "child_system_seconds": 0.009176
+      },
+      "wire_lowering": {
+        "calls": 2,
+        "container_calls": 2
+      }
+    },
+    {
+      "name": "compile",
+      "wall_ns": 57507792,
+      "native_calls": 1,
+      "json_serializations": 7,
+      "mcm_serializations": 2,
+      "memory_high_water": {
+        "python_max_rss_bytes": 34275328,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.145627,
+        "python_system_seconds": 0.023566999999999998,
+        "child_user_seconds": 0.020569,
+        "child_system_seconds": 0.01018
+      },
+      "wire_lowering": {
+        "calls": 6,
+        "container_calls": 6
+      }
+    },
+    {
+      "name": "verify",
+      "wall_ns": 8670583,
+      "native_calls": 1,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 34275328,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.146083,
+        "python_system_seconds": 0.02448,
+        "child_user_seconds": 0.027091,
+        "child_system_seconds": 0.011148
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "artifact_audit",
+      "wall_ns": 443958,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 34275328,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.14677199999999999,
+        "python_system_seconds": 0.024902,
+        "child_user_seconds": 0.027091,
+        "child_system_seconds": 0.011148
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    }
+  ],
+  "native_calls": [
+    {
+      "phase": "model_load",
+      "command": [
+        "canonical",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/synthetic.mps",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-igdjewi3/model.mcm"
+      ],
+      "result": {
+        "mcm_bytes": 137843,
+        "parse_us": 1845,
+        "read_us": 73,
+        "rows": 1000,
+        "status": "CANONICALIZED",
+        "total_us": 2670,
+        "variables": 1000
+      },
+      "wall_ns": 992459709,
+      "memory_high_water": {
+        "python_max_rss_bytes": 20971520,
+        "native_child_max_rss_bytes": 4505600,
+        "python_user_seconds": 0.028503999999999998,
+        "python_system_seconds": 0.013293,
+        "child_user_seconds": 0.003986,
+        "child_system_seconds": 0.0047599999999999995
+      }
+    },
+    {
+      "phase": "model_load",
+      "command": [
+        "export-model",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-igdjewi3/model.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-igdjewi3/model.json"
+      ],
+      "result": {
+        "json_bytes": 411585,
+        "name": "synthetic_identity",
+        "rows": 1000,
+        "status": "EXPORTED",
+        "total_us": 2706,
+        "variables": 1000
+      },
+      "wall_ns": 6492750,
+      "memory_high_water": {
+        "python_max_rss_bytes": 20971520,
+        "native_child_max_rss_bytes": 6684672,
+        "python_user_seconds": 0.028872,
+        "python_system_seconds": 0.014737,
+        "child_user_seconds": 0.007117,
+        "child_system_seconds": 0.006546
+      }
+    },
+    {
+      "phase": "forward_complete",
+      "command": [
+        "resolve-return",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-cache-jac6zu3c/model-0.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-cache-jac6zu3c/model-0.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-36s5lujp/spec.json",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-36s5lujp/result.json"
+      ],
+      "result": {
+        "json_bytes": 74747,
+        "missing": 0,
+        "obligations": 6001,
+        "status": "PLANNED",
+        "total_us": 5543
+      },
+      "wall_ns": 8140875,
+      "memory_high_water": {
+        "python_max_rss_bytes": 25395200,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.08187499999999999,
+        "python_system_seconds": 0.017358,
+        "child_user_seconds": 0.012808,
+        "child_system_seconds": 0.007847999999999999
+      }
+    },
+    {
+      "phase": "reverse_complete",
+      "command": [
+        "resolve-return",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-cache-jac6zu3c/model-0.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-cache-jac6zu3c/model-0.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-7o33e80i/spec.json",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-7o33e80i/result.json"
+      ],
+      "result": {
+        "json_bytes": 74747,
+        "missing": 0,
+        "obligations": 6001,
+        "status": "PLANNED",
+        "total_us": 5522
+      },
+      "wall_ns": 8352750,
+      "memory_high_water": {
+        "python_max_rss_bytes": 26984448,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.08591299999999999,
+        "python_system_seconds": 0.019208,
+        "child_user_seconds": 0.018643,
+        "child_system_seconds": 0.009176
+      }
+    },
+    {
+      "phase": "compile",
+      "command": [
+        "compile",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/certificate.json",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/proof.rpx"
+      ],
+      "result": {
+        "rpx_bytes": 158090,
+        "status": "COMPILED",
+        "total_us": 7099,
+        "version": 1
+      },
+      "wall_ns": 9839333,
+      "memory_high_water": {
+        "python_max_rss_bytes": 34275328,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.14504,
+        "python_system_seconds": 0.022817999999999998,
+        "child_user_seconds": 0.020569,
+        "child_system_seconds": 0.01018
+      }
+    },
+    {
+      "phase": "verify",
+      "command": [
+        "verify",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/source.mcm",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/target.mcm",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/proof.rpx",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/request.json"
+      ],
+      "result": {
+        "bijections": 0,
+        "claims": 2,
+        "execute_us": 4290,
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 1000000000
+        },
+        "model_decode_us": 1182,
+        "points": 0,
+        "proof_decode_us": 429,
+        "read_us": 96,
+        "statistics": {
+          "bijections": 0,
+          "branches": 0,
+          "flow_generated_rows": 0,
+          "flow_generated_terms": 0,
+          "flow_generated_variables": 0,
+          "flow_lifts": 0,
+          "injectivity_coordinates": 0,
+          "injectivity_generated_rows": 0,
+          "injectivity_generated_terms": 0,
+          "injectivity_generated_variables": 0,
+          "interval_generated_rows": 0,
+          "interval_generated_terms": 0,
+          "interval_generated_variables": 0,
+          "interval_lifts": 0,
+          "linear_terms": 0,
+          "menu_generated_rows": 0,
+          "menu_generated_terms": 0,
+          "menu_generated_variables": 0,
+          "menu_lifts": 0,
+          "objective_level_domains": 0,
+          "objective_level_generated_rows": 0,
+          "objective_level_generated_terms": 0,
+          "obligations": 12002,
+          "peak_live_facts": 0,
+          "plotkin_pairs": 0,
+          "point_coefficient_terms": 0,
+          "points": 0,
+          "signed_generated_rows": 0,
+          "signed_generated_terms": 0,
+          "signed_generated_variables": 0,
+          "signed_lifts": 0,
+          "substitution_terms": 8000,
+          "work": 56002
+        },
+        "status": "VERIFIED",
+        "total_us": 6005
+      },
+      "wall_ns": 8642041,
+      "memory_high_water": {
+        "python_max_rss_bytes": 34275328,
+        "native_child_max_rss_bytes": 8241152,
+        "python_user_seconds": 0.14607799999999999,
+        "python_system_seconds": 0.024468999999999998,
+        "child_user_seconds": 0.027091,
+        "child_system_seconds": 0.011148
+      }
+    }
+  ],
+  "cache_condition": "Fresh Python worker, warm filesystem; no cache flushing; concurrent Agent runs may contend",
+  "rss_note": "Python/native-child individual process high-water marks; not their sum or a sampled process-tree peak",
+  "json_serializations": [
+    {
+      "phase": "forward_complete",
+      "caller": "backend.py:json_command",
+      "characters": 83791,
+      "wall_ns": 911250
+    },
+    {
+      "phase": "forward_complete",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 176000
+    },
+    {
+      "phase": "forward_complete",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 134666
+    },
+    {
+      "phase": "reverse_complete",
+      "caller": "backend.py:json_command",
+      "characters": 83790,
+      "wall_ns": 896292
+    },
+    {
+      "phase": "reverse_complete",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 191292
+    },
+    {
+      "phase": "reverse_complete",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 147375
+    },
+    {
+      "phase": "certificate_cache",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 144750
+    },
+    {
+      "phase": "certificate_cache",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 137125
+    },
+    {
+      "phase": "certificate_cache",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 208167
+    },
+    {
+      "phase": "certificate_cache",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 141958
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 148583
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 152834
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:_completion_state",
+      "characters": 11898,
+      "wall_ns": 205458
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:_completion_state",
+      "characters": 11899,
+      "wall_ns": 138750
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 243086,
+      "wall_ns": 2221958
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 19837,
+      "wall_ns": 275334
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 1529,
+      "wall_ns": 68042
+    }
+  ],
+  "mcm_serializations": [
+    {
+      "phase": "forward_complete",
+      "bytes": 137843,
+      "wall_ns": 10865625
+    },
+    {
+      "phase": "compile",
+      "bytes": 137843,
+      "wall_ns": 11060000
+    },
+    {
+      "phase": "compile",
+      "bytes": 137843,
+      "wall_ns": 10806833
+    }
+  ],
+  "wire_lowering_counts": {
+    "forward_complete": {
+      "calls": 4,
+      "container_calls": 4
+    },
+    "reverse_complete": {
+      "calls": 4,
+      "container_calls": 4
+    },
+    "certificate_cache": {
+      "calls": 2,
+      "container_calls": 2
+    },
+    "compile": {
+      "calls": 6,
+      "container_calls": 6
+    }
+  },
+  "memory_high_water": {
+    "python_max_rss_bytes": 34275328,
+    "native_child_max_rss_bytes": 8241152,
+    "python_user_seconds": 0.148049,
+    "python_system_seconds": 0.025351,
+    "child_user_seconds": 0.027091,
+    "child_system_seconds": 0.011148
+  },
+  "model_shape": {
+    "variables": 1000,
+    "rows": 1000,
+    "integers": 1000,
+    "nonzeros": 2000,
+    "objective_nonzeros": 1000,
+    "equalities": 0,
+    "ranged_rows": 0
+  },
+  "claims": [
+    {
+      "reverse": false,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "projection": {
+        "kind": "complete_name_identity",
+        "count": 1000
+      },
+      "inverse": 1
+    },
+    {
+      "reverse": true,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "projection": {
+        "kind": "complete_name_identity",
+        "count": 1000
+      },
+      "inverse": 0
+    }
+  ],
+  "obligations": [
+    6001,
+    6001
+  ],
+  "model_cache_check": {
+    "models": 1,
+    "owned_model_files": 1,
+    "completion_mcm_serializations": 1
+  },
+  "completion_cache_check": {
+    "check_counts": [
+      6001,
+      6001
+    ],
+    "completed_checks_same_object": true,
+    "additional_native_calls": 0,
+    "additional_mcm_serializations": 0
+  },
+  "native_surface_check": {
+    "resolve_return_calls": 2,
+    "plan_return_calls": 0,
+    "resolve_calls_during_compile": 0
+  },
+  "verification": {
+    "bijections": 0,
+    "claims": 2,
+    "execute_us": 4290,
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 1182,
+    "points": 0,
+    "proof_decode_us": 429,
+    "read_us": 96,
+    "statistics": {
+      "bijections": 0,
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "injectivity_coordinates": 0,
+      "injectivity_generated_rows": 0,
+      "injectivity_generated_terms": 0,
+      "injectivity_generated_variables": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 0,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "objective_level_domains": 0,
+      "objective_level_generated_rows": 0,
+      "objective_level_generated_terms": 0,
+      "obligations": 12002,
+      "peak_live_facts": 0,
+      "plotkin_pairs": 0,
+      "point_coefficient_terms": 0,
+      "points": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 8000,
+      "work": 56002
+    },
+    "status": "VERIFIED",
+    "total_us": 6005
+  },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/source.mcm",
+      "bytes": 137843,
+      "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/target.mcm",
+      "bytes": 137843,
+      "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/proof.rpx",
+      "bytes": 158090,
+      "sha256": "bffe22f6ac5df52ac7961694001c7d3ad23c6da007be37a82ad1fa3ebde5b661"
+    },
+    "request": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/request.json",
+      "bytes": 19838,
+      "sha256": "f748cb9034e5ed54d7c570f9027f1b3b95fa0619fc4648c7ebe1a6d1fb497225"
+    },
+    "certificate": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-compact-small/synthetic-1000/delivery/certificate.json",
+      "bytes": 243087,
+      "sha256": "9c9e5a35ffd471b74fb534dc1e8d8834113ee4a6172c12bbc2af53aafbb4c9e2"
+    }
+  },
+  "package_hashes_after": {
+    "python/kernel_compiler/__init__.py": "0ce254a673d21d94cb60b6e5c8cdf006931f659722a65a38cd8eb1632e62aac5",
+    "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "python/kernel_compiler/expr.py": "ad8aebf02c11640f336c9e52aa2bcc2e6069d7c62b21b32ebfe511f6ad414589",
+    "python/kernel_compiler/model.py": "99eb5ca089f042bf9922480f09ef187b7345adca152b6b160a01ceb23b69fcc1",
+    "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "python/kernel_compiler/proof.py": "defb48a7a0768048b4c9cb0d40a42bf72d4eb3f5ba90d72c1f299678c58e37fc",
+    "python/kernel_compiler/session.py": "c64bcf463edcb5493751ca9562651e01cb2aa0e88435ea2542d0153ac9ae92e0",
+    "python/pyproject.toml": "8dbd494e510003c14aeeb91a3aff0010b4230eb569b0715633da6efe2ecabbd0"
+  },
+  "kernel_sha256_after": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e",
+  "finished_utc": "2026-10-14T15:48:01.369565+00:00"
+}

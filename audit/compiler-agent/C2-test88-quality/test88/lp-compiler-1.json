@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test88-quality/test88/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C2-20261014/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.011252,
+  "load_average_at_start": [
+    3.9443359375,
+    3.5537109375,
+    3.36767578125
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test88-quality/test88/lp-compiler-1.log",
+  "rows": 1979,
+  "variables": 288,
+  "nonzeros": 6712,
+  "status": "Optimal",
+  "primal_objective": 27.0,
+  "solver_seconds": 0.01,
+  "simplex_iterations": 369,
+  "dual_bound": 27.0,
+  "optimal": true
+}

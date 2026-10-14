@@ -1,0 +1,472 @@
+{
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+  "checkpoint": "53a6a7868b7523c6988a1654a4d4e9c7d10eb65f",
+  "model": "gpt-6.1-sol",
+  "thinking": "high",
+  "tools": "eval,read",
+  "acceptance_complete": false,
+  "why_not_complete": "All three independently verified; test13 and test84 have near matched agent times and strong measured reductions, but test88 missed integer residual strengthening: nomf LP227 versuscompiler27, nomfMIPsolved44s versuscompiler120s timeout.",
+  "cases": {
+    "test13": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test13-compiler-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 570.584,
+          "llm_seconds": 550.847,
+          "tool_seconds": 17.503,
+          "tool_calls": 26,
+          "tool_errors": 0,
+          "model_shape": {
+            "variables": 5677,
+            "rows": 14571,
+            "integers": 5653,
+            "nonzeros": 35545,
+            "objective_nonzeros": 1
+          },
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "relation": "Objective-preserving equality under projection onto all 5677 retained coordinates, both for the full mixed-integer feasible sets and separately for their continuous relaxations. Four unrestricted directional claims; no inverse/bijection claim.",
+          "model_sha256": "ecd34ddfffee121f8b6ddf38fdf81c6927f842b8990f26447c6990f17b2b24d4",
+          "input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+          "scope_flags": [],
+          "requested_claims": [
+            {
+              "reverse": false,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 5677,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": false,
+              "input_integers": false,
+              "output_integers": false,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 5677,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": true,
+              "input_integers": false,
+              "output_integers": false,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 5677,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": true,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 5677,
+              "affine_projection_count": 0
+            }
+          ]
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test13-nomf-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 448.423,
+          "llm_seconds": 441.93,
+          "tool_seconds": 5.418,
+          "tool_calls": 16,
+          "tool_errors": 1,
+          "model_shape": {
+            "variables": 10399,
+            "rows": 11734,
+            "integers": 10375,
+            "nonzeros": 44959,
+            "objective_nonzeros": 1
+          },
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "relation": null,
+          "model_sha256": "5efb63e49c43be79e322a3aed19bd459094c8027f34051faed5776e4715af1ec",
+          "input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+          "scope_flags": []
+        }
+      },
+      "agent_wall_ratio": 1.2724235821980585,
+      "quality": {
+        "record": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test13-quality-repeated/quality.json",
+        "record_sha256": "76988855aa09d09df64d389b9191a0d6b32032f16c8f7d87cf17da23d09eceba",
+        "comparison": {
+          "mip_optimality_complete": true,
+          "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+          "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+          "matched_mip_objectives": true,
+          "lp_objective_compiler_minus_nomf": -439.5793369999883,
+          "lp_objective_compiler_minus_source": 0.0,
+          "mip_median_wall_ratio_compiler_to_nomf": 0.12371595429915382,
+          "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+        },
+        "mip": {
+          "source": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 125055.0,
+            "first_dual_bound": 125055.0,
+            "median_wall_seconds": 7.719689,
+            "median_solver_seconds": 7.68,
+            "first_gap": "0%",
+            "first_gap_tolerance": "0.01%"
+          },
+          "compiler": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 125055.0,
+            "first_dual_bound": 125055.0,
+            "median_wall_seconds": 2.579817,
+            "median_solver_seconds": 2.56,
+            "first_gap": "0%",
+            "first_gap_tolerance": "0.01%"
+          },
+          "nomf": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 125055.0,
+            "first_dual_bound": 125055.0,
+            "median_wall_seconds": 20.852743,
+            "median_solver_seconds": 20.82,
+            "first_gap": "0%",
+            "first_gap_tolerance": "0.01%"
+          }
+        },
+        "lp": {
+          "source": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 99128.924471,
+            "first_dual_bound": 99128.924471,
+            "median_wall_seconds": 0.118541,
+            "median_solver_seconds": 0.1,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "compiler": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 99128.924471,
+            "first_dual_bound": 99128.924471,
+            "median_wall_seconds": 0.087342,
+            "median_solver_seconds": 0.07,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "nomf": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 99568.503808,
+            "first_dual_bound": 99568.503808,
+            "median_wall_seconds": 0.175646,
+            "median_solver_seconds": 0.16,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          }
+        }
+      }
+    },
+    "test84": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test84-compiler-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 429.756,
+          "llm_seconds": 427.94,
+          "tool_seconds": 0.841,
+          "tool_calls": 19,
+          "tool_errors": 1,
+          "model_shape": {
+            "variables": 1,
+            "rows": 0,
+            "integers": 0,
+            "nonzeros": 0,
+            "objective_nonzeros": 1
+          },
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "relation": "Unrestricted objective-preserving affine bijection between the full original mixed-integer feasible set and the target feasible set; both are singletons. Forward unit=1, reverse every original coordinate is its certified constant. Not equivalence of LP relaxations.",
+          "model_sha256": "ac91102ccdb304f923f3a3f1ac0f28a76046c2555c0ac47333aa0e8f275d527b",
+          "input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+          "scope_flags": [],
+          "requested_claims": [
+            {
+              "reverse": false,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "Equal",
+              "inverse": 1,
+              "projection_count": 0,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": true,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "Equal",
+              "inverse": 0,
+              "projection_count": 0,
+              "affine_projection_count": 0
+            }
+          ]
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test84-nomf-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 445.373,
+          "llm_seconds": 444.126,
+          "tool_seconds": 0.496,
+          "tool_calls": 13,
+          "tool_errors": 0,
+          "model_shape": {
+            "variables": 100,
+            "rows": 0,
+            "integers": 0,
+            "nonzeros": 0,
+            "objective_nonzeros": 100
+          },
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "relation": null,
+          "model_sha256": "177579d76b1e2803cbe44cabe631bd85f9a95af81c50dcc3983a2d1ddc8cdea9",
+          "input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+          "scope_flags": []
+        }
+      },
+      "agent_wall_ratio": 0.9649350095313366,
+      "quality": {
+        "record": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test84-quality/quality.json",
+        "record_sha256": "3148f11ec2faa4885de1a1e1c977baa1d3253ebe4491c62b09067834833e5c00",
+        "comparison": {
+          "mip_optimality_complete": true,
+          "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+          "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+          "matched_mip_objectives": true,
+          "lp_objective_compiler_minus_nomf": 0.0,
+          "lp_objective_compiler_minus_source": 37.0,
+          "mip_median_wall_ratio_compiler_to_nomf": 1.2157928388746801,
+          "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+        },
+        "mip": {
+          "source": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 37.0,
+            "first_dual_bound": 37.0,
+            "median_wall_seconds": 5.545611,
+            "median_solver_seconds": 5.54,
+            "first_gap": "0%",
+            "first_gap_tolerance": "0.01%"
+          },
+          "compiler": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 37.0,
+            "first_dual_bound": 37.0,
+            "median_wall_seconds": 0.003803,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "nomf": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 37.0,
+            "first_dual_bound": 37.0,
+            "median_wall_seconds": 0.003128,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          }
+        },
+        "lp": {
+          "source": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 0.0,
+            "first_dual_bound": 0.0,
+            "median_wall_seconds": 0.003334,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "compiler": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 37.0,
+            "first_dual_bound": 37.0,
+            "median_wall_seconds": 0.003068,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "nomf": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 37.0,
+            "first_dual_bound": 37.0,
+            "median_wall_seconds": 0.002812,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          }
+        }
+      }
+    },
+    "test88": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 1425.417,
+          "llm_seconds": 1394.735,
+          "tool_seconds": 28.168,
+          "tool_calls": 38,
+          "tool_errors": 2,
+          "model_shape": {
+            "variables": 288,
+            "rows": 1979,
+            "integers": 48,
+            "nonzeros": 6712,
+            "objective_nonzeros": 88
+          },
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "relation": "Exact projection of the integer feasible set onto all target coordinates; minimization optimal-value equivalence via non-increasing forward projection and objective-equal reverse extension. Reverse extension also valid on LP relaxations. No source-to-target LP claim or full objective-valued bijection.",
+          "model_sha256": "c539b35034f4f9552b7deee54e498bc313e0a904b1980a082aa6a98965356994",
+          "input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+          "scope_flags": [],
+          "requested_claims": [
+            {
+              "reverse": false,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "NonIncreasing",
+              "inverse": null,
+              "projection_count": 288,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": true,
+              "input_integers": true,
+              "output_integers": true,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 288,
+              "affine_projection_count": 0
+            },
+            {
+              "reverse": true,
+              "input_integers": false,
+              "output_integers": false,
+              "objective": "Equal",
+              "inverse": null,
+              "projection_count": 288,
+              "affine_projection_count": 0
+            }
+          ]
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test88-nomf-compiler-batch-C2-20261014",
+          "agent_wall_seconds": 983.152,
+          "llm_seconds": 979.675,
+          "tool_seconds": 2.469,
+          "tool_calls": 19,
+          "tool_errors": 0,
+          "model_shape": {
+            "variables": 198,
+            "rows": 1871,
+            "integers": 48,
+            "nonzeros": 9952,
+            "objective_nonzeros": 70
+          },
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "relation": null,
+          "model_sha256": "711026cb2e19339f5b8c5d69eefd6ea9820a1c01becb5ea181cde2f4a8f1d7bb",
+          "input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+          "scope_flags": []
+        }
+      },
+      "agent_wall_ratio": 1.4498439712272364,
+      "quality": {
+        "record": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test88-quality/quality.json",
+        "record_sha256": "b85468219ebb378fc77cdc2e47bb9feeddf4c5cd374f607e9896e3378f59063a",
+        "comparison": {
+          "mip_optimality_complete": false,
+          "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+          "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+          "lp_objective_compiler_minus_nomf": -200.0,
+          "lp_objective_compiler_minus_source": 0.0,
+          "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+        },
+        "mip": {
+          "source": {
+            "sample_count": 1,
+            "all_optimal": false,
+            "first_primal_objective": 230.0,
+            "first_dual_bound": 31.0221111111,
+            "median_wall_seconds": 120.015243,
+            "median_solver_seconds": 120.0,
+            "first_gap": "86.51%",
+            "first_gap_tolerance": "0.01%"
+          },
+          "compiler": {
+            "sample_count": 1,
+            "all_optimal": false,
+            "first_primal_objective": 230.0,
+            "first_dual_bound": 115.0,
+            "median_wall_seconds": 120.011458,
+            "median_solver_seconds": 120.0,
+            "first_gap": "50%",
+            "first_gap_tolerance": "0.01%"
+          },
+          "nomf": {
+            "sample_count": 1,
+            "all_optimal": true,
+            "first_primal_objective": 230.0,
+            "first_dual_bound": 229.986143187,
+            "median_wall_seconds": 43.998305,
+            "median_solver_seconds": 43.99,
+            "first_gap": "0.00602%",
+            "first_gap_tolerance": "0.01%"
+          }
+        },
+        "lp": {
+          "source": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 27.0,
+            "first_dual_bound": 27.0,
+            "median_wall_seconds": 0.064053,
+            "median_solver_seconds": 0.05,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "compiler": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 27.0,
+            "first_dual_bound": 27.0,
+            "median_wall_seconds": 0.011602,
+            "median_solver_seconds": 0.01,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          },
+          "nomf": {
+            "sample_count": 3,
+            "all_optimal": true,
+            "first_primal_objective": 227.0,
+            "first_dual_bound": 227.0,
+            "median_wall_seconds": 0.010155,
+            "median_solver_seconds": 0.0,
+            "first_gap": null,
+            "first_gap_tolerance": null
+          }
+        }
+      }
+    }
+  },
+  "proof_reproduction": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-proof-reproduction/reproduction.json"
+}

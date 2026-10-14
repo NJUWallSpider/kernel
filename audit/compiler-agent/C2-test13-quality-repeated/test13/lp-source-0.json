@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test13-quality-repeated/test13/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test13-compiler-compiler-batch-C2-20261014/input/model.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.118541,
+  "load_average_at_start": [
+    3.6689453125,
+    3.7744140625,
+    3.44921875
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-test13-quality-repeated/test13/lp-source-0.log",
+  "rows": 14589,
+  "variables": 10399,
+  "nonzeros": 44959,
+  "status": "Optimal",
+  "primal_objective": 99128.924471,
+  "solver_seconds": 0.1,
+  "simplex_iterations": 7104,
+  "dual_bound": 99128.924471,
+  "optimal": true
+}

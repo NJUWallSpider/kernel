@@ -1,0 +1,30 @@
+{
+  "format": "kernel-compiler-delivery-1",
+  "relation": "caller-declared Kernel request",
+  "pieces": [
+    {
+      "source": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/source.mcm",
+      "target": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/target.mcm",
+      "proof": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/proof.rpx",
+      "request": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/request.json"
+    }
+  ],
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/source.mcm",
+      "sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/target.mcm",
+      "sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/proof.rpx",
+      "sha256": "7a0a376e1a7155dcd2cab19124851974599652571922cf51c079c32074d60345"
+    },
+    "request": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-test16/test16/delivery/request.json",
+      "sha256": "09607c1ad33b230b81ebe65feb9dd1ef3db49c5bc4e7177d95b372f6257b1b81"
+    }
+  }
+}

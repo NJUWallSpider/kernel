@@ -1,0 +1,761 @@
+{
+  "schema": "kernel-compiler-api-performance-1",
+  "case": "synthetic-1000",
+  "status": "VERIFIED",
+  "started_utc": "2026-10-14T14:59:04.362683+00:00",
+  "purpose": "Fresh same-model MI identity bijection plumbing; not Agent quality or reformulation acceptance",
+  "source": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/synthetic.mps",
+    "bytes": 90188,
+    "sha256": "6abf0023c0fcaf15188aab5331bbe8d83ab597dfcaff58510fe86d8ac9b9872b"
+  },
+  "kernel": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/kernel.rpx",
+    "sha256": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a"
+  },
+  "python": {
+    "executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "package_hashes": {
+    "python/kernel_compiler/__init__.py": "0ce254a673d21d94cb60b6e5c8cdf006931f659722a65a38cd8eb1632e62aac5",
+    "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "python/kernel_compiler/expr.py": "ad8aebf02c11640f336c9e52aa2bcc2e6069d7c62b21b32ebfe511f6ad414589",
+    "python/kernel_compiler/model.py": "3d58bb0065b5045ae6406df4967d55acfaa6f171864f22925cec8cef80d15d3c",
+    "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "python/kernel_compiler/proof.py": "a1db63ad77cd5ec0913510bf0e2dcae04e15816de57b12efdf7bfe5140978f5c",
+    "python/kernel_compiler/session.py": "a7cf56abf57707cbe58ae5f602d29b38fcd0f7971aeb7cf6cc4331d8424c5b5b",
+    "python/pyproject.toml": "8dbd494e510003c14aeeb91a3aff0010b4230eb569b0715633da6efe2ecabbd0"
+  },
+  "script_sha256": "9b7aa22b232955cb97c53ddd882796f54c3f60940a8613cff7db627713f02ffa",
+  "phases": [
+    {
+      "name": "model_load",
+      "wall_ns": 1480941541,
+      "native_calls": 2,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23052288,
+        "native_child_max_rss_bytes": 6651904,
+        "python_user_seconds": 0.071565,
+        "python_system_seconds": 0.017384,
+        "child_user_seconds": 0.014972999999999998,
+        "child_system_seconds": 0.011359
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "proof_construction",
+      "wall_ns": 3166,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23052288,
+        "native_child_max_rss_bytes": 6651904,
+        "python_user_seconds": 0.07189999999999999,
+        "python_system_seconds": 0.017525,
+        "child_user_seconds": 0.014972999999999998,
+        "child_system_seconds": 0.011359
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "claim_construction",
+      "wall_ns": 9912375,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 23166976,
+        "native_child_max_rss_bytes": 6651904,
+        "python_user_seconds": 0.08178099999999999,
+        "python_system_seconds": 0.017672,
+        "child_user_seconds": 0.014972999999999998,
+        "child_system_seconds": 0.011359
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "forward_plan",
+      "wall_ns": 87539959,
+      "native_calls": 1,
+      "json_serializations": 2,
+      "mcm_serializations": 2,
+      "memory_high_water": {
+        "python_max_rss_bytes": 36061184,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.158075,
+        "python_system_seconds": 0.020819999999999998,
+        "child_user_seconds": 0.021412,
+        "child_system_seconds": 0.012809
+      },
+      "wire_lowering": {
+        "calls": 3,
+        "container_calls": 3
+      }
+    },
+    {
+      "name": "forward_plan_cached",
+      "wall_ns": 345417,
+      "native_calls": 0,
+      "json_serializations": 1,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 36110336,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.15857,
+        "python_system_seconds": 0.020987,
+        "child_user_seconds": 0.021412,
+        "child_system_seconds": 0.012809
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "forward_complete",
+      "wall_ns": 75721750,
+      "native_calls": 0,
+      "json_serializations": 1,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 37191680,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.23424399999999998,
+        "python_system_seconds": 0.021221999999999998,
+        "child_user_seconds": 0.021412,
+        "child_system_seconds": 0.012809
+      },
+      "wire_lowering": {
+        "calls": 6002,
+        "container_calls": 1
+      }
+    },
+    {
+      "name": "reverse_plan",
+      "wall_ns": 89568958,
+      "native_calls": 1,
+      "json_serializations": 2,
+      "mcm_serializations": 2,
+      "memory_high_water": {
+        "python_max_rss_bytes": 49790976,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.31145999999999996,
+        "python_system_seconds": 0.024517,
+        "child_user_seconds": 0.027743999999999998,
+        "child_system_seconds": 0.014856999999999999
+      },
+      "wire_lowering": {
+        "calls": 3,
+        "container_calls": 3
+      }
+    },
+    {
+      "name": "reverse_plan_cached",
+      "wall_ns": 328333,
+      "native_calls": 0,
+      "json_serializations": 1,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 49872896,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.312011,
+        "python_system_seconds": 0.024718999999999998,
+        "child_user_seconds": 0.027743999999999998,
+        "child_system_seconds": 0.014856999999999999
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "reverse_complete",
+      "wall_ns": 84244625,
+      "native_calls": 0,
+      "json_serializations": 1,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 51544064,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.39553499999999997,
+        "python_system_seconds": 0.025679999999999998,
+        "child_user_seconds": 0.027743999999999998,
+        "child_system_seconds": 0.014856999999999999
+      },
+      "wire_lowering": {
+        "calls": 6002,
+        "container_calls": 1
+      }
+    },
+    {
+      "name": "compile",
+      "wall_ns": 87982917,
+      "native_calls": 1,
+      "json_serializations": 5,
+      "mcm_serializations": 2,
+      "memory_high_water": {
+        "python_max_rss_bytes": 57933824,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.47798999999999997,
+        "python_system_seconds": 0.028442,
+        "child_user_seconds": 0.029602999999999997,
+        "child_system_seconds": 0.015825
+      },
+      "wire_lowering": {
+        "calls": 12010,
+        "container_calls": 8
+      }
+    },
+    {
+      "name": "verify",
+      "wall_ns": 8449750,
+      "native_calls": 1,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 57933824,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.478438,
+        "python_system_seconds": 0.029331999999999997,
+        "child_user_seconds": 0.035847,
+        "child_system_seconds": 0.016746
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    },
+    {
+      "name": "artifact_audit",
+      "wall_ns": 458083,
+      "native_calls": 0,
+      "json_serializations": 0,
+      "mcm_serializations": 0,
+      "memory_high_water": {
+        "python_max_rss_bytes": 57933824,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.47916699999999995,
+        "python_system_seconds": 0.029748,
+        "child_user_seconds": 0.035847,
+        "child_system_seconds": 0.016746
+      },
+      "wire_lowering": {
+        "calls": 0,
+        "container_calls": 0
+      }
+    }
+  ],
+  "native_calls": [
+    {
+      "phase": "model_load",
+      "command": [
+        "canonical",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/synthetic.mps",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-w6xn9rs8/model.mcm"
+      ],
+      "result": {
+        "mcm_bytes": 137843,
+        "parse_us": 4338,
+        "read_us": 184,
+        "rows": 1000,
+        "status": "CANONICALIZED",
+        "total_us": 6167,
+        "variables": 1000
+      },
+      "wall_ns": 1425615125,
+      "memory_high_water": {
+        "python_max_rss_bytes": 20529152,
+        "native_child_max_rss_bytes": 4489216,
+        "python_user_seconds": 0.027849,
+        "python_system_seconds": 0.015227999999999998,
+        "child_user_seconds": 0.008721999999999999,
+        "child_system_seconds": 0.008712
+      }
+    },
+    {
+      "phase": "model_load",
+      "command": [
+        "export-model",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-w6xn9rs8/model.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-model-w6xn9rs8/model.json"
+      ],
+      "result": {
+        "json_bytes": 411585,
+        "name": "synthetic_identity",
+        "rows": 1000,
+        "status": "EXPORTED",
+        "total_us": 5267,
+        "variables": 1000
+      },
+      "wall_ns": 10870125,
+      "memory_high_water": {
+        "python_max_rss_bytes": 20529152,
+        "native_child_max_rss_bytes": 6651904,
+        "python_user_seconds": 0.028298,
+        "python_system_seconds": 0.016691,
+        "child_user_seconds": 0.014972999999999998,
+        "child_system_seconds": 0.011359
+      }
+    },
+    {
+      "phase": "forward_plan",
+      "command": [
+        "plan-return",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-plan-d9v3d6uy/input.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-plan-d9v3d6uy/output.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-1oiov8k_/spec.json",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-1oiov8k_/result.json"
+      ],
+      "result": {
+        "json_bytes": 1393392,
+        "obligations": 6001,
+        "status": "PLANNED",
+        "total_us": 6262
+      },
+      "wall_ns": 9053000,
+      "memory_high_water": {
+        "python_max_rss_bytes": 25018368,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.10703399999999999,
+        "python_system_seconds": 0.019164999999999998,
+        "child_user_seconds": 0.021412,
+        "child_system_seconds": 0.012809
+      }
+    },
+    {
+      "phase": "reverse_plan",
+      "command": [
+        "plan-return",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-plan-tni3hk08/input.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-plan-tni3hk08/output.mcm",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-6wl_qzpf/spec.json",
+        "/var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/kernel-compiler-6wl_qzpf/result.json"
+      ],
+      "result": {
+        "json_bytes": 1393392,
+        "obligations": 6001,
+        "status": "PLANNED",
+        "total_us": 6354
+      },
+      "wall_ns": 9795292,
+      "memory_high_water": {
+        "python_max_rss_bytes": 38240256,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.261109,
+        "python_system_seconds": 0.02281,
+        "child_user_seconds": 0.027743999999999998,
+        "child_system_seconds": 0.014856999999999999
+      }
+    },
+    {
+      "phase": "compile",
+      "command": [
+        "compile",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/certificate.json",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/proof.rpx"
+      ],
+      "result": {
+        "rpx_bytes": 158090,
+        "status": "COMPILED",
+        "total_us": 1331,
+        "version": 1
+      },
+      "wall_ns": 4284958,
+      "memory_high_water": {
+        "python_max_rss_bytes": 57933824,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.47749199999999997,
+        "python_system_seconds": 0.027814,
+        "child_user_seconds": 0.029602999999999997,
+        "child_system_seconds": 0.015825
+      }
+    },
+    {
+      "phase": "verify",
+      "command": [
+        "verify",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/source.mcm",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/target.mcm",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/proof.rpx",
+        "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/request.json"
+      ],
+      "result": {
+        "bijections": 0,
+        "claims": 2,
+        "execute_us": 4153,
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 1000000000
+        },
+        "model_decode_us": 1161,
+        "points": 0,
+        "proof_decode_us": 391,
+        "read_us": 88,
+        "statistics": {
+          "bijections": 0,
+          "branches": 0,
+          "flow_generated_rows": 0,
+          "flow_generated_terms": 0,
+          "flow_generated_variables": 0,
+          "flow_lifts": 0,
+          "injectivity_coordinates": 0,
+          "injectivity_generated_rows": 0,
+          "injectivity_generated_terms": 0,
+          "injectivity_generated_variables": 0,
+          "interval_generated_rows": 0,
+          "interval_generated_terms": 0,
+          "interval_generated_variables": 0,
+          "interval_lifts": 0,
+          "linear_terms": 0,
+          "menu_generated_rows": 0,
+          "menu_generated_terms": 0,
+          "menu_generated_variables": 0,
+          "menu_lifts": 0,
+          "objective_level_domains": 0,
+          "objective_level_generated_rows": 0,
+          "objective_level_generated_terms": 0,
+          "obligations": 12002,
+          "peak_live_facts": 0,
+          "plotkin_pairs": 0,
+          "point_coefficient_terms": 0,
+          "points": 0,
+          "signed_generated_rows": 0,
+          "signed_generated_terms": 0,
+          "signed_generated_variables": 0,
+          "signed_lifts": 0,
+          "substitution_terms": 8000,
+          "work": 56002
+        },
+        "status": "VERIFIED",
+        "total_us": 5802
+      },
+      "wall_ns": 8413000,
+      "memory_high_water": {
+        "python_max_rss_bytes": 57933824,
+        "native_child_max_rss_bytes": 10960896,
+        "python_user_seconds": 0.478433,
+        "python_system_seconds": 0.029317,
+        "child_user_seconds": 0.035847,
+        "child_system_seconds": 0.016746
+      }
+    }
+  ],
+  "cache_condition": "Fresh Python worker, warm filesystem; no cache flushing; concurrent Agent runs may contend",
+  "rss_note": "Python/native-child individual process high-water marks; not their sum or a sampled process-tree peak",
+  "json_serializations": [
+    {
+      "phase": "forward_plan",
+      "caller": "session.py:plan",
+      "characters": 11899,
+      "wall_ns": 212958
+    },
+    {
+      "phase": "forward_plan",
+      "caller": "backend.py:json_command",
+      "characters": 83742,
+      "wall_ns": 903125
+    },
+    {
+      "phase": "forward_plan_cached",
+      "caller": "session.py:plan",
+      "characters": 11899,
+      "wall_ns": 168625
+    },
+    {
+      "phase": "forward_complete",
+      "caller": "session.py:plan",
+      "characters": 11899,
+      "wall_ns": 168125
+    },
+    {
+      "phase": "reverse_plan",
+      "caller": "session.py:plan",
+      "characters": 11898,
+      "wall_ns": 169250
+    },
+    {
+      "phase": "reverse_plan",
+      "caller": "backend.py:json_command",
+      "characters": 83741,
+      "wall_ns": 872541
+    },
+    {
+      "phase": "reverse_plan_cached",
+      "caller": "session.py:plan",
+      "characters": 11898,
+      "wall_ns": 175333
+    },
+    {
+      "phase": "reverse_complete",
+      "caller": "session.py:plan",
+      "characters": 11898,
+      "wall_ns": 160250
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:plan",
+      "characters": 11899,
+      "wall_ns": 149208
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:plan",
+      "characters": 11898,
+      "wall_ns": 158625
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 243086,
+      "wall_ns": 2027708
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 19837,
+      "wall_ns": 256250
+    },
+    {
+      "phase": "compile",
+      "caller": "session.py:compile_certificate",
+      "characters": 1537,
+      "wall_ns": 43959
+    }
+  ],
+  "mcm_serializations": [
+    {
+      "phase": "forward_plan",
+      "bytes": 137843,
+      "wall_ns": 11362792
+    },
+    {
+      "phase": "forward_plan",
+      "bytes": 137843,
+      "wall_ns": 10910292
+    },
+    {
+      "phase": "reverse_plan",
+      "bytes": 137843,
+      "wall_ns": 10270166
+    },
+    {
+      "phase": "reverse_plan",
+      "bytes": 137843,
+      "wall_ns": 10052916
+    },
+    {
+      "phase": "compile",
+      "bytes": 137843,
+      "wall_ns": 10407209
+    },
+    {
+      "phase": "compile",
+      "bytes": 137843,
+      "wall_ns": 10268625
+    }
+  ],
+  "wire_lowering_counts": {
+    "forward_plan": {
+      "calls": 3,
+      "container_calls": 3
+    },
+    "forward_complete": {
+      "calls": 6002,
+      "container_calls": 1
+    },
+    "reverse_plan": {
+      "calls": 3,
+      "container_calls": 3
+    },
+    "reverse_complete": {
+      "calls": 6002,
+      "container_calls": 1
+    },
+    "compile": {
+      "calls": 12010,
+      "container_calls": 8
+    }
+  },
+  "memory_high_water": {
+    "python_max_rss_bytes": 57933824,
+    "native_child_max_rss_bytes": 10960896,
+    "python_user_seconds": 0.48037399999999997,
+    "python_system_seconds": 0.030188999999999997,
+    "child_user_seconds": 0.035847,
+    "child_system_seconds": 0.016746
+  },
+  "model_shape": {
+    "variables": 1000,
+    "rows": 1000,
+    "integers": 1000,
+    "nonzeros": 2000,
+    "objective_nonzeros": 1000,
+    "equalities": 0,
+    "ranged_rows": 0
+  },
+  "claims": [
+    {
+      "reverse": false,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "projection": {
+        "kind": "complete_name_identity",
+        "count": 1000
+      },
+      "inverse": 1
+    },
+    {
+      "reverse": true,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "projection": {
+        "kind": "complete_name_identity",
+        "count": 1000
+      },
+      "inverse": 0
+    }
+  ],
+  "obligations": [
+    6001,
+    6001
+  ],
+  "plan_cache_checks": [
+    {
+      "claim": "forward",
+      "same_list_object": true,
+      "additional_native_calls": 0,
+      "additional_map_lowerings": 0,
+      "additional_mcm_serializations": 0,
+      "contract_fingerprint_json": [
+        {
+          "phase": "forward_plan_cached",
+          "caller": "session.py:plan",
+          "characters": 11899,
+          "wall_ns": 168625
+        }
+      ]
+    },
+    {
+      "claim": "reverse",
+      "same_list_object": true,
+      "additional_native_calls": 0,
+      "additional_map_lowerings": 0,
+      "additional_mcm_serializations": 0,
+      "contract_fingerprint_json": [
+        {
+          "phase": "reverse_plan_cached",
+          "caller": "session.py:plan",
+          "characters": 11898,
+          "wall_ns": 175333
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "bijections": 0,
+    "claims": 2,
+    "execute_us": 4153,
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 1161,
+    "points": 0,
+    "proof_decode_us": 391,
+    "read_us": 88,
+    "statistics": {
+      "bijections": 0,
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "injectivity_coordinates": 0,
+      "injectivity_generated_rows": 0,
+      "injectivity_generated_terms": 0,
+      "injectivity_generated_variables": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 0,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "objective_level_domains": 0,
+      "objective_level_generated_rows": 0,
+      "objective_level_generated_terms": 0,
+      "obligations": 12002,
+      "peak_live_facts": 0,
+      "plotkin_pairs": 0,
+      "point_coefficient_terms": 0,
+      "points": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 8000,
+      "work": 56002
+    },
+    "status": "VERIFIED",
+    "total_us": 5802
+  },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/source.mcm",
+      "bytes": 137843,
+      "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/target.mcm",
+      "bytes": 137843,
+      "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/proof.rpx",
+      "bytes": 158090,
+      "sha256": "bffe22f6ac5df52ac7961694001c7d3ad23c6da007be37a82ad1fa3ebde5b661"
+    },
+    "request": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/request.json",
+      "bytes": 19838,
+      "sha256": "f748cb9034e5ed54d7c570f9027f1b3b95fa0619fc4648c7ebe1a6d1fb497225"
+    },
+    "certificate": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C1-plumbing-small/synthetic-1000/delivery/certificate.json",
+      "bytes": 243087,
+      "sha256": "9c9e5a35ffd471b74fb534dc1e8d8834113ee4a6172c12bbc2af53aafbb4c9e2"
+    }
+  },
+  "package_hashes_after": {
+    "python/kernel_compiler/__init__.py": "0ce254a673d21d94cb60b6e5c8cdf006931f659722a65a38cd8eb1632e62aac5",
+    "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "python/kernel_compiler/expr.py": "ad8aebf02c11640f336c9e52aa2bcc2e6069d7c62b21b32ebfe511f6ad414589",
+    "python/kernel_compiler/model.py": "3d58bb0065b5045ae6406df4967d55acfaa6f171864f22925cec8cef80d15d3c",
+    "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "python/kernel_compiler/proof.py": "a1db63ad77cd5ec0913510bf0e2dcae04e15816de57b12efdf7bfe5140978f5c",
+    "python/kernel_compiler/session.py": "a7cf56abf57707cbe58ae5f602d29b38fcd0f7971aeb7cf6cc4331d8424c5b5b",
+    "python/pyproject.toml": "8dbd494e510003c14aeeb91a3aff0010b4230eb569b0715633da6efe2ecabbd0"
+  },
+  "kernel_sha256_after": "6bacaa72286fa5c25b3b01bd2fd1129dd9881f2def7fabc3640652da47649a1a",
+  "finished_utc": "2026-10-14T14:59:06.308105+00:00"
+}

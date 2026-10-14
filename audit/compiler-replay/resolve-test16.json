@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "case": "test16-shipped-model-identity",
+  "purpose": "native-only mechanical resolution benchmark, not reformulation or autonomous Agent acceptance",
+  "shape": {
+    "integers": 334,
+    "name": "test16",
+    "nonzeros": 679637,
+    "rows": 126512,
+    "status": "INSPECTED",
+    "variables": 228350
+  },
+  "spec_bytes": 21477352,
+  "output_bytes": 12380756,
+  "wall_seconds": 1.870064958,
+  "native_report": {
+    "json_bytes": 12380756,
+    "missing": 0,
+    "obligations": 926083,
+    "status": "PLANNED",
+    "total_us": 1838442
+  },
+  "time_statistics": "        1.85 real         1.70 user         0.11 sys\n           876806144  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               65582  page reclaims\n                   0  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   1  voluntary context switches\n                 789  involuntary context switches\n         39787194717  instructions retired\n          7869439376  cycles elapsed\n           878642184  peak memory footprint\n",
+  "binary_sha256": "e5dc95b0a5ff2be5580c4d3e2e7774dcfa8ad99938c789a653960349a9f31c9e"
+}
