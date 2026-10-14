@@ -446,6 +446,14 @@ existing Kernel meanings. Use `Model.check_point` for exact authoring diagnostic
 `source.mcm`, `target.mcm`, `certificate.json`, `proof.rpx`, `request.json`,
 `delivery.json`, and `verification.json`. The request retains every explicit
 claim, point, improvement, and bijection. Keep a runnable `output/proof.py`.
+Each generated file is written to an owned temporary file in the same directory
+and then replaced; this is per-file replacement, not a whole-bundle transaction.
+Existing symlinks/hardlinks do not redirect writes into
+original artifacts. Failed encoding cleans its temporary output and preserves
+the previous RPX file. After a failed attempt, use `verify_bundle` to check the
+current artifacts against the manifest; an earlier verification receipt describes
+its recorded hashes. A committed solver artifact must have a separate path
+and inode from the reserved generated outputs.
 When supplied, `committed_model` is read through the Kernel and compared exactly
 with the proof target (allowing coordinate/row order and folded row constants).
 A different solver artifact is rejected, and its hash is recorded in delivery.
@@ -457,7 +465,7 @@ separately. It does not judge the usefulness of a reformulation or assertions
 outside the submitted Request. Preserve the generated absolute paths in
 `delivery.json`; add your relation without rewriting them. Portable custom
 manifest paths passed to `verify_bundle` are relative to that manifest's directory.
-`Proof.compile` emits the same artifacts without verifying. `Proof.preflight`
+`Proof.compile` emits the compiler artifacts without verifying. `Proof.preflight`
 reports JSON size/depth and counts; actual Kernel work/live facts appear in
 verification. `verify_bundle(manifest)` verifies every declared piece.
 It also checks recorded artifact hashes and any declared committed model.

@@ -24,6 +24,22 @@ def _digest(path):
     return digest.hexdigest()
 
 
+def _atomic_write(path, writer):
+    """Replace an owned output node without writing through existing links."""
+    path = Path(path)
+    with tempfile.NamedTemporaryFile(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp", delete=False) as stream:
+        temporary = Path(stream.name)
+    try:
+        writer(temporary)
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _atomic_text(path, content):
+    _atomic_write(path, lambda temporary: temporary.write_text(content))
+
+
 @dataclass(frozen=True)
 class Obligation:
     index: int
@@ -510,13 +526,14 @@ class Proof:
 
     def verify(self, directory, *, committed_model=None, work=None, live_facts=None):
         artifacts = self.compile(directory, committed_model=committed_model)
+        directory = artifacts["proof"].parent
         report = self.kernel.verify(artifacts["source"], artifacts["target"], artifacts["proof"],
                                     artifacts["request"], work=work, live_facts=live_facts)
-        delivery = json.loads((Path(directory) / "delivery.json").read_text())
+        delivery = json.loads((directory / "delivery.json").read_text())
         report["artifacts"] = delivery["artifacts"]
         if "artifact_binding" in delivery:
             report["artifact_audit"] = delivery["artifact_binding"]
-        (Path(directory) / "verification.json").write_text(json.dumps(report, indent=2) + "\n")
+        _atomic_text(directory / "verification.json", json.dumps(report, indent=2) + "\n")
         return report
 
 
@@ -540,12 +557,12 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
         if not target.same_formulation(delivered):
             raise BuildError("Committed solver artifact differs from the complete proof target")
     directory.mkdir(parents=True, exist_ok=True)
-    source.write_mcm(paths["source"])
-    target.write_mcm(paths["target"])
+    _atomic_write(paths["source"], source.write_mcm)
+    _atomic_write(paths["target"], target.write_mcm)
     cert_path = directory / "certificate.json"
-    cert_path.write_text(json.dumps(wire(certificate), separators=(",", ":")) + "\n")
-    paths["request"].write_text(json.dumps(wire(request), separators=(",", ":")) + "\n")
-    kernel.call("compile", cert_path, paths["proof"])
+    _atomic_text(cert_path, json.dumps(wire(certificate), separators=(",", ":")) + "\n")
+    _atomic_text(paths["request"], json.dumps(wire(request), separators=(",", ":")) + "\n")
+    _atomic_write(paths["proof"], lambda temporary: kernel.call("compile", cert_path, temporary))
     manifest = {"format": "kernel-compiler-delivery-1", "relation": "caller-declared Kernel request",
                 "pieces": [{key: str(value) for key, value in paths.items()}],
                 "artifacts": {key: {"path": str(value), "sha256": _digest(value)} for key, value in paths.items()}}
@@ -559,7 +576,7 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
             "committed_model": manifest["artifacts"]["committed_model"],
             "proof_target": manifest["artifacts"]["target"],
         }
-    (directory / "delivery.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    _atomic_text(directory / "delivery.json", json.dumps(manifest, indent=2) + "\n")
     return paths
 
 
