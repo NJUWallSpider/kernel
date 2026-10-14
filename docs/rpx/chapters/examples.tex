@@ -8,7 +8,7 @@
 从仓库根目录执行：
 \begin{lstlisting}[caption={重建、回读与负例复核}]
 cargo build -p kernel-core --release --locked
-python3 tools/check_rpx_manual.py --kernel target/release/rpx --out docs/.build/manual-examples.json
+python3 tools/check_rpx_manual.py --kernel target/release/rpx --out docs/rpx/.build/manual-examples.json
 \end{lstlisting}
 
 脚本对每份示例重新 canonicalize 两份 LP、assemble、verify，再 disassemble、assemble 并要求 RPX 字节相同、再次 verify。它还独立运行三种逻辑变异和一次零 work 预算检查。2026 年 10 月 13 日当前源码重建后的复核全部通过；完整 receipt 在 \code{docs/rpx/examples/verification.json}，记录实际可执行文件与输入的 SHA-256、计数和错误报告。SHA-256 仅用于复核产物身份。
@@ -32,14 +32,14 @@ python3 tools/check_rpx_manual.py --kernel target/release/rpx --out docs/.build/
 \subsection{完整模型与调用者要求}
 Source 为 $0\le x\le1$，有 $x\le1$ 和 $x\le2$ 两行；Target 为 $0\le y\le1$，只保留 $y\le1$。目标都恒为零，变量均连续。LP 的首次出现顺序使唯一坐标编号为 0，Source 行编号为 cap=0、loose=1。
 
-\rpxlisting[caption={A：完整 Source LP}]{rpx/examples/redundant/source.lp}
-\rpxlisting[caption={A：完整 Target LP}]{rpx/examples/redundant/target.lp}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：独立 caller request}]{rpx/examples/redundant/request.json}
+\rpxlisting[caption={A：完整 Source LP}]{examples/redundant/source.lp}
+\rpxlisting[caption={A：完整 Target LP}]{examples/redundant/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：独立 caller request}]{examples/redundant/request.json}
 
 request 明确要求两方向目标相等、坐标投影相等和互为 affine inverse。因此该例确立完整可行集的目标保持双射；不能从仅有双向可行性的证书推测出这些额外关系。
 
 \subsection{完整 RPA 与核验}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：完整 RPA 1 证书}]{rpx/examples/redundant/proof.rpa}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={A：完整 RPA 1 证书}]{examples/redundant/proof.rpa}
 
 Forward 和 Reverse 都取恒等 map。Reverse 的 Lin 定义
 \[
@@ -49,11 +49,11 @@ Forward 和 Reverse 都取恒等 map。Reverse 的 Lin 定义
 
 单独运行本例的真实命令为：
 \begin{lstlisting}[caption={A：从 LP 到 VERIFIED}]
-mkdir -p docs/.build/manual-redundant
-target/release/rpx canonical docs/rpx/examples/redundant/source.lp docs/.build/manual-redundant/source.mcm
-target/release/rpx canonical docs/rpx/examples/redundant/target.lp docs/.build/manual-redundant/target.mcm
-target/release/rpx assemble docs/rpx/examples/redundant/proof.rpa docs/.build/manual-redundant/proof.rpx
-target/release/rpx verify docs/.build/manual-redundant/source.mcm docs/.build/manual-redundant/target.mcm docs/.build/manual-redundant/proof.rpx docs/rpx/examples/redundant/request.json
+mkdir -p docs/rpx/.build/manual-redundant
+target/release/rpx canonical docs/rpx/examples/redundant/source.lp docs/rpx/.build/manual-redundant/source.mcm
+target/release/rpx canonical docs/rpx/examples/redundant/target.lp docs/rpx/.build/manual-redundant/target.mcm
+target/release/rpx assemble docs/rpx/examples/redundant/proof.rpa docs/rpx/.build/manual-redundant/proof.rpx
+target/release/rpx verify docs/rpx/.build/manual-redundant/source.mcm docs/rpx/.build/manual-redundant/target.mcm docs/rpx/.build/manual-redundant/proof.rpx docs/rpx/examples/redundant/request.json
 \end{lstlisting}
 
 最后一条返回 \code{VERIFIED}，退出码 0；前面的成功状态分别为 \code{CANONICALIZED} 和 \code{ASSEMBLED}。
@@ -63,14 +63,14 @@ target/release/rpx verify docs/.build/manual-redundant/source.mcm docs/.build/ma
 \subsection{完整模型与调用者要求}
 Source 的 $x_0,x_1\in[0,1]$ 满足 $x_0+x_1=1$，目标 $f_S=x_0$；Target 的 $y\in[0,1]$ 无行，目标 $f_T=1-y$。保留 $x_1$，重建 $x_0=1-y$。目标常数 1 必须参与 canonicalization 和证明。
 
-\rpxlisting[caption={B：完整 Source LP}]{rpx/examples/elimination/source.lp}
-\rpxlisting[caption={B：完整 Target LP}]{rpx/examples/elimination/target.lp}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：独立 caller request}]{rpx/examples/elimination/request.json}
+\rpxlisting[caption={B：完整 Source LP}]{examples/elimination/source.lp}
+\rpxlisting[caption={B：完整 Target LP}]{examples/elimination/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：独立 caller request}]{examples/elimination/request.json}
 
 两个 projection 数组分别要求 $y=x_1$ 和 $x_1=y$。两个 inverse 字段要求恢复全部输入坐标，不仅是被保留坐标；它们在不同维数的可行集上仍可成立。
 
 \subsection{完整 RPA 与核验}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：完整 RPA 1 证书}]{rpx/examples/elimination/proof.rpa}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={B：完整 RPA 1 证书}]{examples/elimination/proof.rpa}
 
 Forward 的目标差与第一个 inverse 坐标差都是
 \[
@@ -78,19 +78,19 @@ Forward 的目标差与第一个 inverse 坐标差都是
 \]
 \code{Local:0} 是由实际 input equality 的负倍数推出的 EQ，不能替换为 \code{Exact}。Forward 有六个 obligations：两个 bounds、目标、投影、两个 inverse 坐标。Reverse 的四个 bounds 归一化依次为 $y-1,-y,-y,y-1$，分别使用 Target 的 upper、lower、lower、upper；等式行、目标、投影和一个 inverse 坐标随后都精确恒为零，共八个 obligations。
 
-复核脚本调用与示例 A 相同的 \code{canonical}、\code{assemble}、\code{verify} 命令，参数换为 \code{rpx/examples/elimination/} 的四份完整输入；独立 request 始终是该目录的 \code{request.json}。当前实际结果为两方向 \code{VERIFIED}、14 obligations。
+复核脚本调用与示例 A 相同的 \code{canonical}、\code{assemble}、\code{verify} 命令，参数换为 \code{examples/elimination/} 的四份完整输入；独立 request 始终是该目录的 \code{request.json}。当前实际结果为两方向 \code{VERIFIED}、14 obligations。
 
 \section{示例 C：分段绝对值 mapping}
 
 \subsection{完整模型与调用者要求}
 Source 的 $x\in[-1,1]$，Target 的 $y\in[0,1]$，都没有模型行，目标都为零。Forward 取 $y=|x|$，Reverse 取 $x=y$。request 只要求双向可行性和目标相等，不要求 projection 或 inverse：$x$ 与 $-x$ 可能映到同一 $y$。
 
-\rpxlisting[caption={C：完整 Source LP}]{rpx/examples/piecewise/source.lp}
-\rpxlisting[caption={C：完整 Target LP}]{rpx/examples/piecewise/target.lp}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：独立 caller request}]{rpx/examples/piecewise/request.json}
+\rpxlisting[caption={C：完整 Source LP}]{examples/piecewise/source.lp}
+\rpxlisting[caption={C：完整 Target LP}]{examples/piecewise/target.lp}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：独立 caller request}]{examples/piecewise/request.json}
 
 \subsection{完整 RPA 与核验}
-\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：完整 RPA 1 证书}]{rpx/examples/piecewise/proof.rpa}
+\rpxlisting[basicstyle=\scriptsize\ttfamily,caption={C：完整 RPA 1 证书}]{examples/piecewise/proof.rpa}
 
 Forward 的 \code{Split} 两支分别假设 $x\le0$ 和 $-x\le0$，覆盖所有实数。left 的完整 Return 定义 $y=-x$，其 lower 是 assumption，upper 是 Source lower $-x-1\le0$。right 定义 $y=x$，lower 是 assumption，upper 是 Source upper。两支各自提供同一个完整三项检查清单；Split 后没有继续执行或汇合不完整 map 的代码。
 
@@ -162,7 +162,7 @@ target/release/rpx verify cases/test58/source.mcm cases/test58/target.mcm cases/
 
 若要从 immutable corpus 文件重新导入、重组完整 RPA 并核对交付元数据，使用现有 delivery checker 的真实命令：
 \begin{lstlisting}[caption={完整模型与证书的交付复核}]
-python3 tools/check_delivery.py --case test36 --case test58 --case test62 --kernel target/release/rpx --out docs/.build/manual-delivery.json
+python3 tools/check_delivery.py --case test36 --case test58 --case test62 --kernel target/release/rpx --out docs/rpx/.build/manual-delivery.json
 \end{lstlisting}
 
 该工具与 preparation/receipt 都是复核编排。最终接受仍由完整实际模型、独立 request 和 RPX 进入 kernel 得出。当前 81/81 完整实际案例、11 个 family 与 83 次成功调用的交付结论来自 \code{audit/FINAL_DELIVERY_REPORT.md} 及 \code{audit/acceptance.json}；不同日期的冻结 checkpoint 和历史 scope 缺失记录保留其原始含义。

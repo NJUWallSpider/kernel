@@ -88,11 +88,20 @@ list construction takes at most m+k+ searches, each O(n+m+k+) graph operations;
 exact rational bit cost is additional. This describes the oracle, not a runtime
 claim for production construction or the complete proof.
 
-The isolated candidate's identity, nine builder tests and 983 exact Fraction
-fixtures are in `audit/subflow-next/receipt.json`. The vectors include shared
+The production builder and integration tests are in `crates/core/tests/subflow.rs`;
+run `cargo test -p kernel-core --test subflow --locked`. They check the 983 exact
+Fraction fixtures, all old-scope premises, complete target obligations, V10
+wire roundtrips, branch isolation, inverse rejection and shared work/depth budgets.
+Actual test36 use and complete replay evidence are recorded in
+[test36](../cases/test36/README.md) and the
+[delivery report](../audit/FINAL_DELIVERY_REPORT.md).
+
+The earlier isolated candidate's identity and nine builder tests are preserved
+in `audit/subflow-next/receipt.json` as historical development evidence.
+The vectors include shared
 arcs, loops, parallel arcs, empty/zero/repeated demands, multi-group affine
 expressions, scope/name collisions, arithmetic/resource boundaries and complete
-path-trace reconstruction. Production tests and actual-case receipts are separate.
+path-trace reconstruction.
 The concrete regression f=(82,82,82) on arcs s->t,s->t,t->s has demand82;
 merging gives (164,82), and independent clipping to (82,82) breaks divergence.
 A joint subflow (82,0) satisfies every bound and balance. The lemma justifies

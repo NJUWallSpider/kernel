@@ -193,7 +193,7 @@ def inspect(a,b,h):
     suboptimal=source_point.copy();suboptimal[ps[0][0]]=F(1)
     assert feasible(a,suboptimal)==-159
     return {'status':'STRUCTURALLY_AUDITED_NOT_CERTIFIED','required_contract':'All original integer optimizers bijectively parameterized by the actual target; attained minimum -160. No full-feasible-set or LP-equivalence claim.',
-        'missing_capability':'Caller-bound exact objective-level input domains and mandatory opposing-inverse domain closure; design docs/OBJECTIVE_LEVEL_DESIGN.md.',
+        'missing_capability':'Caller-bound exact objective-level input domains and mandatory opposing-inverse domain closure; current specification docs/FORMAT.md#objective-level-and-halfspace-domains.',
         'dimensions':{'source_variables':len(a['vars']),'source_rows':len(a['rows']),'source_row_terms':sum(len(r['terms']) for r in a['rows']),'target_variables':len(b['vars']),'target_rows':len(b['rows']),'target_row_terms':sum(len(r['terms']) for r in b['rows'])},
         'full_structure':'ALL_FIELDS_EQUAL','source_x':xs,'source_y':ys,'source_p':ps,'source_b':bs,'assignment_rows':assignment,'linked_sets':linked,'link_rows':link_rows,'pass_rows':pass_rows,'global_rows':globals_,'empty_rows':empty,
         'components':components,'spanning_edges':spanning,'unlinked_assignments':unlinked,'target_groups':{name:[bi[v] for v in names] for name,names in groups.items()},

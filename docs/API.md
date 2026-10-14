@@ -1,16 +1,17 @@
 # Kernel interfaces for programmatic callers
 
-This document describes the surface added after the delivered snapshot
-(see [POST_DELIVERY_CHANGES.md](../audit/POST_DELIVERY_CHANGES.md) for the exact
-divergence). Wire formats, verification rules and the resource policy are
-unchanged: MCM 1, RPX 1–10, RPA text and the status vocabulary documented in
-[FORMAT.md](FORMAT.md) still apply. What is new here is a named,
-machine-readable interface for callers that are not a shell script.
+This document describes the current public Rust façade and CLI in
+`crates/core/src/{api,main}.rs`. They use the frozen MCM 1 and RPX/RPA V1–V10
+contracts in [FORMAT.md](FORMAT.md). The façade provides file-based operations
+and filesystem-free verification with machine-readable reports.
+[POST_DELIVERY_CHANGES.md](../audit/POST_DELIVERY_CHANGES.md) records its
+introduction relative to the historical delivery snapshot.
 
 ## Rust façade
 
-Crate `kernel_core`, module `api`. Every entry point returns a single-line JSON
-`serde_json::Value` report or an [`Error`].
+Crate `kernel_core`, module `api`. Operation entry points return
+`Result<serde_json::Value, api::Error>`; the CLI serializes reports as single-line
+JSON. I/O helpers and shared types have the separate return types shown below.
 
 | Entry point | Input | Report |
 | --- | --- | --- |
@@ -26,6 +27,15 @@ Crate `kernel_core`, module `api`. Every entry point returns a single-line JSON
 
 `Status` carries both the status word and its process exit code, so a caller
 never re-derives either from the report text.
+
+The lower-level `model`, `proof`, `codec`, `rpa`, `verify`, `point`, `flow`,
+`interval`, `menu`, `injectivity`, `signed`, `subflow` and `level` modules are
+also public. Callers can construct `proof::Certificate` / `proof::Request` values
+directly, encode them with `codec`, or verify them with `verify::verify_request`.
+Joint-extension preparation helpers return unchecked premises; they are not
+acceptance entry points. There is no high-level compiler API that synthesizes
+proofs or plans all required checks; [compiler API demand](COMPILER_API_DEMAND.md)
+describes that proposed layer.
 
 ## Statuses and exit codes
 
@@ -43,8 +53,8 @@ never re-derives either from the report text.
 
 ## Failure reports
 
-Successful reports are unchanged from the delivered CLI. Failure reports gained
-two machine-readable keys:
+Failure reports carry a status and message, with machine-readable `code` and
+optional `location` / `limits`:
 
 ```json
 {"status":"INVALID",
@@ -89,6 +99,7 @@ inspect the `Diagnostics` value they passed in; `api::verify_bytes` and
 
 ```
 rpx canonical input.mps output.mcm
+rpx canonical input.lp output.mcm
 rpx assemble input.rpa output.rpx
 rpx disassemble input.rpx output.rpa
 rpx inspect-model model.mcm

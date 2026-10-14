@@ -10,7 +10,7 @@ __pycache__/
 dist/
 build/
 
-# LaTeX build intermediates (docs/Makefile runs latexmk -outdir=.build)
+# LaTeX build intermediates (docs/rpx/Makefile runs latexmk -outdir=.build)
 **/.build/
 **/docs/*.aux
 **/docs/*.fls

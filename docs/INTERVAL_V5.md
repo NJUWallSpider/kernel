@@ -76,8 +76,12 @@ before entering any extension. Every returned map must prove
 `EQ(output Expr(map)-input Expr)` using the ordinary proof rules. This is an
 additional explicit obligation; it does not relax complete model checking or
 change the interval theorem. It expresses, for example, preservation of a signed
-quantity t=v-w in actual test23. Strictness point claims retain their separate
-complete-coordinate-bijection requirement.
+quantity t=v-w in actual test23. The legacy V3 `Strictness` variant retains its
+complete-coordinate-bijection requirement. V6 `FiberStrictness` supports partial
+coordinate/affine observation images through a complete LP fiber refutation;
+see [FIBER_POINT_V6.md](FIBER_POINT_V6.md). Both indexed strictness variants
+require an unrestricted LP inclusion, with neither an objective-level nor a
+halfspace restriction.
 
 ## Exact arithmetic and resources
 
@@ -126,3 +130,13 @@ Reproduce with `python3 audit/generate_interval_oracle.py` and
 tests additionally check scope isolation, complete output obligations, affine
 observation binding and versioned wire behavior. These executable checks support
 the rule argument; they do not constitute a machine-checked proof of Rust code.
+
+## Actual signed-coordinate recovery
+
+[test23](../cases/test23/README.md) recovers 2,467 continuous variables through
+independent interval intersections. Its complete contract preserves retained
+coordinates, signed affine observations `t=v-w` and the pointwise objective
+in both integer and relaxed directions. The affine observations express that
+contract; interval existence alone does not prove those relations. The case
+record and [delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the full
+replay evidence.

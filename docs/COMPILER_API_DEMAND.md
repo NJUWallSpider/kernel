@@ -45,8 +45,8 @@ rather than a guess.
 
 ## 2. Where the compiler stands today
 
-The kernel is a verifier with a clean CLI and a small Rust façade, and **no public
-proof-construction API**:
+The kernel is a verifier with a CLI, a Rust façade and public proof data types,
+but **no high-level proof-synthesis or compiler builder API**:
 
 - CLI (`crates/core/src/main.rs`): `canonical`, `assemble`, `disassemble`, `inspect-model`,
   `export-model`, `verify`. Statuses and exit codes are documented in `docs/API.md`.
@@ -54,12 +54,18 @@ proof-construction API**:
   `assemble_paths`, `disassemble_paths`, `inspect_model_path`, `export_model_paths`,
   `verify_paths`, `verify_bytes`, `read_input`/`read_text`/`write_output`, `Error`, `Status`,
   `Timings`, `limits_json`, and `model::to_json` for canonical model JSON.
-- The trusted constructors that make a proof are **not** exported: `build_support` is a
-  private module (`crates/core/src/lib.rs`: `mod build_support;`) and the rule builders live
-  in test files (`crates/core/tests/*_builder.rs`). A caller that is not a test can only emit
-  RPA text.
+- Lower-level `model`, `proof`, `codec`, `rpa`, `verify` and the static extension
+  modules are public. A Rust caller can construct Certificate/Request values,
+  encode RPX directly and call the verifier without RPA text. Public extension
+  preparation functions generate candidate models and unchecked premises; they
+  neither synthesize proofs of those premises nor authorize acceptance.
+- `build_support` remains private (`crates/core/src/lib.rs`: `mod build_support;`).
+  Untrusted proof-authoring helpers live in Python preparers and tests. The typed
+  compiler builders, automatic obligation planning and proof synthesis proposed
+  below are not an implemented API.
 
-Consequently the compiler exists today as **90 hand-written Python generators**
+The corpus authoring workflow measured for this analysis consists of
+**90 hand-written Python generators**
 (`tools/prepare_*.py`), one per case plus a few shared experiments:
 
 | measure | value |

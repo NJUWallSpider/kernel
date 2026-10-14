@@ -263,7 +263,7 @@ Round requires raw LE(a) and INT(z) with identical nonconstant terms. For
 `d=a.constant-z.constant`, it derives `LE(z+ceil(d))`, using exact ceiling also
 for negative d. EqPair requires raw LE(e) and LE(−e), including exact opposite
 constants, and yields EQ(e). Drop permits an empty list, but duplicate or absent
-IDs reject. [Scalar semantics](SEMANTICS_V1.md) gives the invariant argument.
+IDs reject. [Current semantics](SEMANTICS.md) gives the invariant argument.
 
 Cases proves one fixed `kind/expression` in two isolated derivations. Without an
 integer reference its guards are `split<=0` and `-split<=0`, overlapping at zero.
@@ -674,7 +674,7 @@ RPA 1
 
 The independent request is the same claims array. Complete runnable bidirectional
 LP/RPA/Request examples are in [rpx/examples](rpx/examples/) and checked by
-`tools/check_rpx_manual.py`. [RPA V1 tutorial](RPA_V1.md) gives additional lexical
+`tools/check_rpx_manual.py`. [Current RPA tutorial](RPA.md) gives additional lexical
 examples without extending the schema. Disassembly/reassembly preserves semantics
 and canonical lowest-version encoding; arbitrary high-version input bytes are
 not promised to round-trip unchanged.

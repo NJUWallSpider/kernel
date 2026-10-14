@@ -5,8 +5,8 @@ the V4 `FlowLift` terminator. The proof engine must prove all of those premises
 in the current input context before using the extension. The helper's result is
 deliberately named `UncheckedFlowExtension`; calling it is not verification.
 The binary/text version, terminal encoding and proof-engine integration are
-specified in the RPX/RPA documentation. The constructive soundness argument is
-also developed in `FLOW_LIFT_DESIGN.md`.
+specified in [FORMAT.md](FORMAT.md#flowlift). The constructive soundness argument
+and current builder behavior are documented here.
 
 ## Data and exact premises
 
@@ -110,6 +110,10 @@ For integer-domain requests, only declared integer input coordinates carry
 integer facts; generated flows remain continuous. No theorem-specific integer
 mode bypasses that rule. The child cannot obtain `VarInt` for a new flow.
 
+The production verifier checks premises and generates the extension laws; it
+does not execute the path decomposition on input points. The construction proves
+the trusted existence lemma and is executed independently by the test oracle.
+
 ## Resources and scope
 
 Checked count arithmetic bounds the expanded model by the shared maximum
@@ -159,3 +163,14 @@ Reproduce the fixture with `python3 audit/generate_flow_oracle.py` and run the
 builder suite with `cargo test -p kernel-core --test flow_builder`. As elsewhere,
 executable tests and the mathematical rule argument do not constitute a machine
 checked proof of the Rust implementation.
+
+## Actual common-source aggregation
+
+[test28](../cases/test28/README.md) applies this rule to 47 continuous commodities
+on a 19-node, 50-arc graph, aggregated into 14 common-source groups. Its complete
+two-direction contract preserves all 150 integer capacity coordinates and every
+attainable objective value for each assignment. It does not claim a bijection of
+the continuous flow vectors. The reverse extension adds 2,350 continuous flow
+coordinates and 1,593 equalities; the ordinary child proof checks every actual
+source bound, domain, row, objective and observation. The case record and
+[delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the replay evidence.

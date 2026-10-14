@@ -9,7 +9,7 @@ see the [freeze baseline](audit/PROTOCOL_V9_V10_FREEZE.md).
 
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
-The [Chinese kernel manual](docs/rpx-manual.pdf) and its
+The [Chinese kernel manual](docs/rpx/rpx-manual.pdf) and its
 [LaTeX sources](docs/rpx/) describe the current implementation, including the
 frozen V9/V10 extensions.
 
@@ -33,8 +33,8 @@ target/release/rpx export-model source.mcm source.json
 `IO_ERROR` are distinct failures; none establishes that a reformulation is wrong.
 Assembly and canonicalization do not establish verification.
 
-- [Unified frozen format specification](docs/FORMAT.md), [mathematical semantics](docs/SEMANTICS_V1.md),
-  [RPA tutorial](docs/RPA_V1.md), [rule arguments and manual index](docs/README.md),
+- [Unified frozen format specification](docs/FORMAT.md), [mathematical semantics](docs/SEMANTICS.md),
+  [RPA tutorial](docs/RPA.md), [rule arguments and manual index](docs/README.md),
   trusted [MPS](docs/MPS_V1.md) and [LP](docs/LP_V1.md) dialects.
 - [All corpus materials](audit/corpus_inventory.json), [audit narrative](audit/corpus_audit.md),
   [live acceptance ledger](audit/acceptance.json).

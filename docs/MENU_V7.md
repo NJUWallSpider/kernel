@@ -3,9 +3,9 @@
 The V7 model builders are implemented in `crates/core/src/menu.rs` and
 `crates/core/src/injectivity.rs`. They perform exact structural preparation; they
 do not accept a menu premise, an injectivity claim or a bijection themselves.
-The complete request, proof execution and binary layout are specified separately
-in the V7 format documentation. [MENU_LIFT_DESIGN.md](MENU_LIFT_DESIGN.md) records
-the motivating actual models, mathematical arguments and alternative designs.
+The complete request, proof execution and binary layout are specified in
+[FORMAT.md](FORMAT.md#complete-domain-bijection-witnesses). This document explains
+the implemented builders, the complete bijection argument and their tests.
 
 ## Menu extension
 
@@ -64,6 +64,30 @@ repeated whole-expression accumulation. `MenuStatistics` records `work`,
 `generated_variables`, `generated_rows` and `generated_terms`; terms count actual
 new row terms after zero-coefficient removal. These are logical counters, not
 measured physical allocation sizes or a wall-clock guarantee.
+
+## Complete bijection contract
+
+A caller-requested `BijectionClaim { forward_claim, reverse_claim }` binds two
+distinct, independently verified opposing directions with matching integer
+modes. The forward root must be an affine Return map F. The reverse construction
+G may branch or use admitted joint extensions; every reverse Return must prove
+F(G(t))=t on every original target coordinate using that same complete tuple.
+Duplicate ordered pairs reject. Neither direction may carry an objective-level
+or halfspace restriction. Legacy affine `Claim.inverse` is a separate mechanism.
+
+A fresh paired-domain equality proof also establishes that F is injective on
+the complete actual forward input. For any s, both s and G(F(s)) belong to that
+input domain and have the same F value, so injectivity gives G(F(s))=s. The
+checked right inverse gives surjectivity. Together these prove a full bijection,
+including empty domains, without assuming menu-local uniqueness is a complete
+model inverse. Pointwise objective preservation must still be requested and
+proved by the constituent directions.
+
+The pair contract and its independent proof must match the caller's ordered
+request. All reverse composition checks, paired-domain construction and equality
+proof execution share the request-wide remaining work budget. Injectivity starts
+with fresh live facts and assumptions at depth one and cannot borrow directional
+or sibling proof facts.
 
 ## Paired domain for injectivity
 
@@ -145,7 +169,22 @@ python3 audit/generate_menu_oracle.py
 cargo test -p kernel-core --test menu_builder --test injectivity_builder --locked
 ```
 
-These twelve builder tests passed before full V7 integration. They do not replace
-the request-binding, scalar equality proof, complete actual-case replay or binary
-attack tests owned by the integrated verifier. Mathematical arguments and these
-finite tests are evidence, not a formal correctness proof of the implementation.
+The integrated request-binding, reverse-composition, fresh injectivity, scope and
+complete-output attacks are in `crates/core/tests/menu_bijection.rs`; run them
+with `cargo test -p kernel-core --test menu_bijection --locked`. Builder preparation
+alone never replaces these checks. Mathematical arguments and finite tests are
+evidence, not a formal correctness proof of the implementation.
+
+## Actual optional-menu models
+
+[test59](../cases/test59/README.md) and [test60](../cases/test60/README.md) request
+complete integer-domain bijections as well as equality of the specified LP
+observation images. A menu's affine aggregation records activation
+`A=sum_j x[j]` and moment `I=sum_j j*x[j]`; resource and objective coefficients
+that are affine in j can then be expressed in A and I. The ordinary proofs still
+check all actual options, continuous definitions, packing rows and bounds.
+
+For K>=2 the relaxed aggregation is generally noninjective: option 1 alone and
+half of each endpoint option 0 and 2 have A=1,I=1. Thus LP observation equivalence
+must not be reported as an LP bijection. The case records and
+[delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the full replay evidence.

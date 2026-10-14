@@ -8,7 +8,8 @@ strictness rule is unchanged.
 The full request verifier first proves every requested inclusion claim. For a
 FiberStrictness witness, the point checker then checks the complete actual output
 LP point and binds the referenced claim's direction. Both domain flags must be
-LP mode. Coordinate observations are validated against the original variable
+LP mode, and the referenced inclusion must have neither an objective-level nor
+a halfspace restriction. Coordinate observations are validated against the original variable
 dimensions; both sides of every affine observation are likewise validated before
 any fiber model is built.
 

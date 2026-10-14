@@ -7,7 +7,10 @@ deterministic witness checker, with no search or solver invocation.
 
 V6 separately adds strictness for partial affine observations through complete
 fiber refutations; see [FORMAT.md](FORMAT.md#complete-point-witnesses) and `FIBER_POINT_V6.md`. The V3 rule described
-below retains its complete-coordinate-bijection requirement.
+below retains its complete-coordinate-bijection requirement. V10 also adds
+caller-bound complete affine ImageExclusion points; their current contract is in
+[FORMAT.md](FORMAT.md#complete-point-witnesses). These version numbers identify
+when each variant was introduced; all remain supported by the current verifier.
 
 ## Requested statements and interpretation
 
@@ -26,7 +29,8 @@ This is a feasibility/value statement; it does not independently claim optimalit
 `PointClaim::Strictness { inclusion_claim }` refers to a directional map claim
 that the full verifier has already proved. Write its input LP as P and output
 LP as Q; `reverse` determines which actual bound model plays each role. Both
-integer-domain flags of that claim must be false. The claim's projection pairs
+integer-domain flags of that claim must be false, and it must have neither an
+objective-level nor a halfspace restriction. The claim's projection pairs
 `(i,o)` must be a bijection covering every input and every output coordinate.
 In particular, both models must have the same dimension. The witness is an
 output vector y in the canonical order of Q. The checker establishes:
@@ -53,9 +57,11 @@ each feasible terminal branch. An empty input domain can be proved by the
 existing contradiction rule; a nonempty output point then also establishes
 strict inclusion, including dimension zero.
 
-The public `verify_request` entry point checks that the entire requested claim
-list and point-claim list exactly match the certificate. It proves every mapping
-claim first and then calls `verify_points` with the remaining shared work budget.
+The public `verify_request` entry point checks that all requested contract
+arrays exactly match the certificate. It proves every mapping claim and any
+requested independent bijection injectivity proofs before calling `verify_points`
+with the remaining shared work budget. Requested improvements are checked
+afterward, with the same budget.
 Successful `verify_points` alone proves only its point checks: its strictness
 conclusion requires that mapping-proof precondition. It intentionally does not
 re-run or replace the mapping verifier. Points-only feasibility requests are

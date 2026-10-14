@@ -33,7 +33,7 @@ P-07 & 候选 wire layout 被替代 & 当前采用 16-byte common header、littl
 版本 & 协议状态 & 新增能力与边界 \\
 \midrule
 \endhead
-V1 & 已冻结 & 完整模型 affine directions；Lin/Round/Drop，完整 Return、exhaustive Split、Absurd；独立 caller claims，objective/projection/legacy affine inverse。MCM 1 精确模型与严格 JSON RPA 1。来源：\code{SEMANTICS_V1.md}、\code{FORMAT.md}、\code{RPA_V1.md}。\\
+V1 & 已冻结 & 完整模型 affine directions；Lin/Round/Drop，完整 Return、exhaustive Split、Absurd；独立 caller claims，objective/projection/legacy affine inverse。MCM 1 精确模型与严格 JSON RPA 1。来源：\code{SEMANTICS.md}、\code{FORMAT.md}、\code{RPA.md}。\\
 V2 & 已冻结 & EqPair 的精确 antisymmetry，local Cases 的共同 proposition derivations；保留全部 simultaneous output obligations，避免重复无关整模型分支。实际 test88 integer alias 和 test84 parity 见 \code{FORMAT.md}。\\
 V3 & 已冻结 & 静态 Plotkin theorem、caller objective lower bound、完整 Feasible 和 full-permutation Strictness points。test71 核验 integer 等价、严格 LP strengthening 和精确 source-integer/target-LP 最优值。静态 theorem 无 host callback。来源：\code{FORMAT.md}、\code{POINT_V3.md}。\\
 V4 & 已冻结 & Common-source joint FlowLift：所有 commodities 一起满足每个节点 balance，并保留每条弧总流及 circulation。test28 不把单独局部存在性当作 joint tuple。来源：\code{FORMAT.md}、\code{FLOW_V4.md}。\\
@@ -98,6 +98,7 @@ O-01/O-02 已不阻止当前工具链互通；O-03/O-04 的未来 representation
 2026-10-13 & 当前实现手册 & 按 safe Rust kernel 重写模型/请求、scalar/local/theorem rules、joint maps、MCM/RPX records、严格 JSON RPA、CLI/API、预算与诊断；完整区分 frozen V1--V8 和 working V9/V10。\\
 2026-10-13 & 可执行证据 & 新增三份完整双向 LP/RPA/request，实跑三正例及回读、九次 INVALID 逻辑变异、三次 RESOURCE\_LIMIT；另复核完整 test36/test58/test62/test71/test80，保存实际产物与报告身份。\\
 2026-10-14 & 协议冻结与规范合并 & 明确冻结 V9/V10；十份 FORMAT 与重复的 CURRENT reference 统一为 FORMAT.md，保存原始 hash-pinned 规范；同步中文手册、引用及完整验证基线。\\
+2026-10-14 & 当前文档清理 & 移除已实现能力的 Flow、Interval、Menu 与 objective-level 旧提案；语义与 RPA 教程覆盖 V1--V10，修正公开 Rust 接口说明并同步引用。\\
 \bottomrule
 \end{longtable}
 
