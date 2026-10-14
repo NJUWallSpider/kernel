@@ -18,7 +18,7 @@ ordinary-claim mismatch, and validates the positive expression against original
 coordinates even when the current input scope includes extensions.
 
 The unchecked extension API returns the exact candidate scope and explicit
-parent-scope premises. Four additional adversarial Rust tests cover all five
+parent-scope premises. Five additional adversarial Rust tests cover all five
 builders. Valid parent witnesses verify after direct compilation; references to
 a newly appended variable may appear in a successful structural preview, but
 the verifier rejects them before entering its child scope. A false interval
@@ -26,6 +26,12 @@ premise with an Exact reference is similarly rejected. Malformed check counts,
 new-coordinate expressions, unknown references, floating point capacity and
 work exhaustion retain the expected failure categories. Restricted domains
 preserve original prefixes and append the objective level before the halfspace.
+
+Prepared extensions expose semantic role metadata using actual variable/row
+indices. Tests identify every resulting equation through those handles across
+batched witnesses, larger menus, parallel arcs, multiple commodities and groups.
+The metadata cursor checks the model prefix and consumes exactly its generated
+dimensions; it never changes builder or verifier work accounting.
 
 Python `session.py` and `proof.py` were inspected for complete maps, caller-bound
 requests, branch/extension scope ownership, dropped facts, integer-mode checks,
@@ -51,7 +57,7 @@ Targeted validation completed after this review:
 
 ```text
 cargo test --test compiler_bridge --test authoring_bridge
-12 passed; 0 failed
+13 passed; 0 failed
 ```
 
 The corpus replay and 432 MB merged test46 check are regressions of existing

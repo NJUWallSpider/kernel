@@ -82,12 +82,120 @@ fn verify_end(input:&Model,output:&Model,end:End)->Result<verify::Statistics,Str
     verify::verify_request(input,output,&decoded,&Request{claims:vec![claim],..Request::default()},&Limits::default())
 }
 
+fn id(value:&Value)->usize {value.as_u64().unwrap() as usize}
+fn ids(value:&Value)->Vec<usize> {value.as_array().unwrap().iter().map(id).collect()}
+fn scaled_add(sum:&mut Expr,expression:&Expr,scale:&str) {sum.add_scaled(expression,&parse_q(scale).unwrap()).unwrap();}
+fn equality(model:&Model,row:usize,expression:&Expr,rhs:&str) {
+    let actual=&model.rows[row];assert_eq!(&actual.expr,expression);
+    assert_eq!(actual.lower,Some(parse_q(rhs).unwrap()));assert_eq!(actual.upper,actual.lower);
+}
+fn inequality(model:&Model,row:usize,expression:&Expr) {
+    let actual=&model.rows[row];assert_eq!(&actual.expr,expression);
+    assert_eq!(actual.lower,None);assert_eq!(actual.upper,Some(parse_q("0").unwrap()));
+}
+fn divergence(flows:&[usize],arcs:&[(u32,u32)],node:usize)->Expr {
+    let mut expr=Expr::zero();
+    for (&variable,&(tail,head)) in flows.iter().zip(arcs) {
+        if tail as usize==node{scaled_add(&mut expr,&Expr::var(variable as u32),"1");}
+        if head as usize==node{scaled_add(&mut expr,&Expr::var(variable as u32),"-1");}
+    }
+    expr
+}
+fn assert_layout(target:&Model,end:&End,layout:&Value) {
+    let entries=layout.as_array().unwrap();
+    match end {
+        End::IntervalLift{intervals,..}=>{
+            assert_eq!(entries.len(),intervals.len());
+            for (entry,witness) in entries.iter().zip(intervals) {
+                let variable=Expr::var(id(&entry["variable"]) as u32);
+                for (rows,bounds,lower) in [(&entry["lower_rows"],&witness.lower,true),(&entry["upper_rows"],&witness.upper,false)] {
+                    assert_eq!(rows.as_array().unwrap().len(),bounds.len());
+                    for (row,bound) in ids(rows).iter().zip(bounds) {
+                        let mut expression=variable.clone();scaled_add(&mut expression,bound,"-1");
+                        assert_eq!(target.rows[*row].expr,expression);
+                        assert_eq!(target.rows[*row].lower,if lower{Some(parse_q("0").unwrap())}else{None});
+                        assert_eq!(target.rows[*row].upper,if lower{None}else{Some(parse_q("0").unwrap())});
+                    }
+                }
+            }
+        },
+        End::MenuLift{menus,..}=>{
+            assert_eq!(entries.len(),menus.len());
+            for (entry,witness) in entries.iter().zip(menus) {
+                let options=ids(&entry["options"]);assert_eq!(options.len(),witness.maximum_index as usize+1);
+                let mut sum=witness.activation.scaled(&parse_q("-1").unwrap()).unwrap();
+                let mut moment=witness.index.scaled(&parse_q("-1").unwrap()).unwrap();
+                for (j,variable) in options.iter().enumerate() {
+                    assert!(target.vars[*variable].integer);
+                    scaled_add(&mut sum,&Expr::var(*variable as u32),"1");
+                    scaled_add(&mut moment,&Expr::var(*variable as u32),&j.to_string());
+                }
+                equality(target,id(&entry["sum_row"]),&sum,"0");
+                equality(target,id(&entry["moment_row"]),&moment,"0");
+            }
+        },
+        End::SignedLift{decompositions,..}=>{
+            assert_eq!(entries.len(),decompositions.len());
+            for (entry,witness) in entries.iter().zip(decompositions) {
+                let positive=Expr::var(id(&entry["positive"]) as u32);let negative=Expr::var(id(&entry["negative"]) as u32);
+                let pa=Expr::var(id(&entry["positive_activation"]) as u32);let na=Expr::var(id(&entry["negative_activation"]) as u32);
+                assert!(!target.vars[id(&entry["positive"])].integer);assert!(target.vars[id(&entry["positive_activation"])].integer);
+                let mut flow=positive.clone();scaled_add(&mut flow,&negative,"-1");scaled_add(&mut flow,&witness.flow,"-1");
+                let mut activation=pa.clone();scaled_add(&mut activation,&na,"1");scaled_add(&mut activation,&witness.activation,"-1");
+                equality(target,id(&entry["flow_row"]),&flow,"0");equality(target,id(&entry["activation_row"]),&activation,"0");
+                let mut pos=positive;pos.add_scaled(&pa,&(-&witness.capacity)).unwrap();
+                let mut neg=negative;neg.add_scaled(&na,&(-&witness.capacity)).unwrap();
+                inequality(target,id(&entry["positive_capacity_row"]),&pos);inequality(target,id(&entry["negative_capacity_row"]),&neg);
+            }
+        },
+        End::FlowLift{witness,..}=>{
+            assert_eq!(entries.len(),witness.groups.len());
+            for (entry,group) in entries.iter().zip(&witness.groups) {
+                assert_eq!(id(&entry["source"]),group.source as usize);
+                let commodities=entry["commodities"].as_array().unwrap();assert_eq!(commodities.len(),group.commodities.len());
+                for (commodity,(sink,demand)) in commodities.iter().zip(&group.commodities) {
+                    assert_eq!(id(&commodity["sink"]),*sink as usize);assert_eq!(commodity["demand"],demand.to_string());
+                    let flows=ids(&commodity["flows"]);assert_eq!(flows.len(),witness.arcs.len());
+                    let rows=ids(&commodity["balance_rows"]);assert_eq!(rows.len(),witness.nodes as usize);
+                    for (node,row) in rows.iter().enumerate() {
+                        let rhs=if group.source==*sink{parse_q("0").unwrap()}else if node==group.source as usize{demand.clone()}else if node==*sink as usize{-demand}else{parse_q("0").unwrap()};
+                        equality(target,*row,&divergence(&flows,&witness.arcs,node),&rhs.to_string());
+                    }
+                }
+                let rows=ids(&entry["recovery_rows"]);assert_eq!(rows.len(),witness.arcs.len());
+                for (edge,(row,flow)) in rows.iter().zip(&group.flows).enumerate() {
+                    let mut recovery=flow.scaled(&parse_q("-1").unwrap()).unwrap();
+                    for commodity in commodities{scaled_add(&mut recovery,&Expr::var(ids(&commodity["flows"])[edge] as u32),"1");}
+                    equality(target,*row,&recovery,"0");
+                }
+            }
+        },
+        End::SubflowLift{witness,..}=>{
+            assert_eq!(entries.len(),witness.groups.len());
+            for (entry,group) in entries.iter().zip(&witness.groups) {
+                let flows=ids(&entry["flows"]);let rows=ids(&entry["balance_rows"]);assert_eq!(flows.len(),witness.arcs.len());assert_eq!(rows.len(),witness.nodes as usize);
+                for (node,row) in rows.iter().enumerate() {
+                    let mut rhs=parse_q("0").unwrap();
+                    for (sink,demand) in &group.demands{if node==group.source as usize{rhs+=demand;}if node==*sink as usize{rhs-=demand;}}
+                    equality(target,*row,&divergence(&flows,&witness.arcs,node),&rhs.to_string());
+                }
+                let rows=ids(&entry["remainder_nonnegative_rows"]);assert_eq!(rows.len(),witness.arcs.len());
+                for ((row,flow),variable) in rows.iter().zip(&group.flows).zip(&flows) {
+                    let mut remainder=Expr::var(*variable as u32);scaled_add(&mut remainder,flow,"-1");inequality(target,*row,&remainder);
+                }
+            }
+        },
+        _=>panic!(),
+    }
+}
+
 #[test]
 fn all_five_extension_previews_preserve_prefixes_and_verify_only_with_parent_premises() {
     for (input,mut end) in fixtures() {
         let (spec,target)=preparation(&input,&end);
         let preview=authoring::prepare_extension_json(&input,&spec.to_string(),&Limits::default()).unwrap();
         assert_eq!(preview["model"],model::to_json(&target));
+        assert_layout(&target,&end,&preview["layout"]);
         assert_eq!(&target.vars[..input.vars.len()],input.vars.as_slice());
         assert_eq!(&target.rows[..input.rows.len()],input.rows.as_slice());
         assert_eq!(target.objective,input.objective);
@@ -104,6 +212,36 @@ fn all_five_extension_previews_preserve_prefixes_and_verify_only_with_parent_pre
         let bad_preview=authoring::prepare_extension_json(&input,&bad_spec.to_string(),&Limits::default()).unwrap();
         assert_eq!(bad_preview["premises"][0]["reference"],json!({"VarLower":input.vars.len()}));
         assert!(verify_end(&input,&target,end).unwrap_err().contains("fact reference"));
+    }
+}
+
+#[test]
+fn layouts_cover_batched_witnesses_parallel_arcs_and_multiple_commodities() {
+    for (input,mut end) in fixtures() {
+        match &mut end {
+            End::IntervalLift{intervals,..}=>intervals.push(intervals[0].clone()),
+            End::MenuLift{menus,..}=>{let mut other=menus[0].clone();other.maximum_index=2;other.activation=Expr::zero();other.checks=vec![Ref::Exact;6];menus.push(other);},
+            End::SignedLift{decompositions,..}=>decompositions.push(decompositions[0].clone()),
+            End::FlowLift{witness,..}=>{
+                witness.nodes=2;witness.arcs=vec![(0,1),(1,0),(0,1),(1,0)];
+                let group=&mut witness.groups[0];group.commodities=vec![(1,parse_q("0").unwrap()),(1,parse_q("0").unwrap())];
+                group.flows=vec![Expr::var(0);4];group.nonnegative=vec![Ref::VarLower(0);4];group.balances=vec![Ref::Exact;2];
+                witness.groups.push(witness.groups[0].clone());
+            },
+            End::SubflowLift{witness,..}=>{
+                witness.nodes=2;witness.arcs=vec![(0,1),(1,0)];
+                let group=&mut witness.groups[0];group.demands=vec![(1,parse_q("0").unwrap())];
+                group.flows=vec![Expr::var(0);2];group.nonnegative=vec![Ref::VarLower(0);2];group.balances=vec![Ref::Exact;2];
+                witness.groups.push(witness.groups[0].clone());
+            },
+            _=>panic!(),
+        }
+        let (spec,target)=preparation(&input,&end);
+        let preview=authoring::prepare_extension_json(&input,&spec.to_string(),&Limits::default()).unwrap();
+        assert_eq!(preview["layout"].as_array().unwrap().len(),2);
+        assert_layout(&target,&end,&preview["layout"]);
+        *body_mut(&mut end)=Box::new(identity_block(&target));
+        verify_end(&input,&target,end).unwrap();
     }
 }
 

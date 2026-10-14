@@ -6,6 +6,21 @@ from kernel_compiler import BuildError, Expr, Model, Proof, Row, Variable, attac
 
 
 class ContractTests(unittest.TestCase):
+    def test_explicit_substitution_proof_expands_all_changed_facts(self):
+        x, y, z = (Expr.var(i) for i in range(3))
+        source = Model("src", [Variable("x", lower=0, upper=1), Variable("y", lower=0, upper=2),
+                              Variable("z", lower=1, upper=3)],
+                       [Row("dy", y-2*x, lower=0, upper=0), Row("dz", z-y, lower=1, upper=1)], objective=z)
+        target = source.substitute({"y": 2*x, "z": 2*x+1}, drop_rows=["dy", "dz"])
+        proof = Proof(source, target)
+        forward, reverse = proof.bijection({"x": x}, {"x": target.var("x"), "y": 2*target.var("x"),
+                                                      "z": 2*target.var("x")+1}, integers=False)
+        forward.substitution({"z": forward.row("dz"), "y": forward.row("dy")})
+        forward.complete()
+        reverse.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
     def test_mutation_preserves_original_and_fixed_request(self):
         model = Model("src", [Variable("x", lower=0, upper=1)])
         proof = Proof(model, model)
@@ -82,7 +97,7 @@ class ContractTests(unittest.TestCase):
         better.complete()
         proof.feasible_point([0], integers=False, objective=0)
         level = proof.claim(integers=False, input_objective_level=0, mapping={"x": 0})
-        level.eq([(level.row(len(model.rows)), -1)])
+        level.eq([(level.domain.objective_level, -1)])
         level.complete()
         with tempfile.TemporaryDirectory() as directory:
             report = proof.verify(directory)

@@ -30,6 +30,10 @@ build/
 # Runnable manual sources are small, reviewed examples rather than corpus output.
 !docs/rpx/examples/**/*.rpa
 audit/acceptance.json
+# Canonical readback and aggregate solver logs are retained locally; compact
+# measurements and artifact hashes under compiler-agent stay reviewable in Git.
+audit/compiler-agent/**/*.model.json
+audit/compiler-agent/**/Highs.log
 
 # macOS
 .DS_Store

@@ -12,6 +12,7 @@ from itertools import count
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 
 from .expr import Expr, exact
 from .model import Model
@@ -74,6 +75,9 @@ class Builder:
         self._dropped = set()
         self.end = None
         self._children = None
+        self.layout = parent.layout if parent is not None and model is parent.model else None
+        self._layout_kind = parent._layout_kind if parent is not None and model is parent.model else None
+        self._layout_handles = {}
 
     def _remember(self, fact):
         self._lookup.maps[0].setdefault(_key(fact.kind, fact.expression), []).append(fact)
@@ -470,6 +474,8 @@ class Builder:
         child.generated_variables = tuple(range(len(self.model.vars), len(model.vars)))
         child.generated_rows = tuple(range(len(self.model.rows), len(model.rows)))
         child.preparation = prepared
+        child.layout = prepared.get("layout")
+        child._layout_kind = spec_tag
         self.end = {end_tag: {end_field: lowered}}
         self._children = [child]
         return child
@@ -488,6 +494,83 @@ class Builder:
 
     def subflow(self, witness):
         return self.lift("subflow", witness)
+
+    def _generated_instance(self, kind, index):
+        if self._layout_kind != kind or not isinstance(self.layout, list):
+            raise BuildError(f"This scope has no {kind} layout; use the scope returned by its constructive lift")
+        if isinstance(index, bool) or not isinstance(index, int) or not 0 <= index < len(self.layout):
+            raise BuildError(f"{kind} instance index {index!r} is outside the generated layout")
+        return self.layout[index]
+
+    def interval(self, index):
+        """Native per-interval variable and lower/upper row Fact handles."""
+        entry = self._generated_instance("Interval", index)
+        key = "Interval", index
+        if key not in self._layout_handles:
+            self._layout_handles[key] = SimpleNamespace(
+                variable=self.model.var(entry["variable"]),
+                lower_rows=tuple(self.ref("RowLower", i) for i in entry["lower_rows"]),
+                upper_rows=tuple(self.ref("RowUpper", i) for i in entry["upper_rows"]))
+        return self._layout_handles[key]
+
+    def menu(self, index):
+        """Native per-menu options and activation-sum/index-moment equalities."""
+        entry = self._generated_instance("Menu", index)
+        key = "Menu", index
+        if key not in self._layout_handles:
+            self._layout_handles[key] = SimpleNamespace(
+                options=tuple(self.model.var(i) for i in entry["options"]),
+                sum=self.ref("RowEq", entry["sum_row"]),
+                moment=self.ref("RowEq", entry["moment_row"]))
+        return self._layout_handles[key]
+
+    def signed_decomposition(self, index):
+        """Native positive/negative flows, activations, recovery and capacity laws."""
+        entry = self._generated_instance("Signed", index)
+        key = "Signed", index
+        if key not in self._layout_handles:
+            self._layout_handles[key] = SimpleNamespace(
+                positive=self.model.var(entry["positive"]), negative=self.model.var(entry["negative"]),
+                positive_activation=self.model.var(entry["positive_activation"]),
+                negative_activation=self.model.var(entry["negative_activation"]),
+                flow=self.ref("RowEq", entry["flow_row"]),
+                activation=self.ref("RowEq", entry["activation_row"]),
+                positive_capacity=self.ref("RowUpper", entry["positive_capacity_row"]),
+                negative_capacity=self.ref("RowUpper", entry["negative_capacity_row"]))
+        return self._layout_handles[key]
+
+    def flow_group(self, index):
+        """Native common-source commodities, conservation rows and flow recovery."""
+        entry = self._generated_instance("Flow", index)
+        key = "Flow", index
+        if key not in self._layout_handles:
+            commodities = tuple(SimpleNamespace(
+                sink=item["sink"], demand=exact(item["demand"]),
+                flows=tuple(self.model.var(i) for i in item["flows"]),
+                balances=tuple(self.ref("RowEq", i) for i in item["balance_rows"]))
+                for item in entry["commodities"])
+            self._layout_handles[key] = SimpleNamespace(
+                source=entry["source"], commodities=commodities,
+                recovery=tuple(self.ref("RowEq", i) for i in entry["recovery_rows"]))
+        return self._layout_handles[key]
+
+    def commodity(self, group, index):
+        """One commodity from a native Flow group, with no coordinate-offset arithmetic."""
+        commodities = self.flow_group(group).commodities
+        if isinstance(index, bool) or not isinstance(index, int) or not 0 <= index < len(commodities):
+            raise BuildError(f"Flow commodity index {index!r} is outside group {group}")
+        return commodities[index]
+
+    def subflow_group(self, index):
+        """Native selected subflow, conservation laws and nonnegative remainder laws."""
+        entry = self._generated_instance("Subflow", index)
+        key = "Subflow", index
+        if key not in self._layout_handles:
+            self._layout_handles[key] = SimpleNamespace(
+                source=entry["source"], flows=tuple(self.model.var(i) for i in entry["flows"]),
+                balances=tuple(self.ref("RowEq", i) for i in entry["balance_rows"]),
+                remainder_nonnegative=tuple(self.ref("RowUpper", i) for i in entry["remainder_nonnegative_rows"]))
+        return self._layout_handles[key]
 
     def _index_base_facts(self):
         if getattr(self, "_indexed", False):

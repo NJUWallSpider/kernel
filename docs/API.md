@@ -201,6 +201,30 @@ Each equality goal requires fresh-scope evidence; preparation also succeeds for
 noninjective maps and does not prove injectivity. Input integer declarations are
 preserved, and the eventual proof must use the original directional integer mode.
 
+## Semantic handles for prepared extensions
+
+`prepare-extension` returns `{model, premises, statistics, layout}` for all five
+constructive extension families. `layout` is an array in witness/group order;
+every variable/row handle is a zero-based index in the complete returned model.
+Names are obtained from that actual model, so collisions and nested extensions
+require no caller arithmetic or generated-name assumptions.
+
+| Family | One layout entry | Meaning of generated rows |
+| --- | --- | --- |
+| Interval | `{variable, lower_rows, upper_rows}` | each bound in caller order: `variable - bound >= 0` or `<= 0` |
+| Menu | `{options, sum_row, moment_row}` | `sum(options) = activation`; `sum(j * options[j]) = index` |
+| Signed | `{positive, negative, positive_activation, negative_activation, flow_row, activation_row, positive_capacity_row, negative_capacity_row}` | `positive - negative = flow`; activation parts sum to activation; each flow part is bounded by capacity times its activation |
+| Flow | `{source, commodities: [{sink, demand, flows, balance_rows}], recovery_rows}` | each commodity's node balances, followed by equality of each original arc flow with its commodity sum |
+| Subflow | `{source, flows, balance_rows, remainder_nonnegative_rows}` | retained flows' node balances; each retained arc flow is at most its original flow |
+
+Commodity `demand` is an exact rational string. Flow arrays follow the caller's
+arc order; balance arrays follow node order. Rows for interval bounds preserve
+the order of their corresponding lower/upper expression arrays. Menu options
+follow index order `0..maximum_index`. These handles describe the existing frozen
+builder layout after preparation; they are metadata only. Prefixes and final
+variable/row cursors are checked against the actual prepared model, and neither
+verification decisions nor builder work charges depend on this metadata.
+
 ## Canonical model JSON
 
 `export-model` (and `model::to_json`) emits exactly the loaded MCM content, in

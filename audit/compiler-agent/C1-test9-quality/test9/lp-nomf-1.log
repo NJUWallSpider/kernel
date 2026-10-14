@@ -1,0 +1,39 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 846 rows; 1479 cols; 3497 nonzeros; 170 integer variables (170 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 3e+01]
+  Cost    [8e-01, 1e+06]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+01]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+826 rows, 1446 cols, 3444 nonzeros 0s
+Dependent equations search running on 233 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+805 rows, 1421 cols, 3394 nonzeros 0s
+Presolve reductions: rows 805(-41); columns 1421(-58); nonzeros 3394(-103) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -1.1115559444e+03 Ph1: 149(148); Du: 149(1111.56) 0.0s
+        564     6.6371880269e+03 Pr: 0(0) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 6.85e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 564
+Objective value     :  6.6371880269e+03
+P-D objective error :  6.8509901195e-17
+HiGHS run time      :          0.00

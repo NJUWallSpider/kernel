@@ -34,6 +34,7 @@ def parse_highs(text):
         "primal_objective": r"^\s*(?:Primal bound|Objective value)\s*:?\s+(\S+)\s*$",
         "dual_bound": r"^\s*Dual bound\s+(\S+)\s*$",
         "gap": r"^\s*Gap\s+(\S+)",
+        "gap_tolerance": r"^\s*Gap\s+\S+\s+\(tolerance:\s*(\S+)\)",
         "solver_seconds": r"^\s*(?:Timing|HiGHS run time)\s*:?\s+(\S+)\s*$",
         "nodes": r"^\s*Nodes\s+(\d+)\s*$",
         "simplex_iterations": r"^\s*Simplex\s+iterations\s*:\s*(\d+)\s*$",
@@ -62,7 +63,8 @@ def solve(binary, model, options, destination, *, hard_timeout):
     started = time.monotonic()
     load = os.getloadavg()
     try:
-        process = subprocess.run(command, capture_output=True, text=True, timeout=hard_timeout)
+        process = subprocess.run(command, cwd=destination.parent,
+                                 capture_output=True, text=True, timeout=hard_timeout)
         text, code, timed_out = process.stdout + process.stderr, process.returncode, False
     except subprocess.TimeoutExpired as error:
         out = error.stdout or b""
@@ -152,7 +154,8 @@ def compare(case_result):
     mip, lp = case_result["mip"], case_result["lp"]
     mip_objectives = [entry["first_primal_objective"] for entry in mip.values()]
     result = {"mip_optimality_complete": all(entry["all_optimal"] for entry in mip.values()),
-              "objective_values_are_numerical_quality_evidence_not_correctness_proof": True}
+              "objective_values_are_numerical_quality_evidence_not_correctness_proof": True,
+              "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": True}
     if result["mip_optimality_complete"] and all(isinstance(v, (int, float)) for v in mip_objectives):
         result["matched_mip_objectives"] = all(math.isclose(value, mip_objectives[0], rel_tol=1e-8, abs_tol=1e-6)
                                                 for value in mip_objectives)

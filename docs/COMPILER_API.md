@@ -7,6 +7,26 @@ Choose your strongest justified reformulation first. Supply its mathematical
 maps and nontrivial derivations; the compiler handles exact arithmetic, scopes,
 model edits, obligation ordering, serialization, and verification feedback.
 
+For an affine elimination justified by your equality rows, the usual proof
+authoring pattern is:
+
+```python
+source = Model.load("input/model.mps")
+target = source.substitute(your_replacements, drop_rows=your_definition_rows)
+proof = Proof(source, target)
+f, r = proof.bijection(your_forward_map, your_reverse_map)
+f.substitution({pivot: f.row(definition) for pivot, definition in your_pivot_rows.items()})
+f.complete(); r.complete()
+target.write_mps("output/reformulated.mps")
+result = proof.verify("output", committed_model="output/reformulated.mps")
+```
+
+The names, maps, pivots, equations, and transformation are your proof input.
+`substitution` mechanically rewrites the affected facts and derives equality
+goals that reduce literally to zero under those supplied equations. It does
+not find the substitutions or solve a linear combination search. Any remaining
+bound, objective, integrality, or other obligation stays visible in `missing()`.
+
 ## Setup and model readback
 
 From the Kernel checkout:
@@ -109,6 +129,8 @@ not claim full LP equality unless you actually prove it.
 `input_objective_lower=q`, `input_objective_level=q`, and `input_halfspace=expr`.
 An objective level/halfspace restricts the actual input domain; it does not
 establish whole-model equivalence or attainment. The Kernel prepares that scope.
+Its facts are available as `claim.domain.objective_level` and
+`claim.domain.halfspace`; absent restrictions have `None` handles.
 
 ```python
 goals = forward.obligations   # Kernel-owned ordered list, not Python's guess
@@ -202,7 +224,7 @@ Supply the old-scope proofs; use the returned model's generated names/indices:
 ```python
 scope = reverse.intervals([{"lower": [Expr(0)], "upper": [reverse.model.var("x")],
                             "checks": [reverse.lower("x")]}])
-z = scope.model.var(scope.generated_variables[0])
+z = scope.interval(0).variable
 reverse.complete(scope=scope, mapping={"x": scope.model.var("x"), "y": z})
 ```
 
@@ -212,8 +234,30 @@ fields documented in `compiler/FORMAT.md` (repository `docs/FORMAT.md`):
 menu `{maximum_index,activation,index,checks}`, signed
 `{capacity,flow,activation,checks}`, flow/subflow `{nodes,arcs,groups}`.
 Expressions and checks may be Python Expr/Fact handles; lowering is automatic.
-`scope.generated_variables`, `.generated_rows`, `.preparation` expose exact
-Kernel preparation metadata. Preparation alone establishes no premise.
+Per-instance handles use the native preparation layout, so you do not calculate
+coordinate or row offsets. Instance indices follow your supplied witness order:
+
+| Accessor | Returned expressions and scoped Facts |
+|---|---|
+| `scope.interval(i)` | `.variable` Expr; `.lower_rows`, `.upper_rows` Le Fact tuples |
+| `scope.menu(i)` | `.options` Expr tuple indexed by option value; `.sum`, `.moment` Eq Facts |
+| `scope.signed_decomposition(i)` | `.positive`, `.negative`, `.positive_activation`, `.negative_activation` Exprs; `.flow`, `.activation` Eq Facts; `.positive_capacity`, `.negative_capacity` Le Facts |
+| `scope.flow_group(i)` | `.source` node; `.commodities`; `.recovery` Eq Fact tuple indexed by supplied arc order |
+| `scope.commodity(group, i)` | `.sink` node, exact `.demand`; `.flows` Expr tuple in arc order; `.balances` Eq Fact tuple in node order |
+| `scope.subflow_group(i)` | `.source` node; `.flows` Expr tuple in arc order; `.balances` Eq Fact tuple in node order; `.remainder_nonnegative` Le Fact tuple in arc order |
+
+For a menu, `item.sum` proves `sum(item.options) - activation == 0`, and
+`item.moment` proves `sum(k*option[k]) - index == 0`. For a signed decomposition,
+`item.flow` proves `positive - negative - original_flow == 0`; `item.activation`
+proves `positive_activation + negative_activation - original_activation == 0`.
+Flow recovery proves `sum(commodity.flows[arc]) - original_flow[arc] == 0`.
+Subflow remainder facts prove `selected_flow[arc] - original_flow[arc] <= 0`.
+All facts belong to the generated scope and remain visible in its descendants.
+Using them in the old parent scope or an unrelated scope is rejected.
+
+`scope.layout`, `.generated_variables`, `.generated_rows`, and `.preparation`
+also expose exact Kernel preparation metadata for inspection. Preparation alone
+establishes no premise.
 Affine `inverse` is for root Return maps; constructive bijections use the
 existing separate injectivity witness and composition obligations.
 

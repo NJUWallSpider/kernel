@@ -42,6 +42,7 @@ Reproduce the corpus and baseline comparisons from the repository root:
 cargo build --release
 python3 audit/compiler-replay/replay.py
 python3 audit/compiler-replay/baseline.py
+python3 audit/compiler-replay/merged.py
 ```
 
 The first script selects existing preparations already marked VERIFIED and

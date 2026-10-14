@@ -1,0 +1,543 @@
+{
+  "created": "2026-10-14T22:28:47.184023+08:00",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+  "host": "bogon",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "solver": "/Users/bhz/.local/bin/highs",
+  "solver_sha256": "5c5a742df14b65c846a9e9c5512777c7c9707df504e78b879ff987f7f332c568",
+  "solver_version": "HiGHS version 1.15.1 Githash 252ef77233. Copyright (c) 2026 under MIT licence terms\nIncludes third-party software components, see THIRD_PARTY_NOTICES.md for full details",
+  "evaluator_sha256": "46e97221e9c6dbc00160d40dcb3f38ee2c9dba406f9f8ae890fb2bc29cdb8972",
+  "model_comparison_sha256": "5d0fd89dc64dc8e0a7573109d15e3a7c7e3c5147ad6bf1d49fa9465607c82453",
+  "options": {
+    "parallel": "off",
+    "threads": 1,
+    "random_seed": 0,
+    "time_limit": 120,
+    "repeats": 3,
+    "repeat_threshold_seconds": 10
+  },
+  "solves_serial": true,
+  "feedback_to_agents": false,
+  "cases": {
+    "test9": {
+      "artifacts": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/input/model.mps",
+          "sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+          "shape": {
+            "variables": 2298,
+            "rows": 1026,
+            "integers": 170,
+            "nonzeros": 4496,
+            "objective_nonzeros": 1742
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/output/reformulated.mps",
+          "sha256": "26d611a0d4d4a8e65676c3df222ff5a5b9756b736ea1d08a1e1f18cde05f824a",
+          "shape": {
+            "variables": 1309,
+            "rows": 1249,
+            "integers": 170,
+            "nonzeros": 3334,
+            "objective_nonzeros": 1309
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C1-20261014/output/reformulated.mps",
+          "sha256": "5b624856f5888b45023f5b9e616f029b85d70d9a8cbc45c544d024f972b0a823",
+          "shape": {
+            "variables": 1479,
+            "rows": 846,
+            "integers": 170,
+            "nonzeros": 3497,
+            "objective_nonzeros": 1479
+          }
+        }
+      },
+      "compiler_claim_coverage": {
+        "kernel_verified": true,
+        "relation": "Unrestricted integer feasible-set projection equivalence on all 736 original assignment variables and all 170 original binary variables, with optimal-value equivalence for minimization. Source-to-target map is objective-nonincreasing; target-to-source map is objective-equal and has the forward map as a left inverse. Target LP relaxation lifts objective-equally into the source LP relaxation; no forward LP claim or full auxiliary feasible-set bijection is requested.",
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "projection_count": 906,
+            "affine_projection_count": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "projection_count": 906,
+            "affine_projection_count": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "projection_count": 906,
+            "affine_projection_count": 0
+          }
+        ],
+        "points": [],
+        "manual_coverage_review_required": true
+      },
+      "compiler_and_nomf_named_models_identical": false,
+      "mip": {
+        "source": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/input/model.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 17.305136,
+              "load_average_at_start": [
+                2.17333984375,
+                2.60693359375,
+                2.86279296875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip-source-0.log",
+              "rows": 1026,
+              "variables": 2298,
+              "nonzeros": 4496,
+              "status": "Optimal",
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53406526,
+              "gap": "0.00988%",
+              "solver_seconds": 17.29,
+              "nodes": 2935,
+              "optimal": true
+            }
+          ],
+          "sample_count": 1,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 17.305136,
+          "median_solver_seconds": 17.29,
+          "all_optimal": true,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.53406526
+        },
+        "compiler": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 23.281555,
+              "load_average_at_start": [
+                2.12890625,
+                2.5673828125,
+                2.84130859375
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip-compiler-0.log",
+              "rows": 1249,
+              "variables": 1309,
+              "nonzeros": 3334,
+              "status": "Optimal",
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.52646011,
+              "gap": "0.00999%",
+              "solver_seconds": 23.27,
+              "nodes": 2455,
+              "optimal": true
+            }
+          ],
+          "sample_count": 1,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 23.281555,
+          "median_solver_seconds": 23.27,
+          "all_optimal": true,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.52646011
+        },
+        "nomf": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip.options",
+                "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 11.080117,
+              "load_average_at_start": [
+                2.3505859375,
+                2.58447265625,
+                2.837890625
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/mip-nomf-0.log",
+              "rows": 846,
+              "variables": 1479,
+              "nonzeros": 3497,
+              "status": "Optimal",
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.52949121,
+              "gap": "0.00995%",
+              "solver_seconds": 11.07,
+              "nodes": 1916,
+              "optimal": true
+            }
+          ],
+          "sample_count": 1,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 11.080117,
+          "median_solver_seconds": 11.07,
+          "all_optimal": true,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.52949121
+        }
+      },
+      "lp": {
+        "source": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/input/model.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.013513,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-source-0.log",
+              "rows": 1026,
+              "variables": 2298,
+              "nonzeros": 4496,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 1294,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/input/model.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.011157,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-source-1.log",
+              "rows": 1026,
+              "variables": 2298,
+              "nonzeros": 4496,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 1294,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/input/model.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.011012,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-source-2.log",
+              "rows": 1026,
+              "variables": 2298,
+              "nonzeros": 4496,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 1294,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            }
+          ],
+          "sample_count": 3,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.011157,
+          "median_solver_seconds": 0.01,
+          "all_optimal": true,
+          "first_primal_objective": 6637.1880269,
+          "first_dual_bound": 6637.1880269
+        },
+        "compiler": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.011659,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-compiler-0.log",
+              "rows": 1249,
+              "variables": 1309,
+              "nonzeros": 3334,
+              "status": "Optimal",
+              "primal_objective": 6637.491722,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 672,
+              "dual_bound": 6637.491722,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.010516,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-compiler-1.log",
+              "rows": 1249,
+              "variables": 1309,
+              "nonzeros": 3334,
+              "status": "Optimal",
+              "primal_objective": 6637.491722,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 672,
+              "dual_bound": 6637.491722,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.010701,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-compiler-2.log",
+              "rows": 1249,
+              "variables": 1309,
+              "nonzeros": 3334,
+              "status": "Optimal",
+              "primal_objective": 6637.491722,
+              "solver_seconds": 0.01,
+              "simplex_iterations": 672,
+              "dual_bound": 6637.491722,
+              "optimal": true
+            }
+          ],
+          "sample_count": 3,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.010701,
+          "median_solver_seconds": 0.01,
+          "all_optimal": true,
+          "first_primal_objective": 6637.491722,
+          "first_dual_bound": 6637.491722
+        },
+        "nomf": {
+          "samples": [
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.008737,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-nomf-0.log",
+              "rows": 846,
+              "variables": 1479,
+              "nonzeros": 3497,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.0,
+              "simplex_iterations": 564,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.008114,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-nomf-1.log",
+              "rows": 846,
+              "variables": 1479,
+              "nonzeros": 3497,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.0,
+              "simplex_iterations": 564,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            },
+            {
+              "command": [
+                "/Users/bhz/.local/bin/highs",
+                "--options_file",
+                "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp.options",
+                "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C1-20261014/output/reformulated.mps"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "wall_seconds": 0.008091,
+              "load_average_at_start": [
+                2.302734375,
+                2.5654296875,
+                2.82763671875
+              ],
+              "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/test9/lp-nomf-2.log",
+              "rows": 846,
+              "variables": 1479,
+              "nonzeros": 3497,
+              "status": "Optimal",
+              "primal_objective": 6637.1880269,
+              "solver_seconds": 0.0,
+              "simplex_iterations": 564,
+              "dual_bound": 6637.1880269,
+              "optimal": true
+            }
+          ],
+          "sample_count": 3,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.008114,
+          "median_solver_seconds": 0.0,
+          "all_optimal": true,
+          "first_primal_objective": 6637.1880269,
+          "first_dual_bound": 6637.1880269
+        }
+      },
+      "comparison": {
+        "mip_optimality_complete": true,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "matched_mip_objectives": true,
+        "lp_objective_compiler_minus_nomf": 0.30369509999945876,
+        "lp_objective_compiler_minus_source": 0.30369509999945876,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      }
+    }
+  },
+  "solver_probe": {
+    "mip": {
+      "command": [
+        "/Users/bhz/.local/bin/highs",
+        "--options_file",
+        "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/probe-mip.options",
+        "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/solver-probe.lp"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.009274,
+      "load_average_at_start": [
+        2.17333984375,
+        2.60693359375,
+        2.86279296875
+      ],
+      "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/probe-mip.log",
+      "rows": 1,
+      "variables": 1,
+      "nonzeros": 1,
+      "status": "Optimal",
+      "primal_objective": 1.0,
+      "dual_bound": 1.0,
+      "gap": "0%",
+      "solver_seconds": 0.0,
+      "nodes": 0,
+      "optimal": true
+    },
+    "lp": {
+      "command": [
+        "/Users/bhz/.local/bin/highs",
+        "--options_file",
+        "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/probe-lp.options",
+        "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/solver-probe.lp"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.003971,
+      "load_average_at_start": [
+        2.17333984375,
+        2.60693359375,
+        2.86279296875
+      ],
+      "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-test9-quality/probe-lp.log",
+      "rows": 1,
+      "variables": 1,
+      "nonzeros": 1,
+      "status": "Optimal",
+      "primal_objective": 0.5,
+      "solver_seconds": 0.0,
+      "dual_bound": 0.5,
+      "optimal": true
+    }
+  }
+}

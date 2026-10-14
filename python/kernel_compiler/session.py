@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 
 from .backend import Kernel
 from .expr import Expr, exact
@@ -57,6 +58,7 @@ class ClaimBuilder(Builder):
         self.output = session.source if claim["reverse"] else session.target
         self.mapping = _mapping(self.input, self.output, mapping) if mapping is not None else None
         model = self.input
+        prepared = None
         if claim.get("input_objective_level") is not None or claim.get("input_halfspace") is not None:
             with tempfile.TemporaryDirectory(prefix="kernel-domain-") as directory:
                 path = Path(directory) / "input.mcm"
@@ -65,6 +67,13 @@ class ClaimBuilder(Builder):
                     "level": claim.get("input_objective_level"), "halfspace": claim.get("input_halfspace")}})
             model = Model.from_json(prepared["model"], kernel=session.kernel)
         super().__init__(model, integers=claim["input_integers"])
+        self.domain = SimpleNamespace(objective_level=None, halfspace=None)
+        if prepared is not None:
+            equality_row = prepared.get("equality_row")
+            if equality_row is not None:
+                self.domain.objective_level = self.row(equality_row)
+            if claim.get("input_halfspace") is not None:
+                self.domain.halfspace = self.row(len(model.rows)-1)
         self._assigned = {}
         self._plans = {}
 
@@ -89,6 +98,50 @@ class ClaimBuilder(Builder):
         self._assigned[label] = fact
         return fact
 
+    def substitution(self, definitions):
+        """Elaborate a caller-supplied equality substitution proof over all facts.
+
+        Pivots and equations are explicit and processed in the given order. No
+        equations, maps, eliminations, or combinations are discovered here.
+        """
+        definitions = {self.model.var_index[p] if isinstance(p, str) else p: fact
+                       for p, fact in definitions.items()}
+        for pivot, fact in definitions.items():
+            self._visible(fact)
+            if fact.kind != "Eq" or not fact.expression.terms.get(pivot):
+                raise BuildError("Substitution proof needs a proved EQ for every selected pivot")
+        if not definitions:
+            return []
+        pivots = set(definitions)
+        references = []
+        for i, var in enumerate(self.model.vars):
+            references.extend((tag, i) for tag, present in [("VarLower", var.lower is not None),
+                ("VarUpper", var.upper is not None), ("VarInt", self.integers and var.integer)] if present)
+        for i, row in enumerate(self.model.rows):
+            tags = ["RowEq"] if row.equality else [tag for tag, present in [("RowLower", row.lower is not None),
+                                                                           ("RowUpper", row.upper is not None)] if present]
+            references.extend((tag, i) for tag in tags)
+        generated = []
+        for tag, index in references:
+            fact = self.ref(tag, index)
+            if not pivots.isdisjoint(fact.expression.terms):
+                generated.append(self.rewrite(fact, definitions))
+        # Output equalities (including objectives and compositions) are often
+        # just the declared substitution equations. Eliminate only those given
+        # pivots and emit a combination only when the remainder is literally 0.
+        for goal in self.plan():
+            if goal.kind != "Eq" or self.find(goal.kind, goal.expression) is not None:
+                continue
+            remainder, terms = goal.expression, []
+            for pivot, fact in definitions.items():
+                coefficient = -remainder.terms.get(pivot, 0) / fact.expression.terms[pivot]
+                if coefficient:
+                    remainder += coefficient * fact.expression
+                    terms.append((fact, -coefficient))
+            if remainder == Expr(0):
+                generated.append(self.eq(terms, expect=goal.expression))
+        return generated
+
     def plan(self, *, scope=None, mapping=None):
         scope = self._scope(scope)
         values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
@@ -112,15 +165,16 @@ class ClaimBuilder(Builder):
                 if forward.mapping is None:
                     raise BuildError("A constructive bijection needs a declared root forward map")
                 compositions.append(forward.mapping)
+        cache_key = (scope.model, tuple(values), None if inverse_map is None else tuple(inverse_map),
+                     tuple(tuple(m) for m in compositions), json.dumps(self.claim, sort_keys=True), inverse_level,
+                     json.dumps([self.improvement_claim, self.margin], sort_keys=True) if hasattr(self, "improvement_claim") else None)
+        if cache_key in self._plans:
+            return self._plans[cache_key]
         specification = {"claim": self.claim, "map": wire(values),
                          "inverse_map": wire(inverse_map), "inverse_level": inverse_level,
                          "compositions": wire(compositions)}
         if hasattr(self, "improvement_claim"):
             specification["improvement"] = {"claim": self.improvement_claim, "margin": self.margin}
-        cache_key = (scope.model, tuple(values), None if inverse_map is None else tuple(inverse_map),
-                     json.dumps(specification, sort_keys=True), inverse_level)
-        if cache_key in self._plans:
-            return self._plans[cache_key]
         with tempfile.TemporaryDirectory(prefix="kernel-plan-") as directory:
             directory = Path(directory)
             inp, out = directory / "input.mcm", directory / "output.mcm"
