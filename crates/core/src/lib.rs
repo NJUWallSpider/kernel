@@ -14,6 +14,8 @@ pub mod proof;
 pub mod verify;
 pub mod codec;
 pub mod rpa;
+/// Readable proof source, lowered to the existing frozen Certificate/RPX types.
+pub mod rpa_source;
 
 pub mod lp;
 pub mod point;

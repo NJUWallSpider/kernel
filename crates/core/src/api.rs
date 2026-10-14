@@ -14,7 +14,7 @@
 //! - Failures carry an explicit [`Status`] instead of relying on every caller
 //!   re-deriving it from message prefixes.
 
-use crate::{codec, lp, model, proof::Request, rpa, verify::{self, Limits}};
+use crate::{codec, lp, model, proof::Request, rpa, rpa_source, verify::{self, Limits}};
 use serde_json::{json, Value};
 use std::{fmt, fs, io::Read, path::Path, time::Instant};
 
@@ -305,10 +305,32 @@ pub fn canonicalize_path(input: &str, output: &str) -> Result<Value, Error> {
     }))
 }
 
-/// Assemble RPA text into an RPX file.
+/// Assemble frozen JSON RPA or readable RPA-S source into an RPX file.
 pub fn assemble_paths(input: &str, output: &str) -> Result<Value, Error> {
+    assemble_paths_context(input, output, None)
+}
+
+/// Assemble readable source using explicitly supplied actual models.
+pub fn assemble_paths_with_models(input: &str, output: &str, source: &str, target: &str) -> Result<Value, Error> {
+    assemble_paths_context(input, output, Some((source, target)))
+}
+
+fn assemble_paths_context(input: &str, output: &str, models: Option<(&str, &str)>) -> Result<Value, Error> {
     let start = Instant::now();
-    let certificate = rpa::assemble(&read_text(input)?)?;
+    let text = read_text(input)?;
+    let certificate = if text.starts_with("RPA-S") {
+        let parsed = rpa_source::parse(&text)?;
+        if let Some((source, target)) = models {
+            parsed.assemble_with_models(&read_assembly_model(Path::new(source))?, &read_assembly_model(Path::new(target))?)?
+        } else if let Some(paths) = parsed.declared_models() {
+            let parent = Path::new(input).parent().unwrap_or_else(|| Path::new("."));
+            let source = read_assembly_model(&parent.join(&paths.source))?;
+            let target = read_assembly_model(&parent.join(&paths.target))?;
+            parsed.assemble_with_models(&source, &target)?
+        } else { parsed.assemble()? }
+    } else {
+        rpa::assemble(&text)?
+    };
     let encoded = codec::encode_certificate(&certificate)?;
     write_output(output, &encoded)?;
     Ok(json!({
@@ -318,10 +340,46 @@ pub fn assemble_paths(input: &str, output: &str) -> Result<Value, Error> {
     }))
 }
 
+fn read_assembly_model(path: &Path) -> Result<model::Model, Error> {
+    let path_text = path.to_str().ok_or_else(|| Error::from_message("IO_ERROR model path is not UTF-8".into()))?;
+    let bytes = read_input(path_text)?;
+    if bytes.starts_with(b"MCM\0") || path.extension().is_some_and(|s| s.eq_ignore_ascii_case("mcm")) {
+        return Ok(codec::decode_model(&bytes)?);
+    }
+    let text = std::str::from_utf8(&bytes).map_err(|e| Error::from_message(format!("INVALID assembly model UTF-8: {e}")))?;
+    if path.extension().is_some_and(|s| s.eq_ignore_ascii_case("lp")) {
+        Ok(lp::parse_lp(text)?)
+    } else { Ok(model::parse_mps(text)?) }
+}
+
 /// Disassemble an RPX file back into RPA text.
 pub fn disassemble_paths(input: &str, output: &str) -> Result<Value, Error> {
     let certificate = codec::decode_certificate(&read_input(input)?)?;
     write_output(output, rpa::disassemble(&certificate)?.as_bytes())?;
+    Ok(json!({"status": Status::Disassembled.as_str()}))
+}
+
+/// Disassemble RPX into readable proof source; legacy JSON output is available
+/// separately through [`disassemble_paths`].
+pub fn disassemble_source_paths(input: &str, output: &str) -> Result<Value, Error> {
+    let certificate = codec::decode_certificate(&read_input(input)?)?;
+    write_output(output, rpa_source::disassemble(&certificate)?.as_bytes())?;
+    Ok(json!({"status": Status::Disassembled.as_str()}))
+}
+
+/// Render named obligations and bind the generated source to actual model files.
+pub fn disassemble_source_paths_with_models(input: &str, output: &str, source: &str, target: &str) -> Result<Value, Error> {
+    let certificate = codec::decode_certificate(&read_input(input)?)?;
+    let text = rpa_source::disassemble_with_models(&certificate, &read_assembly_model(Path::new(source))?, &read_assembly_model(Path::new(target))?)?;
+    let source = fs::canonicalize(source).map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?;
+    let target = fs::canonicalize(target).map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?;
+    let binding = json!({"source": source.to_str().ok_or_else(|| Error::from_message("IO_ERROR model path is not UTF-8".into()))?,
+        "target": target.to_str().ok_or_else(|| Error::from_message("IO_ERROR model path is not UTF-8".into()))?});
+    let declared = format!("{}models {}\n{}", rpa_source::HEADER, binding, text.strip_prefix(rpa_source::HEADER).unwrap());
+    // The file declaration also consumes source/expansion budgets. Include it
+    // in the final parse before reporting a successfully emitted source file.
+    rpa_source::parse(&declared)?;
+    write_output(output, declared.as_bytes())?;
     Ok(json!({"status": Status::Disassembled.as_str()}))
 }
 

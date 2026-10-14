@@ -1,0 +1,68 @@
+RPA-S 1
+models { source: "source.lp", target: "target.lp" }
+// Source: -1 <= x <= 1；Target: 0 <= y <= 1；两个目标均为零。
+// Forward y = |x|，Reverse x = y。请求没有投影或 inverse 要求。
+certificate {
+  claims: [
+    {
+      reverse: false,
+      input_integers: false,
+      output_integers: false,
+      objective: Equal,
+      projection: [],
+      inverse: null,
+    },
+    {
+      reverse: true,
+      input_integers: false,
+      output_integers: false,
+      objective: Equal,
+      projection: [],
+      inverse: null,
+    },
+  ],
+  blocks: [
+    {
+      steps: [],
+      end: Split {
+        expression: expr(x0),
+        integer: null,
+        left: { // 当前分支假设 x <= 0
+          steps: [],
+          end: Return {
+            map: [expr(-x0)],
+            checks {
+              variable["y"].lower: assumption(0), // Target y >= 0：x <= 0
+              variable["y"].upper: lower(x0),     // Target y <= 1：-x - 1 <= 0
+              objective.equal: exact,         // 目标差恒为零
+            },
+          },
+        },
+        right: { // 当前分支假设 -x <= 0
+          steps: [],
+          end: Return {
+            map: [expr(x0)],
+            checks {
+              variable["y"].lower: assumption(0), // Target y >= 0：-x <= 0
+              variable["y"].upper: upper(x0),     // Target y <= 1：x - 1 <= 0
+              objective.equal: exact,         // 目标差恒为零
+            },
+          },
+        },
+      },
+    },
+    {
+      steps: [
+        lin.le(f0, lower(x0) - 1), // 从 -y <= 0 推出 -y - 1 <= 0
+      ],
+      end: Return {
+        map: [expr(x0)],
+        checks {
+          variable["x"].lower: f0,        // Source x >= -1
+          variable["x"].upper: upper(x0), // Source x <= 1
+          objective.equal: exact,     // 目标差恒为零
+        },
+      },
+    },
+  ],
+}

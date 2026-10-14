@@ -1,0 +1,57 @@
+RPA-S 1
+models { source: "source.lp", target: "target.lp" }
+// 删除冗余行：两个方向都保留坐标与目标，并证明互为逆映射。
+// 数字坐标随当前方向解释：Forward 的 x0 是 Source x，Reverse 的 x0 是 Target y。
+certificate {
+  claims: [
+    {
+      reverse: false,
+      input_integers: false,
+      output_integers: false,
+      objective: Equal,
+      projection: [[0, 0]],
+      inverse: 1,
+    },
+    {
+      reverse: true,
+      input_integers: false,
+      output_integers: false,
+      objective: Equal,
+      projection: [[0, 0]],
+      inverse: 0,
+    },
+  ],
+  blocks: [
+    {
+      steps: [],
+      end: Return {
+        map: [expr(x0)],
+        checks {
+          variable["y"].lower: lower(x0),   // Target y >= 0
+          variable["y"].upper: upper(x0),   // Target y <= 1
+          row["cap"].upper: row_upper(0), // Target cap: y <= 1
+          objective.equal: exact,       // 目标差恒为零
+          projection[0]: exact,       // 投影 y = x
+          inverse.coordinate["x"]: exact,       // Reverse(Forward(x)) = x
+        },
+      },
+    },
+    {
+      steps: [
+        lin.le(f0, row_upper(0) - 1), // 从 y - 1 <= 0 推出 y - 2 <= 0
+      ],
+      end: Return {
+        map: [expr(x0)],
+        checks {
+          variable["x"].lower: lower(x0),   // Source x >= 0
+          variable["x"].upper: upper(x0),   // Source x <= 1
+          row["cap"].upper: row_upper(0), // Source cap: x <= 1
+          row["loose"].upper: f0,          // Source loose: x <= 2
+          objective.equal: exact,       // 目标差恒为零
+          projection[0]: exact,       // 投影 x = y
+          inverse.coordinate["y"]: exact,       // Forward(Reverse(y)) = y
+        },
+      },
+    },
+  ],
+}

@@ -9,7 +9,8 @@
   [Flow](FLOW_V4.md), [Interval](INTERVAL_V5.md), [Menu and bijection](MENU_V7.md),
   [Subflow](SUBFLOW_V10.md), [points](POINT_V3.md), [complete fibers](FIBER_POINT_V6.md).
   Signed decomposition is fully specified and justified in [FORMAT](FORMAT.md#signedlift).
-- Tutorials and interfaces: [RPA V1–V10](RPA.md), [API/CLI](API.md),
+- Tutorials and interfaces: [readable RPA-S source](RPA_SOURCE.md),
+  [JSON RPA V1–V10](RPA.md), [API/CLI](API.md),
   trusted [MPS](MPS_V1.md) and [LP](LP_V1.md) dialects.
 - Evidence: [complete delivery report](../audit/FINAL_DELIVERY_REPORT.md),
   [trust reviews](../audit/TRUST_REPORT.md), [current tools](../tools/README.md).
@@ -27,7 +28,8 @@ in the unversioned SEMANTICS.md and RPA.md; FORMAT.md defines every accepted ver
 |---|---|
 | Complete models, contracts, wire/text layouts and all version gates | [FORMAT.md](FORMAT.md) |
 | Scalar rules, scope, joint maps and current semantic invariants | [SEMANTICS.md](SEMANTICS.md) |
-| RPA authoring and independent caller requests | [RPA.md](RPA.md) |
+| Readable proof authoring | [RPA_SOURCE.md](RPA_SOURCE.md) |
+| Frozen JSON RPA and independent caller requests | [RPA.md](RPA.md) |
 | Flow / interval / menu extensions and complete bijections | [Flow](FLOW_V4.md), [Interval](INTERVAL_V5.md), [Menu](MENU_V7.md) |
 | Activated signed decomposition | [SignedLift](FORMAT.md#signedlift) |
 | Feasibility, permutation strictness, fibers and affine image exclusion | [Points](POINT_V3.md), [Fibers](FIBER_POINT_V6.md), [complete point contract](FORMAT.md#complete-point-witnesses) |

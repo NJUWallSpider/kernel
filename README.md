@@ -6,6 +6,9 @@ invocations. See the [complete delivery report](audit/FINAL_DELIVERY_REPORT.md)
 for original-contract scope, reproducible evidence, performance and trust limits.
 MCM 1 and RPX/RPA V1–V10 are frozen. V9/V10 were frozen on 2026-10-14;
 see the [freeze baseline](audit/PROTOCOL_V9_V10_FREEZE.md).
+The new [readable RPA-S source](docs/RPA_SOURCE.md) compiles explicit expressions,
+aliases, comments, model-bound named checks and array expansions to the same Certificate/RPX. Its source
+version is independent of the frozen protocol capability versions.
 
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
@@ -25,6 +28,9 @@ Minimal toolchain:
 ```sh
 target/release/rpx canonical input.mps input.mcm
 target/release/rpx assemble proof.rpa proof.rpx
+target/release/rpx assemble proof.rpas proof.rpx
+target/release/rpx disassemble-source proof.rpx recovered.rpas
+target/release/rpx disassemble-source --models source.mcm target.mcm proof.rpx named.rpas
 target/release/rpx verify source.mcm target.mcm proof.rpx request.json
 target/release/rpx export-model source.mcm source.json
 ```
@@ -34,7 +40,8 @@ target/release/rpx export-model source.mcm source.json
 Assembly and canonicalization do not establish verification.
 
 - [Unified frozen format specification](docs/FORMAT.md), [mathematical semantics](docs/SEMANTICS.md),
-  [RPA tutorial](docs/RPA.md), [rule arguments and manual index](docs/README.md),
+  [readable RPA-S tutorial](docs/RPA_SOURCE.md), [JSON RPA tutorial](docs/RPA.md),
+  [rule arguments and manual index](docs/README.md),
   trusted [MPS](docs/MPS_V1.md) and [LP](docs/LP_V1.md) dialects.
 - [All corpus materials](audit/corpus_inventory.json), [audit narrative](audit/corpus_audit.md),
   [live acceptance ledger](audit/acceptance.json).
@@ -80,7 +87,7 @@ shared switch-DAG aliases with existing scalar rules; test57 verifies its full
 integer and LP affine bijections.
 
 Programmatic callers use the `kernel_core::api` façade (`crates/core/src/api.rs`):
-`canonicalize_path`, `assemble_paths`, `disassemble_paths`, `inspect_model_path`,
+`canonicalize_path`, `assemble_paths`, `disassemble_paths`, `disassemble_source_paths`, `inspect_model_path`,
 `export_model_paths`, `verify_paths` and the filesystem-free `verify_bytes`. The
 CLI above is a thin shell over it, so both surfaces report the same statuses, the
 same JSON fields and the same exit codes. Failures carry a `code` and, when the

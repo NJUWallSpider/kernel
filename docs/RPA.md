@@ -1,5 +1,10 @@
 # RPA text assembly and caller requests (V1–V10)
 
+For human-readable proof authoring, use [RPA-S source](RPA_SOURCE.md), which adds
+mathematical expressions, explicit aliases, comments and deterministic array
+expansion before compiling to the same Certificate/RPX. This document describes
+the unchanged frozen JSON RPA syntax; both inputs remain supported by `assemble`.
+
 RPA is UTF-8 text beginning with exact bytes `RPA N\n`, for N=1..10, followed by
 one strict JSON Certificate object. All ten versions are implemented and frozen;
 the authoritative schema is [FORMAT.md](FORMAT.md#rpa-text-and-independent-request-schema).

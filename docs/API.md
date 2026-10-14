@@ -16,8 +16,11 @@ JSON. I/O helpers and shared types have the separate return types shown below.
 | Entry point | Input | Report |
 | --- | --- | --- |
 | `canonicalize_path(input, output)` | trusted MPS/LP file | `CANONICALIZED` + dimensions, byte count and phase timings |
-| `assemble_paths(input, output)` | RPA text file | `ASSEMBLED` + byte count and total time |
+| `assemble_paths(input, output)` | frozen JSON RPA or readable RPA-S file | `ASSEMBLED` + byte count and total time |
+| `assemble_paths_with_models(input, output, source, target)` | RPA-S and actual LP/MPS/MCM models | as `assemble_paths` |
 | `disassemble_paths(input, output)` | RPX file | `DISASSEMBLED` |
+| `disassemble_source_paths(input, output)` | RPX file, readable RPA-S output | `DISASSEMBLED` |
+| `disassemble_source_paths_with_models(input, output, source, target)` | RPX and actual models, named checks and file declarations in output | `DISASSEMBLED` |
 | `inspect_model_path(input)` | MCM file | `INSPECTED` + name, variable/row counts, integer count, nonzeros |
 | `export_model_paths(input, output)` | MCM file | `EXPORTED` + dimensions and written bytes |
 | `verify_paths(source, target, proof, request, limits)` | four files | `VERIFIED` + contract counts, statistics, limits, timings |
@@ -28,7 +31,7 @@ JSON. I/O helpers and shared types have the separate return types shown below.
 `Status` carries both the status word and its process exit code, so a caller
 never re-derives either from the report text.
 
-The lower-level `model`, `proof`, `codec`, `rpa`, `verify`, `point`, `flow`,
+The lower-level `model`, `proof`, `codec`, `rpa`, `rpa_source`, `verify`, `point`, `flow`,
 `interval`, `menu`, `injectivity`, `signed`, `subflow` and `level` modules are
 also public. Callers can construct `proof::Certificate` / `proof::Request` values
 directly, encode them with `codec`, or verify them with `verify::verify_request`.
@@ -36,6 +39,18 @@ Joint-extension preparation helpers return unchecked premises; they are not
 acceptance entry points. There is no high-level compiler API that synthesizes
 proofs or plans all required checks; [compiler API demand](COMPILER_API_DEMAND.md)
 describes that proposed layer.
+
+`rpa_source::assemble(&str)` and `rpa_source::disassemble(&Certificate)` provide
+filesystem-free readable proof assembly. The independent `RPA-S 1` source grammar
+lowers to the existing frozen Certificate/RPX types; it supplies no proof search
+or implicit witnesses. See the [readable source tutorial](RPA_SOURCE.md).
+The existing `rpa` module remains the strict JSON RPA V1–V10 codec.
+Named obligation checks use `rpa_source::assemble_with_models` and
+`disassemble_with_models`; the filesystem-free APIs take two complete `Model`
+values. File APIs load optional `models { source: "...", target: "..." }`
+declarations relative to the source file. Explicit `--models` parameters override
+the declaration. Models select and validate obligation names; the verifier still
+checks every supplied reference independently.
 
 ## Statuses and exit codes
 
@@ -101,7 +116,11 @@ inspect the `Diagnostics` value they passed in; `api::verify_bytes` and
 rpx canonical input.mps output.mcm
 rpx canonical input.lp output.mcm
 rpx assemble input.rpa output.rpx
+rpx assemble input.rpas output.rpx
 rpx disassemble input.rpx output.rpa
+rpx disassemble-source input.rpx output.rpas
+rpx assemble --models source.mcm target.mcm input.rpas output.rpx
+rpx disassemble-source --models source.mcm target.mcm input.rpx output.rpas
 rpx inspect-model model.mcm
 rpx export-model model.mcm output.json
 rpx verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx request.json
