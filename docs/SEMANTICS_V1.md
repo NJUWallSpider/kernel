@@ -126,7 +126,7 @@ verification of Rust, dependencies, compiler, allocator or operating system.
 
 ## Implemented limits and errors
 
-See `FORMAT_V1.md` for decoder limits and `MPS_V1.md` for importer limits. Execution
+See [FORMAT.md](FORMAT.md#resource-policies-reports-and-trust-boundary) for decoder limits and `MPS_V1.md` for importer limits. Execution
 has a one billion work-unit default, one million live registers, and bounded branch
 depth. The `verify` CLI accepts `--work <u64>` and `--live-facts <usize>` anywhere
 after the subcommand to override these budgets; depth is not configurable.

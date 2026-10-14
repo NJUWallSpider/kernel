@@ -1,6 +1,7 @@
 # Actual test83: minimum preservation, recovery, and all-optimizer exclusion
 
-Status: VERIFIED under the **unfrozen V10 working draft**. Actual source and
+Status: VERIFIED under **V10, frozen on 2026-10-14**. The original receipt
+retains its pre-freeze status. Actual source and
 target identities, all exact artifact hashes, executions and negative tests are
 in `preparation.json`. The original V5 submission is preserved under
 `attempts/submitted-v5-2026-10-11/`.

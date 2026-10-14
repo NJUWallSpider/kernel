@@ -1,6 +1,6 @@
 # Actual test80: every original optimizer, with a complete inverse
 
-The full requested contract is **VERIFIED** on the actual source and final target. This receipt uses the **working, unfrozen objective-level protocol (RPA/RPX 9)** from the internal pre-refactor snapshot `bench/builder-support-baseline`. It is an actual kernel acceptance, not a protocol release or a claim that the entire corpus is complete.
+The full requested contract is **VERIFIED** on the actual source and final target. The receipt was produced with the then-unfrozen objective-level protocol (RPA/RPX 9) from the internal pre-refactor snapshot `bench/builder-support-baseline` and retains that historical status. **V9 was frozen on 2026-10-14**, with unchanged bytes and semantics; see the [freeze record](../../audit/PROTOCOL_V9_V10_FREEZE.md).
 
 Source `/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps` has 14,387 integer coordinates, 10,765 rows and 64,073 constraint coefficients. SHA-256: `53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22`.
 

@@ -35,9 +35,9 @@ End tag & 名称 & 最低版本及作用 \\
 4 & IntervalLift & V5；同时选择实区间坐标。\\
 5 & MenuLift & V7；可选整数菜单的二元展开。\\
 6 & SignedLift & V8；有激活的有界实数正负分解。\\
-7 & SubflowLift & 未冻结 V10；同时保留有需求的有界子流。\\
-8 & ImproveReturn & 未冻结 V10；同模型完整严格改进向量。\\
-9 & PositiveRefutation & 未冻结 V10；与严格根条件矛盾。\\
+7 & SubflowLift & V10；同时保留有需求的有界子流。\\
+8 & ImproveReturn & V10；同模型完整严格改进向量。\\
+9 & PositiveRefutation & V10；与严格根条件矛盾。\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -357,7 +357,7 @@ $Z=1,F\ge0$ 时取 $(F,0,1,0)$，否则取 $(0,-F,0,1)$。
 \section{SubflowLift：有需求部分的共同有界子流}
 \label{ins:subflow-lift}
 
-未冻结 V10。字段为 \code{witness}、\code{body}。
+V10。字段为 \code{witness}、\code{body}。
 SubflowWitness 的 \code{nodes}、\code{arcs}、非空 \code{groups} 与 Flow 的图条件相同。
 每组含 \code{source} $s$、有序 \code{demands} $(t_i,d_i)$、每弧 \code{flows} $F_e$、
 \code{nonnegative} 和 \code{balances}。
@@ -395,7 +395,7 @@ $G$ 组共加 $Gm$ 变量、$G(n+m)$ 行。
 \subsection{ImproveReturn：同模型严格下降}
 \label{ins:improve-return}
 
-未冻结 V10。字段为 \code{map}、\code{checks} 和 \code{margin}，只在改进上下文可用。
+V10。字段为 \code{map}、\code{checks} 和 \code{margin}，只在改进上下文可用。
 map 给出同一实际完整模型的全部输出坐标。
 margin 为 \code{Constant}(q) 或 \code{Predicate}(q)，要求精确规范 $q>0$。
 依普通变量/行顺序证明全部可行性，随后证明唯一目标不等式
@@ -410,7 +410,7 @@ margin 为 \code{Constant}(q) 或 \code{Predicate}(q)，要求精确规范 $q>0$
 \subsection{PositiveRefutation：与严格根条件矛盾}
 \label{ins:positive-refutation}
 
-未冻结 V10。字段为 \code{fact}，只在 Improvement Block 中可用。
+V10。字段为 \code{fact}，只在 Improvement Block 中可用。
 按目标命题检查精确证明 $\mathrm{LE}(P)$；允许已有同式 Eq 或合法 Exact。
 与不可变根条件 $P>0$ 矛盾，因而关闭此严格子域。
 $P$ 使用原始坐标，其含义不受 lift 改变。

@@ -1,4 +1,4 @@
-//! Exact supplementary point checks, including V10 draft image exclusion.
+//! Exact supplementary point checks, including V10 image exclusion.
 //!
 //! `verify_points` checks witnesses and their requested point claims. The full
 //! verifier must first prove all requested mapping claims. A separating point

@@ -4,9 +4,9 @@
 本章规定当前 kernel 的数学对象与成功验证所证明的命题。
 RPA（Reformulation Proof Assembly）是证明汇编文本，RPX（Reformulation
 Proof eXecutable）是相应的二进制证书；两者描述相同的证明对象。
-模型由 MCM 1 表示，证明格式 V1--V8 已冻结；当前源码还实现了未冻结的
-V9 目标层与 V10 条件域、严格改进、完整像排除及子流扩展。
-这些草案功能的实现状态不等于协议冻结。
+模型由冻结的 MCM 1 表示，证明格式 V1--V10 均已冻结。
+V9 目标层与 V10 条件域、严格改进、完整像排除及子流扩展
+沿用 2026-10-14 冻结时的字节与数学接受条件。
 
 \section{完整模型与精确数域}
 \label{sec:canonical-model}
@@ -192,7 +192,7 @@ $\operatorname{val}_{b_O}(O)\le\operatorname{val}_{b_I}(I)$；
 $f_O(F(x))=L$，以保证组合进入 $G$ 的已证域。
 V10 暂不支持当前或被引用 claim 带 halfspace 的 legacy inverse；遇到即拒绝。
 
-\subsection{目标层与仿射半空间：未冻结 V9/V10}
+\subsection{目标层与仿射半空间：V9/V10}
 
 \code{input_objective_level}=L 将该方向域改为
 $f_I(x)=L$ 的截面；\code{input_halfspace}=H 再要求 $H(x)\le0$。
@@ -239,7 +239,7 @@ PointWitness 提供所选完整模型的全部有理坐标；每个数值和表�
 观察为空时仍须反证整个输入 LP，不能把空观察当成免费分离。
 Strictness 与 FiberStrictness 均拒绝目标层或半空间受限的包含 claim。
 
-\paragraph{ImageExclusion：未冻结 V10。}调用者提供完整仿射 map 和点所在一侧。
+\paragraph{ImageExclusion：V10。}调用者提供完整仿射 map 和点所在一侧。
 map 恰有对侧每个坐标的表达式，且只用点所在原始模型坐标。
 验收证明一个完整 LP 可行点的\emph{这个指定完整像}不属于对侧 LP。
 先完整验证 map，再精确计算所有像坐标，最终要求实际界或行违反。
@@ -271,7 +271,7 @@ kernel 建立两份完整 $A$，坐标依次为 $x,x'$，保留各自全部界�
 建立该\emph{实际完整域映射}的双射，空域也遵循同一定义。
 这与单条 legacy inverse 的单侧组合是不同合约。
 
-\section{严格改进合约：未冻结 V10}
+\section{严格改进合约：V10}
 \label{sec:improvement-contracts}
 
 ImprovementClaim 选择一个完整实际模型 $M$、整数模式 $b$ 及原始坐标表达式 $P$。

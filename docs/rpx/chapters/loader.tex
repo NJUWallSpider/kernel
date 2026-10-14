@@ -346,7 +346,8 @@ point 与 injectivity checker，以及各静态 lift/theorem 的数学 lemma 和
 certificate generator、求解器、Python oracle、model-specific structure scripts、
 外部 SHA receipts、benchmark 和 corpus replay 都不向 kernel 提供 proof facts。
 独立测试、字节攻击、构造 oracle 与 source review 是实现可靠性的证据，
-不是 Rust 实现的形式验证。V9/V10 的工作 case 成功也不冻结草案。
+不是 Rust 实现的形式验证。V9/V10 的冻结来自 2026-10-14 的明确项目决定，
+其基线与复核记录见 \code{audit/PROTOCOL_V9_V10_FREEZE.md}。
 验证已准许请求不自动获得未请求的双向等价、最优性、可行性或 global inclusion。
 
 本章以 \code{api.rs}、\code{main.rs}、\code{model.rs}、\code{lp.rs}、

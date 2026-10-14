@@ -4,13 +4,14 @@ The supplied corpus is functionally accepted: **81/81 complete actual cases,
 all 11 families**, with a fresh 262-test build and 83 successful final kernel
 invocations. See the [complete delivery report](audit/FINAL_DELIVERY_REPORT.md)
 for original-contract scope, reproducible evidence, performance and trust limits.
-V9/V10 protocol drafts remain explicitly unfrozen.
+MCM 1 and RPX/RPA V1–V10 are frozen. V9/V10 were frozen on 2026-10-14;
+see the [freeze baseline](audit/PROTOCOL_V9_V10_FREEZE.md).
 
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
 The [Chinese kernel manual](docs/rpx-manual.pdf) and its
 [LaTeX sources](docs/rpx/) describe the current implementation, including the
-explicitly unfrozen V9/V10 extensions.
+frozen V9/V10 extensions.
 
 ```sh
 cargo build -p kernel-core --release --locked
@@ -32,10 +33,9 @@ target/release/rpx export-model source.mcm source.json
 `IO_ERROR` are distinct failures; none establishes that a reformulation is wrong.
 Assembly and canonicalization do not establish verification.
 
-- [Current complete format reference](docs/CURRENT_FORMAT.md), [implemented semantics](docs/SEMANTICS_V1.md), [binary format history](docs/FORMAT_V1.md),
-  [RPA text syntax](docs/RPA_V1.md), [V2 extensions](docs/FORMAT_V2.md),
-  [V3 theorem and witnesses](docs/FORMAT_V3.md), [V4 joint flow lift](docs/FORMAT_V4.md), [exact point contracts](docs/POINT_V3.md),
-  [V7 menus and full bijections](docs/FORMAT_V7.md), [V8 activated signed decomposition](docs/FORMAT_V8.md), [trusted MPS dialect](docs/MPS_V1.md), [trusted LP dialect](docs/LP_V1.md).
+- [Unified frozen format specification](docs/FORMAT.md), [mathematical semantics](docs/SEMANTICS_V1.md),
+  [RPA tutorial](docs/RPA_V1.md), [rule arguments and manual index](docs/README.md),
+  trusted [MPS](docs/MPS_V1.md) and [LP](docs/LP_V1.md) dialects.
 - [All corpus materials](audit/corpus_inventory.json), [audit narrative](audit/corpus_audit.md),
   [live acceptance ledger](audit/acceptance.json).
 - [Initial performance evidence](bench/REPORT.md), [extended fixed measurements](bench/EXTENDED_REPORT.md), [shared scope measurements](bench/SHARED_SCOPE_REPORT.md), [V7 theorem and actual-case baseline](bench/THEOREM_V7_REPORT.md), [exact arithmetic comparison](bench/RATIONAL_SHORTCUTS_REPORT.md), [V8 signed baseline](bench/SIGNED_V8_REPORT.md), [raw runs](bench/results/).
@@ -44,18 +44,17 @@ Assembly and canonicalization do not establish verification.
 
 The frozen V8 rebuild passes 198 core tests and replays the 34 actual certificates
 enumerated at its start in [V8 checkpoint results](audit/validation/checkpoint-v8/run.json).
-Subsequent successful cases and all unfinished cases remain in the
-[live acceptance ledger](audit/acceptance.json), with all 81 supplied runs retained.
-The working V9 objective-domain change is an [unfrozen draft](docs/FORMAT_V9_DRAFT.md).
-The [consolidated V10 draft](docs/FORMAT_V10_DRAFT.md) adds strict improvement,
-complete-point image exclusion, explicit affine input restrictions and a joint
-demand-bounded subflow lift; it also
-remains unfrozen. The [delivery acceptance review](audit/DELIVERY_ACCEPTANCE.md)
+The current [acceptance ledger](audit/acceptance.json) records all 81 cases as
+verified; the new freeze baseline runs 280 tests and replays all 83 invocations.
+V9 adds caller-declared objective-level domains; V10 adds strict improvement,
+complete-image exclusion, affine input restrictions and joint demand-bounded subflows.
+Their complete layouts and semantic boundaries are consolidated in [FORMAT](docs/FORMAT.md).
+The [delivery acceptance review](audit/DELIVERY_ACCEPTANCE.md)
 distinguishes successful submitted requests from complete original-report
 contracts. Its 78 historical requests also reproduce byte-for-byte with the
 V10 candidate in [compatibility evidence](audit/validation/v10-old-78-compatibility.json).
-[Actual test80](cases/test80/README.md) is certified against its recorded internal
-snapshot; this is not a protocol release. [Shared builder mechanics](audit/BUILDER_SUPPORT_REVIEW.md)
+[Actual test80](cases/test80/README.md) preserves its recorded internal snapshot;
+its historical receipt predates the explicit V9 freeze. [Shared builder mechanics](audit/BUILDER_SUPPORT_REVIEW.md)
 subsequently pass both 210-test suites and 48 complete before/after case replays.
 All 159 corpus MPS files and all three LP files have been imported. LP models
 additionally match an independent exact parser field by field; import success is
@@ -75,7 +74,7 @@ optima. V4 jointly lifts all commodity flows for test28 while preserving integer
 every attainable objective value and circulation. V5 interval lifting certifies test23 with explicit signed affine observations.
 V6 proves partial-projection strictness through complete LP fiber refutations;
 test18 and test19 now certify their full requested integer relationships and strict LP projection strengthening. Follow the
-versioned specifications and live ledger for current status. V7 certifies the complete
+unified specification and live ledger for current status. V7 certifies the complete
 integer menu bijections and LP observation images in test59/test60. Test38 verifies
 shared switch-DAG aliases with existing scalar rules; test57 verifies its full
 integer and LP affine bijections.

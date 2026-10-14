@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Full actual test80 optimizer bijection; untrusted exact proof preparation.
 
-Uses the working objective-level contract, not a replacement cropped source.
-No new rule or production edit is made by this preparer. Version 9 is not frozen.
+Uses the frozen V9 objective-level contract, not a replacement cropped source.
+No new rule or production edit is made by this preparer. Version 9 was frozen on 2026-10-14.
 """
 from fractions import Fraction as F
 from pathlib import Path

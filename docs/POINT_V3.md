@@ -6,7 +6,7 @@ and wire representation are defined by `proof.rs` and `codec.rs`. This is a
 deterministic witness checker, with no search or solver invocation.
 
 V6 separately adds strictness for partial affine observations through complete
-fiber refutations; see `FORMAT_V6.md` and `FIBER_POINT_V6.md`. The V3 rule described
+fiber refutations; see [FORMAT.md](FORMAT.md#complete-point-witnesses) and `FIBER_POINT_V6.md`. The V3 rule described
 below retains its complete-coordinate-bijection requirement.
 
 ## Requested statements and interpretation

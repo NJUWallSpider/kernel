@@ -132,7 +132,7 @@ Forward 的 \code{Split} 两支分别假设 $x\le0$ 和 $-x\le0$，覆盖所有�
 
 \code{cases/test58/} 的完整 Source 有 2,500 个变量、1,750 行，Target 有 607 个变量、785 行。Forward 对所有 Source MI 点给出完整 Target MI 非增目标像，Reverse 对所有 Target MI 点给出完整 Source MI 等目标恢复。两方向保持最小值并提供恢复；不要求 LP 等价或全可行集双射。
 
-其 V10 \code{SubflowLift} 同时产生 180 个节点、606 条有向弧的一个共同流，逐弧不超过给定原始流及总 demand 82，并保留所有所需节点 balance。它与 V4 FlowLift 的逐弧总流相等结论不同，也没有把独立局部流见证拼成未经检查的全局 tuple。所有 old-scope premises 先被核验，再进入同一 generated extension，最后核验完整 Target map 的全部 bounds、integer designations、rows 和 objective。联合存在性仍依赖 \code{docs/SUBFLOW_DRAFT.md} 的可信 builder 引理；完整 child obligations 不会独立证明这条引理。该实际完整请求复核为 8,448 obligations、2,029,879 work；八个保存的负例覆盖缺失 balance、越界 old-scope 引用和错误反向恢复。
+其 V10 \code{SubflowLift} 同时产生 180 个节点、606 条有向弧的一个共同流，逐弧不超过给定原始流及总 demand 82，并保留所有所需节点 balance。它与 V4 FlowLift 的逐弧总流相等结论不同，也没有把独立局部流见证拼成未经检查的全局 tuple。所有 old-scope premises 先被核验，再进入同一 generated extension，最后核验完整 Target map 的全部 bounds、integer designations、rows 和 objective。联合存在性仍依赖 \code{docs/SUBFLOW_V10.md} 的可信 builder 引理；完整 child obligations 不会独立证明这条引理。该实际完整请求复核为 8,448 obligations、2,029,879 work；八个保存的负例覆盖缺失 balance、越界 old-scope 引用和错误反向恢复。
 
 \begin{longtable}{p{0.20\textwidth}p{0.36\textwidth}p{0.36\textwidth}}
 \toprule
@@ -142,7 +142,7 @@ point contract & 实际核验内容 & 可推出的结论与边界 \\
 \code{Feasible} & 选定实际模型的全部坐标、bounds、rows、所要求整数性和可选完整目标值 & 证明可行及该目标值；另有全局 lower-bound claim 才能证明最优值达到。\\
 \code{Strictness} & 先完成 full-coordinate permutation LP inclusion，再检查完整 output LP 点及其唯一对应 input 点 & 证明该 inclusion 的严格性；不能推广到部分投影。\\
 \code{FiberStrictness} & 完整 output LP 点，及固定全部 caller observations 后的完整 input LP fiber 反证 & 证明部分 coordinate/affine observation image 的严格性；不能用一个失败恢复点替代整个 fiber 的不存在性。\\
-\code{ImageExclusion}，V10 草案 & 一个完整实际 LP 点、caller 绑定的完整另一模型 affine tuple，及其实际 bound/row 违反 & 证明这个完整像被排除；不需要全局 inclusion，也不建立全局 containment 或 strict inclusion。\\
+\code{ImageExclusion}，V10 & 一个完整实际 LP 点、caller 绑定的完整另一模型 affine tuple，及其实际 bound/row 违反 & 证明这个完整像被排除；不需要全局 inclusion，也不建立全局 containment 或 strict inclusion。\\
 \bottomrule
 \end{longtable}
 
@@ -150,7 +150,7 @@ point contract & 实际核验内容 & 可推出的结论与边界 \\
 
 \code{cases/test62/} 保留原有两方向整数目标保持和 V7 complete-domain bijection，再以 V10 \code{ImageExclusion} 核验 4,500-coordinate Source LP 点和全部 500 个 Target image expressions。检查到实际 Target 违反便成立；它不要求或证明 Source LP 的全局映射 inclusion。\code{cases/test18/}、\code{cases/test19/} 的完整 fiber refutations 则展示第三类 claim，定义和 fresh-scope 边界见 \code{docs/FIBER_POINT_V6.md}。
 
-\code{cases/test80/} 展示 V9 的另一个边界：在完整原始 Source 上先证明全局 lower bound $-160$ 并给出达到值的完整 integer point。Source 到 Target 方向仅在 caller-bound Source objective level $-160$ 上证明；Target 到 Source 方向在全部实际 Target integer 可行点上证明，并追加 image 属于 opposing Source level 的 equality。两个完整 map 的 affine inverse 同时被核验。得到的是所有 Source integer optimizers 与全部 Target integer 可行点的双射，不是所有 Source 可行点的双射；不是 V7 \code{bijections} counter 所统计的 paired-domain 机制。V9 与 V10 的这些实际成功请求均不冻结协议。
+\code{cases/test80/} 展示 V9 的另一个边界：在完整原始 Source 上先证明全局 lower bound $-160$ 并给出达到值的完整 integer point。Source 到 Target 方向仅在 caller-bound Source objective level $-160$ 上证明；Target 到 Source 方向在全部实际 Target integer 可行点上证明，并追加 image 属于 opposing Source level 的 equality。两个完整 map 的 affine inverse 同时被核验。得到的是所有 Source integer optimizers 与全部 Target integer 可行点的双射，不是所有 Source 可行点的双射；不是 V7 \code{bijections} counter 所统计的 paired-domain 机制。这些请求的历史验收早于协议冻结；V9/V10 已于 2026-10-14 明确冻结，原始 receipts 保留其时点状态。
 
 \section{实际案例的可重复入口}
 

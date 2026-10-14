@@ -1,7 +1,7 @@
 \chapter{MCM 与 RPX 二进制格式}\label{ch:format}
 
 本章给出当前 \code{codec.rs} 可接受并可输出的逐字段布局。MCM 只有版本 1；
-RPX 接受版本 1--10，其中 V1--V8 已冻结，V9 与 V10 是已实现、未冻结的工作草案。
+RPX 接受冻结版本 1--10；V9/V10 于 2026-10-14 冻结，沿用原有编码与接受条件。
 旧 D0 的 128 B header、section directory、ScalarPool、ExprId、对齐 tape 和隐式 FactId
 均不属于当前协议。实现者应按本章的顺序记录编码，不得把旧提案与当前记录混合。
 
@@ -308,8 +308,8 @@ encoder 总是选择证书实际需要的\emph{最低}版本，而不是保留�
 6 & FiberStrictness 或任何 present point refutation。\\
 7 & MenuLift 或非空 bijections。\\
 8 & SignedLift。\\
-9 & present input objective level；工作草案。\\
-10 & present input halfspace、ImageExclusion、非空 improvements、SubflowLift、ImproveReturn 或 PositiveRefutation；工作草案。\\
+9 & present input objective level；已冻结。\\
+10 & present input halfspace、ImageExclusion、非空 improvements、SubflowLift、ImproveReturn 或 PositiveRefutation；已冻结。\\
 \bottomrule
 \end{longtable}
 decoder 接受支持范围内高于最低需要的 version，但按该 header 读取全部版本字段。

@@ -30,5 +30,5 @@ python3 tools/prepare_test27.py --kernel target/release/rpx
 
 The original audit supplies candidates only. The new rule's exact statement,
 construction, versioned format, tests and resource limits are in
-[FORMAT_V8.md](../../docs/FORMAT_V8.md); the independent implementation review is
+[FORMAT.md](../../docs/FORMAT.md#signedlift); the independent implementation review is
 [V8_REVIEW.md](../../audit/V8_REVIEW.md).

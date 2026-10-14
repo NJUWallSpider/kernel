@@ -1,6 +1,6 @@
 # Explicit objective-level domains: test80 design
 
-Status: proposed after V8; no production implementation or full test80 certificate is claimed here. The actual source and target remain the original corpus MPS files. `tools/audit_test80.py` and `cases/test80/optimal_face_structure.json` record the separate complete structural audit.
+Status: historical design argument written after V8. V9 is now implemented and frozen; the normative contract is [FORMAT.md](FORMAT.md#objective-level-and-halfspace-domains), and the complete certificate is recorded in [test80](../cases/test80/README.md). The proposal wording below records the original design process. The actual source and target remain the original corpus MPS files. `tools/audit_test80.py` and `cases/test80/optimal_face_structure.json` record the separate complete structural audit.
 
 ## Actual requested relation
 

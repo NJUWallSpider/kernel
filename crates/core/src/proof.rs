@@ -42,7 +42,7 @@ pub struct Request {#[serde(default)]pub improvements:Vec<ImprovementClaim>,#[se
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum PointClaim {
-    /// V10 draft: a full LP point is feasible on one side, but its complete
+    /// V10: a full LP point is feasible on one side, but its complete
     /// caller-specified affine image is infeasible in the other actual LP.
     /// No global containment assertion follows.
     ImageExclusion {point_in_target:bool,map:Vec<Expr>},
@@ -111,7 +111,7 @@ pub struct FlowGroup{
     pub nonnegative:Vec<Ref>,
     pub balances:Vec<Ref>,
 }
-/// V10 draft: jointly retain the demanded part of a nonnegative real flow.
+/// V10: jointly retain the demanded part of a nonnegative real flow.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SubflowWitness{pub nodes:u32,pub arcs:Vec<(u32,u32)>,pub groups:Vec<SubflowGroup>}
@@ -126,11 +126,11 @@ pub struct SubflowGroup{
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum End {
-    /// V10 draft: simultaneous demand-bounded subflows, with old-scope premises.
+    /// V10: simultaneous demand-bounded subflows, with old-scope premises.
     SubflowLift{witness:SubflowWitness,body:Box<Block>},
-    /// V10 draft: complete same-model improving tuple on a strict domain.
+    /// V10: complete same-model improving tuple on a strict domain.
     ImproveReturn {map:Vec<Expr>,checks:Vec<Ref>,margin:ImprovementMargin},
-    /// V10 draft: contradict the root's strictly positive requested expression.
+    /// V10: contradict the root's strictly positive requested expression.
     PositiveRefutation {fact:Ref},
     /// V8: jointly split bounded signed real expressions into activated directions.
     SignedLift{decompositions:Vec<SignedWitness>,body:Box<Block>},
@@ -148,7 +148,7 @@ pub enum End {
     Absurd { fact: Ref },
 }
 
-/// V10 draft. For every feasible x with positive(x)>0 there exists one feasible
+/// V10. For every feasible x with positive(x)>0 there exists one feasible
 /// y in the SAME complete actual model with f(y)<f(x). No optimum is assumed.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]

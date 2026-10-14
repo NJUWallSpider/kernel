@@ -1,6 +1,6 @@
 # Fiber strictness: point-side implementation and independent checks
 
-`FORMAT_V6.md` defines the complete versioned statement, proof language and wire
+[FORMAT.md](FORMAT.md#complete-point-witnesses) defines the complete versioned statement, proof language and wire
 layout. `point.rs` implements the point-side binding; `verify_lp_refutation` in
 `verify.rs` checks the resulting LP contradiction. The old V3 complete-permutation
 strictness rule is unchanged.

@@ -4,7 +4,7 @@ This document describes the surface added after the delivered snapshot
 (see [POST_DELIVERY_CHANGES.md](../audit/POST_DELIVERY_CHANGES.md) for the exact
 divergence). Wire formats, verification rules and the resource policy are
 unchanged: MCM 1, RPX 1–10, RPA text and the status vocabulary documented in
-[CURRENT_FORMAT.md](CURRENT_FORMAT.md) still apply. What is new here is a named,
+[FORMAT.md](FORMAT.md) still apply. What is new here is a named,
 machine-readable interface for callers that are not a shell script.
 
 ## Rust façade

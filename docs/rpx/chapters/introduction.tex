@@ -10,7 +10,7 @@ MCM 保存完整的精确有理系数模型。
 
 \section*{实现基线与协议状态}
 \addcontentsline{toc}{section}{实现基线与协议状态}
-本版于 2026 年 10 月 13 日根据当前仓库实现重写，取代 2026 年 10 月 9 日的 D0 设计手册。
+本手册于 2026 年 10 月 13 日按实现重写，并于 10 月 14 日同步 V9/V10 冻结与统一 FORMAT 规范，取代 10 月 9 日的 D0 设计手册。
 实现基线为 \code{crates/core/src/}：数学对象见 \code{model.rs} 与 \code{proof.rs}，
 执行器见 \code{verify.rs}，文件编解码见 \code{codec.rs} 与 \code{rpa.rs}，
 公开接口见 \code{api.rs}，命令行见 \code{main.rs}。
@@ -22,14 +22,14 @@ point、injectivity、level 模块提供对应的精确 contract 检查。
 \toprule 对象 & 当前状态 \\\midrule\endhead
 MCM & 只接受版本 1；与 RPX 的增量版本独立。\\
 RPA / RPX 1--8 & 已实现、已冻结；后续版本沿用既有字段与数学意义。\\
-RPA / RPX 9 & 已实现的目标水平域工作草案，尚未冻结。\\
-RPA / RPX 10 & 已实现的严格改进、完整像排除、联合 subflow 与显式半空间域工作草案，尚未冻结。\\
+RPA / RPX 9 & 已实现、已冻结的目标水平域；2026-10-14 冻结。\\
+RPA / RPX 10 & 已实现、已冻结的严格改进、完整像排除、联合 subflow 与显式半空间域；2026-10-14 冻结。\\
 D0 / v0.1 & 历史设计来源，既不是可接受的文本版本，也不是当前文件 ABI。\\
 \bottomrule
 \end{longtable}
 
-实现完成与协议冻结是两个不同决定。本手册完整描述已实现的 V9/V10 字段和规则，
-不会因草案身份省略其前置条件，也不把它们宣布为已冻结的发布协议。
+实现完成与协议冻结分别登记。项目于 2026-10-14 明确冻结 V9/V10，
+沿用既有字段、字节与数学接受条件；不兼容变更须使用新版本。
 原 D0 的 section directory、表达式池、隐式 SSA 编号、逐项 mapping/check、
 yield/merge 和可执行 theorem plugin 均不属于当前接口。
 附录\ref{app:revisions}保留其设计决定与当前实现的对应关系。
@@ -42,11 +42,11 @@ yield/merge 和可执行 theorem plugin 均不属于当前接口。
 数据结构示意、性能解释、有限测试、历史测量和审阅记录是说明性证据。
 一个文件通过汇编只说明能够编码，不等于证明通过验证。
 
-\code{docs/CURRENT_FORMAT.md} 汇总冻结版本的布局；
-\code{docs/FORMAT_V9_DRAFT.md} 与 \code{docs/FORMAT_V10_DRAFT.md} 保留工作草案的边界。
+\code{docs/FORMAT.md} 是 MCM 1 与 RPA/RPX 1--10 的唯一完整格式规范；
+\code{audit/PROTOCOL_V9_V10_FREEZE.md} 登记冻结决定与验证身份。
 各联合扩展的独立数学论证及审阅来源在相关章节和附录列出。
-\code{CURRENT_FORMAT.md} 的原字节由交付 manifest 固定，保留其交付时点的旧手册说明；
-本版手册状态以本页为准，冻结布局及历史验收记录不因重写手册而改变。
+交付 manifest 固定的旧规范原字节保存在 \code{audit/specification-history/}；
+历史验收记录保持交付时点的草案状态，不倒填冻结结论。
 若发现手册与源代码不同，应将其作为需要修复的文档或实现问题，
 不能让证书通过含糊解释、未定义行为或自动放宽检查取得接受结果。
 

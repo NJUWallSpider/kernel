@@ -1,5 +1,5 @@
-//! Strict MCM v1 and versioned RPX codec, including working V9/V10 drafts.
-//! See docs/CURRENT_FORMAT.md and docs/FORMAT_V10_DRAFT.md.
+//! Strict MCM v1 and versioned RPX codec, including frozen RPX/RPA 1–10.
+//! See docs/FORMAT.md.
 //! All bytes are interpreted before execution, including both sides of every split.
 use crate::model::{Expr, Model, Q, Row, Var};
 use crate::proof::{SubflowGroup,SubflowWitness,ImprovementClaim,ImprovementWitness,ImprovementMargin,BijectionClaim,BijectionWitness,EqualityProof,MenuWitness,SignedWitness,CasesStep,Block, Certificate, Claim, Derivation, DerivationEnd, End, FlowGroup, FlowWitness, IntervalWitness, Kind, Objective, PointClaim, PointWitness, Ref, Step};
