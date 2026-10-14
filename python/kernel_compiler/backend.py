@@ -20,7 +20,7 @@ class Kernel:
     def __init__(self, binary=None):
         root = Path(__file__).resolve().parents[2]
         candidates = [binary, os.environ.get("KERNEL_RPX"),
-                      root / "target/release/rpx", root / "target/debug/rpx", shutil.which("rpx")]
+                      root / "bin/rpx", root / "target/release/rpx", root / "target/debug/rpx", shutil.which("rpx")]
         self.binary = next((Path(p).resolve() for p in candidates if p and Path(p).is_file()), None)
         if self.binary is None:
             raise FileNotFoundError("Build rpx with cargo build --release, or set KERNEL_RPX")

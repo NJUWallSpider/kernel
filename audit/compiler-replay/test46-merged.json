@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "scope": "existing tested case46 merged-certificate regression, not autonomous Agent acceptance",
+  "release_binary_sha256": "8fd4dc425386fc290772d186c063c31f5736e7a204f75af554e1545edefd8e11",
+  "legacy_fixture": {
+    "path": "cases/test46/combined-attempt.rpa",
+    "bytes": 432885912,
+    "sha256": "7b6784cdcdbcf61636031c8703b322f95ef7d0236e8fecb875b8d5578aa979cb"
+  },
+  "raw_json_bytes": 432885906,
+  "raw_json_sha256": "22e5aa649f852628e3d24c5a1a8b53091cb3d8e2e29382cb91ddce2e605d60fa",
+  "compiled_rpx_bytes": 351664903,
+  "compiled_rpx_sha256": "e14de789ebb4ee18067200829fdf6dd8e7eadefa5b1aaafe9210044d931f64e7",
+  "model_request_hashes": {
+    "source.mcm": "2f07c2090f0ec98f1042a40e321cde175642f2e04653c009fc3a0aa900f17ec5",
+    "target.mcm": "a99509a4ecf58aedfeb2f8f061ed3e7994a59f5a2d8156d787f7a55f966c2dee",
+    "combined-request.json": "8632326aa5874f97b0c5c873708d2d3e6968e80d4709b0bde31aa14cce06a2f7"
+  },
+  "compilation": {
+    "exit_code": 0,
+    "seconds": 5.199851083,
+    "result": {
+      "rpx_bytes": 351664903,
+      "status": "COMPILED",
+      "total_us": 4382545,
+      "version": 5
+    },
+    "stderr": ""
+  },
+  "verification": {
+    "exit_code": 0,
+    "seconds": 25.05694875,
+    "result": {
+      "bijections": 0,
+      "claims": 3,
+      "execute_us": 23399906,
+      "limits": {
+        "depth": 64,
+        "live_facts": 1000000,
+        "work": 1000000000
+      },
+      "model_decode_us": 121105,
+      "points": 0,
+      "proof_decode_us": 1185064,
+      "read_us": 85288,
+      "statistics": {
+        "bijections": 0,
+        "branches": 96947,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 69004,
+        "interval_generated_terms": 140062,
+        "interval_generated_variables": 17251,
+        "interval_lifts": 2,
+        "linear_terms": 223958117,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 1105551,
+        "peak_live_facts": 344878,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 994026,
+        "work": 551077751
+      },
+      "status": "VERIFIED",
+      "total_us": 24791403
+    },
+    "stderr": ""
+  },
+  "statistics_equal_sum_of_shipped_independent_pieces": true,
+  "elapsed_seconds": 30.967332833,
+  "historical_obstruction": "legacy RPA assembler rejects >256MiB text; direct Certificate JSON bridge accepts512MiB"
+}

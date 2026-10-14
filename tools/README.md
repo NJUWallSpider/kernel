@@ -14,6 +14,8 @@ Python tools prepare certificates, orchestrate checks, and summarize evidence.
 | Current performance matrices | `benchmark*.py` |
 | Saved benchmark analysis | `report*.py` |
 | Compiler API demand tables | `aggregate_api_demand.py` |
+| Fresh matched compiler/nomf Agents | `run_compiler_agents.py` |
+| Independent post-commit reformulation quality | `evaluate_compiler_quality.py` |
 
 Some case preparers import helpers from earlier, partial preparers. Those modules
 remain necessary even when their original command-line attempt is superseded.

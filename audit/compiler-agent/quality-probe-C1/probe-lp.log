@@ -1,0 +1,30 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 5
+MIP solver-probe has 1 row; 1 col; 1 nonzero; 1 integer variable (1 binary)
+Coefficient ranges:
+  Matrix  [2e+00, 2e+00]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 1e+00]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+0 rows, 0 cols, 0 nonzeros 0s
+0 rows, 0 cols, 0 nonzeros 0s
+Presolve reductions: rows 0(-1); columns 0(-1); nonzeros 0(-1) - Reduced to empty
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 /        0  P-D objective error        (tolerance = 1e-07)
+
+Model name          : solver-probe
+Model status        : Optimal
+Objective value     :  5.0000000000e-01
+P-D objective error :  0.0000000000e+00
+HiGHS run time      :          0.00

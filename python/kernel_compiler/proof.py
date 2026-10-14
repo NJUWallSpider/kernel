@@ -420,7 +420,7 @@ class Builder:
                 "signed": ("Signed", "SignedLift", "decompositions"),
                 "flow": ("Flow", "FlowLift", "witness"),
                 "subflow": ("Subflow", "SubflowLift", "witness")}
-        spec_tag, end_tag, field = tags[kind.lower()]
+        spec_tag, end_tag, end_field = tags[kind.lower()]
         if kind.lower() in ("menu", "signed") and not self.integers:
             raise BuildError(f"{kind} requires integer input mode")
         handles = {}
@@ -436,6 +436,22 @@ class Builder:
                     collect(child)
         collect(witness)
         lowered = wire(witness)
+        # Expression-valued convenience fields accept ordinary exact scalars.
+        if spec_tag == "Interval":
+            for item, original in zip(lowered, witness):
+                for field in ("lower", "upper"):
+                    item[field] = [self._expression(e).to_json() for e in original[field]]
+        elif spec_tag in ("Menu", "Signed"):
+            for item, original in zip(lowered, witness):
+                for field in (("activation", "index") if spec_tag == "Menu" else ("activation", "flow")):
+                    item[field] = self._expression(original[field]).to_json()
+                if spec_tag == "Signed":
+                    item["capacity"] = str(exact(original["capacity"]))
+        elif spec_tag in ("Flow", "Subflow"):
+            for item, original in zip(lowered["groups"], witness["groups"]):
+                item["flows"] = [self._expression(e).to_json() for e in original["flows"]]
+                field = "commodities" if spec_tag == "Flow" else "demands"
+                item[field] = [[i, str(exact(q))] for i, q in original[field]]
         with tempfile.TemporaryDirectory(prefix="kernel-scope-") as directory:
             path = Path(directory) / "input.mcm"
             self.model.write_mcm(path)
@@ -444,6 +460,8 @@ class Builder:
         for premise in prepared["premises"]:
             fact = handles.get(json.dumps(premise["reference"], sort_keys=True))
             expression = Expr.from_json(premise["expression"])
+            if premise["reference"] == "Exact" and self.find(premise["kind"], expression) == "Exact":
+                continue
             if fact is None or fact.expression != expression or (fact.kind != premise["kind"] and fact.kind != "Eq"):
                 raise BuildError(f"{kind} premise mismatch: {premise}")
         model = Model.from_json(prepared["model"], kernel=self.model.kernel)
@@ -452,7 +470,7 @@ class Builder:
         child.generated_variables = tuple(range(len(self.model.vars), len(model.vars)))
         child.generated_rows = tuple(range(len(self.model.rows), len(model.rows)))
         child.preparation = prepared
-        self.end = {end_tag: {field: lowered}}
+        self.end = {end_tag: {end_field: lowered}}
         self._children = [child]
         return child
 

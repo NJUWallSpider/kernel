@@ -425,6 +425,37 @@ class Model:
             edits.append(Edit("RenameModel", self.name, self.name, target.name))
         return EditLedger(edits)
 
+    def same_formulation(self, other):
+        """Compare the complete exact named formulation, allowing MPS normalization.
+
+        Variable/row order and the model NAME are immaterial. Variable and row
+        names, domains, objective, and every named coefficient must agree.
+        Row constants are folded into finite bounds exactly, as MPS export does.
+        This is a representation comparison, not an equivalence proof or a
+        tolerance-based numerical comparison.
+        """
+        if not isinstance(other, Model):
+            return False
+        if {v.name: v for v in self.vars} != {v.name: v for v in other.vars}:
+            return False
+        if set(self.row_index) != set(other.row_index):
+            return False
+        def terms(expression, model):
+            return {model.vars[i].name: coefficient for i, coefficient in expression.terms.items()}
+        if self.objective.constant != other.objective.constant or terms(self.objective, self) != terms(other.objective, other):
+            return False
+        for row in self.rows:
+            target = other.row(row.name)
+            if terms(row.expr, self) != terms(target.expr, other):
+                return False
+            for side in ("lower", "upper"):
+                a, b = getattr(row, side), getattr(target, side)
+                a = None if a is None else a - row.expr.constant
+                b = None if b is None else b - target.expr.constant
+                if a != b:
+                    return False
+        return True
+
     def write_json(self, path):
         path = Path(path).resolve()
         path.write_text(json.dumps(self.to_json(), separators=(",", ":")) + "\n")

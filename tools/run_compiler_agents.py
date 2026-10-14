@@ -11,6 +11,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import csv
 from datetime import datetime
+from fractions import Fraction
 import hashlib
 import json
 import os
@@ -175,8 +176,15 @@ def normalized_model(model):
     def expression(expr):
         return {"constant": expr["constant"],
                 "terms": sorted((names[index], scalar) for index, scalar in expr["terms"])}
+    def normalized_row(row):
+        # Standard MPS folds a row's affine constant into its RHS. Compare the
+        # resulting inequality, allowing that exact representation change.
+        constant = Fraction(row["expr"]["constant"])
+        bounds = {side: None if row[side] is None else str(Fraction(row[side]) - constant)
+                  for side in ("lower", "upper")}
+        return {**row, **bounds, "expr": {**expression(row["expr"]), "constant": "0"}}
     return {"variables": sorted(model["variables"], key=lambda v: v["name"]),
-            "rows": sorted(({**row, "expr": expression(row["expr"])} for row in rows),
+            "rows": sorted((normalized_row(row) for row in rows),
                            key=lambda row: row["name"]),
             "objective": expression(model["objective"])}
 

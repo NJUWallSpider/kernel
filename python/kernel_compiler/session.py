@@ -68,6 +68,15 @@ class ClaimBuilder(Builder):
         self._assigned = {}
         self._plans = {}
 
+    def _scope(self, scope):
+        scope = self if scope is None else scope
+        current = scope
+        while current is not None and current is not self:
+            current = current.parent
+        if current is None:
+            raise BuildError("Return scope must descend from this directional claim")
+        return scope
+
     def map(self, mapping):
         self.mapping = _mapping(self.input, self.output, mapping)
         self._plans.clear()
@@ -81,7 +90,7 @@ class ClaimBuilder(Builder):
         return fact
 
     def plan(self, *, scope=None, mapping=None):
-        scope = scope or self
+        scope = self._scope(scope)
         values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
         if values is None:
             raise BuildError("Declare the complete output map before planning obligations")
@@ -96,11 +105,20 @@ class ClaimBuilder(Builder):
             inverse_level = other.claim.get("input_objective_level")
             if inverse_map is None:
                 raise BuildError("Declare the opposing complete map before planning inverse obligations")
+        compositions = []
+        for pair in self.session.bijections:
+            if pair["claim"]["reverse_claim"] == self.index:
+                forward = self.session.claims[pair["claim"]["forward_claim"]]
+                if forward.mapping is None:
+                    raise BuildError("A constructive bijection needs a declared root forward map")
+                compositions.append(forward.mapping)
         specification = {"claim": self.claim, "map": wire(values),
                          "inverse_map": wire(inverse_map), "inverse_level": inverse_level,
-                         "compositions": []}
-        cache_key = (id(scope.model), tuple(values), None if inverse_map is None else tuple(inverse_map),
-                     json.dumps(specification["claim"], sort_keys=True), inverse_level)
+                         "compositions": wire(compositions)}
+        if hasattr(self, "improvement_claim"):
+            specification["improvement"] = {"claim": self.improvement_claim, "margin": self.margin}
+        cache_key = (scope.model, tuple(values), None if inverse_map is None else tuple(inverse_map),
+                     json.dumps(specification, sort_keys=True), inverse_level)
         if cache_key in self._plans:
             return self._plans[cache_key]
         with tempfile.TemporaryDirectory(prefix="kernel-plan-") as directory:
@@ -119,7 +137,7 @@ class ClaimBuilder(Builder):
         return self.plan()
 
     def missing(self, *, scope=None, mapping=None, witnesses=None, auto=True):
-        scope = scope or self
+        scope = self._scope(scope)
         supplied = dict(self._assigned)
         supplied.update(witnesses or {})
         return [o for o in self.plan(scope=scope, mapping=mapping)
@@ -128,7 +146,7 @@ class ClaimBuilder(Builder):
 
     def complete(self, *, mapping=None, witnesses=None, scope=None, auto=True):
         """Fill mechanical checks from supplied witnesses, tautologies, and exact fact reuse."""
-        scope = scope or self
+        scope = self._scope(scope)
         values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
         if values is None:
             raise BuildError("Declare the complete map before complete()")
@@ -164,9 +182,49 @@ class ClaimBuilder(Builder):
         if scope is self:
             self.mapping = values
         scope.end = {"Return": {"map": wire(values), "checks": checks}}
+        if hasattr(self, "improvement_claim"):
+            scope.end = {"ImproveReturn": {"map": wire(values), "checks": checks, "margin": self.margin}}
+        scope._completion = (self, {"mapping": values, "witnesses": supplied, "scope": scope, "auto": auto})
         return scope
 
     return_ = complete
+
+
+class InjectivityBuilder(Builder):
+    """Fresh complete paired domain and Kernel-owned equality goals."""
+    def __init__(self, model, goals, *, integers):
+        super().__init__(model, integers=integers)
+        self.goals = tuple(Expr.from_json(goal) for goal in goals)
+        self.checks = None
+
+    def complete(self, witnesses=None, *, auto=True):
+        witnesses = witnesses or {}
+        if set(witnesses) - set(range(len(self.goals))):
+            raise BuildError("Unknown injectivity coordinate witness")
+        checks, missing = [], []
+        for index, goal in enumerate(self.goals):
+            fact = witnesses.get(index)
+            if fact is None and auto:
+                fact = self.find("Eq", goal)
+            if fact is None:
+                missing.append(index)
+                continue
+            if isinstance(fact, Fact):
+                self._visible(fact)
+                if fact.kind != "Eq" or fact.expression != goal:
+                    raise BuildError(f"Injectivity coordinate {index} needs EQ {goal}")
+            elif fact != "Exact" or self.find("Eq", goal) != "Exact":
+                raise BuildError(f"Invalid injectivity witness {index}")
+            checks.append(wire(fact))
+        if missing:
+            raise BuildError(f"Missing injectivity coordinates {missing[:10]} ({len(missing)} total)")
+        self.checks = checks
+        return self
+
+    def to_json(self):
+        if self.checks is None:
+            raise BuildError("Complete every injectivity equality before adding the bijection")
+        return {"steps": self.steps, "checks": self.checks}
 
 
 class Proof:
@@ -180,6 +238,7 @@ class Proof:
         self.points = []
         self.improvements = []
         self.bijections = []
+        self._improvement_builders = []
 
     def claim(self, *, reverse=False, integers=True, input_integers=None, output_integers=None,
               objective="Equal", projection=(), affine_projection=(), inverse=None,
@@ -236,17 +295,68 @@ class Proof:
         self.improvements.append({"claim": wire(claim), "block": block.to_json() if isinstance(block, Builder) else wire(block)})
 
     def add_bijection(self, forward_claim, reverse_claim, injectivity):
+        if not (0 <= forward_claim < len(self.claims) and 0 <= reverse_claim < len(self.claims)):
+            raise BuildError("Bijection indices must name declared directional claims")
         self.bijections.append({"claim": {"forward_claim": forward_claim, "reverse_claim": reverse_claim},
-                                "injectivity": wire(injectivity)})
+                                "injectivity": injectivity.to_json() if isinstance(injectivity, InjectivityBuilder) else wire(injectivity)})
+        for claim in self.claims:
+            claim._plans.clear()
+
+    def injectivity(self, forward_claim):
+        """Prepare the Kernel's complete double-input domain for a root affine map."""
+        claim = self.claims[forward_claim] if isinstance(forward_claim, int) else forward_claim
+        if claim not in self.claims or claim.mapping is None:
+            raise BuildError("Injectivity requires this Proof's declared complete forward map")
+        with tempfile.TemporaryDirectory(prefix="kernel-injectivity-") as directory:
+            directory = Path(directory)
+            inp, out = directory / "input.mcm", directory / "output.mcm"
+            claim.input.write_mcm(inp)
+            claim.output.write_mcm(out)
+            prepared = self.kernel.json_command("prepare-injectivity", [inp, out], {"map": wire(claim.mapping)})
+        builder = InjectivityBuilder(Model.from_json(prepared["model"], kernel=self.kernel), prepared["equalities"],
+                                     integers=claim.claim["input_integers"])
+        builder.preparation = prepared
+        return builder
+
+    def improvement(self, positive, *, target=False, integers=True, margin=None, mapping=None):
+        """A caller-authored strictly improving map on a same-model positive domain."""
+        if margin is None:
+            margin = {"Predicate": "1"}
+        lowered_margin = wire(margin)
+        if set(lowered_margin) not in ({"Predicate"}, {"Constant"}):
+            raise BuildError("Improvement margin is {'Predicate': q} or {'Constant': q}")
+        value = exact(next(iter(lowered_margin.values())))
+        if value <= 0:
+            raise BuildError("Improvement margin must be positive")
+        lowered_margin = {next(iter(lowered_margin)): str(value)}
+        model = self.target if target else self.source
+        local = Proof(model, model, kernel=self.kernel)
+        builder = local.claim(integers=integers, objective="NonIncreasing", mapping=mapping)
+        builder.improvement_claim = {"target": target, "integers": integers,
+                                     "positive": Expr.coerce(positive).to_json()}
+        builder.margin = lowered_margin
+        self._improvement_builders.append(builder)
+        return builder
 
     def certificate(self):
+        def refresh(scope):
+            if hasattr(scope, "_completion"):
+                owner, options = scope._completion
+                owner.complete(**options)
+            for child in scope._children or ():
+                refresh(child)
+        for claim in [*self.claims, *self._improvement_builders]:
+            refresh(claim)
         return {"claims": [wire(c.claim) for c in self.claims], "blocks": [c.to_json() for c in self.claims],
-                "points": self.points, "improvements": self.improvements, "bijections": self.bijections}
+                "points": self.points, "improvements": [*self.improvements,
+                    *({"claim": c.improvement_claim, "block": c.to_json()} for c in self._improvement_builders)],
+                "bijections": self.bijections}
 
     def request(self):
         """The complete caller-declared contract; verification cannot silently omit a claim."""
         return {"claims": [wire(c.claim) for c in self.claims], "points": [p["claim"] for p in self.points],
-                "improvements": [i["claim"] for i in self.improvements], "bijections": [b["claim"] for b in self.bijections]}
+                "improvements": [*(i["claim"] for i in self.improvements), *(c.improvement_claim for c in self._improvement_builders)],
+                "bijections": [b["claim"] for b in self.bijections]}
 
     def preflight(self):
         cert = self.certificate()
@@ -291,6 +401,11 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     kernel = kernel or (source.kernel if isinstance(source, Model) else None) or Kernel()
     source = source if isinstance(source, Model) else Model.load(source, kernel=kernel)
     target = target if isinstance(target, Model) else Model.load(target, kernel=kernel)
+    if committed_model is not None:
+        committed_model = Path(committed_model).resolve()
+        delivered = Model.load(committed_model, kernel=kernel)
+        if not target.same_formulation(delivered):
+            raise BuildError("Committed solver artifact differs from the complete proof target")
     directory = Path(directory).resolve()
     directory.mkdir(parents=True, exist_ok=True)
     paths = {"source": directory / "source.mcm", "target": directory / "target.mcm",
@@ -305,7 +420,8 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
                 "pieces": [{key: str(value) for key, value in paths.items()}],
                 "artifacts": {key: {"path": str(value), "sha256": _digest(value)} for key, value in paths.items()}}
     if committed_model is not None:
-        manifest["committed_model"] = str(Path(committed_model).resolve())
+        manifest["committed_model"] = str(committed_model)
+        manifest["artifacts"]["committed_model"] = {"path": str(committed_model), "sha256": _digest(committed_model)}
     (directory / "delivery.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return paths
 
@@ -316,7 +432,17 @@ def verify_bundle(manifest, *, kernel=None):
     path = Path(manifest).resolve()
     document = json.loads(path.read_text())
     reports = []
+    for name, record in document.get("artifacts", {}).items():
+        artifact = (path.parent / record["path"]).resolve()
+        if _digest(artifact) != record["sha256"]:
+            return {"status": "INCOMPLETE", "parts": [], "error": f"Artifact digest mismatch: {name}"}
     for piece in document["pieces"]:
         paths = {key: (path.parent / piece[key]).resolve() for key in ("source", "target", "proof", "request")}
+        if document.get("committed_model"):
+            target = Model.load(paths["target"], kernel=kernel)
+            committed = Model.load((path.parent / document["committed_model"]).resolve(), kernel=kernel)
+            if not target.same_formulation(committed):
+                return {"status": "INCOMPLETE", "parts": reports,
+                        "error": "Committed solver artifact differs from a proof target"}
         reports.append(kernel.verify(paths["source"], paths["target"], paths["proof"], paths["request"]))
     return {"status": "VERIFIED" if reports and all(r["status"] == "VERIFIED" for r in reports) else "INCOMPLETE", "parts": reports}

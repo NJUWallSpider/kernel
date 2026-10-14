@@ -10,6 +10,14 @@ The new [readable RPA-S source](docs/RPA_SOURCE.md) compiles explicit expression
 aliases, comments, model-bound named checks and array expansions to the same Certificate/RPX. Its source
 version is independent of the frozen protocol capability versions.
 
+The [Python Compiler API](docs/COMPILER_API.md) authors exact models, explicit
+maps and scoped user proofs, compiles directly to RPX, and calls the Kernel.
+It uses no RPA intermediate and performs no proof search. Kernel-owned
+obligation plans and constructive scopes replace manual check ordering and
+offset bookkeeping. See [design coverage](docs/COMPILER_DESIGN.md) and
+[real Agent acceptance](docs/COMPILER_AGENT_ACCEPTANCE.md); autonomous Agent
+quality/time acceptance is separate from the historical corpus replay above.
+
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
 The [Chinese kernel manual](docs/rpx/rpx-manual.pdf) and its
@@ -27,6 +35,7 @@ Minimal toolchain:
 
 ```sh
 target/release/rpx canonical input.mps input.mcm
+target/release/rpx compile certificate.json proof.rpx
 target/release/rpx assemble proof.rpa proof.rpx
 target/release/rpx assemble proof.rpas proof.rpx
 target/release/rpx disassemble-source proof.rpx recovered.rpas
@@ -94,8 +103,11 @@ same JSON fields and the same exit codes. Failures carry a `code` and, when the
 verifier can attribute it, a `location` (`claim`/`point`/`block`/`step`/
 `obligation`); successes are unchanged. [`docs/API.md`](docs/API.md) is the
 interface reference, including the canonical model JSON that `export-model`
-writes. The earlier Python FNV shim was removed: it exposed only a hash helper
-and never implemented verification.
+writes. The new Python package is in `python/kernel_compiler`; use
+`PYTHONPATH=python python3 your_proof.py` after building the release binary.
+`compile_certificate_paths`, `plan_return_paths`, and `prepare_injectivity_paths`
+provide direct compiler bridges. The earlier Python FNV shim was removed: it
+exposed only a hash helper and never implemented verification.
 
 Some large cases use an explicit conjunction of independently complete requests
 against the same source/target MCM pair. [Test46](cases/test46/README.md) supplies

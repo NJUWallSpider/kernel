@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kernel-compiler"
+version = "0.1.0"
+description = "Exact Python proof authoring and direct RPX compilation"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kernel_compiler*"]

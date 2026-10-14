@@ -10,12 +10,14 @@
   [Subflow](SUBFLOW_V10.md), [points](POINT_V3.md), [complete fibers](FIBER_POINT_V6.md).
   Signed decomposition is fully specified and justified in [FORMAT](FORMAT.md#signedlift).
 - Tutorials and interfaces: [readable RPA-S source](RPA_SOURCE.md),
-  [JSON RPA V1–V10](RPA.md), [API/CLI](API.md),
+  [JSON RPA V1–V10](RPA.md), [API/CLI](API.md), [Python compiler](COMPILER_API.md),
   trusted [MPS](MPS_V1.md) and [LP](LP_V1.md) dialects.
 - Evidence: [complete delivery report](../audit/FINAL_DELIVERY_REPORT.md),
   [trust reviews](../audit/TRUST_REPORT.md), [current tools](../tools/README.md).
 - [Compiler API demand](COMPILER_API_DEMAND.md) is analysis and proposed compiler
   design, with historical source citations; it does not extend the kernel ABI.
+  [Implementation coverage](COMPILER_DESIGN.md) and [real Agent acceptance](COMPILER_AGENT_ACCEPTANCE.md)
+  distinguish current helpers, regression evidence, and autonomous reformulation evaluation.
 
 Feature-specific filenames such as FLOW_V4 and INTERVAL_V5 identify the first
 version that introduced a supported rule, not an obsolete implementation.

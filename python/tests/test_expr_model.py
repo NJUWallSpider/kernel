@@ -141,6 +141,24 @@ class ModelTests(unittest.TestCase):
             model.to_mps()
         self.assertIn("2/7", model.to_mps(rational_literals=True))
 
+    def test_exact_formulation_binding_ignores_only_name_order_and_row_constants(self):
+        source = self.source()
+        # Reorder coordinates and rows, rename only the model, fold row constants.
+        target = Model("different_NAME", [source.vars[2], source.vars[0], source.vars[1]],
+                       [Row("ranged", Expr(0, {1: 2, 0: -1}), "-7/10", "11/20"),
+                        Row("alias", Expr(0, {1: 1, 2: -1}), 0, 0)],
+                       Expr("-1/10", {1: 2, 2: 3, 0: "1/2"}))
+        self.assertTrue(source.same_formulation(target))
+        self.assertTrue(target.same_formulation(source))
+        for changed in (target.with_bounds("x", upper="999/1000"),
+                        target.with_integrality("x", False),
+                        target.with_objective(target.objective + "1/1000000"),
+                        target.replace_row("ranged", lower="-7/10", upper="550001/1000000"),
+                        target.replace_row("ranged", expr=target.row("ranged").expr * 2),
+                        target.delete_rows("alias"), target.add_variable("extra")):
+            self.assertFalse(source.same_formulation(changed))
+        self.assertFalse(source.same_formulation(source.to_json()))
+
 
 class KernelModelRoundtripTests(unittest.TestCase):
     @classmethod
@@ -178,6 +196,8 @@ class KernelModelRoundtripTests(unittest.TestCase):
             loaded = Model.load(path, self.kernel)
             self.assertEqual(loaded.fact("RowLower", "row"), model.fact("RowLower", "row"))
             self.assertEqual(loaded.fact("RowUpper", "row"), model.fact("RowUpper", "row"))
+            self.assertTrue(loaded.same_formulation(model))
+            self.assertTrue(model.same_formulation(loaded))
 
 
 if __name__ == "__main__":

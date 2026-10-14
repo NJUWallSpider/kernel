@@ -124,7 +124,7 @@ assert result["status"] == "VERIFIED", result
 Every goal has `.index`, `.kind` (`Le`, `Eq`, `Int`), `.expression`, `.origin`,
 and `.label`. Labels include `variable.lower[x]`, `variable.upper[x]`,
 `variable.integer[x]`, `row.equal[definition]`, `row.lower[r]`, `row.upper[r]`,
-`objective.equal`, `objective.non_increasing`, `projection[i]`, and `inverse[i]`.
+`objective.equal`, `objective.non_increasing`, `projection[i]`, and `inverse.coordinate[x]`.
 Inspect actual labels from the plan when assigning witnesses. `complete` accepts
 `witnesses={label_or_index: Fact}`, or use `.check(label, Fact)` in advance.
 
@@ -152,6 +152,8 @@ z = b.int([(b.integer("x"), 1)], constant=2)
 rounded = b.round(le_fact, int_fact)
 equality = b.eqpair(positive_le, negative_le)
 b.rewrite(old_fact, {"pivot": proved_definition_eq}, expect=desired_expr)
+b.combine_rows("Le", {"packing": 1, ("ranged", "Upper"): 2}, expect=desired_expr)
+b.eq_on_fixed(desired_expr, fixes={"x": proved_x_equals_constant})
 b.batch(instances, lambda builder, item: your_template(builder, item))
 b.drop(unneeded_local_fact)
 ```
@@ -215,6 +217,32 @@ Kernel preparation metadata. Preparation alone establishes no premise.
 Affine `inverse` is for root Return maps; constructive bijections use the
 existing separate injectivity witness and composition obligations.
 
+```python
+paired = proof.injectivity(forward)    # fresh Kernel-created paired domain
+paired.goals                          # one input-coordinate equality each
+# Supply derivations in paired.model using paired.row(...), paired.lin, cases, etc.
+paired.complete(witnesses={0: coordinate_equality, ...})
+proof.add_bijection(forward.index, reverse.index, paired)
+```
+
+The reverse Return automatically includes every Kernel composition obligation
+for that declared bijection. Declare it before completing the reverse proof;
+adding it later also refreshes terminal plans at compilation and exposes missing
+checks. Paired variables and rows have their own generated names in paired.model.
+
+Strict improvement witnesses have a high-level interface too:
+
+```python
+better = proof.improvement(positive_expr, target=False, integers=True,
+                            margin={"Predicate": "1/2"}, mapping=your_improving_map)
+# Author every output feasibility and objective-gap proof in better.
+better.complete()
+```
+
+`{"Predicate":q}` demands an objective decrease of at least `q*positive_expr`;
+`{"Constant":q}` demands a fixed positive margin. This is the existing V10
+strict-domain contract, not a solver or an assertion that an optimum exists.
+
 Every frozen RPX feature is also accessible without a high-level convenience
 wrapper via `compile_certificate(source, target, certificate, request, directory)`.
 It accepts the existing Certificate data structure directly as a Python dict,
@@ -237,9 +265,17 @@ existing Kernel meanings. Use `Model.check_point` for exact authoring diagnostic
 `source.mcm`, `target.mcm`, `certificate.json`, `proof.rpx`, `request.json`,
 `delivery.json`, and `verification.json`. The request retains every explicit
 claim, point, improvement, and bijection. Keep a runnable `output/proof.py`.
+When supplied, `committed_model` is read through the Kernel and compared exactly
+with the proof target (allowing coordinate/row order and folded row constants).
+A different solver artifact is rejected, and its hash is recorded in delivery.
 `Proof.compile` emits the same artifacts without verifying. `Proof.preflight`
 reports JSON size/depth and counts; actual Kernel work/live facts appear in
 verification. `verify_bundle(manifest)` verifies every declared piece.
+It also checks recorded artifact hashes and any declared committed model.
+`attack(proof, "output/attack", path_to_site, replacement=..., delete=False)`
+mutates only the selected certificate containers while keeping the Request fixed;
+it returns the native rejection and whether it matched the expected status.
+This avoids copying an entire large proof for each negative check.
 
 Inspect `result["status"]`, `error`/`message`, `code`, and `location` on failure.
 `BuildError` names an incomplete/mismatched proof site; `KernelError.report`
