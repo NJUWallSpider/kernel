@@ -6,6 +6,8 @@ floating point input is rejected before it can enter a model or a certificate.
 from __future__ import annotations
 
 from fractions import Fraction
+from decimal import Decimal
+from itertools import islice
 from types import MappingProxyType
 from collections.abc import Mapping
 import re
@@ -56,6 +58,41 @@ def coordinate(value) -> int:
 exact = rational
 
 
+def _rational_text(value):
+    """Canonical Fraction text without changing Python's global digit policy."""
+    try:
+        return str(value)
+    except ValueError:
+        # Python 3.11+ limits int<->decimal text conversion. Decimal's exact
+        # integer constructor/formatting does not depend on that global limit
+        # or the caller's Decimal precision, and no floating arithmetic occurs.
+        numerator = format(Decimal(value.numerator), "f")
+        return numerator if value.denominator == 1 else numerator + "/" + format(Decimal(value.denominator), "f")
+
+
+def _metadata_rational(value):
+    """Decode bounded Kernel intermediate metadata, never proof scalar input."""
+    if not isinstance(value, str):
+        return rational(value)
+    if len(value) > 2 * 19729 + 3:
+        raise ValueError("Intermediate rational text exceeds the kernel's bit limit")
+    if not re.fullmatch(r"[+-]?[0-9]+(?:/[+-]?[0-9]+)?", value):
+        return rational(value)
+    parts = value.split("/")
+    numbers = []
+    for part in parts:
+        if len(part.lstrip("+-")) > 19729:
+            raise ValueError("Intermediate integer exceeds the kernel's bit limit")
+        try:
+            number = int(part)
+        except ValueError:
+            number = int(Decimal(part))
+        if abs(number).bit_length() > 65536:
+            raise ValueError("Intermediate rational exceeds the kernel's 65536-bit limit")
+        numbers.append(number)
+    return rational(Fraction(*numbers))
+
+
 class Expr:
     """Immutable affine expression: constant + sum(coefficient * coordinate).
 
@@ -94,13 +131,31 @@ class Expr:
         return as_expr(value)
 
     @classmethod
-    def from_json(cls, data):
+    def from_json(cls, data, *, intermediate=False):
         if not isinstance(data, Mapping) or set(data) - {"constant", "terms"}:
             raise ValueError("An expression must contain only constant and terms")
+        if intermediate:
+            return cls(_metadata_rational(data.get("constant", 0)),
+                       ((i, _metadata_rational(q)) for i, q in data.get("terms", ())))
         return cls(data.get("constant", 0), data.get("terms", ()))
 
     def to_json(self):
-        return {"constant": str(self.constant), "terms": [[i, str(q)] for i, q in self.terms.items()]}
+        return {"constant": _rational_text(self.constant), "terms": [[i, _rational_text(q)] for i, q in self.terms.items()]}
+
+    def summary(self, max_terms=8):
+        """Bounded inspection metadata; full exact coefficients stay in to_json()."""
+        if isinstance(max_terms, bool) or not isinstance(max_terms, int) or max_terms < 0:
+            raise ValueError("max_terms must be a nonnegative integer")
+        def scalar(value):
+            numerator_bits = abs(value.numerator).bit_length()
+            denominator_bits = value.denominator.bit_length()
+            if max(numerator_bits, denominator_bits) <= 256:
+                return _rational_text(value)
+            return {"sign": (value > 0)-(value < 0), "numerator_bits": numerator_bits,
+                    "denominator_bits": denominator_bits}
+        terms = [[index, scalar(value)] for index, value in islice(self.terms.items(), max_terms)]
+        return {"constant": scalar(self.constant), "term_count": len(self.terms),
+                "terms": terms, "omitted_terms": len(self.terms)-len(terms)}
 
     def __hash__(self):
         return self._hash
@@ -165,7 +220,7 @@ class Expr:
         return self.constant + sum((q * rational(values[i]) for i, q in self.terms.items()), Fraction(0))
 
     def __repr__(self):
-        return f"Expr(constant={str(self.constant)!r}, terms={{{', '.join(f'{i}: {str(q)!r}' for i, q in self.terms.items())}}})"
+        return f"Expr(constant={_rational_text(self.constant)!r}, terms={{{', '.join(f'{i}: {_rational_text(q)!r}' for i, q in self.terms.items())}}})"
 
 
 def as_expr(value) -> Expr:

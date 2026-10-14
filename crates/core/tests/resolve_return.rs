@@ -126,9 +126,71 @@ fn assignment_json_keeps_strict_nested_fields_types_and_scalar_limits() {
         let error=compiler::resolve_return_json(&model,&model,&spec.to_string(),&Limits::default()).unwrap_err();
         assert!(error.starts_with("INVALID"),"{error}");
     }
-    let oversized="9".repeat(kernel_core::model::MAX_DECIMAL_DIGITS+1);
+    let oversized="9".repeat((kernel_core::model::MAX_Q_BITS as usize*30_103)/100_000+2);
     let text=format!(r#"{{"plan":{plan},"assignments":[{{"index":0,"fact":{{"kind":"Le","expression":{{"constant":"{oversized}","terms":[]}},"reference":{{"Local":0}}}}}}]}}"#);
     assert!(compiler::resolve_return_json(&model,&model,&text,&Limits::default()).unwrap_err().starts_with("RESOURCE_LIMIT"));
+}
+
+#[test]
+fn derived_wide_fact_metadata_reuses_the_same_real_proof_and_kernel_rechecks_it() {
+    let mut input=source();input.vars[0].integer=false;input.vars[0].upper=Some(kernel_core::model::parse_q("0").unwrap());
+    let coefficient=kernel_core::model::parse_q(&format!("1{}","0".repeat(3000))).unwrap();
+    let square=&coefficient*&coefficient;
+    assert_eq!(square.to_string().len(),6001);kernel_core::model::check_q(&square).unwrap();
+    let mut output=input.clone();output.vars[0].name="y".into();
+    output.rows.push(kernel_core::model::Row{name:"scaled".into(),expr:Expr::var(0).scaled(&coefficient).unwrap(),
+        lower:None,upper:Some(kernel_core::model::parse_q("0").unwrap())});
+    let mut c=claim(false);c.objective=Objective::None;let map=vec![Expr::var(0).scaled(&coefficient).unwrap()];
+    let steps=vec![
+        Step::Lin{id:0,kind:Kind::Le,constant:kernel_core::model::parse_q("0").unwrap(),terms:vec![(Ref::VarLower(0),coefficient.clone())]},
+        Step::Lin{id:1,kind:Kind::Le,constant:kernel_core::model::parse_q("0").unwrap(),terms:vec![(Ref::VarUpper(0),coefficient.clone())]},
+        Step::Lin{id:2,kind:Kind::Le,constant:kernel_core::model::parse_q("0").unwrap(),terms:vec![(Ref::Local(1),coefficient.clone())]}];
+    let expected=vec![Ref::Local(0),Ref::Local(1),Ref::Local(2)];
+    // Only the individual 3001-digit multiplier/map/model scalars are encoded;
+    // the 6001-digit derived expression is an internal exact Kernel fact.
+    let raw=Certificate{claims:vec![c.clone()],blocks:vec![Block{steps:steps.clone(),
+        end:End::Return{map:map.clone(),checks:expected.clone()}}],..Certificate::default()};
+    let bytes=compiler::compile_certificate_json(&serde_json::to_string(&raw).unwrap()).unwrap();
+    let raw_stats=verify::verify_request(&input,&output,&codec::decode_certificate(&bytes).unwrap(),
+        &Request{claims:vec![c.clone()],..Request::default()},&Limits::default()).unwrap();
+    assert_eq!(raw_stats.work,41);
+    let expressions=[Expr::var(0).scaled(&(-&coefficient)).unwrap(),map[0].clone(),Expr::var(0).scaled(&square).unwrap()];
+    let facts:Vec<_>=expressions.iter().zip(&expected).map(|(expression,reference)|json!({"kind":"Le","expression":expression,"reference":reference})).collect();
+    let mut spec=specification(&c,&map);spec["facts"]=json!(facts);
+    let result=resolve(&input,&output,&spec);assert!(result.missing.is_empty());
+    assert_eq!(result.checks,expected.iter().cloned().map(Some).collect::<Vec<_>>());
+    assert_eq!(verify_resolved(&input,&output,c.clone(),map.clone(),result,steps.clone()).unwrap(),raw_stats);
+    // The explicit typed-assignment union uses the same bounded metadata parser.
+    spec["auto"]=json!(false);spec["facts"]=json!([]);
+    spec["assignments"]=json!(facts.iter().enumerate().map(|(index,fact)|json!({"index":index,"fact":fact})).collect::<Vec<_>>());
+    let result=resolve(&input,&output,&spec);assert!(result.missing.is_empty());
+    assert_eq!(verify_resolved(&input,&output,c.clone(),map.clone(),result,steps.clone()).unwrap(),raw_stats);
+    // Metadata is still not proof: removing the second multiplication leaves
+    // Local2 unavailable to the actual verifier.
+    let result=resolve(&input,&output,&spec);
+    assert!(verify_resolved(&input,&output,c,map,result,steps[..2].to_vec()).is_err());
+    // Actual map/proof scalar policy did not widen alongside fact metadata.
+    let mut wider_map=spec.clone();wider_map["plan"]["map"][0]=json!(expressions[2]);
+    assert!(compiler::resolve_return_json(&input,&output,&wider_map.to_string(),&Limits::default()).unwrap_err().starts_with("RESOURCE_LIMIT"));
+    let mut wider_proof=serde_json::to_value(&raw).unwrap();wider_proof["blocks"][0]["steps"][2]["Lin"]["terms"][0][1]=json!(square.to_string());
+    assert!(compiler::compile_certificate_json(&wider_proof.to_string()).unwrap_err().starts_with("RESOURCE_LIMIT"));
+}
+
+#[test]
+fn authoring_metadata_intermediate_bits_are_bounded_and_malformed_values_stay_invalid() {
+    let largest=(num_bigint::BigInt::from(1u8)<<kernel_core::model::MAX_Q_BITS as usize)-1u8;
+    let excessive=&largest+1u8;
+    let decode=|scalar:&str|serde_json::from_value::<compiler::AuthoringFact>(json!({
+        "kind":"Eq","expression":{"constant":scalar,"terms":[]},"reference":{"Local":0}}));
+    let fact=decode(&largest.to_string()).unwrap();assert_eq!(fact.expression.constant.numer().bits(),kernel_core::model::MAX_Q_BITS);
+    let fraction=decode(&format!("1/{largest}")).unwrap();assert_eq!(fraction.expression.constant.denom().bits(),kernel_core::model::MAX_Q_BITS);
+    for scalar in [excessive.to_string(),format!("1/{excessive}"),format!("{excessive}/{excessive}"),"9".repeat(19730),"9".repeat(39462)] {
+        assert!(decode(&scalar).unwrap_err().to_string().contains("RESOURCE_LIMIT"));
+    }
+    for scalar in ["1/0","NaN"," 0","-","+","1/2/3","1/"] {assert!(decode(scalar).is_err());}
+    // Existing exact decimal/scientific and fraction normalization stay valid.
+    for scalar in ["0.25","1e-2","-2/-4"] {assert!(decode(scalar).is_ok());}
+    assert!(decode(&format!("{largest}/0")).is_err());
 }
 
 #[test]

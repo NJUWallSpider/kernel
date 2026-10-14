@@ -215,7 +215,7 @@ def resolve_commit(run, final):
     return run / "input/model.mps", None, "no standard reformulation artifact"
 
 
-def assess(run, binary, arm):
+def assess(run, binary, arm, *, expected_input_sha256):
     audit = run / "harness-assessment"
     audit.mkdir()
     metrics, final, tool_inputs = session_metrics(run)
@@ -232,6 +232,15 @@ def assess(run, binary, arm):
             suspects.append({"tool": call.get("name"), "paths": paths})
     result["transcript_scope_flags"] = suspects
     try:
+        # The delivered proof must concern the pristine problem, even if an
+        # agent accidentally overwrites its workspace input. run_agent captures
+        # this trusted value before launch. Reassessments must likewise supply
+        # a separately trusted hash, never a post-run mutable workspace manifest.
+        expected = expected_input_sha256
+        actual = digest(run / "input/model.mps")
+        result.update(expected_input_sha256=expected, input_sha256=actual)
+        if actual != expected:
+            raise ValueError("original input changed after workspace construction; proof cannot be anchored to the pristine problem")
         source = canonical_model(binary, run / "input/model.mps", audit / "input.mcm")
         model, delivery, resolution = resolve_commit(run, final)
         if model.suffix.lower() not in (".lp", ".mps"):
@@ -336,7 +345,7 @@ def create_workspace(batch, corpus, case, arm, interpreter, binary, api_doc):
     return run
 
 
-def run_agent(run, batch, args, omp, binary):
+def run_agent(run, batch, args, omp, binary, expected_input_sha256):
     arm = json.loads((run / "workspace-manifest.json").read_text())["arm"]
     command = [str(omp), "-p", "--cwd", str(run), "--session-dir", str(run / ".omp/sessions"),
                "--model", args.model, "--thinking", args.thinking, "--tools", args.tools,
@@ -374,10 +383,11 @@ def run_agent(run, batch, args, omp, binary):
     if sessions:
         shutil.copyfile(max(sessions, key=lambda p: p.stat().st_mtime), run / "session.jsonl")
     end = {"event": "agent_end", "run": run.name, "exit_code": code,
-           "wall_s": round(time.monotonic() - started, 3), "timed_out": timeout}
+           "wall_s": round(time.monotonic() - started, 3), "timed_out": timeout,
+           "expected_input_sha256": expected_input_sha256}
     write_json(run / "execution.json", end)
     append_event(batch, end)
-    assessment = assess(run, binary, arm)
+    assessment = assess(run, binary, arm, expected_input_sha256=expected_input_sha256)
     metrics = assessment["metrics"]
     if metrics["model_fallback_used"] or any(model and model.split("/")[-1] != args.model.split("/")[-1]
                                             for model in metrics["resolved_models"]):
@@ -459,20 +469,26 @@ def main():
     version = subprocess.run([omp, "--version"], capture_output=True, text=True).stdout.strip()
     git_head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                               capture_output=True, text=True).stdout.strip()
+    input_catalog = {case: digest(args.corpus / f"data/{case}.mps") for case in cases}
     write_json(batch / "batch.json", {"created": now(), "cases": cases, "arms": arms,
         "model": args.model, "thinking": args.thinking, "tools": args.tools,
         "max_time": args.max_time, "hard_timeout_s": args.hard_timeout,
         "omp_version": version, "omp_sha256": digest(omp), "kernel_sha256": digest(kernel),
         "git_head": git_head, "concurrency": args.jobs, "historical_baseline": historical_metrics(args.corpus, cases),
+        "input_sha256": input_catalog,
         "historical_baseline_is_not_a_fresh_matched_control": True})
     workspaces = [create_workspace(batch, args.corpus, case, arm, args.interpreter,
                                   kernel, args.api_doc) for case in cases for arm in arms]
+    expected_inputs = {run: input_catalog[run.name.split("-")[0]] for run in workspaces}
+    if any(digest(run / "input/model.mps") != expected_inputs[run] for run in workspaces):
+        raise ValueError("source changed during workspace preparation")
     if args.prepare_only:
         print(json.dumps({"status": "PREPARED_ONLY", "batch": str(batch),
                           "workspaces": [str(p) for p in workspaces]}))
         return 0
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        futures = [pool.submit(run_agent, run, batch, args, omp, kernel) for run in workspaces]
+        futures = [pool.submit(run_agent, run, batch, args, omp, kernel, expected_inputs[run])
+                   for run in workspaces]
         results = [future.result() for future in futures]
     comparison = {"batch": str(batch), "runs": results,
                   "historical_baseline": historical_metrics(args.corpus, cases),

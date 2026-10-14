@@ -11,6 +11,38 @@ pub use resolve::{Assignment, AssignmentFact, AuthoringFact, MissingObligation, 
 /// JSON input policy. The codec retains all independent wire limits.
 pub const MAX_JSON_BYTES: usize = crate::api::MAX_INPUT_BYTES as usize;
 
+/// A nested Cases derivation adds at most four JSON containers per wire
+/// depth. The extra envelope/step/expression tuple containers fit below this
+/// margin. This is an independent finite parser policy; the codec still owns
+/// the exact block-depth limit and rejects structurally excessive proofs.
+pub const MAX_CERTIFICATE_JSON_DEPTH: usize = crate::codec::MAX_DEPTH * 4 + 16;
+
+fn check_certificate_json_depth(text: &str) -> Result<(), String> {
+    let mut depth=0usize;let mut string=false;let mut escaped=false;
+    for byte in text.bytes() {
+        if string {
+            if escaped {escaped=false;}
+            else if byte==b'\\' {escaped=true;}
+            else if byte==b'"' {string=false;}
+        } else {
+            match byte {
+                b'"'=>string=true,
+                b'{'|b'['=>{
+                    depth+=1;
+                    if depth>MAX_CERTIFICATE_JSON_DEPTH {
+                        return Err("RESOURCE_LIMIT certificate JSON container depth".into());
+                    }
+                },
+                b'}'|b']'=>{depth=depth.checked_sub(1).ok_or("INVALID certificate JSON unbalanced container")?;},
+                _=>{},
+            }
+        }
+    }
+    // The typed parser independently checks closing types, string escapes,
+    // termination and all schema fields. This scan only limits stack depth.
+    Ok(())
+}
+
 /// Classify serde's bounded parser failures without turning a resource limit
 /// into a mathematical rejection.
 pub(crate) fn json_error(context: &str, error: serde_json::Error) -> String {
@@ -29,7 +61,15 @@ pub fn parse_certificate_json(text: &str) -> Result<Certificate, String> {
     if text.len() > MAX_JSON_BYTES {
         return Err("RESOURCE_LIMIT certificate JSON bytes".into());
     }
-    serde_json::from_str(text).map_err(|error| json_error("certificate JSON", error))
+    check_certificate_json_depth(text)?;
+    let mut deserializer=serde_json::Deserializer::from_str(text);
+    // Bounded above before invoking the recursive typed parser. Its generic
+    // 128-container cap otherwise prevents valid frozen depth64 proof trees.
+    deserializer.disable_recursion_limit();
+    let certificate=Certificate::deserialize(&mut deserializer)
+        .map_err(|error|json_error("certificate JSON",error))?;
+    deserializer.end().map_err(|error|json_error("certificate JSON",error))?;
+    Ok(certificate)
 }
 
 /// Compile raw Certificate JSON to RPX, selecting the lowest required frozen

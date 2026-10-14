@@ -205,6 +205,10 @@ class Model:
 
     def _index(self, identifier, *, row=False):
         table, length = (self.row_index, len(self.rows)) if row else (self.var_index, len(self.vars))
+        if isinstance(identifier, Expr):
+            if row or identifier.constant or len(identifier.terms) != 1 or next(iter(identifier.terms.values())) != 1:
+                raise ValueError("A variable reference expression must be exactly one unit coordinate")
+            identifier = next(iter(identifier.terms))
         if isinstance(identifier, str):
             if identifier not in table:
                 raise KeyError(f"Unknown {'row' if row else 'variable'} {identifier!r}")

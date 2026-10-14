@@ -1,14 +1,65 @@
 //! Untrusted mechanical witness reuse. No proof rule or acceptance decision is
 //! added here: the real verifier checks every selected reference independently.
 use super::{ReturnPlan, MAX_JSON_BYTES, json_error, visit_return};
-use crate::{model::{Expr, Model, Q}, proof::{Kind, Ref}, verify::{Limits, ReturnObligation}};
+use crate::{model::{Expr, Model, Q, MAX_Q_BITS, check_q, parse_q}, proof::{Kind, Ref}, verify::{Limits, ReturnObligation}};
+use num_bigint::BigInt;
 use num_traits::{One, Signed, Zero};
 use serde::{Deserialize, Deserializer, Serialize, de::{self, MapAccess, Visitor, value::MapAccessDeserializer}};
 use std::{collections::HashMap, hash::{Hash, Hasher}};
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct AuthoringFact { pub kind: Kind, pub expression: Expr, pub reference: Ref }
+pub struct AuthoringFact {
+    pub kind: Kind,
+    #[serde(deserialize_with="authoring_expression")]
+    pub expression: Expr,
+    pub reference: Ref,
+}
+
+// Fact metadata describes derived Kernel expressions, which may be wider than
+// any individual model/proof scalar on the wire. This parser is confined to
+// untrusted authoring metadata; all actual model, map and proof inputs retain
+// their existing scalar policy. Kernel intermediates serialize canonically as
+// integers or numerator/denominator strings. Normal-size decimal/scientific
+// strings retain the existing vocabulary through parse_q.
+// ceil(MAX_Q_BITS * log10(2)) is 19,729 digits at the frozen 65,536-bit bound;
+// the integer upper approximation avoids floating point in this policy.
+const MAX_METADATA_DIGITS: usize=(MAX_Q_BITS as usize*30_103)/100_000+1;
+fn metadata_scalar(text:&str)->Result<Q,String> {
+    if text.len()>MAX_METADATA_DIGITS*2+3 {
+        return Err("RESOURCE_LIMIT authoring metadata scalar text budget".into());
+    }
+    let original=match parse_q(text) {Ok(q)=>return Ok(q),Err(error)=>error};
+    if !original.starts_with("RESOURCE_LIMIT") {return Err(original);}
+    fn integer_literal(text:&str)->bool {
+        let digits=text.strip_prefix(['+','-']).unwrap_or(text);
+        !digits.is_empty()&&digits.bytes().all(|b|b.is_ascii_digit())
+    }
+    let (numerator,denominator)=text.split_once('/').unwrap_or((text,"1"));
+    if !integer_literal(numerator)||!integer_literal(denominator) {return Err(original);}
+    fn integer(text:&str)->Result<BigInt,String> {
+        if text.strip_prefix(['+','-']).unwrap_or(text).len()>MAX_METADATA_DIGITS {
+            return Err("RESOURCE_LIMIT authoring metadata integer digit budget".into());
+        }
+        let value=text.parse::<BigInt>().map_err(|_|"invalid authoring metadata integer")?;
+        if value.bits()>MAX_Q_BITS {return Err("RESOURCE_LIMIT authoring metadata rational bit budget".into());}
+        Ok(value)
+    }
+    let numerator=integer(numerator)?;let denominator=integer(denominator)?;
+    if denominator.is_zero(){return Err("zero denominator".into());}
+    let value=Q::new(numerator,denominator);check_q(&value)?;Ok(value)
+}
+fn authoring_expression<'de,D:Deserializer<'de>>(deserializer:D)->Result<Expr,D::Error> {
+    #[derive(Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct RawExpr {constant:String,terms:Vec<(u32,String)>}
+    let raw=RawExpr::deserialize(deserializer)?;
+    let constant=metadata_scalar(&raw.constant).map_err(de::Error::custom)?;
+    let mut terms=Vec::new();terms.try_reserve(raw.terms.len())
+        .map_err(|_|de::Error::custom("RESOURCE_LIMIT authoring metadata term allocation"))?;
+    for (id,coefficient) in raw.terms {terms.push((id,metadata_scalar(&coefficient).map_err(de::Error::custom)?));}
+    Ok(Expr{constant,terms})
+}
 
 #[derive(Clone, Debug)]
 pub enum AssignmentFact { Fact(AuthoringFact), Exact }

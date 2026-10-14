@@ -68,8 +68,121 @@ fn malformed_raw_json_and_wire_invalid_objects_are_rejected() {
     }
     let mut block=json!({"steps":[],"end":{"Return":{"map":[],"checks":[]}}});
     for _ in 0..70{block=json!({"steps":[],"end":{"IntervalLift":{"intervals":[],"body":block}}});}
-    let nested=json!({"claims":[],"blocks":[block]}).to_string();
+    let nested=json!({"claims":[cert.claims[0].clone()],"blocks":[block]}).to_string();
     assert_eq!(api::compile_certificate_json(&nested).unwrap_err().status(),api::Status::ResourceLimit);
+}
+
+fn empty_claim()->Claim {
+    Claim{reverse:false,input_integers:false,output_integers:false,objective:Objective::None,
+        projection:vec![],affine_projection:vec![],inverse:None,input_objective_lower:None,
+        input_objective_level:None,input_halfspace:None}
+}
+fn empty_leaf()->Block {Block{steps:vec![],end:End::Return{map:vec![],checks:vec![]}}}
+fn single_block(block:Block)->Certificate {
+    Certificate{claims:vec![empty_claim()],blocks:vec![block],..Certificate::default()}
+}
+fn verify_empty_certificate(cert:&Certificate) {
+    let empty=Model{name:"empty".into(),vars:vec![],rows:vec![],objective:Expr::zero()};
+    verify::verify_request(&empty,&empty,cert,&request(cert),&Limits::default()).unwrap();
+}
+
+#[test]
+fn direct_json_preserves_the_full_frozen_split_depth_and_wire_boundary() {
+    for splits in [41,codec::MAX_DEPTH-1,codec::MAX_DEPTH] {
+        let mut block=empty_leaf();
+        for _ in 0..splits {
+            block=Block{steps:vec![],end:End::Split{expression:Expr::zero(),integer:None,
+                left:Box::new(block),right:Box::new(empty_leaf())}};
+        }
+        let cert=single_block(block);let text=serde_json::to_string(&cert).unwrap();
+        if splits<codec::MAX_DEPTH {
+            let encoded=compiler::compile_certificate_json(&text).unwrap();
+            assert_eq!(encoded,codec::encode_certificate(&cert).unwrap());
+            let decoded=codec::decode_certificate(&encoded).unwrap();assert_eq!(decoded,cert);
+            verify_empty_certificate(&decoded);
+        } else {
+            // The larger finite JSON parser budget cannot widen the RPX budget.
+            assert!(compiler::compile_certificate_json(&text).unwrap_err().contains("block depth limit"));
+        }
+    }
+}
+
+fn case_chain(cases:usize)->Step {
+    let left=if cases==1 {
+        // Exercise the deepest complete Lin payload, including a ref object
+        // inside a (reference, scalar) tuple inside the premise list.
+        Derivation{steps:vec![Step::Lin{id:2,kind:Kind::Eq,constant:parse_q("0").unwrap(),
+            terms:vec![(Ref::Local(0),parse_q("1").unwrap())]}],end:DerivationEnd::Witness(Ref::Local(2))}
+    } else {Derivation{steps:vec![case_chain(cases-1)],end:DerivationEnd::Witness(Ref::Local(1))}};
+    Step::Cases(Box::new(CasesStep{id:1,kind:Kind::Eq,expression:Expr::zero(),split:Expr::zero(),
+        integer:None,left:Box::new(left),right:Box::new(Derivation{steps:vec![],end:DerivationEnd::Witness(Ref::Local(0))})}))
+}
+
+fn container_depth(value:&serde_json::Value)->usize {
+    let mut deepest=0;let mut stack=vec![(value,0)];
+    while let Some((value,depth))=stack.pop() {
+        match value {
+            serde_json::Value::Object(map)=>{deepest=deepest.max(depth+1);stack.extend(map.values().map(|v|(v,depth+1)));},
+            serde_json::Value::Array(array)=>{deepest=deepest.max(depth+1);stack.extend(array.iter().map(|v|(v,depth+1)));},
+            _=>{},
+        }
+    }deepest
+}
+
+#[test]
+fn direct_json_preserves_full_cases_depth_with_deepest_linear_ref_payload() {
+    // Along a recursive Cases path, one wire depth introduces a Derivation
+    // object, its steps array, a Cases enum object and a Cases payload object:
+    // four containers. A root Block plus the deepest Lin ref tuple gives
+    // 4*cases+9 containers. An improvement/point/injectivity envelope adds one
+    // more, still below 4*MAX_DEPTH+16 at the frozen wire boundary.
+    for cases in [41,codec::MAX_DEPTH-1,codec::MAX_DEPTH] {
+        let block=Block{steps:vec![Step::Lin{id:0,kind:Kind::Eq,constant:parse_q("0").unwrap(),terms:vec![]},
+            case_chain(cases)],end:End::Return{map:vec![],checks:vec![]}};
+        let cert=single_block(block);let text=serde_json::to_string(&cert).unwrap();
+        assert_eq!(container_depth(&serde_json::to_value(&cert).unwrap()),4*cases+9);
+        if cases<codec::MAX_DEPTH {
+            let encoded=compiler::compile_certificate_json(&text).unwrap();
+            assert_eq!(encoded,codec::encode_certificate(&cert).unwrap());
+            let decoded=codec::decode_certificate(&encoded).unwrap();assert_eq!(decoded,cert);
+            verify_empty_certificate(&decoded);
+            if cases==codec::MAX_DEPTH-1 {
+                let nested=Certificate{improvements:vec![ImprovementWitness{
+                    claim:ImprovementClaim{target:false,integers:false,positive:Expr::zero()},
+                    block:Block{steps:cert.blocks[0].steps.clone(),end:End::PositiveRefutation{fact:Ref::Local(1)}}}],
+                    ..Certificate::default()};
+                assert_eq!(container_depth(&serde_json::to_value(&nested).unwrap()),4*cases+10);
+                let text=serde_json::to_string(&nested).unwrap();
+                let encoded=compiler::compile_certificate_json(&text).unwrap();
+                assert_eq!(encoded,codec::encode_certificate(&nested).unwrap());
+                verify_empty_certificate(&codec::decode_certificate(&encoded).unwrap());
+            }
+        } else {
+            assert!(compiler::compile_certificate_json(&text).unwrap_err().contains("block depth limit"));
+        }
+    }
+}
+
+#[test]
+fn certificate_json_depth_preflight_is_finite_string_aware_and_keeps_trailing_validation() {
+    let cap=compiler::MAX_CERTIFICATE_JSON_DEPTH;
+    let boundary=format!("{}{}","[".repeat(cap),"]".repeat(cap));
+    assert_eq!(api::compile_certificate_json(&boundary).unwrap_err().status(),api::Status::Invalid);
+    let excessive=format!("{}{}","[".repeat(cap+1),"]".repeat(cap+1));
+    let error=api::compile_certificate_json(&excessive).unwrap_err();
+    assert_eq!(error.status(),api::Status::ResourceLimit);assert!(error.message().contains("container depth"));
+    // Brackets, escaped quotes and paired backslashes inside a JSON string do
+    // not create containers. The schema rejection remains INVALID.
+    let escaped="[{}]\\\"[\\\\]".repeat(cap);
+    let quoted=json!({"claims":[],"blocks":[],"unknown":escaped}).to_string();
+    assert_eq!(api::compile_certificate_json(&quoted).unwrap_err().status(),api::Status::Invalid);
+    for suffix in [" {}"," []"," trailing"," }"] {
+        let text=format!("{}{}",serde_json::to_string(&single_block(empty_leaf())).unwrap(),suffix);
+        assert_eq!(api::compile_certificate_json(&text).unwrap_err().status(),api::Status::Invalid);
+    }
+    for malformed in ["]","{]","{\"claims\":[],\"blocks\":[],\"unknown\":\"\\\"}"] {
+        assert_eq!(api::compile_certificate_json(malformed).unwrap_err().status(),api::Status::Invalid);
+    }
 }
 
 #[test]

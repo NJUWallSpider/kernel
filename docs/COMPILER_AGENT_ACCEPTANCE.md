@@ -34,7 +34,9 @@ baseline, not an operating-system filesystem sandbox. A transcript audit marks
 explicit attempts to read old outputs or paths outside the workspace.
 
 After each agent finishes, the harness independently canonicalizes the original
-input and selected committed LP/MPS, anchors each source canonical model to that
+input and selected committed LP/MPS. Before reading either model, it checks the
+input against its trusted pristine digest captured outside the agent workspace
+and retained in process memory before launch. It anchors each source canonical model to that
 original, checks the delivered canonical target against the standard artifact,
 and verifies every submitted RPX/request with the copied kernel. Agent-reported
 success alone cannot pass. Model-order-independent comparisons use exact named
@@ -80,3 +82,32 @@ Fresh runs receive no previous case reports, reformulations, certificates,
 discovered cuts, or case-specific solver feedback. Compact summaries retain
 the declared claim scopes, artifact hashes, measurement settings and raw-result links;
 large transcripts remain in their isolated external run directories.
+
+## C3: stronger small targets and a large proof-construction failure
+
+The [C3 summary](../audit/compiler-agent/C3-summary.json) records fresh paired
+runs on test9, test16, and test88 from checkpoint `354ef66`. Test9 and test88
+were independently **VERIFIED**, and their own Python construction scripts
+reproduced all five artifacts byte for byte. Test9's compiler target has a
+stronger LP bound and a three-run MIP median of 18.13 seconds versus nomf's
+20.44 seconds. Test88's compiler target reaches a time-limited dual bound of
+224 versus fresh nomf's 127, with incumbent 230 in both. Its LP bound remains
+27, so the earlier C2 nomf LP227 opportunity remains unresolved.
+
+Test16 is a real failure: the compiler agent reached its 30-minute limit inside
+its first certificate-construction cell and saved no committed target or proof.
+It had selected an ambitious target with 154,517 variables, compared with
+nomf's delivered 177,881, but dimensions do not establish either correctness or
+quality. The [preserved failure](../audit/compiler-agent/C3-test16-failure/failure.json)
+includes the exact cell, preceding mathematical recipe, deadline, and observed
+memory use for diagnosis. Repeated immutable-expression subtraction while
+filling the wide objective is a performance suspect, not an established cause.
+
+Full final agent wall ratios are 1.99 for test9, 1.91 for the failed test16 run,
+and 1.66 for test88. Test9 had verified the exact final artifacts at 427 seconds,
+before nomf finished at 484 seconds, but then spent another 537 seconds on
+audit, replay, numeric inspection, and reports; the acceptance measurement
+counts all of that time. **C3 does not meet the complete acceptance goal.**
+Generic iteration addresses sparse proof construction and avoids forcing agents
+to rewrite the API's valid absolute delivery paths. Fresh subsequent agents
+receive no preserved mathematical recipe or previous solver feedback.

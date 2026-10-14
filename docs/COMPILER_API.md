@@ -61,6 +61,9 @@ scientific notation. Float input is rejected. Sparse affine expressions support
 `Expr(3, {0: "1/2", 2: -1})` means `3 + x[0]/2 - x[2]`.
 Expressions use the current model's coordinate order; use names when mapping
 between different models.
+`expr.summary(max_terms=8)` gives a bounded preview with the full term count;
+very large scalar values appear as signed bit lengths. It is inspection
+metadata, not a proof expression. Use `to_json()` for complete exact values.
 
 ## Target construction and audit
 
@@ -163,7 +166,7 @@ Its facts are available as `claim.domain.objective_level` and
 
 ```python
 goals = forward.obligations   # Kernel-owned ordered list, not Python's guess
-[(g.label, g.kind, g.expression) for g in goals[:10]]
+[(g.label, g.kind, g.expression.summary()) for g in goals[:10]]
 forward.missing()             # only currently undischarged goals
 forward.check("row.upper[new_cut]", supplied_fact)
 forward.complete()           # complete Return or BuildError with named missing goals
@@ -217,7 +220,10 @@ z = b.int([(b.integer("x"), 1)], constant=2)
 rounded = b.round(le_fact, int_fact)
 equality = b.eqpair(positive_le, negative_le)
 b.rewrite(old_fact, {"pivot": proved_definition_eq}, expect=desired_expr)
+b.rewrite_many(your_facts, your_ordered_pivot_equalities)
+b.substitution(your_ordered_pivot_equalities, goals=your_equality_expressions)
 b.combine_rows("Le", {"packing": 1, ("ranged", "Upper"): 2}, expect=desired_expr)
+b.box_le(your_inequality_expression) # supplied goal, declared variable bounds only
 b.eq_on_fixed(desired_expr, fixes={"x": proved_x_equals_constant})
 b.batch(instances, lambda builder, item: your_template(builder, item))
 b.drop(unneeded_local_fact)
@@ -226,10 +232,31 @@ b.drop(unneeded_local_fact)
 `rewrite` performs only the explicitly supplied pivot eliminations. It combines
 the old fact with your proved equalities using exact cancellation coefficients.
 This is useful for substituted rows, eliminated bounds, and objective equations.
+Pivots are applied once in the supplied dictionary order. A later equality
+that reintroduces an earlier pivot leaves that coordinate in the residual.
+`rewrite_many` validates one ordered plan for the supplied fact sequence;
+`substitution` reuses one plan over affected model facts and supplied Eq goals.
+These helpers update sparse coefficients without copying the whole expression
+at each pivot. Use them for wide goals and batches rather than repeatedly
+adding/scaling immutable Expr objects. They are available in generated and
+case scopes as well as root claims. A ClaimBuilder's `substitution` also supplies
+its currently missing Kernel Eq obligations through the compact resolver;
+it does not materialize the full obligation list. Goals that do not reduce
+exactly to zero stay unproved.
+`rewrite` / `rewrite_many` retain separate ordered positions for name/index keys
+that denote the same coordinate. The existing ClaimBuilder `substitution`
+canonicalizes such aliases: the last equation wins at the first key's position.
 Linear rules check kinds and signs before emitting: Eq uses only Eq premises;
 Le uses arbitrary Eq multiples and nonnegative Le multiples; Int uses Eq
 premises and integer multiples of Int premises. Round requires identical terms
 in its Le and Int premises. `expect=` detects a residual error at authoring time.
+
+`box_le(expr)` elaborates the supplied inequality from declared variable bounds.
+It selects the upper bound for a positive coefficient and the lower bound for
+a negative coefficient, checks the exact box maximum is nonpositive, and emits
+one ordinary Lin step. An unavailable bound or positive maximum raises
+`BuildError` before any step is emitted. It does not use rows, discover a cut,
+or search for stronger bounds.
 
 Integer-valued expressions need not be declared integer variables. Prove their
 integerness from your equations and known Int facts, or export an Int conclusion
@@ -268,6 +295,25 @@ Callbacks receive a scoped child builder and the new assumption. They return
 the common Fact or `branch.absurd(contradiction_fact)`. Facts from sibling
 branches cannot leak. Nest ordinary callbacks for arbitrary case trees.
 `branch.binary_value(name, 0_or_1, assumption)` derives a fixed binary equality.
+
+For an explicitly chosen list of binary coordinates, `binary_cases` expands
+the branch plumbing and gives your leaf proof a name-to-Eq fixing dictionary:
+
+```python
+fact = b.binary_cases(your_binary_variables, kind="Int", expect=your_common_goal,
+                      prove=your_leaf_proof,
+                      integers={"selected_continuous_var": your_proved_int_fact})
+# your_leaf_proof(scope, fixes) must return the common Fact or a Contradiction.
+# fixes[name] proves the exact expression x-bit = 0 in this leaf only.
+```
+
+Every selected coordinate needs finite declared bounds within `[0,1]` and an
+actual Int Fact: active declared integrality or a supplied exact witness.
+Duplicate coordinates and nonunit expressions are rejected. Narrower bounds
+are weakened by explicit linear steps before deriving `x-bit=0`. All `2**n`
+leaves call your callback, including branches you prove impossible; the helper
+does not select variables, prune branches, or supply a mathematical lemma.
+An empty list calls your proof once and returns its checked conclusion.
 
 Whole-map splitting can use different maps in its branches:
 
@@ -319,6 +365,10 @@ Flow recovery proves `sum(commodity.flows[arc]) - original_flow[arc] == 0`.
 Subflow remainder facts prove `selected_flow[arc] - original_flow[arc] <= 0`.
 All facts belong to the generated scope and remain visible in its descendants.
 Using them in the old parent scope or an unrelated scope is rejected.
+Variable reference helpers also accept a unit Expr directly, for example
+`scope.lower(scope.menu(i).options[j])`, `scope.upper(z)`, and `scope.integer(z)`.
+It must be exactly one current coordinate with coefficient 1 and constant 0;
+the model must actually provide the requested bound or integer declaration.
 
 `scope.layout`, `.generated_variables`, `.generated_rows`, and `.preparation`
 also expose exact Kernel preparation metadata for inspection. Preparation alone
@@ -352,6 +402,28 @@ better.complete()
 `{"Constant":q}` demands a fixed positive margin. This is the existing V10
 strict-domain contract, not a solver or an assertion that an optimum exists.
 
+The actual domain is `positive_expr > 0`. Its weak consequence
+`-positive_expr <= 0` is available as `better.domain.positive`, scoped
+Assumption 0. Cases and terminal splits number their new assumptions after
+that root fact. The weak fact does not assert strict positivity on its own and
+cannot escape into an ordinary claim.
+
+For a terminal branch that proves the exact root predicate is nonpositive,
+use `scope.close_positive(fact)` with a Le or Eq Fact of `positive_expr`.
+This emits the frozen `PositiveRefutation` terminal and excludes the branch
+using the root's strict domain. For example:
+
+```python
+better.split(positive_expr, integer=None,
+    left=lambda scope, nonpositive: scope.close_positive(nonpositive),
+    right=lambda scope, nonnegative: better.complete(scope=scope, mapping=improving_map))
+```
+
+Both margin forms require `q > 0`. A predicate margin scales with the predicate;
+it need not be a uniform positive constant near the domain boundary. A zero
+predicate defines an empty strict domain and gives only a vacuous theorem,
+without establishing nonemptiness, attainment, or a useful descent map.
+
 Every frozen RPX feature is also accessible without a high-level convenience
 wrapper via `compile_certificate(source, target, certificate, request, directory)`.
 It accepts the existing Certificate data structure directly as a Python dict,
@@ -377,6 +449,14 @@ claim, point, improvement, and bijection. Keep a runnable `output/proof.py`.
 When supplied, `committed_model` is read through the Kernel and compared exactly
 with the proof target (allowing coordinate/row order and folded row constants).
 A different solver artifact is rejected, and its hash is recorded in delivery.
+The returned and saved report includes `artifact_audit.status == "MATCHED"`
+when that complete exact comparison succeeds, with the committed-artifact and
+proof-target hashes. `artifacts` binds the actual MCM/RPX/Request files. This is
+the standard-format serialization audit; inspect the native proof status
+separately. It does not judge the usefulness of a reformulation or assertions
+outside the submitted Request. Preserve the generated absolute paths in
+`delivery.json`; add your relation without rewriting them. Portable custom
+manifest paths passed to `verify_bundle` are relative to that manifest's directory.
 `Proof.compile` emits the same artifacts without verifying. `Proof.preflight`
 reports JSON size/depth and counts; actual Kernel work/live facts appear in
 verification. `verify_bundle(manifest)` verifies every declared piece.

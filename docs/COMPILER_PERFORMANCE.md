@@ -70,6 +70,19 @@ claiming timings for every later revision.
 
 ## Reproduction
 
+The later [supplied C3 test16 proof diagnostic](../audit/compiler-performance/C3-test16-sparse-rescue/README.md)
+reconstructs that failed Agent's existing mathematical choices in a separate
+workspace. Its unchanged first exact-stage target and four MI/LP inverse claims
+verified: 2,892,181 obligations, 36,678,549 work, 394,395 peak live facts. Sparse
+Eq completion took 25.94 / 29.67 s; four-claim authoring took 153.80 s, compile
+41.59 s, and native verify 4.53 s. Total observation was 462.68 s including
+243.47 s of supplied-prefix reconstruction; sampled process-tree RSS peaked at
+5.15 GiB. The original 858.78 s interrupted Eq loop was not repeated.
+This is a supplied-proof performance regression, not autonomous acceptance;
+the failed C3 run remains failed, and its later dominance stages are unverified
+by that receipt. Exact measured hashes and different phase boundaries remain
+in the record. Fresh Agents receive no archived equations, maps, or case hints.
+
 ```sh
 python3 tools/benchmark_compiler_api.py --cases synthetic-1000 test9 \
   --output audit/compiler-performance/fresh-small

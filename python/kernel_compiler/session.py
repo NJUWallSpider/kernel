@@ -13,7 +13,7 @@ from types import SimpleNamespace
 from .backend import Kernel, KernelError
 from .expr import Expr, exact
 from .model import Model
-from .proof import Builder, BuildError, Fact, wire
+from .proof import Builder, BuildError, Fact, _PivotPlan, wire
 
 
 def _digest(path):
@@ -69,7 +69,7 @@ class ClaimBuilder(Builder):
                     "level": claim.get("input_objective_level"), "halfspace": claim.get("input_halfspace")}})
             model = Model.from_json(prepared["model"], kernel=session.kernel)
         super().__init__(model, integers=claim["input_integers"])
-        self.domain = SimpleNamespace(objective_level=None, halfspace=None)
+        self.domain = SimpleNamespace(objective_level=None, halfspace=None, positive=None)
         if prepared is not None:
             equality_row = prepared.get("equality_row")
             if equality_row is not None:
@@ -129,49 +129,23 @@ class ClaimBuilder(Builder):
         self._assigned[label] = fact
         return fact
 
-    def substitution(self, definitions):
-        """Elaborate a caller-supplied equality substitution proof over all facts.
+    def substitution(self, definitions, *, goals=()):
+        """Rewrite affected model facts and caller/Kernel equality goals.
 
-        Pivots and equations are explicit and processed in the given order. No
-        equations, maps, eliminations, or combinations are discovered here.
+        One validated plan preserves the supplied pivot order across all facts
+        and goals. Its sparse cancellation only elaborates selected equations;
+        no equation, pivot, map, or combination is discovered.
         """
-        definitions = {self.model.var_index[p] if isinstance(p, str) else p: fact
-                       for p, fact in definitions.items()}
-        for pivot, fact in definitions.items():
-            self._visible(fact)
-            if fact.kind != "Eq" or not fact.expression.terms.get(pivot):
-                raise BuildError("Substitution proof needs a proved EQ for every selected pivot")
-        if not definitions:
-            return []
-        pivots = set(definitions)
-        references = []
-        for i, var in enumerate(self.model.vars):
-            references.extend((tag, i) for tag, present in [("VarLower", var.lower is not None),
-                ("VarUpper", var.upper is not None), ("VarInt", self.integers and var.integer)] if present)
-        for i, row in enumerate(self.model.rows):
-            tags = ["RowEq"] if row.equality else [tag for tag, present in [("RowLower", row.lower is not None),
-                                                                           ("RowUpper", row.upper is not None)] if present]
-            references.extend((tag, i) for tag in tags)
-        generated = []
-        for tag, index in references:
-            fact = self.ref(tag, index)
-            if not pivots.isdisjoint(fact.expression.terms):
-                generated.append(self.rewrite(fact, definitions))
-        # Output equalities (including objectives and compositions) are often
-        # just the declared substitution equations. Eliminate only those given
-        # pivots and emit a combination only when the remainder is literally 0.
-        for goal in self.plan():
-            if goal.kind != "Eq" or self.find(goal.kind, goal.expression) is not None:
-                continue
-            remainder, terms = goal.expression, []
-            for pivot, fact in definitions.items():
-                coefficient = -remainder.terms.get(pivot, 0) / fact.expression.terms[pivot]
-                if coefficient:
-                    remainder += coefficient * fact.expression
-                    terms.append((fact, -coefficient))
-            if remainder == Expr(0):
-                generated.append(self.eq(terms, expect=goal.expression))
-        return generated
+        # Preserve this convenience method's existing name/index alias
+        # canonicalization: last equation wins at the first key's position.
+        normalized = {self.model._index(pivot): fact for pivot, fact in definitions.items()}
+        plan = _PivotPlan(self, normalized)
+        def equality_goals():
+            yield from goals
+            for goal in self.missing():
+                if goal.kind == "Eq":
+                    yield goal.expression
+        return self._substitution_plan(plan, equality_goals())
 
     def _opposing_maps(self):
         inverse = self.claim.get("inverse")
@@ -216,7 +190,7 @@ class ClaimBuilder(Builder):
             return self._plans[cache_key]
         data = self.session.kernel.json_command("plan-return", [self.session._model_path(scope.model),
                     self.session._model_path(self.output)], self._plan_spec(values))
-        result = [Obligation(i, item["kind"], Expr.from_json(item["expression"]), item["origin"])
+        result = [Obligation(i, item["kind"], Expr.from_json(item["expression"], intermediate=True), item["origin"])
                   for i, item in enumerate(data)]
         self._plans[cache_key] = result
         return result
@@ -231,7 +205,7 @@ class ClaimBuilder(Builder):
         if values is None:
             raise BuildError("Declare the complete output map before planning obligations")
         result = self._resolve(scope, values, witnesses, auto)
-        return [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"]), o["origin"])
+        return [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"], intermediate=True), o["origin"])
                 for o in result["missing"]]
 
     def _resolve(self, scope, values, witnesses, auto):
@@ -273,10 +247,10 @@ class ClaimBuilder(Builder):
             raise BuildError("Declare the complete map before complete()")
         result = self._resolve(scope, values, witnesses, auto)
         checks = result["checks"]
-        missing = [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"]), o["origin"])
+        missing = [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"], intermediate=True), o["origin"])
                    for o in result["missing"]]
         if missing:
-            details = "; ".join(f"{o.label}: {o.kind} {o.expression}" for o in missing[:8])
+            details = "; ".join(f"{o.label}: {o.kind} {o.expression.summary()}" for o in missing[:8])
             raise BuildError(f"{len(missing)} undischarged obligations; {details}")
         if self.claim.get("inverse") is not None and scope is not self:
             raise BuildError("Affine inverse claims require root Return maps; use bijection/injectivity for constructive lifts")
@@ -296,7 +270,7 @@ class InjectivityBuilder(Builder):
     """Fresh complete paired domain and Kernel-owned equality goals."""
     def __init__(self, model, goals, *, integers):
         super().__init__(model, integers=integers)
-        self.goals = tuple(Expr.from_json(goal) for goal in goals)
+        self.goals = tuple(Expr.from_json(goal, intermediate=True) for goal in goals)
         self.checks = None
 
     def complete(self, witnesses=None, *, auto=True):
@@ -470,9 +444,16 @@ class Proof:
         model = self.target if target else self.source
         local = Proof(model, model, kernel=self.kernel)
         builder = local.claim(integers=integers, objective="NonIncreasing", mapping=mapping)
+        positive = builder._expression(positive)
         builder.improvement_claim = {"target": target, "integers": integers,
-                                     "positive": Expr.coerce(positive).to_json()}
+                                     "positive": positive.to_json()}
         builder.margin = lowered_margin
+        # The verifier seeds exactly this weak consequence of the strict root
+        # domain before executing any step or adding a branch assumption.
+        assumption = Fact("Le", -positive, {"Assumption": 0}, builder)
+        builder.assumptions = (assumption,)
+        builder._remember(assumption)
+        builder.domain.positive = assumption
         self._improvement_builders.append(builder)
         return builder
 
@@ -531,6 +512,10 @@ class Proof:
         artifacts = self.compile(directory, committed_model=committed_model)
         report = self.kernel.verify(artifacts["source"], artifacts["target"], artifacts["proof"],
                                     artifacts["request"], work=work, live_facts=live_facts)
+        delivery = json.loads((Path(directory) / "delivery.json").read_text())
+        report["artifacts"] = delivery["artifacts"]
+        if "artifact_binding" in delivery:
+            report["artifact_audit"] = delivery["artifact_binding"]
         (Path(directory) / "verification.json").write_text(json.dumps(report, indent=2) + "\n")
         return report
 
@@ -540,15 +525,21 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     kernel = kernel or (source.kernel if isinstance(source, Model) else None) or Kernel()
     source = source if isinstance(source, Model) else Model.load(source, kernel=kernel)
     target = target if isinstance(target, Model) else Model.load(target, kernel=kernel)
+    directory = Path(directory).resolve()
+    paths = {"source": directory / "source.mcm", "target": directory / "target.mcm",
+             "proof": directory / "proof.rpx", "request": directory / "request.json"}
     if committed_model is not None:
         committed_model = Path(committed_model).resolve()
+        reserved = [*paths.values(), *(directory / name for name in
+                    ("certificate.json", "delivery.json", "verification.json"))]
+        for output in reserved:
+            if output.resolve() == committed_model or (output.exists() and committed_model.exists()
+                                                       and output.samefile(committed_model)):
+                raise BuildError("Committed solver artifact aliases a generated proof file; choose a separate artifact path")
         delivered = Model.load(committed_model, kernel=kernel)
         if not target.same_formulation(delivered):
             raise BuildError("Committed solver artifact differs from the complete proof target")
-    directory = Path(directory).resolve()
     directory.mkdir(parents=True, exist_ok=True)
-    paths = {"source": directory / "source.mcm", "target": directory / "target.mcm",
-             "proof": directory / "proof.rpx", "request": directory / "request.json"}
     source.write_mcm(paths["source"])
     target.write_mcm(paths["target"])
     cert_path = directory / "certificate.json"
@@ -561,6 +552,13 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     if committed_model is not None:
         manifest["committed_model"] = str(committed_model)
         manifest["artifacts"]["committed_model"] = {"path": str(committed_model), "sha256": _digest(committed_model)}
+        manifest["artifact_binding"] = {
+            "status": "MATCHED",
+            "method": "Kernel standard-format readback and exact named formulation comparison",
+            "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+            "committed_model": manifest["artifacts"]["committed_model"],
+            "proof_target": manifest["artifacts"]["target"],
+        }
     (directory / "delivery.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return paths
 

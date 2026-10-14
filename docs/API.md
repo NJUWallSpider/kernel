@@ -153,6 +153,11 @@ intermediate source file. The encoder chooses the lowest necessary RPX version
 and preserves all frozen schema, scalar, canonical expression and wire limits.
 The direct JSON bridge uses the façade's 512 MiB input-file policy, avoiding
 the legacy RPA assembler's separate 256 MiB text cap.
+Certificate JSON is checked for at most 272 nested object/array containers
+before deserialization. This covers all 63 nested Split/Cases levels allowed by
+the frozen codec, which still rejects a 64th nested level.
+Strings and escapes do not contribute to the container count, and trailing
+JSON remains invalid. Other JSON entry points retain their own parser policy.
 For example, a real-domain identity map without an objective contract has this
 shape (its checks depend on the actual output model):
 
@@ -206,6 +211,11 @@ either `{kind, expression, reference}` or the string `"Exact"`. A label is the
 origin kind plus `[name]` (or `[index]`) when present, then `#group` when present.
 Unknown, duplicate and mismatched assignments are rejected. Source-model
 assignment references must agree with their actual model proposition.
+Fact expression metadata may contain canonical rationals through the Kernel's
+65,536-bit intermediate limit (19,729 decimal digits per component). Actual
+proof scalars retain the frozen RPX 1,700-byte integer limit; wider computed
+facts can be referenced without encoding those computed coefficients as new
+proof scalar literals. This metadata capacity never establishes a fact.
 
 With `auto: true` (the default), resolution performs only the existing terminal
 Exact test and exact proposition reuse, allowing an EQ fact where the Kernel

@@ -6,15 +6,17 @@ authority. Helpers only elaborate caller-supplied derivations and trivial facts.
 from __future__ import annotations
 
 from collections import ChainMap
+from bisect import bisect_right
 from dataclasses import dataclass
 from fractions import Fraction
+from heapq import heapify, heappop, heappush
 from itertools import count
 import json
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 
-from .expr import Expr, exact
+from .expr import Expr, exact, _rational_text
 from .model import Model
 
 
@@ -31,7 +33,7 @@ def wire(value):
     if isinstance(value, Expr):
         return value.to_json()
     if isinstance(value, Fraction):
-        return str(value)
+        return _rational_text(value)
     if isinstance(value, dict):
         return {k: wire(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -58,6 +60,67 @@ class Fact:
 @dataclass(frozen=True)
 class Contradiction:
     fact: Fact
+
+
+class _PivotPlan:
+    """One caller-selected, ordered list of equality pivots.
+
+    Only nonzero pivots in the current residual are visited. A pivot introduced
+    after its position has passed stays in the residual, exactly as in one
+    sequential pass through the supplied definitions.
+    """
+    def __init__(self, builder, definitions):
+        entries = []
+        positions = {}
+        for pivot, equality in definitions.items():
+            pivot = builder.model._index(pivot)
+            builder._visible(equality)
+            if equality.kind != "Eq" or not equality.expression.terms.get(pivot):
+                raise BuildError("Each rewrite definition must be an EQ with a nonzero selected pivot")
+            positions.setdefault(pivot, []).append(len(entries))
+            entries.append((pivot, equality, equality.expression.terms[pivot]))
+        self.entries = tuple(entries)
+        # Distinct keys may name the same coordinate (for example 'x' and 0).
+        # rewrite historically visits both positions, so retain their order.
+        self.positions = {pivot: tuple(order) for pivot, order in positions.items()}
+
+    @staticmethod
+    def _bounded(value):
+        # Match Expr arithmetic's intermediate magnitude bound without making
+        # an immutable sparse expression for every coefficient update.
+        if abs(value.numerator).bit_length() > 65536 or value.denominator.bit_length() > 65536:
+            raise ValueError("Rational exceeds the kernel's 65536-bit limit")
+        return value
+
+    def reduce(self, expression):
+        constant, coefficients = expression.constant, dict(expression.terms)
+        active = [position for index in coefficients for position in self.positions.get(index, ())]
+        heapify(active)
+        queued = set(active)
+        cancellation = []
+        while active:
+            position = heappop(active)
+            queued.remove(position)
+            pivot, equality, divisor = self.entries[position]
+            coefficient = coefficients.get(pivot, 0)
+            if not coefficient:
+                continue
+            multiplier = exact(-coefficient / divisor)
+            equation = equality.expression
+            constant = self._bounded(constant + self._bounded(multiplier * equation.constant))
+            for index, value in equation.terms.items():
+                updated = self._bounded(coefficients.get(index, 0) + self._bounded(multiplier * value))
+                if updated:
+                    coefficients[index] = updated
+                    order = self.positions.get(index, ())
+                    for later in order[bisect_right(order, position):]:
+                        if later not in queued:
+                            heappush(active, later)
+                            queued.add(later)
+                else:
+                    coefficients.pop(index, None)
+            cancellation.append((equality, multiplier))
+        return constant, coefficients, cancellation
 
 
 class Builder:
@@ -130,7 +193,7 @@ class Builder:
 
     def ref(self, kind, site):
         """Model fact by original name or index (bounds and row sides are explicit)."""
-        index = (self.model.var_index[site] if kind.startswith("Var") else self.model.row_index[site]) if isinstance(site, str) else site
+        index = self.model._index(site, row=kind.startswith("Row"))
         if self.parent is not None and self.model is self.parent.model:
             return self.parent.ref(kind, index)
         key = kind, index
@@ -213,6 +276,21 @@ class Builder:
                 side = None
             terms.append((self.row(row, side=side), coefficient))
         return self.lin(kind, terms, constant=constant, expect=expect)
+
+    def box_le(self, expression):
+        """Prove one supplied LE from declared variable bounds, without search."""
+        expression = self._expression(expression)
+        residual, terms = expression.constant, []
+        for index, coefficient in expression.terms.items():
+            variable = self.model.vars[index]
+            bound = variable.upper if coefficient > 0 else variable.lower
+            if bound is None:
+                raise BuildError(f"box_le needs {'upper' if coefficient > 0 else 'lower'} bound for {variable.name!r}")
+            residual = exact(residual + coefficient * bound)
+            terms.append((self.upper(index) if coefficient > 0 else self.lower(index), abs(coefficient)))
+        if residual > 0:
+            raise BuildError(f"Declared bounds do not prove the supplied LE; maximum {Expr(residual).summary()}")
+        return self.le(terms, constant=residual, expect=expression)
 
     def eq_on_fixed(self, expression, fixes=None):
         """Prove a caller-selected equality whose coordinates have known fixed values.
@@ -315,18 +393,57 @@ class Builder:
     def rewrite(self, fact, definitions, *, expect=None):
         """Eliminate caller-selected pivots using caller-proved equalities."""
         self._visible(fact)
-        expression = fact.expression
-        terms = [(fact, 1)]
-        for pivot, equality in definitions.items():
-            pivot = self.model.var_index[pivot] if isinstance(pivot, str) else pivot
-            self._visible(equality)
-            if equality.kind != "Eq" or not equality.expression.terms.get(pivot):
-                raise BuildError("Each rewrite definition must be an EQ with a nonzero selected pivot")
-            multiplier = -expression.terms.get(pivot, 0) / equality.expression.terms[pivot]
-            if multiplier:
-                expression += multiplier * equality.expression
-                terms.append((equality, multiplier))
-        return self.lin(fact.kind, terms, expect=expression if expect is None else expect)
+        return self._rewrite_plan(fact, _PivotPlan(self, definitions), expect=expect)
+
+    def _rewrite_plan(self, fact, plan, *, expect=None):
+        self._visible(fact)
+        constant, coefficients, cancellation = plan.reduce(fact.expression)
+        expected = Expr(constant, coefficients) if expect is None else expect
+        return self.lin(fact.kind, [(fact, 1), *cancellation], expect=expected)
+
+    def rewrite_many(self, facts, definitions):
+        """Rewrite an explicit fact sequence with one validated pivot plan."""
+        plan = _PivotPlan(self, definitions)
+        return [self._rewrite_plan(fact, plan) for fact in facts]
+
+    def substitution(self, definitions, *, goals=()):
+        """Rewrite affected model facts and prove supplied equality expressions.
+
+        The caller selects every equation, pivot, and its order. A supplied
+        equality goal is emitted only when this ordered cancellation leaves
+        literally zero. No equations, order, goals, or combinations are found.
+        This helper is available in ordinary, branch, and generated scopes.
+        """
+        return self._substitution_plan(_PivotPlan(self, definitions), goals)
+
+    def _substitution_plan(self, plan, goals):
+        if not plan.entries:
+            return []
+        def model_facts():
+            for index, variable in enumerate(self.model.vars):
+                for tag, present in (("VarLower", variable.lower is not None),
+                                     ("VarUpper", variable.upper is not None),
+                                     ("VarInt", self.integers and variable.integer)):
+                    if present:
+                        yield self.ref(tag, index)
+            for index, row in enumerate(self.model.rows):
+                tags = ["RowEq"] if row.equality else [tag for tag, present in (
+                    ("RowLower", row.lower is not None), ("RowUpper", row.upper is not None)) if present]
+                for tag in tags:
+                    yield self.ref(tag, index)
+        generated = []
+        for fact in model_facts():
+            if any(index in plan.positions for index in fact.expression.terms):
+                generated.append(self._rewrite_plan(fact, plan))
+        for goal in goals:
+            expression = self._expression(goal)
+            if self.find("Eq", expression) is not None:
+                continue
+            constant, coefficients, cancellation = plan.reduce(expression)
+            if not constant and not coefficients:
+                generated.append(self.eq([(fact, -multiplier) for fact, multiplier in cancellation],
+                                         expect=expression))
+        return generated
 
     def drop(self, *facts):
         ids = []
@@ -412,6 +529,69 @@ class Builder:
             return self.eqpair(self.upper(variable), assumption)
         raise BuildError("binary_value supports 0 or 1")
 
+    def binary_cases(self, variables, *, kind, expect, prove, integers=None):
+        """Expand every supplied binary coordinate and call the explicit leaf proof.
+
+        ``prove(scope, fixes)`` receives name -> EQ(x-bit) handles. The caller
+        chooses all coordinates, the common proposition, and every leaf proof;
+        this template only expands ordinary Cases, Lin, and EqPair steps.
+        """
+        if kind not in ("Le", "Eq", "Int"):
+            raise BuildError(f"Unknown fact kind {kind}")
+        expect = self._expression(expect)
+        if not callable(prove):
+            raise BuildError("binary_cases needs a caller-provided leaf proof callback")
+        indices = tuple(self.model._index(variable) for variable in variables)
+        if len(set(indices)) != len(indices):
+            raise BuildError("binary_cases coordinates must be distinct")
+        if integers is not None and not hasattr(integers, "items"):
+            raise BuildError("binary_cases integers must be a coordinate-to-INT-fact mapping")
+        supplied = {}
+        for variable, fact in (integers or {}).items():
+            index = self.model._index(variable)
+            if index in supplied or index not in indices:
+                raise BuildError("Integer witnesses must uniquely name selected binary_cases coordinates")
+            self._visible(fact)
+            if fact.kind != "Int" or fact.expression != self.model.var(index):
+                raise BuildError("binary_cases needs INT of each exact selected coordinate")
+            supplied[index] = fact
+        witnesses = []
+        for index in indices:
+            variable = self.model.vars[index]
+            if variable.lower is None or variable.upper is None or not 0 <= variable.lower <= variable.upper <= 1:
+                raise BuildError("binary_cases needs declared bounds within [0,1]")
+            if index not in supplied and (not self.integers or not variable.integer):
+                raise BuildError("binary_cases needs an explicit INT witness for a coordinate without active declared integrality")
+            witnesses.append(supplied[index] if index in supplied else self.integer(index))
+
+        def visit(scope, position, fixes):
+            if position == len(indices):
+                conclusion = prove(scope, dict(fixes))
+                if isinstance(conclusion, Contradiction):
+                    scope.absurd(conclusion.fact)
+                else:
+                    scope._visible(conclusion)
+                    if conclusion.expression != expect or (conclusion.kind != kind and conclusion.kind != "Eq"):
+                        raise BuildError("Binary case leaf must prove the common requested expression and kind")
+                return conclusion
+            index = indices[position]
+            variable, expression = self.model.vars[index], self.model.var(index)
+            def left(child, assumption):
+                lower = child.lower(index)
+                if variable.lower:
+                    lower = child.le([(lower, 1)], constant=-variable.lower, expect=-expression)
+                fixing = child.eqpair(assumption, lower)
+                return visit(child, position+1, {**fixes, variable.name: fixing})
+            def right(child, assumption):
+                upper = child.upper(index)
+                if variable.upper != 1:
+                    upper = child.le([(upper, 1)], constant=variable.upper-1, expect=expression-1)
+                fixing = child.eqpair(upper, assumption)
+                return visit(child, position+1, {**fixes, variable.name: fixing})
+            return scope.cases(expression, kind=kind, expect=expect, integer=witnesses[position],
+                               left=left, right=right)
+        return visit(self, 0, {})
+
     def split(self, expression, *, left, right, integer=True):
         """Terminal branches may provide different complete output maps."""
         expression, integer = self._split(expression, integer)
@@ -428,6 +608,24 @@ class Builder:
     def close_absurd(self, fact):
         self.absurd(fact)
         self._set_end({"Absurd": {"fact": fact.reference}})
+
+    def close_positive(self, fact):
+        """Close a strict-improvement domain by proving its positive predicate <= 0.
+
+        The immutable root improvement contract supplies strict positivity;
+        the weak root assumption alone does not prove a contradiction. This is
+        the frozen PositiveRefutation terminal, including in split branches.
+        """
+        root = self
+        while root is not None and not hasattr(root, "improvement_claim"):
+            root = root.parent
+        if root is None:
+            raise BuildError("close_positive requires a strict-improvement proof scope")
+        self._visible(fact)
+        positive = Expr.from_json(root.improvement_claim["positive"])
+        if fact.kind not in ("Le", "Eq") or fact.expression != positive:
+            raise BuildError("PositiveRefutation needs LE or EQ of the exact root positive predicate")
+        self._set_end({"PositiveRefutation": {"fact": fact.reference}})
 
     def batch(self, instances, template):
         """Ordinary Python proof templates expand to ordinary checked steps."""
@@ -516,7 +714,7 @@ class Builder:
         # Check old-scope references against precisely the kernel's premises.
         for premise in prepared["premises"]:
             fact = handles.get(json.dumps(premise["reference"], sort_keys=True))
-            expression = Expr.from_json(premise["expression"])
+            expression = Expr.from_json(premise["expression"], intermediate=True)
             if premise["reference"] == "Exact" and self.find(premise["kind"], expression) == "Exact":
                 continue
             if fact is None or fact.expression != expression or (fact.kind != premise["kind"] and fact.kind != "Eq"):

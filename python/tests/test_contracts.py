@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -7,6 +8,77 @@ from kernel_compiler import BuildError, Expr, Model, Proof, Row, Variable, attac
 
 
 class ContractTests(unittest.TestCase):
+    def test_improvement_cases_preserve_the_root_assumption_index(self):
+        x = Expr.var(0)
+        model = Model("improve", [Variable("x", lower=0, upper=1)], objective=x)
+        proof = Proof(model, model)
+        better = proof.improvement(x, integers=False, mapping={"x": 0})
+        self.assertEqual(better.domain.positive.expression, -x)
+        self.assertEqual(better.domain.positive.reference, {"Assumption": 0})
+        better.cases(x, integer=False, kind="Le", expect=Expr(0),
+                     left=lambda branch, assumption: branch.le([(assumption, 1), (branch.lower("x"), 1)], expect=Expr(0)),
+                     right=lambda branch, assumption: branch.le())
+        branch_ref = better.steps[0]["Cases"]["left"]["steps"][0]["Lin"]["terms"][0][0]
+        self.assertEqual(branch_ref, {"Assumption": 1})
+        better.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+        ordinary = proof.claim(mapping="identity")
+        with self.assertRaises(BuildError):
+            ordinary.le([(better.domain.positive, 1)])
+
+    def test_improvement_terminal_split_uses_each_actual_branch_assumption(self):
+        x = Expr.var(0)
+        model = Model("improve_split", [Variable("x", lower=0, upper=1)], objective=x)
+        proof = Proof(model, model)
+        better = proof.improvement(x, integers=False, margin={"Predicate": "1/2"})
+        def left(branch, assumption):
+            upper = branch.le([(assumption, "1/2")], constant="-3/4", expect=x/2-1)
+            branch.le([(branch.lower("x"), "1/2")], expect=-x/2)
+            better.complete(scope=branch, mapping={"x": x/2}, witnesses={"variable.upper[x]": upper})
+        def right(branch, assumption):
+            gap = branch.le([(assumption, "1/2")], constant="-1/4", expect=-x/2)
+            better.complete(scope=branch, mapping={"x": 0}, witnesses={"objective.non_increasing": gap})
+        better.split(x-"1/2", integer=False, left=left, right=right)
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_positive_refutation_closes_an_excluded_strict_domain_branch(self):
+        x = Expr.var(0)
+        model = Model("positive_refutation", [Variable("x", lower=0, upper=1)], objective=x)
+        proof = Proof(model, model)
+        better = proof.improvement(x, integers=False)
+        better.split(x, integer=False,
+                     left=lambda branch, assumption: branch.close_positive(assumption),
+                     right=lambda branch, assumption: better.complete(scope=branch, mapping={"x": 0}))
+        self.assertIn("PositiveRefutation", better._children[0].end)
+        with self.assertRaises(BuildError):
+            better.close_positive(better.domain.positive)  # -x is the weak fact, not +x.
+        ordinary = Proof(model, model).claim(mapping="identity")
+        with self.assertRaises(BuildError):
+            ordinary.close_positive(ordinary.lower("x"))
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_improvement_margin_semantics_and_weak_domain_fact(self):
+        x = Expr.var(0)
+        model = Model("margin", [Variable("x", lower=0, upper=2)], objective=x)
+        proof = Proof(model, model)
+        # On x>1, x->0 saves at least the fixed margin 1. The root's weak fact
+        # 1-x<=0 is the actual objective-gap witness, with no row/branch search.
+        fixed = proof.improvement(x-1, integers=False, margin={"Constant": 1}, mapping={"x": 0})
+        fixed.complete()
+        self.assertEqual(fixed.end["ImproveReturn"]["checks"][-1], {"Assumption": 0})
+        for kind in ("Constant", "Predicate"):
+            for q in (0, -1):
+                with self.assertRaises(BuildError):
+                    proof.improvement(x, integers=False, margin={kind: q}, mapping={"x": 0})
+        # A zero predicate has an empty strict domain, not a nonemptiness claim.
+        vacuous = proof.improvement(0, integers=False, mapping="identity")
+        vacuous.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
     def test_bijection_reverses_explicit_renamed_coordinate_pairs(self):
         source = Model("src", [Variable("x", lower=0, upper=1), Variable("y", lower=0, upper=2)])
         target = Model("dst", [Variable("b", lower=0, upper=2), Variable("a", lower=0, upper=1)])
@@ -142,6 +214,11 @@ class ContractTests(unittest.TestCase):
                 proof.compile(directory / "bad", committed_model=directory / "bad.mps")
             result = proof.verify(directory / "good", committed_model=directory / "good.mps")
             self.assertEqual(result["status"], "VERIFIED", result)
+            self.assertEqual(result["artifact_audit"]["status"], "MATCHED")
+            self.assertEqual(result["artifact_audit"]["committed_model"], result["artifacts"]["committed_model"])
+            self.assertEqual(result["artifact_audit"]["proof_target"], result["artifacts"]["target"])
+            saved = json.loads((directory / "good/verification.json").read_text())
+            self.assertEqual(saved["artifact_audit"], result["artifact_audit"])
             self.assertEqual(verify_bundle(directory / "good/delivery.json")["status"], "VERIFIED")
     def test_scope_cannot_be_borrowed_from_another_claim(self):
         model = Model("src", [Variable("x", lower=0, upper=1)])
