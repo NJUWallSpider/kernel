@@ -1,0 +1,13 @@
+{
+  "note": "Exact source bytes matching the already recorded post-run quality evaluator and imported model comparator. Neither source copy is supplied to fresh agents.",
+  "files": {
+    "evaluate_compiler_quality.py": {
+      "sha256": "a55c41081e8e6a17c9f377915c0d02ddf591f686c529e89e47226894540fa016",
+      "recorded_sha256": "a55c41081e8e6a17c9f377915c0d02ddf591f686c529e89e47226894540fa016"
+    },
+    "run_compiler_agents.py": {
+      "sha256": "ac0486af62030da223e0ca8b41b4c4f4ad4f5e65b3410e2c4c5c375b3f7693fc",
+      "recorded_sha256": "ac0486af62030da223e0ca8b41b4c4f4ad4f5e65b3410e2c4c5c375b3f7693fc"
+    }
+  }
+}

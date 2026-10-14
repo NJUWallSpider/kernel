@@ -258,20 +258,42 @@ def assess(run, binary, arm, *, expected_input_sha256):
             result["relation"] = delivery.get("relation", "")
             if not result["relation"]:
                 raise ValueError("delivery must state its precise relation")
-            for index, piece in enumerate(delivery["pieces"]):
+            composition = delivery.get("composition")
+            ordered_chain = (isinstance(composition, dict)
+                             and composition.get("ordered_chain") is True)
+            if ordered_chain:
+                # Explicit ordered stages are a different contract from a set
+                # of independent original-to-final proofs. Verify every stage
+                # with its own indices and compose only safe, selected claims.
+                from verify_staged_agent_delivery import inspect_delivery
+                chain = inspect_delivery(run, binary, audit / "ordered-chain",
+                                         expected_input_sha256=expected)
+                result.update(ordered_chain=True, staged_review_version=chain["reviewer_version"],
+                              staged_review=str(audit / "ordered-chain/staged-review.json"),
+                              staged_review_sha256=digest(audit / "ordered-chain/staged-review.json"),
+                              composed_claims=chain["composed_claims"], pieces=chain["pieces"],
+                              kernel_verified=chain["status"] == "VERIFIED_CHAIN")
+                if chain["errors"]:
+                    raise ValueError("ordered chain review failed: " + "; ".join(chain["errors"]))
+            for index, piece in enumerate([] if ordered_chain else delivery["pieces"]):
                 paths = {key: path_inside(run, piece[key], output=True)
                          for key in ("source", "target", "proof", "request")}
                 delivered_source = canonical_model(binary, paths["source"], audit / f"source-{index}.mcm")
                 delivered_target = canonical_model(binary, paths["target"], audit / f"target-{index}.mcm")
-                if digest(paths["source"]) != digest(audit / "input.mcm"):
-                    raise ValueError(f"piece {index} source is not the canonical original input")
                 if normalized_model(delivered_source) != normalized_model(source):
                     raise ValueError(f"piece {index} source readback differs from original")
                 if normalized_model(delivered_target) != normalized_model(target):
                     raise ValueError(f"piece {index} target differs from the committed standard artifact")
                 request = json.loads(paths["request"].read_text())
-                verification = kernel_call(binary, "verify", audit / "input.mcm",
-                                           paths["target"], paths["proof"], paths["request"])
+                if isinstance(request, list):
+                    request = {"claims": request}
+                if not isinstance(request, dict):
+                    raise ValueError("Request must be an object or legacy claim array")
+                # Named equality allows a byte/coordinate reordered source.
+                # RPX indices still refer to the delivered canonical source,
+                # so substituting input.mcm here would verify the wrong model.
+                verification = kernel_call(binary, "verify", audit / f"source-{index}.mcm",
+                                           audit / f"target-{index}.mcm", paths["proof"], paths["request"])
                 result["pieces"].append({"id": index,
                     "sha256": {key: digest(value) for key, value in paths.items()},
                     "claims": request.get("claims", []),
@@ -279,9 +301,12 @@ def assess(run, binary, arm, *, expected_input_sha256):
                     "improvements": request.get("improvements", []),
                     "bijections": request.get("bijections", []),
                     "verification": verification})
-            result["kernel_verified"] = all(p["verification"]["exit_code"] == 0
-                and p["verification"]["result"].get("status") == "VERIFIED" for p in result["pieces"])
+            if not ordered_chain:
+                result["kernel_verified"] = all(p["verification"]["exit_code"] == 0
+                    and p["verification"]["result"].get("status") == "VERIFIED" for p in result["pieces"])
             claims = [claim for piece in result["pieces"] for claim in piece["claims"]]
+            if ordered_chain:
+                result["claim_coverage_signal_scope"] = "stage_local; final contracts are in composed_claims"
             result["claim_coverage_signals"] = {
                 "directional_claims": len(claims),
                 "unrestricted_integer_forward": sum(not c.get("reverse")
@@ -460,6 +485,12 @@ def main():
         parser.error("Python compiler package and public API documentation must be ready before launch")
     batch = args.corpus / "runs" / f"compiler-batch-{args.id}"
     batch.mkdir()
+    # Capture and load the independent evaluator before any agents start.
+    # Later checkout edits must not change a running batch's review behavior.
+    (batch / "harness").mkdir()
+    for filename in ("run_compiler_agents.py", "verify_staged_agent_delivery.py"):
+        shutil.copyfile(ROOT / "tools" / filename, batch / "harness" / filename)
+    import verify_staged_agent_delivery  # noqa: F401: pin module before agent turns
     (batch / "bin").mkdir()
     (batch / "bin/omp").symlink_to(Path(omp).resolve())
     (batch / "kernel").mkdir()
@@ -476,6 +507,8 @@ def main():
         "omp_version": version, "omp_sha256": digest(omp), "kernel_sha256": digest(kernel),
         "git_head": git_head, "concurrency": args.jobs, "historical_baseline": historical_metrics(args.corpus, cases),
         "input_sha256": input_catalog,
+        "harness_snapshot": {str(p.relative_to(batch)): digest(p)
+                             for p in sorted((batch / "harness").glob("*.py"))},
         "historical_baseline_is_not_a_fresh_matched_control": True})
     workspaces = [create_workspace(batch, args.corpus, case, arm, args.interpreter,
                                   kernel, args.api_doc) for case in cases for arm in arms]

@@ -539,10 +539,14 @@ For successive reformulations, bind the already-written stage manifests explicit
 ```python
 from kernel_compiler import write_chain, verify_bundle
 
+# Compile each authored stage into its own directory, preserving its manifest.
+for i, stage in enumerate(your_authored_stage_proofs):
+    stage.compile(f"output/stage{i}")
+
 manifest = write_chain(
-    ["stage0/delivery.json", "stage1/delivery.json", "stage2/delivery.json"],
-    "output/chain.json",
-    original_model="original.mps",       # optional first-source anchor
+    ["output/stage0/delivery.json", "output/stage1/delivery.json", "output/stage2/delivery.json"],
+    "output/delivery.json",
+    original_model="input/model.mps",    # optional first-source anchor
     committed_model="output/reformulated.mps",
     claim_paths={"mi_forward": [0, 0, 0], "mi_reverse": [1, 1, 1]},
 )
@@ -555,6 +559,8 @@ manifest itself; it does not copy the large files or verify their proofs.
 Every stage's four proof-input hashes and the committed artifact hash are
 mandatory for verification; an original anchor also requires its hash when
 declared. Stage-manifest and other extra records are checked when present.
+Keep the top-level destination distinct from every stage's manifest and artifacts;
+the writer rejects aliases instead of overwriting a stage input.
 Retain those records to preserve the writer's provenance: an unsigned hand-written
 manifest with complete proof-input hashes establishes the submitted theorem,
 without certifying that its metadata was inherited unchanged from an earlier author.

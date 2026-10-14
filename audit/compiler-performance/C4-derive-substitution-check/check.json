@@ -1,0 +1,43 @@
+{
+  "purpose": "Supplied C4 proof helper check, not fresh autonomous acceptance",
+  "origin": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015",
+  "run": "/Users/bhz/Code/reform_test/runs/test9-supplied-C4-derive-substitution-check-20261015",
+  "exit_code": 0,
+  "wall_s": 0.87052325,
+  "changes": "Replace only caller-authored ordered residual cancellation with derive_substitution; all mathematical decisions and witnesses are unchanged",
+  "files": {
+    "source.mcm": {
+      "original_sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378",
+      "new_sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378",
+      "byte_identical": true
+    },
+    "target.mcm": {
+      "original_sha256": "29358e9bc5d8a8e5ccede17ed0f85cf7c92199f66f94afac2b2585b4a377f7d9",
+      "new_sha256": "29358e9bc5d8a8e5ccede17ed0f85cf7c92199f66f94afac2b2585b4a377f7d9",
+      "byte_identical": true
+    },
+    "proof.rpx": {
+      "original_sha256": "e18951e4cb135a22d25056fe46483914abf0c1901b97340fb4e9902077b1ea9b",
+      "new_sha256": "e18951e4cb135a22d25056fe46483914abf0c1901b97340fb4e9902077b1ea9b",
+      "byte_identical": true
+    },
+    "request.json": {
+      "original_sha256": "bc772985f67c26808a3e502132bbb3dddd85e887032061d326835d05cfab81fd",
+      "new_sha256": "bc772985f67c26808a3e502132bbb3dddd85e887032061d326835d05cfab81fd",
+      "byte_identical": true
+    },
+    "reformulated.mps": {
+      "original_sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+      "new_sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+      "byte_identical": true
+    }
+  },
+  "verified": true,
+  "python_api_commit": "a2c45a3",
+  "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "original_proof_script_sha256": "22a7c8e9d8ae60feb3d0abef3f01f11dafefaa2e5f3868f018d3796bd4800d58",
+  "changed_proof_script_sha256": "932ade9df621b04fd2f34dfd80027b35a83d603d30926be88380dfeb64115660",
+  "input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+  "proof_module_sha256": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+  "timing_note": "Single validation invocation under current host load; no matched speedup estimate is inferred."
+}

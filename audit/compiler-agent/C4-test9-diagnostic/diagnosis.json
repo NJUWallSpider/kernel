@@ -1,0 +1,812 @@
+{
+  "schema": "compiler-agent-quality-diagnosis-1",
+  "case": "test9",
+  "created_utc": "2026-10-14T18:20:21.876346+00:00",
+  "scope": "Read-only diagnosis of completed C4 artifacts; no solver rerun, source/model edit, or feedback to new Agents.",
+  "quality_record": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/quality.json",
+    "sha256": "e23d3737d7b2a67da848a69a6a791ef0cb4297a3e1f5f9d990fbb4957b217fcd"
+  },
+  "readback": {
+    "method": "Kernel exact standard-format reader through Model.load; statistics use exact Fraction arithmetic.",
+    "kernel_binary": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015/compiler/bin/rpx",
+    "kernel_binary_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+    "statistics_module": "/Users/bhz/Code/kernel/python/kernel_compiler/model.py",
+    "statistics_module_sha256": "fb727910660f060ecefacfdd4843ce556abe93bd05492b561bde397fa4ec042b"
+  },
+  "fold_fixed_method": "For every variable with finite equal lower/upper bound b, add objective_coefficient*b to objective.constant and omit that coefficient from active-coefficient statistics. This compares fixed OBJCONST against an encoded objective constant without changing either model.",
+  "models": {
+    "source": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015/input/model.mps",
+      "sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "shape": {
+        "variables": 2298,
+        "rows": 1026,
+        "integers": 170,
+        "nonzeros": 4496,
+        "objective_nonzeros": 1742,
+        "equalities": 1016,
+        "ranged_rows": 0
+      },
+      "exact_coefficient_stats": {
+        "objective": {
+          "constant": "0",
+          "coefficients": {
+            "count": 1742,
+            "zeros": 0,
+            "minimum": "-103/5",
+            "maximum": "99999999/100",
+            "positive": {
+              "count": 996,
+              "minimum": "509/50",
+              "maximum": "99999999/100"
+            },
+            "negative": {
+              "count": 746,
+              "minimum": "-103/5",
+              "maximum": "-83/100"
+            },
+            "magnitude_minimum_nonzero": "83/100",
+            "magnitude_maximum": "99999999/100",
+            "magnitude_span": "99999999/83"
+          }
+        },
+        "matrix": {
+          "count": 4496,
+          "zeros": 0,
+          "minimum": "-1",
+          "maximum": "28809999/1000000",
+          "positive": {
+            "count": 2368,
+            "minimum": "1",
+            "maximum": "28809999/1000000"
+          },
+          "negative": {
+            "count": 2128,
+            "minimum": "-1",
+            "maximum": "-1"
+          },
+          "magnitude_minimum_nonzero": "1",
+          "magnitude_maximum": "28809999/1000000",
+          "magnitude_span": "28809999/1000000"
+        },
+        "row_constants": {
+          "count": 1026,
+          "zeros": 1026,
+          "minimum": "0",
+          "maximum": "0",
+          "positive": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "negative": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "magnitude_minimum_nonzero": null,
+          "magnitude_maximum": null,
+          "magnitude_span": null
+        }
+      },
+      "fold_fixed_objective": {
+        "constant": "0",
+        "fixed_terms": [],
+        "active_coefficients": {
+          "count": 1742,
+          "positive": {
+            "count": 996,
+            "minimum": "509/50",
+            "maximum": "99999999/100"
+          },
+          "negative": {
+            "count": 746,
+            "minimum": "-103/5",
+            "maximum": "-83/100"
+          },
+          "magnitude_minimum_nonzero": "83/100",
+          "magnitude_maximum": "99999999/100",
+          "magnitude_span": "99999999/83",
+          "l1": "9008649430013/100000",
+          "signed_sum": "22517957620011/250000",
+          "absolute_at_least_100000": 90
+        }
+      },
+      "matrix_distribution_summary": {
+        "positive_count": 2368,
+        "negative_count": 2128,
+        "unique_values": 19,
+        "nonunit_count": 170,
+        "negative_values": {
+          "-1": 2128
+        }
+      }
+    },
+    "compiler": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015/output/reformulated.mps",
+      "sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+      "shape": {
+        "variables": 1309,
+        "rows": 846,
+        "integers": 170,
+        "nonzeros": 3174,
+        "objective_nonzeros": 1309,
+        "equalities": 100,
+        "ranged_rows": 0
+      },
+      "exact_coefficient_stats": {
+        "objective": {
+          "constant": "-77180001/1000000",
+          "coefficients": {
+            "count": 1309,
+            "zeros": 0,
+            "minimum": "-999966650001/1000000",
+            "maximum": "1000028799999/1000000",
+            "positive": {
+              "count": 1292,
+              "minimum": "839999/1000000",
+              "maximum": "1000028799999/1000000"
+            },
+            "negative": {
+              "count": 17,
+              "minimum": "-999966650001/1000000",
+              "maximum": "-999950319999/1000000"
+            },
+            "magnitude_minimum_nonzero": "839999/1000000",
+            "magnitude_maximum": "1000028799999/1000000",
+            "magnitude_span": "1000028799999/839999"
+          }
+        },
+        "matrix": {
+          "count": 3174,
+          "zeros": 0,
+          "minimum": "-1",
+          "maximum": "28809999/1000000",
+          "positive": {
+            "count": 2035,
+            "minimum": "1",
+            "maximum": "28809999/1000000"
+          },
+          "negative": {
+            "count": 1139,
+            "minimum": "-1",
+            "maximum": "-1"
+          },
+          "magnitude_minimum_nonzero": "1",
+          "magnitude_maximum": "28809999/1000000",
+          "magnitude_span": "28809999/1000000"
+        },
+        "row_constants": {
+          "count": 846,
+          "zeros": 846,
+          "minimum": "0",
+          "maximum": "0",
+          "positive": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "negative": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "magnitude_minimum_nonzero": null,
+          "magnitude_maximum": null,
+          "magnitude_span": null
+        }
+      },
+      "fold_fixed_objective": {
+        "constant": "-77180001/1000000",
+        "fixed_terms": [],
+        "active_coefficients": {
+          "count": 1309,
+          "positive": {
+            "count": 1292,
+            "minimum": "839999/1000000",
+            "maximum": "1000028799999/1000000"
+          },
+          "negative": {
+            "count": 17,
+            "minimum": "-999966650001/1000000",
+            "maximum": "-999950319999/1000000"
+          },
+          "magnitude_minimum_nonzero": "839999/1000000",
+          "magnitude_maximum": "1000028799999/1000000",
+          "magnitude_span": "1000028799999/839999",
+          "l1": "34077517220081/1000000",
+          "signed_sum": "78919480069/1000000",
+          "absolute_at_least_100000": 34
+        }
+      },
+      "matrix_distribution_summary": {
+        "positive_count": 2035,
+        "negative_count": 1139,
+        "unique_values": 19,
+        "nonunit_count": 170,
+        "negative_values": {
+          "-1": 1139
+        }
+      }
+    },
+    "nomf": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C4-20261015/output/reformulated.mps",
+      "sha256": "920932e341ca5be5697630f51103f3c2862fe18babc6f1f4403e7627f97b21a5",
+      "shape": {
+        "variables": 1553,
+        "rows": 846,
+        "integers": 170,
+        "nonzeros": 3570,
+        "objective_nonzeros": 1553,
+        "equalities": 270,
+        "ranged_rows": 0
+      },
+      "exact_coefficient_stats": {
+        "objective": {
+          "constant": "0",
+          "coefficients": {
+            "count": 1553,
+            "zeros": 0,
+            "minimum": "-77180001/1000000",
+            "maximum": "100002059/100",
+            "positive": {
+              "count": 1399,
+              "minimum": "839999/1000000",
+              "maximum": "100002059/100"
+            },
+            "negative": {
+              "count": 154,
+              "minimum": "-77180001/1000000",
+              "maximum": "-187/25"
+            },
+            "magnitude_minimum_nonzero": "839999/1000000",
+            "magnitude_maximum": "100002059/100",
+            "magnitude_span": "1000020590000/839999"
+          }
+        },
+        "matrix": {
+          "count": 3570,
+          "zeros": 0,
+          "minimum": "-1",
+          "maximum": "28809999/1000000",
+          "positive": {
+            "count": 2188,
+            "minimum": "1",
+            "maximum": "28809999/1000000"
+          },
+          "negative": {
+            "count": 1382,
+            "minimum": "-1",
+            "maximum": "-1"
+          },
+          "magnitude_minimum_nonzero": "1",
+          "magnitude_maximum": "28809999/1000000",
+          "magnitude_span": "28809999/1000000"
+        },
+        "row_constants": {
+          "count": 846,
+          "zeros": 846,
+          "minimum": "0",
+          "maximum": "0",
+          "positive": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "negative": {
+            "count": 0,
+            "minimum": null,
+            "maximum": null
+          },
+          "magnitude_minimum_nonzero": null,
+          "magnitude_maximum": null,
+          "magnitude_span": null
+        }
+      },
+      "fold_fixed_objective": {
+        "constant": "-77180001/1000000",
+        "fixed_terms": [
+          {
+            "name": "OBJCONST",
+            "value": "1",
+            "coefficient": "-77180001/1000000"
+          }
+        ],
+        "active_coefficients": {
+          "count": 1552,
+          "positive": {
+            "count": 1399,
+            "minimum": "839999/1000000",
+            "maximum": "100002059/100"
+          },
+          "negative": {
+            "count": 153,
+            "minimum": "-103/5",
+            "maximum": "-187/25"
+          },
+          "magnitude_minimum_nonzero": "839999/1000000",
+          "magnitude_maximum": "100002059/100",
+          "magnitude_span": "1000020590000/839999",
+          "l1": "22520467632517/250000",
+          "signed_sum": "45038765275043/500000",
+          "absolute_at_least_100000": 90
+        }
+      },
+      "matrix_distribution_summary": {
+        "positive_count": 2188,
+        "negative_count": 1382,
+        "unique_values": 19,
+        "nonunit_count": 170,
+        "negative_values": {
+          "-1": 1382
+        }
+      }
+    }
+  },
+  "solver_options": {
+    "parallel": "off",
+    "threads": 1,
+    "random_seed": 0,
+    "time_limit": 120,
+    "repeats": 3,
+    "repeat_threshold_seconds": 30.0
+  },
+  "solves_serial": true,
+  "solver_samples": {
+    "mip": {
+      "source": {
+        "median_wall_seconds": 17.553129,
+        "samples": [
+          {
+            "wall_seconds": 18.55048,
+            "solver_seconds": 18.54,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53406526,
+            "gap": "0.00988%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2935,
+            "lp_iterations": 185935,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-source-0.log",
+            "log_sha256": "1ba56ee2bbdf8f0b7d7b78772c8a2822bf96aa41224574b452093253254be4c1"
+          },
+          {
+            "wall_seconds": 17.553129,
+            "solver_seconds": 17.54,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53406526,
+            "gap": "0.00988%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2935,
+            "lp_iterations": 185935,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-source-1.log",
+            "log_sha256": "21a087978aa0f66314c9dbb15afb29af8d546bd1629b9b889f38bd33ef35d79c"
+          },
+          {
+            "wall_seconds": 17.471991,
+            "solver_seconds": 17.46,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53406526,
+            "gap": "0.00988%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2935,
+            "lp_iterations": 185935,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-source-2.log",
+            "log_sha256": "c216ec3cee6fd6131127343120f2d9c4078e2dbb1f35fe25c2ad1ae8fbe94681"
+          }
+        ]
+      },
+      "compiler": {
+        "median_wall_seconds": 22.872248,
+        "samples": [
+          {
+            "wall_seconds": 24.063554,
+            "solver_seconds": 24.05,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53302772,
+            "gap": "0.00989%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2875,
+            "lp_iterations": 416566,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-compiler-0.log",
+            "log_sha256": "af74736e5537fb53f005f3ab7d7a0588d0cda6361931bc7554e6e5b327a8fc37"
+          },
+          {
+            "wall_seconds": 22.872248,
+            "solver_seconds": 22.86,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53302772,
+            "gap": "0.00989%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2875,
+            "lp_iterations": 416566,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-compiler-1.log",
+            "log_sha256": "887fee2aad6e137ddea7d835518796ebaf5f8ae90d81880cec3aceb679093754"
+          },
+          {
+            "wall_seconds": 22.224298,
+            "solver_seconds": 22.22,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.53302772,
+            "gap": "0.00989%",
+            "gap_tolerance": "0.01%",
+            "nodes": 2875,
+            "lp_iterations": 416566,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-compiler-2.log",
+            "log_sha256": "f7936667bb386828736a162bd8a84f41e46c431f37c4ae576921fee02cee1aa7"
+          }
+        ]
+      },
+      "nomf": {
+        "median_wall_seconds": 11.345495,
+        "samples": [
+          {
+            "wall_seconds": 12.120411,
+            "solver_seconds": 12.11,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.52949121,
+            "gap": "0.00995%",
+            "gap_tolerance": "0.01%",
+            "nodes": 1916,
+            "lp_iterations": 135216,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-nomf-0.log",
+            "log_sha256": "f84121f3b3f4ff09424b46bf53b288dd474df8c294ecbd7b6d8e967699e3fda4"
+          },
+          {
+            "wall_seconds": 11.345495,
+            "solver_seconds": 11.33,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.52949121,
+            "gap": "0.00995%",
+            "gap_tolerance": "0.01%",
+            "nodes": 1916,
+            "lp_iterations": 135216,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-nomf-1.log",
+            "log_sha256": "ec1f32ac20ae2b1ce94f5a74fa9911f1a30cc4e787957984c084ee972bd0b272"
+          },
+          {
+            "wall_seconds": 11.220593,
+            "solver_seconds": 11.21,
+            "status": "Optimal",
+            "primal_objective": 6742.200024,
+            "dual_bound": 6741.52949121,
+            "gap": "0.00995%",
+            "gap_tolerance": "0.01%",
+            "nodes": 1916,
+            "lp_iterations": 135216,
+            "repair_lps": 0,
+            "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/test9/mip-nomf-2.log",
+            "log_sha256": "8399144fb43ab8704ad9a97370ddfb887f71a2736c30b1f2ca7f47e59d38989d"
+          }
+        ]
+      }
+    },
+    "lp": {
+      "source": {
+        "median_wall_seconds": 0.011265,
+        "samples": [
+          {
+            "wall_seconds": 0.012735,
+            "solver_seconds": 0.01,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 1294
+          },
+          {
+            "wall_seconds": 0.011265,
+            "solver_seconds": 0.01,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 1294
+          },
+          {
+            "wall_seconds": 0.01114,
+            "solver_seconds": 0.01,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 1294
+          }
+        ]
+      },
+      "compiler": {
+        "median_wall_seconds": 0.009032,
+        "samples": [
+          {
+            "wall_seconds": 0.009854,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 523
+          },
+          {
+            "wall_seconds": 0.009032,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 523
+          },
+          {
+            "wall_seconds": 0.008969,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 523
+          }
+        ]
+      },
+      "nomf": {
+        "median_wall_seconds": 0.007922,
+        "samples": [
+          {
+            "wall_seconds": 0.008849,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 564
+          },
+          {
+            "wall_seconds": 0.007859,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 564
+          },
+          {
+            "wall_seconds": 0.007922,
+            "solver_seconds": 0.0,
+            "status": "Optimal",
+            "primal_objective": 6637.1880269,
+            "dual_bound": 6637.1880269,
+            "simplex_iterations": 564
+          }
+        ]
+      }
+    }
+  },
+  "stable_paths": {
+    "compiler_nodes": [
+      2875,
+      2875,
+      2875
+    ],
+    "nomf_nodes": [
+      1916,
+      1916,
+      1916
+    ],
+    "compiler_lp_iterations": [
+      416566,
+      416566,
+      416566
+    ],
+    "nomf_lp_iterations": [
+      135216,
+      135216,
+      135216
+    ]
+  },
+  "large_opposing_objective_pairs": {
+    "selection": "Every objective term c_x < -100000 with a unique row y-x >= 0 (constant 0, exactly two unit coefficients, no upper side), where y is declared binary [0,1] and c_y >= 100000.",
+    "count": 17,
+    "coefficient_sum_minimum": "55189999/1000000",
+    "coefficient_sum_maximum": "35514999/500000",
+    "interpretation": "c_y*y + c_x*x = (c_y+c_x)*x + c_y*(y-x); opposing large coefficients have a small exact sum. This is a representation property, not proof of solver numerical failure.",
+    "witnesses": [
+      {
+        "row": "__bound_C1492",
+        "continuous": "C0010",
+        "binary": "C2138",
+        "continuous_coefficient": "-999956339999/1000000",
+        "binary_coefficient": "1000025430001/1000000",
+        "coefficient_sum": "34545001/500000"
+      },
+      {
+        "row": "__bound_C1519",
+        "continuous": "C0045",
+        "binary": "C2148",
+        "continuous_coefficient": "-999955000001/1000000",
+        "binary_coefficient": "100001019/100",
+        "coefficient_sum": "55189999/1000000"
+      },
+      {
+        "row": "__bound_C1529",
+        "continuous": "C0065",
+        "binary": "C2158",
+        "continuous_coefficient": "-999962790001/1000000",
+        "binary_coefficient": "5000112/5",
+        "coefficient_sum": "59609999/1000000"
+      },
+      {
+        "row": "__bound_C1585",
+        "continuous": "C0123",
+        "binary": "C2168",
+        "continuous_coefficient": "-999966650001/1000000",
+        "binary_coefficient": "25000583/25",
+        "coefficient_sum": "56669999/1000000"
+      },
+      {
+        "row": "__bound_C1641",
+        "continuous": "C0181",
+        "binary": "C2178",
+        "continuous_coefficient": "-499980035001/500000",
+        "binary_coefficient": "1000021299999/1000000",
+        "coefficient_sum": "61229997/1000000"
+      },
+      {
+        "row": "__bound_C1693",
+        "continuous": "C0235",
+        "binary": "C2188",
+        "continuous_coefficient": "-999958139999/1000000",
+        "binary_coefficient": "50000701/50",
+        "coefficient_sum": "55880001/1000000"
+      },
+      {
+        "row": "__bound_C1703",
+        "continuous": "C0255",
+        "binary": "C2198",
+        "continuous_coefficient": "-19999023/20",
+        "binary_coefficient": "100001017/100",
+        "coefficient_sum": "2951/50"
+      },
+      {
+        "row": "__bound_C1722",
+        "continuous": "C0282",
+        "binary": "C2208",
+        "continuous_coefficient": "-49998053/50",
+        "binary_coefficient": "50001353/50",
+        "coefficient_sum": "66"
+      },
+      {
+        "row": "__bound_C1774",
+        "continuous": "C0336",
+        "binary": "C2218",
+        "continuous_coefficient": "-49997781/50",
+        "binary_coefficient": "25000352/25",
+        "coefficient_sum": "2923/50"
+      },
+      {
+        "row": "__bound_C1825",
+        "continuous": "C0391",
+        "binary": "C2228",
+        "continuous_coefficient": "-99996391/100",
+        "binary_coefficient": "50001003/50",
+        "coefficient_sum": "1123/20"
+      },
+      {
+        "row": "__bound_C1871",
+        "continuous": "C0442",
+        "binary": "C2238",
+        "continuous_coefficient": "-49998081/50",
+        "binary_coefficient": "1000021959999/1000000",
+        "coefficient_sum": "60339999/1000000"
+      },
+      {
+        "row": "__bound_C1890",
+        "continuous": "C0470",
+        "binary": "C2248",
+        "continuous_coefficient": "-999950319999/1000000",
+        "binary_coefficient": "5000051/5",
+        "coefficient_sum": "59880001/1000000"
+      },
+      {
+        "row": "__bound_C1942",
+        "continuous": "C0524",
+        "binary": "C2258",
+        "continuous_coefficient": "-999964940001/1000000",
+        "binary_coefficient": "100002523/100",
+        "coefficient_sum": "60289999/1000000"
+      },
+      {
+        "row": "__bound_C1987",
+        "continuous": "C0573",
+        "binary": "C2268",
+        "continuous_coefficient": "-499977740001/500000",
+        "binary_coefficient": "25000364/25",
+        "coefficient_sum": "29539999/500000"
+      },
+      {
+        "row": "__bound_C2016",
+        "continuous": "C0610",
+        "binary": "C2278",
+        "continuous_coefficient": "-999954510001/1000000",
+        "binary_coefficient": "1000025539999/1000000",
+        "coefficient_sum": "35514999/500000"
+      },
+      {
+        "row": "__bound_C2071",
+        "continuous": "C0667",
+        "binary": "C2288",
+        "continuous_coefficient": "-99996013/100",
+        "binary_coefficient": "1000028799999/1000000",
+        "coefficient_sum": "68669999/1000000"
+      },
+      {
+        "row": "__bound_C2098",
+        "continuous": "C0701",
+        "binary": "C2298",
+        "continuous_coefficient": "-49998057/50",
+        "binary_coefficient": "1000020180001/1000000",
+        "coefficient_sum": "59040001/1000000"
+      }
+    ],
+    "nomf_large_negative_count": 0
+  },
+  "agent_statistics_evidence": {
+    "trace": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015/session.jsonl",
+    "trace_sha256": "944bf6394debc40b79b4f2210030d92e330607d37b8b5bbeec61ed21984aa331",
+    "calls": [
+      {
+        "trace_line": 21,
+        "timestamp": "2026-10-14T17:29:28.427Z",
+        "title": "Loading exact model and summarizing structure",
+        "code_lines": [
+          "print(source.coefficient_stats())"
+        ]
+      },
+      {
+        "trace_line": 51,
+        "timestamp": "2026-10-14T17:33:53.869Z",
+        "title": "Constructing canonicalized and eliminated target",
+        "code_lines": [
+          "print('coeff target',target.coefficient_stats()['objective'])"
+        ]
+      },
+      {
+        "trace_line": 83,
+        "timestamp": "2026-10-14T17:36:43.114Z",
+        "title": "Finalizing receipts and numerical-risk evidence",
+        "code_lines": [
+          "print('target coeff magnitude minmax',target.coefficient_stats()['matrix'])"
+        ]
+      }
+    ],
+    "final_report": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C4-20261015/output/report.md",
+    "final_report_sha256": "2c1e298338f3def7db028273dcfb0258996c28c27f5017721e18bf3cde133cf2",
+    "acknowledged_risk": "The final report explicitly records 17 large negative coefficients, approximately 1.19 million magnitude span, and possible floating-point conditioning effects."
+  },
+  "observed_selection": {
+    "compiler": "Additional equality-defined coordinate elimination and terminal-auxiliary canonicalization beyond the common singleton elimination.",
+    "nomf": "Retains additional coordinates/equalities; report explicitly declines a further elimination representation that would introduce coefficients near -1000000."
+  },
+  "conclusion": {
+    "quality_gap_observed": true,
+    "mip_median_wall_ratio_compiler_to_nomf": 2.0159762090591906,
+    "lp_objectives_match": true,
+    "same_bound_is_not_same_formulation_quality": true,
+    "stable_algorithmic_work_difference": true,
+    "matrix_or_objective_magnitude_range_alone_explains_gap": false,
+    "single_causal_attribution_established": false,
+    "missing_signed_statistics_api": false,
+    "agent_did_not_use_statistics": false
+  },
+  "limitations": [
+    "Three repeats use one fixed seed, one solver, one host; they establish stable work paths under these settings, not general solver superiority.",
+    "Node and LP-iteration differences accompany simultaneous changes in rows, columns, equality structure, objective representation, presolve, cuts, and branching; no controlled ablation isolates one cause.",
+    "Both logs warn about large costs; neither reports repair LPs or a numerical failure. Opposing coefficients are a plausible tradeoff, not established cause of the full time difference.",
+    "Solver-reported Optimal uses the recorded 0.01% gap tolerance. Numerical objective agreement is quality evidence and does not replace correctness proofs."
+  ]
+}

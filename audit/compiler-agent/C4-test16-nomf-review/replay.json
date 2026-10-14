@@ -1,0 +1,40 @@
+{
+  "original_run": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C4-20261015",
+  "fresh_run": "/Users/bhz/Code/reform_test/runs/test16-nomf-proof-repro-C4-20261015",
+  "exit_code": 0,
+  "wall_s": 4.358258042,
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test16-nomf-review/verify.log",
+  "verifier_sha256": "0929d8d2190b08b4289ddced182cd47782e6920cf5b7a403c82fa604861b3ca4",
+  "verification": {
+    "status": "PASS",
+    "input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+    "output_sha256": "cb63c6125dd15c324e27bc1db55cc4486a976e3d97629f1a23c6397b1a8f024e",
+    "witness_counts": {
+      "zero": 24041,
+      "identify": 22484,
+      "bound_redundant": 61
+    },
+    "checked_original_rows": 126512,
+    "checked_emitted_rows": 79835,
+    "checked_original_variables": 228350,
+    "checked_emitted_variables": 178165,
+    "original_integer_variables": 334,
+    "final_integer_variables": 152,
+    "original_constraint_nonzeros": 463941,
+    "final_constraint_nonzeros": 362582,
+    "checks": [
+      "input/output hashes",
+      "independent exact MPS parse",
+      "every ordered proof witness against original rows",
+      "complete variable reconstruction map",
+      "all inherited bounds and integrality",
+      "complete objective identity",
+      "all retained row coefficients, senses, and RHS",
+      "all removed constant and interval-redundant rows",
+      "exact changed-bound and changed-objective audit tables"
+    ],
+    "solver_used": false,
+    "solver_readability_tested": false
+  },
+  "scope_note": "Independent code review of supplied exact ordered zero and equality witnesses is still required; this replay alone is not a Kernel certificate."
+}

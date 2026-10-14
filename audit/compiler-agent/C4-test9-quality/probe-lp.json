@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/probe-lp.options",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/solver-probe.lp"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.008212,
+  "load_average_at_start": [
+    3.5869140625,
+    2.99609375,
+    2.84814453125
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-test9-quality/probe-lp.log",
+  "rows": 1,
+  "variables": 1,
+  "nonzeros": 1,
+  "status": "Optimal",
+  "primal_objective": 0.5,
+  "solver_seconds": 0.0,
+  "dual_bound": 0.5,
+  "optimal": true
+}

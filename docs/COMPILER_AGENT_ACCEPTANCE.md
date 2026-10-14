@@ -43,6 +43,18 @@ success alone cannot pass. Model-order-independent comparisons use exact named
 coefficients and bounds, so a writer that reorders coordinates can still be
 audited. Missing or inconsistent artifacts are failures with concrete reasons.
 
+New harness versions also recognize explicit `composition.ordered_chain=true`
+deliveries. They verify each stage against its own canonical source/target,
+require exact named formulation joins, and anchor only the first and last
+endpoints to the pristine input and committed solver artifact. When
+`composition.claim_paths` is present, every path is independently checked and
+only its selected maps are composed. Restrictions remain stage-local;
+`None` does not imply objective preservation, and individual inverse requests
+do not imply an inverse for the whole chain. The report retains the selected
+claim paths and named observation relations. Legacy manually assembled chains
+without `claim_paths` use an explicitly labeled conservative selection rule.
+The evaluator sources are snapshotted outside the agent workspace before launch.
+
 `assessment.json` records source and target dimensions, integer counts,
 nonzeros, complete request claim descriptors, kernel results, transcript metrics,
 and final feedback. `comparison.json` pairs fresh compiler/nomf measurements and
@@ -111,3 +123,40 @@ counts all of that time. **C3 does not meet the complete acceptance goal.**
 Generic iteration addresses sparse proof construction and avoids forcing agents
 to rewrite the API's valid absolute delivery paths. Fresh subsequent agents
 receive no preserved mathematical recipe or previous solver feedback.
+
+## C4: large proof delivered, ordered-chain limitation isolated
+
+The [C4 summary](../audit/compiler-agent/C4-summary.json) records fresh paired
+runs on test9, test16, and test88 from checkpoint `418bab7`. Test9 and test16
+passed the original independent harness. Test88 delivered three verified RPX
+stages, but the original harness rejected the intermediate first target because
+it expected every piece to connect the original input directly to the final
+artifact. That strict failure remains unchanged. A separate versioned
+[ordered-chain review](../audit/compiler-agent/C4-test88-staged-review-v1/staged-review.json)
+independently verifies all stages, exact named joins, pristine first endpoint,
+and committed last endpoint. It establishes unrestricted MI forward
+NonIncreasing/reverse Equal maps preserving 176 named observations. It derives
+neither a full-model bijection nor a composite LP correspondence. The original
+reviewer and imported comparison source are retained with matching hashes;
+later generic chain-writer improvements are not credited to this run.
+
+All three agents' own construction scripts reproduced their standard models,
+Requests and RPX files byte for byte in fresh workspaces. Test16's previously
+failed large construction now completes: its four MI/LP affine-bijection claims
+certify a target with 143,114 variables and 56,444 rows. Its three-repeat median
+MIP solve is 26.62 seconds versus nomf's 30.16 seconds; all LP objectives match.
+Nomf's 91 additionally removed integer coordinates are zero by real-valid
+homogeneous witnesses, so its smaller integer count does not imply an
+integer-only strengthening. Different MIP incumbents fall within the recorded
+0.01% termination tolerance and are not exact-optimum equality evidence.
+
+Test88's compiler target solves to objective and dual bound 230 in 18.68 seconds;
+fresh nomf reaches 120 seconds with incumbent 230 and dual bound 32.40. All LP
+bounds remain 27, leaving the earlier C2 nomf LP227 opportunity unresolved.
+Test9's matched three-repeat MIP median remains about 2.02 times slower than
+nomf, with equal LP bounds. Full Agent wall ratios are 1.25, 2.29 and 1.95.
+The [phase record](../audit/compiler-agent/C4-phase-diagnostics.json) shows another
+269 seconds after first verification for test16 and 381 seconds for test88,
+mostly model time for audit/report and manual staged delivery. This cannot be
+attributed solely to native compilation. **C4 still does not meet the complete
+quality-and-near-nomf-time acceptance goal.**

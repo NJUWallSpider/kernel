@@ -1,0 +1,9 @@
+{
+  "note": "Exact source bytes corresponding to the original versioned report are preserved. Later generic legacy support is not credited to this report. Copies retain original repository-path assumptions; execute from the original tools layout or restore that layout.",
+  "files": {
+    "verify_staged_agent_delivery.py": "550e5d14049ae86376d2fe3422db5bb3cc5c089ec5741200c7903b18f944726c",
+    "run_compiler_agents.py": "7736eaa4b8a1513d83755c6ef641c95ac8e34aabfcbb48e0b07e83bfbb2081f6",
+    "strict-assessment-original.json": "e0e4d5ee7806fe5700fcc690d905c08aab1cf4798495e7eac74bc035dad036bd"
+  },
+  "all_recorded_source_hashes_match": true
+}

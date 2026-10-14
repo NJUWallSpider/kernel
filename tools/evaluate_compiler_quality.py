@@ -215,12 +215,16 @@ def main():
         print(output / "quality.json")
         return 0
     kernel = args.batch / "kernel/rpx"
+    if digest(kernel) != batch["kernel_sha256"]:
+        raise ValueError("pinned verifier changed after launch")
     for case, runs in run_pairs.items():
         directory = output / case
         directory.mkdir()
         assessments = {arm: json.loads((run / "assessment.json").read_text()) for arm, run in runs.items()}
         variants = {"source": runs["compiler"] / "input/model.mps"}
         for arm, run in runs.items():
+            if digest(run / "input/model.mps") != batch["input_sha256"][case]:
+                raise ValueError("original input changed after trusted launch snapshot")
             assessment = assessments[arm]
             if "model" not in assessment:
                 raise ValueError(f"no independently selected committed artifact for {case} {arm}")
