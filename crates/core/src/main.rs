@@ -7,7 +7,7 @@
 use kernel_core::{api, verify::Limits};
 use std::env;
 
-const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | prepare-extension input.mcm spec.json output.json | prepare-injectivity input.mcm output.mcm spec.json result.json | assemble [--models source.mcm target.mcm] input.rpa-or-rpas output.rpx | disassemble input.rpx output.rpa | disassemble-source [--models source.mcm target.mcm] input.rpx output.rpas | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx request.json (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
+const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | resolve-return input.mcm output.mcm spec.json checks.json | prepare-extension input.mcm spec.json output.json | prepare-injectivity input.mcm output.mcm spec.json result.json | assemble [--models source.mcm target.mcm] input.rpa-or-rpas output.rpx | disassemble input.rpx output.rpa | disassemble-source [--models source.mcm target.mcm] input.rpx output.rpas | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx request.json (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
 
 fn source_args(args: &[String]) -> Result<([&str; 2], Option<[&str; 2]>), String> {
     let mut models = None;
@@ -58,6 +58,7 @@ fn run(args: &[String]) -> Result<serde_json::Value, api::Error> {
         Some("canonical") if args.len() == 4 => api::canonicalize_path(&args[2], &args[3]),
         Some("compile") if args.len() == 4 => api::compile_certificate_paths(&args[2], &args[3]),
         Some("plan-return") if args.len() == 6 => api::plan_return_paths(&args[2], &args[3], &args[4], &args[5]),
+        Some("resolve-return") if args.len() == 6 => api::resolve_return_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("prepare-injectivity") if args.len() == 6 => api::prepare_injectivity_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("prepare-extension") if args.len() == 5 => kernel_core::authoring::prepare_extension_paths(&args[2], &args[3], &args[4]),
         Some("assemble") if args.len() == 4 && !args[2..].iter().any(|arg| arg == "--models") => api::assemble_paths(&args[2], &args[3]),

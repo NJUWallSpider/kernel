@@ -53,3 +53,30 @@ limitation; stronger targets that cannot yet be certified remain visible.
 No solver runs during agent analysis. Optional independent post-run solver
 evaluation belongs after the final commit, outside the agent workspace, with
 matched host/load/settings if runtime comparisons are needed.
+
+## Measured status after C1 and C2
+
+The two batches produced six fresh compiler runs and six fresh matched nomf
+controls across five previously tested cases. All six compiler requests were
+independently **VERIFIED**, with original-input anchoring and exact committed
+artifact comparison. Running each agent's own proof-construction script in a
+separate fresh workspace reproduced its source MCM, target MCM, RPX, request,
+and standard model byte for byte. This establishes delivered proof correctness
+and reproducibility; **the model-quality and near-nomf time goal is not yet met**.
+
+The [C1 summary](../audit/compiler-agent/C1-summary.json) records agent wall
+ratios of 1.35–1.99. Its test9 target has a slightly stronger LP bound but a
+2.10 times slower matched three-run median MIP solve; its test88 target has a
+weaker time-limited dual bound than nomf. The [C2 summary](../audit/compiler-agent/C2-summary.json)
+records improved agent time ratios for test13 (1.27) and test84 (0.96), with
+successful constructive MenuLift and parity proofs. Its remaining concrete
+failure is test88: the compiler target's LP objective is 27 versus nomf's 227;
+nomf solves to its configured MIP tolerance in about 44 seconds while the
+compiler target reaches the 120-second limit. These are post-commit numerical
+quality measurements, separate from the formal equivalence claims.
+
+Iteration continues on generic proof ergonomics and measured quality/time.
+Fresh runs receive no previous case reports, reformulations, certificates,
+discovered cuts, or case-specific solver feedback. Compact summaries retain
+the declared claim scopes, artifact hashes, measurement settings and raw-result links;
+large transcripts remain in their isolated external run directories.

@@ -351,6 +351,19 @@ pub fn plan_return_paths(input: &str, output: &str, plan: &str, obligations: &st
         "json_bytes": text.len(), "total_us": start.elapsed().as_micros()}))
 }
 
+/// Mechanically reuse exact model/local propositions for Return. This is an
+/// authoring convenience; the Kernel independently executes every proof step.
+pub fn resolve_return_paths(input: &str, output: &str, spec: &str, result: &str) -> Result<Value, Error> {
+    let start=Instant::now();
+    let input=codec::decode_model(&read_input(input)?)?;
+    let output=codec::decode_model(&read_input(output)?)?;
+    let resolved=compiler::resolve_return_json(&input,&output,&read_text(spec)?,&Limits::default())?;
+    let text=serde_json::to_vec(&resolved).map_err(|e|Error::from_message(format!("INVALID resolve Return output: {e}")))?;
+    write_output(result,&text)?;
+    Ok(json!({"status":Status::Planned.as_str(),"obligations":resolved.obligations,"missing":resolved.missing.len(),
+        "json_bytes":text.len(),"total_us":start.elapsed().as_micros()}))
+}
+
 /// Prepare the Kernel-owned paired domain and equality goals for an affine
 /// map's injectivity proof. Every goal still requires fresh-scope evidence.
 pub fn prepare_injectivity_paths(input: &str, output: &str, plan: &str, result: &str) -> Result<Value, Error> {

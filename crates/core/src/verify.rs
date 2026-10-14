@@ -547,7 +547,21 @@ pub fn plan_return_obligations(
     inverse:Option<&[Expr]>, inverse_level:Option<&Q>,
     compositions:&[&[Expr]], limits:&Limits,
 )->Result<Vec<ReturnObligation>,String> {
-    plan_return_obligations_context(input,output,claim,map,inverse,inverse_level,compositions,None,limits)
+    let mut obligations=Vec::new();
+    visit_return_obligations(input,output,claim,map,inverse,inverse_level,compositions,limits,|obligation|{
+        obligations.try_reserve(1).map_err(|_|"RESOURCE_LIMIT Return obligation allocation")?;
+        obligations.push(obligation);Ok(())
+    })?;Ok(obligations)
+}
+
+/// Stream authoring propositions without retaining the complete goal array.
+/// The verifier's acceptance path does not call this planning entry point.
+pub fn visit_return_obligations<F>(
+    input:&Model, output:&Model, claim:&Claim, map:&[Expr],
+    inverse:Option<&[Expr]>, inverse_level:Option<&Q>, compositions:&[&[Expr]],
+    limits:&Limits, visitor:F,
+)->Result<(),String> where F:FnMut(ReturnObligation)->Result<(),String> {
+    visit_return_obligations_context(input,output,claim,map,inverse,inverse_level,compositions,None,limits,visitor)
 }
 
 /// Plan ImproveReturn in the same immutable strict-improvement context used by
@@ -557,6 +571,18 @@ pub fn plan_improvement_return_obligations(
     input:&Model, output:&Model, claim:&Claim, map:&[Expr],
     improvement:&ImprovementClaim, margin:&ImprovementMargin, limits:&Limits,
 )->Result<Vec<ReturnObligation>,String> {
+    let mut obligations=Vec::new();
+    visit_improvement_return_obligations(input,output,claim,map,improvement,margin,limits,|obligation|{
+        obligations.try_reserve(1).map_err(|_|"RESOURCE_LIMIT Return obligation allocation")?;
+        obligations.push(obligation);Ok(())
+    })?;Ok(obligations)
+}
+
+/// Streaming counterpart of [`plan_improvement_return_obligations`].
+pub fn visit_improvement_return_obligations<F>(
+    input:&Model, output:&Model, claim:&Claim, map:&[Expr],
+    improvement:&ImprovementClaim, margin:&ImprovementMargin, limits:&Limits, visitor:F,
+)->Result<(),String> where F:FnMut(ReturnObligation)->Result<(),String> {
     let expected=Claim{reverse:false,input_integers:improvement.integers,output_integers:improvement.integers,
         objective:Objective::NonIncreasing,projection:vec![],affine_projection:vec![],inverse:None,
         input_objective_lower:None,input_objective_level:None,input_halfspace:None};
@@ -567,14 +593,14 @@ pub fn plan_improvement_return_obligations(
         return Err("INVALID Return plan improvement model context".into());
     }
     improvement.positive.validate(output.vars.len())?;
-    plan_return_obligations_context(input,output,claim,map,None,None,&[],Some((improvement,margin)),limits)
+    visit_return_obligations_context(input,output,claim,map,None,None,&[],Some((improvement,margin)),limits,visitor)
 }
 
-fn plan_return_obligations_context(
+fn visit_return_obligations_context<F>(
     input:&Model, output:&Model, claim:&Claim, map:&[Expr],
     inverse:Option<&[Expr]>, inverse_level:Option<&Q>, compositions:&[&[Expr]],
-    improvement:Option<(&ImprovementClaim,&ImprovementMargin)>, limits:&Limits,
-)->Result<Vec<ReturnObligation>,String> {
+    improvement:Option<(&ImprovementClaim,&ImprovementMargin)>, limits:&Limits, mut visitor:F,
+)->Result<(),String> where F:FnMut(ReturnObligation)->Result<(),String> {
     input.validate()?;output.validate()?;
     if let Some(lower)=&claim.input_objective_lower{check_q(lower)?;}
     if let Some(level)=&claim.input_objective_level{check_q(level)?;}
@@ -599,18 +625,16 @@ fn plan_return_obligations_context(
     }
     let mut stats=Statistics::default();
     let mut diag=Diagnostics::default();
-    let mut obligations=Vec::new();
+    let mut count=0;
     let mut context=Context{improvement:improvement.map(|(claim,_)|claim),compositions,refutation:false,input,output,claim,inverse,inverse_level,limits,stats:&mut stats,diag:&mut diag};
     let margin=if let Some((claim,margin))=improvement {
         context.charge(claim.positive.terms.len()+1)?;Some(context.improvement_margin(margin)?)
     }else{None};
     context.walk_return(map,margin.as_ref(),|context,kind,expression,origin|{
             expression.validate(input.vars.len())?;context.charge(expression.terms.len()+1)?;
-            if obligations.len()>=crate::codec::MAX_ITEMS{return Err("RESOURCE_LIMIT Return obligation count".into());}
-            obligations.try_reserve(1).map_err(|_|"RESOURCE_LIMIT Return obligation allocation")?;
-            obligations.push(ReturnObligation{kind,expression,origin:origin.owned()});Ok(())
-        })?;
-    Ok(obligations)
+            if count>=crate::codec::MAX_ITEMS{return Err("RESOURCE_LIMIT Return obligation count".into());}
+            count+=1;visitor(ReturnObligation{kind,expression,origin:origin.owned()})
+        })
 }
 
 /// The entire input/output models are validated and used for every proof obligation.

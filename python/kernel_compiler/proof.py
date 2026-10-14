@@ -75,9 +75,15 @@ class Builder:
         self._dropped = set()
         self.end = None
         self._children = None
+        self._revision = 0
         self.layout = parent.layout if parent is not None and model is parent.model else None
         self._layout_kind = parent._layout_kind if parent is not None and model is parent.model else None
         self._layout_handles = {}
+
+    def _set_end(self, end, children=None):
+        self.end, self._children = end, children
+        if hasattr(self, "_completion"):
+            del self._completion
 
     def _remember(self, fact):
         self._lookup.maps[0].setdefault(_key(fact.kind, fact.expression), []).append(fact)
@@ -116,6 +122,7 @@ class Builder:
         step["id"] = ident
         tag = step.pop("_tag")
         self.steps.append({tag: step})
+        self._revision += 1
         fact = Fact(kind, expression, {"Local": ident}, self)
         self._facts[ident] = fact
         self._remember(fact)
@@ -251,6 +258,52 @@ class Builder:
         return self._register("Le", integer.expression + ceiling,
                               {"_tag": "Round", "le": le.reference, "integer": integer.reference})
 
+    def parity_fix(self, variable, equality):
+        """Fix a binary coordinate using one caller-supplied exact parity EQ.
+
+        The selected coefficient must be odd, every other coefficient even,
+        and the constant integral. All coordinates must be declared integral
+        in this scope. The helper elaborates only Lin/Int/Round/EqPair; it does
+        not select rows, combine equations, solve a parity system, or search.
+        """
+        self._visible(equality)
+        index = self.model._index(variable)
+        if not self.integers or not self.model.is_binary(index):
+            raise BuildError("parity_fix requires an integer-mode binary coordinate in [0, 1]")
+        expression = equality.expression
+        selected = expression.terms.get(index, Fraction(0))
+        if (equality.kind != "Eq" or expression.constant.denominator != 1
+                or selected.denominator != 1 or selected.numerator % 2 != 1):
+            raise BuildError("parity_fix needs an EQ with integral constant and odd selected coefficient")
+        for coordinate, coefficient in expression.terms.items():
+            if not self.model.vars[coordinate].integer:
+                raise BuildError("parity_fix requires declared integral coordinates in the equality")
+            if coordinate != index and (coefficient.denominator != 1 or coefficient.numerator % 2):
+                raise BuildError("parity_fix requires every other coefficient to be an even integer")
+        parity = (-expression.constant.numerator) % 2
+        # Equality/2 is zero. Cancel the other integer terms and the even part
+        # of the selected odd coefficient, leaving INT((x-parity)/2).
+        half = Fraction(1, 2)
+        terms = [(equality, half)]
+        for coordinate, coefficient in expression.terms.items():
+            if coordinate != index:
+                terms.append((self.integer(coordinate), -coefficient * half))
+        adjustment = (1 - selected) * half
+        if adjustment:
+            terms.append((self.integer(index), adjustment))
+        x = self.model.var(index)
+        integral_half = self.int(terms, constant=(-parity-expression.constant) * half,
+                                 expect=(x-parity) * half)
+        variable_data = self.model.vars[index]
+        upper_half = self.le([(self.upper(index), half)], constant=(variable_data.upper-1) * half,
+                             expect=(x-1) * half)
+        upper = self.le([(self.round(upper_half, integral_half), 2)], expect=x-parity)
+        negative_half = self.int([(integral_half, -1)], expect=(parity-x) * half)
+        lower_half = self.le([(self.lower(index), half)], constant=-variable_data.lower * half,
+                             expect=-x * half)
+        lower = self.le([(self.round(lower_half, negative_half), 2)], expect=parity-x)
+        return self.eqpair(upper, lower)
+
     def eqpair(self, positive, negative):
         self._visible(positive)
         self._visible(negative)
@@ -295,6 +348,7 @@ class Builder:
                 if not candidates:
                     del self._lookup.maps[0][key]
         self.steps.append({"Drop": {"ids": ids}})
+        self._revision += 1
 
     def absurd(self, fact):
         self._visible(fact)
@@ -368,13 +422,12 @@ class Builder:
             if child.end is None:
                 raise BuildError("Each terminal split branch must return a complete map or close Absurd")
             children.append(child)
-        self.end = {"Split": {"expression": expression.to_json(), "integer": integer.reference if integer else None}}
-        self._children = children
+        self._set_end({"Split": {"expression": expression.to_json(), "integer": integer.reference if integer else None}}, children)
         return children
 
     def close_absurd(self, fact):
         self.absurd(fact)
-        self.end = {"Absurd": {"fact": fact.reference}}
+        self._set_end({"Absurd": {"fact": fact.reference}})
 
     def batch(self, instances, template):
         """Ordinary Python proof templates expand to ordinary checked steps."""
@@ -476,8 +529,7 @@ class Builder:
         child.preparation = prepared
         child.layout = prepared.get("layout")
         child._layout_kind = spec_tag
-        self.end = {end_tag: {end_field: lowered}}
-        self._children = [child]
+        self._set_end({end_tag: {end_field: lowered}}, [child])
         return child
 
     def intervals(self, intervals):

@@ -135,6 +135,53 @@ class ModelTests(unittest.TestCase):
             with self.assertRaises((ValueError, TypeError)):
                 construct()
 
+    def test_model_structure_and_aliases_cannot_be_rebound(self):
+        model = self.source()
+        before = model.to_json()
+        for name, value in (("name", "changed"), ("vars", (Variable("other"),)),
+                            ("variables", (Variable("other"),)), ("rows", ()),
+                            ("objective", Expr(99)), ("var_index", {}),
+                            ("row_index", {}), ("ledger", ())):
+            with self.assertRaises(AttributeError):
+                setattr(model, name, value)
+            with self.assertRaises(AttributeError):
+                delattr(model, name)
+        self.assertIs(model.vars, model.variables)
+        self.assertEqual(model.to_json(), before)
+        self.assertEqual(model.var("y"), Expr.var(1))
+        # Metadata updates needed by Model.load / Proof remain supported.
+        model.kernel = None
+        model.path = Path("/tmp/model-metadata.mcm")
+        model._temporary = None
+        self.assertEqual(model.path, Path("/tmp/model-metadata.mcm"))
+        edited = model.with_bounds("x", upper="1/2")
+        self.assertEqual(edited.vars[0].upper, Fraction(1, 2))
+        self.assertEqual(model.vars[0].upper, 1)
+
+    def test_exact_coefficient_ranges_expose_signs_and_magnitude_span(self):
+        model = Model("ranges", [Variable("x"), Variable("y"), Variable("z")],
+                      [Row("a", Expr(3, {0: "1/2", 1: -4})), Row("b", Expr(0, {2: 2}))],
+                      Expr("-7/3", {0: "1/10", 1: -100}))
+        data = model.coefficient_stats()
+        self.assertEqual(data["objective"]["constant"], "-7/3")
+        objective = data["objective"]["coefficients"]
+        self.assertEqual(objective["positive"], {"count": 1, "minimum": "1/10", "maximum": "1/10"})
+        self.assertEqual(objective["negative"], {"count": 1, "minimum": "-100", "maximum": "-100"})
+        self.assertEqual(objective["magnitude_span"], "1000")
+        self.assertEqual(data["matrix"]["minimum"], "-4")
+        self.assertEqual(data["matrix"]["maximum"], "2")
+        self.assertEqual(data["matrix"]["magnitude_span"], "8")
+        self.assertEqual(data["row_constants"]["zeros"], 1)
+        self.assertEqual(data["row_constants"]["count"], 2)
+        self.assertEqual(data["row_constants"]["magnitude_span"], "1")
+        self.assertEqual(objective["count"], model.stats()["objective_nonzeros"])
+        self.assertEqual(data["matrix"]["count"], model.stats()["nonzeros"])
+        json.dumps(data)
+        empty = Model().coefficient_stats()
+        self.assertEqual(empty["objective"]["coefficients"]["count"], 0)
+        self.assertIsNone(empty["matrix"]["magnitude_span"])
+        self.assertIsNone(empty["row_constants"]["minimum"])
+
     def test_nonterminating_mps_numbers_are_explicit(self):
         model = Model("rational", [Variable("x")], objective=Expr("1/3", {0: "2/7"}))
         with self.assertRaisesRegex(ValueError, "no finite exact decimal"):

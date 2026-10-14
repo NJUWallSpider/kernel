@@ -6,9 +6,11 @@ import hashlib
 import json
 from pathlib import Path
 import tempfile
+import shutil
+import weakref
 from types import SimpleNamespace
 
-from .backend import Kernel
+from .backend import Kernel, KernelError
 from .expr import Expr, exact
 from .model import Model
 from .proof import Builder, BuildError, Fact, wire
@@ -86,9 +88,38 @@ class ClaimBuilder(Builder):
             raise BuildError("Return scope must descend from this directional claim")
         return scope
 
+    @property
+    def contract(self):
+        """The explicit directional claim (also available as .claim)."""
+        return self.claim
+
+    def _completion_state(self, options):
+        scope = options["scope"]
+        chain = []
+        while scope is not None:
+            chain.append((scope, scope._revision))
+            scope = scope.parent
+        inverse = self.claim.get("inverse")
+        opposing = self.session.claims[inverse] if inverse is not None else None
+        compositions = tuple(tuple(self.session.claims[p["claim"]["forward_claim"]].mapping or ())
+                             for p in self.session.bijections if p["claim"]["reverse_claim"] == self.index)
+        supplied = dict(self._assigned)
+        supplied.update(options.get("witnesses") or {})
+        witnesses = tuple(((type(k).__name__, k), f.kind, f.expression, json.dumps(f.reference, sort_keys=True))
+                          if isinstance(f, Fact) else ((type(k).__name__, k), f)
+                          for k, f in sorted(supplied.items(), key=lambda kv: (type(kv[0]).__name__, str(kv[0]))))
+        return (tuple(chain), tuple(options["mapping"]), json.dumps(self.claim, sort_keys=True),
+                tuple(opposing.mapping or ()) if opposing else None,
+                json.dumps(opposing.claim, sort_keys=True) if opposing else None, compositions, witnesses,
+                json.dumps([self.improvement_claim, self.margin], sort_keys=True) if hasattr(self, "improvement_claim") else None,
+                options["auto"])
+
     def map(self, mapping):
         self.mapping = _mapping(self.input, self.output, mapping)
         self._plans.clear()
+        if hasattr(self, "_completion"):
+            owner, options = self._completion
+            options["mapping"] = self.mapping
         return self
 
     def check(self, label, fact):
@@ -142,11 +173,7 @@ class ClaimBuilder(Builder):
                 generated.append(self.eq(terms, expect=goal.expression))
         return generated
 
-    def plan(self, *, scope=None, mapping=None):
-        scope = self._scope(scope)
-        values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
-        if values is None:
-            raise BuildError("Declare the complete output map before planning obligations")
+    def _opposing_maps(self):
         inverse = self.claim.get("inverse")
         inverse_map = None
         inverse_level = None
@@ -165,22 +192,30 @@ class ClaimBuilder(Builder):
                 if forward.mapping is None:
                     raise BuildError("A constructive bijection needs a declared root forward map")
                 compositions.append(forward.mapping)
-        cache_key = (scope.model, tuple(values), None if inverse_map is None else tuple(inverse_map),
-                     tuple(tuple(m) for m in compositions), json.dumps(self.claim, sort_keys=True), inverse_level,
-                     json.dumps([self.improvement_claim, self.margin], sort_keys=True) if hasattr(self, "improvement_claim") else None)
-        if cache_key in self._plans:
-            return self._plans[cache_key]
+        return inverse_map, inverse_level, compositions
+
+    def _plan_spec(self, values):
+        inverse_map, inverse_level, compositions = self._opposing_maps()
         specification = {"claim": self.claim, "map": wire(values),
                          "inverse_map": wire(inverse_map), "inverse_level": inverse_level,
                          "compositions": wire(compositions)}
         if hasattr(self, "improvement_claim"):
             specification["improvement"] = {"claim": self.improvement_claim, "margin": self.margin}
-        with tempfile.TemporaryDirectory(prefix="kernel-plan-") as directory:
-            directory = Path(directory)
-            inp, out = directory / "input.mcm", directory / "output.mcm"
-            scope.model.write_mcm(inp)
-            self.output.write_mcm(out)
-            data = self.session.kernel.json_command("plan-return", [inp, out], specification)
+        return specification
+
+    def plan(self, *, scope=None, mapping=None):
+        scope = self._scope(scope)
+        values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
+        if values is None:
+            raise BuildError("Declare the complete output map before planning obligations")
+        inverse_map, inverse_level, compositions = self._opposing_maps()
+        cache_key = (scope.model, tuple(values), None if inverse_map is None else tuple(inverse_map),
+                     tuple(tuple(m) for m in compositions), json.dumps(self.claim, sort_keys=True), inverse_level,
+                     json.dumps([self.improvement_claim, self.margin], sort_keys=True) if hasattr(self, "improvement_claim") else None)
+        if cache_key in self._plans:
+            return self._plans[cache_key]
+        data = self.session.kernel.json_command("plan-return", [self.session._model_path(scope.model),
+                    self.session._model_path(self.output)], self._plan_spec(values))
         result = [Obligation(i, item["kind"], Expr.from_json(item["expression"]), item["origin"])
                   for i, item in enumerate(data)]
         self._plans[cache_key] = result
@@ -192,11 +227,43 @@ class ClaimBuilder(Builder):
 
     def missing(self, *, scope=None, mapping=None, witnesses=None, auto=True):
         scope = self._scope(scope)
+        values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
+        if values is None:
+            raise BuildError("Declare the complete output map before planning obligations")
+        result = self._resolve(scope, values, witnesses, auto)
+        return [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"]), o["origin"])
+                for o in result["missing"]]
+
+    def _resolve(self, scope, values, witnesses, auto):
         supplied = dict(self._assigned)
         supplied.update(witnesses or {})
-        return [o for o in self.plan(scope=scope, mapping=mapping)
-                if o.label not in supplied and o.index not in supplied
-                and (not auto or scope.find(o.kind, o.expression) is None)]
+        def typed(fact):
+            scope._visible(fact)
+            return {"kind": fact.kind, "expression": fact.expression.to_json(), "reference": fact.reference}
+        facts = []
+        if auto:
+            for fact in scope._facts.values():
+                try:
+                    facts.append(typed(fact))
+                except BuildError:
+                    continue
+            facts.extend(typed(fact) for fact in scope.assumptions)
+        assignments = []
+        for selector, fact in supplied.items():
+            if isinstance(selector, bool) or not isinstance(selector, (int, str)):
+                raise BuildError("An obligation selector must be an index or label")
+            if not isinstance(fact, Fact) and fact != "Exact":
+                raise BuildError(f"{selector}: expected a Fact or Exact terminal witness")
+            assignments.append({"index" if isinstance(selector, int) else "label": selector,
+                                "fact": typed(fact) if isinstance(fact, Fact) else "Exact"})
+        try:
+            return self.session.kernel.json_command("resolve-return", [self.session._model_path(scope.model),
+                self.session._model_path(self.output)], {"plan": self._plan_spec(values), "facts": facts,
+                                                       "assignments": assignments, "auto": auto})
+        except KernelError as error:
+            if error.report.get("status") == "INVALID":
+                raise BuildError(str(error)) from error
+            raise
 
     def complete(self, *, mapping=None, witnesses=None, scope=None, auto=True):
         """Fill mechanical checks from supplied witnesses, tautologies, and exact fact reuse."""
@@ -204,30 +271,10 @@ class ClaimBuilder(Builder):
         values = _mapping(scope.model, self.output, mapping) if mapping is not None else self.mapping
         if values is None:
             raise BuildError("Declare the complete map before complete()")
-        obligations = self.plan(scope=scope, mapping=values)
-        supplied = dict(self._assigned)
-        supplied.update(witnesses or {})
-        valid_keys = {o.label for o in obligations} | {o.index for o in obligations}
-        extra = set(supplied) - valid_keys
-        if extra:
-            raise BuildError(f"Unknown obligation labels: {sorted(map(str, extra))[:10]}")
-        checks, missing = [], []
-        for obligation in obligations:
-            fact = supplied.get(obligation.label, supplied.get(obligation.index))
-            if fact is None and auto:
-                fact = scope.find(obligation.kind, obligation.expression)
-            if fact is None:
-                missing.append(obligation)
-                continue
-            if isinstance(fact, Fact):
-                scope._visible(fact)
-                if fact.expression != obligation.expression or (fact.kind != obligation.kind and fact.kind != "Eq"):
-                    raise BuildError(f"{obligation.label}: supplied fact disagrees with Kernel goal {obligation.kind} {obligation.expression}")
-            elif fact != "Exact":
-                raise BuildError(f"{obligation.label}: expected a Fact or Exact terminal witness")
-            elif scope.find(obligation.kind, obligation.expression) != "Exact":
-                raise BuildError(f"{obligation.label}: Exact cannot discharge this nontrivial goal")
-            checks.append(wire(fact))
+        result = self._resolve(scope, values, witnesses, auto)
+        checks = result["checks"]
+        missing = [Obligation(o["index"], o["kind"], Expr.from_json(o["expression"]), o["origin"])
+                   for o in result["missing"]]
         if missing:
             details = "; ".join(f"{o.label}: {o.kind} {o.expression}" for o in missing[:8])
             raise BuildError(f"{len(missing)} undischarged obligations; {details}")
@@ -235,10 +282,11 @@ class ClaimBuilder(Builder):
             raise BuildError("Affine inverse claims require root Return maps; use bijection/injectivity for constructive lifts")
         if scope is self:
             self.mapping = values
-        scope.end = {"Return": {"map": wire(values), "checks": checks}}
+        scope._set_end({"Return": {"map": wire(values), "checks": checks}})
         if hasattr(self, "improvement_claim"):
             scope.end = {"ImproveReturn": {"map": wire(values), "checks": checks, "margin": self.margin}}
-        scope._completion = (self, {"mapping": values, "witnesses": supplied, "scope": scope, "auto": auto})
+        scope._completion = (self, {"mapping": values, "witnesses": dict(witnesses or {}), "scope": scope, "auto": auto})
+        scope._completed_state = self._completion_state(scope._completion[1])
         return scope
 
     return_ = complete
@@ -293,6 +341,27 @@ class Proof:
         self.improvements = []
         self.bijections = []
         self._improvement_builders = []
+        self._model_cache = {}
+        self._model_directory = None
+        self._model_finalizer = None
+
+    def _model_path(self, model):
+        # Structural Models are immutable. Cache only files owned by this Proof,
+        # never an externally writable source pathname.
+        if model not in self._model_cache:
+            if self._model_directory is None:
+                self._model_directory = Path(tempfile.mkdtemp(prefix="kernel-model-cache-"))
+                self._model_finalizer = weakref.finalize(self, shutil.rmtree, self._model_directory, True)
+            path = self._model_directory / f"model-{len(self._model_cache)}.mcm"
+            model.write_mcm(path)
+            self._model_cache[model] = path
+        return self._model_cache[model]
+
+    def close(self):
+        if self._model_directory is not None:
+            self._model_finalizer()
+            self._model_directory = None
+            self._model_cache.clear()
 
     def claim(self, *, reverse=False, integers=True, input_integers=None, output_integers=None,
               objective="Equal", projection=(), affine_projection=(), inverse=None,
@@ -321,9 +390,24 @@ class Proof:
 
     def bijection(self, forward, reverse, *, integers=True, objective="Equal", projection="retained"):
         """Two complete affine maps with both inverse compositions requested."""
+        if projection != "retained":
+            projection = tuple(projection)
         index = len(self.claims)
         f = self.claim(integers=integers, objective=objective, projection=projection, inverse=index+1, mapping=forward)
-        r = self.claim(reverse=True, integers=integers, objective=objective, projection=projection, inverse=index, mapping=reverse)
+        reversed_projection = [(out, inp) for inp, out in projection] if projection != "retained" else projection
+        r = self.claim(reverse=True, integers=integers, objective=objective,
+                       projection=reversed_projection, inverse=index, mapping=reverse)
+        return f, r
+
+    def correspondence(self, forward, reverse, *, integers=True, projection=(),
+                       forward_objective="NonIncreasing", reverse_objective="Equal"):
+        """Caller-declared total maps; observations and inverse are separate choices."""
+        if projection != "retained":
+            projection = tuple(projection)
+        f = self.claim(integers=integers, objective=forward_objective, projection=projection, mapping=forward)
+        reversed_projection = [(out, inp) for inp, out in projection] if projection != "retained" else projection
+        r = self.claim(reverse=True, integers=integers, objective=reverse_objective,
+                       projection=reversed_projection, mapping=reverse)
         return f, r
 
     def feasible_point(self, values, *, target=False, integers=True, objective=None):
@@ -396,7 +480,8 @@ class Proof:
         def refresh(scope):
             if hasattr(scope, "_completion"):
                 owner, options = scope._completion
-                owner.complete(**options)
+                if scope._completed_state != owner._completion_state(options):
+                    owner.complete(**options)
             for child in scope._children or ():
                 refresh(child)
         for claim in [*self.claims, *self._improvement_builders]:

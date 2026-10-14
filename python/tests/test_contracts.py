@@ -1,11 +1,106 @@
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from kernel_compiler import BuildError, Expr, Model, Proof, Row, Variable, attack, mutate, verify_bundle
 
 
 class ContractTests(unittest.TestCase):
+    def test_bijection_reverses_explicit_renamed_coordinate_pairs(self):
+        source = Model("src", [Variable("x", lower=0, upper=1), Variable("y", lower=0, upper=2)])
+        target = Model("dst", [Variable("b", lower=0, upper=2), Variable("a", lower=0, upper=1)])
+        proof = Proof(source, target)
+        f, r = proof.bijection({"b": source.var("y"), "a": source.var("x")},
+                              {"x": target.var("a"), "y": target.var("b")},
+                              projection=iter([("x", "a"), ("y", "b")]))
+        self.assertEqual(f.claim["projection"], [(0, 1), (1, 0)])
+        self.assertEqual(r.claim["projection"], [(1, 0), (0, 1)])
+        f.complete(); r.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_correspondence_observations_do_not_pin_changed_auxiliaries(self):
+        x, z = Expr.var(0), Expr.var(1)
+        model = Model("src", [Variable("x", integer=True, lower=0, upper=1), Variable("z", lower=0, upper=1)], objective=z)
+        proof = Proof(model, model)
+        f, r = proof.correspondence({"x": x, "z": 0}, "identity", projection=iter([("x", "x")]))
+        self.assertEqual(f.claim["projection"], r.claim["projection"])
+        f.le([(f.lower("z"), 1)])
+        f.complete(); r.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_integerness_of_continuous_expression_can_be_proved_and_rounded(self):
+        x, y = Expr.var(0), Expr.var(1)
+        source = Model("src", [Variable("x", lower=0, upper=1), Variable("y", integer=True, lower=0, upper=1)],
+                       [Row("def", x-y, lower=0, upper=0), Row("cap", x, upper="9/10")])
+        target = source.replace_row("cap", upper=0)
+        proof = Proof(source, target)
+        f, r = proof.bijection("identity", "identity")
+        derived = f.int([(f.row("def"), 1), (f.integer("y"), 1)], expect=x)
+        f.round(f.row("cap"), derived)
+        f.complete()
+        r.le([(r.row("cap"), 1)], constant="-9/10")
+        r.complete()
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_completed_check_cache_and_terminal_replacement(self):
+        model = Model("src", [Variable("x", lower=0, upper=1)])
+        proof = Proof(model, model)
+        claim = proof.claim(mapping="identity")
+        claim.complete()
+        with patch.object(claim, "complete", wraps=claim.complete) as complete:
+            proof.certificate()
+            proof.certificate()
+            self.assertEqual(complete.call_count, 0)
+            claim.le([(claim.lower("x"), 1)])
+            proof.certificate()
+            self.assertEqual(complete.call_count, 1)
+        claim.split(Expr.var(0), integer=None,
+                    left=lambda b, s: claim.complete(scope=b, mapping="identity"),
+                    right=lambda b, s: claim.complete(scope=b, mapping="identity"))
+        certificate = proof.certificate()
+        self.assertIn("Split", certificate["blocks"][0]["end"])
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+        claim.complete()
+        self.assertIsNone(claim._children)
+        self.assertIn("Return", proof.certificate()["blocks"][0]["end"])
+
+    def test_late_map_and_check_updates_are_not_overwritten(self):
+        model = Model("src", [Variable("x", lower=0, upper=1)])
+        proof = Proof(model, model)
+        claim = proof.claim(mapping="identity", objective="None")
+        claim.complete()
+        claim.map({"x": 0})
+        certificate = proof.certificate()
+        self.assertEqual(certificate["blocks"][0]["end"]["Return"]["map"], [Expr(0).to_json()])
+        claim.map("identity")
+        first = claim.le([(claim.lower("x"), 1)])
+        claim.check("variable.lower[x]", first)
+        claim.complete()
+        claim.drop(first)
+        second = claim.le([(claim.lower("x"), 1)])
+        claim.check("variable.lower[x]", second)
+        certificate = proof.certificate()
+        self.assertEqual(certificate["blocks"][0]["end"]["Return"]["checks"][0], second.reference)
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+
+    def test_completed_cache_distinguishes_index_from_label_selectors(self):
+        model = Model("src", [Variable("x", lower=0, upper=1)])
+        proof = Proof(model, model)
+        claim = proof.claim(mapping="identity")
+        fact = claim.lower("x")
+        claim.check(0, fact)
+        claim.complete()
+        del claim._assigned[0]
+        claim.check("0", fact)
+        with self.assertRaises(BuildError):
+            proof.certificate()
+
     def test_explicit_substitution_proof_expands_all_changed_facts(self):
         x, y, z = (Expr.var(i) for i in range(3))
         source = Model("src", [Variable("x", lower=0, upper=1), Variable("y", lower=0, upper=2),

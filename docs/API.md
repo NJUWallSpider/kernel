@@ -19,6 +19,7 @@ JSON. I/O helpers and shared types have the separate return types shown below.
 | `compile_certificate_json(text)` | raw structured Certificate JSON | RPX bytes, no filesystem or RPA assembly |
 | `compile_certificate_paths(input, output)` | raw Certificate JSON file | `COMPILED` + RPX version, byte count and total time |
 | `plan_return_paths(input, output, plan, obligations)` | current oriented MCM scopes + Return plan JSON | `PLANNED` + ordered proposition array written to JSON |
+| `resolve_return_paths(input, output, spec, result)` | Return plan + visible local metadata + explicit assignments | `PLANNED` + compact checks and only unresolved propositions |
 | `prepare_injectivity_paths(input, output, plan, result)` | oriented MCM models + full affine map | `PREPARED` + complete paired model, equality goals and builder statistics |
 | `assemble_paths(input, output)` | frozen JSON RPA or readable RPA-S file | `ASSEMBLED` + byte count and total time |
 | `assemble_paths_with_models(input, output, source, target)` | RPA-S and actual LP/MPS/MCM models | as `assemble_paths` |
@@ -126,6 +127,7 @@ rpx canonical input.mps output.mcm
 rpx canonical input.lp output.mcm
 rpx compile certificate.json proof.rpx
 rpx plan-return input.mcm output.mcm plan.json obligations.json
+rpx resolve-return input.mcm output.mcm spec.json checks.json
 rpx prepare-extension input.mcm spec.json output.json
 rpx prepare-injectivity input.mcm output.mcm spec.json result.json
 rpx assemble input.rpa output.rpx
@@ -183,6 +185,36 @@ row, objective, projection, inverse, objective-domain and bijection composition
 order. It creates no witnesses. When a current input scope comes from an
 unchecked extension builder, every returned premise must still be proved in
 the parent scope before the verifier permits that extension.
+
+`resolve-return` uses the same streaming propositions while returning only
+`{checks, missing, unknown_assignments, obligations}`. It avoids transferring or
+materializing every resolved goal in a Python process. The specification is:
+
+```json
+{"plan": {"claim": {}, "map": []},
+ "facts": [{"kind":"Le", "expression":{"constant":"0","terms":[]},
+            "reference":{"Local":0}}],
+ "assignments": [{"index":0,"fact":"Exact"}], "auto":true}
+```
+
+The abbreviated `plan` must use the complete `ReturnPlan` schema described above.
+Facts supplied for reuse may reference only visible `Local` or `Assumption`
+handles; the Python builder checks scope ownership before calling the resolver.
+Actual source-model facts are indexed natively. An assignment selects exactly
+one obligation by zero-based `index` or Python-compatible `label`, and supplies
+either `{kind, expression, reference}` or the string `"Exact"`. A label is the
+origin kind plus `[name]` (or `[index]`) when present, then `#group` when present.
+Unknown, duplicate and mismatched assignments are rejected. Source-model
+assignment references must agree with their actual model proposition.
+
+With `auto: true` (the default), resolution performs only the existing terminal
+Exact test and exact proposition reuse, allowing an EQ fact where the Kernel
+allows one. It does not scale facts, combine rows, solve linear systems or
+search for proofs. `checks` contains one reference or `null` per obligation;
+`missing` contains each unresolved full proposition with its `index`.
+`unknown_assignments` is empty on success. Caller-supplied local metadata remains
+untrusted: the resolver never executes proof steps, and only the real verifier
+can establish whether a selected reference is valid evidence.
 
 For V10 strict-improvement proofs, the Return plan may include
 `improvement: {claim: {target, integers, positive}, margin: {Constant: "q"}}`

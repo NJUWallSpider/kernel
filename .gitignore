@@ -34,6 +34,10 @@ audit/acceptance.json
 # measurements and artifact hashes under compiler-agent stay reviewable in Git.
 audit/compiler-agent/**/*.model.json
 audit/compiler-agent/**/Highs.log
+# Compiler API performance records bind these large local JSON artifacts by hash.
+audit/compiler-performance/**/delivery/certificate.json
+audit/compiler-performance/**/delivery/request.json
+audit/compiler-performance/**/synthetic.mps
 
 # macOS
 .DS_Store

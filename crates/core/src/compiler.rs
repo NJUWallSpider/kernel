@@ -5,6 +5,9 @@
 use crate::{codec, model::{Expr, Q}, proof::{Certificate, Claim, ImprovementClaim, ImprovementMargin}, verify::{self, Limits}};
 use serde::Deserialize;
 
+mod resolve;
+pub use resolve::{Assignment, AssignmentFact, AuthoringFact, MissingObligation, ResolveReturn, ResolveResult, resolve_return_json, resolve_return};
+
 /// JSON input policy. The codec retains all independent wire limits.
 pub const MAX_JSON_BYTES: usize = crate::api::MAX_INPUT_BYTES as usize;
 
@@ -78,16 +81,28 @@ pub fn plan_return(
     plan: &ReturnPlan,
     limits: &Limits,
 ) -> Result<Vec<verify::ReturnObligation>, String> {
+    let mut obligations=Vec::new();
+    visit_return(input,output,plan,limits,|obligation|{
+        obligations.try_reserve(1).map_err(|_|"RESOURCE_LIMIT Return obligation allocation")?;
+        obligations.push(obligation);Ok(())
+    })?;Ok(obligations)
+}
+
+/// Stream the same Kernel-owned propositions used by [`plan_return`].
+pub fn visit_return<F>(
+    input: &crate::model::Model, output: &crate::model::Model,
+    plan: &ReturnPlan, limits: &Limits, visitor:F,
+) -> Result<(),String> where F:FnMut(verify::ReturnObligation)->Result<(),String> {
     if let Some(improvement) = &plan.improvement {
         if plan.inverse_map.is_some() || plan.inverse_level.is_some() || !plan.compositions.is_empty() {
             return Err("INVALID Return plan improvement context".into());
         }
-        return verify::plan_improvement_return_obligations(input, output, &plan.claim,
-            &plan.map, &improvement.claim, &improvement.margin, limits);
+        return verify::visit_improvement_return_obligations(input, output, &plan.claim,
+            &plan.map, &improvement.claim, &improvement.margin, limits, visitor);
     }
     let compositions: Vec<&[Expr]> = plan.compositions.iter().map(Vec::as_slice).collect();
-    verify::plan_return_obligations(input, output, &plan.claim, &plan.map,
-        plan.inverse_map.as_deref(), plan.inverse_level.as_ref(), &compositions, limits)
+    verify::visit_return_obligations(input, output, &plan.claim, &plan.map,
+        plan.inverse_map.as_deref(), plan.inverse_level.as_ref(), &compositions, limits, visitor)
 }
 
 #[derive(Clone, Debug, Deserialize)]

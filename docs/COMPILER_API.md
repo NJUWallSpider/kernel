@@ -45,6 +45,7 @@ from kernel_compiler import Model, Expr, Proof, Builder, Variable, Row, exact
 
 source = Model.load("input/model.mps")  # Kernel's own exact MPS/LP/MCM reader
 source.stats()                         # variables, rows, nonzeros, integers
+source.coefficient_stats()             # exact signed ranges and magnitude spans
 x = source.var("x")                    # affine coordinate expression
 source.vars[source.var_index["x"]]     # name, integer, lower, upper
 source.row("capacity")                 # Row(name, expr, lower, upper)
@@ -65,6 +66,9 @@ between different models.
 
 Models are edited by returning a new model. These operations record an edit
 ledger, which is authoring metadata; it never substitutes for a correctness proof.
+Structural attributes (including both `vars` / `variables` aliases, indices,
+rows, objective, name, and ledger) are read-only. Use the edit methods below;
+direct reassignment would make coordinate maps and cached proof plans stale.
 
 ```python
 target = source.substitute({"y": 2*source.var("x")}, drop_rows=["definition"])
@@ -92,6 +96,14 @@ MCM supports all exact rationals. Standard MPS export uses exact terminating
 decimals and raises on nonterminating rationals; do not round coefficients.
 `rational_literals=True` is available for Kernel-only MPS readers, not standard
 solver delivery. Row constants are folded into MPS right-hand sides.
+
+`coefficient_stats()` returns objective coefficients/constant, matrix
+coefficients, and row-constant summaries. Each summary includes exact signed
+minimum/maximum values, positive/negative counts and ranges, nonzero magnitude
+minimum/maximum, and `magnitude_span = max(abs(q))/min(abs(nonzero q))`.
+Rational outputs are canonical strings; empty ranges are `None`. This allows
+inspection of the chosen representation's numeric scale without changing the
+model or prescribing a transformation.
 
 ## Contracts, complete maps, and obligations
 
@@ -123,6 +135,23 @@ This requests **both inverse compositions**, not just inclusion. To certify LP
 equivalence too, add another pair with `integers=False`. Integer strengthening
 often needs integer forward/reverse claims and only reverse LP inclusion; do
 not claim full LP equality unless you actually prove it.
+
+For dominance/canonicalization with changed auxiliary fibers, use two total
+maps rather than imposing inverse identities:
+
+```python
+f, r = proof.correspondence(forward_map, reverse_map,
+                           projection=[("core_decision", "core_decision")])
+```
+
+Its explicit defaults are forward NonIncreasing and reverse Equal objective
+relations; you can change either relation. This proves optimal-value and
+feasibility correspondence when both maps are verified. Preserve observations
+that your mathematical theorem actually requires. `projection="retained"`
+requests equality for **every common name**, including auxiliary variables;
+use it when that stronger condition is intended and true. Omitting an auxiliary
+observation never omits its feasibility checks: both maps still cover every
+output variable, bound, integrality requirement, and row.
 
 `claim` also accepts independent `input_integers` / `output_integers`,
 `objective="NonIncreasing"` or `"None"`, `inverse=claim_index`,
@@ -156,6 +185,20 @@ integer expression with integer coefficients over declared integer input vars.
 It does not search for combinations, branches, witnesses, or transformations.
 For a scaled/opposite fact, explicitly use `lin` with the required multiplier.
 
+`missing()` and `complete()` use the Kernel's Return walker and exact fact
+reuse through `resolve-return`. They do not materialize every already-discharged
+goal expression in Python; detailed expressions are returned for missing goals.
+Explicit `.obligations` / `.plan()` still expose the complete goal list when
+you need it. Every completed Return retains its full map and ordered checks,
+and the verifier independently checks every obligation.
+
+The Proof stores an owned immutable MCM snapshot once per Model. Certificate
+creation reuses completed checks while the map, contract, visible fact/drop
+revisions, supplied witnesses, and opposing compositions remain unchanged.
+Changes revalidate the terminal against the current complete contract. These
+caches remove repeated bookkeeping; they do not search for a proof or replace
+Kernel verification.
+
 ## User-authored derivations
 
 Proof builders return `Fact` handles containing the exact expression, kind,
@@ -187,6 +230,28 @@ Linear rules check kinds and signs before emitting: Eq uses only Eq premises;
 Le uses arbitrary Eq multiples and nonnegative Le multiples; Int uses Eq
 premises and integer multiples of Int premises. Round requires identical terms
 in its Le and Int premises. `expect=` detects a residual error at authoring time.
+
+Integer-valued expressions need not be declared integer variables. Prove their
+integerness from your equations and known Int facts, or export an Int conclusion
+from exhaustive cases:
+
+```python
+# Input row 'definition' proves x-y=0; y is integer, x is continuous.
+integer_x = b.int([(b.row("definition"), 1), (b.integer("y"), 1)],
+                  expect=b.model.var("x"))
+# A supplied inequality x <= 9/10 plus this Int fact rounds to x <= 0.
+rounded = b.round(b.row("capacity"), integer_x)
+# Cases also accept kind="Int" and require the SAME expression in both branches.
+```
+
+`b.integer(name)` means a model declaration; `b.int(...)` proves integerness of
+an arbitrary affine expression on the feasible domain. These are different
+sources of Int evidence. No bound rounding or derived integerness is automatic.
+`b.parity_fix(variable, supplied_equality)` elaborates an explicit modular
+certificate: the chosen binary has an odd coefficient, all other coefficients
+are even over integer variables, and the equality constant is integral. It
+uses ordinary Lin/Int/Round/EqPair steps, performs no modular search, and returns
+the proved fixed-value equality.
 
 Local exhaustive cases export a single common proposition:
 

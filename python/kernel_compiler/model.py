@@ -108,6 +108,18 @@ class Model:
     retains the source and records the deletion in ``target.ledger``. Models always
     minimize their objective, matching the canonical kernel representation.
     """
+    _structural_fields = frozenset(("name", "vars", "variables", "rows", "objective", "var_index", "row_index", "ledger"))
+
+    def __setattr__(self, name, value):
+        if name in self._structural_fields and name in self.__dict__:
+            raise AttributeError(f"Model.{name} is immutable; use a model edit method to construct a new model")
+        object.__setattr__(self, name, value)
+
+    def __delattr__(self, name):
+        if name in self._structural_fields:
+            raise AttributeError(f"Model.{name} is immutable")
+        object.__delattr__(self, name)
+
     def __init__(self, name="MODEL", variables=(), rows=(), objective=0, *, vars=None,
                  kernel=None, path=None, ledger=()):
         if vars is not None:
@@ -376,6 +388,48 @@ class Model:
                 "objective_nonzeros": len(self.objective.terms),
                 "equalities": sum(r.equality for r in self.rows),
                 "ranged_rows": sum(r.lower is not None and r.upper is not None and not r.equality for r in self.rows)}
+
+    def coefficient_stats(self):
+        """Exact objective/matrix coefficient and row-constant ranges for inspection.
+
+        Counts are integers; rational values are canonical strings or None for
+        an empty category. Magnitude span is max(abs(nonzero))/min(abs(nonzero)).
+        The result describes the current representation, without solver advice
+        or normalization that changes the caller's formulation.
+        """
+        def summarize(values):
+            count = zeros = positive_count = negative_count = 0
+            minimum = maximum = positive_min = positive_max = negative_min = negative_max = None
+            magnitude_min = magnitude_max = None
+            for value in values:
+                count += 1
+                minimum = value if minimum is None else min(minimum, value)
+                maximum = value if maximum is None else max(maximum, value)
+                if value > 0:
+                    positive_count += 1
+                    positive_min = value if positive_min is None else min(positive_min, value)
+                    positive_max = value if positive_max is None else max(positive_max, value)
+                elif value < 0:
+                    negative_count += 1
+                    negative_min = value if negative_min is None else min(negative_min, value)
+                    negative_max = value if negative_max is None else max(negative_max, value)
+                else:
+                    zeros += 1
+                if value:
+                    magnitude = abs(value)
+                    magnitude_min = magnitude if magnitude_min is None else min(magnitude_min, magnitude)
+                    magnitude_max = magnitude if magnitude_max is None else max(magnitude_max, magnitude)
+            def text(value):
+                return None if value is None else str(value)
+            return {"count": count, "zeros": zeros, "minimum": text(minimum), "maximum": text(maximum),
+                    "positive": {"count": positive_count, "minimum": text(positive_min), "maximum": text(positive_max)},
+                    "negative": {"count": negative_count, "minimum": text(negative_min), "maximum": text(negative_max)},
+                    "magnitude_minimum_nonzero": text(magnitude_min), "magnitude_maximum": text(magnitude_max),
+                    "magnitude_span": text(None if magnitude_min is None else magnitude_max / magnitude_min)}
+        return {"objective": {"constant": str(self.objective.constant),
+                              "coefficients": summarize(self.objective.terms.values())},
+                "matrix": summarize(coefficient for row in self.rows for coefficient in row.expr.terms.values()),
+                "row_constants": summarize(row.expr.constant for row in self.rows)}
 
     def check_point(self, values, *, integers=True):
         """Return exact feasibility violations for a supplied point, without a solver."""
