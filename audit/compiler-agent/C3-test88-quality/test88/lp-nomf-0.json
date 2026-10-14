@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C3-test88-quality/test88/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test88-nomf-compiler-batch-C3-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.015625,
+  "load_average_at_start": [
+    3.3759765625,
+    3.3115234375,
+    3.5771484375
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C3-test88-quality/test88/lp-nomf-0.log",
+  "rows": 2298,
+  "variables": 432,
+  "nonzeros": 7648,
+  "status": "Optimal",
+  "primal_objective": 27.0,
+  "solver_seconds": 0.01,
+  "simplex_iterations": 503,
+  "dual_bound": 27.0,
+  "optimal": true
+}

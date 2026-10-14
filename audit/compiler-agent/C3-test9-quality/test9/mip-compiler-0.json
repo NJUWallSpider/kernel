@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C3-test9-quality/test9/mip.options",
+    "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C3-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 17.757505,
+  "load_average_at_start": [
+    4.42626953125,
+    4.48828125,
+    3.990234375
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C3-test9-quality/test9/mip-compiler-0.log",
+  "rows": 846,
+  "variables": 1382,
+  "nonzeros": 3247,
+  "status": "Optimal",
+  "primal_objective": 6742.20001626,
+  "dual_bound": 6741.5357937,
+  "gap": "0.00985%",
+  "gap_tolerance": "0.01%",
+  "solver_seconds": 17.75,
+  "nodes": 1681,
+  "optimal": true
+}

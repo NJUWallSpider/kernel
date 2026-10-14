@@ -1,0 +1,61 @@
+{
+  "schema": "kernel-supplied-proof-performance-rescue-1",
+  "case": "test16",
+  "diagnostic_only": true,
+  "autonomous_agent_acceptance": false,
+  "recipe": "Provided C3 first exact stage source -> modelA; four unchanged MI/LP equal affine bijection claims",
+  "workdir": "/Users/bhz/Code/reform_test/runs/test16-supplied-C3-exact-stage-sparse-rescue-20261015",
+  "source": {
+    "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C3-20261015/input/model.mps",
+    "sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4"
+  },
+  "kernel": {
+    "path": "/Users/bhz/Code/reform_test/runs/test16-supplied-C3-exact-stage-sparse-rescue-20261015/compiler/bin/rpx",
+    "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+  },
+  "package": {
+    "__init__.py": "0ce254a673d21d94cb60b6e5c8cdf006931f659722a65a38cd8eb1632e62aac5",
+    "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+    "model.py": "fb727910660f060ecefacfdd4843ce556abe93bd05492b561bde397fa4ec042b",
+    "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "proof.py": "c9fe2d1629509dcd518db23869bd633f1b83bbcec03092e8b195f3182be882ee",
+    "session.py": "14d48fa8f2aa623ee9a98e7638200e42e6e190942de640a6c80ab45f793dbdec"
+  },
+  "script_sha256": "4fdda365c272abc82e20e6993bee7698d6f5a224174f2ad2761b07bb29dcfd85",
+  "archives": {
+    "reconstruct-prefix.py": "5e185cc84cd8406ce547aa5a92fded5de5fa600390dfd8f52a3a792d2dcdd5b5",
+    "trajectory-python-cells.json": "3436f70f9fbdada4c2e459ba652e76b61a46e60b7718fd32281431cb5ce3f6a4",
+    "failed-cell.py": "dfcd031de0f5e3d91e8953c31cf83882c3b679e1d751561f64ca916d1839b6a8"
+  },
+  "python": {
+    "executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]"
+  },
+  "guard": {
+    "wall_seconds": 1500,
+    "sampled_process_tree_rss_bytes": 8589934592,
+    "sample_interval_seconds": 1,
+    "memory_note": "ps RSS summed over live worker/native descendants; shared pages may be counted twice; a sampled bound is not an OS memory limit"
+  },
+  "cache_condition": "Fresh process and workspace, warm filesystem; concurrent fresh Agent runs may contend",
+  "status": "FAILED_SUPPLIED_PROOF_DIAGNOSTIC",
+  "phases": [],
+  "events": [],
+  "native_calls": [],
+  "started_utc": "2026-10-14T16:52:28.617217+00:00",
+  "error": "event() got multiple values for argument 'name'",
+  "traceback": "Traceback (most recent call last):\n  File \"/Users/bhz/Code/kernel/audit/compiler-performance/C3-test16-sparse-rescue/rescue.py\", line 142, in worker\n    namespace = phase(\"reconstruct_supplied_prefix\", lambda: module.reconstruct(workdir))\n  File \"/Users/bhz/Code/kernel/audit/compiler-performance/C3-test16-sparse-rescue/rescue.py\", line 106, in phase\n    event(\"phase_start\", name=name)\nTypeError: event() got multiple values for argument 'name'\n",
+  "worker_wall_seconds": 0.023156082999999997,
+  "memory_high_water": {
+    "python_max_rss_bytes": 22167552,
+    "native_child_max_rss_bytes": 0
+  },
+  "supervisor": {
+    "exit_code": 1,
+    "total_wall_seconds": 1.076165833,
+    "sampled_process_tree_peak_rss_bytes": 2310144,
+    "guard_stopped": null,
+    "worker_log": "/Users/bhz/Code/kernel/audit/compiler-performance/C3-test16-sparse-rescue/worker.log"
+  }
+}

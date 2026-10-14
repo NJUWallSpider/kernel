@@ -1,0 +1,187 @@
+{
+  "review": "Historical batches lacked an outside-workspace batch source-hash catalog. Rechecked each current input against the pristine corpus, original recorded workspace manifest, and recorded assessment. Agreement is actual evidence; it does not retroactively introduce an immutable launch catalog. New runs retain trusted expected hashes in process memory and outside the workspace before launch.",
+  "all_match": true,
+  "runs_checked": 18,
+  "records": [
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test9",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "workspace_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "launch_workspace_manifest_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "recorded_assessment_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test9",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "workspace_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "launch_workspace_manifest_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "recorded_assessment_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test86",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "workspace_input_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "launch_workspace_manifest_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "recorded_assessment_input_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test86",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "workspace_input_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "launch_workspace_manifest_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "recorded_assessment_input_sha256": "fa399a80969240b096f9c47c2cd275bc59fd7f82949c395ecfd3f308ea41e0ab",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test88",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C1-20261014",
+      "case": "test88",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test13",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "workspace_input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "launch_workspace_manifest_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "recorded_assessment_input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test13",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "workspace_input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "launch_workspace_manifest_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "recorded_assessment_input_sha256": "f7379fe78d241912e3fac6f8897ef682e977287f515e033a1b7b0a8c8aed726d",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test84",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "workspace_input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "launch_workspace_manifest_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "recorded_assessment_input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test84",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "workspace_input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "launch_workspace_manifest_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "recorded_assessment_input_sha256": "32dcf1272d521feee3fe143492e1b8f7331e3cff72e6649a0a890265cdc55d78",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test88",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C2-20261014",
+      "case": "test88",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test9",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "workspace_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "launch_workspace_manifest_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "recorded_assessment_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test9",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "workspace_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "launch_workspace_manifest_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "recorded_assessment_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test16",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "workspace_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "launch_workspace_manifest_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "recorded_assessment_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test16",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "workspace_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "launch_workspace_manifest_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "recorded_assessment_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test88",
+      "arm": "compiler",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    },
+    {
+      "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C3-20261015",
+      "case": "test88",
+      "arm": "nomf",
+      "pristine_corpus_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "workspace_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "launch_workspace_manifest_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "recorded_assessment_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "all_match": true
+    }
+  ]
+}
