@@ -77,6 +77,8 @@ direct reassignment would make coordinate maps and cached proof plans stale.
 target = source.substitute({"y": 2*source.var("x")}, drop_rows=["definition"])
 target = target.delete_rows(["redundant"])
 target = target.add_row("new_cut", target.var("x") + target.var("z"), upper=1)
+target = target.add_variable("slack", integer=False, lower=0, upper=None,
+                             reason="caller-selected auxiliary coordinate")
 target = target.replace_row("gate", expr=target.var("x")-target.var("a"), upper=0)
 target = target.with_bounds("x", lower=0, upper=1)
 target = target.with_integrality(["x"], False)
@@ -91,6 +93,9 @@ iterable over `Edit` objects with `.kind`, `.subject`, `.before`, `.after`,
 and `.reason`. Their `to_json()` returns a **list** of edit dictionaries,
 not a mapping with `.keys()` / `.items()`. The ledger records the edit history;
 `diff` compares the two complete named formulations.
+`add_variable(name, *, integer=False, lower=0, upper=None, reason=None)` appends
+one coordinate and returns a new Model. Use `target.var("slack")` to reference
+the appended coordinate; supply its map and proof obligations explicitly.
 
 Substitutions are simultaneous in the original source coordinates. Elimination
 renumbers all retained coordinates and rewrites rows and objective. Finite
@@ -366,12 +371,42 @@ z = scope.interval(0).variable
 reverse.complete(scope=scope, mapping={"x": scope.model.var("x"), "y": z})
 ```
 
+For each interval with `p` lower and `q` upper expressions, supply exactly
+`p*q` checks. Check `i*q+j` proves `Le(lower[i]-upper[j])`, in lower-major,
+upper-minor order. For two of each, the order is `(lower[0],upper[0])`,
+`(lower[0],upper[1])`, `(lower[1],upper[0])`, `(lower[1],upper[1])`.
+Retain duplicates and zero propositions; an empty bound side needs no checks.
+The generated variable is continuous, with its bounds expressed by the returned
+rows. The lift does not grant integrality.
+
 Other calls are `.menus(list_of_MenuWitness)`, `.signed(list_of_SignedWitness)`,
 `.flow(FlowWitness)`, `.subflow(SubflowWitness)`. Witnesses use the frozen
 fields documented in `compiler/FORMAT.md` (repository `docs/FORMAT.md`):
 menu `{maximum_index,activation,index,checks}`, signed
 `{capacity,flow,activation,checks}`, flow/subflow `{nodes,arcs,groups}`.
 Expressions and checks may be Python Expr/Fact handles; lowering is automatic.
+Menu and Signed lifts require enabled integer **input** mode. For a menu with
+`K=maximum_index`, `A=activation`, and `I=index`, the six checks, in order, prove:
+
+1. `Le(-A)`
+2. `Le(A-1)`
+3. `Int(A)`
+4. `Le(-I)`
+5. `Le(I-K*A)`
+6. `Int(I)`
+
+For a signed decomposition with nonnegative exact `C=capacity`, `F=flow`, and
+`Z=activation`, the five checks, in order, prove:
+
+1. `Le(-Z)`
+2. `Le(Z-1)`
+3. `Int(Z)`
+4. `Le(F-C*Z)`
+5. `Le(-F-C*Z)`
+
+The Int checks may be explicitly derived facts; the expressions need not be
+declared integer coordinates. Use `"Exact"` only when its narrow tautology or
+declared-integrality rule proves the required expression.
 Per-instance handles use the native preparation layout, so you do not calculate
 coordinate or row offsets. Instance indices follow your supplied witness order:
 
@@ -407,7 +442,9 @@ existing separate injectivity witness and composition obligations.
 paired = proof.injectivity(forward)    # fresh Kernel-created paired domain
 paired.goals                          # one input-coordinate equality each
 # Supply derivations in paired.model using paired.row(...), paired.lin, cases, etc.
-paired.complete(witnesses={0: coordinate_equality, ...})
+# your_coordinate_equalities contains one proved Eq Fact per paired goal.
+paired.complete(witnesses={i: your_coordinate_equalities[i]
+                          for i in range(len(paired.goals))})
 proof.add_bijection(forward.index, reverse.index, paired)
 ```
 
@@ -496,6 +533,66 @@ manifest paths passed to `verify_bundle` are relative to that manifest's directo
 reports JSON size/depth and counts; actual Kernel work/live facts appear in
 verification. `verify_bundle(manifest)` verifies every declared piece.
 It also checks recorded artifact hashes and any declared committed model.
+
+For successive reformulations, bind the already-written stage manifests explicitly:
+
+```python
+from kernel_compiler import write_chain, verify_bundle
+
+manifest = write_chain(
+    ["stage0/delivery.json", "stage1/delivery.json", "stage2/delivery.json"],
+    "output/chain.json",
+    original_model="original.mps",       # optional first-source anchor
+    committed_model="output/reformulated.mps",
+    claim_paths={"mi_forward": [0, 0, 0], "mi_reverse": [1, 1, 1]},
+)
+result = verify_bundle(manifest)
+```
+
+Each stage manifest contains one piece. `write_chain` records absolute artifact
+paths and every stage's source/target/RPX/Request SHA-256, including the stage
+manifest itself; it does not copy the large files or verify their proofs.
+Every stage's four proof-input hashes and the committed artifact hash are
+mandatory for verification; an original anchor also requires its hash when
+declared. Stage-manifest and other extra records are checked when present.
+Retain those records to preserve the writer's provenance: an unsigned hand-written
+manifest with complete proof-input hashes establishes the submitted theorem,
+without certifying that its metadata was inherited unchanged from an earlier author.
+`verify_bundle` checks these hashes, verifies each stage with its own actual
+coordinates, compares adjacent complete named formulations, and checks the last
+target against the committed artifact. An optional original artifact is matched
+only to the first source. Model NAME, coordinate/row order and folded row constants
+may differ across exact joins; coefficients, names, domains and objectives must
+match. Models are read and released one stage at a time.
+The returned `artifacts` preserves all manifest records.
+`artifact_audit.status == "MATCHED"` binds only the last complete proof target
+to the committed artifact with their hashes. This serialization audit can match
+even when a stage proof is invalid and the overall status is `INCOMPLETE`;
+inspect `parts` and `composition` separately.
+
+`claim_paths` labels are arbitrary. Each index array follows the original stage
+order, including a reverse path; execution and observation composition reverse
+that order for reverse claims. Every selected path must use one direction and
+match its output/input integer modes exactly at each handoff. Invalid indices,
+mixed directions or incompatible domains fail explicitly. Without paths, the
+report verifies stages/joins and sets `composition.final_relation_derived=false`.
+`composition.ordered_chain=true` is required; existing parallel bundles keep
+their original semantics.
+
+The report composes only the selected claims' coordinate observations, by name,
+and never merges observations from different maps. It retains `Equal` only when
+every objective is `Equal`, retains `NonIncreasing` when all objectives compare
+and at least one is `NonIncreasing`, and retains `None` when any selected claim
+has no objective comparison. Compatible forward/reverse paths can report
+feasibility correspondence and equal optimal infima with conditional attainment
+transfer when both objective comparisons exist. Common observations are the
+intersection with the transposed completed reverse relation. Level/halfspace
+restrictions stay verified locally with `composable=false`; a proved
+`input_objective_lower` is recorded without restricting the domain. Affine
+observations, inverse identities, full-model bijections, points and improvements
+are not automatically inherited by the final model. A VERIFIED stage chain
+therefore need not assert an unrestricted final relation.
+
 `attack(proof, "output/attack", path_to_site, replacement=..., delete=False)`
 mutates only the selected certificate containers while keeping the Request fixed;
 it returns the native rejection and whether it matched the expected status.

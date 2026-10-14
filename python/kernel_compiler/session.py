@@ -585,6 +585,9 @@ def verify_bundle(manifest, *, kernel=None):
     kernel = kernel or Kernel()
     path = Path(manifest).resolve()
     document = json.loads(path.read_text())
+    if isinstance(document.get("composition"), dict) and document["composition"].get("ordered_chain") is True:
+        from .bundle import verify_ordered_chain
+        return verify_ordered_chain(document, path, kernel=kernel)
     reports = []
     for name, record in document.get("artifacts", {}).items():
         artifact = (path.parent / record["path"]).resolve()
