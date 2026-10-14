@@ -24,6 +24,24 @@ def _digest(path):
     return digest.hexdigest()
 
 
+def _model_reader_family(path):
+    """Match Model.load's dispatch, including its JSON-before-magic rule."""
+    path = Path(path).resolve()
+    if path.suffix.lower() == ".json":
+        return "python_canonical_json"
+    with path.open("rb") as stream:
+        if stream.read(4) == b"MCM\0":
+            return "kernel_mcm"
+    # Native canonicalize_path uses case-insensitive ASCII LP suffix matching.
+    return "kernel_lp" if path.suffix.lower() == ".lp" else "kernel_mps"
+
+
+def _artifact_binding_method(reader):
+    if reader == "python_canonical_json":
+        return "Python canonical JSON readback and exact named formulation comparison"
+    return "Kernel standard-format readback and exact named formulation comparison"
+
+
 def _atomic_write(path, writer):
     """Replace an owned output node without writing through existing links."""
     path = Path(path)
@@ -571,7 +589,7 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
         manifest["artifacts"]["committed_model"] = {"path": str(committed_model), "sha256": _digest(committed_model)}
         manifest["artifact_binding"] = {
             "status": "MATCHED",
-            "method": "Kernel standard-format readback and exact named formulation comparison",
+            "method": _artifact_binding_method(_model_reader_family(committed_model)),
             "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
             "committed_model": manifest["artifacts"]["committed_model"],
             "proof_target": manifest["artifacts"]["target"],

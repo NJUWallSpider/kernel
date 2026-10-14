@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from kernel_compiler import BuildError, Expr, Model, Proof, Variable, verify_bundle, write_chain
+from kernel_compiler import BuildError, Expr, Kernel, Model, Proof, Variable, verify_bundle, write_chain
 
 
 def digest(path):
@@ -86,6 +86,35 @@ class ChainBundleTests(unittest.TestCase):
         mutate(document)
         Path(path).write_text(json.dumps(document))
 
+    def reader_fixture(self, directory):
+        directory = Path(directory)
+        model = self.model('same', ['x', 'y'])
+        stages = []
+        for index in range(2):
+            proof = Proof(model, model)
+            proof.claim(integers=False, mapping='identity', projection='retained').complete()
+            proof.compile(directory/f'stage{index}')
+            stages.append(directory/f'stage{index}/delivery.json')
+        committed = directory/'committed.mps'
+        model.write_mps(committed)
+        return model, stages, committed
+
+    def rebind_stage_role(self, manifest, role, path):
+        def update(document):
+            document['pieces'][0][role] = str(path)
+            document['artifacts'][role] = {'path': str(path), 'sha256': digest(path)}
+        self.change(manifest, update)
+
+    def rebind_top_from_stages(self, chain, stages):
+        def update(document):
+            for index, manifest in enumerate(stages):
+                stage = json.loads(manifest.read_text())
+                document['pieces'][index] = stage['pieces'][0]
+                for role in ('source', 'target', 'proof', 'request'):
+                    document['artifacts'][f'stages.{index}.{role}'] = stage['artifacts'][role]
+                document['artifacts'][f'stages.{index}.manifest'] = {'path': str(manifest), 'sha256': digest(manifest)}
+        self.change(chain, update)
+
     def test_real_three_stage_composition_reordered_coordinates_and_global_lower(self):
         with tempfile.TemporaryDirectory() as directory:
             chain, _, _, _ = self.chain(directory)
@@ -120,6 +149,102 @@ class ChainBundleTests(unittest.TestCase):
             self.assertEqual(result['status'], 'VERIFIED', result)
             self.assertFalse(result['composition']['final_relation_derived'])
             self.assertEqual(result['composition']['paths'], [])
+
+    def test_same_mps_bytes_with_lp_suffix_cannot_reuse_a_different_reader(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            model, stages, committed = self.reader_fixture(directory)
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
+                                claim_paths={'forward': [0, 0]})
+            target = directory/'intermediate.mps'; model.write_mps(target)
+            source = directory/'mislabelled.LP'; source.write_bytes(target.read_bytes())
+            self.assertEqual(digest(target), digest(source))
+            independent = Kernel().call('canonical', source, directory/'bad.mcm', check=False)
+            self.assertEqual(independent['status'], 'INVALID', independent)
+            self.rebind_stage_role(stages[0], 'target', target)
+            self.rebind_stage_role(stages[1], 'source', source)
+            with self.assertRaises(BuildError):
+                write_chain(stages, directory/'cannot-publish.json', committed_model=committed,
+                            claim_paths={'forward': [0, 0]})
+            self.rebind_top_from_stages(chain, stages)
+            result = verify_bundle(chain)
+            self.assertEqual(result['status'], 'INCOMPLETE', result)
+            self.assertFalse(result['composition']['final_relation_derived'])
+            self.assertNotIn('artifact_audit', result)
+
+    def test_mcm_magic_reuse_accepts_arbitrary_nonjson_suffixes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            _, stages, committed = self.reader_fixture(directory)
+            mcm = Path(json.loads(stages[0].read_text())['pieces'][0]['target']).read_bytes()
+            target, source = directory/'intermediate.LP', directory/'next.bin'
+            target.write_bytes(mcm); source.write_bytes(mcm)
+            self.rebind_stage_role(stages[0], 'target', target)
+            self.rebind_stage_role(stages[1], 'source', source)
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
+                                claim_paths={'forward': [0, 0]})
+            result = verify_bundle(chain)
+            self.assertEqual(result['status'], 'VERIFIED', result)
+            self.assertTrue(result['composition']['final_relation_derived'])
+
+    def test_same_reader_reuse_preserves_lp_case_and_mps_fallback_dispatch(self):
+        for reader in ('lp', 'mps'):
+            with self.subTest(reader=reader), tempfile.TemporaryDirectory() as directory:
+                directory = Path(directory)
+                model, stages, committed = self.reader_fixture(directory)
+                if reader == 'lp':
+                    target, source = directory/'intermediate.lp', directory/'next.LP'
+                    target.write_text('Minimize\n obj: x + y\nSubject To\nBounds\n 0 <= x <= 1\n 0 <= y <= 1\nGeneral\n x y\nEnd\n')
+                else:
+                    target, source = directory/'intermediate.text', directory/'next.data'
+                    model.write_mps(target)
+                source.write_bytes(target.read_bytes())
+                self.rebind_stage_role(stages[0], 'target', target)
+                self.rebind_stage_role(stages[1], 'source', source)
+                chain = write_chain(stages, directory/'chain.json', committed_model=committed,
+                                    claim_paths={'forward': [0, 0]})
+                result = verify_bundle(chain)
+                self.assertEqual(result['status'], 'VERIFIED', result)
+                self.assertTrue(result['composition']['final_relation_derived'])
+
+    def test_mcm_bytes_json_suffix_cannot_skip_model_json_dispatch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            _, stages, committed = self.reader_fixture(directory)
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
+                                claim_paths={'forward': [0, 0]})
+            source = directory/'source.JSON'
+            source.write_bytes(Path(json.loads(stages[0].read_text())['pieces'][0]['target']).read_bytes())
+            with self.assertRaises(ValueError):
+                Model.load(source)
+            self.rebind_stage_role(stages[1], 'source', source)
+            with self.assertRaises(BuildError):
+                write_chain(stages, directory/'cannot-publish.json', committed_model=committed)
+            self.rebind_top_from_stages(chain, stages)
+            result = verify_bundle(chain)
+            self.assertEqual(result['status'], 'INCOMPLETE', result)
+            self.assertFalse(result['composition']['final_relation_derived'])
+
+    def test_json_anchor_and_committed_readers_are_preserved_and_labeled_accurately(self):
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            model, stages, committed = self.reader_fixture(directory)
+            original_json, committed_json = directory/'original.JSON', directory/'final.json'
+            model.write_json(original_json); model.write_json(committed_json)
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed_json,
+                                original_model=original_json, claim_paths={'forward': [0, 0]})
+            result = verify_bundle(chain)
+            self.assertEqual(result['status'], 'VERIFIED', result)
+            self.assertEqual(result['artifact_audit']['method'], 'Python canonical JSON readback and exact named formulation comparison')
+            self.assertEqual(result['artifact_audit']['committed_reader'], 'python_canonical_json')
+            self.assertEqual(result['artifact_audit']['proof_target_reader'], 'kernel_mcm')
+            self.assertEqual(result['composition']['original_anchor_reader'], 'python_canonical_json')
+            # An original JSON anchor does not change the committed MPS audit.
+            standard = write_chain(stages, directory/'standard.json', committed_model=committed,
+                                   original_model=original_json)
+            result = verify_bundle(standard)
+            self.assertEqual(result['artifact_audit']['method'], 'Kernel standard-format readback and exact named formulation comparison')
+            self.assertEqual(result['composition']['original_anchor_reader'], 'python_canonical_json')
 
     def test_none_objective_stays_none_and_does_not_infer_equal_optima(self):
         with tempfile.TemporaryDirectory() as directory:

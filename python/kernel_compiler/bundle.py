@@ -170,6 +170,7 @@ def _compose_paths(stages, paths):
 
 
 def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
+    from .session import _artifact_binding_method, _model_reader_family
     if not isinstance(document, dict):
         raise BuildError("Invalid ordered chain manifest container")
     pieces = document.get("pieces")
@@ -193,6 +194,8 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
         resolved.append(paths)
     original = _file(document["original_model"], manifest.parent) if document.get("original_model") else None
     committed = _file(document.get("committed_model"), manifest.parent)
+    original_reader = _model_reader_family(original) if original is not None else None
+    committed_reader = _model_reader_family(committed)
     _check_hash(records.get("committed_model"), manifest.parent, expected=committed, cache=digest_cache)
     if original:
         _check_hash(records.get("original_model"), manifest.parent, expected=original, cache=digest_cache)
@@ -203,9 +206,12 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
         for index, paths in enumerate(resolved):
             source = target = None
             try:
-                # Identical serialized bytes have identical coordinates and
-                # semantics; reuse the previous target without another model.
-                if previous is not None and records[f"stages.{index-1}.target"]["sha256"] == records[f"stages.{index}.source"]["sha256"]:
+                # Bytes identify a model only under the same reader. MPS bytes
+                # renamed .lp and MCM bytes renamed .json must still be read by
+                # their declared reader, even at an identical-byte boundary.
+                if (previous is not None
+                        and records[f"stages.{index-1}.target"]["sha256"] == records[f"stages.{index}.source"]["sha256"]
+                        and _model_reader_family(resolved[index-1]["target"]) == _model_reader_family(paths["source"])):
                     source, previous = previous, None
                 else:
                     source = Model.load(paths["source"], kernel=kernel)
@@ -252,12 +258,15 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
                 "parts": reports, "verification_scope": "Every ordered stage Request and exact named model join",
                 "artifacts": records,
                 "artifact_audit": {"status": "MATCHED",
-                    "method": "Kernel standard-format readback and exact named formulation comparison",
+                    "method": _artifact_binding_method(committed_reader),
                     "scope": "Only the final complete proof target and committed artifact; every named variable, bound, integrality declaration, row, and objective agrees; model NAME, coordinate/row order and folded row constants may differ",
                     "committed_model": records["committed_model"],
-                    "proof_target": records[f"stages.{len(pieces)-1}.target"]},
+                    "proof_target": records[f"stages.{len(pieces)-1}.target"],
+                    "committed_reader": committed_reader,
+                    "proof_target_reader": _model_reader_family(resolved[-1]["target"])},
                 "composition": {"ordered_chain": True, "joins": joins,
-                    "original_anchor_checked": original is not None, "final_target_artifact_match": True,
+                    "original_anchor_checked": original is not None, "original_anchor_reader": original_reader,
+                    "final_target_artifact_match": True,
                     "paths": summaries if all(r.get("status") == "VERIFIED" for r in reports) else [],
                     "bidirectional": bidirectional if all(r.get("status") == "VERIFIED" for r in reports) else [],
                     "final_relation_derived": verify and all(r.get("status") == "VERIFIED" for r in reports)

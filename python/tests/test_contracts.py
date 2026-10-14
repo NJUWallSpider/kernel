@@ -220,6 +220,19 @@ class ContractTests(unittest.TestCase):
             saved = json.loads((directory / "good/verification.json").read_text())
             self.assertEqual(saved["artifact_audit"], result["artifact_audit"])
             self.assertEqual(verify_bundle(directory / "good/delivery.json")["status"], "VERIFIED")
+
+    def test_committed_canonical_json_audit_uses_python_reader_label(self):
+        model = Model("src", [Variable("x", lower=0, upper=1)])
+        proof = Proof(model, model)
+        proof.claim(mapping="identity").complete()
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            committed = directory / "committed.JSON"
+            model.write_json(committed)
+            result = proof.verify(directory / "proof", committed_model=committed)
+            self.assertEqual(result["status"], "VERIFIED", result)
+            self.assertEqual(result["artifact_audit"]["status"], "MATCHED")
+            self.assertEqual(result["artifact_audit"]["method"], "Python canonical JSON readback and exact named formulation comparison")
     def test_scope_cannot_be_borrowed_from_another_claim(self):
         model = Model("src", [Variable("x", lower=0, upper=1)])
         proof = Proof(model, model)

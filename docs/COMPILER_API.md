@@ -518,8 +518,10 @@ the previous RPX file. After a failed attempt, use `verify_bundle` to check the
 current artifacts against the manifest; an earlier verification receipt describes
 its recorded hashes. A committed solver artifact must have a separate path
 and inode from the reserved generated outputs.
-When supplied, `committed_model` is read through the Kernel and compared exactly
-with the proof target (allowing coordinate/row order and folded row constants).
+When supplied, `committed_model` is read back and compared exactly with the proof
+target (allowing coordinate/row order and folded row constants). MCM/MPS/LP use
+the Kernel reader. Canonical model JSON uses the Python exact model reader;
+the audit method names that reader instead of claiming Kernel format readback.
 A different solver artifact is rejected, and its hash is recorded in delivery.
 The returned and saved report includes `artifact_audit.status == "MATCHED"`
 when that complete exact comparison succeeds, with the committed-artifact and
@@ -570,6 +572,13 @@ target against the committed artifact. An optional original artifact is matched
 only to the first source. Model NAME, coordinate/row order and folded row constants
 may differ across exact joins; coefficients, names, domains and objectives must
 match. Models are read and released one stage at a time.
+Stage endpoints require Kernel-readable artifacts. The same-byte optimization
+also requires the same reader family: `Model.load` dispatches `.json` first,
+then MCM magic regardless of suffix, then case-insensitive `.lp`, then MPS.
+Renaming MPS bytes to `.lp` or MCM bytes to `.json` cannot skip that reader.
+JSON original/committed artifacts remain available for exact named comparison;
+`composition.original_anchor_reader` and the final audit's reader fields identify
+the actual readback, with a Python JSON audit method when appropriate.
 The returned `artifacts` preserves all manifest records.
 `artifact_audit.status == "MATCHED"` binds only the last complete proof target
 to the committed artifact with their hashes. This serialization audit can match
