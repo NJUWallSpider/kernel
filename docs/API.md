@@ -16,6 +16,10 @@ JSON. I/O helpers and shared types have the separate return types shown below.
 | Entry point | Input | Report |
 | --- | --- | --- |
 | `canonicalize_path(input, output)` | trusted MPS/LP file | `CANONICALIZED` + dimensions, byte count and phase timings |
+| `compile_certificate_json(text)` | raw structured Certificate JSON | RPX bytes, no filesystem or RPA assembly |
+| `compile_certificate_paths(input, output)` | raw Certificate JSON file | `COMPILED` + RPX version, byte count and total time |
+| `plan_return_paths(input, output, plan, obligations)` | current oriented MCM scopes + Return plan JSON | `PLANNED` + ordered proposition array written to JSON |
+| `prepare_injectivity_paths(input, output, plan, result)` | oriented MCM models + full affine map | `PREPARED` + complete paired model, equality goals and builder statistics |
 | `assemble_paths(input, output)` | frozen JSON RPA or readable RPA-S file | `ASSEMBLED` + byte count and total time |
 | `assemble_paths_with_models(input, output, source, target)` | RPA-S and actual LP/MPS/MCM models | as `assemble_paths` |
 | `disassemble_paths(input, output)` | RPX file | `DISASSEMBLED` |
@@ -36,9 +40,11 @@ The lower-level `model`, `proof`, `codec`, `rpa`, `rpa_source`, `verify`, `point
 also public. Callers can construct `proof::Certificate` / `proof::Request` values
 directly, encode them with `codec`, or verify them with `verify::verify_request`.
 Joint-extension preparation helpers return unchecked premises; they are not
-acceptance entry points. There is no high-level compiler API that synthesizes
-proofs or plans all required checks; [compiler API demand](COMPILER_API_DEMAND.md)
-describes that proposed layer.
+acceptance entry points. The `compiler` module accepts structured Certificate
+JSON directly and exposes `ReturnPlan` / `plan_return` for the verifier's own
+ordered terminal propositions. It performs no proof search or synthesis.
+[Compiler API demand](COMPILER_API_DEMAND.md) motivates the Python authoring
+layer built on these operations.
 
 `rpa_source::assemble(&str)` and `rpa_source::disassemble(&Certificate)` provide
 filesystem-free readable proof assembly. The independent `RPA-S 1` source grammar
@@ -59,6 +65,9 @@ checks every supplied reference independently.
 | `VERIFIED` | 0 | proof verification succeeded |
 | `CANONICALIZED` | 0 | model canonicalization succeeded |
 | `ASSEMBLED` | 0 | RPA text assembled |
+| `COMPILED` | 0 | structured Certificate JSON encoded to RPX |
+| `PLANNED` | 0 | terminal propositions enumerated, without accepting evidence |
+| `PREPARED` | 0 | candidate proof domain constructed, without accepting evidence |
 | `DISASSEMBLED` | 0 | RPX disassembled |
 | `INSPECTED` | 0 | model inspected |
 | `EXPORTED` | 0 | model exported as JSON |
@@ -115,6 +124,10 @@ inspect the `Diagnostics` value they passed in; `api::verify_bytes` and
 ```
 rpx canonical input.mps output.mcm
 rpx canonical input.lp output.mcm
+rpx compile certificate.json proof.rpx
+rpx plan-return input.mcm output.mcm plan.json obligations.json
+rpx prepare-extension input.mcm spec.json output.json
+rpx prepare-injectivity input.mcm output.mcm spec.json result.json
 rpx assemble input.rpa output.rpx
 rpx assemble input.rpas output.rpx
 rpx disassemble input.rpx output.rpa
@@ -129,6 +142,64 @@ rpx verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx
 `export-model` writes the canonical model as JSON (below). `verify` accepts the
 options anywhere after the subcommand and reports the effective work, live-fact
 and depth budgets in `limits`, including on failures after argument parsing.
+
+## Direct structured proof compilation
+
+`compile` deserializes raw `proof::Certificate` JSON and calls
+`codec::encode_certificate` directly. It needs neither an RPA header nor an
+intermediate source file. The encoder chooses the lowest necessary RPX version
+and preserves all frozen schema, scalar, canonical expression and wire limits.
+The direct JSON bridge uses the façade's 512 MiB input-file policy, avoiding
+the legacy RPA assembler's separate 256 MiB text cap.
+For example, a real-domain identity map without an objective contract has this
+shape (its checks depend on the actual output model):
+
+```json
+{"claims":[{"reverse":false,"input_integers":false,"output_integers":false,
+            "objective":"None","projection":[],"inverse":null}],
+ "blocks":[{"steps":[],"end":{"Return":{
+     "map":[{"constant":"0","terms":[[0,"1"]]}],
+     "checks":[{"VarLower":0},{"VarUpper":0}]}}}]}
+```
+
+Compilation establishes schema and wire validity. The independently supplied
+models and caller request remain required for correctness verification. RPX
+contains no model hash or model content; `verify` checks the complete actual
+source and target models against the caller's requested contracts.
+
+`plan-return` takes the already-oriented current input and output scopes, then a
+JSON object `{claim, map, inverse_map?, inverse_level?, compositions?}`. The claim
+uses the existing `proof::Claim` schema; maps contain exact `Expr` objects.
+`inverse_map` is the opposing affine map when `claim.inverse` is present,
+`inverse_level` is its requested objective level when relevant, and
+`compositions` lists opposing forward maps required by bijections. The output
+file is an ordered array of `{kind, expression, origin}`; `kind` is `Le`, `Eq` or
+`Int`, and the expression is normalized to `e <= 0`, `e = 0` or `INT(e)`.
+`origin` identifies variable/row constraints by dotted `kind`, zero-based
+`index` and `name`, or contract obligations by `kind` and optional index/group.
+
+The planner shares the verifier's streaming terminal walker, including bound,
+row, objective, projection, inverse, objective-domain and bijection composition
+order. It creates no witnesses. When a current input scope comes from an
+unchecked extension builder, every returned premise must still be proved in
+the parent scope before the verifier permits that extension.
+
+For V10 strict-improvement proofs, the Return plan may include
+`improvement: {claim: {target, integers, positive}, margin: {Constant: "q"}}`
+or a `{Predicate: "q"}` margin. Its ordinary `claim` must match the verifier's
+improvement context: `reverse: false`, identical input/output integer modes,
+`objective: "NonIncreasing"`, and no projections, inverse or domain restriction.
+The output is the complete original same model, while the current input may
+include checked extensions. The positive expression is always validated in the
+original output coordinates. The same margin builder is used when planning and
+when verifying; both require a strictly positive scalar.
+
+`prepare-injectivity` accepts `{map: [Expr, ...]}` and returns
+`{model, equalities, statistics}`. The model is the kernel's complete paired
+input domain with the full specified affine map equated between its two copies.
+Each equality goal requires fresh-scope evidence; preparation also succeeds for
+noninjective maps and does not prove injectivity. Input integer declarations are
+preserved, and the eventual proof must use the original directional integer mode.
 
 ## Canonical model JSON
 

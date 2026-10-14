@@ -88,6 +88,45 @@ pub struct Location {
 /// pass `Diagnostics::default()` for an isolated report.
 #[derive(Clone, Debug, Default, Serialize)]
 pub struct Diagnostics { pub location: Location }
+
+/// Origin of a Return obligation. Indices are zero-based. A composition's
+/// `group` is its position in the supplied list of opposing forward maps.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+pub struct ObligationOrigin {
+    pub kind: String,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub index: Option<u32>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub group: Option<u32>,
+}
+
+/// One proposition the kernel will require at the terminal Return. This is
+/// planning data only; the verifier checks its independently supplied witness.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+pub struct ReturnObligation {
+    pub kind: Kind,
+    pub expression: Expr,
+    pub origin: ObligationOrigin,
+}
+
+// Borrow model names on the verification path: planning metadata does not add
+// allocation or work charges to ordinary verification.
+struct ReturnOrigin<'a> {
+    kind: &'static str, index: Option<usize>, name: Option<&'a str>, group: Option<usize>,
+}
+impl<'a> ReturnOrigin<'a> {
+    fn plain(kind: &'static str) -> Self { Self {kind,index:None,name:None,group:None} }
+    fn indexed(kind: &'static str, index: usize, name: Option<&'a str>) -> Self {
+        Self {kind,index:Some(index),name,group:None}
+    }
+    fn owned(self) -> ObligationOrigin {
+        ObligationOrigin {kind:self.kind.into(),index:self.index.map(diagnostic_index),
+            name:self.name.map(str::to_owned),group:self.group.map(diagnostic_index)}
+    }
+}
+
 /// Diagnostic indices saturate rather than truncate; they never affect a decision.
 pub(crate) fn diagnostic_index(i:usize)->u32{u32::try_from(i).unwrap_or(u32::MAX)}
 // Accumulate a sum once, then sort once. Hashes choose buckets only; exact keys
@@ -190,6 +229,54 @@ impl Context<'_> {
             self.stats.substitution_terms+=m.terms.len() as u64;
             result.add(m,c)?;
         } result.finish()
+    }
+
+    /// Single shared ordering/formula walk for verification and authoring.
+    /// The callback checks a witness immediately during verification, retaining
+    /// the historical interleaving of substitution charges and fact checks.
+    fn walk_return<F>(&mut self,map:&[Expr],margin:Option<&Expr>,mut emit:F)->Result<(),String>
+    where F: FnMut(&mut Self,Kind,Expr,ReturnOrigin<'_>)->Result<(),String> {
+        let output=self.output;
+        let input=self.input;
+        let claim=self.claim;
+        if map.len()!=output.vars.len(){return Err("INVALID incomplete mapping".into());}
+        for e in map {e.validate(input.vars.len())?;self.charge(e.terms.len()+1)?;}
+        for (i,v) in output.vars.iter().enumerate() {
+            if let Some(b)=&v.lower {let mut e=map[i].scaled(&(-Q::one()))?;e.constant+=b;emit(self,Kind::Le,e,ReturnOrigin::indexed("variable.lower",i,Some(&v.name)))?;}
+            if let Some(b)=&v.upper {let mut e=map[i].clone();e.constant-=b;emit(self,Kind::Le,e,ReturnOrigin::indexed("variable.upper",i,Some(&v.name)))?;}
+            if v.integer && claim.output_integers {emit(self,Kind::Int,map[i].clone(),ReturnOrigin::indexed("variable.integer",i,Some(&v.name)))?;}
+        }
+        for (i,row) in output.rows.iter().enumerate() {
+            let e=self.substitute(&row.expr,map)?;
+            if let Some(b)=&row.lower {if row.upper.as_ref()==Some(b){let mut eq=e;eq.constant-=b;emit(self,Kind::Eq,eq,ReturnOrigin::indexed("row.equal",i,Some(&row.name)))?;continue;}}
+            if let Some(b)=&row.lower {let mut lo=e.scaled(&(-Q::one()))?;lo.constant+=b;emit(self,Kind::Le,lo,ReturnOrigin::indexed("row.lower",i,Some(&row.name)))?;}
+            if let Some(b)=&row.upper {let mut hi=e;hi.constant-=b;emit(self,Kind::Le,hi,ReturnOrigin::indexed("row.upper",i,Some(&row.name)))?;}
+        }
+        if claim.objective!=Objective::None {
+            let mut e=self.substitute(&output.objective,map)?;e.add_scaled(&input.objective,&(-Q::one()))?;
+            if let Some(margin)=margin{self.charge(margin.terms.len()+1)?;e.add_scaled(margin,&Q::one())?;}
+            let (kind,origin)=if claim.objective==Objective::Equal{(Kind::Eq,"objective.equal")}else{(Kind::Le,"objective.non_increasing")};
+            emit(self,kind,e,ReturnOrigin::plain(origin))?;
+        }
+        for (j,(i,o)) in claim.projection.iter().enumerate() {let mut e=map[*o as usize].clone();e.add_scaled(&Expr::var(*i),&(-Q::one()))?;emit(self,Kind::Eq,e,ReturnOrigin::indexed("projection",j,None))?;}
+        for (j,(input_expr,output_expr)) in claim.affine_projection.iter().enumerate(){let mut e=self.substitute(output_expr,map)?;e.add_scaled(input_expr,&(-Q::one()))?;emit(self,Kind::Eq,e,ReturnOrigin::indexed("affine_projection",j,None))?;}
+        if let Some(inverse)=self.inverse {for (i,back) in inverse.iter().enumerate(){let mut e=self.substitute(back,map)?;e.add_scaled(&Expr::var(i as u32),&(-Q::one()))?;emit(self,Kind::Eq,e,ReturnOrigin::indexed("inverse.coordinate",i,Some(&input.vars[i].name)))?;}}
+        // Composition must land in the independently proved opposing domain.
+        if let Some(level)=self.inverse_level {let mut e=self.substitute(&output.objective,map)?;e.constant-=level;emit(self,Kind::Eq,e,ReturnOrigin::plain("inverse.objective_level"))?;}
+        if let Some(lower)=&claim.input_objective_lower{let mut e=input.objective.scaled(&(-Q::one()))?;e.constant+=lower;emit(self,Kind::Le,e,ReturnOrigin::plain("input.objective_lower"))?;}
+        // Original input coordinates stay prefixes through every extension.
+        for (group,forward) in self.compositions.iter().enumerate(){for (j,e) in forward.iter().enumerate(){let mut e=self.substitute(e,map)?;e.add_scaled(&Expr::var(j as u32),&(-Q::one()))?;let mut origin=ReturnOrigin::indexed("bijection.coordinate",j,input.vars.get(j).map(|v|v.name.as_str()));origin.group=Some(group);emit(self,Kind::Eq,e,origin)?;}}
+        Ok(())
+    }
+
+    fn improvement_margin(&mut self,margin:&ImprovementMargin)->Result<Expr,String> {
+        let claim=self.improvement.ok_or("INVALID improvement return context")?;
+        let q=match margin{ImprovementMargin::Constant(q)|ImprovementMargin::Predicate(q)=>q};
+        check_q(q)?;if !q.is_positive(){return Err("INVALID improvement margin must be strictly positive".into());}
+        match margin {
+            ImprovementMargin::Constant(q)=>Ok(Expr{constant:q.clone(),terms:vec![]}),
+            ImprovementMargin::Predicate(q)=>{self.charge(claim.positive.terms.len()+1)?;claim.positive.scaled(q)},
+        }
     }
 
     fn obligation(&mut self,kind:Kind,e:Expr,r:&Ref,live:&Facts<'_>,assumptions:&[Fact])->Result<(),String> {
@@ -435,40 +522,16 @@ impl Context<'_> {
             End::Return{map,checks}|End::ImproveReturn{map,checks,..}=>{
                 let margin=match (&block.end,self.improvement){
                     (End::Return{..},None)=>None,
-                    (End::ImproveReturn{margin,..},Some(claim))=>{
-                        let q=match margin{ImprovementMargin::Constant(q)|ImprovementMargin::Predicate(q)=>q};
-                        check_q(q)?;if !q.is_positive(){return Err("INVALID improvement margin must be strictly positive".into());}
-                        let e=match margin{ImprovementMargin::Constant(q)=>Expr{constant:q.clone(),terms:vec![]},ImprovementMargin::Predicate(q)=>{self.charge(claim.positive.terms.len()+1)?;claim.positive.scaled(q)?}};
-                        Some(e)
-                    },
+                    (End::ImproveReturn{margin,..},Some(_))=>Some(self.improvement_margin(margin)?),
                     _=>return Err("INVALID improvement return context".into()),
                 };
-                if map.len()!=self.output.vars.len(){return Err("INVALID incomplete mapping".into());}
-                for e in map {e.validate(self.input.vars.len())?;self.charge(e.terms.len()+1)?;}
                 let mut k=0;
-                macro_rules! check {($kind:expr,$e:expr)=>{{let e=$e;let r=checks.get(k).ok_or("INVALID missing obligation")?;self.diag.location.obligation=Some(diagnostic_index(k));self.obligation($kind,e,r,&live,assumptions).map_err(|err|format!("{err}; obligation {k}"))?;k+=1;}}}
-                for (i,v) in self.output.vars.iter().enumerate() {
-                    if let Some(b)=&v.lower {let mut e=map[i].scaled(&(-Q::one()))?;e.constant+=b;check!(Kind::Le,e);}
-                    if let Some(b)=&v.upper {let mut e=map[i].clone();e.constant-=b;check!(Kind::Le,e);}
-                    if v.integer && self.claim.output_integers {check!(Kind::Int,map[i].clone());}
-                }
-                for row in &self.output.rows {
-                    let e=self.substitute(&row.expr,map)?;
-                    if let Some(b)=&row.lower {if row.upper.as_ref()==Some(b){let mut eq=e;eq.constant-=b;check!(Kind::Eq,eq);continue;}}
-                    if let Some(b)=&row.lower {let mut lo=e.scaled(&(-Q::one()))?;lo.constant+=b;check!(Kind::Le,lo);}
-                    if let Some(b)=&row.upper {let mut hi=e;hi.constant-=b;check!(Kind::Le,hi);}
-                }
-                if self.claim.objective!=Objective::None {let mut e=self.substitute(&self.output.objective,map)?;e.add_scaled(&self.input.objective,&(-Q::one()))?;if let Some(margin)=&margin{self.charge(margin.terms.len()+1)?;e.add_scaled(margin,&Q::one())?;}check!(if self.claim.objective==Objective::Equal{Kind::Eq}else{Kind::Le},e);}
-                for (i,o) in &self.claim.projection {let mut e=map[*o as usize].clone();e.add_scaled(&Expr::var(*i),&(-Q::one()))?;check!(Kind::Eq,e);}
-                for (input_expr,output_expr) in &self.claim.affine_projection{let mut e=self.substitute(output_expr,map)?;e.add_scaled(input_expr,&(-Q::one()))?;check!(Kind::Eq,e);}
-                if let Some(inverse)=self.inverse {for (i,back) in inverse.iter().enumerate(){let mut e=self.substitute(back,map)?;e.add_scaled(&Expr::var(i as u32),&(-Q::one()))?;check!(Kind::Eq,e);}}
-                // Composition is meaningful only where the opposing map was
-                // proved. Its requested level is a separate output obligation.
-                if let Some(level)=self.inverse_level {let mut e=self.substitute(&self.output.objective,map)?;e.constant-=level;check!(Kind::Eq,e);}
-                if let Some(lower)=&self.claim.input_objective_lower{let mut e=self.input.objective.scaled(&(-Q::one()))?;e.constant+=lower;check!(Kind::Le,e);}
-                // Forward maps are the actual indexed root Return maps. The old
-                // input coordinates remain prefixes through every extension.
-                for forward in self.compositions{for (j,e) in forward.iter().enumerate(){let mut e=self.substitute(e,map)?;e.add_scaled(&Expr::var(j as u32),&(-Q::one()))?;check!(Kind::Eq,e);}}
+                self.walk_return(map,margin.as_ref(),|context,kind,e,_origin|{
+                    let r=checks.get(k).ok_or("INVALID missing obligation")?;
+                    context.diag.location.obligation=Some(diagnostic_index(k));
+                    context.obligation(kind,e,r,&live,assumptions).map_err(|err|format!("{err}; obligation {k}"))?;
+                    k+=1;Ok(())
+                })?;
                 if k!=checks.len(){return Err("INVALID surplus obligation witnesses".into());}Ok(())
             }
         }
@@ -476,6 +539,80 @@ impl Context<'_> {
 }
 
 /// Requested claims are supplied by the caller, never weakened by certificate declarations.
+/// Enumerate a terminal Return using the verifier's own formula/order walk.
+/// `input` and `output` are already oriented for the direction and include the
+/// current input scope. No witness is created or accepted by this function.
+pub fn plan_return_obligations(
+    input:&Model, output:&Model, claim:&Claim, map:&[Expr],
+    inverse:Option<&[Expr]>, inverse_level:Option<&Q>,
+    compositions:&[&[Expr]], limits:&Limits,
+)->Result<Vec<ReturnObligation>,String> {
+    plan_return_obligations_context(input,output,claim,map,inverse,inverse_level,compositions,None,limits)
+}
+
+/// Plan ImproveReturn in the same immutable strict-improvement context used by
+/// the verifier. The ordinary Claim must be its exact internal directional
+/// context, and the output must be the original actual input-model prefix.
+pub fn plan_improvement_return_obligations(
+    input:&Model, output:&Model, claim:&Claim, map:&[Expr],
+    improvement:&ImprovementClaim, margin:&ImprovementMargin, limits:&Limits,
+)->Result<Vec<ReturnObligation>,String> {
+    let expected=Claim{reverse:false,input_integers:improvement.integers,output_integers:improvement.integers,
+        objective:Objective::NonIncreasing,projection:vec![],affine_projection:vec![],inverse:None,
+        input_objective_lower:None,input_objective_level:None,input_halfspace:None};
+    if claim!=&expected{return Err("INVALID Return plan improvement claim context".into());}
+    if input.vars.get(..output.vars.len())!=Some(output.vars.as_slice())
+        || input.rows.get(..output.rows.len())!=Some(output.rows.as_slice())
+        || input.objective!=output.objective {
+        return Err("INVALID Return plan improvement model context".into());
+    }
+    improvement.positive.validate(output.vars.len())?;
+    plan_return_obligations_context(input,output,claim,map,None,None,&[],Some((improvement,margin)),limits)
+}
+
+fn plan_return_obligations_context(
+    input:&Model, output:&Model, claim:&Claim, map:&[Expr],
+    inverse:Option<&[Expr]>, inverse_level:Option<&Q>, compositions:&[&[Expr]],
+    improvement:Option<(&ImprovementClaim,&ImprovementMargin)>, limits:&Limits,
+)->Result<Vec<ReturnObligation>,String> {
+    input.validate()?;output.validate()?;
+    if let Some(lower)=&claim.input_objective_lower{check_q(lower)?;}
+    if let Some(level)=&claim.input_objective_level{check_q(level)?;}
+    if let Some(expression)=&claim.input_halfspace{expression.validate(input.vars.len())?;}
+    for (i,o) in &claim.affine_projection{i.validate(input.vars.len())?;o.validate(output.vars.len())?;}
+    let mut seen=std::collections::HashSet::new();
+    for &(i,o) in &claim.projection {
+        if i as usize>=input.vars.len() || o as usize>=output.vars.len() || !seen.insert((i,o)){
+            return Err("INVALID projection coordinate".into());
+        }
+    }
+    if claim.inverse.is_some()!=inverse.is_some(){return Err("INVALID Return plan inverse mapping context".into());}
+    if let Some(inverse)=inverse {
+        if claim.input_halfspace.is_some(){return Err("INVALID inverse with input halfspace is unsupported".into());}
+        if inverse.len()!=input.vars.len(){return Err("INVALID inverse mapping dimension".into());}
+        for e in inverse{e.validate(output.vars.len())?;}
+    }
+    if let Some(level)=inverse_level{check_q(level)?;if inverse.is_none(){return Err("INVALID Return plan inverse level context".into());}}
+    for forward in compositions {
+        if forward.len()>input.vars.len(){return Err("INVALID Return plan composition dimension".into());}
+        for e in *forward{e.validate(output.vars.len())?;}
+    }
+    let mut stats=Statistics::default();
+    let mut diag=Diagnostics::default();
+    let mut obligations=Vec::new();
+    let mut context=Context{improvement:improvement.map(|(claim,_)|claim),compositions,refutation:false,input,output,claim,inverse,inverse_level,limits,stats:&mut stats,diag:&mut diag};
+    let margin=if let Some((claim,margin))=improvement {
+        context.charge(claim.positive.terms.len()+1)?;Some(context.improvement_margin(margin)?)
+    }else{None};
+    context.walk_return(map,margin.as_ref(),|context,kind,expression,origin|{
+            expression.validate(input.vars.len())?;context.charge(expression.terms.len()+1)?;
+            if obligations.len()>=crate::codec::MAX_ITEMS{return Err("RESOURCE_LIMIT Return obligation count".into());}
+            obligations.try_reserve(1).map_err(|_|"RESOURCE_LIMIT Return obligation allocation")?;
+            obligations.push(ReturnObligation{kind,expression,origin:origin.owned()});Ok(())
+        })?;
+    Ok(obligations)
+}
+
 /// The entire input/output models are validated and used for every proof obligation.
 pub fn verify(source:&Model,target:&Model,cert:&Certificate,requested:&[Claim],limits:&Limits)->Result<Statistics,String> {
     verify_with_diagnostics(source,target,cert,requested,limits,&mut Diagnostics::default())

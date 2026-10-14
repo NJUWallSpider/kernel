@@ -14,7 +14,7 @@
 //! - Failures carry an explicit [`Status`] instead of relying on every caller
 //!   re-deriving it from message prefixes.
 
-use crate::{codec, lp, model, proof::Request, rpa, rpa_source, verify::{self, Limits}};
+use crate::{codec, compiler, lp, model, proof::Request, rpa, rpa_source, verify::{self, Limits}};
 use serde_json::{json, Value};
 use std::{fmt, fs, io::Read, path::Path, time::Instant};
 
@@ -34,6 +34,12 @@ pub enum Status {
     Canonicalized,
     /// RPA text assembly succeeded.
     Assembled,
+    /// Structured Certificate JSON encoded directly to RPX.
+    Compiled,
+    /// Required terminal propositions were enumerated without proving them.
+    Planned,
+    /// An unchecked candidate proof domain was constructed.
+    Prepared,
     /// RPX disassembly succeeded.
     Disassembled,
     /// Model inspection succeeded.
@@ -55,6 +61,9 @@ impl Status {
             Status::Verified => "VERIFIED",
             Status::Canonicalized => "CANONICALIZED",
             Status::Assembled => "ASSEMBLED",
+            Status::Compiled => "COMPILED",
+            Status::Planned => "PLANNED",
+            Status::Prepared => "PREPARED",
             Status::Disassembled => "DISASSEMBLED",
             Status::Inspected => "INSPECTED",
             Status::Exported => "EXPORTED",
@@ -308,6 +317,53 @@ pub fn canonicalize_path(input: &str, output: &str) -> Result<Value, Error> {
 /// Assemble frozen JSON RPA or readable RPA-S source into an RPX file.
 pub fn assemble_paths(input: &str, output: &str) -> Result<Value, Error> {
     assemble_paths_context(input, output, None)
+}
+
+/// Direct structured proof compilation. No RPA parser or assembly is involved.
+pub fn compile_certificate_json(text: &str) -> Result<Vec<u8>, Error> {
+    Ok(compiler::compile_certificate_json(text)?)
+}
+
+/// Encode raw Certificate JSON to an RPX file. Compilation checks wire/schema
+/// validity; correctness is established separately by [`verify_paths`].
+pub fn compile_certificate_paths(input: &str, output: &str) -> Result<Value, Error> {
+    let start = Instant::now();
+    let encoded = compile_certificate_json(&read_text(input)?)?;
+    write_output(output, &encoded)?;
+    Ok(json!({"status": Status::Compiled.as_str(), "rpx_bytes": encoded.len(),
+        "version": u16::from_le_bytes([encoded[4], encoded[5]]),
+        "total_us": start.elapsed().as_micros()}))
+}
+
+/// Plan a Return with already-oriented current input/output MCM models. Write
+/// the ordered proposition array; each item includes its model/contract origin.
+pub fn plan_return_paths(input: &str, output: &str, plan: &str, obligations: &str) -> Result<Value, Error> {
+    let start = Instant::now();
+    let input = codec::decode_model(&read_input(input)?)?;
+    let output = codec::decode_model(&read_input(output)?)?;
+    let plan = compiler::parse_return_plan_json(&read_text(plan)?)?;
+    let planned = compiler::plan_return(&input, &output, &plan, &Limits::default())?;
+    let mut text = serde_json::to_string_pretty(&planned)
+        .map_err(|error| Error::from_message(format!("INVALID Return plan output: {error}")))?;
+    text.push('\n');
+    write_output(obligations, text.as_bytes())?;
+    Ok(json!({"status": Status::Planned.as_str(), "obligations": planned.len(),
+        "json_bytes": text.len(), "total_us": start.elapsed().as_micros()}))
+}
+
+/// Prepare the Kernel-owned paired domain and equality goals for an affine
+/// map's injectivity proof. Every goal still requires fresh-scope evidence.
+pub fn prepare_injectivity_paths(input: &str, output: &str, plan: &str, result: &str) -> Result<Value, Error> {
+    let start = Instant::now();
+    let input = codec::decode_model(&read_input(input)?)?;
+    let output = codec::decode_model(&read_input(output)?)?;
+    let prepared = compiler::prepare_injectivity_json(&input, &output, &read_text(plan)?, &Limits::default())?;
+    let mut text = serde_json::to_string_pretty(&prepared)
+        .map_err(|error| Error::from_message(format!("INVALID injectivity plan output: {error}")))?;
+    text.push('\n');
+    write_output(result, text.as_bytes())?;
+    Ok(json!({"status": Status::Prepared.as_str(), "equalities": prepared["equalities"].as_array().map(Vec::len),
+        "statistics": prepared["statistics"], "json_bytes": text.len(), "total_us": start.elapsed().as_micros()}))
 }
 
 /// Assemble readable source using explicitly supplied actual models.

@@ -8,6 +8,10 @@
 
 /// Programmatic façade: entry points, status classification, JSON reports.
 pub mod api;
+/// Direct structured proof compilation and kernel-owned obligation planning.
+pub mod compiler;
+/// Candidate extension scopes and their explicit unchecked premises.
+pub mod authoring;
 
 pub mod model;
 pub mod proof;
