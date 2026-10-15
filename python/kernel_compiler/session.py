@@ -14,6 +14,7 @@ from .backend import Kernel, KernelError
 from .expr import Expr, exact
 from .model import Model
 from .proof import Builder, BuildError, Fact, _PivotPlan, wire
+from .request_summary import summarize_request
 
 
 def _digest(path):
@@ -512,6 +513,14 @@ class Proof:
                 "improvements": [*(i["claim"] for i in self.improvements), *(c.improvement_claim for c in self._improvement_builders)],
                 "bijections": [b["claim"] for b in self.bijections]}
 
+    def contract_summary(self, *, max_items=8):
+        """Bounded caller-declared scope; no completion, planning, or map copy."""
+        request = {"claims": [c.claim for c in self.claims], "points": [p["claim"] for p in self.points],
+                   "improvements": [*(i["claim"] for i in self.improvements),
+                                    *(c.improvement_claim for c in self._improvement_builders)],
+                   "bijections": [b["claim"] for b in self.bijections]}
+        return summarize_request(self.source, self.target, request, max_items=max_items)
+
     def preflight(self):
         cert = self.certificate()
         def depth(value):
@@ -549,6 +558,7 @@ class Proof:
                                     artifacts["request"], work=work, live_facts=live_facts)
         delivery = json.loads((directory / "delivery.json").read_text())
         report["artifacts"] = delivery["artifacts"]
+        report["request_summary"] = delivery["request_summary"]
         if "artifact_binding" in delivery:
             report["artifact_audit"] = delivery["artifact_binding"]
         _atomic_text(directory / "verification.json", json.dumps(report, indent=2) + "\n")
@@ -581,7 +591,15 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     _atomic_text(cert_path, json.dumps(wire(certificate), separators=(",", ":")) + "\n")
     _atomic_text(paths["request"], json.dumps(wire(request), separators=(",", ":")) + "\n")
     _atomic_write(paths["proof"], lambda temporary: kernel.call("compile", cert_path, temporary))
+    try:
+        summary = summarize_request(source, target, request)
+    except (IndexError, KeyError, TypeError, ValueError, AttributeError, StopIteration) as error:
+        # Optional metadata must not replace Kernel's native invalid-Request
+        # feedback, including future/raw Request fields unknown to Python.
+        summary = {"status": "UNAVAILABLE", "reason": str(error)[:256],
+                   "note": "Kernel still verifies the complete Request; no scope is inferred."}
     manifest = {"format": "kernel-compiler-delivery-1", "relation": "caller-declared Kernel request",
+                "request_summary": summary,
                 "pieces": [{key: str(value) for key, value in paths.items()}],
                 "artifacts": {key: {"path": str(value), "sha256": _digest(value)} for key, value in paths.items()}}
     if committed_model is not None:

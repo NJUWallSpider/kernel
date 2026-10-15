@@ -111,6 +111,58 @@ decimals and raises on nonterminating rationals; do not round coefficients.
 `rational_literals=True` is available for Kernel-only MPS readers, not standard
 solver delivery. Row constants are folded into MPS right-hand sides.
 
+When your chosen target contains nonterminating rational coefficients, explicitly
+select a standard MPS representation adapter:
+
+```python
+adapter = authored_target.standard_mps_adapter(
+    objective_auxiliary=True, objective_name="__mps_objective",
+)
+adapter.source                 # the unchanged authored target
+adapter.target                 # a new immutable model, ready for standard MPS
+adapter.report                 # JSON-compatible exact costs and changes
+adapter.target.write_mps("output/reformulated.mps")
+representation_proof = adapter.proof()
+result = representation_proof.verify(
+    "output/representation", committed_model="output/reformulated.mps",
+)
+```
+
+The adapter folds row constants into RHS values and scales each row only by the
+LCM of denominator parts remaining after removing factors 2 and 5. A row whose
+coefficients and folded RHS values already have finite decimals keeps scale 1.
+Nonterminating variable bounds become separate positively scaled lower/upper
+rows, including equal fixed bounds. Original variables, names, order and integer
+declarations remain; only the moved bound sides become absent declarations.
+If the full objective has a nonterminating coefficient or constant, the adapter
+adds a free continuous value coordinate `t`, a scaled equality `t=f(x)`, and
+objective `t`. Setting `objective_auxiliary=False` rejects that objective rather
+than rounding it. Generated names avoid collisions.
+
+`adapter.proof()` produces four ordinary Equal affine inverse claims: MI forward,
+MI reverse, LP forward, LP reverse, at indices 0 through 3. Its complete maps are
+the identity on original variables, with `t=f(x)` forward when needed, and the
+original-coordinate prefix reverse. Its only generated proof steps are `Lin`
+scalings of the original row/bound facts and the defining equality. No proof
+search, rounding, or solver runs occur. The constructor checks actual Kernel
+standard MPS readback against the complete target. Add this representation proof
+as a separate explicit stage with `write_chain` to preserve an already authored
+proof without rewriting its leaves.
+If a complete row scale exceeds one RPX scalar, the proof applies consecutive
+positive scaling chunks derived by gcd from the given original denominators;
+the reverse proof divides by those chunks in reverse order. Each encoded scalar
+fits the frozen 13,600-bit component limit. Constant folding retains the minimal
+row scale, and the generated model still has to satisfy actual Kernel readback.
+
+The report contains `before`/`after` counts, `added` variable/row/nonzero counts,
+`row_scales` for scales above 1, every `bound_moves` record, an optional
+`objective_auxiliary` definition, source/target exact `coefficient_stats`, and
+`mps_readback` status/size. It describes representation costs; it does not predict
+solver performance. A multi-chunk row scale also records its `proof_chunks`.
+Existing name, standard-format text, rational, model and
+proof resource limits still apply; the adapter reports failure without changing
+the authored model. Ordinary `write_mps` never selects this adapter automatically.
+
 `coefficient_stats()` returns objective coefficients/constant, matrix
 coefficients, and row-constant summaries. Each summary includes exact signed
 minimum/maximum values, positive/negative counts and ranges, nonzero magnitude
@@ -121,9 +173,39 @@ model or prescribing a transformation.
 
 ## Contracts, complete maps, and obligations
 
+For large supplied affine proofs, use these entry points before reading package
+internals:
+
+| Authoring task | API |
+| --- | --- |
+| Rewrite a batch of given facts using selected equality pivots | `builder.rewrite_many(facts, definitions)` |
+| Elaborate literal-zero equality obligations from selected definitions | `claim.substitution(definitions)` |
+| Reconstruct a given goal from its caller-proved residual | `builder.derive_substitution(goal, definitions, residual)` |
+| Prove a given inequality using the actual input variable bounds | `builder.box_le(goal)` |
+| Inspect unresolved obligations without printing full affine vectors | `[(g.label, g.kind, g.expression.summary()) for g in claim.missing()[:8]]` |
+| Inspect contract scope and observation counts without dumping Request | `proof.contract_summary()` |
+
+Definitions are caller-selected ordered pivot/equality pairs. Batch helpers
+reuse the same sparse elimination plan; they do not discover pivots or missing
+lemmas. When writing your own large model-construction loop, compute unchanged
+membership sets and dependency metadata once outside the loop.
+
 Each directional claim is a total map from every feasible input to a feasible
 output. You supply an expression for **every output coordinate**. Projection
 only states observations that are preserved; it does not replace the full map.
+
+`proof.contract_summary(max_items=8)` shows domains, directions, objective
+relations, inverse indices, actual observation counts and a bounded sample of
+named coordinate pairs. It also shows restrictions, point/improvement kinds,
+and paired-domain bijection references. It does not complete a proof or request
+Kernel obligations. The returned `request_summary` in `proof.verify(...)` and
+the saved delivery/verification receipts contains the same bounded scope
+metadata. The complete Request remains authoritative; a summary alone is not
+a verification result. `input_objective_lower` is proved over the declared
+input domain: it is global when unrestricted and conditional when an objective
+level or halfspace restricts that domain. It does not add a restriction itself.
+Use this summary plus the successful receipt when writing the
+final report rather than reading a multi-megabyte Request to count observations.
 
 ```python
 proof = Proof(source, target)

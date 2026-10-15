@@ -1,0 +1,845 @@
+{
+  "case": "C5 test16",
+  "type": "read-only phase and API-friction diagnosis",
+  "run": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015",
+  "nomf_run": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C5-20261015",
+  "frozen_compiler_checkpoint": "aa90b099d3a389d75bb10f5742c649caf1de442e",
+  "scope": "Retained completed session events and frozen source only. No proof rerun, search, new proof steps, source edit or run-directory mutation.",
+  "method": "Cell times are recorded eval durationMs. Tool-result gaps additionally include dispatch/output overhead. LLM buckets use the next visible public call intent, not hidden reasoning or exclusive semantic attribution. No internal function profiler exists; sub-call costs below are static call-path evidence, not measured shares.",
+  "provenance": [
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/session.jsonl",
+      "sha256": "b6aa7fedf44d7145703c731a46f78e0641c5b42d4c27365516c5a553847487ea"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/execution.json",
+      "sha256": "872e19b8010368016532f42ae0c2778c862f3dbcbd2c8e514bb151b20201cd99"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/API.md",
+      "sha256": "436df8bed754907a7b7e708af73c7e9f8633b5a04630349d6764046ecbf71715"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/python/kernel_compiler/expr.py",
+      "sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/python/kernel_compiler/proof.py",
+      "sha256": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/python/kernel_compiler/session.py",
+      "sha256": "cf9b0212b3e1c64a76ec376973531313e52b1c374fcacfffeb303761c8ce2bea"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/python/kernel_compiler/model.py",
+      "sha256": "fb727910660f060ecefacfdd4843ce556abe93bd05492b561bde397fa4ec042b"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/compiler/python/kernel_compiler/backend.py",
+      "sha256": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/output/proof.py",
+      "sha256": "6846a48905fb4b53e97e1e99772cb484eb358be79bfc5418d6fd729c42760631"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/output/verification.json",
+      "sha256": "a28ce0869e7ad4a992dc8b481cd5cac35d41883b0db2b0632e9e948496819ae0"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C5-20261015/output/report.md",
+      "sha256": "38a1ab8cede2ff4aa98bf8e451611f902a42b8860dfa1bd51ebc7a0d2d8f826c"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C5-20261015/session.jsonl",
+      "sha256": "b6fad53f5beb03d51cfdcb9e7134ea906a32b838626ed1ddc0dd024ffa153381"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C5-20261015/execution.json",
+      "sha256": "d31d70e5b5a1a0f66fea79887968f3e4f33609d47c068655fe57d4348fb7c3ee"
+    },
+    {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C5-20261015/output/report.md",
+      "sha256": "96dfa290574a6df0d3917a2afc97f8f45479a58c778bc05c5a4d4ac32c4defe0"
+    }
+  ],
+  "totals": {
+    "agent_wall_s": 1325.067,
+    "assistant_duration_s": 1074.637254,
+    "eval_cell_duration_s": 247.749,
+    "tool_result_gap_s": 248.022,
+    "calls": 34,
+    "failed_calls": 1,
+    "first_visible_verified_s": 1077.011,
+    "remaining_agent_wall_after_verified_s": 248.056,
+    "post_verified_call_llm_s": 221.563725,
+    "final_response_llm_s": 22.370346,
+    "post_verified_call_tool_result_gap_s": 2.638
+  },
+  "llm_buckets": {
+    "api_public_docs": {
+      "call_indices": [
+        2,
+        8
+      ],
+      "llm_s": 18.357605,
+      "llm_percent": 1.708,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.021
+    },
+    "api_package_source_lookup": {
+      "call_indices": [
+        11,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26
+      ],
+      "llm_s": 85.316757,
+      "llm_percent": 7.939,
+      "cell_s": 0.009,
+      "tool_result_gap_s": 0.072
+    },
+    "mathematical_exploration_and_candidate_code": {
+      "call_indices": [
+        5,
+        6,
+        7,
+        9,
+        10,
+        12,
+        13,
+        14,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "llm_s": 539.489065,
+      "llm_percent": 50.202,
+      "cell_s": 179.529,
+      "tool_result_gap_s": 179.593
+    },
+    "proof_witness_code": {
+      "call_indices": [
+        27
+      ],
+      "llm_s": 46.02701,
+      "llm_percent": 4.283,
+      "cell_s": 26.716,
+      "tool_result_gap_s": 26.723
+    },
+    "complete_metadata_and_independent_algebra_audit_code": {
+      "call_indices": [
+        28,
+        29
+      ],
+      "llm_s": 91.718638,
+      "llm_percent": 8.535,
+      "cell_s": 14.782,
+      "tool_result_gap_s": 14.795
+    },
+    "committing_and_verifying_code": {
+      "call_indices": [
+        30
+      ],
+      "llm_s": 34.898947,
+      "llm_percent": 3.248,
+      "cell_s": 17.569,
+      "tool_result_gap_s": 17.574
+    },
+    "post_verified_hypotheses_coverage_and_report": {
+      "call_indices": [
+        31,
+        32,
+        33,
+        34
+      ],
+      "llm_s": 221.563725,
+      "llm_percent": 20.618,
+      "cell_s": 2.603,
+      "tool_result_gap_s": 2.638
+    },
+    "environment_and_initial_source": {
+      "call_indices": [
+        1,
+        3,
+        4
+      ],
+      "llm_s": 14.895161,
+      "llm_percent": 1.386,
+      "cell_s": 6.541,
+      "tool_result_gap_s": 6.606
+    }
+  },
+  "visible_calls": [
+    {
+      "index": 1,
+      "title": "Inspecting workspace inputs",
+      "tool": "read",
+      "llm_s": 3.898089,
+      "completed_at_ms": 1792002981628,
+      "read_path": ".",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.013,
+      "result_at_ms": 1792002981641,
+      "is_error": false
+    },
+    {
+      "index": 2,
+      "title": "Reading compiler public API",
+      "tool": "read",
+      "llm_s": 4.912076,
+      "completed_at_ms": 1792002986580,
+      "read_path": "compiler/API.md:1-220",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.013,
+      "result_at_ms": 1792002986593,
+      "is_error": false,
+      "read_truncation": {
+        "truncated": true,
+        "truncatedBy": "lines",
+        "totalLines": 618,
+        "totalBytes": 11559,
+        "outputLines": 223,
+        "outputBytes": 11559,
+        "lastLinePartial": false,
+        "firstLineExceedsLimit": false
+      },
+      "read_file_size": 34277
+    },
+    {
+      "index": 3,
+      "title": "Loading exact source model",
+      "tool": "eval",
+      "llm_s": 7.320644,
+      "completed_at_ms": 1792002993959,
+      "read_path": null,
+      "code_lines": 13,
+      "code_chars": 681,
+      "cell_s": 6.541,
+      "tool_result_gap_s": 6.585,
+      "result_at_ms": 1792003000544,
+      "is_error": false
+    },
+    {
+      "index": 4,
+      "title": "Inspecting MPS section encoding",
+      "tool": "read",
+      "llm_s": 3.676428,
+      "completed_at_ms": 1792003004245,
+      "read_path": "input/model.mps:1-55",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.008,
+      "result_at_ms": 1792003004253,
+      "is_error": false,
+      "read_file_size": 25887574
+    },
+    {
+      "index": 5,
+      "title": "Inspecting sections and equality patterns",
+      "tool": "eval",
+      "llm_s": 12.299991,
+      "completed_at_ms": 1792003016579,
+      "read_path": null,
+      "code_lines": 19,
+      "code_chars": 1359,
+      "cell_s": 0.291,
+      "tool_result_gap_s": 0.293,
+      "result_at_ms": 1792003016872,
+      "is_error": false
+    },
+    {
+      "index": 6,
+      "title": "Investigating definitional equality structure",
+      "tool": "eval",
+      "llm_s": 15.31688,
+      "completed_at_ms": 1792003032213,
+      "read_path": null,
+      "code_lines": 21,
+      "code_chars": 1600,
+      "cell_s": 0.836,
+      "tool_result_gap_s": 0.841,
+      "result_at_ms": 1792003033054,
+      "is_error": false
+    },
+    {
+      "index": 7,
+      "title": "Testing exact zero propagation witnesses",
+      "tool": "eval",
+      "llm_s": 24.270025,
+      "completed_at_ms": 1792003057349,
+      "read_path": null,
+      "code_lines": 36,
+      "code_chars": 2379,
+      "cell_s": 0.332,
+      "tool_result_gap_s": 0.337,
+      "result_at_ms": 1792003057686,
+      "is_error": false
+    },
+    {
+      "index": 8,
+      "title": "Reading proof derivation methods",
+      "tool": "read",
+      "llm_s": 13.445529,
+      "completed_at_ms": 1792003071156,
+      "read_path": "compiler/API.md:220-430",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.008,
+      "result_at_ms": 1792003071164,
+      "is_error": false,
+      "read_truncation": {
+        "truncated": true,
+        "truncatedBy": "lines",
+        "totalLines": 400,
+        "totalBytes": 11848,
+        "outputLines": 215,
+        "outputBytes": 11848,
+        "lastLinePartial": false,
+        "firstLineExceedsLimit": false
+      },
+      "read_file_size": 34277
+    },
+    {
+      "index": 9,
+      "title": "Testing residual alias and dependency structure",
+      "tool": "eval",
+      "llm_s": 20.560869,
+      "completed_at_ms": 1792003091753,
+      "read_path": null,
+      "code_lines": 32,
+      "code_chars": 1892,
+      "cell_s": 0.228,
+      "tool_result_gap_s": 0.233,
+      "result_at_ms": 1792003091986,
+      "is_error": false
+    },
+    {
+      "index": 10,
+      "title": "Inspecting sum definitions and residual redundancies",
+      "tool": "eval",
+      "llm_s": 21.430766,
+      "completed_at_ms": 1792003113441,
+      "read_path": null,
+      "code_lines": 28,
+      "code_chars": 2069,
+      "cell_s": 1.003,
+      "tool_result_gap_s": 1.006,
+      "result_at_ms": 1792003114447,
+      "is_error": false
+    },
+    {
+      "index": 11,
+      "title": "Inspecting compiler implementation layout",
+      "tool": "read",
+      "llm_s": 12.485578,
+      "completed_at_ms": 1792003126957,
+      "read_path": "compiler/python/kernel_compiler",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.003,
+      "result_at_ms": 1792003126960,
+      "is_error": false
+    },
+    {
+      "index": 12,
+      "title": "Selecting sparse exact elimination candidates",
+      "tool": "eval",
+      "llm_s": 63.412576,
+      "completed_at_ms": 1792003190377,
+      "read_path": null,
+      "code_lines": 31,
+      "code_chars": 2256,
+      "cell_s": 0.319,
+      "tool_result_gap_s": 0.326,
+      "result_at_ms": 1792003190703,
+      "is_error": false
+    },
+    {
+      "index": 13,
+      "title": "Checking elimination invariants and constants",
+      "tool": "eval",
+      "llm_s": 27.897735,
+      "completed_at_ms": 1792003218625,
+      "read_path": null,
+      "code_lines": 8,
+      "code_chars": 1048,
+      "cell_s": 0.081,
+      "tool_result_gap_s": 0.084,
+      "result_at_ms": 1792003218709,
+      "is_error": false
+    },
+    {
+      "index": 14,
+      "title": "Testing additional aliases and decomposition",
+      "tool": "eval",
+      "llm_s": 30.324019,
+      "completed_at_ms": 1792003249057,
+      "read_path": null,
+      "code_lines": 25,
+      "code_chars": 1264,
+      "cell_s": 0.092,
+      "tool_result_gap_s": 0.094,
+      "result_at_ms": 1792003249151,
+      "is_error": false
+    },
+    {
+      "index": 15,
+      "title": "Inspecting substitution proof internals",
+      "tool": "read",
+      "llm_s": 36.352684,
+      "completed_at_ms": 1792003285527,
+      "read_path": "compiler/python/kernel_compiler/proof.py",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.022,
+      "result_at_ms": 1792003285549,
+      "is_error": false,
+      "read_file_size": 46889,
+      "read_summary": {
+        "lines": 58,
+        "elidedSpans": 5,
+        "elidedLines": 854
+      }
+    },
+    {
+      "index": 16,
+      "title": "Locating proof authoring implementations",
+      "tool": "eval",
+      "llm_s": 7.269891,
+      "completed_at_ms": 1792003292824,
+      "read_path": null,
+      "code_lines": 7,
+      "code_chars": 523,
+      "cell_s": 0.005,
+      "tool_result_gap_s": 0.009,
+      "result_at_ms": 1792003292833,
+      "is_error": false
+    },
+    {
+      "index": 17,
+      "title": "Reading bulk substitution behavior",
+      "tool": "read",
+      "llm_s": 3.118093,
+      "completed_at_ms": 1792003295976,
+      "read_path": "compiler/python/kernel_compiler/proof.py:350-510",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.007,
+      "result_at_ms": 1792003295983,
+      "is_error": false,
+      "read_truncation": {
+        "truncated": true,
+        "truncatedBy": "lines",
+        "totalLines": 559,
+        "totalBytes": 8993,
+        "outputLines": 165,
+        "outputBytes": 8993,
+        "lastLinePartial": false,
+        "firstLineExceedsLimit": false
+      },
+      "read_file_size": 46889
+    },
+    {
+      "index": 18,
+      "title": "Constructing exact sparse reduction candidate",
+      "tool": "eval",
+      "llm_s": 147.80526,
+      "completed_at_ms": 1792003443814,
+      "read_path": null,
+      "code_lines": 172,
+      "code_chars": 9198,
+      "cell_s": 80.574,
+      "tool_result_gap_s": 80.58,
+      "result_at_ms": 1792003524394,
+      "is_error": false
+    },
+    {
+      "index": 19,
+      "title": "Testing inequality-driven zero propagation",
+      "tool": "eval",
+      "llm_s": 30.773273,
+      "completed_at_ms": 1792003555195,
+      "read_path": null,
+      "code_lines": 21,
+      "code_chars": 1178,
+      "cell_s": 0.272,
+      "tool_result_gap_s": 0.277,
+      "result_at_ms": 1792003555472,
+      "is_error": false
+    },
+    {
+      "index": 20,
+      "title": "Extending zero witnesses across inequalities",
+      "tool": "eval",
+      "llm_s": 38.949565,
+      "completed_at_ms": 1792003594447,
+      "read_path": null,
+      "code_lines": 17,
+      "code_chars": 2511,
+      "cell_s": 0.005,
+      "tool_result_gap_s": 0.011,
+      "result_at_ms": 1792003594458,
+      "is_error": true
+    },
+    {
+      "index": 21,
+      "title": "Extending zero witnesses across inequalities",
+      "tool": "eval",
+      "llm_s": 15.759205,
+      "completed_at_ms": 1792003610244,
+      "read_path": null,
+      "code_lines": 15,
+      "code_chars": 2245,
+      "cell_s": 78.187,
+      "tool_result_gap_s": 78.189,
+      "result_at_ms": 1792003688433,
+      "is_error": false
+    },
+    {
+      "index": 22,
+      "title": "Assessing unbounded sum contraction",
+      "tool": "eval",
+      "llm_s": 45.758354,
+      "completed_at_ms": 1792003734219,
+      "read_path": null,
+      "code_lines": 12,
+      "code_chars": 835,
+      "cell_s": 0.139,
+      "tool_result_gap_s": 0.143,
+      "result_at_ms": 1792003734362,
+      "is_error": false
+    },
+    {
+      "index": 23,
+      "title": "Composing acyclic nonnegative sum definitions",
+      "tool": "eval",
+      "llm_s": 44.930547,
+      "completed_at_ms": 1792003779318,
+      "read_path": null,
+      "code_lines": 30,
+      "code_chars": 1760,
+      "cell_s": 17.17,
+      "tool_result_gap_s": 17.179,
+      "result_at_ms": 1792003796497,
+      "is_error": false
+    },
+    {
+      "index": 24,
+      "title": "Locating verification receipt handling",
+      "tool": "eval",
+      "llm_s": 12.015827,
+      "completed_at_ms": 1792003808540,
+      "read_path": null,
+      "code_lines": 3,
+      "code_chars": 233,
+      "cell_s": 0.004,
+      "tool_result_gap_s": 0.009,
+      "result_at_ms": 1792003808549,
+      "is_error": false
+    },
+    {
+      "index": 25,
+      "title": "Reading verification output contract",
+      "tool": "read",
+      "llm_s": 4.612234,
+      "completed_at_ms": 1792003813164,
+      "read_path": "compiler/python/kernel_compiler/session.py:510-610",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.014,
+      "result_at_ms": 1792003813178,
+      "is_error": false,
+      "read_file_size": 32858
+    },
+    {
+      "index": 26,
+      "title": "Reading model fact reference helpers",
+      "tool": "read",
+      "llm_s": 9.46245,
+      "completed_at_ms": 1792003822668,
+      "read_path": "compiler/python/kernel_compiler/proof.py:220-300",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.008,
+      "result_at_ms": 1792003822676,
+      "is_error": false,
+      "read_truncation": {
+        "truncated": true,
+        "truncatedBy": "lines",
+        "totalLines": 689,
+        "totalBytes": 4529,
+        "outputLines": 85,
+        "outputBytes": 4529,
+        "lastLinePartial": false,
+        "firstLineExceedsLimit": false
+      },
+      "read_file_size": 46889
+    },
+    {
+      "index": 27,
+      "title": "Authoring exact bidirectional proof witnesses",
+      "tool": "eval",
+      "llm_s": 46.02701,
+      "completed_at_ms": 1792003868699,
+      "read_path": null,
+      "code_lines": 68,
+      "code_chars": 3729,
+      "cell_s": 26.716,
+      "tool_result_gap_s": 26.723,
+      "result_at_ms": 1792003895422,
+      "is_error": false
+    },
+    {
+      "index": 28,
+      "title": "Cross-checking complete MPS metadata",
+      "tool": "eval",
+      "llm_s": 51.337196,
+      "completed_at_ms": 1792003946790,
+      "read_path": null,
+      "code_lines": 38,
+      "code_chars": 2465,
+      "cell_s": 1.08,
+      "tool_result_gap_s": 1.085,
+      "result_at_ms": 1792003947875,
+      "is_error": false
+    },
+    {
+      "index": 29,
+      "title": "Checking all reconstructed source obligations",
+      "tool": "eval",
+      "llm_s": 40.381442,
+      "completed_at_ms": 1792003988283,
+      "read_path": null,
+      "code_lines": 87,
+      "code_chars": 5758,
+      "cell_s": 13.702,
+      "tool_result_gap_s": 13.71,
+      "result_at_ms": 1792004001993,
+      "is_error": false
+    },
+    {
+      "index": 30,
+      "title": "Committing and verifying the final artifact",
+      "tool": "eval",
+      "llm_s": 34.898947,
+      "completed_at_ms": 1792004036921,
+      "read_path": null,
+      "code_lines": 67,
+      "code_chars": 4254,
+      "cell_s": 17.569,
+      "tool_result_gap_s": 17.574,
+      "result_at_ms": 1792004054495,
+      "is_error": false
+    },
+    {
+      "index": 31,
+      "title": "Recording final-scope hypothesis evidence",
+      "tool": "eval",
+      "llm_s": 83.474515,
+      "completed_at_ms": 1792004137998,
+      "read_path": null,
+      "code_lines": 33,
+      "code_chars": 3055,
+      "cell_s": 2.509,
+      "tool_result_gap_s": 2.511,
+      "result_at_ms": 1792004140509,
+      "is_error": false
+    },
+    {
+      "index": 32,
+      "title": "Inspecting submitted request coverage",
+      "tool": "read",
+      "llm_s": 11.492048,
+      "completed_at_ms": 1792004152026,
+      "read_path": "output/request.json",
+      "code_lines": 0,
+      "code_chars": 0,
+      "cell_s": 0.0,
+      "tool_result_gap_s": 0.023,
+      "result_at_ms": 1792004152049,
+      "is_error": false,
+      "read_truncation": {
+        "truncated": true,
+        "truncatedBy": "bytes",
+        "totalLines": 1,
+        "totalBytes": 4688973,
+        "outputLines": 1,
+        "outputBytes": 153600,
+        "lastLinePartial": false,
+        "firstLineExceedsLimit": true
+      },
+      "read_file_size": 4688974
+    },
+    {
+      "index": 33,
+      "title": "Summarizing certified domains and artifact inventory",
+      "tool": "eval",
+      "llm_s": 9.171598,
+      "completed_at_ms": 1792004161227,
+      "read_path": null,
+      "code_lines": 7,
+      "code_chars": 579,
+      "cell_s": 0.089,
+      "tool_result_gap_s": 0.094,
+      "result_at_ms": 1792004161321,
+      "is_error": false
+    },
+    {
+      "index": 34,
+      "title": "Writing the final evidence report",
+      "tool": "eval",
+      "llm_s": 117.425564,
+      "completed_at_ms": 1792004278773,
+      "read_path": null,
+      "code_lines": 113,
+      "code_chars": 12061,
+      "cell_s": 0.005,
+      "tool_result_gap_s": 0.01,
+      "result_at_ms": 1792004278783,
+      "is_error": false
+    }
+  ],
+  "tool_cost_attribution": [
+    {
+      "component": "Three user-written prepare(source) target constructions",
+      "call_indices": [
+        18,
+        21,
+        23
+      ],
+      "cell_s": 175.931,
+      "tool_percent": 71.012,
+      "individual_cell_s": [
+        80.574,
+        78.187,
+        17.17
+      ],
+      "public_api_path": "Author-written structural candidate planning, Expr.substitute, Expr/Variable/Row/Model construction, exact validation; not f.substitution or Kernel verification",
+      "evidence": "First two versions rebuild zeros | set(aggregates) | set(aliases) | set(private) | set(fixed) inside every aggregate/alias iteration. The final revision replaces that loop with acyclic dependency resolution and a smaller dependency-check set. The different recipes and validations prevent a clean per-line speed claim.",
+      "generic_action": "Compute immutable selected-index sets/unions once outside row/definition loops. Preserve every existing assertion and supplied transformation."
+    },
+    {
+      "component": "User-written build_proof(source,target,plan)",
+      "call_indices": [
+        27
+      ],
+      "cell_s": 26.716,
+      "public_api_path": "One Proof.bijection; explicit Lin/EqPair zero/definition facts; one f.rewrite_many with one supplied pivot plan; f.missing + f.complete, r.missing + r.complete; supplied EQ Lin goals and r.box_le for missing LE goals",
+      "visible_counts": {
+        "forward_missing_eq": 69380,
+        "reverse_missing_le": 41657
+      },
+      "evidence": "The actual script does not call ClaimBuilder.substitution. It does not repeatedly subtract one immutable wide Expr per pivot. Sparse rewrite_many is already used. Frozen source predicts four resolve-return RPCs; each subsequent complete follows added facts, so this is not evidence of stale cache invalidation. No per-RPC timing exists."
+    },
+    {
+      "component": "Write committed MPS, proof.verify, receipts",
+      "call_indices": [
+        30
+      ],
+      "cell_s": 17.569,
+      "proof_verify_s_reported_by_agent": 16.63151788711548,
+      "kernel_verify_total_s": 2.369921,
+      "kernel_status": "VERIFIED",
+      "obligations": 1451147,
+      "public_api_path": "Proof.verify -> Proof.compile -> compile_certificate: committed Model.load/readback + named compare, MCM and JSON/RPX serialization, native compile, native verification, receipts",
+      "evidence": "Only one source Model.load is run interactively. Proof._model_path caches source and target canonical snapshots across all resolve calls. Native verify takes 2.369921s; the rest of the 16.632s is not separately profiled."
+    },
+    {
+      "component": "Independent algebra audit plus saved edits/maps",
+      "call_indices": [
+        29
+      ],
+      "cell_s": 13.702,
+      "public_api_path": "Author-provided complete reconstruction check, source.diff(target), JSON evidence writes; external to Kernel proof acceptance"
+    },
+    {
+      "component": "Initial Model.load plus exact stats",
+      "call_indices": [
+        3
+      ],
+      "cell_s": 6.541,
+      "model_load_s_reported_by_agent": 5.439265012741089
+    },
+    {
+      "component": "Remaining measured cells",
+      "cell_s": 7.29
+    }
+  ],
+  "api_friction_evidence": {
+    "package_source_reads": {
+      "call_indices": [
+        11,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26
+      ],
+      "llm_s": 85.316757,
+      "evidence": "Looked for substitution/rewrite_many, model substitution, missing/complete, bijection/verify, receipt fields and fact refs in package files. This establishes interface lookup cost, not that all adjacent model thinking was exclusively API guessing."
+    },
+    "large_request_read": {
+      "call_index": 32,
+      "path": "output/request.json",
+      "file_bytes": 4688974,
+      "returned_text_bytes": 153600,
+      "truncated": true,
+      "llm_s_before_read": 11.492048,
+      "subsequent_manual_summary_call": 33,
+      "summary_call_llm_s": 9.171598,
+      "generic_action": "A compact contract/coverage summary or a documented bounded query could expose direction, domain flags, objective, inverse index and projection counts without a raw multi-megabyte Request dump; this changes metadata ergonomics, not mathematical expressiveness."
+    },
+    "existing_reverse_templates": {
+      "evidence": "The agent already used r.box_le for reverse missing inequalities and r.eq_on_fixed for equality fallback. Forward bound scaling is ordinary supplied Lin after rewrite_many. No missing reverse-bound proof operator is demonstrated."
+    },
+    "not_observed": [
+      "Stale completion causing an extra plan-return walk",
+      "Repeated Python Model JSON readback in missing/complete",
+      "C3 repeated per-pivot wide immutable Expr cancellation",
+      "Proof search or hidden benchmark mathematics"
+    ],
+    "next_actions": "Keep the already chosen mathematics and exact audit. Improve generic bulk-operation/reference/receipt documentation and bounded Request inspection; do not infer a new mathematical helper or weaken reformulations from these timings."
+  },
+  "nomf_phase_and_scope": {
+    "agent_wall_s": 426.666,
+    "assistant_duration_s": 415.947658,
+    "eval_cell_duration_s": 8.872,
+    "calls": 15,
+    "failed_calls": 0,
+    "nomf_final_size": {
+      "variables": 178256,
+      "rows": 79926,
+      "nonzeros": 362673,
+      "integers": 243
+    },
+    "compiler_final_size": {
+      "variables": 156572,
+      "rows": 78432,
+      "nonzeros": 349370,
+      "integers": 152
+    },
+    "nomf_scope": "Zero/alias closure and box redundancy; self-authored exact mathematical/disk replay, no RPX Kernel certificate.",
+    "compiler_scope": "Additional inequality zero propagation, nontrivial aggregate/private affine eliminations and transferred bounds; two unrestricted MI Equal/inverse directional Kernel claims, all retained coordinates, complete RPX serialization audit.",
+    "comparison_limit": "Different mathematical recipes, candidate iterations and proof contracts. These wall totals do not isolate a compiler overhead ratio or assert solver-quality superiority."
+  }
+}

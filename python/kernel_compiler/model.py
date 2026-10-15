@@ -557,6 +557,16 @@ class Model:
         path.write_text(self.to_mps(rational_literals=rational_literals))
         return path
 
+    def standard_mps_adapter(self, *, objective_auxiliary=True, objective_name="__mps_objective"):
+        """Explicitly adapt exact rationals for standard MPS, with a mechanical proof.
+
+        Returns an inspectable adapter; this model and its existing proofs stay
+        intact. The adapter validates actual Kernel standard MPS readback.
+        """
+        from .mps_adapter import StandardMPSAdapter
+        return StandardMPSAdapter(self, objective_auxiliary=objective_auxiliary,
+                                  objective_name=objective_name)
+
     def to_mps(self, *, rational_literals=False):
         if any(any(c.isspace() for c in item) or item.startswith("$") for item in [self.name, *(v.name for v in self.vars), *(r.name for r in self.rows)]):
             raise ValueError("MPS names must be whitespace-free and cannot start with '$'; use MCM for these names")

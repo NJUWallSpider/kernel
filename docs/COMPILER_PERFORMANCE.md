@@ -70,6 +70,28 @@ claiming timings for every later revision.
 
 ## Reproduction
 
+The [C5 test16 phase diagnosis](../audit/compiler-agent/C5-test16-diagnostic/report.json)
+uses the completed fresh Agent's retained public events, without replaying its
+proof. Its measured cells total 247.75 s: three caller-written candidate-model
+constructions account for 175.93 s, proof construction for 26.72 s, and final
+commit/verification for 17.57 s (native verification total 2.37 s). The first two
+model-construction cells repeatedly rebuild large membership sets inside a
+definition loop; the third changes that code and completes in 17.17 s. This is
+visible call-path evidence, not an internal profiler or a controlled speedup.
+There is no observed recurrence of the C3 wide immutable-expression loop,
+stale completion cache, or repeated full planner.
+
+Complete Agent wall is 1325.07 s, with 1074.64 s recorded assistant duration.
+Grouping that duration by the next visible tool intention attributes 85.32 s
+to seven package-source lookups; this does not reveal hidden reasoning or
+exclusive semantic costs. After the first visible verification, another
+248.06 s remains, almost entirely assistant duration for scope/hypothesis
+accounting and reporting. The Agent also reads a 4.7 MiB Request whose output is
+truncated. The public batch-helper index and bounded `contract_summary()` /
+receipt `request_summary` address these observed interface frictions. Their
+effect on fresh Agent wall and reformulation quality remains to be measured;
+neither this diagnosis nor a supplied-proof replay is autonomous acceptance.
+
 The later [supplied C3 test16 proof diagnostic](../audit/compiler-performance/C3-test16-sparse-rescue/README.md)
 reconstructs that failed Agent's existing mathematical choices in a separate
 workspace. Its unchanged first exact-stage target and four MI/LP inverse claims

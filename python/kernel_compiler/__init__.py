@@ -6,7 +6,9 @@ from .proof import Builder, BuildError, Fact, Contradiction
 from .session import Proof, ClaimBuilder, InjectivityBuilder, Obligation, compile_certificate, verify_bundle
 from .mutations import attack, mutate
 from .bundle import write_chain
+from .mps_adapter import StandardMPSAdapter
+from .request_summary import summarize_request
 
 __all__ = ["Kernel", "KernelError", "Expr", "exact", "Model", "Row", "Variable",
            "Builder", "BuildError", "Fact", "Contradiction", "Proof", "ClaimBuilder",
-           "InjectivityBuilder", "Obligation", "compile_certificate", "verify_bundle", "write_chain", "attack", "mutate"]
+           "InjectivityBuilder", "Obligation", "compile_certificate", "verify_bundle", "write_chain", "StandardMPSAdapter", "summarize_request", "attack", "mutate"]
