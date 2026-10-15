@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from fractions import Fraction
 import hashlib
 import json
 from pathlib import Path
@@ -11,10 +12,22 @@ import weakref
 from types import SimpleNamespace
 
 from .backend import Kernel, KernelError
-from .expr import Expr, exact
+from .expr import Expr, exact, _rational_text
 from .model import Model
 from .proof import Builder, BuildError, Fact, _PivotPlan, wire
 from .request_summary import summarize_request
+
+
+class _ProofJSONEncoder(json.JSONEncoder):
+    """Encode proof leaves on demand without copying their container tree."""
+    def default(self, value):
+        if isinstance(value, Fact):
+            return value.reference
+        if isinstance(value, Expr):
+            return value.to_json()
+        if isinstance(value, Fraction):
+            return _rational_text(value)
+        return super().default(value)
 
 
 def _digest(path):
@@ -592,8 +605,8 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     _atomic_write(paths["source"], source.write_mcm)
     _atomic_write(paths["target"], target.write_mcm)
     cert_path = directory / "certificate.json"
-    _atomic_text(cert_path, json.dumps(wire(certificate), separators=(",", ":")) + "\n")
-    _atomic_text(paths["request"], json.dumps(wire(request), separators=(",", ":")) + "\n")
+    _atomic_text(cert_path, json.dumps(certificate, cls=_ProofJSONEncoder, separators=(",", ":")) + "\n")
+    _atomic_text(paths["request"], json.dumps(request, cls=_ProofJSONEncoder, separators=(",", ":")) + "\n")
     _atomic_write(paths["proof"], lambda temporary: kernel.call("compile", cert_path, temporary))
     try:
         summary = summarize_request(source, target, request)
