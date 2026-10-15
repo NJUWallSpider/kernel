@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T03:08:14.109074+00:00",
-  "status": "NOT_LAUNCHED",
+  "status": "running",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
   "treatment_id": "C8-20261015",
   "planned_treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
@@ -104,15 +104,27 @@
     "candidate_hypothesis_document_is_not_an_Agent_input": true
   },
   "launch_gate": {
-    "status": "WAITING_FOR_ROOT_QUALITY_COMPLETION_NOTICE",
-    "current_blocker": "C7 quality process is active (root session 5524). Do not overlap timed Agents, solvers or tests.",
+    "status": "RUNNING_AFTER_C7_QUALITY_COMPLETION",
+    "current_blocker": null,
     "authority": "Root will decide launch after quality completes. This file only records a planned experiment.",
-    "created_workspaces": false,
-    "agents_launched": false,
+    "created_workspaces": true,
+    "agents_launched": true,
     "solvers_or_tests_started": false,
-    "native_binary_rehashed_for_this_draft": false,
+    "native_binary_rehashed_for_this_draft": true,
     "native_hash_evidence": "Existing frozen C7 launch-integrity record and fixed-controls metadata; binary existence checked without reading its bytes during live quality work.",
-    "no_timed_Agent_solver_or_benchmark_overlap": true
+    "no_timed_Agent_solver_or_benchmark_overlap": true,
+    "C7_quality_final_sha256": "acc9b435c9f637245ef4c0dade33e2488c98cedd9ee5ebfe0efaa1edc8edd0d4",
+    "C7_quality_completed_cases": [
+      "test9",
+      "test16",
+      "test88",
+      "test58",
+      "test63",
+      "test51"
+    ],
+    "no_live_C7_highs_processes": true,
+    "root_verified_utc": "2026-10-15T03:25:14.711435+00:00",
+    "C6_quality_boundary": "Still PENDING and not used for a prompt-quality causal claim; not a prerequisite for this fresh C8 comparison."
   },
   "interpretation": "Fresh mathematical choices may differ. Compare exact targets/contracts, post-verification work and eventual solver-quality evidence. Faster elapsed time alone does not establish preserved reformulation ambition, causal prompt improvement or completion of the user goal.",
   "prior_answers_or_solver_feedback_exposed": false,
@@ -137,5 +149,12 @@
     },
     "draft_checkout_HEAD": "72fb200da537735b7529fc2f900f490309423e41"
   },
-  "streaming_feature_excluded": true
+  "streaming_feature_excluded": true,
+  "prelaunch_verified_utc": "2026-10-15T03:25:14.711435+00:00",
+  "treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
+  "launch_integrity_sha256": "3ebceba8001238a5ad72282e439d4030d805c512facb07b7679a9908d12c9043",
+  "launched_at": "2026-10-15T11:25:15+08:00",
+  "driver_pids": [
+    25730
+  ]
 }
