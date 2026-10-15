@@ -822,6 +822,40 @@ Change your derivation or report a concrete compiler gap; preserve the strongest
 justified target if certification is incomplete. Never weaken the requested
 mathematical claim merely to obtain VERIFIED.
 
+### Certificate JSON compilation budget
+
+The native `compile` command defaults to a **1 GiB certificate JSON input
+budget**. `Kernel(compile_json_bytes=None)` sends no override and uses the
+selected binary's default. To choose an explicit budget for the same supplied
+proof, pass a positive integer byte count:
+
+```python
+from kernel_compiler import Kernel
+
+kernel = Kernel(compile_json_bytes=2 * 1024**3)
+source = Model.load("input/model.mps", kernel=kernel)
+proof = Proof(source, target, kernel=kernel)
+```
+
+`Proof.compile`, `Proof.verify` and `compile_certificate` pass this override
+only to native `compile --max-json-bytes N`. Boolean,
+noninteger, nonpositive and out-of-u64-range values are rejected by the Python
+constructor. The delivery manifest records the native report's effective
+`compile_limits.certificate_json_bytes`; it does not retain the compiler's
+atomic temporary proof path. A failed compile keeps an existing `proof.rpx`
+and does not publish a replacement delivery manifest.
+
+This changes only the certificate JSON compile budget. Model, Request,
+RPX codec, verification input, work, live-fact and other limits are independent
+and may still reject the same proof. A `RESOURCE_LIMIT` result identifies a
+resource policy, not an invalid mathematical reformulation. Keep the target,
+maps and complete requested claims when reporting that result. No budget
+automatically changes verification work or rewrites the supplied derivation.
+For repeated cancellations from your already selected premise, `subset_bounds`
+can share the same proof algebra without changing the formulation. It saves
+you from manually authoring a shared cancellation DAG; it promises no runtime
+speedup over the same hand-shared proof.
+
 Runnable end-to-end examples are in `python/tests/test_proof.py`, including
 affine elimination, inverse identities, integer rounding, binary strengthening
 with reverse LP inclusion and a strictness point, and non-injective interval

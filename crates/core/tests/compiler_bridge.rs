@@ -312,6 +312,7 @@ fn cli_compiles_and_plans_without_an_rpa_intermediate() {
     assert!(result.status.success(),"{}",String::from_utf8_lossy(&result.stdout));
     let report:serde_json::Value=serde_json::from_slice(&result.stdout).unwrap();
     assert_eq!(report["status"],"COMPILED");assert_eq!(report["version"],1);
+    assert_eq!(report["compile_limits"],json!({"certificate_json_bytes":1024_u64*1024*1024}));
     assert_eq!(fs::read(&output).unwrap(),vector("identity-ordinary.rpx"));
     let End::Return{map,..}=&cert.blocks[0].end else{panic!()};
     let End::Return{map:inverse,..}=&cert.blocks[1].end else{panic!()};

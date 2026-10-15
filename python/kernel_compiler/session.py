@@ -607,7 +607,17 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
     cert_path = directory / "certificate.json"
     _atomic_text(cert_path, json.dumps(certificate, cls=_ProofJSONEncoder, separators=(",", ":")) + "\n")
     _atomic_text(paths["request"], json.dumps(request, cls=_ProofJSONEncoder, separators=(",", ":")) + "\n")
-    _atomic_write(paths["proof"], lambda temporary: kernel.call("compile", cert_path, temporary))
+    compile_report = None
+
+    def write_proof(temporary):
+        nonlocal compile_report
+        arguments = ["compile"]
+        budget = getattr(kernel, "compile_json_bytes", None)
+        if budget is not None:
+            arguments += ["--max-json-bytes", budget]
+        compile_report = kernel.call(*arguments, cert_path, temporary)
+
+    _atomic_write(paths["proof"], write_proof)
     try:
         summary = summarize_request(source, target, request)
     except (IndexError, KeyError, TypeError, ValueError, AttributeError, StopIteration) as error:
@@ -619,6 +629,10 @@ def compile_certificate(source, target, certificate, request, directory, *, kern
                 "request_summary": summary,
                 "pieces": [{key: str(value) for key, value in paths.items()}],
                 "artifacts": {key: {"path": str(value), "sha256": _digest(value)} for key, value in paths.items()}}
+    if isinstance(compile_report, dict) and "compile_limits" in compile_report:
+        # Other compile-report fields can contain the atomic temporary path.
+        # The manifest binds the final proof path and only records its budget.
+        manifest["compile_limits"] = compile_report["compile_limits"]
     if committed_model is not None:
         manifest["committed_model"] = str(committed_model)
         manifest["artifacts"]["committed_model"] = {"path": str(committed_model), "sha256": _digest(committed_model)}

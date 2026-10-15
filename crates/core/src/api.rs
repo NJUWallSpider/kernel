@@ -21,6 +21,9 @@ use std::{fmt, fs, io::Read, path::Path, time::Instant};
 /// Best-effort failure location, re-exported so a caller needs this module only.
 pub use crate::verify::{Diagnostics, Location};
 
+/// Direct Certificate JSON resource options, separate from verifier budgets.
+pub use crate::compiler::CompileOptions;
+
 /// Maximum bytes read for one input file. Resource policy, not a wire limit;
 /// `codec::MAX_FILE_BYTES` and the model/text caps remain the format limits.
 pub const MAX_INPUT_BYTES: u64 = 512 * 1024 * 1024;
@@ -321,17 +324,60 @@ pub fn assemble_paths(input: &str, output: &str) -> Result<Value, Error> {
 
 /// Direct structured proof compilation. No RPA parser or assembly is involved.
 pub fn compile_certificate_json(text: &str) -> Result<Vec<u8>, Error> {
-    Ok(compiler::compile_certificate_json(text)?)
+    compile_certificate_json_with_options(text, &CompileOptions::default())
+}
+
+/// Direct compilation under an explicit Certificate JSON byte budget. RPX
+/// codec limits and verification rules/budgets are unaffected.
+pub fn compile_certificate_json_with_options(text: &str, options: &CompileOptions) -> Result<Vec<u8>, Error> {
+    Ok(compiler::compile_certificate_json_with_options(text, options)?)
+}
+
+// Keep Certificate reads separate: changing a compile budget must not widen
+// canonical/model/Request/RPX reads through the general MAX_INPUT_BYTES policy.
+fn read_certificate_json_from(reader: impl Read, reported_len: u64, options: &CompileOptions) -> Result<String, Error> {
+    options.validate()?;
+    let limit = options.max_json_bytes;
+    if reported_len > limit {
+        return Err(Error::from_message("RESOURCE_LIMIT input file bytes".into()));
+    }
+    let length = usize::try_from(reported_len)
+        .map_err(|_| Error::from_message("RESOURCE_LIMIT file allocation".into()))?;
+    let mut bytes = Vec::new();
+    bytes.try_reserve(length).map_err(|_| Error::from_message("RESOURCE_LIMIT file allocation".into()))?;
+    // A file can grow after metadata is read. Read one extra byte to detect it.
+    // At u64::MAX the saturating bound cannot wrap; no supported Vec can hold
+    // more than that many bytes, and the actual length is independently tested.
+    reader.take(limit.saturating_add(1)).read_to_end(&mut bytes)
+        .map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?;
+    if bytes.len() as u128 > u128::from(limit) {
+        return Err(Error::from_message("RESOURCE_LIMIT input file bytes".into()));
+    }
+    String::from_utf8(bytes).map_err(|_| Error::from_message("INVALID non-UTF8 text".into()))
+}
+
+fn read_certificate_json_path(input: &str, options: &CompileOptions) -> Result<String, Error> {
+    let file = fs::File::open(input).map_err(|e| Error::from_message(format!("IO_ERROR {input}: {e}")))?;
+    let len = file.metadata().map_err(|e| Error::from_message(format!("IO_ERROR {e}")))?.len();
+    read_certificate_json_from(file, len, options)
 }
 
 /// Encode raw Certificate JSON to an RPX file. Compilation checks wire/schema
 /// validity; correctness is established separately by [`verify_paths`].
 pub fn compile_certificate_paths(input: &str, output: &str) -> Result<Value, Error> {
+    compile_certificate_paths_with_options(input, output, &CompileOptions::default())
+}
+
+/// Encode a Certificate with an explicit JSON read/parse budget, preserving
+/// the general file policy and all independent RPX and verification limits.
+pub fn compile_certificate_paths_with_options(input: &str, output: &str, options: &CompileOptions) -> Result<Value, Error> {
+    options.validate()?;
     let start = Instant::now();
-    let encoded = compile_certificate_json(&read_text(input)?)?;
+    let encoded = compile_certificate_json_with_options(&read_certificate_json_path(input, options)?, options)?;
     write_output(output, &encoded)?;
     Ok(json!({"status": Status::Compiled.as_str(), "rpx_bytes": encoded.len(),
         "version": u16::from_le_bytes([encoded[4], encoded[5]]),
+        "compile_limits": {"certificate_json_bytes": options.max_json_bytes},
         "total_us": start.elapsed().as_micros()}))
 }
 
@@ -563,4 +609,38 @@ pub fn verify_report(statistics: &verify::Statistics, requested: &Request, limit
         result["improvements"] = json!(requested.improvements.len());
     }
     result
+}
+
+#[cfg(test)]
+mod compile_input_tests {
+    use super::*;
+    use std::io::{self, Cursor};
+
+    struct MustNotRead;
+    impl Read for MustNotRead {
+        fn read(&mut self, _: &mut [u8]) -> io::Result<usize> {
+            panic!("invalid budget or excessive metadata must be rejected before reading")
+        }
+    }
+
+    #[test]
+    fn certificate_reader_checks_declared_and_actual_length_independently() {
+        let options = CompileOptions::new(3).unwrap();
+        assert_eq!(read_certificate_json_from(Cursor::new(b"abc"), 3, &options).unwrap(), "abc");
+        let early = read_certificate_json_from(MustNotRead, 4, &options).unwrap_err();
+        assert_eq!(early.status(), Status::ResourceLimit);
+        // Simulate a stream/file growing after its metadata was sampled.
+        let late = read_certificate_json_from(Cursor::new(b"abcd-extra"), 0, &options).unwrap_err();
+        assert_eq!(late.status(), Status::ResourceLimit);
+        assert!(late.message().contains("input file bytes"));
+    }
+
+    #[test]
+    fn certificate_reader_maximum_budget_does_not_wrap_or_preallocate_the_budget() {
+        let options = CompileOptions::new(u64::MAX).unwrap();
+        assert_eq!(read_certificate_json_from(Cursor::new(b"abc"), 0, &options).unwrap(), "abc");
+        let zero = CompileOptions { max_json_bytes: 0 };
+        assert_eq!(read_certificate_json_from(MustNotRead, 0, &zero).unwrap_err().status(), Status::Invalid);
+        assert_eq!(read_certificate_json_from(Cursor::new([0xff_u8]), 1, &options).unwrap_err().status(), Status::Invalid);
+    }
 }

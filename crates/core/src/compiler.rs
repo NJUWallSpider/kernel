@@ -8,8 +8,40 @@ use serde::Deserialize;
 mod resolve;
 pub use resolve::{Assignment, AssignmentFact, AuthoringFact, MissingObligation, ResolveReturn, ResolveResult, resolve_return_json, resolve_return};
 
-/// JSON input policy. The codec retains all independent wire limits.
+/// Input policy for planning/authoring JSON. Certificate compilation has its
+/// own explicit budget; the codec retains all independent wire limits.
 pub const MAX_JSON_BYTES: usize = crate::api::MAX_INPUT_BYTES as usize;
+
+/// Default Certificate JSON budget, independent of the general file reader
+/// and every RPX encoding/verification limit.
+pub const DEFAULT_CERTIFICATE_JSON_BYTES: u64 = 1024 * 1024 * 1024;
+
+/// Resource policy for direct Certificate JSON compilation, never proof rules.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct CompileOptions {
+    pub max_json_bytes: u64,
+}
+
+impl Default for CompileOptions {
+    fn default() -> Self {
+        Self { max_json_bytes: DEFAULT_CERTIFICATE_JSON_BYTES }
+    }
+}
+
+impl CompileOptions {
+    pub fn new(max_json_bytes: u64) -> Result<Self, String> {
+        let options = Self { max_json_bytes };
+        options.validate()?;
+        Ok(options)
+    }
+
+    pub(crate) fn validate(&self) -> Result<(), String> {
+        if self.max_json_bytes == 0 {
+            return Err("INVALID certificate JSON byte budget must be positive".into());
+        }
+        Ok(())
+    }
+}
 
 /// A nested Cases derivation adds at most four JSON containers per wire
 /// depth. The extra envelope/step/expression tuple containers fit below this
@@ -58,7 +90,14 @@ pub(crate) fn json_error(context: &str, error: serde_json::Error) -> String {
 /// Exact scalars use strings; serde rejects unknown fields and floating point
 /// scalars. There is no RPA header or intermediate representation.
 pub fn parse_certificate_json(text: &str) -> Result<Certificate, String> {
-    if text.len() > MAX_JSON_BYTES {
+    parse_certificate_json_with_options(text, &CompileOptions::default())
+}
+
+/// Parse a Certificate under an explicit finite byte budget. All structural,
+/// scalar, nesting and wire checks are unchanged.
+pub fn parse_certificate_json_with_options(text: &str, options: &CompileOptions) -> Result<Certificate, String> {
+    options.validate()?;
+    if text.len() as u128 > u128::from(options.max_json_bytes) {
         return Err("RESOURCE_LIMIT certificate JSON bytes".into());
     }
     check_certificate_json_depth(text)?;
@@ -77,7 +116,13 @@ pub fn parse_certificate_json(text: &str) -> Result<Certificate, String> {
 /// encodable; the caller must independently supply models and a Request to the
 /// kernel verifier to establish correctness.
 pub fn compile_certificate_json(text: &str) -> Result<Vec<u8>, String> {
-    codec::encode_certificate(&parse_certificate_json(text)?)
+    compile_certificate_json_with_options(text, &CompileOptions::default())
+}
+
+/// Compile with a Certificate JSON byte budget; the existing encoder remains
+/// responsible for every frozen RPX item, magnitude, nesting and byte limit.
+pub fn compile_certificate_json_with_options(text: &str, options: &CompileOptions) -> Result<Vec<u8>, String> {
+    codec::encode_certificate(&parse_certificate_json_with_options(text, options)?)
 }
 
 /// A terminal Return in already-oriented input/output coordinates. The input

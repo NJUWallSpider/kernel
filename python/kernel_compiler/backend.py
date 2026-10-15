@@ -17,7 +17,13 @@ class KernelError(RuntimeError):
 
 class Kernel:
     """Use a built rpx binary (explicit argument, KERNEL_RPX, checkout, or PATH)."""
-    def __init__(self, binary=None):
+    def __init__(self, binary=None, *, compile_json_bytes=None):
+        if compile_json_bytes is not None:
+            if isinstance(compile_json_bytes, bool) or not isinstance(compile_json_bytes, int):
+                raise TypeError("compile_json_bytes must be a positive integer or None")
+            if not 0 < compile_json_bytes <= (1 << 64) - 1:
+                raise ValueError("compile_json_bytes must fit a positive unsigned 64-bit integer")
+        self.compile_json_bytes = compile_json_bytes
         root = Path(__file__).resolve().parents[2]
         candidates = [binary, os.environ.get("KERNEL_RPX"),
                       root / "bin/rpx", root / "target/release/rpx", root / "target/debug/rpx", shutil.which("rpx")]
