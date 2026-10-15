@@ -16,6 +16,25 @@
     "Prepared 14 generic files exactly at 539c146, marked both earlier prelaunch snapshots superseded without changing their generic files, and recorded root-reported regressions plus the user memory preference."
   ],
   "actual_git_HEAD_at_package_creation": "539c146425e0054fa1127968b72276df4073de8d",
+  "actual_launch": {
+    "at": "2026-10-15T12:45:07+08:00",
+    "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+    "driver_pids": [
+      {
+        "pid": 71679,
+        "ppid": 59553
+      }
+    ],
+    "execution_session": 93558,
+    "harness_git_head": "a96cfe682bab8bba60b5963c17ed270692c8bb24",
+    "integrity_audit_sha256": "4a84d1152d0743a139785fdc75c7668af844048030ee2dd7f0bd97a5b1125e5b",
+    "integrity_status": "PASS",
+    "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+    "launch_integrity_sha256": "9c6a9b2999be6007191632e7b8e4f0479db2557ca0be79df8df6855f4358dbdf",
+    "prompt_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+    "snapshot_sha256": "51631a878ce9e6650c172b64b9e849138ebc4454e83bc04f77b89c0337a738f3",
+    "source_checkpoint": "539c146425e0054fa1127968b72276df4073de8d"
+  },
   "case_plan_revision_history": [
     {
       "meaning": "Original same-six-case plan was cancelled before launch; retained in superseded_same_case_plan.",
@@ -176,19 +195,19 @@
   "evaluation_kind": "Latest-API fresh generalization acceptance on different previously nomf-tested cases; not a prompt-only or same-case causal experiment",
   "feedback_regressions_before_launch": {
     "certificate_serialization_copy": {
-      "status": "COMPLETE_BYTE_IDENTICAL_NATIVE_REGRESSION",
+      "all_six_artifact_classes_byte_identical": true,
+      "boundary": "Not fresh Agent acceptance or a stable repeated speed estimate. Memory is not a gate, per user instruction.",
       "checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+      "native_statistics_identical": true,
       "result": "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-result.json",
       "sha256": "b3fcd624ef92d326b093ad3ca27738eabaff3932ae55674f74ac49b29d382dd7",
-      "all_six_artifact_classes_byte_identical": true,
-      "native_statistics_identical": true,
+      "status": "COMPLETE_BYTE_IDENTICAL_NATIVE_REGRESSION",
       "times_single_sample_seconds": {
-        "old_helpers_serialization": 45.299733,
         "new_encoder_serialization": 17.498844750021817,
-        "old_helpers_total": 139.443656,
-        "new_encoder_total": 99.93025858400506
-      },
-      "boundary": "Not fresh Agent acceptance or a stable repeated speed estimate. Memory is not a gate, per user instruction."
+        "new_encoder_total": 99.93025858400506,
+        "old_helpers_serialization": 45.299733,
+        "old_helpers_total": 139.443656
+      }
     },
     "deferred_piecewise_and_constructive_maps": {
       "checkpoint": "5a63943267fb77392254ce1a6617c725c3cf49a7",
@@ -387,11 +406,11 @@
       "Root explicitly authorizes and starts C9 after final review.",
       "At launch recheck final package/API/prompt hashes and fixed native identity, the final harness snapshot, and all sixteen selected compiler/nomf pristine input copies."
     ],
-    "decision": "ROOT_READY_TO_LAUNCH_AFTER_FEEDBACK_IMPROVEMENTS",
+    "decision": "ROOT_LAUNCHED_AFTER_REQUIRED_FEEDBACK_IMPROVEMENTS_AND_REGRESSIONS",
     "decision_owner": "root",
     "root_verified_utc": "2026-10-15T04:44:38.587107+00:00"
   },
-  "launch_status": "READY_NOT_LAUNCHED",
+  "launch_status": "LAUNCHED",
   "not_performed": [
     "Run/workspace creation",
     "Agent launch",
@@ -500,6 +519,17 @@
   ],
   "plan_status": "ROOT_SELECTED_NEW_CASES_FEEDBACK_IMPROVEMENTS_IMPLEMENTED_EQUIVALENCE_TIMING_REGRESSION_PENDING",
   "planned_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "prelaunch_provenance": {
+    "C8_final_review_sha256": "8e3d01ed8c357900e1ea09a3c9e34b1ead7ab9c715cc1fb48237e76fc83fe677",
+    "all_eight_pristine_input_hashes_rechecked": true,
+    "all_source_hashes_match_snapshot": true,
+    "new_Agents_launched": false,
+    "run_harness_sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
+    "same_proof_benchmark_processes_running": [],
+    "source_file_count": 14,
+    "staged_harness_sha256": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24",
+    "verified_utc": "2026-10-15T04:44:38.587107+00:00"
+  },
   "root_reported_C8_stop_and_review": {
     "evidence_owner": "Parent/root report; this subagent did not execute native or inspect/stop unrelated processes.",
     "final_quality_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
@@ -514,7 +544,7 @@
   "schema": "compiler-latest-api-evaluation-controls-1",
   "source_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
   "source_checkpoint_status": "FROZEN_AFTER_C8_FEEDBACK_AND_REQUIRED_REGRESSIONS",
-  "status": "READY_NOT_LAUNCHED",
+  "status": "LAUNCHED",
   "superseded_prelaunch": {
     "agent_execution": "NOT_LAUNCHED",
     "generic_source_files_unchanged": true,
@@ -571,23 +601,12 @@
     "status": "RESOLVED_NAME_ONLY"
   },
   "treatment_id": "C9-20261015",
-  "updated_utc": "2026-10-15T04:44:38.587107+00:00",
+  "updated_utc": "2026-10-15T04:47:32+00:00",
   "user_resource_preference": {
     "meaning": "Memory is not an acceptance or launch gate; no further dedicated memory optimization rounds. Retain completed 539c146 serialization change, which also avoids time spent copying.",
     "recorded_utc": "2026-10-15T04:39:39+00:00",
     "source": "Parent/root relaying the latest human instruction.",
-    "statement": "内存无所谓的",
+    "statement": "\u5185\u5b58\u65e0\u6240\u8c13\u7684",
     "third_arm_scope": "Proof byte/native consistency and elapsed time; RSS, if observed, is informational only."
-  },
-  "prelaunch_provenance": {
-    "verified_utc": "2026-10-15T04:44:38.587107+00:00",
-    "source_file_count": 14,
-    "all_source_hashes_match_snapshot": true,
-    "all_eight_pristine_input_hashes_rechecked": true,
-    "C8_final_review_sha256": "8e3d01ed8c357900e1ea09a3c9e34b1ead7ab9c715cc1fb48237e76fc83fe677",
-    "run_harness_sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
-    "staged_harness_sha256": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24",
-    "same_proof_benchmark_processes_running": [],
-    "new_Agents_launched": false
   }
 }

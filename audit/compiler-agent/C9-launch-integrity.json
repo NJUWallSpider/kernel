@@ -1,0 +1,27 @@
+{
+  "addon_prompt_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "boundary": "Copy/pristine-input integrity only. No live mathematical session contents were read. Actual Agent mathematics, out-of-workspace access and quality are not inferred from these copy checks.",
+  "compiler_copies": 8,
+  "created_utc": "2026-10-15T04:47:32+00:00",
+  "driver_pids": [
+    {
+      "pid": 71679,
+      "ppid": 59553
+    }
+  ],
+  "execution_session": 93558,
+  "generic_files_per_compiler": 14,
+  "integrity_file": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/launch-integrity.json",
+  "integrity_sha256": "9c6a9b2999be6007191632e7b8e4f0479db2557ca0be79df8df6855f4358dbdf",
+  "launch_at": "2026-10-15T12:45:07+08:00",
+  "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "nomf_without_compiler_copies": 8,
+  "overall_user_goal_acceptance": false,
+  "passed": 16,
+  "python_sources_per_compiler": 11,
+  "schema": "compiler-launch-audit-1",
+  "source_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+  "status": "PASS",
+  "workspace_checks": 16
+}
