@@ -1,0 +1,64 @@
+{
+  "schema": "compiler-subset-bound-regression-1",
+  "recorded_utc": "2026-10-15T05:29:07.501731+00:00",
+  "source_checkpoint": "8ebcc97673f752a5be549ade0d6b25c02109929c",
+  "source_files_sha256": {
+    "python/kernel_compiler/_subsets.py": "9015a59c8e453428a2d8ae546966a3bad9da9fbd78aaa392cdc17f8492656170",
+    "python/kernel_compiler/proof.py": "d6db18508585591d42763ff03cefb8133cd3f956965ab2ce0d09a1c6210baff5",
+    "python/tests/test_subset_bounds.py": "7d9b7fbd612aa946bd3f39a518d1aff6f4974f89b187288cb2147dd7d8af2299",
+    "docs/COMPILER_API.md": "d680fbfec892469b0a2e0caa983c1eb358421eab145e2bad9d28dc585aff28d8"
+  },
+  "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "basis": "C9/test70 supplied packing/subset cancellation repeated tens of millions of terms and hit the input byte cap; public source and exact unchanged-target repair retained in C9-test70-phase.json.",
+  "API": "Builder.subset_bounds(fact,subsets)",
+  "scope": "User chooses one visible LE/EQ and every retained coordinate subset; mechanical cancellation by actual bound endpoints, structurally shared with ordinary Lin only. No packing cover, row, stronger bound, new target or nontrivial witness discovered.",
+  "tests": [
+    {
+      "interpreter": "python3",
+      "version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+      "session": 74256,
+      "exit_code": 0,
+      "count": 154,
+      "reported_seconds": 4.847,
+      "log": "audit/compiler-performance/C9-subset-bounds-20261015/py39.log",
+      "sha256": "4001ea287c7c94813a0b7f958afd7fbf6838bcae9d284725eb208bf1416c4743"
+    },
+    {
+      "interpreter": "/Users/bhz/miniforge3/envs/bigdata/bin/python",
+      "version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "session": 96866,
+      "exit_code": 0,
+      "count": 154,
+      "reported_seconds": 4.004,
+      "log": "audit/compiler-performance/C9-subset-bounds-20261015/py314.log",
+      "sha256": "093987cfb07fd3a20dea96975b8faa2956d4d9a9daabc17ad0c60ed733dd18de"
+    }
+  ],
+  "new_tests": 10,
+  "tests_include": [
+    "exact signed rational endpoint shifts and native full-model verification/tamper rejection",
+    "retained unbounded and missing endpoint preflight",
+    "EQ input and infeasible-domain correctness without existence claim",
+    "dropped intermediate/cache result reconstruction and root/sibling scope isolation",
+    "sparse holes and zero-aligned runs",
+    "native generated Interval scope retaining an unbounded generated coordinate",
+    "distinct root handles with equal expressions",
+    "1024-coordinate overlapping selected subsets, native verification and structural reference-count reduction"
+  ],
+  "timing_boundary": "Two unit suites ran concurrently after all 16 C9 Agents and their owned descendants stopped; unit suite seconds are not fresh Agent performance evidence.",
+  "fresh_Agent_evidence": "NOT_RUN; C9 used frozen539, not this helper or the later sufficient-template wording.",
+  "real_same_target_proof_regression": "PENDING after serial C9 quality finishes.",
+  "memory_is_acceptance_gate": false,
+  "current_quality": {
+    "session": 86261,
+    "label": "C9-quality",
+    "time_limit": 120,
+    "repeats": 3,
+    "repeat_threshold": 30,
+    "solves_serial": true,
+    "threads": 1,
+    "parallel": "off",
+    "random_seed": 0,
+    "additional_tests_or_benchmarks_during_quality": false
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "schema": "compiler-owned-process-stop-1",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "checked_at_utc": "2026-10-15T05:25:56+00:00",
+  "checked_at_local": "2026-10-15T13:25:56+08:00",
+  "status": "PASS",
+  "driver": {
+    "pid": 71679,
+    "parent_pid": 59553,
+    "root_exec_session": 93558,
+    "terminal_exit_code": 0,
+    "terminal_exit_evidence": "Parent reported authoritative exec session completion; process absence independently checked."
+  },
+  "formal_completion": {
+    "runs": 16,
+    "ended": 16,
+    "assessed": 16,
+    "normal_exit": 16,
+    "timed_out": 0,
+    "harness_errors": 0,
+    "compiler_runs": 8,
+    "compiler_kernel_verified": 8,
+    "last_run": "test85/nomf",
+    "last_end_local": "2026-10-15T13:24:45+08:00",
+    "last_assessed_local": "2026-10-15T13:24:46+08:00",
+    "last_wall_seconds": 442.289
+  },
+  "process_check": {
+    "method": "Targeted ps for all previously observed owned PIDs, plus batch-qualified driver/OMP signature lookup; only matched process identities were recorded.",
+    "matching_basis": [
+      "Observed driver PID 71679 and its ancestry-confirmed descendants during this batch",
+      "Batch absolute path in the expected Python driver or omp -p --cwd command shape"
+    ],
+    "known_processes": [
+      {
+        "pid": 71679,
+        "ppid": 59553,
+        "role": "DRIVER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 73294,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 73399,
+        "ppid": 73294,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 73145,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 73200,
+        "ppid": 73145,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71698,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71775,
+        "ppid": 71698,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 74369,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 74441,
+        "ppid": 74369,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 75413,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 75491,
+        "ppid": 75413,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 75332,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 75425,
+        "ppid": 75332,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 76428,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 76505,
+        "ppid": 76428,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 77832,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 77936,
+        "ppid": 77832,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 79136,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 79218,
+        "ppid": 79136,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 80128,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 80193,
+        "ppid": 80128,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 81437,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 81508,
+        "ppid": 81437,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 81992,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 82093,
+        "ppid": 81992,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 83498,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 83548,
+        "ppid": 83498,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 84397,
+        "ppid": 71679,
+        "role": "OMP",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 84478,
+        "ppid": 84397,
+        "role": "EVAL_WORKER",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71695,
+        "role": "INITIAL_OWNED_DESCENDANT",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71696,
+        "role": "INITIAL_OWNED_DESCENDANT",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71778,
+        "role": "INITIAL_OWNED_DESCENDANT",
+        "state": "ABSENT"
+      },
+      {
+        "pid": 71802,
+        "role": "INITIAL_OWNED_DESCENDANT",
+        "state": "ABSENT"
+      }
+    ],
+    "known_pids_still_present": [],
+    "batch_qualified_processes": [],
+    "scope": "C9 owned driver and observed OMP/eval descendants only. This is not a claim that all system OMP or Python processes have stopped.",
+    "unrelated_interactive_processes": "Excluded; no unrelated process was stopped."
+  },
+  "evidence": {
+    "formal_events": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/status.jsonl",
+    "launch_integrity": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/launch-integrity.json",
+    "launch_integrity_sha256": "9c6a9b2999be6007191632e7b8e4f0479db2557ca0be79df8df6855f4358dbdf",
+    "comparison": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/comparison.json"
+  },
+  "overall_user_goal_acceptance": false,
+  "limits": "Formal completion and process shutdown audit only; no mathematical quality assessment, solver run, replay, test, benchmark, or native invocation performed."
+}

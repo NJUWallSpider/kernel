@@ -1,0 +1,1139 @@
+{
+  "schema": "kernel-compiler-agent-batch-acceptance-summary-v1",
+  "round": "C9",
+  "status": "AGENTS_COMPLETE_FORMAL_AUDIT_COMPLETE_QUALITY_PENDING",
+  "overall_acceptance": false,
+  "acceptance_complete": false,
+  "quality_status": "PENDING",
+  "case_count": 8,
+  "run_count": 16,
+  "compiler_formally_verified_count": 8,
+  "all_runs_exit_zero_without_timeout_or_harness_errors": true,
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "cases": [
+    "test28",
+    "test38",
+    "test60",
+    "test62",
+    "test70",
+    "test80",
+    "test65",
+    "test85"
+  ],
+  "what_was_done": "Fresh matched Compiler/Nomf Agents on eight previously tested cases, different from the C5–C8 six-case set. Static pair audits were opened only after both arms formally ended and were assessed. No solver, native command, test, model normalization or proof replay was executed for these audits. Public calls/results and actual Requests, receipts and artifact hash bindings define the recorded scopes.",
+  "frozen_controls": {
+    "source_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+    "package_snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015",
+    "snapshot_metadata_sha256": "51631a878ce9e6650c172b64b9e849138ebc4454e83bc04f77b89c0337a738f3",
+    "package_sources": {
+      "package": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/python/kernel_compiler",
+        "files_sha256": {
+          "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+          "_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+          "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+          "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+          "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+          "model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+          "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+          "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+          "proof.py": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+          "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+          "session.py": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a"
+        }
+      },
+      "protocol": {
+        "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+        "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+      },
+      "api_doc": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/docs/COMPILER_API.md",
+        "sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f"
+      },
+      "kernel": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015/kernel/rpx",
+        "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+      }
+    },
+    "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+    "model": "gpt-6.1-sol",
+    "thinking": "high",
+    "tools": "eval,read",
+    "agent_deadline": "30m",
+    "hard_timeout_s": 2280.0,
+    "concurrency": 3,
+    "harness_launch_git_head": "a96cfe682bab8bba60b5963c17ed270692c8bb24",
+    "harness_snapshot": {
+      "harness/run_compiler_agents.py": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
+      "harness/verify_staged_agent_delivery.py": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24"
+    },
+    "prompt_and_case_blinding": "Only generic frozen package/API/protocol and pristine selected input are supplied. No older case solutions, solver results, audit feedback or hidden mathematical hints are sent to these research Agents. Nomf arm receives no compiler package. Historical B1 metadata are evaluator background, not a fresh matched control.",
+    "next_helper_excluded": "The later subset_bounds source checkpoint 8ebcc97 and next-checkpoint box-sufficiency documentation were written after C9 snapshots. Neither is in any frozen539 workspace. The root reports 154 tests passing in both Python environments for that later source; those tests and any supplied-witness regression are separate from C9 fresh-Agent evidence."
+  },
+  "provenance": {
+    "batch_metadata_sha256": "a4c4d9f9245ec0947a074586a11fdf3f492b916a38ac5206fa5c538ad3aa7735",
+    "status_events_sha256": "cbf0f788eaf63764d38f59e0be13bc967693c081f9cc56ed793106bd7fe59b0f",
+    "launch_integrity_path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/launch-integrity.json",
+    "launch_integrity_sha256": "9c6a9b2999be6007191632e7b8e4f0479db2557ca0be79df8df6855f4358dbdf",
+    "comparison_path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/comparison.json",
+    "comparison_bytes": 171468716,
+    "comparison_sha256": "5c5a7c65474ed06217d68605fde0bdc85b8e4b7426d5be4c71cade305397fc8e",
+    "comparison_note": "The harness comparison includes large raw Requests. This bounded summary is derived from the per-case audited metadata, not copied projection arrays. All exact full records remain in the original runs."
+  },
+  "formal_binding": {
+    "source_anchors": "All sixteen assessments report actual input SHA equal to the corresponding immutable batch launch hash; all phase source-anchor comparisons are true. Test38 uses the trusted previously-tested NAME-resolved source, as recorded by the launch catalog.",
+    "all_final_committed_artifact_audits": "MATCHED, covering every named variable, bound, integrality declaration, row and objective. Standard MPS is compared with final proof target via Kernel readback.",
+    "canonical_endpoint_reader_family": "Every audited Compiler source/target starts MCM\\0; own canonical endpoint indices are used by the harness. No cross-parser-family same-SHA reuse trigger was found.",
+    "chain": "test62 is the one ordered chain. The independent v2 reviewer validates both stages with own endpoints, trusted original anchor, exact named intermediate join, final artifact match, and only declared claim paths. No composite inverse/LP conclusion is inherited from a local stage.",
+    "scope_safety": "All eight final MI correspondences cover every output variable and feasibility obligation. Observation counts do not replace total-map checks. No case relies on restricted objective-level or halfspace domains; Kernel points are absent, including test80 author-side check_point smoke tests.",
+    "static_audit_limits": "For large test65/test70 files, the audit reads complete Request and Certificate claim prefixes plus recorded native/harness hashes, public full-map recipes and dimensions; it does not reparse their large model/proof trees or independently decode all terminal map arrays. Other cases record static full Return map/check summaries. The static audits are not extra native verification or author-script reproduction."
+  },
+  "timing_observations": {
+    "compiler_total_wall_s": 3435.519,
+    "nomf_total_wall_s": 3023.927,
+    "total_wall_ratio": 1.1361117513749506,
+    "compiler_case_median_wall_s": 331.6315,
+    "nomf_case_median_wall_s": 360.015,
+    "median_paired_wall_ratio": 1.1184989035831299,
+    "compiler_faster_case_count": 3,
+    "compiler_post_first_final_verification_total_s": 669.944,
+    "compiler_post_first_final_verification_median_s": 81.275,
+    "interpretation": "These are observed sums/medians of eight heterogeneous mathematical choices on a shared host with three concurrent Agent jobs. They are not total batch elapsed time, a controlled same-target prompt/API effect, a stable speed benchmark, or evidence of equal solver quality. No claim of global resource isolation is made. Memory is not an acceptance gate.",
+    "largest_time_gap": "test70: 858.989 s vs 350.247 s. The initial 639,796,634 B certificate hits the input-file byte limit. The Agent preserves the target, maps and three claims, compressing supplied premises to 114,694,805 B; recorded native verification takes 3.551523 s. Substantial attention/time goes to repeated proof construction and post-verification reporting, not simply native execution."
+  },
+  "known_feedback_and_open_acceptance_gaps": [
+    {
+      "case": "test38",
+      "issue": "An additional proportional-sharing candidate is uncompleted after 197 box-only bound checks fail. Preserve the exact public map, rationale and template limitations; do not classify it as invalid mathematics or dismiss possible proof-convenience bias."
+    },
+    {
+      "case": "test70",
+      "issue": "Actual resource-limit friction and manual shared subset/dyadic proof DAG reconstruction. Exact public programs and failure metadata are preserved. This motivates a mechanical sharing helper over user-chosen premises/subsets,not proof search or a weaker formulation."
+    },
+    {
+      "cases": [
+        "test62",
+        "test65",
+        "test85"
+      ],
+      "issue": "Substantial mathematical strategy/scope differences remain against matched Nomf (local hulls, non-bijective netting/capacity merge, integer reciprocal balance aggregation). No explicit proof retreat is observed, but no absence-of-bias or near-quality conclusion follows."
+    },
+    {
+      "case": "test80",
+      "issue": "Complete objective-image projection with 0 decision observations is formally precise and expressive, but differs from Nomf decision-structure preservation. Its tiny target and lower Agent time must not silently stand for the same reformulation objective."
+    },
+    {
+      "case": "test60",
+      "issue": "Actual two-parameter menu transform is certified by MI maps only; Nomf public LP aggregate-extension argument is outside that native Request. No unproved LP or inverse theorem is inferred."
+    },
+    {
+      "cases": [
+        "test28",
+        "test38",
+        "test60",
+        "test62",
+        "test70",
+        "test80",
+        "test65",
+        "test85"
+      ],
+      "issue": "Independent solver-quality comparison is PENDING. Standalone author proof replay was not run in these static audits; optional script absence is not retroactively treated as an Agent failure."
+    }
+  ],
+  "generalization_boundary": "This is positive real-Agent evidence on eight different already-tested inputs, including nonaffine Menu/Interval scopes, integer cases/rounding and large full-domain maps. It is not an exhaustive 81-case rerun or a proof that near-Nomf ambition/time/quality is met. overall_acceptance remains false until the requested quality and remaining actual API-friction goals are assessed.",
+  "cases_detail": [
+    {
+      "case": "test28",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test28-phase.json",
+      "phase_sha256": "d223ef7a470e1d89080eacdbb1a94fbdfc96e6bd26e105d8f79832fead3e325f",
+      "trusted_input_sha256": "ffbabdea65e5c534bf7773051e8ea56626c7503235774bc0495cf94563caf397",
+      "compiler_to_nomf_wall_ratio": 1.1117203329206806,
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 2312 retained-coordinate observations per claim.",
+      "mathematical_comparison_and_boundary": "Both eliminate commodity aggregate definitions; Compiler additionally eliminates 188 pendant-cut coordinates with exact affine fiber preservation. Compiler 2312/708/5978 vs Nomf 2500/896/6730 (variables/rows/matrix nnz).",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test28-compiler-compiler-batch-C9-20261015",
+          "wall_s": 259.53,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 2550,
+            "rows": 1062,
+            "integers": 150,
+            "nonzeros": 9900,
+            "objective_nonzeros": 2500
+          },
+          "target_shape": {
+            "variables": 2312,
+            "rows": 708,
+            "integers": 150,
+            "nonzeros": 5978,
+            "objective_nonzeros": 2312
+          },
+          "committed_model_sha256": "228c5403b71fedbd716310628c6b592d59a9dfd568f65587e96b0116b9808c71",
+          "metrics": {
+            "llm_calls": 21,
+            "tool_calls": 20,
+            "tool_calls_failed": 0,
+            "turns": 21,
+            "tokens_in": 29548,
+            "tokens_out": 10319,
+            "tokens_cache_read": 348160,
+            "tokens_cache_write": 0,
+            "tokens_total": 388027,
+            "cost_usd": 0.197,
+            "llm_time_s": 254.789,
+            "llm_ttft_s": 54.802,
+            "tool_time_s": 3.533,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 191.785,
+          "post_check_s": 67.745,
+          "raw_sha256": {
+            "execution.json": "9ea0720dfa4b17e796d71fe6f7dbc8b7a586a23ee43e0e314cc63e074a3c47a2",
+            "session.jsonl": "26179dfd8e702d1424e1eff535abda875b54fe6a375527790429853c9f306c70",
+            "assessment.json": "d87f032021f495f52b130cbb30eb3049c25d6332c5b76b80ddc7b47f00fa8d96",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "28d87951bb70c53ea645a456be36b6df3d9d33a9decc4d1f1d5ea158b1068e66"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test28-nomf-compiler-batch-C9-20261015",
+          "wall_s": 233.449,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 2550,
+            "rows": 1062,
+            "integers": 150,
+            "nonzeros": 9900,
+            "objective_nonzeros": 2500
+          },
+          "target_shape": {
+            "variables": 2500,
+            "rows": 896,
+            "integers": 150,
+            "nonzeros": 6730,
+            "objective_nonzeros": 2500
+          },
+          "committed_model_sha256": "a3dd891a557ac7ce3295b1b6570baa96389b6d11759bebadceb85cd745992d00",
+          "metrics": {
+            "llm_calls": 12,
+            "tool_calls": 11,
+            "tool_calls_failed": 0,
+            "turns": 12,
+            "tokens_in": 25329,
+            "tokens_out": 12155,
+            "tokens_cache_read": 119808,
+            "tokens_cache_write": 0,
+            "tokens_total": 157292,
+            "cost_usd": 0.184,
+            "llm_time_s": 232.112,
+            "llm_ttft_s": 26.732,
+            "tool_time_s": 0.414,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 157.762,
+          "post_check_s": 75.687,
+          "raw_sha256": {
+            "execution.json": "e08e5aa8948086f12c6cb3a21c7277d82ac7f2b2d23f538a37dd0b181ca79d39",
+            "session.jsonl": "93f3a93050ef53c0fda684eb9bfdd7529f53ef7d93d5ba6ac5bf837edc12d979",
+            "assessment.json": "f120c714ef30d05b867f362b8f94775c4e224381ffcb305aa5785615c1953863",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "da2a53a86f9bc070e46df9e67e7ad9bd3f47bcdd81dbc439384812d90687df69"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test38",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test38-phase.json",
+      "phase_sha256": "fba9ea06139960006e97b2af3af264bdd66f98c3b9853b1ab2c89890a9851854",
+      "trusted_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+      "compiler_to_nomf_wall_ratio": 1.23082018301508,
+      "formal_scope": "Three unrestricted Equal claims: MI inverse pair plus reverse LP inclusion; 3293 observations each. No forward LP theorem.",
+      "mathematical_comparison_and_boundary": "Both compress a binary-controlled gate DAG and strengthen capacity arithmetic. Compiler additionally explores proportional nonlinear sharing (64 more potential eliminations) but does not select it: 197 reconstructions fail an independent-box sufficient bound check; recorded rationale also cites added bound rows and fill. This is an uncompleted candidate, not a proof of invalidity. Nomf not trying it does not exclude proof-convenience bias.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015",
+          "wall_s": 421.807,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 5282,
+            "rows": 20346,
+            "integers": 30,
+            "nonzeros": 71477,
+            "objective_nonzeros": 77
+          },
+          "target_shape": {
+            "variables": 3293,
+            "rows": 12769,
+            "integers": 29,
+            "nonzeros": 43486,
+            "objective_nonzeros": 77
+          },
+          "committed_model_sha256": "2e09d00bfc47bfef267a2640cf6d3d963e115c3fab97224790bdc6d5eb0e7134",
+          "metrics": {
+            "llm_calls": 21,
+            "tool_calls": 20,
+            "tool_calls_failed": 0,
+            "turns": 21,
+            "tokens_in": 40009,
+            "tokens_out": 19737,
+            "tokens_cache_read": 429696,
+            "tokens_cache_write": 0,
+            "tokens_total": 489442,
+            "cost_usd": 0.32,
+            "llm_time_s": 406.339,
+            "llm_ttft_s": 55.249,
+            "tool_time_s": 13.311,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 337.404,
+          "post_check_s": 84.403,
+          "raw_sha256": {
+            "execution.json": "c1e0d8e5f8e9c2763d6cf33f2690309c059043fbbeadfac57570fa68dfb83671",
+            "session.jsonl": "a9772889bd9cb8ad8874b4fff5a3c66d11283a500741cbf3228c15574ac223fd",
+            "assessment.json": "ac9951cfce8481358654ed0e55fa5cefd51a51e4baafe010ccab08a72cd0c139",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "1c17a1b478e4fd1be7b7b378e5b50b49f33bb8a5e77e195703341be8854adf1e"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test38-nomf-compiler-batch-C9-20261015",
+          "wall_s": 342.704,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 5282,
+            "rows": 20346,
+            "integers": 30,
+            "nonzeros": 71477,
+            "objective_nonzeros": 77
+          },
+          "target_shape": {
+            "variables": 3388,
+            "rows": 13038,
+            "integers": 29,
+            "nonzeros": 44979,
+            "objective_nonzeros": 77
+          },
+          "committed_model_sha256": "37a0dc4eae5886b545a21a2a3c9adc8f83080fecad3b7021398769db412f8919",
+          "metrics": {
+            "llm_calls": 15,
+            "tool_calls": 15,
+            "tool_calls_failed": 0,
+            "turns": 15,
+            "tokens_in": 32728,
+            "tokens_out": 17078,
+            "tokens_cache_read": 205184,
+            "tokens_cache_write": 0,
+            "tokens_total": 254990,
+            "cost_usd": 0.257,
+            "llm_time_s": 336.362,
+            "llm_ttft_s": 39.357,
+            "tool_time_s": 5.443,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 236.808,
+          "post_check_s": 105.896,
+          "raw_sha256": {
+            "execution.json": "85081de332e55467b19467e3c36544a68ea056d587d72e794e208529486dd7db",
+            "session.jsonl": "3e3f388b8c7d8648109d382b546c950833b271de37080f730cd28a3130955093",
+            "assessment.json": "5e8a53dcbd1d61d1a9fc9b96ffb2a4c3eb4173566b715edd5d9b3e6c5ce8b9ac",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "4e21299eb937e3bd788eb603f5668231caa6c7b190b7e750531e98c1b6246f83"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test60",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test60-phase.json",
+      "phase_sha256": "518eb21b819126db4961a97ae350ae81185df9a65949cc5c3e2e7aab9277c773",
+      "trusted_input_sha256": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2",
+      "compiler_to_nomf_wall_ratio": 1.1252774742455793,
+      "formal_scope": "Two unrestricted MI Equal total maps, 90 affine observations each; one MenuLift with 13550 generated one-hot variables. No inverse or LP claim.",
+      "mathematical_comparison_and_boundary": "Both replace affine option menus by two parameters per menu. Compiler uses shifted indices and removes additional whole bound rows; Nomf uses unshifted indices and more link/resource rows. Compiler certifies only MI maps despite Nomf public aggregate LP-image argument.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test60-compiler-compiler-batch-C9-20261015",
+          "wall_s": 327.476,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 13640,
+            "rows": 717,
+            "integers": 13550,
+            "nonzeros": 191947,
+            "objective_nonzeros": 1
+          },
+          "target_shape": {
+            "variables": 2508,
+            "rows": 1958,
+            "integers": 2508,
+            "nonzeros": 23502,
+            "objective_nonzeros": 2508
+          },
+          "committed_model_sha256": "86a81a8fd61154ac6f6bef71d3d5cef9952ec46bf4b6bc75960bd3dc17c6bd52",
+          "metrics": {
+            "llm_calls": 26,
+            "tool_calls": 25,
+            "tool_calls_failed": 0,
+            "turns": 26,
+            "tokens_in": 41169,
+            "tokens_out": 14018,
+            "tokens_cache_read": 528384,
+            "tokens_cache_write": 0,
+            "tokens_total": 583571,
+            "cost_usd": 0.275,
+            "llm_time_s": 297.457,
+            "llm_ttft_s": 56.521,
+            "tool_time_s": 28.009,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 233.214,
+          "post_check_s": 94.262,
+          "raw_sha256": {
+            "execution.json": "e9d8981f8ca66e473b270762069d23ca632076e38353e055504ec7033d756be6",
+            "session.jsonl": "1be8253c4de3d8be4cd90e4dac2dd1e684ca037ed1279558e2a55f5938f87c96",
+            "assessment.json": "6ee4ca2336b54281e5fcb401a45ba732e092d3f66d7b0b501985236eb42a4dd4",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "dc8c31cc31af5abafc1fd33c245b3f16ed8e58dcc736aed1b4c16756d7d4a2a2"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test60-nomf-compiler-batch-C9-20261015",
+          "wall_s": 291.018,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 13640,
+            "rows": 717,
+            "integers": 13550,
+            "nonzeros": 191947,
+            "objective_nonzeros": 1
+          },
+          "target_shape": {
+            "variables": 2508,
+            "rows": 3270,
+            "integers": 2508,
+            "nonzeros": 28674,
+            "objective_nonzeros": 2508
+          },
+          "committed_model_sha256": "3833a7b6211f14a27c760539a19e7eb27c1ce71f64162ef18b17b1d3e8a94fee",
+          "metrics": {
+            "llm_calls": 14,
+            "tool_calls": 13,
+            "tool_calls_failed": 0,
+            "turns": 14,
+            "tokens_in": 41700,
+            "tokens_out": 14673,
+            "tokens_cache_read": 173952,
+            "tokens_cache_write": 0,
+            "tokens_total": 230325,
+            "cost_usd": 0.248,
+            "llm_time_s": 286.148,
+            "llm_ttft_s": 36.504,
+            "tool_time_s": 3.999,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 203.991,
+          "post_check_s": 87.027,
+          "raw_sha256": {
+            "execution.json": "7f37305e9fb75b0fda6ea17ff9f08a7583ac9bada5b424bad50798be74d8c450",
+            "session.jsonl": "a2fce4b7fdcf057e577b4b2b36c317e7b0e4ac7ab7467fced2f9c56ea31a5adb",
+            "assessment.json": "1d4bb6c1d2c017c436faed5aca4b6d557f6c9528812e8095cd92f208d8d8b4be",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "48c3ee042cec9151f5af05f8b4665cddeb49feb3f502ebaedb892febf2a5c7c0"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test62",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test62-phase.json",
+      "phase_sha256": "137160b19462a29e97dcffcf88d25d395470af12f070161e0c2e7862c96c5b4a",
+      "trusted_input_sha256": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb",
+      "compiler_to_nomf_wall_ratio": 1.5688710700738402,
+      "formal_scope": "Two ordered stages, each with two MI Equal claims. Explicit paths [0,0] forward and [1,1] reverse compose unrestricted MI Equal correspondence and 460 shared observations. Stage1 inverse identities do not become a composite inverse. No composite LP relation.",
+      "mathematical_comparison_and_boundary": "Compiler creates exact Boolean prime clauses and then 40 unit/copy/complement eliminations with integer normalization. Nomf constructs exact local convex hull facets and a reverse-LP extension argument. Compiler certifies nonaffine interval reconstruction, but these are different relaxation strategies.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test62-compiler-compiler-batch-C9-20261015",
+          "wall_s": 581.102,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 4500,
+            "rows": 7029,
+            "integers": 4500,
+            "nonzeros": 27203,
+            "objective_nonzeros": 1
+          },
+          "target_shape": {
+            "variables": 460,
+            "rows": 2309,
+            "integers": 460,
+            "nonzeros": 7063,
+            "objective_nonzeros": 1
+          },
+          "committed_model_sha256": "c13cebab4cb3d0ab216c1d8b5fda7a43cfee1a71b910d0af00208b56c3dc9fdb",
+          "metrics": {
+            "llm_calls": 32,
+            "tool_calls": 31,
+            "tool_calls_failed": 0,
+            "turns": 32,
+            "tokens_in": 55350,
+            "tokens_out": 24271,
+            "tokens_cache_read": 899072,
+            "tokens_cache_write": 0,
+            "tokens_total": 978693,
+            "cost_usd": 0.443,
+            "llm_time_s": 561.589,
+            "llm_ttft_s": 82.995,
+            "tool_time_s": 17.17,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 493.487,
+          "post_check_s": 87.615,
+          "raw_sha256": {
+            "execution.json": "24cefcf5cdc9349b24ce02a7ed5b637f5756d2fbd2aa439f4adf9836c606ab7f",
+            "session.jsonl": "02b67b13254ede94dd6a6add33011a8d86e8a7fc258abb369b704da7fbf1d602",
+            "assessment.json": "3e4326bf5981c779e85291e15756a21bcd5c1a04f6a9b97b9f8652aba97859ae",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "1c87539ec3fa23f997bab7e72c17e41d0d03613ed91980559f87b590e7338c9f"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test62-nomf-compiler-batch-C9-20261015",
+          "wall_s": 370.395,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 4500,
+            "rows": 7029,
+            "integers": 4500,
+            "nonzeros": 27203,
+            "objective_nonzeros": 1
+          },
+          "target_shape": {
+            "variables": 500,
+            "rows": 2605,
+            "integers": 500,
+            "nonzeros": 8092,
+            "objective_nonzeros": 1
+          },
+          "committed_model_sha256": "991181501a8344e8b99c4b2564cf7d488c1bcb506ea4a5920788b2cea7ff6140",
+          "metrics": {
+            "llm_calls": 19,
+            "tool_calls": 18,
+            "tool_calls_failed": 2,
+            "turns": 19,
+            "tokens_in": 50910,
+            "tokens_out": 19164,
+            "tokens_cache_read": 239744,
+            "tokens_cache_write": 0,
+            "tokens_total": 309818,
+            "cost_usd": 0.317,
+            "llm_time_s": 365.004,
+            "llm_ttft_s": 45.22,
+            "tool_time_s": 4.458,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 285.416,
+          "post_check_s": 84.979,
+          "raw_sha256": {
+            "execution.json": "4262c0503b7ddcb9e36f2bd449814c0297471a28c37a7978140bd2c6f56a9525",
+            "session.jsonl": "06dd13ceb1030ea2e8c53bb59390195cf1768c7f837ad695d546251b22a31ed1",
+            "assessment.json": "8d8256c0f4543fc581a70b3f53ca11c83ca75a188ab65de49512747f6470a5ad",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "28d7544d755464c12d014f7aa4e207cc2ff36641925ff61d9bf14dfea210f855"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test70",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test70-phase.json",
+      "phase_sha256": "daab66051f5ce33095ba9fb9bbb449252b33b040d44f4c97f32331013d4a3536",
+      "trusted_input_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+      "compiler_to_nomf_wall_ratio": 2.4525235048408693,
+      "formal_scope": "Three unrestricted total maps: MI forward NonIncreasing, MI reverse Equal, reverse LP Equal; 45017 unchanged-coordinate observations each. No inverse or forward LP claim.",
+      "mathematical_comparison_and_boundary": "Both aggregate identical columns, remove leaves and tighten 1679 gates. Compiler deletes 301 positive objective-only coordinates using NI forward and keeps all remaining aggregates binary; Nomf preserves every objective-valued feasible image and retains 36 general-integer aggregates. Initial Compiler proof exceeds input-file bytes; same target/maps/contracts survive proof compression.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C9-20261015",
+          "wall_s": 858.989,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 48417,
+            "rows": 2187,
+            "integers": 48417,
+            "nonzeros": 1995817,
+            "objective_nonzeros": 47217
+          },
+          "target_shape": {
+            "variables": 46219,
+            "rows": 1886,
+            "integers": 46219,
+            "nonzeros": 1556328,
+            "objective_nonzeros": 45317
+          },
+          "committed_model_sha256": "0fe67ea4e2d3f12b4fd092a0b2a444a529cc04864fd10365277eaa73ee8dca88",
+          "metrics": {
+            "llm_calls": 34,
+            "tool_calls": 33,
+            "tool_calls_failed": 2,
+            "turns": 34,
+            "tokens_in": 108633,
+            "tokens_out": 18393,
+            "tokens_cache_read": 854528,
+            "tokens_cache_write": 0,
+            "tokens_total": 981554,
+            "cost_usd": 0.487,
+            "llm_time_s": 436.81,
+            "llm_ttft_s": 88.725,
+            "tool_time_s": 419.72,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 748.962,
+          "post_check_s": 110.027,
+          "raw_sha256": {
+            "execution.json": "4792be0ba8b8f9fe5743cd6b10609f76fc831d0272fd0550375078968f6a1fd9",
+            "session.jsonl": "fd31f9bae4c621d2305b28ec9488104523d6be035371958a3335c57e7088acd6",
+            "assessment.json": "7644f34c1705615accab47659809753e6bbe682d8cdda2ed2d8908f72cf2f323",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "07786e11f2b4c369ac8bfa9d66b5ce1717c2f4d13095919e8c15a2d85cae8408"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test70-nomf-compiler-batch-C9-20261015",
+          "wall_s": 350.247,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 48417,
+            "rows": 2187,
+            "integers": 48417,
+            "nonzeros": 1995817,
+            "objective_nonzeros": 47217
+          },
+          "target_shape": {
+            "variables": 46313,
+            "rows": 1886,
+            "integers": 46313,
+            "nonzeros": 1556330,
+            "objective_nonzeros": 45411
+          },
+          "committed_model_sha256": "6bbb67f464fbf4bdf26698ef3a67c7011389d6d395b888ae2171354cc44b0d75",
+          "metrics": {
+            "llm_calls": 18,
+            "tool_calls": 17,
+            "tool_calls_failed": 0,
+            "turns": 18,
+            "tokens_in": 55132,
+            "tokens_out": 16127,
+            "tokens_cache_read": 196736,
+            "tokens_cache_write": 0,
+            "tokens_total": 267995,
+            "cost_usd": 0.291,
+            "llm_time_s": 329.667,
+            "llm_ttft_s": 47.605,
+            "tool_time_s": 18.541,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 243.882,
+          "post_check_s": 106.365,
+          "raw_sha256": {
+            "execution.json": "39270d552c1aebb3f129e05c5d8bbb6333395f5c83d0bb2140ed4164255463fa",
+            "session.jsonl": "9bc9bbdd8b534337764cf43e63292afd4ed24b6c0bd109a8498aea0f8da6478c",
+            "assessment.json": "7a019d06b7c39a17138956556c8f3b774f801cda6299b2d044de7f023ca19fa8",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "1d0ec15cc1d8034ecb793b027af20d08b91218b374202326f6cb73fde45df978"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test80",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test80-phase.json",
+      "phase_sha256": "e46d1c76244658601546e652af1f4f7a8341777d4e43e15653ef1acfc09354a7",
+      "trusted_input_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+      "compiler_to_nomf_wall_ratio": 0.5380839751170594,
+      "formal_scope": "Four unrestricted Equal total maps: MI and LP both directions, objective-image projection to one coordinate. No decision observations or inverse claims; MI reverse uses one 302-entry MenuLift.",
+      "mathematical_comparison_and_boundary": "Compiler proves the complete integer and continuous objective image [-160,141] and commits one objective coordinate with full lifts. Nomf retains y/b/q/AND decision structure, relaxes derived integrality and strengthens local fractional structure. Both analytically attain -160. One-variable compression is a different relation, not automatic evidence of equal model quality.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015",
+          "wall_s": 335.787,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 14387,
+            "rows": 10765,
+            "integers": 14387,
+            "nonzeros": 64073,
+            "objective_nonzeros": 3331
+          },
+          "target_shape": {
+            "variables": 1,
+            "rows": 0,
+            "integers": 1,
+            "nonzeros": 0,
+            "objective_nonzeros": 1
+          },
+          "committed_model_sha256": "1eae391378404029c963f5c0405bc10cfdc14b4cf43ba0946dbbd7089566c938",
+          "metrics": {
+            "llm_calls": 19,
+            "tool_calls": 18,
+            "tool_calls_failed": 1,
+            "turns": 19,
+            "tokens_in": 68680,
+            "tokens_out": 12849,
+            "tokens_cache_read": 310016,
+            "tokens_cache_write": 0,
+            "tokens_total": 391545,
+            "cost_usd": 0.297,
+            "llm_time_s": 304.726,
+            "llm_ttft_s": 58.051,
+            "tool_time_s": 29.611,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 261.689,
+          "post_check_s": 74.098,
+          "raw_sha256": {
+            "execution.json": "c6fb17bf293c41321884e8a0d2cedc737842400cd5d5107fc4f582f07e57305e",
+            "session.jsonl": "a5bf98a9508a99017f0f378849c88f5790d27449bc7bc91b9bb5cfb015c091da",
+            "assessment.json": "c3fcce2ab6d8b624af7e0c0405bf5899c23c69a4de23cbced35367d8f0e7f32e",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "3e50a535685d90611c5b94e06560131a2b05fa233419b3e53ea162859d4f84b6"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test80-nomf-compiler-batch-C9-20261015",
+          "wall_s": 624.042,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 14387,
+            "rows": 10765,
+            "integers": 14387,
+            "nonzeros": 64073,
+            "objective_nonzeros": 3331
+          },
+          "target_shape": {
+            "variables": 5405,
+            "rows": 7676,
+            "integers": 3773,
+            "nonzeros": 23901,
+            "objective_nonzeros": 237
+          },
+          "committed_model_sha256": "9f3df2eb29dbc3f1e43246ff55f8bc9be70d19f731ccf3506fbcd21433a65a0e",
+          "metrics": {
+            "llm_calls": 23,
+            "tool_calls": 22,
+            "tool_calls_failed": 1,
+            "turns": 23,
+            "tokens_in": 47068,
+            "tokens_out": 31790,
+            "tokens_cache_read": 426112,
+            "tokens_cache_write": 0,
+            "tokens_total": 504970,
+            "cost_usd": 0.455,
+            "llm_time_s": 617.038,
+            "llm_ttft_s": 59.702,
+            "tool_time_s": 5.772,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 368.1,
+          "post_check_s": 255.942,
+          "raw_sha256": {
+            "execution.json": "58fd04dcbdc24d243f906de2260ae670195d6e1bb04f7f9dee4e759998b06ef5",
+            "session.jsonl": "618d13c76be002c71e91bf8b2f953a7249bb4c5e05176b2a5a94923ce639abf1",
+            "assessment.json": "b13f63e620d12db510abe6c817336062832dc77d601dad95c1b5565650d3f65d",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "838051c9d3b153631353773835437d62082f6387c1f48e4ba6c24c065611da74"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test65",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test65-phase.json",
+      "phase_sha256": "f117b0a650e025cab5f046f45ca5658a261eb0469573fbb274dd65871db87910",
+      "trusted_input_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+      "compiler_to_nomf_wall_ratio": 0.8795104155680493,
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 154977 retained-coordinate observations each.",
+      "mathematical_comparison_and_boundary": "Compiler removes 52556 implied inequalities and an isolated fixed coordinate, preserving full MI+LP affine bijections. Nomf instead nets 7400 p/e pairs and combines two integer capacities using a NI/Equal correspondence. The opportunities are orthogonal; no explicit Compiler netting proof attempt or rejection is public.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015",
+          "wall_s": 325.228,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 154978,
+            "rows": 277594,
+            "integers": 26287,
+            "nonzeros": 788969,
+            "objective_nonzeros": 68740
+          },
+          "target_shape": {
+            "variables": 154977,
+            "rows": 225037,
+            "integers": 26287,
+            "nonzeros": 631302,
+            "objective_nonzeros": 68739
+          },
+          "committed_model_sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220",
+          "metrics": {
+            "llm_calls": 19,
+            "tool_calls": 18,
+            "tool_calls_failed": 0,
+            "turns": 19,
+            "tokens_in": 35617,
+            "tokens_out": 10775,
+            "tokens_cache_read": 340608,
+            "tokens_cache_write": 0,
+            "tokens_total": 387000,
+            "cost_usd": 0.213,
+            "llm_time_s": 249.322,
+            "llm_ttft_s": 39.86,
+            "tool_time_s": 73.889,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 251.581,
+          "post_check_s": 73.647,
+          "raw_sha256": {
+            "execution.json": "ab1ced8d8107f8d0dd391444369e003fcd1e0a8e15891c9b1784598b23dea94c",
+            "session.jsonl": "cae459312b0eb8f4a6ca36efe199c4af70a7680c776402a8a1ddaede8b83e0e6",
+            "assessment.json": "b63b0e387d16aa8625e32fcf6c55c199dfccc0834f990c8c54726e64e739205a",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "9e202784a7b2b92df330d7034087180d8d1e48a6392d95c56265df28768fd838"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test65-nomf-compiler-batch-C9-20261015",
+          "wall_s": 369.783,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 154978,
+            "rows": 277594,
+            "integers": 26287,
+            "nonzeros": 788969,
+            "objective_nonzeros": 68740
+          },
+          "target_shape": {
+            "variables": 143877,
+            "rows": 266494,
+            "integers": 26286,
+            "nonzeros": 755669,
+            "objective_nonzeros": 65039
+          },
+          "committed_model_sha256": "8fcaa183cb4682187dff144cdd11968f35e1d8bad2bed25649ebcaf1fd7edc03",
+          "metrics": {
+            "llm_calls": 18,
+            "tool_calls": 17,
+            "tool_calls_failed": 0,
+            "turns": 18,
+            "tokens_in": 41418,
+            "tokens_out": 17487,
+            "tokens_cache_read": 240896,
+            "tokens_cache_write": 0,
+            "tokens_total": 299801,
+            "cost_usd": 0.282,
+            "llm_time_s": 352.976,
+            "llm_ttft_s": 54.346,
+            "tool_time_s": 14.794,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 265.993,
+          "post_check_s": 103.79,
+          "raw_sha256": {
+            "execution.json": "32f50f20e84fd7f8ce83d58a0d3c8fc54470b65026d0e6c37ec54e37b8ee00b2",
+            "session.jsonl": "6b3f26f9382c8a4e6688cbc0079f92d039bfb79bc119985fb9a26ddc2380c8df",
+            "assessment.json": "db114837dd647c68f303a7e006b6c02a8a40eb43f54aba58eee0099db93dfcf2",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "177b84ffbe6f549d7db7b86525d19862d343d2c73aeb23e7dcccfbe78626b44a"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    },
+    {
+      "case": "test85",
+      "phase_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test85-phase.json",
+      "phase_sha256": "fb50cb0973d31ed69dc8efe11f41c6ac083268437dce2da19a9602b24fb53b0c",
+      "trusted_input_sha256": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4",
+      "compiler_to_nomf_wall_ratio": 0.736170241629342,
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 8480 retained-coordinate observations each.",
+      "mathematical_comparison_and_boundary": "Compiler uses real zero_sum and rewrite_many on given zero/alias witnesses, then exact equality dependencies, preserving full MI+LP inverse relations. Nomf obtains 16 extra integer incompatibility zeros and replaces implication rows by reciprocal support-balance equations: 1923 rows vs Compiler 33678. No public Compiler balance-aggregation attempt or explicit proof retreat is observed.",
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test85-compiler-compiler-batch-C9-20261015",
+          "wall_s": 325.6,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 10404,
+            "rows": 40962,
+            "integers": 10404,
+            "nonzeros": 517112,
+            "objective_nonzeros": 10404
+          },
+          "target_shape": {
+            "variables": 8480,
+            "rows": 33678,
+            "integers": 8480,
+            "nonzeros": 402640,
+            "objective_nonzeros": 0
+          },
+          "committed_model_sha256": "41e51c7874af574bc39747e0ae4615c39b093df49630b2bc91fc344eeb1f5c37",
+          "metrics": {
+            "llm_calls": 21,
+            "tool_calls": 22,
+            "tool_calls_failed": 0,
+            "turns": 21,
+            "tokens_in": 33839,
+            "tokens_out": 12333,
+            "tokens_cache_read": 364928,
+            "tokens_cache_write": 0,
+            "tokens_total": 411100,
+            "cost_usd": 0.228,
+            "llm_time_s": 279.682,
+            "llm_ttft_s": 47.321,
+            "tool_time_s": 43.798,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 247.453,
+          "post_check_s": 78.147,
+          "raw_sha256": {
+            "execution.json": "90b9f2c366963d1c6c31d03e9e6e3a76eecb8be9d9e2daa13530f12b784bb048",
+            "session.jsonl": "c73342ecab9801e78701cf366bf70954f111ba6f1e4ef36177eeb70a6307d6da",
+            "assessment.json": "99b7210bdfe4b6664846b0ff78a2e8eacc005ba9174298727bd13b5439ced54e",
+            "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+            "output/report.md": "ed53ba2d88540e04ed8747d4c0c849911a4a86f6d432d95b393c3793d212d2b9"
+          },
+          "source_anchor_all_equal": true
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test85-nomf-compiler-batch-C9-20261015",
+          "wall_s": 442.289,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "source_shape": {
+            "variables": 10404,
+            "rows": 40962,
+            "integers": 10404,
+            "nonzeros": 517112,
+            "objective_nonzeros": 10404
+          },
+          "target_shape": {
+            "variables": 8544,
+            "rows": 1923,
+            "integers": 8544,
+            "nonzeros": 47080,
+            "objective_nonzeros": 8544
+          },
+          "committed_model_sha256": "ac3c024a90f089f55e6e57eb79ce9084afb8bbfd0b1335f5b8bb0a666096c2a9",
+          "metrics": {
+            "llm_calls": 21,
+            "tool_calls": 20,
+            "tool_calls_failed": 1,
+            "turns": 21,
+            "tokens_in": 37170,
+            "tokens_out": 22272,
+            "tokens_cache_read": 265984,
+            "tokens_cache_write": 0,
+            "tokens_total": 325426,
+            "cost_usd": 0.324,
+            "llm_time_s": 435.113,
+            "llm_ttft_s": 47.859,
+            "tool_time_s": 5.624,
+            "resolved_models": [
+              "openai-codex/gpt-6.1-sol"
+            ],
+            "thinking_levels": [
+              "high"
+            ],
+            "model_fallback_used": false
+          },
+          "first_complete_final_artifact_check_s": 300.872,
+          "post_check_s": 141.417,
+          "raw_sha256": {
+            "execution.json": "79e20b80ef29bd413c92d8a1e7a2dd6cb174d1af1c08577ffb5a664455a18d84",
+            "session.jsonl": "ffb09c2105c3b50566ff9dbe0f62c0dc8a4bb9e03c144b581d769361575ebed3",
+            "assessment.json": "331bb3604d0b308597f48ef32ae76917c4867a0ee74383651f23fdb3a97f88b5",
+            "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+            "output/report.md": "9fe29ced6a4a03f5dbb78f9016252b7bf5722f2324ce73d125c59b1fdab91544"
+          },
+          "source_anchor_all_equal": true
+        }
+      },
+      "quality_status": "PENDING",
+      "reproduction_status": "NOT_REPLAYED_IN_STATIC_AUDIT"
+    }
+  ],
+  "process_closure_evidence": {
+    "source": "rpx_bridge directed owned-PID check reported to parent",
+    "checked_at_local": "2026-10-15 13:25:56 +08:00",
+    "owned_pids_checked": 33,
+    "owned_pids_present": 0,
+    "batch_specific_driver_and_OMP_query": "EMPTY",
+    "harness_exit_code": 0,
+    "boundary": "This is a task-owned process closure report, not a claim that the shared host has no unrelated OMP or solver process."
+  }
+}
