@@ -1,0 +1,291 @@
+{
+  "schema": "kernel-compiler-agent-case-pair-appendix-v1",
+  "round": "C10",
+  "case": "test55",
+  "status": "BOTH_AGENTS_CLOSED_STATIC_PAIR_COMPLETE_QUALITY_PENDING",
+  "prepared_utc": "2026-10-15T07:01:01.219280+00:00",
+  "overall_acceptance": false,
+  "scope": "Separate appendix to the unchanged Compiler-only phase. Only closed Nomf public calls/results, reports/audits, existing harness exports and small artifact bytes were read. No checker/smoke was rerun; no native, solver, test, benchmark, replay, API edit, new research or live quality output was used.",
+  "compiler_phase": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-test55-phase.json",
+    "sha256": "935b1bfc39ae886f3486d08695ca1cb440a1f6f3ed464ce9090d14ec08fa6561"
+  },
+  "run_paths": {
+    "compiler": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015",
+    "nomf": "/Users/bhz/Code/reform_test/runs/test55-nomf-compiler-batch-C10-20261015"
+  },
+  "source_identity": {
+    "pristine_input_sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3",
+    "both_assessments_and_execution_anchors_equal": true,
+    "same_source_shape": true,
+    "source_shape": {
+      "variables": 3872,
+      "rows": 3904,
+      "integers": 288,
+      "nonzeros": 11408,
+      "objective_nonzeros": 1568
+    }
+  },
+  "closure": {
+    "compiler": {
+      "execution": {
+        "event": "agent_end",
+        "run": "test55-compiler-compiler-batch-C10-20261015",
+        "exit_code": 0,
+        "wall_s": 302.993,
+        "timed_out": false,
+        "expected_input_sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3"
+      },
+      "assessment_errors": [],
+      "kernel_verified": true
+    },
+    "nomf": {
+      "execution": {
+        "event": "agent_end",
+        "run": "test55-nomf-compiler-batch-C10-20261015",
+        "exit_code": 0,
+        "wall_s": 625.99,
+        "timed_out": false,
+        "expected_input_sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3"
+      },
+      "assessment_errors": [],
+      "kernel_verified": false,
+      "kernel_verification_required": false,
+      "meaning": "Nomf Kernel verification is intentionally not required in this arm; false is not an arm failure."
+    }
+  },
+  "delivered_targets": {
+    "compiler": {
+      "shape": {
+        "variables": 2848,
+        "rows": 2880,
+        "integers": 288,
+        "nonzeros": 9360,
+        "objective_nonzeros": 1568
+      },
+      "committed_sha256": "3483b10855d440d55b162cb1ecfc3ab08ede7d0b28141f076ed414cd479e03b5"
+    },
+    "nomf": {
+      "shape": {
+        "variables": 2848,
+        "rows": 2624,
+        "integers": 288,
+        "nonzeros": 8880,
+        "objective_nonzeros": 1568
+      },
+      "committed_path": "/Users/bhz/Code/reform_test/runs/test55-nomf-compiler-batch-C10-20261015/output/reformulated.mps",
+      "committed_bytes": 440385,
+      "actual_sha256": "5315ebe40b85f8ccc2a6bd5bbf4bc5bc2e65f83b6b944d026699ebdcbf5784cc",
+      "assessment_and_saved_audit_hashes_match": true
+    }
+  },
+  "shared_mathematics": {
+    "retained_variables": 2848,
+    "retained_binaries": 288,
+    "removed_zero_cost_continuous_y": 1024,
+    "unchanged_equalities": 1280,
+    "canonical_reverse": "Retain s,x,u and set every removed y=x/480.",
+    "original_pattern": "Each complete y column has x-480y<=0 and one/three y<=u gates, no other occurrence, lower0 and zero objective.",
+    "MI_relation": "Both give objective-preserving integer feasible projection onto the same retained coordinates. Compiler submits full MI Equal both ways; Nomf supplies a pattern/conditional-capacity argument and author checker.",
+    "no_inverse_or_nonaffine_claim": "Both use affine retained projection and affine canonical lift; neither establishes preservation of original auxiliary fibers as an inverse pair."
+  },
+  "mathematical_difference": {
+    "Compiler": "Keep all64 capacity rows, replace all1536 projected gates with singleton bounds.256 linked x use120,256 use400,512 use480.1024 binary Cases prove the strengthened gates from512 capacity bounds. subset_bounds naturally batches512 singleton cancellations over48 caller-selected capacity rows.",
+    "Nomf_common_gate_aggregation": {
+      "groups": 32,
+      "x_per_group": 8,
+      "formula": "sum(x in S)<=120*u; replace the original sum(x in S)<=120 capacity and delete all8 separate gates.",
+      "gate_rows_deleted": 256,
+      "binary_equivalence_argument": "At u=0 both formulations force every nonnegative x to0; at u=1 the aggregate is the old capacity and implies each original480 gate."
+    },
+    "Nomf_mandatory_load_tightening": {
+      "linked_x": 256,
+      "source_capacities": 16,
+      "formula": "x+sum(d_j*u_j)+other_nonnegative<=400. Every required u_j must be1 when x>0. Thus x<=400-sum(d_j), and each gate is x<=(400-sum(d_j))*u_j.",
+      "mandatory_loads": {
+        "62": 128,
+        "52": 128
+      },
+      "new_x_upper_coefficients": {
+        "338": 128,
+        "348": 128
+      },
+      "rewritten_gate_coefficients": {
+        "338": 384,
+        "348": 384,
+        "480": 512
+      },
+      "claimed_exact_local_assignment_checks": 2048
+    },
+    "full_target_formula_comparison": {
+      "unchanged_common_rows": 1824,
+      "Nomf_deleted_Compiler_rows": 256,
+      "changed_common_capacity_rows": 32,
+      "changed_common_gate_rows": 768,
+      "static_checks": {
+        "same_complete_named_variable_domains": true,
+        "same_complete_named_objective": true,
+        "Nomf_no_row_names_added_relative_to_Compiler": true,
+        "Nomf256removed_rows_exact_saved_common_gate_rows": true,
+        "exact800common_row_formula_differences": true,
+        "all1280_equality_rows_match": true,
+        "all32aggregate_rows_and_domain_prerequisites_match": true,
+        "all256deleted_single_gates_implied_by_aggregate_and_nonnegativity": true,
+        "all768triple_gate_changes_have338or348_instead_of400": true,
+        "all_compiler_rows_covered_by_exact_match_or_given_elementary_implication": true
+      }
+    },
+    "target_to_target_LP_implication": "The actual formulas support Nomf LP subset Compiler LP on the same named retained domain: nonnegative summands and each aggregated sum<=120u imply all256 missing Compiler x<=120u rows; u<=1 implies each original120 capacity. For triple gates338/348<=400 and u>=0 imply the Compiler400 gate. All1824 other common rows, domains and objective match.",
+    "implication_boundary": "This is an elementary static formula-level comparison, not a submitted Kernel LP proof or a new native execution. No existing witness is certified here to separate Nomf from Compiler; Nomf strictness against the original source does not by itself prove strictness against the Compiler target. It does not rank solver runtime or all reformulation quality dimensions."
+  },
+  "proof_and_claim_scope": {
+    "Compiler": {
+      "native_claims": [
+        "source MI -> target MI Equal",
+        "target MI -> source MI Equal",
+        "target LP -> source LP Equal"
+      ],
+      "retained_observations_per_claim": 2848,
+      "all_map_lengths": [
+        2848,
+        3872,
+        3872
+      ],
+      "all_Return_checks": [
+        9153,
+        11201,
+        10913
+      ],
+      "native_obligations": 31267,
+      "inverse": false,
+      "forward_LP": false,
+      "Kernel_points_or_improvements": false,
+      "source_target_and_committed_whole_model_binding": "MATCHED, independently replayed by harness; full details remain in immutable Compiler phase."
+    },
+    "Nomf": {
+      "author_claims": [
+        "complete integer retained projection equivalence and objective preservation",
+        "continuous target-to-source inclusion",
+        "strict LP strengthening relative to original projection",
+        "explicit full feasible integer witness with equal objective"
+      ],
+      "proof_evidence_type": "Public algebraic argument, complete saved audit/witnesses and same-Agent independent reader/checker implementation. Existing public tool output reports PASS; this appendix does not run it and it is not Kernel acceptance.",
+      "reported_checker": "PASS:1024 auxiliary projections,32 gate aggregations,256 capacity certificates,2048 binary patterns,full integer point/equal objective,full original fractional point cut by448 target rows.",
+      "saved_integer_point_coordinates": 3872,
+      "saved_fractional_binary_overrides": 288,
+      "recorded_integer_objective_exact": "3076285813/33000",
+      "reported_strictness_residuals": {
+        "C___1901": "1178033/17160",
+        "V1807101": "317/1408"
+      },
+      "no_optimality_claim": "A feasible point/objective value is not a solver optimum; no LP optimum or timing claim is inferred."
+    }
+  },
+  "exploration_and_friction": {
+    "Compiler": "One gate-only binary-control signature assumption failed because224 incidences also lie in capacity rows. It then checked288 distinct full signatures. No API/native failure or selected-target/claim retreat is recorded. No attempt at the32 shared-gate aggregate or mandatory-load coefficients is observed in its public calls.",
+    "Nomf": "Explores both additional capacity deductions, complete block incidence and full exact witnesses. A preliminary zero-s/u=1 candidate has2 explicit original-row violations; the Agent rejects it and supplies a different constant-rate point, with reported all-model checks. No tool error is recorded.",
+    "causal_boundary": "The Compiler Agent completes verification sooner but selects less LP strengthening. This is a real difference in mathematical exploration, not evidence that certificate cost caused it, or that API bias is absent. No follow-on fix or case hint is proposed."
+  },
+  "time_observations": {
+    "compiler_wall_s": 302.993,
+    "nomf_wall_s": 625.99,
+    "Compiler_over_Nomf_wall_ratio": 0.48402210897937664,
+    "compiler_metrics": {
+      "llm_calls": 21,
+      "tool_calls": 20,
+      "tool_calls_failed": 1,
+      "llm_time_s": 299.429,
+      "tool_time_s": 2.361,
+      "tokens_out": 9841
+    },
+    "nomf_metrics": {
+      "llm_calls": 21,
+      "tool_calls": 20,
+      "tool_calls_failed": 0,
+      "llm_time_s": 624.106,
+      "tool_time_s": 0.929,
+      "tokens_out": 25041
+    },
+    "Nomf_selected_public_cells": [
+      {
+        "title": "Certifying capacity-based improvements",
+        "issued_prompt_elapsed_s": 160.196,
+        "duration_ms": 48,
+        "isError": false,
+        "code_sha256": "b166fd61656d7dfe4361d15b4c31d47baefd4f309a9a4a392ef7e8729cef55ad"
+      },
+      {
+        "title": "Validating the intended reformulation",
+        "issued_prompt_elapsed_s": 293.582,
+        "duration_ms": 150,
+        "isError": false,
+        "code_sha256": "7449d095a27a069f01da949825d6003c0bff7b4f6e50f69185010c485b2495e0"
+      },
+      {
+        "title": "Writing the single committed formulation",
+        "issued_prompt_elapsed_s": 348.567,
+        "duration_ms": 82,
+        "isError": false,
+        "code_sha256": "520785ae663e52e16638742e5145d505c3227e3f90a5c274ee274f8e8ce888f5"
+      },
+      {
+        "title": "Running independent artifact verification",
+        "issued_prompt_elapsed_s": 472.066,
+        "duration_ms": 218,
+        "isError": false,
+        "code_sha256": "e88d718d029d40f82f60d70ba204f89f6842c754beec29f094c6f9a32f15b959"
+      }
+    ],
+    "interpretation": "Observed end-to-end Agent times on a shared host with jobs3 and different mathematical scopes, not a controlled same-target speedup. Smaller Nomf row/nonzero counts do not determine solve performance."
+  },
+  "quality": {
+    "status": "PENDING in this appendix",
+    "controller_serial_quality_session": 99871,
+    "protocol": "120s fixed budget;3 repeats when eligible/30s threshold; root owns results",
+    "no_live_quality_read": true,
+    "no_target_size_winner": true
+  },
+  "nomf_evidence": {
+    "execution.json": {
+      "bytes": 234,
+      "sha256": "892e9252a9b8e69e77499d4a390e0010719018ec8f2ae1934e211f70fbe873a2"
+    },
+    "assessment.json": {
+      "bytes": 1330,
+      "sha256": "b81e4bd45234098b2b83a8c0324b8f9deb044e4ff88e96626ebbe82889355784"
+    },
+    "workspace-manifest.json": {
+      "bytes": 431,
+      "sha256": "a1f6ec5574906886956979291bdbadcc98d89c27964e641644fa379c053d4c24"
+    },
+    "session.jsonl": {
+      "bytes": 428599,
+      "sha256": "a0eac7d31f8c2c73fef84ecaf864772d3f568aec2bb55487506f55b240b86ecf"
+    },
+    "output/report.md": {
+      "bytes": 13755,
+      "sha256": "15f57235af7a9f6cf79f3b95a7295b8d4a9bea06f49dee1469a076980a294b0c"
+    },
+    "output/audit.json": {
+      "bytes": 497675,
+      "sha256": "5f626586eada042a797b661d68aed372533cbdf85ac0eee48c1fe909b2cab355"
+    },
+    "output/witnesses.json": {
+      "bytes": 100492,
+      "sha256": "08f4e61548647bbc61f7f853bbdd4271a66985d411e140e2453b48d75df57103"
+    },
+    "output/verify.py": {
+      "bytes": 11215,
+      "sha256": "21eb1a06b8db3c8debd851a0707b56fb313cb382e00b7ee7dbfda29a5e85f4bd"
+    },
+    "output/verification.txt": {
+      "bytes": 438,
+      "sha256": "3549b7806e7e3bbe42d15b80e5c31942580bbc4348d34cedf2ba0d26aeaccd10"
+    }
+  },
+  "limits": [
+    "No rerun of either author proof/checker, no independent point evaluation and no solver/native command.",
+    "The preexisting native model exports permit complete named row/domain/objective comparison; the reviewed LP implication has no new RPX certificate.",
+    "A faster Compiler arm with native proof and a more strengthened Nomf target are both positive observations with different scopes. Near-quality/time and overall goal remain unestablished until the final bounded results and exploration differences are considered."
+  ]
+}

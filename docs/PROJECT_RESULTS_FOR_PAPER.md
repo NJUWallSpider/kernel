@@ -63,7 +63,7 @@ Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel*
 
 **K11：高级完整合同已有分阶段绝对性能基线。** 历史 complete-v10 冷 binary `96a6d304…b9c8f8` 的独立窗口覆盖 **22 workloads、264 次验证/RSS 进程、63 次 synthetic preparation**。实际 test58 的完整合同检查执行中位数 **18.369 ms**、完整进程 **28.749 ms**、peak RSS **31.891 MiB**。n1024/g4 子流任务生成 **12,280 变量、16,376 行**，执行中位数 **56.732 ms**；完整作者准备为 **9,153.946 ms**，包含作者端简单的 O(nm) 构造，不能隐去。4096 坐标 strict-improvement、image-exclusion、halfspace 任务分别为 **2.046、2.294、4.646 ms** 执行中位数。它们是同一 host 上新能力的绝对基线，不是对不支持该能力的旧版本的 speedup ratio。[完整分阶段表与原始数据哈希](../bench/NEXT_CAPABILITY_DRAFT_BASELINE.md)
 
-**K12：Compiler 接入保留历史核心行为，并已有 fresh 实际使用。** Direct Certificate JSON→RPX 对全部 **81 例 / 83 pieces / RPX v1–v10**重现 byte-identical RPX；与独立构建的 pre-compiler `c16fdaf` 比较，**83/83 完整 Request 的全部 Statistics 一致**。累计处理 **4,090,495,643 B JSON 与 2,906,200,909 B RPX**。这是已作者给定证明的兼容性回放，不是自主证明发现；旧 RPA fixture 去掉 header 仅用于取测试数据，compiler 本身不经过 RPA parser/assembler。另有独立证据：C9 的八个不同已测输入（28、38、60、62、70、80、65、85）上，**8/8 fresh Compiler Agent 完成正式 Kernel 验证**，全部 16 个配对 arms 正常结束，保留完整源锚定与提交目标模型 readback；该轮使用 frozen539 包与旧 native5775，不能视作当前 API 的全量 fresh 验收。它证明实际可用的端到端完整合同，不证明任意改写都同样自然、无意愿偏差或与 Nomf 近似时间/质量。最终 C10 在本稿准备时仍在运行，结果未纳入。[pre-compiler 对照](../audit/compiler-replay/README.md)、[机器汇总](../audit/compiler-replay/summary.json)、[C9 正式验收记录](../audit/compiler-agent/C9-summary.json)
+**K12：Compiler 接入保留历史核心行为，并已有 fresh 实际使用。** Direct Certificate JSON→RPX 对全部 **81 例 / 83 pieces / RPX v1–v10**重现 byte-identical RPX；与独立构建的 pre-compiler `c16fdaf` 比较，**83/83 完整 Request 的全部 Statistics 一致**。累计处理 **4,090,495,643 B JSON 与 2,906,200,909 B RPX**。这是已作者给定证明的兼容性回放，不是自主证明发现；旧 RPA fixture 去掉 header 仅用于取测试数据，compiler 本身不经过 RPA parser/assembler。另有独立证据：C9 的八个不同已测输入（28、38、60、62、70、80、65、85）上，**8/8 fresh Compiler Agent 完成正式 Kernel 验证**，全部 16 个配对 arms 正常结束，保留完整源锚定与提交目标模型 readback；该轮使用 frozen539 包与旧 native5775，不能视作当前 API 的全量 fresh 验收。它证明实际可用的端到端完整合同，不证明任意改写都同样自然、无意愿偏差或与 Nomf 近似时间/质量。本项的 C9 证据固定于最终 C10 结果前；后者单列于下文。[pre-compiler 对照](../audit/compiler-replay/README.md)、[机器汇总](../audit/compiler-replay/summary.json)、[C9 正式验收记录](../audit/compiler-agent/C9-summary.json)
 
 ### 论文叙述与复现边界
 
@@ -73,7 +73,7 @@ Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel*
 
 历史测量需恢复其 pinned source、Cargo.lock、binary 与本地忽略的大型模型/证明；部分历史 checkpoint/prototype 目录在交付后清理，不能假装新克隆已包含所有测量输入。JSON 每项列出后续复现入口，已有 raw receipts 保留精确命令、样本、artifact hashes 和 host。新的复现必须用新 label/output，不覆盖历史证据。本次未执行这些命令。
 
-当前主要功能 checkpoint 是 `982235835dfe3b6c5f74188cd68ef48008747f30`，preflight native SHA-256 为 `cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1`。preflight 为 **344 Rust tests、158 Python 3.9 tests、158 Python 3.14 tests**，其完整 source hashes 以既有收据为准；这些 suite 是正确性检查，耗时不当作基准。最终论文应在 C10 结束并独立审计后追加该轮结果，保持历史 corpus、兼容性 replay 与 fresh Agent 三种证据的界线。
+本节的逐项证据与版本绑定保留在 Kernel 机器证据表中；当前集成测试和最终 Agent 结果分别见后文。
 
 ## Compiler 的项目级正面结果
 
@@ -125,7 +125,7 @@ C6/C7/C8 首次完整验证后的剩余工作总计分别为 974.259/490.456/487
 
 机器记录对每项列出版本、精确指标、primary local files 的 SHA-256 与复现命令。历史回放和固定见证脚本会使用保留目录，复现时必须使用独立 checkout/output，不能覆盖现有证据。fresh Agent 可复现的是设置与独立核验流程，数学选择和时间本身具有随机性。
 
-当前最后一轮 C10（test70/38/58/55/69）使用 source `9822358`、native `cf9941c2…`；本文只登记 pending，不读取 live 数学或计入成功率。C10 冻结后新增文档不能当成其输入。依用户边界，完成这一轮后整理文档停工，不继续新增 fresh 轮次。整个项目的 near-nomf 时间、质量与表达意愿联合验收仍未建立。
+上述 Compiler 十项证据表固定于 C10 结果前；C10 独立结果见下节。冻结后新增文档没有进入该轮 Agent 输入。
 
 资源项仅解释工程失败：新版本 JSON compile 默认预算 1 GiB、可显式配置；这不放宽后续 RPX/verify 的独立 caps，也不能把资源拒绝解释为数学命题为假。内存不作论文验收门槛。
 
@@ -148,7 +148,7 @@ C10 是最后一次 fresh Agent 对照，使用 source `9822358`、native `cf994
 
 test58 展示了复杂证明表达：前向 426 个 edge-OR 与 91 个 path-min Menu，逆向 305 个 Signed witnesses；完整 maps 和 9,706 个义务均检查。三处公开代数/证明输入错误修正后，保留了原 610 变量目标和全部 625 个观察。test55 是新题自然采用批量界接口的证据。test69 的实际整数 cuts 使目标行数增加，不能用行数增加判为质量下降。
 
-表达便利性仍有直接缺口：test70 发现了更多同列候选，但报告把额外重构/fiber 契约作为不选聚合的理由，nomf 实施了更多聚合。它并未证明该 API 或 Kernel 不能表达聚合；这一观察也不能被较短 wall time 抵消。test55 的 nomf 另作 common-gate 容量聚合及更紧的 bound strengthening，需与提交后求解结果一并呈现。
+表达便利性仍有直接缺口：test70 发现了更多同列候选，但报告把额外重构/fiber 契约作为不选聚合的理由，nomf 实施了更多聚合。它并未证明该 API 或 Kernel 不能表达聚合；这一观察也不能被较短 wall time 抵消。[test55 的配对静态审查](../audit/compiler-agent/C10-test55-pair.json)确认 nomf 另作 common-gate 容量聚合及更紧的 bound strengthening，需与提交后求解结果一并呈现。
 
 质量评估尚未结束，不在此填入未闭合样本或宣称整体验收。冻结设置见[控制记录](../audit/compiler-agent/C10-final-round-controls.json)、[snapshot](../audit/compiler-agent/C10-package-snapshot.json)、[工作区核对](../audit/compiler-agent/C10-launch-integrity.json)；完整正式结果与时间见 [C10 formal summary](../audit/compiler-agent/C10-formal-summary.json)。原始正式记录在质量测量前冻结，后续 quality 将独立记录。
 <!-- C10_RESULTS_END -->
