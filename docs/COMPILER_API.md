@@ -191,6 +191,7 @@ For supplied proofs, use these entry points before reading package internals:
 | Elaborate literal-zero equality obligations from selected definitions | `claim.substitution(definitions)` |
 | Reconstruct a given goal from its caller-proved residual | `builder.derive_substitution(goal, definitions, residual)` |
 | Prove a given inequality using the actual input variable bounds | `builder.box_le(goal)` |
+| Reuse cancellations for selected subsets of one supplied inequality | `builder.subset_bounds(fact, subsets)` |
 | Give piecewise maps or constructive reconstruction witnesses | `builder.split(...)`, `.intervals(...)`, `.menus(...)`, `.signed(...)`, `.flow(...)`, `.subflow(...)`; `claim.complete(scope=scope, mapping=...)` |
 | Inspect unresolved obligations without printing full affine vectors | `[(g.label, g.kind, g.expression.summary()) for g in claim.missing()[:8]]` |
 | Inspect contract scope and observation counts without dumping Request | `proof.contract_summary()` |
@@ -358,6 +359,7 @@ b.derive_substitution(your_goal, your_ordered_pivot_equalities, proved_reduced_f
 b.substitution(your_ordered_pivot_equalities, goals=your_equality_expressions)
 b.combine_rows("Le", {"packing": 1, ("ranged", "Upper"): 2}, expect=desired_expr)
 b.box_le(your_inequality_expression) # supplied goal, declared variable bounds only
+b.subset_bounds(your_fact, your_coordinate_subsets) # one supplied premise, selected subsets
 b.eq_on_fixed(desired_expr, fixes={"x": proved_x_equals_constant})
 b.zero_sum(your_zero_sided_fact, zeros=proved_zeros, scale=1)
 b.batch(instances, lambda builder, item: your_template(builder, item))
@@ -460,6 +462,26 @@ your intended map while checking your mathematical argument. Supply your chosen
 row combination with `le`/`combine_rows`, equality substitutions with a proved
 residual via `derive_substitution`, or an explicit `cases` argument when those
 are the needed witnesses. The compiler does not discover those witnesses.
+
+`subset_bounds(fact, subsets)` derives a batch of coordinate-subset inequalities
+from one visible Le/Eq Fact and returns Le Facts in the supplied order. Each
+subset contains coordinate names, indices or unit variable expressions. The
+coefficients of retained coordinates stay unchanged. A canceled positive term
+uses its declared lower bound; a negative term uses its declared upper bound,
+with the corresponding exact change to the constant. Retained coordinates need
+no bound. For a given packing inequality `sum(x_i) <= B` with nonnegative inputs,
+this proves `sum(x_i for i in selected) <= B` for every selected subset.
+
+```python
+subset_facts = b.subset_bounds(b.row(your_given_row), your_coordinate_subsets)
+# Reuse these Facts in your own row combinations, cases or output checks.
+```
+
+The helper shares derivations through containing requested subsets and caches
+aligned sums of declared bounds in the current scope. It emits ordinary Lin
+steps and respects dropped facts. It checks all subsets and needed endpoints
+before emission; it never chooses a row, packing cover, subset, new bound or
+reformulation. Batch related subsets in one call to share their cancellations.
 
 Integer-valued expressions need not be declared integer variables. Prove their
 integerness from your equations and known Int facts, or export an Int conclusion

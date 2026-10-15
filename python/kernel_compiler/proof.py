@@ -293,6 +293,17 @@ class Builder:
             raise BuildError(f"Declared bounds do not prove the supplied LE; maximum {Expr(residual).summary()}")
         return self.le(terms, constant=residual, expect=expression)
 
+    def subset_bounds(self, fact, subsets):
+        """Restrict one supplied LE/EQ to caller-selected coordinate subsets.
+
+        Canceled positive coefficients use declared lower bounds; negative
+        coefficients use upper bounds. Results are LE Facts in input order.
+        Shared subset and bound-sum derivations expand to ordinary Lin steps;
+        no rows, subsets, covers or stronger bounds are discovered.
+        """
+        from ._subsets import subset_bounds
+        return subset_bounds(self, fact, subsets)
+
     def eq_on_fixed(self, expression, fixes=None):
         """Prove a caller-selected equality whose coordinates have known fixed values.
 
