@@ -1,0 +1,643 @@
+{
+  "schema": "compiler-user-goal-audit-2",
+  "status": "AUDIT_ONLY_PRE_FULL_QUALITY",
+  "overall_acceptance": false,
+  "goal_complete": false,
+  "audit_cutoff_utc": "2026-10-15 05:52:22 UTC",
+  "implementation_checkpoint": "8ebcc97673f752a5be549ade0d6b25c02109929c",
+  "user_goal": "Authors naturally express their supplied reformulation proofs in Python, compile existing Certificate objects directly to RPX without RPA, and independently verify them with the current Kernel. Fresh Agents on real previously tested cases should retain ambitious reformulation ability and willingness, with near-Nomf quality and elapsed time while also completing correctness verification. Maintain Git and iterate from actual feedback.",
+  "meaning": "Evidence review of the original user goal, not a new requirement list, a demand-score completion percentage, or a goal-complete marker.",
+  "version_boundaries": {
+    "C9_fresh_Agents": {
+      "package_and_API_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+      "package_snapshot_sha256": "51631a878ce9e6650c172b64b9e849138ebc4454e83bc04f77b89c0337a738f3",
+      "API_sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f",
+      "compiler_prompt_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+      "prompt_relation": "Exactly the prior C8 prompt; C9 changed the test cases and used the frozen539 package.",
+      "native_sha256_from_existing_records": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+      "evidence": "audit/compiler-agent/C9-summary.json and C9 launch-integrity records",
+      "excluded": "The later subset_bounds helper and 0dae87c/43b5169 documentation were not supplied to any C9 Agent."
+    },
+    "current_helper": {
+      "checkpoint": "8ebcc97673f752a5be549ade0d6b25c02109929c",
+      "change": "Builder.subset_bounds shares the Lin derivation DAG over one user-supplied Fact and selected subsets.",
+      "existing_evidence": "154 Python tests pass in each of Python3.9 and Python3.14; includes actual small Kernel-positive and tamper/scope tests.",
+      "supplied_C9_test70_witness_regression": "PREPARED_NOT_EXECUTED; waits for independent C9 quality to stop.",
+      "fresh_Agent_evidence": "PENDING_NOT_RUN",
+      "speedup_evidence": "PENDING; no actual large-proof or Agent speedup is claimed."
+    },
+    "documentation": {
+      "box_sufficiency_checkpoint": "0dae87c057c443282ee45397da0e1af50a03082c",
+      "scope_navigation_checkpoint": "43b5169db0fb1a51ef27dddd62892e8c9071adc8",
+      "purpose": "Distinguish failed sufficient templates from invalid reformulations, and choose the mathematical scope before optional inverse/LP contracts.",
+      "C9_attribution": "Post-launch candidate documents, not C9 inputs; no observed C9 outcome is attributed to these revisions."
+    }
+  },
+  "requirements": [
+    {
+      "id": "natural_Python_authoring",
+      "status": "IMPLEMENTED_WITH_SUBSTANTIAL_BUT_PARTIAL_REAL_USABILITY_EVIDENCE",
+      "evidence": "Exact Model/Expr/Builder/Proof APIs, sparse model indices, named generated-scope handles, user-given pivot/residual substitution, cases, constructive extensions, strict improvement/injectivity and explicit ordered chains are implemented. C9 actually uses Menu and Interval scopes, supplied algebra/cases and large complete maps; test85 calls zero_sum/rewrite_many. Current dual154 suites validate generic examples and trust boundaries.",
+      "sources": [
+        "python/kernel_compiler/model.py",
+        "python/kernel_compiler/proof.py",
+        "python/kernel_compiler/session.py",
+        "python/kernel_compiler/bundle.py",
+        "python/tests/test_scope_handles.py",
+        "python/tests/test_piecewise_correspondence.py",
+        "python/tests/test_subset_bounds.py",
+        "audit/compiler-agent/C9-summary.json"
+      ],
+      "insufficiency": "Raw frozen-rule coverage does not imply that every sophisticated proof is economical or discoverable at the high level. C9 test70 needed manual subset/DAG sharing after a real byte-limit failure; test38 left a proportional candidate uncompleted. The new helper/document remedies remain separately untested by fresh Agents."
+    },
+    {
+      "id": "direct_existing_Certificate_to_RPX_without_RPA",
+      "status": "IMPLEMENTED_AND_REGRESSION_VALIDATED",
+      "evidence": "Python compile_certificate serializes existing Certificate data to JSON; native compiler::parse_certificate_json deserializes the existing typed Certificate and compile_certificate_json directly calls codec::encode_certificate. Native encoding selects the frozen wire version. The main path does not parse or assemble RPA and introduces no replacement proof language.",
+      "sources": [
+        "python/kernel_compiler/session.py:585",
+        "crates/core/src/compiler.rs:60",
+        "crates/core/src/compiler.rs:79",
+        "crates/core/src/api.rs:323",
+        "crates/core/tests/compiler_bridge.rs"
+      ],
+      "boundary": "Reuse of exact scalar serde helpers named rpa::scalar is a scalar representation detail, not an RPA proof frontend. Encoding success is structural, not theorem acceptance. Frozen wire scalar/depth/item and Kernel work limits remain authoritative."
+    },
+    {
+      "id": "author_supplied_nontrivial_proof_no_search",
+      "status": "IMPLEMENTED_SCOPE",
+      "evidence": "Lin consumes chosen premises/multipliers; substitution consumes selected pivot equalities; reverse substitution requires an explicit proved residual; branches and constructive witnesses are authored. Completion reuses exact visible facts and Kernel Exact tautologies. box_le/zero_sum/parity_fix elaborate a supplied elementary argument. subset_bounds chooses sharing only among the requested subsets and sums declared endpoints; it does not choose a packing cover or new mathematical target.",
+      "sources": [
+        "python/kernel_compiler/proof.py",
+        "python/kernel_compiler/_subsets.py",
+        "crates/core/src/compiler/resolve.rs"
+      ],
+      "boundary": "The compiler does not search reformulations, discover pivot equations, choose covers, find nontrivial row combinations or construct branch arguments. This is deterministic elaboration of the user's proof, consistent with the user's allowance for very simple automation."
+    },
+    {
+      "id": "current_Kernel_independent_verification",
+      "status": "IMPLEMENTED_AND_OBSERVED",
+      "evidence": "Proof.verify invokes the native verifier after compilation. The independent C9 harness verifies delivered RPX/Request against actual canonical endpoint coordinates, separately from author claims/plans. All eight C9 compiler deliveries are formally VERIFIED. The earlier full shipped corpus replay passed81 cases/83 pieces over wire versions1-10; all83 reports/statistics agree with independently built pre-compiler c16fdaf.",
+      "sources": [
+        "python/kernel_compiler/backend.py",
+        "python/kernel_compiler/session.py:571",
+        "tools/run_compiler_agents.py",
+        "tools/verify_staged_agent_delivery.py",
+        "audit/compiler-replay/summary.json",
+        "audit/compiler-agent/C9-summary.json"
+      ],
+      "boundary": "The83-piece replay used its recorded earlier binary, not a new replay of 8ebcc97; it is historical compatibility evidence, not fresh autonomous acceptance. Planning/authoring metadata, MATCHED artifact readback and solver results cannot replace native VERIFIED."
+    },
+    {
+      "id": "fresh_real_previously_tested_cases_autonomous_completion",
+      "status": "OBSERVED_ON_EIGHT_NEW_C9_CASES",
+      "evidence": "Fresh matched Compiler/Nomf runs on test28,38,60,62,70,80,65,85 all ended and were assessed normally; all8 compiler proofs passed the independent harness. This case set differs from the previously repeated fresh subset. Launch controls bind generic package/API/protocol, pristine inputs, model/tools/budget and no historical answers or solver feedback. C9 uses streaming Model.load and the leaf encoder through frozen539.",
+      "sources": [
+        "audit/compiler-agent/C9-summary.json",
+        "audit/compiler-agent/C9-launch-integrity.json",
+        "audit/compiler-agent/C9-process-stop.json"
+      ],
+      "insufficiency": "This is a real tested subset, not an exhaustive catalogue rerun or a guarantee for every future case. Current subset_bounds and later documentation have no fresh-Agent evidence. Corpus replay, supplied-proof rescue and a prepared driver are not counted as autonomous Agent successes."
+    },
+    {
+      "id": "complete_pristine_source_and_committed_target_binding",
+      "status": "IMPLEMENTED_AND_OBSERVED_IN_C9",
+      "evidence": "Trusted pristine SHA records are captured outside Agent workspaces and rechecked. The harness compares the whole delivered source and whole committed target by exact named formulation, canonicalizes with the actual reader, and verifies in delivered coordinate order. Source/target/RPX/Request records bind full file hashes. C9/test62's ordered chain checks each stage's own endpoints, exact join, final artifact and explicitly selected directional paths.",
+      "sources": [
+        "tools/run_compiler_agents.py",
+        "tools/verify_staged_agent_delivery.py",
+        "python/kernel_compiler/session.py",
+        "python/kernel_compiler/bundle.py",
+        "python/tests/test_atomic_delivery.py",
+        "python/tests/test_chain_bundle.py",
+        "audit/compiler-agent/C9-summary.json"
+      ],
+      "boundary": "The generic library's committed_model and original-model anchors are explicit optional inputs; the independent acceptance harness supplies and enforces the external original/committed bindings. Named/order equivalence never authorizes interpreting RPX in original indices. MATCHED reports serialization/formulation identity, not mathematical Kernel status; manifest hashes are not signed author provenance."
+    },
+    {
+      "id": "preserve_mathematical_expression_and_ambitious_reformulation_willingness",
+      "status": "POSITIVE_COMPLEX_EVIDENCE_WITH_MATERIAL_UNRESOLVED_GAPS",
+      "evidence": "C9 proves substantial exact affine compression, binary-controlled DAG identities, a 13550-option Menu reconstruction, nonaffine Interval reconstruction, large all-coordinate MI/LP maps and objective-image constructions. Test28 develops more affine elimination than its fresh control. Test70 keeps its target/maps/3claims unchanged through a real proof-size repair.",
+      "sources": [
+        "audit/compiler-agent/C9-summary.json",
+        "audit/compiler-agent/C9-test28-phase.json",
+        "audit/compiler-agent/C9-test38-phase.json",
+        "audit/compiler-agent/C9-test60-phase.json",
+        "audit/compiler-agent/C9-test62-phase.json",
+        "audit/compiler-agent/C9-test70-phase.json",
+        "audit/compiler-agent/C9-test80-phase.json",
+        "audit/compiler-agent/C9-test65-phase.json",
+        "audit/compiler-agent/C9-test85-phase.json"
+      ],
+      "insufficiency": "C9/test38's197 failed independent-box sufficiency checks and fill-in concern leave proportional sharing uncompleted; no full alternate map/target or native proof was given. Other pairs choose orthogonal strategies or different decision/objective-image scopes. The record neither proves proof obligations caused retreat nor establishes unchanged exploration breadth/willingness. Encoding every raw rule, a smaller model or8/8 VERIFIED cannot settle this user condition.",
+      "requirement_boundary": "Assess observed mathematical choices and concrete friction. Do not add an impossible universal never-retreat guarantee, demand proof of every rejected candidate, require every catalogue suggestion, or retroactively require optional standalone author scripts."
+    },
+    {
+      "id": "near_Nomf_time_and_reformulation_quality_jointly",
+      "status": "NOT_ESTABLISHED",
+      "evidence": "C9 sums compiler3435.519s versus nomf3023.927s (ratio1.1361117514); paired median ratio1.1184989036. Per-case ratios include test70 2.4525 and test62 1.5689. These heterogeneous targets/scopes and shared-host Agent times are observations, not a same-target causal benchmark. Only the closed quality metadata for test28,38,60,62 is reviewed here; remaining cases are excluded.",
+      "sources": [
+        "audit/compiler-agent/C9-summary.json",
+        "audit/compiler-agent/C9-quality/test28",
+        "audit/compiler-agent/C9-quality/test38",
+        "audit/compiler-agent/C9-quality/test60",
+        "audit/compiler-agent/C9-quality/test62"
+      ],
+      "closed_subset_observation": "Test28 first MIP records have compiler/nomf about13s and equal LP values. Test38 first MIP records prove optimality at53.69s/62.74s with different LP values96.68/82.62. Test60 both hit120s with different primal/dual tradeoffs and equal LP values. Test62 all hit120s without a finite incumbent, so similar timing does not demonstrate equal search quality.",
+      "insufficiency": "Full eight-case quality is pending at this audit's reviewed cutoff. Joint time/quality/scope acceptance cannot follow from a13.6% aggregate ratio, dimensions, a single fast solved case, numerical LP equality or native correctness alone. New helper performance is also pending. No numerical acceptance threshold absent from the user's request is invented."
+    },
+    {
+      "id": "Git_and_auditable_feedback_iteration",
+      "status": "MAINTAINED_ONGOING",
+      "evidence": "Implementation, trust-boundary fixes, generic tests, frozen snapshots, formal run audit and feedback-driven helper/docs changes have separate commits. Relevant checkpoints include539c146 (leaf serialization),8ebcc97 (subset sharing),0dae87c/43b5169 (documentation),a7f8999 (unexecuted supplied-proof regression preparation),b0a12bb (static proportional design). Original closed-run artifacts remain read-only and large run outputs stay outside source control.",
+      "sources": [
+        "539c146",
+        "8ebcc97",
+        "0dae87c",
+        "43b5169",
+        "a7f8999",
+        "b0a12bb",
+        "audit/compiler-agent/C9-summary.json"
+      ],
+      "boundary": "Live quality output is intentionally separate from frozen Agent evidence. This audit is for root review/commit and does not mark the goal complete or launch another experiment."
+    }
+  ],
+  "demand_document_interpretation": {
+    "source": "docs/COMPILER_API_DEMAND.md",
+    "status": "ANALYSIS_CATALOGUE_NOT_NORMATIVE_ABI_OR_MANDATORY_FEATURE_SCORECARD",
+    "meaning": "The81-case trajectory/catalogue evidence guides API design. Its recommendations and historical sketches do not override the user's direct/no-search scope, require every suggested feature, or define a percentage-complete ABI checklist. Its 'compiler today' description is a historical source snapshot, not a current implementation inventory.",
+    "implications": "Raw Certificate rule coverage is necessary encoding evidence but cannot substitute for natural high-level usability. Rankings such as witness search are design suggestions, not authority to add proof search."
+  },
+  "recorded_tests": {
+    "source": "audit/compiler-performance/C9-subset-bounds-20261015/validation.json",
+    "source_checkpoint": "8ebcc97673f752a5be549ade0d6b25c02109929c",
+    "Python39": {
+      "count": 154,
+      "reported_seconds": 4.847,
+      "exit_code": 0,
+      "log": "audit/compiler-performance/C9-subset-bounds-20261015/py39.log"
+    },
+    "Python314": {
+      "count": 154,
+      "reported_seconds": 4.004,
+      "exit_code": 0,
+      "log": "audit/compiler-performance/C9-subset-bounds-20261015/py314.log"
+    },
+    "meaning": "Previously executed suites, not new execution for this audit and not an Agent-performance measurement."
+  },
+  "C9_case_scope_evidence": [
+    {
+      "case": "test28",
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 2312 retained-coordinate observations per claim.",
+      "compiler_to_nomf_wall_ratio": 1.1117203329206806,
+      "mathematical_comparison_and_boundary": "Both eliminate commodity aggregate definitions; Compiler additionally eliminates 188 pendant-cut coordinates with exact affine fiber preservation. Compiler 2312/708/5978 vs Nomf 2500/896/6730 (variables/rows/matrix nnz)."
+    },
+    {
+      "case": "test38",
+      "formal_scope": "Three unrestricted Equal claims: MI inverse pair plus reverse LP inclusion; 3293 observations each. No forward LP theorem.",
+      "compiler_to_nomf_wall_ratio": 1.23082018301508,
+      "mathematical_comparison_and_boundary": "Both compress a binary-controlled gate DAG and strengthen capacity arithmetic. Compiler additionally explores proportional nonlinear sharing (64 more potential eliminations) but does not select it: 197 reconstructions fail an independent-box sufficient bound check; recorded rationale also cites added bound rows and fill. This is an uncompleted candidate, not a proof of invalidity. Nomf not trying it does not exclude proof-convenience bias."
+    },
+    {
+      "case": "test60",
+      "formal_scope": "Two unrestricted MI Equal total maps, 90 affine observations each; one MenuLift with 13550 generated one-hot variables. No inverse or LP claim.",
+      "compiler_to_nomf_wall_ratio": 1.1252774742455793,
+      "mathematical_comparison_and_boundary": "Both replace affine option menus by two parameters per menu. Compiler uses shifted indices and removes additional whole bound rows; Nomf uses unshifted indices and more link/resource rows. Compiler certifies only MI maps despite Nomf public aggregate LP-image argument."
+    },
+    {
+      "case": "test62",
+      "formal_scope": "Two ordered stages, each with two MI Equal claims. Explicit paths [0,0] forward and [1,1] reverse compose unrestricted MI Equal correspondence and 460 shared observations. Stage1 inverse identities do not become a composite inverse. No composite LP relation.",
+      "compiler_to_nomf_wall_ratio": 1.5688710700738402,
+      "mathematical_comparison_and_boundary": "Compiler creates exact Boolean prime clauses and then 40 unit/copy/complement eliminations with integer normalization. Nomf constructs exact local convex hull facets and a reverse-LP extension argument. Compiler certifies nonaffine interval reconstruction, but these are different relaxation strategies."
+    },
+    {
+      "case": "test70",
+      "formal_scope": "Three unrestricted total maps: MI forward NonIncreasing, MI reverse Equal, reverse LP Equal; 45017 unchanged-coordinate observations each. No inverse or forward LP claim.",
+      "compiler_to_nomf_wall_ratio": 2.4525235048408693,
+      "mathematical_comparison_and_boundary": "Both aggregate identical columns, remove leaves and tighten 1679 gates. Compiler deletes 301 positive objective-only coordinates using NI forward and keeps all remaining aggregates binary; Nomf preserves every objective-valued feasible image and retains 36 general-integer aggregates. Initial Compiler proof exceeds input-file bytes; same target/maps/contracts survive proof compression."
+    },
+    {
+      "case": "test80",
+      "formal_scope": "Four unrestricted Equal total maps: MI and LP both directions, objective-image projection to one coordinate. No decision observations or inverse claims; MI reverse uses one 302-entry MenuLift.",
+      "compiler_to_nomf_wall_ratio": 0.5380839751170594,
+      "mathematical_comparison_and_boundary": "Compiler proves the complete integer and continuous objective image [-160,141] and commits one objective coordinate with full lifts. Nomf retains y/b/q/AND decision structure, relaxes derived integrality and strengthens local fractional structure. Both analytically attain -160. One-variable compression is a different relation, not automatic evidence of equal model quality."
+    },
+    {
+      "case": "test65",
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 154977 retained-coordinate observations each.",
+      "compiler_to_nomf_wall_ratio": 0.8795104155680493,
+      "mathematical_comparison_and_boundary": "Compiler removes 52556 implied inequalities and an isolated fixed coordinate, preserving full MI+LP affine bijections. Nomf instead nets 7400 p/e pairs and combines two integer capacities using a NI/Equal correspondence. The opportunities are orthogonal; no explicit Compiler netting proof attempt or rejection is public."
+    },
+    {
+      "case": "test85",
+      "formal_scope": "Four unrestricted Equal claims: MI inverse pair and LP inverse pair; 8480 retained-coordinate observations each.",
+      "compiler_to_nomf_wall_ratio": 0.736170241629342,
+      "mathematical_comparison_and_boundary": "Compiler uses real zero_sum and rewrite_many on given zero/alias witnesses, then exact equality dependencies, preserving full MI+LP inverse relations. Nomf obtains 16 extra integer incompatibility zeros and replaces implication rows by reciprocal support-balance equations: 1923 rows vs Compiler 33678. No public Compiler balance-aggregation attempt or explicit proof retreat is observed."
+    }
+  ],
+  "quality_review_boundary": {
+    "reviewed_closed_cases": [
+      "test28",
+      "test38",
+      "test60",
+      "test62"
+    ],
+    "not_reviewed_cases": [
+      "test70",
+      "test80",
+      "test65",
+      "test85"
+    ],
+    "root_owned_session": 86261,
+    "status": "IN_PROGRESS_NO_FULL_QUALITY_ACCEPTANCE",
+    "meaning": "This audit binds immutable first-run JSON records for the four reviewed cases. It does not hash an evolving aggregate quality file or read live test70 stdout. Later evaluator progress is outside this snapshot, not inferred from file presence.",
+    "first_record_observations": {
+      "test28": {
+        "mip_source": {
+          "status": "Optimal",
+          "wall_seconds": 7.825174,
+          "objective": 8105,
+          "dual_bound": 8104.87821245
+        },
+        "mip_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 13.079011,
+          "objective": 8105,
+          "dual_bound": 8105
+        },
+        "mip_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 13.046314,
+          "objective": 8105,
+          "dual_bound": 8105
+        },
+        "lp_source": {
+          "status": "Optimal",
+          "wall_seconds": 0.016991,
+          "objective": 2883.8235294,
+          "dual_bound": 2883.8235294
+        },
+        "lp_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 0.008903,
+          "objective": 2883.8235294,
+          "dual_bound": 2883.8235294
+        },
+        "lp_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 0.009477,
+          "objective": 2883.8235294,
+          "dual_bound": 2883.8235294
+        }
+      },
+      "test38": {
+        "mip_source": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.057243,
+          "objective": 204.081749241,
+          "dual_bound": 79.8225548536
+        },
+        "mip_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 53.688467,
+          "objective": 204.081749241,
+          "dual_bound": 204.081749241
+        },
+        "mip_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 62.735951,
+          "objective": 204.081749241,
+          "dual_bound": 204.081749241
+        },
+        "lp_source": {
+          "status": "Optimal",
+          "wall_seconds": 0.756487,
+          "objective": 51.11,
+          "dual_bound": 51.11
+        },
+        "lp_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 1.108612,
+          "objective": 96.677882487,
+          "dual_bound": 96.677882487
+        },
+        "lp_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 1.518308,
+          "objective": 82.619689331,
+          "dual_bound": 82.619689331
+        }
+      },
+      "test60": {
+        "mip_source": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.116575,
+          "objective": 5859.2160416,
+          "dual_bound": 4430.73138325
+        },
+        "mip_compiler": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.019208,
+          "objective": 4604.4752144,
+          "dual_bound": 4436.02510219
+        },
+        "mip_nomf": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.023347,
+          "objective": 4591.9664144,
+          "dual_bound": 4392.89977731
+        },
+        "lp_source": {
+          "status": "Optimal",
+          "wall_seconds": 0.136989,
+          "objective": 4331.1683526,
+          "dual_bound": 4331.1683526
+        },
+        "lp_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 0.026529,
+          "objective": 4331.1683526,
+          "dual_bound": 4331.1683526
+        },
+        "lp_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 0.070495,
+          "objective": 4331.1683526,
+          "dual_bound": 4331.1683526
+        }
+      },
+      "test62": {
+        "mip_source": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.022509,
+          "objective": "NO_FINITE_INCUMBENT",
+          "dual_bound": 0
+        },
+        "mip_compiler": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.011316,
+          "objective": "NO_FINITE_INCUMBENT",
+          "dual_bound": 0
+        },
+        "mip_nomf": {
+          "status": "Time limit reached",
+          "wall_seconds": 120.012168,
+          "objective": "NO_FINITE_INCUMBENT",
+          "dual_bound": 0
+        },
+        "lp_source": {
+          "status": "Optimal",
+          "wall_seconds": 0.114716,
+          "objective": 0,
+          "dual_bound": 0
+        },
+        "lp_compiler": {
+          "status": "Optimal",
+          "wall_seconds": 0.029646,
+          "objective": 0,
+          "dual_bound": 0
+        },
+        "lp_nomf": {
+          "status": "Optimal",
+          "wall_seconds": 0.033346,
+          "objective": 0,
+          "dual_bound": 0
+        }
+      }
+    },
+    "numerical_boundary": "Solver tolerances/time limits and single MIP records do not establish mathematical proof or universal runtime/quality. These data are distinct from recorded Kernel verification."
+  },
+  "pending_already_planned_evidence": [
+    "Finish and review independent C9 quality for the actual frozen539 artifacts.",
+    "After quality stops, execute the already prepared same-source/target/full-scope test70 handwritten-versus-subset_bounds regression; preparation alone is not success.",
+    "Fresh-Agent use of the new helper and post-C9 documentation remains untested; any later round needs its own frozen inputs/evidence.",
+    "Keep assessing actual scope/strategy differences and proof-convenience friction without treating all rejected ideas as invalid or inventing alternate maps."
+  ],
+  "audit_method": "Read-only small source, committed demand analysis, recorded test logs, frozen C9 summaries/phases and only four closed quality cases. No compiler import, native execution, test, solver, benchmark, proof replay, large model parse, live mathematical process read or modification of prior audits.",
+  "evidence_sha256": {
+    "docs/COMPILER_API_DEMAND.md": {
+      "sha256": "3c97e976b9b015f8fc184b74ad4b7fa9ab657cda3c26364ae1517bbc8b1dbf02",
+      "bytes": 208152
+    },
+    "docs/COMPILER_API.md": {
+      "sha256": "3c6e6c2968326dbb883fc5d09b1f78b7c8a1e8486690801cef220c90753ecccc",
+      "bytes": 47508
+    },
+    "docs/COMPILER_AGENT_PROTOCOL.md": {
+      "sha256": "c6569e7497e7485a46f00d54a391592547b19330a81cbe9ac0dd419772fb183b",
+      "bytes": 4478
+    },
+    "crates/core/src/compiler.rs": {
+      "sha256": "6275ee1f667fb2ba529ded7bbb32ea41af5c7326716d6ccf27e471d445a54900",
+      "bytes": 7633
+    },
+    "crates/core/src/compiler/resolve.rs": {
+      "sha256": "f12dcd18bd4105e87580006a336592399edacb29acefa2c23abf9b2f9436bc5d",
+      "bytes": 14088
+    },
+    "crates/core/src/api.rs": {
+      "sha256": "8516e15ead38c0ec08b11414501843bbbc55009b9b950e571488abfc31627619",
+      "bytes": 23923
+    },
+    "crates/core/tests/compiler_bridge.rs": {
+      "sha256": "5a814c33f848e2f9dbed0aaeecf23f6dbeb85adcde7f62ad8ceef1359227e51d",
+      "bytes": 21757
+    },
+    "python/kernel_compiler/session.py": {
+      "sha256": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a",
+      "bytes": 35469
+    },
+    "python/kernel_compiler/proof.py": {
+      "sha256": "d6db18508585591d42763ff03cefb8133cd3f956965ab2ce0d09a1c6210baff5",
+      "bytes": 51754
+    },
+    "python/kernel_compiler/_subsets.py": {
+      "sha256": "9015a59c8e453428a2d8ae546966a3bad9da9fbd78aaa392cdc17f8492656170",
+      "bytes": 4810
+    },
+    "python/kernel_compiler/model.py": {
+      "sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+      "bytes": 33862
+    },
+    "python/kernel_compiler/_mcm.py": {
+      "sha256": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+      "bytes": 5994
+    },
+    "python/kernel_compiler/bundle.py": {
+      "sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "bytes": 19548
+    },
+    "tools/run_compiler_agents.py": {
+      "sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
+      "bytes": 32806
+    },
+    "tools/verify_staged_agent_delivery.py": {
+      "sha256": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24",
+      "bytes": 18108
+    },
+    "audit/compiler-replay/summary.json": {
+      "sha256": "a654112c076a560a327632b2ce0c8f4f8c0392e1a59d1b2a5459e61b338b416b",
+      "bytes": 1371
+    },
+    "audit/compiler-agent/C9-summary.json": {
+      "sha256": "ff855085b8ea7b1b79e0aedf119e37c57ff136c11dceae379e2fe64306d638c3",
+      "bytes": 53463
+    },
+    "audit/compiler-agent/C9-launch-integrity.json": {
+      "sha256": "4a84d1152d0743a139785fdc75c7668af844048030ee2dd7f0bd97a5b1125e5b",
+      "bytes": 1196
+    },
+    "audit/compiler-agent/C9-process-stop.json": {
+      "sha256": "453d5055925eb4bbc88f4937214071e19543fa3050f58a54f1ed02c1920eca10",
+      "bytes": 6014
+    },
+    "audit/compiler-performance/C9-subset-bounds-20261015/validation.json": {
+      "sha256": "c1eed15c9571c0f17986a87fd8ac61022537bd9dc69b4f99b909c7ceec9a9a6f",
+      "bytes": 3456
+    },
+    "audit/compiler-performance/C9-subset-bounds-20261015/py39.log": {
+      "sha256": "4001ea287c7c94813a0b7f958afd7fbf6838bcae9d284725eb208bf1416c4743",
+      "bytes": 254
+    },
+    "audit/compiler-performance/C9-subset-bounds-20261015/py314.log": {
+      "sha256": "093987cfb07fd3a20dea96975b8faa2956d4d9a9daabc17ad0c60ed733dd18de",
+      "bytes": 254
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/prepared.json": {
+      "sha256": "3f5e3330654870133c37ea82b31bcf03dfbbaa330e3398d4e4280874b18ee56d",
+      "bytes": 1836
+    },
+    "audit/compiler-agent/C9-test38-proportional-static-design.json": {
+      "sha256": "1d2999e056954e5dcdb1ee79ab5d8d7729099397092722d6eaaacb03e86f615a",
+      "bytes": 11997
+    },
+    "audit/compiler-agent/C9-test28-phase.json": {
+      "sha256": "d223ef7a470e1d89080eacdbb1a94fbdfc96e6bd26e105d8f79832fead3e325f",
+      "bytes": 35782
+    },
+    "audit/compiler-agent/C9-test38-phase.json": {
+      "sha256": "fba9ea06139960006e97b2af3af264bdd66f98c3b9853b1ab2c89890a9851854",
+      "bytes": 41770
+    },
+    "audit/compiler-agent/C9-test60-phase.json": {
+      "sha256": "518eb21b819126db4961a97ae350ae81185df9a65949cc5c3e2e7aab9277c773",
+      "bytes": 45059
+    },
+    "audit/compiler-agent/C9-test62-phase.json": {
+      "sha256": "137160b19462a29e97dcffcf88d25d395470af12f070161e0c2e7862c96c5b4a",
+      "bytes": 63332
+    },
+    "audit/compiler-agent/C9-test70-phase.json": {
+      "sha256": "daab66051f5ce33095ba9fb9bbb449252b33b040d44f4c97f32331013d4a3536",
+      "bytes": 58292
+    },
+    "audit/compiler-agent/C9-test80-phase.json": {
+      "sha256": "e46d1c76244658601546e652af1f4f7a8341777d4e43e15653ef1acfc09354a7",
+      "bytes": 46147
+    },
+    "audit/compiler-agent/C9-test65-phase.json": {
+      "sha256": "f117b0a650e025cab5f046f45ca5658a261eb0469573fbb274dd65871db87910",
+      "bytes": 40477
+    },
+    "audit/compiler-agent/C9-test85-phase.json": {
+      "sha256": "fb50cb0973d31ed69dc8efe11f41c6ac083268437dce2da19a9602b24fb53b0c",
+      "bytes": 42488
+    },
+    "audit/compiler-agent/C9-quality/test28/mip-source-0.json": {
+      "sha256": "1e2b970ce74a2f8c11fccae270761ae5d58bfac949e2b4e053617dfb9c5b1939",
+      "bytes": 753
+    },
+    "audit/compiler-agent/C9-quality/test28/mip-compiler-0.json": {
+      "sha256": "b1e8ec14c1df6ef2eec9495f8fec13d848373d1a822a190c3de611a8eb620757",
+      "bytes": 755
+    },
+    "audit/compiler-agent/C9-quality/test28/mip-nomf-0.json": {
+      "sha256": "24d318f5074fb8b83fc35b0d69ff17a7fe3854b52c3be8dc30e54de323b0ddf0",
+      "bytes": 747
+    },
+    "audit/compiler-agent/C9-quality/test28/lp-source-0.json": {
+      "sha256": "685c06733418ec61dd9b0b15b17dcb333c01f3616b7c4aff0c688a57c2b78b57",
+      "bytes": 720
+    },
+    "audit/compiler-agent/C9-quality/test28/lp-compiler-0.json": {
+      "sha256": "4a548f949d1f09b98775b7924612e239f1cd3170e71670ee4d003fff5166a157",
+      "bytes": 728
+    },
+    "audit/compiler-agent/C9-quality/test28/lp-nomf-0.json": {
+      "sha256": "5fdee20404667225b26949c60c0bb92d0bdbd6f390d264c9814a3268129cf730",
+      "bytes": 720
+    },
+    "audit/compiler-agent/C9-quality/test38/mip-source-0.json": {
+      "sha256": "2292f7105f6b0bd2547253d79140b5e10bc812d23f65d2663586e662cac184de",
+      "bytes": 775
+    },
+    "audit/compiler-agent/C9-quality/test38/mip-compiler-0.json": {
+      "sha256": "2284611eb2b19753da74a543496bf150c82da66b14179d078a8ed6b0a0bb2e4b",
+      "bytes": 772
+    },
+    "audit/compiler-agent/C9-quality/test38/mip-nomf-0.json": {
+      "sha256": "8a541bcb52daf71c92c86e9f1991056449be1423a27ce3807ad083191e9fb489",
+      "bytes": 762
+    },
+    "audit/compiler-agent/C9-quality/test38/lp-source-0.json": {
+      "sha256": "01e48207804aa2367006216f458132023012dd54aa494c38bc60bdbe20bfffe2",
+      "bytes": 714
+    },
+    "audit/compiler-agent/C9-quality/test38/lp-compiler-0.json": {
+      "sha256": "e8e9b31e5bd5b42b44ecbd9cdfe2db6da376222cdacd2df09328efeaed6466d5",
+      "bytes": 739
+    },
+    "audit/compiler-agent/C9-quality/test38/lp-nomf-0.json": {
+      "sha256": "1c8569646cdbe4e98bfc3bbe162e7f724f0b2383cb4d7253a47929213473f790",
+      "bytes": 730
+    },
+    "audit/compiler-agent/C9-quality/test60/mip-source-0.json": {
+      "sha256": "f29b7a50de0b510de2b67eeab79561bb323eea607e627c101f3f027eb4a618db",
+      "bytes": 779
+    },
+    "audit/compiler-agent/C9-quality/test60/mip-compiler-0.json": {
+      "sha256": "bb7c107533d22a0a310f0a0a3de2f97265c3ed93625dfe5a73a95673cf2a02fb",
+      "bytes": 788
+    },
+    "audit/compiler-agent/C9-quality/test60/mip-nomf-0.json": {
+      "sha256": "dc030eb6b7240f234031e82bd2197db097e24fb8604603deb47ad119ee973098",
+      "bytes": 772
+    },
+    "audit/compiler-agent/C9-quality/test60/lp-source-0.json": {
+      "sha256": "f3a71e4270bb3773597b5a212a6aa8c9dbb675713736ac29e15dd1b1d27a1222",
+      "bytes": 725
+    },
+    "audit/compiler-agent/C9-quality/test60/lp-compiler-0.json": {
+      "sha256": "e4dfcef3f1a0d41e858e191f6a23bb3e161f86f2f82672217d2d6bbf0866eed4",
+      "bytes": 734
+    },
+    "audit/compiler-agent/C9-quality/test60/lp-nomf-0.json": {
+      "sha256": "e681070f459772097156ebc098f5e3ef6cfbd7396355d6eef5973a88869b4bdf",
+      "bytes": 720
+    },
+    "audit/compiler-agent/C9-quality/test62/mip-source-0.json": {
+      "sha256": "8234158a37820045493b03103c6b0c1172921044ff202f2c65869d18659d5396",
+      "bytes": 732
+    },
+    "audit/compiler-agent/C9-quality/test62/mip-compiler-0.json": {
+      "sha256": "792b28bc3810c2456e7e10c830091b30a13612dc15f6a7de11e19c1cd948aff2",
+      "bytes": 741
+    },
+    "audit/compiler-agent/C9-quality/test62/mip-nomf-0.json": {
+      "sha256": "6223a199d8062e442f32400a513debe38d0dca2410b63ab0dc5401440be1169c",
+      "bytes": 736
+    },
+    "audit/compiler-agent/C9-quality/test62/lp-source-0.json": {
+      "sha256": "d5a889f9c8f21ff055a19506c6065668e2dffa3712dc6a0ff83376dfbc6a4e53",
+      "bytes": 706
+    },
+    "audit/compiler-agent/C9-quality/test62/lp-compiler-0.json": {
+      "sha256": "8580d52565ca3819da3b47047ce116333c8bc49c2ea34a95c27ccec6932f0abb",
+      "bytes": 714
+    },
+    "audit/compiler-agent/C9-quality/test62/lp-nomf-0.json": {
+      "sha256": "6ab7f216c0966b947c36284e8d31f5d65fae55afe7a365c0a262d5e156c068bb",
+      "bytes": 706
+    }
+  }
+}
