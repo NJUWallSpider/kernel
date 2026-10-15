@@ -1,7 +1,7 @@
 # Third arm: encoder regression, prepared but not run
 
-Status: **NOT RUN**. Wait for the controller to provide a tested commit and
-immutable package snapshot. Do not use the working checkout. The original
+Status: **COMPLETED ONCE**, using the tested frozen 539 snapshot. See
+`ENCODER-RESULTS.md` and `encoder-summary.json`. The run used no live checkout. The original
 `benchmark.py`, both results and all prior large artifacts remain unchanged.
 
 `encoder_benchmark.py` requires explicit `--package` and full `--checkpoint`
@@ -24,4 +24,5 @@ as well as semantic theorem preservation. A mismatch remains a failed regression
 
 This is a third serial single sample on the same shared host. It cannot show
 a stable runtime/memory change, fresh-Agent behavior or held-out generalization.
-No test, native process, solver or Agent has been started for this plan.
+The final authorized native regression has now completed. No solver or Agent
+was started, and no further memory-profiling round is planned.

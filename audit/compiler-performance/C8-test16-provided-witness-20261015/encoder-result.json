@@ -1,0 +1,301 @@
+{
+  "schema": "provided-witness-proof-regression-v1",
+  "arm": "encoder",
+  "status": "VERIFIED",
+  "not_fresh_Agent_acceptance": true,
+  "not_solver_or_nomf_comparison": true,
+  "third_arm_purpose": "Isolate tested leaf-encoder implementation on the same helper proof",
+  "reference_helpers_result": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/helpers-result.json",
+  "reference_helpers_result_sha256": "5aac15fb8054a8fdc21f776c3279e7b776eb28abdbadc280feef6bf75af7ae18",
+  "byte_equivalence_to_old_helpers": {
+    "source": {
+      "bytes": 28974956,
+      "identical_bytes": true,
+      "old_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "new_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "target": {
+      "bytes": 21440948,
+      "identical_bytes": true,
+      "old_sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1",
+      "new_sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1"
+    },
+    "request": {
+      "bytes": 10679061,
+      "identical_bytes": true,
+      "old_sha256": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552",
+      "new_sha256": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552"
+    },
+    "proof": {
+      "bytes": 98008826,
+      "identical_bytes": true,
+      "old_sha256": "74979463d9b7f100477a7e9073ced0dd131524d91ffb8a114c6b6806eafddf2a",
+      "new_sha256": "74979463d9b7f100477a7e9073ced0dd131524d91ffb8a114c6b6806eafddf2a"
+    },
+    "committed_model": {
+      "bytes": 20072292,
+      "identical_bytes": true,
+      "old_sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee",
+      "new_sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee"
+    },
+    "certificate": {
+      "bytes": 149703351,
+      "identical_bytes": true,
+      "old_sha256": "7c48a03ff04ab9446dae4aceec19dcc8229958f820e4ce0f20026bdf0a293da9",
+      "new_sha256": "7c48a03ff04ab9446dae4aceec19dcc8229958f820e4ce0f20026bdf0a293da9"
+    }
+  },
+  "native_statistics_exactly_equal_old_helpers": true,
+  "package": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015",
+  "package_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+  "package_hashes": {
+    "docs/COMPILER_API.md": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f",
+    "docs/FORMAT.md": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+    "python/kernel_compiler/__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+    "python/kernel_compiler/_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+    "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+    "python/kernel_compiler/bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+    "python/kernel_compiler/expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+    "python/kernel_compiler/model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+    "python/kernel_compiler/mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+    "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+    "python/kernel_compiler/proof.py": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+    "python/kernel_compiler/request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+    "python/kernel_compiler/session.py": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a",
+    "python/tests/test_proof.py": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b"
+  },
+  "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "native_calls": [
+    {
+      "phase": "load",
+      "command": "canonical",
+      "wall_s": 0.6588254170201253,
+      "status": "CANONICALIZED"
+    },
+    {
+      "phase": "load",
+      "command": "inspect-model",
+      "wall_s": 0.2344077090092469,
+      "status": "INSPECTED"
+    },
+    {
+      "phase": "load",
+      "command": "inspect-model",
+      "wall_s": 0.18650400001206435,
+      "status": "INSPECTED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.934331333002774,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.9642909159883857,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.5506784589961171,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.6830180420074612,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.9798443329927977,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.977353625028627,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.5531095420010388,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "proof_authoring",
+      "command": "resolve-return",
+      "wall_s": 1.8335387500119396,
+      "status": "PLANNED"
+    },
+    {
+      "phase": "serialization_and_artifact_binding",
+      "command": "canonical",
+      "wall_s": 0.6128477080201264,
+      "status": "CANONICALIZED"
+    },
+    {
+      "phase": "serialization_and_artifact_binding",
+      "command": "inspect-model",
+      "wall_s": 0.19120166602078825,
+      "status": "INSPECTED"
+    },
+    {
+      "phase": "serialization_and_artifact_binding",
+      "command": "compile",
+      "wall_s": 1.4460815410129726,
+      "status": "COMPILED"
+    },
+    {
+      "phase": "native_verify",
+      "command": "verify",
+      "wall_s": 3.791423582995776,
+      "status": "VERIFIED"
+    }
+  ],
+  "times": {
+    "source_MPS_load_s": 3.71699295801227,
+    "provided_target_MCM_load_s": 2.5811690829868894,
+    "provided_witness_and_maps_setup_s": 2.0972854160063434,
+    "MI_forward_substitution_s": 15.693574749981053,
+    "MI_forward_author_total_s": 17.679024040990043,
+    "MI_forward_zero_fixed_alias_derivation_s": 1.9854492910089903,
+    "MI_forward_all_definition_expression_scope_check_s": 0.5708206669951323,
+    "MI_forward_completion_s": 4.425397874991177,
+    "MI_reverse_bounds_and_completion_s": 6.745987542002695,
+    "LP_forward_substitution_s": 17.67920770897763,
+    "LP_forward_author_total_s": 19.444070917001227,
+    "LP_forward_zero_fixed_alias_derivation_s": 1.7648632080235984,
+    "LP_forward_all_definition_expression_scope_check_s": 0.5759674159926362,
+    "LP_forward_completion_s": 7.21368616700056,
+    "LP_reverse_bounds_and_completion_s": 10.259027457999764,
+    "certificate_materialize_s": 2.8035368749988265,
+    "request_materialize_s": 0.42614370901719667,
+    "serialization_compile_and_whole_artifact_binding_s": 17.498844750021817,
+    "native_verify_process_wall_s": 3.7914537499891594,
+    "total_measured_execution_s": 99.93025858400506,
+    "serialization_and_binding_python_IO_excluding_native_processes_s": 15.24871383496793
+  },
+  "definition_checks": {
+    "MI_forward": {
+      "checked_EQs": 50186,
+      "zeros": 29502,
+      "fixed_nonzero": 1,
+      "aliases": 20683,
+      "all_exact_expected_expressions": true,
+      "all_facts_visible_in_exact_claim_root_scope": true,
+      "input_integers": true,
+      "expression_sha256": "3c0c37409dd0c65b5914c6637d2f9d35d6065dce0e49c12f37d8edeaa6d32439"
+    },
+    "LP_forward": {
+      "checked_EQs": 50186,
+      "zeros": 29502,
+      "fixed_nonzero": 1,
+      "aliases": 20683,
+      "all_exact_expected_expressions": true,
+      "all_facts_visible_in_exact_claim_root_scope": true,
+      "input_integers": false,
+      "expression_sha256": "3c0c37409dd0c65b5914c6637d2f9d35d6065dce0e49c12f37d8edeaa6d32439"
+    }
+  },
+  "request_equals_original_complete_Request": true,
+  "directional_claims": 4,
+  "observations_per_claim": 178164,
+  "whole_artifact_binding": {
+    "status": "MATCHED",
+    "method": "Kernel standard-format readback and exact named formulation comparison",
+    "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+      "sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee"
+    },
+    "proof_target": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/target.mcm",
+      "sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1"
+    }
+  },
+  "verification_native_total_us": 3704491,
+  "verification_statistics": {
+    "bijections": 0,
+    "branches": 0,
+    "flow_generated_rows": 0,
+    "flow_generated_terms": 0,
+    "flow_generated_variables": 0,
+    "flow_lifts": 0,
+    "injectivity_coordinates": 0,
+    "injectivity_generated_rows": 0,
+    "injectivity_generated_terms": 0,
+    "injectivity_generated_variables": 0,
+    "interval_generated_rows": 0,
+    "interval_generated_terms": 0,
+    "interval_generated_variables": 0,
+    "interval_lifts": 0,
+    "linear_terms": 2152440,
+    "menu_generated_rows": 0,
+    "menu_generated_terms": 0,
+    "menu_generated_variables": 0,
+    "menu_lifts": 0,
+    "objective_level_domains": 0,
+    "objective_level_generated_rows": 0,
+    "objective_level_generated_terms": 0,
+    "obligations": 3118120,
+    "peak_live_facts": 277053,
+    "plotkin_pairs": 0,
+    "point_coefficient_terms": 0,
+    "points": 0,
+    "signed_generated_rows": 0,
+    "signed_generated_terms": 0,
+    "signed_generated_variables": 0,
+    "signed_lifts": 0,
+    "substitution_terms": 3003572,
+    "work": 27337790
+  },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/source.mcm",
+      "sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/target.mcm",
+      "sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/proof.rpx",
+      "sha256": "74979463d9b7f100477a7e9073ced0dd131524d91ffb8a114c6b6806eafddf2a"
+    },
+    "request": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/request.json",
+      "sha256": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552"
+    },
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+      "sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee"
+    }
+  },
+  "original_inputs_sha256": {
+    "input/model.mps": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+    "output/source.mcm": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+    "output/target.mcm": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1",
+    "output/witnesses.json": "a2f65043c36cb488ee9173da207c21a7a8824966878c6f543873fc3023278724",
+    "output/analysis.json": "30706e5f90a12d42f39b4f96785607e3aadeb839ec6f458daab3493120349e81",
+    "output/edits.json": "79b7dccb84fb1f4ce2afd4c11e9274286c6627182858c05278bd4b2f16fad14a",
+    "output/request.json": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552",
+    "output/reformulated.mps": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee",
+    "session.jsonl": "a03c897bf6c58632b6a71765f81a1fddb7757255a679abb4234a8c90b034f6ac"
+  },
+  "reproducer_sha256": "3ea0eb83991301db52152843c803ab56ac21a3fcef3ffc4c6a74fe7ac90ed874",
+  "original_function_sha256": "9cb60ab02b2e1148cc83246729aaf0aa355879003626cacbbcb52059fa84707b",
+  "self_peak_rss_raw": 3255156736,
+  "child_peak_rss_raw": 1173340160,
+  "rss_unit": "bytes on macOS",
+  "host_load_at_end": [
+    5.267578125,
+    3.78271484375,
+    3.46728515625
+  ],
+  "measurement_boundary": "One serial execution per arm. Derivation excludes separately timed substitution; validation checks and full certificate/request materialization are separately timed. Serialization+binding includes exact committed-MPS readback, Python IO and native canonical/inspect/compile calls, each native call separately recorded. No isolated attribution to one assertion or stable repeated timing claim."
+}

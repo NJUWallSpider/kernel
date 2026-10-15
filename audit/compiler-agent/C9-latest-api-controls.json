@@ -12,9 +12,10 @@
     "Marked the old d916c29 preparation SUPERSEDED_PRELAUNCH without altering its generic source files.",
     "Recorded generic documentation discoverability evidence only in audit metadata, not Agent inputs.",
     "Wrote the new static snapshot and refreshed NOT_LAUNCHED controls.",
-    "Recorded the root-selected eight-case order and full-file input SHA comparisons; reported the test38 mismatch without parsing, replacing or launching it."
+    "Recorded the root-selected eight-case order and full-file input SHA comparisons; reported the test38 mismatch without parsing, replacing or launching it.",
+    "Prepared 14 generic files exactly at 539c146, marked both earlier prelaunch snapshots superseded without changing their generic files, and recorded root-reported regressions plus the user memory preference."
   ],
-  "actual_git_HEAD_at_package_creation": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "actual_git_HEAD_at_package_creation": "539c146425e0054fa1127968b72276df4073de8d",
   "case_plan_revision_history": [
     {
       "meaning": "Original same-six-case plan was cancelled before launch; retained in superseded_same_case_plan.",
@@ -69,15 +70,27 @@
       "fresh_Agent_evidence": "NOT_RUN",
       "implementation_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
       "semantics": "Two unrestricted total directions between the same declared feasible domains, NI forward / Equal reverse, establish equal optimal values without asserting pointwise inverses. Every scoped Return still supplies all output coordinates."
+    },
+    {
+      "feature": "Optional deferred maps in Proof.correspondence() and generic early navigation",
+      "fresh_Agent_evidence": "NOT_RUN",
+      "implementation_checkpoint": "5a63943267fb77392254ce1a6617c725c3cf49a7",
+      "native_regression": "PASS; both Python interpreters full suite 140 tests (root report)."
+    },
+    {
+      "feature": "On-demand typed-leaf JSON serialization without a recursive full-container wire copy",
+      "fresh_Agent_evidence": "NOT_RUN",
+      "implementation_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+      "native_regression": "PASS; both Python interpreters full suite 144 tests (root report)."
     }
   ],
   "comparison_round": "C8-20261015 is historical context only; the revised next-round case set will differ.",
   "comparison_with_superseded_prelaunch": [
     {
-      "C9_package_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b",
+      "C9_package_sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f",
       "change": "CHANGED",
       "path": "docs/COMPILER_API.md",
-      "previous_prelaunch_sha256": "18a8cc6fe9a53575e6ad660e97e69cb39bfc3350a909bac13d2ea0b0fda882ee"
+      "previous_prelaunch_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b"
     },
     {
       "C9_package_sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
@@ -146,8 +159,8 @@
       "previous_prelaunch_sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982"
     },
     {
-      "C9_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
-      "change": "UNCHANGED",
+      "C9_package_sha256": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a",
+      "change": "CHANGED",
       "path": "python/kernel_compiler/session.py",
       "previous_prelaunch_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3"
     },
@@ -158,9 +171,36 @@
       "previous_prelaunch_sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b"
     }
   ],
-  "core_implementation_checkpoint": "d916c298e81e046f0a24355e62b7218b798e8a4b",
+  "core_implementation_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
   "created_utc": "2026-10-15T03:57:49+00:00",
   "evaluation_kind": "Latest-API fresh generalization acceptance on different previously nomf-tested cases; not a prompt-only or same-case causal experiment",
+  "feedback_regressions_before_launch": {
+    "certificate_serialization_copy": {
+      "status": "COMPLETE_BYTE_IDENTICAL_NATIVE_REGRESSION",
+      "checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+      "result": "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-result.json",
+      "sha256": "b3fcd624ef92d326b093ad3ca27738eabaff3932ae55674f74ac49b29d382dd7",
+      "all_six_artifact_classes_byte_identical": true,
+      "native_statistics_identical": true,
+      "times_single_sample_seconds": {
+        "old_helpers_serialization": 45.299733,
+        "new_encoder_serialization": 17.498844750021817,
+        "old_helpers_total": 139.443656,
+        "new_encoder_total": 99.93025858400506
+      },
+      "boundary": "Not fresh Agent acceptance or a stable repeated speed estimate. Memory is not a gate, per user instruction."
+    },
+    "deferred_piecewise_and_constructive_maps": {
+      "checkpoint": "5a63943267fb77392254ce1a6617c725c3cf49a7",
+      "status": "NATIVE_REGRESSION_PASSED",
+      "tests": "140 pass on both Python 3.9.6 and 3.14.6, including complete non-affine NI/Equal proof, committed-MPS binding and bad-branch rejection."
+    },
+    "zero_sum_and_batch": {
+      "boundary": "Same complete C8 target, Request and four MI/LP claims. Mechanical authoring faster in one serial sample; Python peak RSS increased and is not hidden.",
+      "path": "audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json",
+      "status": "COMPLETE_PROVIDED_PROOF_REGRESSION"
+    }
+  },
   "fixed_controls": {
     "arms": [
       "compiler",
@@ -197,9 +237,10 @@
     "max_time": "30m",
     "model": "gpt-6.1-sol",
     "native": {
-      "actual_binary_recheck": "REQUIRED_AFTER_QUALITY_STOP_BEFORE_LAUNCH",
+      "actual_binary_recheck": "MATCHED_AFTER_QUALITY_AND_PROVIDED_PROOF_EXIT0",
       "latest_actual_recheck_by_root": {
-        "at": "2026-10-15T12:15:50+08:00",
+        "at_utc": "2026-10-15T04:44:38.587107+00:00",
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015/kernel/rpx",
         "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
       },
       "sha256_from_C8_record": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
@@ -338,44 +379,43 @@
   "launch_gate": {
     "C6_quality": "May remain explicitly PENDING; it is not required for this launch and does not support old-prompt quality causal claims.",
     "conditions": [
-      "C8 quality process has exited and no owned C8 worker/HiGHS child remains; root reports this satisfied.",
-      "Root has reviewed completed C8 quality; final independent quality review metadata must remain explicit.",
-      "The user explicitly requires feedback-based improvements and targeted regression checks before the next launch.",
-      "Root completes the C8 test16 helper/batch regression and C8 test58 non-affine contract-navigation regression, then reviews the result.",
-      "Root resolves test38 data-versus-previous-nomf byte identity without silently changing the selected case.",
-      "Root freezes the resulting final code/API/doc snapshot; prepared 5c42197 bytes are provisional until then.",
+      "C8 quality process has exited and root has reviewed it; existing stop/review records apply.",
+      "The user required feedback improvements before a new round: deferred correspondence is implemented and its full 140-test regression passed; serialization is implemented and full 144-test regressions passed.",
+      "Complete the pending same supplied proof byte/native consistency and timing arm; memory improvement is not a gate and no further dedicated memory round is required.",
+      "Keep the root-resolved test38 NAME-only identity and selected pristine data SHA; do not silently change case or source.",
+      "Root freezes the resulting final package/API/doc snapshot after review; prepared 539c146 remains provisional until then.",
       "Root explicitly authorizes and starts C9 after final review.",
-      "Recheck final package/API/prompt hashes and actual fixed native identity at launch; the C8 main prompt is to remain unchanged.",
-      "Verify the final harness snapshot and all sixteen selected compiler/nomf pristine input copies at launch."
+      "At launch recheck final package/API/prompt hashes and fixed native identity, the final harness snapshot, and all sixteen selected compiler/nomf pristine input copies."
     ],
-    "decision": "NOT_AUTHORIZED_PENDING_FEEDBACK_IMPROVEMENT_REGRESSION_AND_FINAL_ROOT_LAUNCH_DECISION",
-    "decision_owner": "root"
+    "decision": "ROOT_READY_TO_LAUNCH_AFTER_FEEDBACK_IMPROVEMENTS",
+    "decision_owner": "root",
+    "root_verified_utc": "2026-10-15T04:44:38.587107+00:00"
   },
-  "launch_status": "NOT_LAUNCHED",
+  "launch_status": "READY_NOT_LAUNCHED",
   "not_performed": [
     "Run/workspace creation",
     "Agent launch",
+    "Native binary read or execution",
     "Solver",
     "Tests",
     "Benchmark",
     "Proof replay",
-    "Native execution",
-    "Model parse",
+    "Full model read",
     "Source-code changes",
     "Prompt changes"
   ],
   "package": {
     "file_count": 14,
-    "final_launch_freeze": false,
-    "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015",
-    "readiness": "PROVISIONAL_PREPARED_5c42197_SNAPSHOT; root must finish feedback improvements and targeted regressions before final freeze.",
-    "snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015/snapshot.json",
-    "snapshot_sha256": "24d79a006d792561defd9592f27435b017ae50da7c733c102acfb5f530ff6431"
+    "final_launch_freeze": true,
+    "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015",
+    "readiness": "FROZEN: full144 tests on both Python versions, same-proof whole-byte/native equivalence, root preflight complete. Snapshot metadata is preserved unchanged.",
+    "snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/snapshot.json",
+    "snapshot_sha256": "51631a878ce9e6650c172b64b9e849138ebc4454e83bc04f77b89c0337a738f3"
   },
   "package_comparison": [
     {
       "C8_package_sha256": "0dd54c83f501526389be2a5ef2277027a07e6e3d45b03aec2ec0a1b0e6c47b97",
-      "C9_package_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b",
+      "C9_package_sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f",
       "change": "CHANGED",
       "path": "docs/COMPILER_API.md"
     },
@@ -447,8 +487,8 @@
     },
     {
       "C8_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
-      "C9_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
-      "change": "UNCHANGED",
+      "C9_package_sha256": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a",
+      "change": "CHANGED",
       "path": "python/kernel_compiler/session.py"
     },
     {
@@ -458,7 +498,7 @@
       "path": "python/tests/test_proof.py"
     }
   ],
-  "plan_status": "ROOT_SELECTED_NEW_CASES_FEEDBACK_IMPROVEMENT_AND_FINAL_FREEZE_PENDING",
+  "plan_status": "ROOT_SELECTED_NEW_CASES_FEEDBACK_IMPROVEMENTS_IMPLEMENTED_EQUIVALENCE_TIMING_REGRESSION_PENDING",
   "planned_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
   "root_reported_C8_stop_and_review": {
     "evidence_owner": "Parent/root report; this subagent did not execute native or inspect/stop unrelated processes.",
@@ -472,9 +512,9 @@
     "root_reviewed_cases": 6
   },
   "schema": "compiler-latest-api-evaluation-controls-1",
-  "source_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
-  "source_checkpoint_status": "PROVISIONAL; 5c42197/core d916c29 are the current prepared bytes, not a final C9 launch commitment.",
-  "status": "NOT_LAUNCHED",
+  "source_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+  "source_checkpoint_status": "FROZEN_AFTER_C8_FEEDBACK_AND_REQUIRED_REGRESSIONS",
+  "status": "READY_NOT_LAUNCHED",
   "superseded_prelaunch": {
     "agent_execution": "NOT_LAUNCHED",
     "generic_source_files_unchanged": true,
@@ -483,6 +523,24 @@
     "snapshot_sha256_before_status_update": "a9b7e0c4e3665436201eea3d9d06ad949dd92519c74119721b15dd343b416885",
     "status": "SUPERSEDED_PRELAUNCH"
   },
+  "superseded_prelaunch_snapshots": [
+    {
+      "agent_execution": "NOT_LAUNCHED",
+      "generic_source_files_unchanged": true,
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-d916c29-20261015",
+      "snapshot_sha256_after_status_update": "554fce7a422831ad96edfaf4d4046a2865d767858e3ccf0961472fe39a3e3fc4",
+      "snapshot_sha256_before_status_update": "8d4e70d1ec1a936e66d26caa5bb29f43f220ea1c507effe7bbd3e3382a8afe1d",
+      "status": "SUPERSEDED_PRELAUNCH"
+    },
+    {
+      "agent_execution": "NOT_LAUNCHED",
+      "generic_source_files_unchanged": true,
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015",
+      "snapshot_sha256_after_status_update": "03027f85f19e959f7b2973a7295ff525987d6a96498849f213f26f37176965e0",
+      "snapshot_sha256_before_status_update": "24d79a006d792561defd9592f27435b017ae50da7c733c102acfb5f530ff6431",
+      "status": "SUPERSEDED_PRELAUNCH"
+    }
+  ],
   "superseded_same_case_plan": {
     "agent_execution": "NOT_LAUNCHED",
     "cases": [
@@ -504,30 +562,32 @@
     },
     "status": "SUPERSEDED_PRELAUNCH"
   },
-  "treatment_id": "C9-20261015",
-  "updated_utc": "2026-10-15T04:19:04+00:00",
   "test38_input_identity_resolution": {
-    "status": "RESOLVED_NAME_ONLY",
+    "all_non_NAME_bytes_identical": true,
     "path": "audit/compiler-agent/C9-test38-input-identity.json",
-    "sha256": "b45f63fe3a58f0646c9a909e6a2028c62a3003e62b1d2ff9dbd17fd4bf610270",
     "selected_input": "/Users/bhz/Code/reform_test/data/test38.mps",
     "selected_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
-    "all_non_NAME_bytes_identical": true
+    "sha256": "b45f63fe3a58f0646c9a909e6a2028c62a3003e62b1d2ff9dbd17fd4bf610270",
+    "status": "RESOLVED_NAME_ONLY"
   },
-  "feedback_regressions_before_launch": {
-    "zero_sum_and_batch": {
-      "status": "COMPLETE_PROVIDED_PROOF_REGRESSION",
-      "path": "audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json",
-      "boundary": "Same complete C8 target, Request and four MI/LP claims. Mechanical authoring faster in one serial sample; Python peak RSS increased and is not hidden."
-    },
-    "deferred_piecewise_and_constructive_maps": {
-      "status": "NATIVE_REGRESSION_PASSED",
-      "checkpoint": "5a63943267fb77392254ce1a6617c725c3cf49a7",
-      "tests": "140 pass on both Python 3.9.6 and 3.14.6, including complete non-affine NI/Equal proof, committed-MPS binding and bad-branch rejection."
-    },
-    "certificate_serialization_copy": {
-      "status": "IN_PROGRESS",
-      "reason": "Remove whole-Certificate/request recursive copy before JSON encoding; must preserve exact encoded bytes, native statistics and full proof scope, then measure memory before final freeze."
-    }
+  "treatment_id": "C9-20261015",
+  "updated_utc": "2026-10-15T04:44:38.587107+00:00",
+  "user_resource_preference": {
+    "meaning": "Memory is not an acceptance or launch gate; no further dedicated memory optimization rounds. Retain completed 539c146 serialization change, which also avoids time spent copying.",
+    "recorded_utc": "2026-10-15T04:39:39+00:00",
+    "source": "Parent/root relaying the latest human instruction.",
+    "statement": "内存无所谓的",
+    "third_arm_scope": "Proof byte/native consistency and elapsed time; RSS, if observed, is informational only."
+  },
+  "prelaunch_provenance": {
+    "verified_utc": "2026-10-15T04:44:38.587107+00:00",
+    "source_file_count": 14,
+    "all_source_hashes_match_snapshot": true,
+    "all_eight_pristine_input_hashes_rechecked": true,
+    "C8_final_review_sha256": "8e3d01ed8c357900e1ea09a3c9e34b1ead7ab9c715cc1fb48237e76fc83fe677",
+    "run_harness_sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
+    "staged_harness_sha256": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24",
+    "same_proof_benchmark_processes_running": [],
+    "new_Agents_launched": false
   }
 }

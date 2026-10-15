@@ -1,0 +1,241 @@
+{
+  "schema": "provided-witness-encoder-comparison-v1",
+  "status": "VERIFIED_EXACT_BYTE_REGRESSION",
+  "created_utc": "2026-10-15T04:43:12.636919+00:00",
+  "controller_execution_exit_code": 0,
+  "controlled_benchmark_processes_complete": true,
+  "sample_count": 1,
+  "run_order": "Existing5c helpers sample, then final539 encoder sample; serial, no overlapping controlled workloads. Shared user host; no global isolation claim.",
+  "classification": "Same supplied C8 test16 proof, final encoder regression. Not a new Agent, mathematical discovery, nomf comparison, solver experiment or held-out acceptance.",
+  "package_path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015",
+  "package_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+  "snapshot_sha256": "51631a878ce9e6650c172b64b9e849138ebc4454e83bc04f77b89c0337a738f3",
+  "changed_snapshot_files_relative_to_old_helpers": [
+    "docs/COMPILER_API.md",
+    "python/kernel_compiler/session.py"
+  ],
+  "unrelated_correspondence_default_maps_change": "Unused: original author/bijection calls pass both maps explicitly.",
+  "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "full_scope": {
+    "directional_claims": 4,
+    "MI_and_LP_unrestricted_Equal_inverse_pairs": true,
+    "observations_per_claim": 178164,
+    "native_obligations": 3118120,
+    "EQs_checked_per_forward_claim": 50186,
+    "all_definition_checks_exactly_equal_old_helpers": true
+  },
+  "all_six_artifact_byte_comparisons": {
+    "source": {
+      "bytes": 28974956,
+      "identical_bytes": true,
+      "old_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "new_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+    },
+    "target": {
+      "bytes": 21440948,
+      "identical_bytes": true,
+      "old_sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1",
+      "new_sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1"
+    },
+    "request": {
+      "bytes": 10679061,
+      "identical_bytes": true,
+      "old_sha256": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552",
+      "new_sha256": "933af35421b9db7c1b5b9e54ff43af1129302e134c4a01c6d4583ed16e187552"
+    },
+    "proof": {
+      "bytes": 98008826,
+      "identical_bytes": true,
+      "old_sha256": "74979463d9b7f100477a7e9073ced0dd131524d91ffb8a114c6b6806eafddf2a",
+      "new_sha256": "74979463d9b7f100477a7e9073ced0dd131524d91ffb8a114c6b6806eafddf2a"
+    },
+    "committed_model": {
+      "bytes": 20072292,
+      "identical_bytes": true,
+      "old_sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee",
+      "new_sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee"
+    },
+    "certificate": {
+      "bytes": 149703351,
+      "identical_bytes": true,
+      "old_sha256": "7c48a03ff04ab9446dae4aceec19dcc8229958f820e4ce0f20026bdf0a293da9",
+      "new_sha256": "7c48a03ff04ab9446dae4aceec19dcc8229958f820e4ce0f20026bdf0a293da9"
+    }
+  },
+  "native_statistics_exactly_equal_old_helpers": true,
+  "native_statistics": {
+    "bijections": 0,
+    "branches": 0,
+    "flow_generated_rows": 0,
+    "flow_generated_terms": 0,
+    "flow_generated_variables": 0,
+    "flow_lifts": 0,
+    "injectivity_coordinates": 0,
+    "injectivity_generated_rows": 0,
+    "injectivity_generated_terms": 0,
+    "injectivity_generated_variables": 0,
+    "interval_generated_rows": 0,
+    "interval_generated_terms": 0,
+    "interval_generated_variables": 0,
+    "interval_lifts": 0,
+    "linear_terms": 2152440,
+    "menu_generated_rows": 0,
+    "menu_generated_terms": 0,
+    "menu_generated_variables": 0,
+    "menu_lifts": 0,
+    "objective_level_domains": 0,
+    "objective_level_generated_rows": 0,
+    "objective_level_generated_terms": 0,
+    "obligations": 3118120,
+    "peak_live_facts": 277053,
+    "plotkin_pairs": 0,
+    "point_coefficient_terms": 0,
+    "points": 0,
+    "signed_generated_rows": 0,
+    "signed_generated_terms": 0,
+    "signed_generated_variables": 0,
+    "signed_lifts": 0,
+    "substitution_terms": 3003572,
+    "work": 27337790
+  },
+  "artifact_binding": {
+    "status": "MATCHED",
+    "method": "Kernel standard-format readback and exact named formulation comparison",
+    "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+      "sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee"
+    },
+    "proof_target": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder/target.mcm",
+      "sha256": "3a270189becd458a31843a336347592ff322a9dba03e4468f3f5e10074deb9b1"
+    }
+  },
+  "timing_rows": [
+    {
+      "phase": "source_MPS_load_s",
+      "old_helpers_s": 4.7374039579881355,
+      "encoder_s": 3.71699295801227,
+      "encoder_minus_old_s": -1.0204109999758657
+    },
+    {
+      "phase": "provided_target_MCM_load_s",
+      "old_helpers_s": 3.22018187501817,
+      "encoder_s": 2.5811690829868894,
+      "encoder_minus_old_s": -0.6390127920312807
+    },
+    {
+      "phase": "provided_witness_and_maps_setup_s",
+      "old_helpers_s": 2.5345220420276746,
+      "encoder_s": 2.0972854160063434,
+      "encoder_minus_old_s": -0.4372366260213312
+    },
+    {
+      "phase": "MI_forward_zero_fixed_alias_derivation_s",
+      "old_helpers_s": 2.4608787489996757,
+      "encoder_s": 1.9854492910089903,
+      "encoder_minus_old_s": -0.4754294579906855
+    },
+    {
+      "phase": "LP_forward_zero_fixed_alias_derivation_s",
+      "old_helpers_s": 2.1526290840120055,
+      "encoder_s": 1.7648632080235984,
+      "encoder_minus_old_s": -0.38776587598840706
+    },
+    {
+      "phase": "MI_forward_substitution_s",
+      "old_helpers_s": 18.407236833998468,
+      "encoder_s": 15.693574749981053,
+      "encoder_minus_old_s": -2.7136620840174146
+    },
+    {
+      "phase": "LP_forward_substitution_s",
+      "old_helpers_s": 18.671177957992768,
+      "encoder_s": 17.67920770897763,
+      "encoder_minus_old_s": -0.9919702490151394
+    },
+    {
+      "phase": "MI_forward_completion_s",
+      "old_helpers_s": 4.904895708983531,
+      "encoder_s": 4.425397874991177,
+      "encoder_minus_old_s": -0.47949783399235457
+    },
+    {
+      "phase": "MI_reverse_bounds_and_completion_s",
+      "old_helpers_s": 7.748270832991693,
+      "encoder_s": 6.745987542002695,
+      "encoder_minus_old_s": -1.0022832909889985
+    },
+    {
+      "phase": "LP_forward_completion_s",
+      "old_helpers_s": 7.711673874990083,
+      "encoder_s": 7.21368616700056,
+      "encoder_minus_old_s": -0.4979877079895232
+    },
+    {
+      "phase": "LP_reverse_bounds_and_completion_s",
+      "old_helpers_s": 10.756352458993206,
+      "encoder_s": 10.259027457999764,
+      "encoder_minus_old_s": -0.4973250009934418
+    },
+    {
+      "phase": "certificate_materialize_s",
+      "old_helpers_s": 3.3942440420214552,
+      "encoder_s": 2.8035368749988265,
+      "encoder_minus_old_s": -0.5907071670226287
+    },
+    {
+      "phase": "request_materialize_s",
+      "old_helpers_s": 0.4527742079808377,
+      "encoder_s": 0.42614370901719667,
+      "encoder_minus_old_s": -0.026630498963641003
+    },
+    {
+      "phase": "serialization_compile_and_whole_artifact_binding_s",
+      "old_helpers_s": 45.299733166990336,
+      "encoder_s": 17.498844750021817,
+      "encoder_minus_old_s": -27.80088841696852
+    },
+    {
+      "phase": "native_verify_process_wall_s",
+      "old_helpers_s": 5.314955540990923,
+      "encoder_s": 3.7914537499891594,
+      "encoder_minus_old_s": -1.5235017910017632
+    },
+    {
+      "phase": "total_measured_execution_s",
+      "old_helpers_s": 139.44365570798982,
+      "encoder_s": 99.93025858400506,
+      "encoder_minus_old_s": -39.51339712398476
+    }
+  ],
+  "headline": {
+    "serialization_compile_whole_binding_old_s": 45.299733166990336,
+    "serialization_compile_whole_binding_encoder_s": 17.498844750021817,
+    "full_measured_old_s": 139.44365570798982,
+    "full_measured_encoder_s": 99.93025858400506,
+    "full_measured_difference_s": -39.51339712398476,
+    "native_reported_old_s": 5.176568,
+    "native_reported_encoder_s": 3.704491
+  },
+  "RSS_informational_only_not_launch_gate": {
+    "old_helpers_Python_peak_bytes": 3776757760,
+    "encoder_Python_peak_bytes": 3255156736,
+    "old_max_native_child_peak_bytes": 1174323200,
+    "encoder_max_native_child_peak_bytes": 1173340160,
+    "no_additional_memory_profiling_rounds": true
+  },
+  "measurement_boundary": "No stable speedup estimate from a single serial sample. Non-serialization phases also vary, so the entire total-time difference is not attributed to the encoder. Full-byte comparisons run after measured phases. Serialization interval includes exact committed MPS readback/binding and native compile; their process calls are separately timed in the raw result.",
+  "old_evidence_preserved": {
+    "original_two_arm_benchmark_and_results_modified": false,
+    "original_C8_run_modified": false,
+    "output_directory": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/encoder"
+  },
+  "evidence_sha256": {
+    "encoder_benchmark.py": "3ea0eb83991301db52152843c803ab56ac21a3fcef3ffc4c6a74fe7ac90ed874",
+    "encoder-result.json": "b3fcd624ef92d326b093ad3ca27738eabaff3932ae55674f74ac49b29d382dd7",
+    "encoder.log": "5ce8eda1a13e1e66257c4c063125c6288cf79738f461f329cec6b7b4693c4258",
+    "helpers-result.json": "5aac15fb8054a8fdc21f776c3279e7b776eb28abdbadc280feef6bf75af7ae18",
+    "original_author_forward.py": "9cb60ab02b2e1148cc83246729aaf0aa355879003626cacbbcb52059fa84707b"
+  }
+}
