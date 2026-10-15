@@ -1,0 +1,344 @@
+{
+  "all_canonical_hashes_equal": true,
+  "all_python_reencodings_equal_native_oracle": true,
+  "all_statistics_equal": true,
+  "benchmark_script_sha256": "3b60ccdb7743619cb5bb6e5b27c2f183459aba4e9102be4eca47a24e58fde519",
+  "binary_unchanged": true,
+  "cache_policy": "No OS cache flush. Native oracle preparation reads the same pristine input before measurements; six serial fresh processes, interleaved old/stream.",
+  "current_git_head": "afc49c71a2c70fe734debcc4053f470c87f30ae9",
+  "input": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C7-20261015/input/model.mps",
+  "input_bytes": 25887574,
+  "input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+  "input_unchanged": true,
+  "kind": "supplied-input Model.load microbenchmark; not end-to-end Agent speed",
+  "memory_scope": "Darwin resource.RUSAGE_SELF.ru_maxrss bytes for the Python parent only; excludes native children, not a whole-tree peak",
+  "native_binary": "/Users/bhz/Code/kernel/target/release/rpx",
+  "native_input_cap_review": {
+    "meaning": "The stream reader preserves the prior Model.load file API admission cap; the larger raw codec byte API is distinct and unchanged.",
+    "native_codec_raw_bytes_cap_bytes": 1073741824,
+    "native_file_api_cap_bytes": 536870912,
+    "public_python_Model_load_prior_path": "export-model -> api::read_input, MAX_INPUT_BYTES=512MiB",
+    "references": [
+      "crates/core/src/api.rs:26",
+      "crates/core/src/api.rs:262",
+      "crates/core/src/api.rs:470",
+      "crates/core/src/codec.rs:9"
+    ],
+    "stream_load_cap_bytes": 536870912
+  },
+  "native_json_exact_structure_checked_arms": [
+    "old",
+    "stream"
+  ],
+  "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "new_package_files_unchanged_since_snapshot": true,
+  "old_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+  "old_package": {
+    "files": {
+      "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "model.py": "420160cea8e6e40ff01a154c4cd4976146acb307a41e2bceed32ed2dcf892dac",
+      "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "proof.py": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+      "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "session.py": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3"
+    },
+    "source": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/python"
+  },
+  "old_package_files_match_git_checkpoint": true,
+  "oracle_canonical_report": {
+    "mcm_bytes": 28974956,
+    "parse_us": 457638,
+    "read_us": 6542,
+    "rows": 126512,
+    "status": "CANONICALIZED",
+    "total_us": 646428,
+    "variables": 228350
+  },
+  "oracle_export_report": {
+    "json_bytes": 84143968,
+    "name": "test16",
+    "rows": 126512,
+    "status": "EXPORTED",
+    "total_us": 580826,
+    "variables": 228350
+  },
+  "oracle_inspect_report": {
+    "integers": 334,
+    "name": "test16",
+    "nonzeros": 679637,
+    "rows": 126512,
+    "status": "INSPECTED",
+    "variables": 228350
+  },
+  "oracle_json_sha256": "18779426cfba4b992e82f29f2533fcf868ff6bf0073e069d400b241a30d0409a",
+  "oracle_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python_executable": "/Users/bhz/miniforge3/envs/bigdata/bin/python",
+  "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+  "retained_json": {
+    "matches_fresh_native_oracle": true,
+    "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C7-20261015/harness-assessment/input.model.json",
+    "sha256": "18779426cfba4b992e82f29f2533fcf868ff6bf0073e069d400b241a30d0409a"
+  },
+  "retained_mcm": {
+    "matches_fresh_native_oracle": true,
+    "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C7-20261015/harness-assessment/input.mcm",
+    "sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1"
+  },
+  "runs": [
+    {
+      "arm": "old",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_exported_json_structure": true,
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 599523328,
+      "load_wall_s": 5.011829791998025,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.6211655839870218
+        },
+        {
+          "command": "export-model",
+          "wall_s": 0.5794385830231477
+        }
+      ],
+      "parent_peak_before_load_bytes": 28868608,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 1,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 775651328
+    },
+    {
+      "arm": "stream",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_exported_json_structure": true,
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 306282496,
+      "load_wall_s": 3.8034238340042066,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.609134250000352
+        },
+        {
+          "command": "inspect-model",
+          "wall_s": 0.21929820801597089
+        }
+      ],
+      "parent_peak_before_load_bytes": 30490624,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 2,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 735330304
+    },
+    {
+      "arm": "old",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 597655552,
+      "load_wall_s": 5.13758116599638,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.6072590420080815
+        },
+        {
+          "command": "export-model",
+          "wall_s": 0.603883208008483
+        }
+      ],
+      "parent_peak_before_load_bytes": 23166976,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 3,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 604454912
+    },
+    {
+      "arm": "stream",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 306446336,
+      "load_wall_s": 3.837865415989654,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.5829047080187593
+        },
+        {
+          "command": "inspect-model",
+          "wall_s": 0.2307577500178013
+        }
+      ],
+      "parent_peak_before_load_bytes": 23527424,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 4,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 411025408
+    },
+    {
+      "arm": "old",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 557924352,
+      "load_wall_s": 5.345804082986433,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.6315834160195664
+        },
+        {
+          "command": "export-model",
+          "wall_s": 0.66355912500876
+        }
+      ],
+      "parent_peak_before_load_bytes": 24035328,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 5,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 637960192
+    },
+    {
+      "arm": "stream",
+      "canonical_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "exact_native_mcm_roundtrip": true,
+      "load_parent_peak_rss_bytes": 304775168,
+      "load_wall_s": 3.8823798749945126,
+      "native_calls_during_load": [
+        {
+          "command": "canonical",
+          "wall_s": 0.591744291014038
+        },
+        {
+          "command": "inspect-model",
+          "wall_s": 0.23207854200154543
+        }
+      ],
+      "parent_peak_before_load_bytes": 23805952,
+      "python_reencoded_mcm_sha256": "6dea1a5d82906bc9a5b79feb4054f9a72c2cfcefa7f0b0d50f18fd2e1df257a1",
+      "python_version": "3.14.6 | packaged by conda-forge | (main, Jul 24 2026, 16:05:26) [Clang 20.1.8 ]",
+      "sequence": 6,
+      "statistics": {
+        "equalities": 122128,
+        "integers": 334,
+        "nonzeros": 463941,
+        "objective_nonzeros": 215696,
+        "ranged_rows": 0,
+        "rows": 126512,
+        "variables": 228350
+      },
+      "whole_worker_parent_peak_rss_bytes_including_validation": 466059264
+    }
+  ],
+  "stream_package": {
+    "files": {
+      "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+      "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+      "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "proof.py": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+      "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "session.py": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3"
+    },
+    "source": "/Users/bhz/Code/kernel/python"
+  },
+  "summary": {
+    "old": {
+      "median_load_parent_peak_rss_bytes": 597655552,
+      "median_load_wall_s": 5.13758116599638,
+      "runs": 3
+    },
+    "stream": {
+      "median_load_parent_peak_rss_bytes": 306282496,
+      "median_load_wall_s": 3.837865415989654,
+      "runs": 3
+    },
+    "stream_over_old_parent_peak_rss_ratio": 0.5124732715609408,
+    "stream_over_old_wall_ratio": 0.7470179627313664
+  },
+  "timing_scope": "Model.load only; hashing, stats, reencoding and JSON-oracle validation are afterward",
+  "validation_setup_note": "An initial command omitted PYTHONPATH and failed imports before test execution; the four corrected commands above all passed.",
+  "validation_suites": [
+    {
+      "command": "PYTHONPATH=python python3 -m unittest discover -s python/tests -v",
+      "interpreter": "Python 3.9.6",
+      "runner_wall_s": 4.478,
+      "status": "PASS",
+      "tests": 131
+    },
+    {
+      "command": "PYTHONPATH=python /Users/bhz/miniforge3/envs/bigdata/bin/python -m unittest discover -s python/tests -v",
+      "interpreter": "Python 3.14.6",
+      "runner_wall_s": 3.316,
+      "status": "PASS",
+      "tests": 131
+    },
+    {
+      "command": "PYTHONPATH=python python3 -m unittest discover -s tools/tests -v",
+      "interpreter": "Python 3.9.6",
+      "runner_wall_s": 0.247,
+      "status": "PASS",
+      "tests": 20
+    },
+    {
+      "command": "PYTHONPATH=python /Users/bhz/miniforge3/envs/bigdata/bin/python -m unittest discover -s tools/tests -v",
+      "interpreter": "Python 3.14.6",
+      "runner_wall_s": 0.219,
+      "status": "PASS",
+      "tests": 20
+    }
+  ]
+}

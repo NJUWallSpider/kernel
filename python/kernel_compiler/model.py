@@ -175,24 +175,42 @@ class Model:
 
     @classmethod
     def load(cls, path, kernel=None):
-        """Use the kernel's own MPS/LP reader and MCM export; never reparse MPS."""
-        from .backend import Kernel
+        """Use native format validation, then bounded streaming MCM readback.
+
+        Non-JSON inputs have an owned temporary canonical snapshot in ``path``;
+        close/context exit/GC releases it while preserving the original input.
+        """
+        from .backend import Kernel, KernelError
+        from ._mcm import BUFFER_BYTES, MAX_INPUT_BYTES, read_model
         kernel, path = kernel or Kernel(), Path(path).resolve()
         if path.suffix.lower() == ".json":
             return cls.from_json(json.loads(path.read_text()), kernel=kernel)
         temporary = tempfile.TemporaryDirectory(prefix="kernel-model-")
         directory = Path(temporary.name)
         try:
-            canonical = path
+            canonical = directory / "model.mcm"
             with path.open("rb") as input_file:
                 magic = input_file.read(4)
-            if magic != b"MCM\0":
-                canonical = directory / "model.mcm"
+            if magic == b"MCM\0":
+                # Snapshot first, then let native inspect-model validate those
+                # exact bytes. Both copying and readback use bounded buffers.
+                if path.stat().st_size > MAX_INPUT_BYTES:
+                    kernel.call("inspect-model", path)  # Native resource report.
+                    raise KernelError({"status": "RESOURCE_LIMIT", "message": "RESOURCE_LIMIT input file byte limit"})
+                with path.open("rb") as source, canonical.open("wb") as output:
+                    total = 0
+                    while True:
+                        chunk = source.read(BUFFER_BYTES)
+                        if not chunk:
+                            break
+                        total += len(chunk)
+                        if total > MAX_INPUT_BYTES:
+                            raise KernelError({"status": "RESOURCE_LIMIT", "message": "RESOURCE_LIMIT input file byte limit"})
+                        output.write(chunk)
+            else:
                 kernel.call("canonical", path, canonical)
-            exported = directory / "model.json"
-            kernel.call("export-model", canonical, exported)
-            result = cls.from_json(json.loads(exported.read_text()), kernel=kernel)
-            result.path = canonical
+            kernel.call("inspect-model", canonical)
+            result = read_model(canonical, cls, kernel)
             result._temporary = temporary
             return result
         except BaseException:

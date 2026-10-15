@@ -67,6 +67,14 @@ metadata, not a proof expression. Use `to_json()` for complete exact values.
 
 ## Target construction and audit
 
+`Model.load` keeps the Kernel as the MPS/LP/MCM parsing and validation authority,
+then reads its canonical MCM with bounded binary buffers directly into exact
+Python objects; it does not export or materialize a complete intermediate JSON
+model. Non-JSON inputs have an owned canonical snapshot at `model.path`, including
+MCM inputs. `model.close()`, context-manager exit, or garbage collection releases
+that snapshot; the original input is never modified or removed. Canonical `.json`
+input retains its existing Python reader and `path=None` behavior.
+
 Models are edited by returning a new model. These operations record an edit
 ledger, which is authoring metadata; it never substitutes for a correctness proof.
 Structural attributes (including both `vars` / `variables` aliases, indices,
