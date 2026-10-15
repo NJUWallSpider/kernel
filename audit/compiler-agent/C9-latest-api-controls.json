@@ -324,7 +324,7 @@
         "nomf_input_sha256": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4"
       }
     ],
-    "test38_disposition": "REQUIRES_ROOT_IDENTITY_RESOLUTION; do not swap case or choose replacement input automatically.",
+    "test38_disposition": "RESOLVED_NAME_ONLY; use pristine data/test38.mps and its recorded SHA. All bytes except the NAME line equal the previously tested nomf input; see test38_input_identity_resolution.",
     "unchanged_matches": [
       "test28",
       "test60",
@@ -513,5 +513,21 @@
     "selected_input": "/Users/bhz/Code/reform_test/data/test38.mps",
     "selected_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
     "all_non_NAME_bytes_identical": true
+  },
+  "feedback_regressions_before_launch": {
+    "zero_sum_and_batch": {
+      "status": "COMPLETE_PROVIDED_PROOF_REGRESSION",
+      "path": "audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json",
+      "boundary": "Same complete C8 target, Request and four MI/LP claims. Mechanical authoring faster in one serial sample; Python peak RSS increased and is not hidden."
+    },
+    "deferred_piecewise_and_constructive_maps": {
+      "status": "NATIVE_REGRESSION_PASSED",
+      "checkpoint": "5a63943267fb77392254ce1a6617c725c3cf49a7",
+      "tests": "140 pass on both Python 3.9.6 and 3.14.6, including complete non-affine NI/Equal proof, committed-MPS binding and bad-branch rejection."
+    },
+    "certificate_serialization_copy": {
+      "status": "IN_PROGRESS",
+      "reason": "Remove whole-Certificate/request recursive copy before JSON encoding; must preserve exact encoded bytes, native statistics and full proof scope, then measure memory before final freeze."
+    }
   }
 }

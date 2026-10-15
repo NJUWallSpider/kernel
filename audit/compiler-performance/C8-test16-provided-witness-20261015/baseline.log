@@ -1,0 +1,16 @@
+{"event": "phase_complete", "arm": "baseline", "phase": "source_MPS_load_s", "seconds": 4.59991733302013}
+{"event": "phase_complete", "arm": "baseline", "phase": "provided_target_MCM_load_s", "seconds": 2.9628849160217214}
+{"event": "phase_complete", "arm": "baseline", "phase": "provided_witness_and_maps_setup_s", "seconds": 2.400368125003297}
+{"event": "phase_complete", "arm": "baseline", "phase": "MI_forward_substitution_s", "seconds": 16.8552017500042}
+{"event": "phase_complete", "arm": "baseline", "phase": "MI_forward_author_total_s", "seconds": 23.29773008299526}
+{"event": "phase_complete", "arm": "baseline", "phase": "MI_forward_completion_s", "seconds": 4.607435375015484}
+{"event": "phase_complete", "arm": "baseline", "phase": "MI_reverse_bounds_and_completion_s", "seconds": 7.403959374991246}
+{"event": "phase_complete", "arm": "baseline", "phase": "LP_forward_substitution_s", "seconds": 20.602642042009393}
+{"event": "phase_complete", "arm": "baseline", "phase": "LP_forward_author_total_s", "seconds": 26.542284541996196}
+{"event": "phase_complete", "arm": "baseline", "phase": "LP_forward_completion_s", "seconds": 11.269377958000405}
+{"event": "phase_complete", "arm": "baseline", "phase": "LP_reverse_bounds_and_completion_s", "seconds": 12.141888582991669}
+{"event": "phase_complete", "arm": "baseline", "phase": "certificate_materialize_s", "seconds": 2.978357165993657}
+{"event": "phase_complete", "arm": "baseline", "phase": "request_materialize_s", "seconds": 0.43385604201466776}
+{"event": "phase_complete", "arm": "baseline", "phase": "serialization_compile_and_whole_artifact_binding_s", "seconds": 41.6365185000177}
+{"event": "phase_complete", "arm": "baseline", "phase": "native_verify_process_wall_s", "seconds": 6.1240312500158325}
+{"event": "complete", "arm": "baseline", "status": "VERIFIED", "output": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015/baseline", "times": {"source_MPS_load_s": 4.59991733302013, "provided_target_MCM_load_s": 2.9628849160217214, "provided_witness_and_maps_setup_s": 2.400368125003297, "MI_forward_substitution_s": 16.8552017500042, "MI_forward_author_total_s": 23.29773008299526, "MI_forward_zero_fixed_alias_derivation_s": 6.44252833299106, "MI_forward_all_definition_expression_scope_check_s": 0.6003333339758683, "MI_forward_completion_s": 4.607435375015484, "MI_reverse_bounds_and_completion_s": 7.403959374991246, "LP_forward_substitution_s": 20.602642042009393, "LP_forward_author_total_s": 26.542284541996196, "LP_forward_zero_fixed_alias_derivation_s": 5.939642499986803, "LP_forward_all_definition_expression_scope_check_s": 0.6282089999876916, "LP_forward_completion_s": 11.269377958000405, "LP_reverse_bounds_and_completion_s": 12.141888582991669, "certificate_materialize_s": 2.978357165993657, "request_materialize_s": 0.43385604201466776, "serialization_compile_and_whole_artifact_binding_s": 41.6365185000177, "native_verify_process_wall_s": 6.1240312500158325, "total_measured_execution_s": 147.7342204169836, "serialization_and_binding_python_IO_excluding_native_processes_s": 39.18859958299436}}

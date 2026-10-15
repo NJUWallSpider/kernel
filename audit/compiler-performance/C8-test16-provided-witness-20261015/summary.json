@@ -1,0 +1,212 @@
+{
+  "schema": "provided-witness-proof-comparison-v1",
+  "created_utc": "2026-10-15T04:31:40.629734+00:00",
+  "status": "BOTH_ARMS_VERIFIED",
+  "classification": "Supplied C8 proof regression and one serial microbenchmark sample per arm; not fresh Agent acceptance, a solver experiment, proof search, mathematical reformulation discovery or evidence about nomf/generalization.",
+  "work_directory": "/Users/bhz/Code/reform_test/runs/compiler-provided-witness-test16-20261015",
+  "package_path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015",
+  "package_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "package_hashes_equal": true,
+  "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "script_hashes_equal": true,
+  "input_and_complete_scope": {
+    "source_variables": 228350,
+    "source_rows": 126512,
+    "target_variables": 178164,
+    "target_rows": 79835,
+    "target_integer_variables": 152,
+    "target_nonzeros": 362582,
+    "supplied_zero_steps": 25842,
+    "supplied_zero_coordinates": 29502,
+    "supplied_aliases": 20683,
+    "supplied_declared_nonzero_fixings": 1,
+    "checked_definition_EQs_per_forward_scope": 50186,
+    "directional_claims": 4,
+    "contract": "Unrestricted objective-Equal MI forward/reverse inverse pair and LP forward/reverse inverse pair;178164 observations each. Complete Request, maps and order preserved byte-for-byte.",
+    "original_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4"
+  },
+  "identity_checks": {
+    "baseline_RPX_byte_identical_to_original_C8": true,
+    "canonical_source_target_Request_and_committed_artifact_byte_identical_across_original_and_both_arms": {
+      "source": true,
+      "target": true,
+      "request": true,
+      "committed_model": true
+    },
+    "helper_RPX_intentionally_different": true,
+    "every_definition_exact_expression_checked": true,
+    "every_definition_claim_root_scope_and_visibility_checked": true,
+    "all_four_expression_digests_identical": true,
+    "definition_expression_sha256": "3c0c37409dd0c65b5914c6637d2f9d35d6065dce0e49c12f37d8edeaa6d32439",
+    "independent_native_verify_statuses": [
+      "VERIFIED",
+      "VERIFIED"
+    ],
+    "complete_committed_artifact_binding_statuses": [
+      "MATCHED",
+      "MATCHED"
+    ]
+  },
+  "timing_rows": [
+    {
+      "phase": "source_MPS_load_s",
+      "baseline_s": 4.59991733302013,
+      "helpers_s": 4.7374039579881355,
+      "helpers_minus_baseline_s": 0.13748662496800534
+    },
+    {
+      "phase": "provided_target_MCM_load_s",
+      "baseline_s": 2.9628849160217214,
+      "helpers_s": 3.22018187501817,
+      "helpers_minus_baseline_s": 0.25729695899644867
+    },
+    {
+      "phase": "provided_witness_and_maps_setup_s",
+      "baseline_s": 2.400368125003297,
+      "helpers_s": 2.5345220420276746,
+      "helpers_minus_baseline_s": 0.13415391702437773
+    },
+    {
+      "phase": "MI_forward_zero_fixed_alias_derivation_s",
+      "baseline_s": 6.44252833299106,
+      "helpers_s": 2.4608787489996757,
+      "helpers_minus_baseline_s": -3.981649583991384
+    },
+    {
+      "phase": "LP_forward_zero_fixed_alias_derivation_s",
+      "baseline_s": 5.939642499986803,
+      "helpers_s": 2.1526290840120055,
+      "helpers_minus_baseline_s": -3.7870134159747977
+    },
+    {
+      "phase": "MI_forward_substitution_s",
+      "baseline_s": 16.8552017500042,
+      "helpers_s": 18.407236833998468,
+      "helpers_minus_baseline_s": 1.5520350839942694
+    },
+    {
+      "phase": "LP_forward_substitution_s",
+      "baseline_s": 20.602642042009393,
+      "helpers_s": 18.671177957992768,
+      "helpers_minus_baseline_s": -1.9314640840166248
+    },
+    {
+      "phase": "MI_forward_completion_s",
+      "baseline_s": 4.607435375015484,
+      "helpers_s": 4.904895708983531,
+      "helpers_minus_baseline_s": 0.29746033396804705
+    },
+    {
+      "phase": "MI_reverse_bounds_and_completion_s",
+      "baseline_s": 7.403959374991246,
+      "helpers_s": 7.748270832991693,
+      "helpers_minus_baseline_s": 0.3443114580004476
+    },
+    {
+      "phase": "LP_forward_completion_s",
+      "baseline_s": 11.269377958000405,
+      "helpers_s": 7.711673874990083,
+      "helpers_minus_baseline_s": -3.5577040830103215
+    },
+    {
+      "phase": "LP_reverse_bounds_and_completion_s",
+      "baseline_s": 12.141888582991669,
+      "helpers_s": 10.756352458993206,
+      "helpers_minus_baseline_s": -1.3855361239984632
+    },
+    {
+      "phase": "certificate_materialize_s",
+      "baseline_s": 2.978357165993657,
+      "helpers_s": 3.3942440420214552,
+      "helpers_minus_baseline_s": 0.4158868760277983
+    },
+    {
+      "phase": "request_materialize_s",
+      "baseline_s": 0.43385604201466776,
+      "helpers_s": 0.4527742079808377,
+      "helpers_minus_baseline_s": 0.01891816596616991
+    },
+    {
+      "phase": "serialization_compile_and_whole_artifact_binding_s",
+      "baseline_s": 41.6365185000177,
+      "helpers_s": 45.299733166990336,
+      "helpers_minus_baseline_s": 3.6632146669726353
+    },
+    {
+      "phase": "native_verify_process_wall_s",
+      "baseline_s": 6.1240312500158325,
+      "helpers_s": 5.314955540990923,
+      "helpers_minus_baseline_s": -0.8090757090249099
+    },
+    {
+      "phase": "total_measured_execution_s",
+      "baseline_s": 147.7342204169836,
+      "helpers_s": 139.44365570798982,
+      "helpers_minus_baseline_s": -8.29056470899377
+    }
+  ],
+  "aggregate_times": {
+    "zero_fixed_alias_derivation_s": {
+      "baseline": 12.382170832977863,
+      "helpers": 4.613507833011681,
+      "helpers_minus_baseline": -7.768662999966182
+    },
+    "forward_author_functions_including_substitution_s": {
+      "baseline": 49.840014624991454,
+      "helpers": 41.69192262500292,
+      "helpers_minus_baseline": -8.148091999988537
+    },
+    "full_measured_execution_s": {
+      "baseline": 147.7342204169836,
+      "helpers": 139.44365570798982,
+      "helpers_minus_baseline": -8.29056470899377,
+      "fractional_reduction_one_sample": 0.05611810645897375
+    }
+  },
+  "native_statistics": {
+    "baseline": {
+      "obligations": 3118120,
+      "work": 27519618,
+      "linear_terms": 2127286,
+      "substitution_terms": 3003572,
+      "peak_live_facts": 276874,
+      "branches": 0,
+      "points": 0,
+      "reported_native_total_s": 5.921199
+    },
+    "helpers": {
+      "obligations": 3118120,
+      "work": 27337790,
+      "linear_terms": 2152440,
+      "substitution_terms": 3003572,
+      "peak_live_facts": 277053,
+      "branches": 0,
+      "points": 0,
+      "reported_native_total_s": 5.176568
+    }
+  },
+  "memory": {
+    "baseline": {
+      "Python_process_peak_RSS_bytes": 3205169152,
+      "max_child_process_peak_RSS_bytes": 1248329728
+    },
+    "helpers": {
+      "Python_process_peak_RSS_bytes": 3776757760,
+      "max_child_process_peak_RSS_bytes": 1174323200
+    }
+  },
+  "memory_boundary": "Helper Python peak increases by571588608 bytes in these runs; no memory improvement is claimed. RUSAGE_CHILDREN peak is the maximum across all native child commands, not isolated verifier memory.",
+  "timing_boundary": "Only one serial baseline-first sample per arm on a shared host. The native binary, complete proof target and requests are fixed. Reported derivation is author-function wall minus the separately wrapped unchanged substitution call. Serialization includes exact committed MPS readback/binding, Python IO and native compile. All native process calls are separately listed in each result. No stable speedup, exact attribution to one repeated-set line, or fresh-Agent/LLM time reduction is inferred.",
+  "remaining_cost": "The intended mechanical derivation shrinks, while substitution/completion and serialization remain substantial; serialization/binding is slower in the helper sample. The broader C8 test58 Signed/Menu exploration gap and fresh-case generalization are not addressed by this test16 replay.",
+  "failed_executions": [],
+  "evidence_sha256": {
+    "benchmark.py": "0660da64c4262a346b4c4a8362d42c8cbaf0f76f32ef9071c85413d5b0bc1cbb",
+    "original_author_forward.py": "9cb60ab02b2e1148cc83246729aaf0aa355879003626cacbbcb52059fa84707b",
+    "baseline-result.json": "1c22c8e303cafadd13706c4881de96a3aa94a5097c06de04abce444400f5f72c",
+    "helpers-result.json": "5aac15fb8054a8fdc21f776c3279e7b776eb28abdbadc280feef6bf75af7ae18",
+    "baseline.log": "559415f09d4a530b84b26c8c997b3c90ac03983ef0dee2698f772c628693b7f5",
+    "helpers.log": "2f9e5a8f1847b6ddfd831bf750217322664bf06a924f2b429e189861dd1029b9",
+    "README.md": "6831be096b6ba628291a30710a0a3f5217f3fcf3d81d7173d586bca24b614861"
+  },
+  "original_delivery_manifest_sha256": "7a8bab68d727d9a845173a4ac42eaba5c3d7614ad7a82c3c494cd54a0e8be0ef"
+}
