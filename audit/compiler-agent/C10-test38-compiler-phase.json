@@ -1,0 +1,746 @@
+{
+  "schema": "kernel-compiler-agent-compiler-phase-short-v1",
+  "round": "C10",
+  "case": "test38",
+  "status": "COMPILER_COMPLETE_CONTROL_NOT_INSPECTED",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "method": "Only completed Compiler public calls/results, actual Requests and receipts. No private reasoning or live control/other-case record, native, solver, tests, model normalization, replay, benchmark or new Agent. Certificate claims/terminal maps selectively decoded, not proof-step trees. Large artifacts use existing independently checked digests. Memory is not a gate.",
+  "run": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C10-20261015",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "harness_checkpoint": "67d74462317c6a4b558ff0ad4a2516aa152ad8d3",
+  "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "wall_s": 659.548,
+  "exit_code": 0,
+  "timed_out": false,
+  "assessment_errors": [],
+  "source_shape": {
+    "variables": 5282,
+    "rows": 20346,
+    "integers": 30,
+    "nonzeros": 71477,
+    "objective_nonzeros": 77
+  },
+  "target_shape": {
+    "variables": 3250,
+    "rows": 12972,
+    "integers": 24,
+    "nonzeros": 44128,
+    "objective_nonzeros": 73
+  },
+  "metrics": {
+    "llm_calls": 23,
+    "tool_calls": 22,
+    "tool_calls_failed": 0,
+    "turns": 23,
+    "tokens_in": 55045,
+    "tokens_out": 21218,
+    "tokens_cache_read": 487680,
+    "tokens_cache_write": 0,
+    "tokens_total": 563943,
+    "cost_usd": 0.371,
+    "llm_time_s": 639.526,
+    "llm_ttft_s": 88.799,
+    "tool_time_s": 17.792,
+    "resolved_models": [
+      "openai-codex/gpt-6.1-sol"
+    ],
+    "thinking_levels": [
+      "high"
+    ],
+    "model_fallback_used": false
+  },
+  "source_anchor": {
+    "trusted_launch_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+    "assessment_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+    "all_launch_execution_assessment_hashes_equal": true,
+    "original_reader": "kernel_mps"
+  },
+  "binding": {
+    "native_status": "VERIFIED",
+    "final_artifact_audit": "MATCHED",
+    "whole_artifact_scope": "Only the final complete proof target and committed artifact; every named variable, bound, integrality declaration, row, and objective agrees; model NAME, coordinate/row order and folded row constants may differ",
+    "committed_model_sha256": "77e3b4a6dffd0eae7bba0e3205eff8f69b96a557e4a48efb980fcb691248dcd6",
+    "joins": [
+      {
+        "left_stage": 0,
+        "right_stage": 1,
+        "exact_named_formulation_match": true
+      }
+    ],
+    "original_anchor_checked": true,
+    "final_target_artifact_match": true
+  },
+  "declared_claim_paths": {
+    "mi_forward": [
+      0,
+      0
+    ],
+    "mi_reverse": [
+      1,
+      1
+    ],
+    "lp_reverse": [
+      2,
+      2
+    ]
+  },
+  "actual_composed_contracts": [
+    {
+      "label": "mi_forward",
+      "direction": "forward",
+      "input_integers": true,
+      "output_integers": true,
+      "selected_claims": [
+        {
+          "stage": 0,
+          "claim": 0,
+          "input_objective_lower": null
+        },
+        {
+          "stage": 1,
+          "claim": 0,
+          "input_objective_lower": null
+        }
+      ],
+      "composable": true,
+      "affine_inverse_inferred": false,
+      "full_model_bijection_inferred": false,
+      "uncomposed_affine_projection_count": 0,
+      "objective": "Equal",
+      "observation_relation": 3250,
+      "observation_count": 3250
+    },
+    {
+      "label": "mi_reverse",
+      "direction": "reverse",
+      "input_integers": true,
+      "output_integers": true,
+      "selected_claims": [
+        {
+          "stage": 1,
+          "claim": 1,
+          "input_objective_lower": null
+        },
+        {
+          "stage": 0,
+          "claim": 1,
+          "input_objective_lower": null
+        }
+      ],
+      "composable": true,
+      "affine_inverse_inferred": false,
+      "full_model_bijection_inferred": false,
+      "uncomposed_affine_projection_count": 0,
+      "objective": "Equal",
+      "observation_relation": 3250,
+      "observation_count": 3250
+    },
+    {
+      "label": "lp_reverse",
+      "direction": "reverse",
+      "input_integers": false,
+      "output_integers": false,
+      "selected_claims": [
+        {
+          "stage": 1,
+          "claim": 2,
+          "input_objective_lower": null
+        },
+        {
+          "stage": 0,
+          "claim": 2,
+          "input_objective_lower": null
+        }
+      ],
+      "composable": true,
+      "affine_inverse_inferred": false,
+      "full_model_bijection_inferred": false,
+      "uncomposed_affine_projection_count": 0,
+      "objective": "Equal",
+      "observation_relation": 3250,
+      "observation_count": 3250
+    }
+  ],
+  "bidirectional_contract": [
+    {
+      "forward_path": "mi_forward",
+      "reverse_path": "mi_reverse",
+      "feasibility_correspondence": true,
+      "equal_optimal_infima": true,
+      "attainment_transfers_if_optimum_exists": true,
+      "observation_relation": 3250,
+      "observation_count": 3250
+    }
+  ],
+  "stages": [
+    {
+      "index": 0,
+      "directory": "structural",
+      "models": {
+        "source": {
+          "variables": 5282,
+          "rows": 20346,
+          "integers": 30,
+          "nonzeros": 71477,
+          "objective_nonzeros": 77,
+          "equalities": 221,
+          "ranged_rows": 0
+        },
+        "target": {
+          "variables": 3255,
+          "rows": 12972,
+          "integers": 29,
+          "nonzeros": 44133,
+          "objective_nonzeros": 73,
+          "equalities": 0,
+          "ranged_rows": 0
+        }
+      },
+      "native_status": "VERIFIED",
+      "native_total_s": 0.34099,
+      "statistics": {
+        "bijections": 0,
+        "branches": 14556,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 705870,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 99666,
+        "peak_live_facts": 45709,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 188061,
+        "work": 5214873
+      },
+      "claims": [
+        {
+          "reverse": false,
+          "input_integers": true,
+          "output_integers": true,
+          "objective": "Equal",
+          "inverse": 1,
+          "index": 0,
+          "observations": 3255,
+          "affine_observations": 0,
+          "observation_sha256": "f0ae7f71d850d29f2e5961339356996cbdb7db26d42eaac58ae66fc5565ed321",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 5282,
+            "output_dimension": 3255,
+            "complete_expression_count": 3255,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "593bb6498a04264b2f0045e8b58f8fe534c68713660ac8881c60309a810e7143",
+            "term_count_histogram": {
+              "1": 3255
+            }
+          },
+          "Return_checks": 28049
+        },
+        {
+          "reverse": true,
+          "input_integers": true,
+          "output_integers": true,
+          "objective": "Equal",
+          "inverse": 0,
+          "index": 1,
+          "observations": 3255,
+          "affine_observations": 0,
+          "observation_sha256": "b4c61bfb51414530a43ec6652a7fbd181efa61f607faecbc8aed5c3654bce247",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 3255,
+            "output_dimension": 5282,
+            "complete_expression_count": 5282,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "8af887b90416ae11428e0298af3130f20b0c1fd767dd01849f57387d72106f6f",
+            "term_count_histogram": {
+              "1": 5010,
+              "2": 103,
+              "3": 2,
+              "0": 167
+            }
+          },
+          "Return_checks": 37451
+        },
+        {
+          "reverse": true,
+          "input_integers": false,
+          "output_integers": false,
+          "objective": "Equal",
+          "inverse": null,
+          "index": 2,
+          "observations": 3255,
+          "affine_observations": 0,
+          "observation_sha256": "b4c61bfb51414530a43ec6652a7fbd181efa61f607faecbc8aed5c3654bce247",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 3255,
+            "output_dimension": 5282,
+            "complete_expression_count": 5282,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "8af887b90416ae11428e0298af3130f20b0c1fd767dd01849f57387d72106f6f",
+            "term_count_histogram": {
+              "1": 5010,
+              "2": 103,
+              "3": 2,
+              "0": 167
+            }
+          },
+          "Return_checks": 34166
+        }
+      ],
+      "other_Request_counts": {
+        "points": 0,
+        "improvements": 0,
+        "bijections": 0
+      },
+      "Certificate_claims_exactly_equal_Request": true,
+      "Certificate_JSON_bytes": 28883719,
+      "compile_limits": {
+        "certificate_json_bytes": 1073741824
+      },
+      "harness_source_target_proof_Request_digests_match_manifest": true,
+      "source_endpoint": {
+        "first4_hex": "4d434d00",
+        "reader_family": "kernel_mcm",
+        "recorded_sha256": "d948af556a3f552c9ddfd9ddde74df301b6b63f55222e8aa84c4cc8c7fbffdf5"
+      },
+      "target_endpoint": {
+        "first4_hex": "4d434d00",
+        "reader_family": "kernel_mcm",
+        "recorded_sha256": "b4f4cf997ae2dd51220394ce223eb691fcf3fbba5d3cb8760d19bd06cdf916e6"
+      },
+      "Return_checks_sum_matches_native_obligations": true
+    },
+    {
+      "index": 1,
+      "directory": "canonicalization",
+      "models": {
+        "source": {
+          "variables": 3255,
+          "rows": 12972,
+          "integers": 29,
+          "nonzeros": 44133,
+          "objective_nonzeros": 73,
+          "equalities": 0,
+          "ranged_rows": 0
+        },
+        "target": {
+          "variables": 3250,
+          "rows": 12972,
+          "integers": 24,
+          "nonzeros": 44128,
+          "objective_nonzeros": 73,
+          "equalities": 0,
+          "ranged_rows": 0
+        }
+      },
+      "native_status": "VERIFIED",
+      "native_total_s": 0.082209,
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 154,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 68242,
+        "peak_live_facts": 5,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 132603,
+        "work": 715654
+      },
+      "claims": [
+        {
+          "reverse": false,
+          "input_integers": true,
+          "output_integers": true,
+          "objective": "Equal",
+          "inverse": null,
+          "index": 0,
+          "observations": 3250,
+          "affine_observations": 0,
+          "observation_sha256": "fde2aedd0e0aad5dff9754c0194c8b3f165418f968e36325c1ae9e3cb3124c56",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 3255,
+            "output_dimension": 3250,
+            "complete_expression_count": 3250,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "49e041b287362b4c4e132ea1b0c2788aa35eb2e8ccdda492de59d55de3765016",
+            "term_count_histogram": {
+              "1": 3250
+            }
+          },
+          "Return_checks": 22747
+        },
+        {
+          "reverse": true,
+          "input_integers": true,
+          "output_integers": true,
+          "objective": "Equal",
+          "inverse": null,
+          "index": 1,
+          "observations": 3250,
+          "affine_observations": 0,
+          "observation_sha256": "d52cc2a84b1f83a89e9537a218959df05b2acac42068b48ba9db567e2acffc7f",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 3250,
+            "output_dimension": 3255,
+            "complete_expression_count": 3255,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "1c029c15d54006b4a26769fbd6cb2e9be108894e7febf66758f8b33dea437314",
+            "term_count_histogram": {
+              "1": 3250,
+              "0": 5
+            }
+          },
+          "Return_checks": 22762
+        },
+        {
+          "reverse": true,
+          "input_integers": false,
+          "output_integers": false,
+          "objective": "Equal",
+          "inverse": null,
+          "index": 2,
+          "observations": 3250,
+          "affine_observations": 0,
+          "observation_sha256": "d52cc2a84b1f83a89e9537a218959df05b2acac42068b48ba9db567e2acffc7f",
+          "all_observations_same_map_exact_copy": true,
+          "map": {
+            "input_dimension": 3250,
+            "output_dimension": 3255,
+            "complete_expression_count": 3255,
+            "exact_rational_indices_checked": true,
+            "map_sha256": "1c029c15d54006b4a26769fbd6cb2e9be108894e7febf66758f8b33dea437314",
+            "term_count_histogram": {
+              "1": 3250,
+              "0": 5
+            }
+          },
+          "Return_checks": 22733
+        }
+      ],
+      "other_Request_counts": {
+        "points": 0,
+        "improvements": 0,
+        "bijections": 0
+      },
+      "Certificate_claims_exactly_equal_Request": true,
+      "Certificate_JSON_bytes": 1608524,
+      "compile_limits": {
+        "certificate_json_bytes": 1073741824
+      },
+      "harness_source_target_proof_Request_digests_match_manifest": true,
+      "source_endpoint": {
+        "first4_hex": "4d434d00",
+        "reader_family": "kernel_mcm",
+        "recorded_sha256": "b4f4cf997ae2dd51220394ce223eb691fcf3fbba5d3cb8760d19bd06cdf916e6"
+      },
+      "target_endpoint": {
+        "first4_hex": "4d434d00",
+        "reader_family": "kernel_mcm",
+        "recorded_sha256": "4e02c6c51846229d9765602d0d430cbfb00649663217540088d9a2a2bdf97a2c"
+      },
+      "Return_checks_sum_matches_native_obligations": true
+    }
+  ],
+  "public_tool_cells": [
+    {
+      "result_s": 18.726,
+      "title": "Loading exact MPS representation",
+      "wall_s": 0.933,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "1a136fdd0c57335d48308aadd199a9225da0dc160d83a4587097cf95086322e6"
+    },
+    {
+      "result_s": 35.107,
+      "title": "Inspecting complete structural counts",
+      "wall_s": 0.029,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "f9dae37236895776576a8bc2d0dbf7c61ba215d14b085ee3ea812f08d2ff9bec"
+    },
+    {
+      "result_s": 62.641,
+      "title": "Verifying recursive quartet structure",
+      "wall_s": 0.232,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "7c9306e8925baf7ae8c389e9d73795261116713d823c875685acbd7601c84995"
+    },
+    {
+      "result_s": 104.926,
+      "title": "Auditing sections and equality elimination",
+      "wall_s": 0.074,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "93dab2ad5a42345a48ad735188e73ca659d122754ae1b77afefaf901afffce37"
+    },
+    {
+      "result_s": 119.24,
+      "title": "Testing budget and sharing candidates",
+      "wall_s": 0.014,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "da2bdc0b17d6d4244c49ebd01409ec78c38f6ddfefb1ec756be214964ad215cc"
+    },
+    {
+      "result_s": 247.357,
+      "title": "Constructing intended reduced formulation",
+      "wall_s": 0.666,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "8adf33dfa3228b2ee60b2a6449dd081b4902fcccd70d7d1609c2864e9dcd0101"
+    },
+    {
+      "result_s": 300.942,
+      "title": "Proving budget fix and shared-node identities",
+      "wall_s": 0.911,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "540c5cc6a735d5f09aba7abbbd7ee901880be5770ceeb2665a8b55814a137a32"
+    },
+    {
+      "result_s": 323.446,
+      "title": "Proving substitutions and tighter block bounds",
+      "wall_s": 4.542,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "b034d4fee0b2e22f54dce5cb9db3fcef656fee726e2122a8998e66cdeaa732d5"
+    },
+    {
+      "result_s": 347.402,
+      "title": "Completing reverse and LP inclusion proofs",
+      "wall_s": 3.713,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "3b713fc4d0141df969cb2e1ccabb442280f6fa6267ca3a4a61c2b3be9eab8747"
+    },
+    {
+      "result_s": 446.391,
+      "title": "Removing budget-only choices and rounding capacity",
+      "wall_s": 0.826,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "55431d61e5fac9cabd1ad68bb546cee0d661f5b037601a4ca18de36f7ae50b55"
+    },
+    {
+      "result_s": 478.51,
+      "title": "Exercising exact forward and reverse scenarios",
+      "wall_s": 0.471,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "603c1f62a1d45020305abf2f4370436b2a124e35fd8673c4a7c448a8b806f6ce"
+    },
+    {
+      "result_s": 506.004,
+      "title": "Committing and verifying final formulation",
+      "wall_s": 5.208,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "0bbfae84aa1f838a2db48f63f74d7d0d748d15334b35e92a79047ad0763233c6"
+    },
+    {
+      "result_s": 557.883,
+      "title": "Recording verified theorem and scope",
+      "wall_s": 0.069,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "0886a965b6557d36c037104bcb11e3c6e8480ff1d4e3477fb39e8258c99968af"
+    },
+    {
+      "result_s": 640.691,
+      "title": "Writing final mathematical report",
+      "wall_s": 0.029,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "4a3970c4d3d61266e259a752a0e0b73b5ad627ca29723cde061d2a109c47dd62"
+    }
+  ],
+  "public_API_document_reads": [
+    {
+      "seconds": 3.445,
+      "i": "Inspecting workspace entries",
+      "path": "."
+    },
+    {
+      "seconds": 12.103,
+      "i": "Reading model proof API",
+      "path": "compiler/API.md:1-220"
+    },
+    {
+      "seconds": 25.056,
+      "i": "Inspecting MPS section syntax",
+      "path": "input/model.mps:1-45"
+    },
+    {
+      "seconds": 41.891,
+      "i": "Reading proof witness builders",
+      "path": "compiler/API.md:270-520"
+    },
+    {
+      "seconds": 73.273,
+      "i": "Reading exhaustive case proofs",
+      "path": "compiler/API.md:510-580"
+    },
+    {
+      "seconds": 183.376,
+      "i": "Reading chained proof delivery",
+      "path": "compiler/API.md:720-862"
+    },
+    {
+      "seconds": 256.613,
+      "i": "Reading directional contract API",
+      "path": "compiler/API.md:220-275"
+    },
+    {
+      "seconds": 511.463,
+      "i": "Locating verified delivery artifacts",
+      "path": "output"
+    }
+  ],
+  "provenance_sha256": {
+    "execution.json": "ad8a1f4f1b97fa221aa3fec8eddbf53222c61becb556d749c6b84e6efa98fd2d",
+    "assessment.json": "9cbcc9d8892f2e467bc6b30e6cc1cebe44a6bfff09b25ce2138fcbfa08a45831",
+    "session.jsonl": "ebd45c5fc6081bf3827d0cc2dce959cc2386989019df978b688d1da517f4211d",
+    "protocol.md": "7775adb56c0aa03992eb4e810796ecca52141980a4acfa81ca1fb3266d1ca103",
+    "workspace-manifest.json": "3eadcb7aeb4c812c67bffee71030a2a090220912727ec49fb2842896eeda2783",
+    "output/report.md": "66dbc5fff4483979aef502cd515abb26d711cb6c4c8a2372ba1e58b16cde12ff",
+    "output/delivery.json": "68dcf3431f9030f571b5551dd6e6657881add4e01c1b93a6c701baba1fd3f694",
+    "output/verification.json": "db52318ef7168aeeed3c6a19b3cc781de2f635eec702c811486b1739fd0bbe31",
+    "output/contract_summaries.json": "12be6fa34183bb548af3bd64195a40badb09ac43b1f29bc04e0ab922e82cc0d9",
+    "output/point_witnesses.json": "8bf3a4ded9226595c79d43e3663cba3ce6caddf50a69f7dc282dc70071c60a7b",
+    "output/structural/delivery.json": "9045e50c83508e29147ad7597144d9e57d0e56737473081acd407ecc4297bb11",
+    "output/structural/request.json": "3a56195fce3f63b7219af7ccecab5b65e19091a7be8be77a19d9e003609b76fb",
+    "output/canonicalization/delivery.json": "dfcbab80805e90bf99a81d572ca58a71bccd7fe077453ab0390b508ad72bd243",
+    "output/canonicalization/request.json": "20e879a80b75d08f59321ec88eaa5c7b584aa3fad61bb6919271a8c434c125d3"
+  },
+  "mathematics": {
+    "proved_changes": "Source 144 terminal fixes and 77 triangular objective definitions; budget coefficient1180>1164 forces one binary to0, exposing153 affine branch nodes; dependency-ordered cases prove1652 recursive aliases. Retain3226 blocks and prove12904 tighter inequalities with M=1-q. Eliminate5 budget-only zero-cost binaries, then integer budget1164→1160 via gcd20. Final3250vars/12972rows/44128nnz/24integer, objective constant600.",
+    "stage0_contract": "MI Equal inverse pair plus reverse LP Equal,3255 retained observations. Stage0 locally inverse; it has no forward LP theorem.",
+    "stage1_contract": "MI Equal forward/reverse and reverse LP Equal total maps,3250 retained observations; no inverse.",
+    "final_contract": "Declared paths MI Equal both directions plus reverse LP Equal,3250 observations each. No full original/final inverse or forward LP theorem inferred.",
+    "manual_point_boundary": "Both Requests have points=0. Exact author-side full-model smoke points and fractional counterexample are outside Kernel Request.points; no native point certificate is claimed.",
+    "actual_counterexample": "Source LP point with expensive binary1/2 and recursive interpolation has zero source violations,129 target violations and different projected objective. This disproves LP validity for the chosen forward map, not all possible LP maps.",
+    "no_bijection": "Two integer source points differing only in one eliminated budget-only coordinate have the same final image and objective, as checked manually. Final map is canonicalization.",
+    "C9_boundary": "C9 test38 target3293/12769/43486/29integer and single3claim proof differs; C10 removes5 more budget-only binaries and changes sharing/bound retention. No direct causal comparison of time or dimensions is made.",
+    "control": "Control not inspected before formal closure; no pair quality conclusion."
+  },
+  "actual_API_use_and_friction": {
+    "subset_bounds": [
+      {
+        "public_call": "packing=f.subset_bounds(f.row(\"budget\"),[[fixed]])[0]",
+        "role": "One author-selected weighted budget subset to prove unaffordable binary fix."
+      },
+      {
+        "public_call": "subset=f2.subset_bounds(f2.row(\"budget\"),[retained_budget])[0]",
+        "role": "One author-selected retained budget subset after5 canonicalized coordinates."
+      }
+    ],
+    "other_actual_APIs": [
+      "rewrite_many over supplied definitions",
+      "cases on each actual controlling binary",
+      "contract_summary(max_items=2)",
+      "write_chain(...claim_paths=...)",
+      "verify_bundle(...committed artifact binding...)"
+    ],
+    "authoring_errors": 0,
+    "native_rejections": 0,
+    "explicit_JSON_budget_override": false,
+    "no_budget_trigger": "Both28,883,719B/1,608,524B certificates are below old512MiB; default1GiB metadata is not evidence that increased budget was needed.",
+    "proportional_sharing_candidate": "No public attempt or explicit retreat for the additional proportional-sharing candidate from C9 is observed. No claim is made that absence means the API forced retreat.",
+    "exploration_boundary": "Integer strengthening, recursive case identities and exact bounds are actually proved; the absent forward LP relation is supported by an explicit chosen-map counterexample rather than failure to author an intended LP proof."
+  },
+  "phase": {
+    "intended_structural_target_ready_s": 247.357,
+    "stage0_proof_completion_s": 347.402,
+    "canonicalization_ready_s": 446.391,
+    "manual_point_smoke_s": 478.51,
+    "first_complete_final_bundle_Verified_Matched_s": 506.004,
+    "post_final_check_s": 153.544,
+    "tool_total_s": 17.792,
+    "LLM_total_s": 639.526,
+    "source_load_cell_s": 0.933,
+    "structural_target_cell_s": 0.666,
+    "shared_node_proof_cell_s": 0.911,
+    "forward_tighter_bounds_cell_s": 4.542,
+    "reverse_MI_LP_cell_s": 3.713,
+    "canonicalization_cell_s": 0.826,
+    "final_commit_and_compile_verify_cell_s": 5.208,
+    "author_reported_cumulative_from_precompile_start_s": {
+      "after_stage0_compile": 1.35,
+      "after_stage1_compile": 1.55,
+      "after_write_chain_and_verify_bundle": 5.12
+    },
+    "native_reported_part_totals_s": [
+      0.34099,
+      0.082209
+    ],
+    "timer_boundary": "The author uses one unchanged start=time.time():1.35s afterstage0compile,1.55s afterstage1compile,5.12s afterwrite_chain+verify_bundle. These are cumulative within the same5.208s cell, not separately additive compile or verify durations. Native receipts measure only verifier internals. No separate serialization/binding timer is available.",
+    "post_check_activity": "Output-directory read, a0.069s bounded theorem/audit-writing eval, then a0.029s final-report eval. No repeat proof attempt or schema parser construction is observed; most wall time is LLM organization/reporting.",
+    "large_output": "Final verification public print includes large observation-relation output with tool truncation. The compact audit records counts/hashes instead of repeating the arrays.",
+    "causal_boundary": "Different mathematics/target/scope from C9 and no matched nomf review yet. No helper/prompt causal speedup or global acceptance conclusion."
+  }
+}

@@ -1,0 +1,797 @@
+{
+  "schema": "kernel-paper-positive-evidence-v1",
+  "purpose": "Primary-local paper preparation for project-wide Kernel contributions, not a new experiment or goal-completion receipt.",
+  "prepared_at_utc": "2026-10-15T06:36:44.611019+00:00",
+  "repository": "/Users/bhz/Code/kernel",
+  "repository_HEAD_at_preparation": "843889039f26e8651a92e4c425b060ffe74d1db3",
+  "latest_feature_source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "latest_preflight_native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "overall_user_goal_complete": false,
+  "scope": "Kernel evidence, including stable use through Compiler; root merges separate Compiler usability/quality findings.",
+  "collection_policy": {
+    "new_tests_builds_native_solver_benchmarks_or_Agents_executed": false,
+    "large_models_proofs_or_acceptance_ledger_reparsed_or_rehashed": false,
+    "external_literature_search_performed": false,
+    "existing_source_or_evidence_files_modified": false,
+    "new_files": [
+      "audit/paper/kernel-positive-evidence.json",
+      "audit/paper/kernel-results-draft.md"
+    ]
+  },
+  "interpretation_rules": [
+    "Written soundness/lemma arguments, finite exact oracles, source review, frozen byte tests and actual-case acceptance are distinct evidence layers.",
+    "No Lean or other mechanized verification of the complete Rust Kernel is claimed; no universal guarantee or external novelty comparison is established.",
+    "Trusted importers/codecs/exact arithmetic/inference execution and native joint-lemma instantiation are TCB; Python authors/Compiler metadata/preparers are not proof authority.",
+    "The 2026-10-14 freeze supersedes earlier working/draft status. Historical source/binary/benchmark labels retain snapshot meaning.",
+    "Authored 81-case / 83-piece delivery, pre-compiler compatibility replay and fresh Agent studies must not be pooled into one discovery count.",
+    "Metrics belong to their measured binary/version. Correctness suites are not performance experiments; RSS is not live-fact count; smaller dimensions are not solver-quality evidence."
+  ],
+  "validation_cutoffs": [
+    {
+      "stage": "historical complete cold delivery",
+      "Rust_tests": 262,
+      "cases": 81,
+      "verify_calls": 83,
+      "evidence_id": "cold_build"
+    },
+    {
+      "stage": "protocol freeze",
+      "date": "2026-10-14",
+      "baseline_git": "1468f9568e020269682bd781129a8512cbc95527",
+      "Rust_tests": 280,
+      "cases": 81,
+      "verify_calls": 83,
+      "evidence_id": "freeze_manifest"
+    },
+    {
+      "stage": "latest integrated preflight",
+      "recorded_utc": "2026-10-15T06:19:48.907123+00:00",
+      "feature_git": "982235835dfe3b6c5f74188cd68ef48008747f30",
+      "Rust_tests": 344,
+      "Python39_tests": 158,
+      "Python314_tests": 158,
+      "evidence_id": "current_tests",
+      "note": "Receipt worktree source hashes are authoritative; suite times are not benchmark samples."
+    },
+    {
+      "stage": "final fresh C10",
+      "status_at_preparation": "RUNNING; results excluded",
+      "source_git": "982235835dfe3b6c5f74188cd68ef48008747f30",
+      "cases": [
+        "test70",
+        "test38",
+        "test58",
+        "test55",
+        "test69"
+      ]
+    }
+  ],
+  "claim_count": 12,
+  "claims": [
+    {
+      "id": "K01",
+      "title": "Exact rational whole-model foundation",
+      "claim_for_paper": "The Kernel represents real-coordinate MILP models and checks affine arithmetic exactly, including rational coefficients, objective offsets, bounds and declared integrality. Trusted MPS/LP importers normalize supported dialects into one canonical model without floating-point tolerance acceptance.",
+      "version_and_date": "MCM v1; importer reports retained by 2026-10-13; protocol freeze effective 2026-10-14.",
+      "metrics": {
+        "historical_actual_MPS_files_canonicalized": 159,
+        "historical_actual_MPS_files_attempted": 159,
+        "independently_cross_checked_actual_LP_files": 3,
+        "independently_generated_LP_models": 160,
+        "LP_mutation_inputs": 2000,
+        "MPS_mutation_inputs": 2000,
+        "mutation_note": "Exercised parser inputs, not counts of rejected attacks."
+      },
+      "evidence_ids": [
+        "semantics",
+        "core_boundary",
+        "mps",
+        "lp"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test semantics --test lp --test model_export --locked",
+        "python3 audit/lp_parse_sweep.py --generate-oracle"
+      ],
+      "boundaries": [
+        "Arbitrary-precision exact arithmetic is resource bounded; a mathematically meaningful input may receive RESOURCE_LIMIT.",
+        "Supported importer subsets do not cover every vendor extension. MAX normalization negates the complete objective, including its constant.",
+        "Safe Rust in the owned core and finite independent parser checks do not formally prove correctness of Rust, dependencies or the host."
+      ],
+      "evidence_kind": [
+        "semantic specification",
+        "implementation boundary",
+        "independent exact oracle",
+        "actual-format corpus"
+      ]
+    },
+    {
+      "id": "K02",
+      "title": "Caller-bound complete relational contracts",
+      "claim_for_paper": "A separately supplied Request binds ordered theorem statements before proof execution. Every accepted Return is checked against all actual output bounds, required integrality, rows, requested objective relation and observations. A terminal supplies one simultaneous full output tuple; exhaustive cases may select different tuples.",
+      "version_and_date": "Frozen RPX v1–v10 semantics; effective 2026-10-14. Current SEMANTICS.md is separately hash-bound.",
+      "metrics": {
+        "domain_modes": [
+          "independent input MI/LP",
+          "independent output MI/LP"
+        ],
+        "objective_relations": [
+          "None",
+          "Equal",
+          "NonIncreasing"
+        ],
+        "explicit_scope_controls": [
+          "direction",
+          "coordinate/affine observations",
+          "inverse references",
+          "objective level",
+          "input halfspace",
+          "whole-model bijection",
+          "point/improvement contracts"
+        ]
+      },
+      "evidence_ids": [
+        "semantics",
+        "format",
+        "scope_review",
+        "freeze"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test semantics --test adversarial_review --test conditional_domain --test objective_level --locked"
+      ],
+      "boundaries": [
+        "Two unrestricted MI nonincrease directions do not establish LP equality, injectivity or pointwise inverse.",
+        "Conditional domains are explicit intersections. Restricted claims do not silently become global claims or unrestricted bijection/strictness inclusions.",
+        "Written soundness arguments and tests are not a mechanized end-to-end proof of the Rust implementation."
+      ],
+      "evidence_kind": [
+        "semantic specification",
+        "request-binding and scope tests",
+        "independent scope review"
+      ]
+    },
+    {
+      "id": "K03",
+      "title": "Five joint constructive extension families",
+      "claim_for_paper": "Flow, Interval, Menu, Signed and Subflow support reconstruction beyond a single affine map. Each static rule checks caller-given premises in the parent scope and appends one jointly feasible tuple, preserving the original model prefix and objective. Joint-existence arguments exclude coordinatewise witnesses that cannot coexist.",
+      "version_and_date": "Flow v4, Interval v5, Menu v7, Signed v8, Subflow v10; all underlying protocols frozen 2026-10-14. Earlier working-review labels remain historical.",
+      "metrics": {
+        "constructive_extension_families": 5,
+        "independent_Flow_fixtures": 97,
+        "independent_Flow_groups": 186,
+        "independent_Interval_fixtures": 241,
+        "independent_Menu_fixtures": 241,
+        "independent_Menu_binary_vectors_exhausted": 16382,
+        "independent_Subflow_Fraction_fixtures": 983,
+        "fixture_note": "Different-purpose valid/invalid controls; do not sum these as independent theorem instances."
+      },
+      "evidence_ids": [
+        "semantics",
+        "lifts",
+        "flow",
+        "interval",
+        "menu",
+        "signed",
+        "subflow",
+        "subflow_review"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test flow_builder --test flow_lift --test interval_builder --test interval_lift --test menu_builder --test signed_builder --test signed_lift --test subflow --locked",
+        "python3 audit/generate_flow_oracle.py",
+        "python3 audit/generate_interval_oracle.py",
+        "python3 audit/generate_menu_oracle.py"
+      ],
+      "boundaries": [
+        "Native lemma instantiation/builders and mathematical joint-existence lemmas are TCB. Later Return checks do not make these constructors untrusted.",
+        "Python authors, preparation programs and Compiler metadata are not proof authority. Finite exact oracles and review do not mechanize the lemmas or their implementation."
+      ],
+      "evidence_kind": [
+        "mathematical joint-existence arguments",
+        "trusted builder review",
+        "independent exact finite oracles",
+        "integration tests"
+      ]
+    },
+    {
+      "id": "K04",
+      "title": "Complete injectivity and distinct LP witness contracts",
+      "claim_for_paper": "Whole-model bijection certificates establish injectivity using two fresh copies of the complete actual input model, equality of the entire forward image and equality of every original input coordinate. Reverse reconstruction may branch or lift. Distinct LP contracts express strict inclusion, absence of an input completion at fixed observations, or exclusion of one full affine image from the opposite actual LP model.",
+      "version_and_date": "FiberStrictness v6, complete bijection v7, ImageExclusion v10; frozen 2026-10-14. Historical independent reviews retained by 2026-10-13.",
+      "metrics": {
+        "independent_injectivity_models": 80,
+        "independent_injectivity_point_pairs": 640,
+        "independent_fiber_box_cases": 120,
+        "independent_image_scaled_integer_points": 1875,
+        "dedicated_image_tests_at_review": 12,
+        "actual_test62_full_point_coordinates": 4500,
+        "actual_test62_image_coordinates": 500
+      },
+      "evidence_ids": [
+        "semantics",
+        "menu",
+        "fiber",
+        "image",
+        "final_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test injectivity_builder --test menu_bijection --test fiber_points --test image_exclusion --locked",
+        "python3 audit/generate_fiber_oracle.py"
+      ],
+      "boundaries": [
+        "Unique Menu reconstruction is not injectivity of the full reformulation; unobserved continuous input coordinates are still included.",
+        "ImageExclusion proves one separating full image, not LP containment or emptiness of every partial-observation fiber. Fractionality alone is not LP exclusion.",
+        "Strictness requires its verified unrestricted LP inclusion; author-side points or solver outcomes are not substitutes."
+      ],
+      "evidence_kind": [
+        "precise relational contracts",
+        "independent exact oracles",
+        "actual complete-model witness",
+        "negative scope tests"
+      ]
+    },
+    {
+      "id": "K05",
+      "title": "Strict continuous improvement and optimizer-face coverage",
+      "claim_for_paper": "Strict-improvement certificates provide a feasible improving tuple for every feasible input satisfying an explicit affine p>0 predicate. A positive rational margin epsilon*p supports arbitrarily small real-valued improvement. Combined with a complete conditional correspondence on p<=0, this can preserve retained coordinates of every attained minimizer without assuming that an optimum exists.",
+      "version_and_date": "Strict improvement, positive-refutation and input-halfspace contracts in frozen v10; effective 2026-10-14. Test36/test83 scope closure belongs to the historical completed delivery.",
+      "metrics": {
+        "independent_full_verifier_improvement_calls": 1000,
+        "actual_test36_continuous_terminal_variables": 200,
+        "actual_test36_retained_observations": 37616,
+        "actual_test36_total_obligations": 529636,
+        "actual_test36_negative_mutations_recorded": 15,
+        "actual_test83_removed_nonnegative_coordinates": 61,
+        "actual_test83_complete_improving_tuple_coordinates": 65832,
+        "actual_test83_original_equalities_independently_preserved": 100,
+        "actual_test83_minimum_positive_saving_exact": "161497/1000000"
+      },
+      "evidence_ids": [
+        "semantics",
+        "improvement",
+        "conditional",
+        "test36",
+        "final_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test improvement --test improvement_independent_review --test conditional_domain --test contract_v10_vectors --locked",
+        "python3 audit/review_test83_strict.py"
+      ],
+      "boundaries": [
+        "This excludes attained minimizers from p>0, without asserting attainment, boundedness, nonemptiness or a numerical optimum.",
+        "Independent calls include binary enumeration and continuous grid checks; a grid is not exhaustive over the reals.",
+        "PositiveRefutation must match the immutable root predicate. A weak p>=0 premise or another branch predicate cannot become a false strict contradiction."
+      ],
+      "evidence_kind": [
+        "mathematical strictness argument",
+        "independent finite oracle",
+        "actual-model independent substitution",
+        "original-contract repair"
+      ]
+    },
+    {
+      "id": "K06",
+      "title": "Original-contract closure across a heterogeneous corpus",
+      "claim_for_paper": "The completed historical delivery certifies 81 original case contracts in 83 complete verification invocations across 11 overlapping structural families. Independent scope review identified and closed five material gaps: success was not defined solely by the narrower Request a preparer chose to submit.",
+      "version_and_date": "Historical complete V10 cold binary 96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8; freeze replay 2026-10-14. Integrated-suite receipt 2026-10-15 is a separate later cutoff.",
+      "metrics": {
+        "historical_complete_original_cases": 81,
+        "historical_complete_verify_invocations": 83,
+        "overlapping_structure_families": 11,
+        "case46_independent_complete_pieces": 3,
+        "cold_complete_delivery_tests": 262,
+        "freeze_tests": 280,
+        "current_integrated_Rust_tests": 344,
+        "current_integrated_Rust_result_groups": 41,
+        "current_integrated_Rust_failures": 0,
+        "test_note": "344 includes later Compiler/authoring/CLI tests; counts are versioned regression coverage, not separate soundness theorems."
+      },
+      "evidence_ids": [
+        "final_delivery",
+        "scope_review",
+        "test36",
+        "image",
+        "improvement",
+        "freeze",
+        "freeze_manifest",
+        "cold_build",
+        "current_tests"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 tools/run_acceptance.py --label paper-kernel-fresh-replay",
+        "cargo test -p kernel-core --locked"
+      ],
+      "boundaries": [
+        "These corpus proofs were prepared before the fresh Compiler Agent studies; 81 cases are not autonomous discoveries.",
+        "Collector functional_delivery_complete:false denotes replay-only scope. The separate reviewed ledger and final delivery establish original-contract closure.",
+        "Families overlap; corpus/test counts do not establish completeness for arbitrary MILP reformulations."
+      ],
+      "evidence_kind": [
+        "complete original-contract scope review",
+        "historical actual-model replay",
+        "versioned cold builds and full regression suites"
+      ],
+      "closed_original_scope_gates": [
+        {
+          "case": "test36",
+          "closed_contract": "Strict exclusion on all 200 real terminal coordinates plus complete Equal retained projection on the zero face and the reverse direction."
+        },
+        {
+          "case": "test46",
+          "closed_contract": "Both MI objective/projection directions and target-to-source LP direction, three independent complete pieces."
+        },
+        {
+          "case": "test58",
+          "closed_contract": "MI forward NonIncreasing/reverse Equal supported by one joint demand-bounded subflow tuple."
+        },
+        {
+          "case": "test62",
+          "closed_contract": "Existing MI/bijection claims plus a complete actual source LP point whose prescribed full affine image violates an actual target constraint."
+        },
+        {
+          "case": "test83",
+          "closed_contract": "Strict improvement whenever any of 61 dominated nonnegative coordinates is positive, preserving earlier directional claims."
+        }
+      ]
+    },
+    {
+      "id": "K07",
+      "title": "Frozen interoperable formats and adversarial wire evidence",
+      "claim_for_paper": "The project publishes canonical MCM v1 and frozen RPX v1–v10 with version-gated contracts, exact canonical rationals and ordered sparse expressions. Independent struct-written fixtures test decoding and byte-identical re-encoding without invoking a Rust encoder. Malformed inputs and resource failures have explicit statuses.",
+      "version_and_date": "Project-owner freeze effective 2026-10-14; freeze binary 265cc0c678aa493d5388af2cd33130865234135ee0e21b8022f326b135b8abd6. Current FORMAT and the original freeze hashes are distinct snapshots.",
+      "metrics": {
+        "frozen_model_versions": [
+          1
+        ],
+        "frozen_proof_versions": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "freeze_manual_pages": 65,
+        "freeze_manual_CLI_checks": 39,
+        "freeze_manual_INVALID_mutations": 9,
+        "freeze_manual_RESOURCE_LIMIT_checks": 3,
+        "conditional_fixture_prefix_truncations": 354,
+        "conditional_fixture_forbidden_flags_reserved_mutations": 2520,
+        "combined_V10_fixture_prefix_truncations": 386,
+        "combined_V10_fixture_forbidden_flags_reserved_mutations": 5601,
+        "note": "Separate fixture families, not an aggregate attack-success rate."
+      },
+      "evidence_ids": [
+        "format",
+        "freeze",
+        "freeze_manifest",
+        "conditional",
+        "improvement"
+      ],
+      "reproduction_commands_not_executed": [
+        "cargo test -p kernel-core --test binary_vectors --test conditional_wire --test contract_v10_vectors --test cli_limits --locked",
+        "python3 tools/check_rpx_manual.py --kernel target/validation-protocol-v9-v10-freeze-2026-10-14/release/rpx --out audit/validation/paper-manual-fresh"
+      ],
+      "boundaries": [
+        "Freeze is a compatibility decision with validation evidence, not formal implementation verification.",
+        "The later freeze supersedes draft/unfrozen wording in FINAL_DELIVERY_REPORT; historical benchmark names retain their original snapshot meaning.",
+        "A resource failure does not refute the mathematics. Current manual path is docs/rpx/rpx-manual.pdf; older freeze receipts retain their historical path/hash."
+      ],
+      "evidence_kind": [
+        "normative byte specification",
+        "independent wire implementation",
+        "adversarial decoder tests",
+        "executable manual"
+      ]
+    },
+    {
+      "id": "K08",
+      "title": "Smaller proof-step representation without certificate redesign",
+      "claim_for_paper": "An isolated in-memory Cases payload change reduces Step from 208 to 96 bytes on the measured target while preserving exact model/proof/Request bytes. Median peak RSS falls26.3% on  fixed history65536 and15.5% on  actual branching test88.",
+      "version_and_date": "Historical frozen-v3 A/B; report retained by 2026-10-13. Raw runs pin source/binary/host. This is not a measurement of the 2026-10-15 binary.",
+      "metrics": {
+        "Step_slot_bytes_before": 208,
+        "Step_slot_bytes_after": 96,
+        "fixed_workloads": 23,
+        "timing_processes_VERIFIED": 207,
+        "separate_RSS_processes_VERIFIED": 69,
+        "history65536_RSS_MiB_before": 53.25,
+        "history65536_RSS_MiB_after": 39.25,
+        "actual_test88_RSS_MiB_before": 51.125,
+        "actual_test88_RSS_MiB_after": 43.219
+      },
+      "evidence_ids": [
+        "boxed",
+        "post_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 tools/prepare_boxed_cases_experiment.py"
+      ],
+      "boundaries": [
+        "This changes in-memory layout, not RPX size or eager whole-proof decoding.",
+        "The matrix retains tiny-case latency regressions; actual test65 RSS improves only about 1.3%. No universal latency/memory gain follows.",
+        "Restore cleaned historical source/prototype directories from pinned history before exact reproduction."
+      ],
+      "evidence_kind": [
+        "same-artifact controlled A/B",
+        "separate fresh-process RSS observations"
+      ]
+    },
+    {
+      "id": "K09",
+      "title": "Shared exact scopes remove an observed quadratic bottleneck",
+      "claim_for_paper": "Borrowed immutable ancestors with local definitions/deletion masks remove repeated copying of inherited facts while retaining exhaustive-case semantics and metered lookup probes. A fixed n4096 copying-heavy workload drops from 827.142 to 6.517 ms execution median (about 127x); unchanged actual test18 succeeds under the same work ceiling.",
+      "version_and_date": "Historical frozen-v5 isolated A/B and production-v6 integration; reports retained by 2026-10-13. Pinned raw receipts identify source/binary/lock.",
+      "metrics": {
+        "selected_workloads": 3,
+        "selected_verifier_processes_VERIFIED": 36,
+        "n4096_execute_median_ms_before": 827.142,
+        "n4096_execute_median_ms_after": 6.517,
+        "n4096_process_median_ms_before": 832.907,
+        "n4096_process_median_ms_after": 11.583,
+        "broader_fixed_workloads": 23,
+        "broader_AB_processes_VERIFIED": 552,
+        "actual_test88_execute_median_ms_before": 182.553,
+        "actual_test88_execute_median_ms_after": 120.189,
+        "independent_reference_state_operations": 127072,
+        "actual_test18_branches": 18444,
+        "actual_test18_terminal_obligations": 96720
+      },
+      "evidence_ids": [
+        "shared",
+        "shared_review",
+        "post_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 tools/benchmark_scopes.py --kernel target/validation-checkpoint-v5/release/rpx --source-root audit/checkpoints/v5-source --label paper-scopes-before",
+        "python3 tools/benchmark_scopes.py --kernel bench/shared-scope-prototype/target/release/rpx --source-root bench/shared-scope-prototype --label paper-scopes-after"
+      ],
+      "boundaries": [
+        "The 127x ratio is specific to the copying-heavy family; several nonbranching workloads regress roughly 3%.",
+        "Old test18 RESOURCE_LIMIT is not a successful runtime denominator. Its rescue is capacity evidence at unchanged proof bytes/work ceiling.",
+        "Artifacts and non-work counters match; work legitimately changes after removing copies and metering probes. Work units are not CPU instructions/formal bit complexity."
+      ],
+      "evidence_kind": [
+        "same-artifact controlled A/B",
+        "independent state-machine oracle",
+        "unchanged actual-proof resource rescue"
+      ]
+    },
+    {
+      "id": "K10",
+      "title": "Exact arithmetic shortcuts improve fixed real proof workloads",
+      "claim_for_paper": "Denominator-one, unit-multiplier and sparse zero shortcuts reduce generic exact-rational operations without changing proof rules, checked intermediate arithmetic or proof bytes. Execution medians fall on all 49 paired fixed workloads; full mathematical statistics, including work, remain identical.",
+      "version_and_date": "Isolated frozen-v7 baseline versus arithmetic-only prototype before its separate production merge; report retained by 2026-10-13. Apple M5 / 10 cores / 16 GiB, macOS 26.6.2, rustc 1.96.0 locked release.",
+      "metrics": {
+        "paired_fixed_workloads": 49,
+        "fresh_process_timing_samples": 882,
+        "separate_RSS_samples": 294,
+        "all_verifier_processes_VERIFIED": 1176,
+        "timing_samples_per_workload_per_arm": 9,
+        "RSS_samples_per_workload_per_arm": 3,
+        "actual_test18_execute_median_ms_before": 908.194,
+        "actual_test18_execute_median_ms_after": 217.168,
+        "actual_test57_execute_median_ms_before": 4932.676,
+        "actual_test57_execute_median_ms_after": 2219.925,
+        "actual_test65_execute_median_ms_before": 3776.316,
+        "actual_test65_execute_median_ms_after": 1795.367,
+        "independent_Fraction_gcd_vectors": 1228
+      },
+      "evidence_ids": [
+        "rational",
+        "rational_review",
+        "rational_merge",
+        "v10_regression",
+        "post_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 tools/prepare_rational_shortcuts_experiment.py",
+        "python3 tools/benchmark_theorems.py --kernel target/validation-checkpoint-v7/release/rpx --source-root audit/checkpoints/v7-source --label paper-rational-before",
+        "python3 tools/benchmark_theorems.py --kernel bench/rational-shortcuts-prototype/target/release/rpx --source-root bench/rational-shortcuts-prototype --label paper-rational-after",
+        "python3 tools/report_rational_shortcuts.py"
+      ],
+      "boundaries": [
+        "Fresh processes, warm files, owned heavy workers paused; windows sequential rather than randomized, and unrelated host activity uncontrolled.",
+        "Four startup-dominated process medians regress; median RSS changes stay within 3%. Lower execution medians are not lower authoring cost or smaller proofs.",
+        "Measured prototype and later production binaries differ. Later V10 regression reports include real slowdowns; do not infer universal across-version speedup."
+      ],
+      "evidence_kind": [
+        "fixed same-artifact/statistics A/B",
+        "independent report recalculation",
+        "independent exact arithmetic vectors"
+      ]
+    },
+    {
+      "id": "K11",
+      "title": "Measured absolute cost of advanced complete contracts",
+      "claim_for_paper": "A fixed isolated baseline measures complete subflow, strict-improvement, image-exclusion and conditional-domain tasks, including actual test58, with separate author preparation, decode, execution, process and RSS costs. It gives absolute capability costs rather than a speed ratio against a version lacking the feature.",
+      "version_and_date": "Complete-v10 cold binary 96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8 measured before the 2026-10-14 freeze. Historical draft report title does not describe current protocol status.",
+      "metrics": {
+        "fixed_workloads": 22,
+        "fresh_verify_or_RSS_processes_VERIFIED": 264,
+        "separate_synthetic_preparations": 63,
+        "timing_samples_per_workload": 9,
+        "RSS_samples_per_workload": 3,
+        "actual_test58_source_variables": 2500,
+        "actual_test58_target_variables": 607,
+        "actual_test58_execute_median_ms": 18.369,
+        "actual_test58_process_median_ms": 28.749,
+        "actual_test58_RSS_median_MiB": 31.891,
+        "subflow_n1024_g4_generated_variables": 12280,
+        "subflow_n1024_g4_generated_rows": 16376,
+        "subflow_n1024_g4_execute_median_ms": 56.732,
+        "subflow_n1024_g4_full_prepare_median_ms": 9153.946,
+        "strict_n4096_execute_median_ms": 2.046,
+        "image_n4096_execute_median_ms": 2.294,
+        "halfspace_n4096_execute_median_ms": 4.646
+      },
+      "evidence_ids": [
+        "advanced_baseline",
+        "final_delivery",
+        "freeze",
+        "post_delivery"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 tools/benchmark_subflow.py --config bench/subflow_workloads_v10_complete.json --kernel target/validation-v10-complete/release/rpx --label paper-subflow --isolation-note \"Run only after all owned heavy jobs stop; record actual isolation conditions\"",
+        "python3 tools/benchmark_subflow.py --config bench/strict_image_workloads_v10_complete.json --kernel target/validation-v10-complete/release/rpx --label paper-strict-image --isolation-note \"Run only after all owned heavy jobs stop; record actual isolation conditions\"",
+        "python3 tools/benchmark_subflow.py --config bench/halfspace_workloads_v10_complete.json --kernel target/validation-v10-complete/release/rpx --label paper-halfspace --isolation-note \"Run only after all owned heavy jobs stop; record actual isolation conditions\"",
+        "python3 tools/report_next_capabilities.py bench/results/paper-subflow/raw.json bench/results/paper-strict-image/raw.json bench/results/paper-halfspace/raw.json --out audit/paper/new-capability-baseline.md"
+      ],
+      "boundaries": [
+        "Restore the exact configured cold binary, source-build receipt and actual-case artifacts before rerunning; each fixed config checks binary identity, and fresh output labels preserve old evidence.",
+        "Absolute warm-file fresh-process costs on one host do not establish bounds for all MILPs.",
+        "Actual test58 author time is archived, not remeasured. Synthetic preparation includes a simple O(nm) author scan; its 9.154 s cannot be hidden inside the 56.732 ms verification figure."
+      ],
+      "evidence_kind": [
+        "fixed absolute capability baseline",
+        "separate author/decoder/verifier/RSS accounting"
+      ]
+    },
+    {
+      "id": "K12",
+      "title": "Stable core across the Compiler boundary and fresh usage",
+      "claim_for_paper": "The direct Certificate-to-RPX bridge reproduces every shipped proof version byte-for-byte; all 83 complete Requests have identical statistics under an independently built pre-compiler verifier. Separately, eight fresh C9 Compiler Agents on different already-tested inputs produce complete Kernel-verified deliveries with source anchoring and final named-model artifact readback.",
+      "version_and_date": "Corpus regression recorded 2026-10-14 against pre-compiler Git c16fdafb759d2af549960d1ba49666542315f370. Fresh C9 on 2026-10-15 uses package 539c146 / native 5775d6a, distinct from current C10 package 9822358 / native cf9941c.",
+      "metrics": {
+        "historical_replay_cases": 81,
+        "historical_replay_pieces_byte_identical": 83,
+        "historical_replay_pieces_precompiler_statistics_identical": 83,
+        "historical_proof_versions": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "historical_total_raw_Certificate_JSON_bytes": 4090495643,
+        "historical_total_RPX_bytes": 2906200909,
+        "fresh_C9_cases": [
+          "test28",
+          "test38",
+          "test60",
+          "test62",
+          "test70",
+          "test80",
+          "test65",
+          "test85"
+        ],
+        "fresh_C9_compiler_formally_verified": 8,
+        "fresh_C9_paired_run_count": 16,
+        "fresh_C9_both_arm_runs_normal_exit_without_harness_errors": 16
+      },
+      "evidence_ids": [
+        "compiler_replay",
+        "compiler_replay_readme",
+        "c9_formal",
+        "current_tests",
+        "semantics"
+      ],
+      "reproduction_commands_not_executed": [
+        "python3 audit/compiler-replay/replay.py",
+        "python3 audit/compiler-replay/baseline.py",
+        "python3 audit/compiler-replay/merged.py"
+      ],
+      "boundaries": [
+        "Shipped proofs were already authored. Fixtures stripped an old RPA header, but the compiler itself deserializes Certificate JSON and directly calls the encoder without RPA parsing/assembly.",
+        "Historical replay and fresh Agent discovery are separate evidence. Eleven still-older preparation statistics differ; all 83 agree with the explicit c16fdaf baseline.",
+        "C9 demonstrates actual complete accepted contracts, not universal ease/expressiveness, absence of proof-convenience bias or near-Nomf time/quality. Its summary header is an earlier formal-audit cutoff, not a current statement about later quality work.",
+        "C10 was running when this draft was prepared. No C10 result or overall-goal completion is asserted."
+      ],
+      "evidence_kind": [
+        "pre-compiler independent compatibility replay",
+        "frozen native version coverage",
+        "fresh autonomous real-case formal acceptance"
+      ]
+    }
+  ],
+  "evidence": {
+    "semantics": {
+      "path": "docs/SEMANTICS.md",
+      "bytes": 15979,
+      "sha256_at_preparation": "441346f2a828517c022acdef940ef9aff4b8b75b9c0a392d11af0e1e62efbd61"
+    },
+    "core_boundary": {
+      "path": "crates/core/src/lib.rs",
+      "bytes": 934,
+      "sha256_at_preparation": "0c4f37e5907b88bcae14aaf52eabb9f07185238c413f4b0c2881182622fe3948"
+    },
+    "mps": {
+      "path": "docs/MPS_V1.md",
+      "bytes": 9750,
+      "sha256_at_preparation": "9a23a1d25b3a7ab9f1a4b4960937147214765e12a4ac3b7a70398db79b9a5764"
+    },
+    "lp": {
+      "path": "docs/LP_V1.md",
+      "bytes": 11348,
+      "sha256_at_preparation": "1d0ef8bea2032d73a9c11a4d1f09b0fa6bff71f2a941f06f5d5322a09542fd48"
+    },
+    "format": {
+      "path": "docs/FORMAT.md",
+      "bytes": 39348,
+      "sha256_at_preparation": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96"
+    },
+    "final_delivery": {
+      "path": "audit/FINAL_DELIVERY_REPORT.md",
+      "bytes": 12824,
+      "sha256_at_preparation": "38d61eb94abf8a355ad000b58a015c6263d8d8cb60edb052c0045482f34ee64a"
+    },
+    "scope_review": {
+      "path": "audit/DELIVERY_LEDGER_REVIEW.md",
+      "bytes": 13204,
+      "sha256_at_preparation": "68e96b41bc12dfda1a43258f8e1a73e6ed7fcd1f97c3f11d1beef55019867c95"
+    },
+    "freeze": {
+      "path": "audit/PROTOCOL_V9_V10_FREEZE.md",
+      "bytes": 4222,
+      "sha256_at_preparation": "9ed7453ee99c4b2fdc8cd4da93b2ad09e7d8a089fe14be31510d9b3f49ff5609"
+    },
+    "freeze_manifest": {
+      "path": "audit/validation/protocol-v9-v10-freeze-2026-10-14/freeze.json",
+      "bytes": 8330,
+      "sha256_at_preparation": "cf2a822f7250ac8f3f4af7f9e12a574d0488cf7d7856205a4cd674d881e23008"
+    },
+    "cold_build": {
+      "path": "audit/validation/v10-complete-cold-build.json",
+      "bytes": 1864,
+      "sha256_at_preparation": "0cee8b90424ceb90d7e2a9530ec0049c3762ce2ed518cbb2c07ed7d15a0a9531"
+    },
+    "lifts": {
+      "path": "audit/LIFT_TRUST_REVIEW.md",
+      "bytes": 12724,
+      "sha256_at_preparation": "e809601f03e03a9db0a2d7d1381ff097ae7684d0c255a189c8a3d91281acf34a"
+    },
+    "flow": {
+      "path": "docs/FLOW_V4.md",
+      "bytes": 10003,
+      "sha256_at_preparation": "9a9d8dc34793e355b0cc037022a78831e2e64bd582fc68ac09a6e0c0abbd69e2"
+    },
+    "interval": {
+      "path": "docs/INTERVAL_V5.md",
+      "bytes": 8522,
+      "sha256_at_preparation": "e119a654a902b4d8c2056d572ed91b49127a32cd3a47a5397e9b52117f95522b"
+    },
+    "menu": {
+      "path": "docs/MENU_V7.md",
+      "bytes": 10685,
+      "sha256_at_preparation": "2c7bd99db312c80d525a2f669ae04e4d972c7cd8509368da75864d0fe23223c9"
+    },
+    "signed": {
+      "path": "bench/SIGNED_V8_REPORT.md",
+      "bytes": 5438,
+      "sha256_at_preparation": "5290e47793bd274d11999e2822ca84b4321cc340d0764fdb5885ae97072e0c3e"
+    },
+    "subflow": {
+      "path": "docs/SUBFLOW_V10.md",
+      "bytes": 6432,
+      "sha256_at_preparation": "047c4e56841e9db32ff6354e2b8534974af928fd5745007d9cbbd2bca9b12dec"
+    },
+    "subflow_review": {
+      "path": "audit/SUBFLOW_PRODUCTION_REVIEW.md",
+      "bytes": 3317,
+      "sha256_at_preparation": "f75567cc64dea608e90e54fa6061d735fa89bfb9e279b6fe05d89294477169f2"
+    },
+    "fiber": {
+      "path": "docs/FIBER_POINT_V6.md",
+      "bytes": 5744,
+      "sha256_at_preparation": "299bff70855cca8a0bf92cd01926bd56de8191df817acf2c577ae965ebdc23b1"
+    },
+    "image": {
+      "path": "audit/IMAGE_EXCLUSION_REVIEW.md",
+      "bytes": 2699,
+      "sha256_at_preparation": "4cf32b5a090acd1f89e3fa9ce5c1bf8365f785774c99c7fb37f437fac157033f"
+    },
+    "improvement": {
+      "path": "audit/STRICT_IMPROVEMENT_REVIEW.md",
+      "bytes": 10034,
+      "sha256_at_preparation": "78a2a4393bbadab59df0199eb2514b1fed0ca96dd14d94d8811ed4ccc74e4347"
+    },
+    "conditional": {
+      "path": "audit/CONDITIONAL_DOMAIN_REVIEW.md",
+      "bytes": 5305,
+      "sha256_at_preparation": "e46549ef23fa8eb02dca4c2b44bc09f4e4962a0ba37f31e1c5f0b721874a4df5"
+    },
+    "test36": {
+      "path": "audit/TEST36_COMPLETE_REVIEW.md",
+      "bytes": 6689,
+      "sha256_at_preparation": "4c05dde3b411d5aed298fa60557b289267f48c36c3be1dc4138a0ba84e2a741d"
+    },
+    "boxed": {
+      "path": "bench/BOXED_CASES_REPORT.md",
+      "bytes": 3196,
+      "sha256_at_preparation": "a27e5a130becd4f71b61c710dc095fafe8c0a0336279752c965b7cc06b6b00df"
+    },
+    "shared": {
+      "path": "bench/SHARED_SCOPE_REPORT.md",
+      "bytes": 7662,
+      "sha256_at_preparation": "c5131ad3aa7a565c01643e453a8df1f69ca8977753abd4f37cd55a5271c13077"
+    },
+    "shared_review": {
+      "path": "audit/SHARED_SCOPE_REVIEW.md",
+      "bytes": 6609,
+      "sha256_at_preparation": "f3ddce28700916eb1c804a04298f3788e251a77d8862cc6a8a8c2651fb151b3f"
+    },
+    "rational": {
+      "path": "bench/RATIONAL_SHORTCUTS_REPORT.md",
+      "bytes": 11288,
+      "sha256_at_preparation": "cf4381654106a4153d90649f894302efde9af3ad4f54fc0275e09967aff20fa9"
+    },
+    "rational_review": {
+      "path": "audit/rational_benchmark_review.md",
+      "bytes": 2529,
+      "sha256_at_preparation": "8b7c2fc2c31e048ee30fa4756c3c30cd1965c8ead65fad831fea230840124b23"
+    },
+    "rational_merge": {
+      "path": "audit/V7_ARITHMETIC_MERGE.md",
+      "bytes": 3564,
+      "sha256_at_preparation": "558e4bfa4cefaec80e6b2022f066cecfc48c9e5c62011f19d77e3b45b5103211"
+    },
+    "advanced_baseline": {
+      "path": "bench/NEXT_CAPABILITY_DRAFT_BASELINE.md",
+      "bytes": 13527,
+      "sha256_at_preparation": "797307bf2a7d967be68d5f08ec61c36370fbd747a43e89a7b1ca8e786b34dbc6"
+    },
+    "v10_regression": {
+      "path": "bench/V10_REGRESSION_REPORT.md",
+      "bytes": 30097,
+      "sha256_at_preparation": "340075e04ae7b651ae7fb399d50d62085096f04a700be61601adb411ea23d915"
+    },
+    "post_delivery": {
+      "path": "audit/POST_DELIVERY_CHANGES.md",
+      "bytes": 12398,
+      "sha256_at_preparation": "244ca31311f7a194ff54e377884dce7fa245239b866630645828c4a15ba31c74"
+    },
+    "compiler_replay": {
+      "path": "audit/compiler-replay/summary.json",
+      "bytes": 1371,
+      "sha256_at_preparation": "a654112c076a560a327632b2ce0c8f4f8c0392e1a59d1b2a5459e61b338b416b"
+    },
+    "compiler_replay_readme": {
+      "path": "audit/compiler-replay/README.md",
+      "bytes": 3227,
+      "sha256_at_preparation": "101fac01366fdb94351eb1cae791e5e292d4cca6ba6d27a17f4155d56ce94db4"
+    },
+    "c9_formal": {
+      "path": "audit/compiler-agent/C9-summary.json",
+      "bytes": 53463,
+      "sha256_at_preparation": "ff855085b8ea7b1b79e0aedf119e37c57ff136c11dceae379e2fe64306d638c3"
+    },
+    "current_tests": {
+      "path": "audit/compiler-performance/C10-preflight-20261015/validation.json",
+      "bytes": 3751,
+      "sha256_at_preparation": "ed2e42323c3cd51a426d79e54b8344ca31a47332cb840eb08a2b4bb283b29f8e"
+    }
+  },
+  "historical_reproduction_prerequisites": [
+    "Commands are recorded only. None was executed for this paper evidence.",
+    "Historical checkpoint/prototype source directories were cleaned after delivery; restore exact pinned Git/manifests/Cargo.lock and specified binaries for historical A/B.",
+    "Large original MCM/RPX/RPA/model fixtures are local ignored artifacts; a fresh source clone does not contain every corpus fixture.",
+    "Use fresh labels/output paths. Replaying a corpus is separate from original-contract scope review."
+  ]
+}

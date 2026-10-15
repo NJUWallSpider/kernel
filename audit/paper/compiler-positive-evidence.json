@@ -1,0 +1,1311 @@
+{
+  "schema": "compiler-positive-paper-evidence-v1",
+  "created_utc": "2026-10-15T06:36:17.145966+00:00",
+  "status": "STATIC_PAPER_DRAFT_BEFORE_C10_RESULTS",
+  "scope": "Compiler contributions; Kernel remains the proof authority. Parent report integrates separate Kernel project evidence.",
+  "claim_count": 10,
+  "overall_acceptance": false,
+  "acceptance_complete": false,
+  "C10": {
+    "status": "RUNNING_RESULTS_PENDING_PER_CONTROLLER",
+    "included_in_success_counts": false,
+    "cases": [
+      "test70",
+      "test38",
+      "test58",
+      "test55",
+      "test69"
+    ],
+    "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+    "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+    "control_file_cutoff": "The referenced control document was prepared before launch; the controller reports the final batch is live. No live mathematics or partial result is inspected here.",
+    "user_stop_boundary": "One final fresh C10 batch, then documentation and stop; no further fresh round is planned."
+  },
+  "early_project_context": [
+    {
+      "round": "C1",
+      "status": "3 formal deliveries verified; Agent time ratios 1.35-1.99 and measured quality tradeoffs remain."
+    },
+    {
+      "round": "C2",
+      "status": "3 formal deliveries verified; test88 compiler LP27 versus nomf227 and MIP timeout are real deficits."
+    },
+    {
+      "round": "C3",
+      "status": "2 of 3 Compiler deliveries verified; test16 exhausts 30-minute budget without target/delivery, not counted as success."
+    },
+    {
+      "round": "C4",
+      "status": "Original strict harness accepts 2 of 3; a separate preserved versioned chain review verifies the third whole MI reformulation. Time/quality goal still unmet."
+    }
+  ],
+  "methodological_boundaries": [
+    "Historical replay, same-provided-proof regression, and fresh autonomous discovery are different evidence classes.",
+    "C5-C9 is a continuous mature-stage subset, not the whole project and not 32 independent cases.",
+    "Versioned harness records govern historical source/index/artifact checks; current strictness is not retroactive.",
+    "Shared host, stochastic Agents, heterogeneous selected reformulations and limited solver samples preclude causal or universal quality/time claims.",
+    "RSS is informational only; memory is not an acceptance gate.",
+    "No claim credits later documentation or helper code to a frozen earlier Agent input."
+  ],
+  "reproduction_policy": {
+    "execution_state": "DOCUMENTED_ONLY_NOT_EXECUTED_BY_THIS_REVIEW",
+    "preservation": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times.",
+    "live_experiment_boundary": "No benchmark, solver, native command, test or Agent was launched for this paper evidence review. Do not execute experiment recipes while the final C10 timed batch is live."
+  },
+  "context_sources": [
+    "audit/compiler-agent/C1-summary.json",
+    "audit/compiler-agent/C2-summary.json",
+    "audit/compiler-agent/C3-summary.json",
+    "audit/compiler-agent/C4-summary.json",
+    "audit/compiler-agent/C10-final-round-controls.json",
+    "audit/compiler-agent/C9-quality-review.json"
+  ],
+  "claims": [
+    {
+      "id": "C01",
+      "title": "Direct authoring bridge preserves the existing proof object and wire format",
+      "paper_statement": "Python author-provided proofs are serialized as the existing Certificate data structure, directly encoded as frozen RPX, then checked by Kernel with the complete caller Request. Neither an RPA intermediate nor proof search is required.",
+      "evidence_class": "implementation plus historical-artifact regression",
+      "version_and_date": {
+        "initial_compiler_checkpoint": "84122a4dc3dc82ad2e2fa87f4bef9ebba5271603",
+        "baseline_checkpoint": "c16fdafb759d2af549960d1ba49666542315f370",
+        "date": "2026-10-14"
+      },
+      "metrics": {
+        "previously_verified_cases": 81,
+        "proof_pieces": 83,
+        "byte_identical_RPX_pieces": 83,
+        "complete_Requests_verified": 83,
+        "statistics_identical_to_explicit_precompiler_baseline": 83,
+        "frozen_wire_versions": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "raw_Certificate_JSON_bytes": 4090495643,
+        "RPX_bytes": 2906200909,
+        "recorded_compile_s": 36.87229491699996,
+        "recorded_verify_s": 128.40965733399997,
+        "additional_merged_test46": {
+          "certificate_JSON_bytes": 432885906,
+          "RPX_bytes": 351664903,
+          "claims": 3,
+          "native_obligations": 1105551
+        }
+      },
+      "primary_local_sources": [
+        "crates/core/src/compiler.rs",
+        "python/kernel_compiler/session.py",
+        "audit/compiler-replay/summary.json",
+        "audit/compiler-replay/identity.json",
+        "audit/compiler-replay/test46-merged.json",
+        "audit/compiler-replay/README.md",
+        "audit/compiler-replay/replay.py",
+        "audit/compiler-replay/baseline.py",
+        "audit/compiler-replay/merged.py"
+      ],
+      "reproduction": {
+        "commands": [
+          "cargo build --release",
+          "python3 audit/compiler-replay/replay.py",
+          "python3 audit/compiler-replay/baseline.py",
+          "python3 audit/compiler-replay/merged.py"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "The 83 pieces are compatibility replay of shipped authored proofs, not 83 new autonomous Agent experiments.",
+        "Replay fixtures were extracted from preserved RPA bodies offline; the compiler itself does not call the RPA parser/assembler.",
+        "Eleven historical preparation receipts predate work-accounting changes. All 83 match the explicit c16fdaf baseline, not every older receipt.",
+        "Compilation success does not establish a mathematical theorem until Kernel verification of the actual endpoints and complete Request succeeds."
+      ]
+    },
+    {
+      "id": "C02",
+      "title": "Typed Python model and proof API with exact native readback",
+      "paper_statement": "The authoring API exposes exact rational expressions, model construction, scoped Facts and obligations, deferred maps, and compact contract summaries. Native canonical MCM readback avoids a large JSON model detour while preserving all model data exactly.",
+      "evidence_class": "implementation, API tests and supplied-input microbenchmark",
+      "version_and_date": {
+        "stream_report_checkpoint": "afc49c71a2c70fe734debcc4053f470c87f30ae9",
+        "date": "2026-10-15",
+        "latest_preflight_source": "982235835dfe3b6c5f74188cd68ef48008747f30"
+      },
+      "metrics": {
+        "model_variables": 228350,
+        "model_rows": 126512,
+        "load_samples_per_arm": 3,
+        "old_median_load_s": 5.13758116599638,
+        "stream_median_load_s": 3.837865415989654,
+        "stream_to_old_median_load_ratio": 0.7470179627313664,
+        "all_six_Python_MCM_reencodings_equal_native": true,
+        "native_exported_JSON_all_fields_compared_once_per_arm": true,
+        "latest_Python_suite_tests_each": 158,
+        "latest_Python_environments": [
+          "3.9",
+          "3.14"
+        ],
+        "core_suite_passed_tests": 344,
+        "core_suite_includes_noncompiler_Kernel_tests": true
+      },
+      "primary_local_sources": [
+        "docs/COMPILER_API.md",
+        "python/kernel_compiler/__init__.py",
+        "python/kernel_compiler/model.py",
+        "python/kernel_compiler/proof.py",
+        "python/kernel_compiler/request_summary.py",
+        "audit/compiler-performance/model-load-stream-20261015/report.json",
+        "audit/compiler-performance/model-load-stream-20261015/README.md",
+        "audit/compiler-performance/model-load-stream-20261015/benchmark.py",
+        "audit/compiler-performance/C10-preflight-20261015/validation.json"
+      ],
+      "reproduction": {
+        "commands": [
+          "PYTHONPATH=python python3 -m unittest discover -s python/tests -p \"test_*.py\"",
+          "cargo test -p kernel-core --locked",
+          "python3 audit/compiler-performance/model-load-stream-20261015/benchmark.py --old-pythonpath <pinned-231-python> --new-pythonpath <pinned-stream-python> --binary <recorded-5775-rpx> --input <recorded-pristine-test16.mps> --expected-input-sha256 d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4 --retained-mcm <recorded-input.mcm> --retained-json <recorded-input.model.json> --report <new-report.json>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "Load timing is three interleaved fresh processes per arm on a shared host, with no OS cache flush and prior oracle reads. It is not Agent end-to-end latency.",
+        "The 344 core tests are the whole existing core suite, not 344 newly introduced Compiler tests.",
+        "The latest preflight is source validation before C10; pending C10 results are not counted as fresh success.",
+        "Exact author-given simplification and premise lookup are mechanical elaboration, not automatic discovery of reformulations or proof search."
+      ]
+    },
+    {
+      "id": "C03",
+      "title": "Constructive and staged contracts support nonlinear and integer reformulations",
+      "paper_statement": "Authors can declare constructive generated scopes, case trees, and ordered proof stages without flattening them into a single affine inverse theorem. Fresh Agents used these APIs for signed decompositions, menu reconstruction, integer case reasoning, and staged Boolean reformulation.",
+      "evidence_class": "API implementation plus actual fresh-Agent Requests and native receipts",
+      "version_and_date": {
+        "C6_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+        "C9_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+        "date": "2026-10-15"
+      },
+      "metrics": {
+        "C6_test58": {
+          "signed_lifts": 1,
+          "menu_lifts": 2,
+          "MI_total_maps": 2,
+          "forward_objective": "NonIncreasing",
+          "reverse_objective": "Equal",
+          "affine_observations_per_direction": 625,
+          "LP_or_inverse_claimed": false
+        },
+        "C9_test60": {
+          "menus": 1254,
+          "generated_variables": 13550,
+          "generated_rows": 2508,
+          "generated_terms": 28354,
+          "MI_Equal_total_maps": 2,
+          "affine_observations": 90,
+          "native_obligations": 51192,
+          "LP_or_inverse_claimed": false
+        },
+        "C9_test62": {
+          "ordered_stages": 2,
+          "final_MI_Equal_directions": 2,
+          "final_observations_per_direction": 460,
+          "reverse_interval_generated_variables": 2029,
+          "branches": 30888,
+          "composite_LP_or_inverse_claimed": false
+        }
+      },
+      "primary_local_sources": [
+        "python/kernel_compiler/proof.py",
+        "python/kernel_compiler/session.py",
+        "python/kernel_compiler/bundle.py",
+        "python/tests/test_scope_handles.py",
+        "python/tests/test_chain_bundle.py",
+        "audit/compiler-agent/C6-summary.json",
+        "audit/compiler-agent/C9-test60-phase.json",
+        "audit/compiler-agent/C9-test62-phase.json"
+      ],
+      "reproduction": {
+        "commands": [
+          "PYTHONPATH=python python3 -m unittest discover -s python/tests -p \"test_scope_handles.py\"",
+          "PYTHONPATH=python python3 -m unittest discover -s python/tests -p \"test_chain_bundle.py\"",
+          "python3 tools/run_compiler_agents.py --cases test60,test62 --arms compiler,nomf --compiler-package <frozen539-package>/python/kernel_compiler --api-doc <frozen539-package>/docs/COMPILER_API.md --compiler-protocol <frozen-C9-addon> --kernel <recorded-5775-rpx> --jobs 3 --model gpt-6.1-sol --thinking high --tools eval,read --max-time 30m --hard-timeout 2280 --id <new-unique-id>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "Fresh reruns are stochastic and cannot be expected to reproduce the same mathematics or times; exact existing scopes are audited from their retained Requests/receipts.",
+        "Observation counts do not replace total-map feasibility checks of every output coordinate.",
+        "MI correspondence, LP inclusion, objective equality/nonincrease, injectivity and inverse properties remain distinct caller-selected contracts.",
+        "A local inverse pair in one stage does not establish an inverse or LP theorem for the whole chain."
+      ]
+    },
+    {
+      "id": "C04",
+      "title": "Independent source and committed-artifact checks bind the actual delivered theorem",
+      "paper_statement": "The mature evaluator independently anchors the proof to the trusted pristine input, verifies each actual proof with its own canonical endpoint indices, and compares the final proof target to the complete delivered standard-format model. Ordered stages are checked by named exact joins and explicit claim paths.",
+      "evidence_class": "versioned independent evaluation and negative regression tests",
+      "version_and_date": {
+        "scope": "strict C9 evaluator and its actual eight accepted deliveries",
+        "date": "2026-10-15",
+        "harness_launch_checkpoint": "a96cfe682bab8bba60b5963c17ed270692c8bb24"
+      },
+      "metrics": {
+        "C9_compiler_deliveries": 8,
+        "C9_pristine_anchors_matched": 8,
+        "C9_final_complete_artifact_audits_MATCHED": 8,
+        "C9_ordered_chains": 1,
+        "C9_actual_canonical_endpoint_family": "MCM magic at all audited endpoints",
+        "complete_named_comparison": [
+          "variables",
+          "bounds",
+          "integrality",
+          "rows",
+          "objective"
+        ]
+      },
+      "primary_local_sources": [
+        "tools/run_compiler_agents.py",
+        "tools/verify_staged_agent_delivery.py",
+        "tools/tests/test_run_compiler_agents.py",
+        "tools/tests/test_staged_agent_review.py",
+        "audit/compiler-agent/C9-summary.json",
+        "audit/compiler-agent/C9-test62-phase.json",
+        "audit/compiler-agent/C1-C3-input-integrity.json",
+        "audit/compiler-agent/C4-summary.json"
+      ],
+      "reproduction": {
+        "commands": [
+          "python3 -m unittest discover -s tools/tests -p \"test_*.py\"",
+          "python3 tools/verify_staged_agent_delivery.py --batch /Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015 --case test62 --output <new-unique-independent-review-directory>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "This describes the C9 versioned evaluator. Older C1-C4 launch guards and coordinate-order assumptions differed; current strictness is not retroactively credited to them.",
+        "C1-C3 input-integrity revalidation is retrospective. C4 test88 originally failed the strict single-source harness and was accepted only by a separately retained versioned staged review.",
+        "For large C9 test65/test70, the later static phase review uses complete Request/claim prefixes, recorded native/harness hashes and public map recipes rather than decoding their full large proof trees again.",
+        "Fresh evaluation provides no old solution or solver feedback to research Agents; this is a workflow constraint, not a claim of OS-level isolation."
+      ]
+    },
+    {
+      "id": "C05",
+      "title": "A continuous mature-stage cohort completes formal proof delivery autonomously",
+      "paper_statement": "In the consecutive C5-C9 mature-stage cohort, all 32 Compiler runs delivered reformulations accepted by the independent native/formulation checks, alongside 32 fresh matched nomf controls over 14 distinct previously tested cases.",
+      "evidence_class": "fresh autonomous paired-Agent evidence, explicitly limited cohort",
+      "version_and_date": {
+        "date_range": "2026-10-15",
+        "rounds": [
+          "C5",
+          "C6",
+          "C7",
+          "C8",
+          "C9"
+        ],
+        "C5_checkpoint": "aa90b099d3a389d75bb10f5742c649caf1de442e",
+        "C6_C7_C8_package_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+        "C9_package_checkpoint": "539c146425e0054fa1127968b72276df4073de8d"
+      },
+      "metrics": {
+        "compiler_runs": 32,
+        "compiler_formally_verified": 32,
+        "fresh_nomf_controls": 32,
+        "distinct_cases": 14,
+        "case_names": [
+          "test16",
+          "test28",
+          "test38",
+          "test51",
+          "test58",
+          "test60",
+          "test62",
+          "test63",
+          "test65",
+          "test70",
+          "test80",
+          "test85",
+          "test88",
+          "test9"
+        ],
+        "C5_to_C8_repeated_cases_each": 6,
+        "C9_previously_tested_new_to_this_mature_cohort_cases": 8
+      },
+      "primary_local_sources": [
+        "audit/compiler-agent/C1-summary.json",
+        "audit/compiler-agent/C2-summary.json",
+        "audit/compiler-agent/C3-summary.json",
+        "audit/compiler-agent/C4-summary.json",
+        "audit/compiler-agent/C5-summary.json",
+        "audit/compiler-agent/C6-summary.json",
+        "audit/compiler-agent/C7-summary.json",
+        "audit/compiler-agent/C8-summary.json",
+        "audit/compiler-agent/C9-summary.json"
+      ],
+      "reproduction": {
+        "commands": [
+          "python3 -c \"import json,pathlib; [print(p.name, json.loads(p.read_text()).get(\"independent_harness_verified_count\", json.loads(p.read_text()).get(\"compiler_formally_verified_count\"))) for p in pathlib.Path(\"audit/compiler-agent\").glob(\"C[5-9]-summary.json\")]\"",
+          "python3 tools/run_compiler_agents.py --cases <round-cases> --arms compiler,nomf --compiler-package <round-frozen-package>/python/kernel_compiler --api-doc <round-frozen-package>/docs/COMPILER_API.md --compiler-protocol <round-frozen-addon> --kernel <round-frozen-rpx> --jobs 3 --model gpt-6.1-sol --thinking high --tools eval,read --max-time 30m --hard-timeout 2280 --id <new-unique-id>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "32/32 refers only to this continuous mature-stage subset, not the entire project without failures, not 32 independent cases, and not established generalization to unseen benchmark families.",
+        "C1-C4 remain part of the project evidence: C3 test16 exhausted its deadline without a delivered proof; C4 initially rejected a chain at the old harness entry; earlier quality/time deficits were real.",
+        "No solver closeness or speed measurement is used as a substitute for native proof correctness. Overall near-nomf-time/quality acceptance remains false.",
+        "C10 is the user-requested final fresh batch, currently pending and excluded from all counts."
+      ]
+    },
+    {
+      "id": "C06",
+      "title": "Iteration reduces observed proof workflow overhead while preserving explicit scope",
+      "paper_statement": "Complete round summaries show a transition from substantial overhead in C5 to aggregate Agent wall times near fresh nomf controls in C7-C8, with heterogeneous C9 still incurring overhead. A prompt-only comparison kept the C6-C8 package fixed and made unnecessary post-verification delivery work observable.",
+      "evidence_class": "complete-cohort observational timing; not isolated causal estimation",
+      "version_and_date": {
+        "date": "2026-10-15",
+        "same_C6_C7_C8_package": "231e6f40ce8c01afd9d93ef1e9496f74d0100703"
+      },
+      "metrics": {
+        "rounds": [
+          {
+            "round": "C5",
+            "case_count": 6,
+            "formal_verified": 6,
+            "compiler_total_s": 4582.557999999999,
+            "nomf_total_s": 2516.5890000000004,
+            "ratio_of_totals": 1.82094016941185,
+            "median_paired_ratio": 1.6407921894920117,
+            "minimum_paired_ratio": 0.924033364009903,
+            "maximum_paired_ratio": 3.1056306337978654,
+            "pairs": [
+              {
+                "case": "test9",
+                "compiler_s": 718.573,
+                "nomf_s": 480.409,
+                "compiler_to_nomf": 1.4957525774912626,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test16",
+                "compiler_s": 1325.067,
+                "nomf_s": 426.666,
+                "compiler_to_nomf": 3.1056306337978654,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test88",
+                "compiler_s": 824.442,
+                "nomf_s": 372.372,
+                "compiler_to_nomf": 2.2140279075762948,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test58",
+                "compiler_s": 689.035,
+                "nomf_s": 514.012,
+                "compiler_to_nomf": 1.3405037236484751,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test63",
+                "compiler_s": 285.153,
+                "nomf_s": 308.596,
+                "compiler_to_nomf": 0.924033364009903,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test51",
+                "compiler_s": 740.288,
+                "nomf_s": 414.534,
+                "compiler_to_nomf": 1.7858318014927606,
+                "compiler_kernel_verified": true
+              }
+            ],
+            "source": "audit/compiler-agent/C5-summary.json"
+          },
+          {
+            "round": "C6",
+            "case_count": 6,
+            "formal_verified": 6,
+            "compiler_total_s": 3141.919,
+            "nomf_total_s": 2427.598,
+            "ratio_of_totals": 1.2942501188417521,
+            "median_paired_ratio": 1.204828644682848,
+            "minimum_paired_ratio": 0.8384165303385359,
+            "maximum_paired_ratio": 1.8876680021975962,
+            "pairs": [
+              {
+                "case": "test9",
+                "compiler_s": 577.156,
+                "nomf_s": 482.72,
+                "compiler_to_nomf": 1.1956330792177658,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test16",
+                "compiler_s": 704.355,
+                "nomf_s": 373.135,
+                "compiler_to_nomf": 1.8876680021975962,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test88",
+                "compiler_s": 541.166,
+                "nomf_s": 360.874,
+                "compiler_to_nomf": 1.4995981977088957,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test58",
+                "compiler_s": 530.236,
+                "nomf_s": 436.759,
+                "compiler_to_nomf": 1.2140242101479304,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test63",
+                "compiler_s": 284.437,
+                "nomf_s": 339.255,
+                "compiler_to_nomf": 0.8384165303385359,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test51",
+                "compiler_s": 504.569,
+                "nomf_s": 434.855,
+                "compiler_to_nomf": 1.1603155074680065,
+                "compiler_kernel_verified": true
+              }
+            ],
+            "source": "audit/compiler-agent/C6-summary.json"
+          },
+          {
+            "round": "C7",
+            "case_count": 6,
+            "formal_verified": 6,
+            "compiler_total_s": 2106.9790000000003,
+            "nomf_total_s": 2391.8469999999998,
+            "ratio_of_totals": 0.8809004087636042,
+            "median_paired_ratio": 0.8590129912581036,
+            "minimum_paired_ratio": 0.49863441511405604,
+            "maximum_paired_ratio": 1.4448679792675063,
+            "pairs": [
+              {
+                "case": "test9",
+                "compiler_s": 251.949,
+                "nomf_s": 505.278,
+                "compiler_to_nomf": 0.49863441511405604,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test16",
+                "compiler_s": 674.33,
+                "nomf_s": 466.707,
+                "compiler_to_nomf": 1.4448679792675063,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test88",
+                "compiler_s": 319.804,
+                "nomf_s": 349.71,
+                "compiler_to_nomf": 0.9144834291269909,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test58",
+                "compiler_s": 259.398,
+                "nomf_s": 322.818,
+                "compiler_to_nomf": 0.8035425533892163,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test63",
+                "compiler_s": 281.268,
+                "nomf_s": 260.861,
+                "compiler_to_nomf": 1.078229401865361,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test51",
+                "compiler_s": 320.23,
+                "nomf_s": 486.473,
+                "compiler_to_nomf": 0.6582688042296284,
+                "compiler_kernel_verified": true
+              }
+            ],
+            "source": "audit/compiler-agent/C7-summary.json"
+          },
+          {
+            "round": "C8",
+            "case_count": 6,
+            "formal_verified": 6,
+            "compiler_total_s": 2163.575,
+            "nomf_total_s": 2296.619,
+            "ratio_of_totals": 0.9420696249573829,
+            "median_paired_ratio": 0.897855670729869,
+            "minimum_paired_ratio": 0.6465336963383839,
+            "maximum_paired_ratio": 1.4565104251857977,
+            "pairs": [
+              {
+                "case": "test9",
+                "compiler_s": 362.414,
+                "nomf_s": 440.316,
+                "compiler_to_nomf": 0.82307706283669,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test16",
+                "compiler_s": 481.447,
+                "nomf_s": 510.234,
+                "compiler_to_nomf": 0.943580788422567,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test88",
+                "compiler_s": 323.162,
+                "nomf_s": 341.698,
+                "compiler_to_nomf": 0.9457532675052239,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test58",
+                "compiler_s": 310.167,
+                "nomf_s": 363.99,
+                "compiler_to_nomf": 0.8521305530371712,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test63",
+                "compiler_s": 196.629,
+                "nomf_s": 304.128,
+                "compiler_to_nomf": 0.6465336963383839,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test51",
+                "compiler_s": 489.756,
+                "nomf_s": 336.253,
+                "compiler_to_nomf": 1.4565104251857977,
+                "compiler_kernel_verified": true
+              }
+            ],
+            "source": "audit/compiler-agent/C8-summary.json"
+          },
+          {
+            "round": "C9",
+            "case_count": 8,
+            "formal_verified": 8,
+            "compiler_total_s": 3435.519,
+            "nomf_total_s": 3023.9269999999997,
+            "ratio_of_totals": 1.1361117513749506,
+            "median_paired_ratio": 1.1184989035831299,
+            "minimum_paired_ratio": 0.5380839751170594,
+            "maximum_paired_ratio": 2.4525235048408693,
+            "pairs": [
+              {
+                "case": "test28",
+                "compiler_s": 259.53,
+                "nomf_s": 233.449,
+                "compiler_to_nomf": 1.1117203329206806,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test38",
+                "compiler_s": 421.807,
+                "nomf_s": 342.704,
+                "compiler_to_nomf": 1.23082018301508,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test60",
+                "compiler_s": 327.476,
+                "nomf_s": 291.018,
+                "compiler_to_nomf": 1.1252774742455793,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test62",
+                "compiler_s": 581.102,
+                "nomf_s": 370.395,
+                "compiler_to_nomf": 1.5688710700738402,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test70",
+                "compiler_s": 858.989,
+                "nomf_s": 350.247,
+                "compiler_to_nomf": 2.4525235048408693,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test80",
+                "compiler_s": 335.787,
+                "nomf_s": 624.042,
+                "compiler_to_nomf": 0.5380839751170594,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test65",
+                "compiler_s": 325.228,
+                "nomf_s": 369.783,
+                "compiler_to_nomf": 0.8795104155680493,
+                "compiler_kernel_verified": true
+              },
+              {
+                "case": "test85",
+                "compiler_s": 325.6,
+                "nomf_s": 442.289,
+                "compiler_to_nomf": 0.736170241629342,
+                "compiler_kernel_verified": true
+              }
+            ],
+            "source": "audit/compiler-agent/C9-summary.json"
+          }
+        ],
+        "post_first_complete_verification": {
+          "C6_total_s": 974.259,
+          "C6_median_s": 147.239,
+          "C7_total_s": 490.456,
+          "C7_median_s": 83.21,
+          "C8_total_s": 487.852,
+          "C8_median_s": 81.425
+        },
+        "common_Agent_settings": {
+          "model": "gpt-6.1-sol",
+          "thinking": "high",
+          "tools": "eval,read",
+          "deadline": "30m",
+          "hard_timeout_s": 2280,
+          "jobs": 3
+        }
+      },
+      "primary_local_sources": [
+        "audit/compiler-agent/C5-summary.json",
+        "audit/compiler-agent/C6-summary.json",
+        "audit/compiler-agent/C7-summary.json",
+        "audit/compiler-agent/C8-summary.json",
+        "audit/compiler-agent/C9-summary.json",
+        "audit/compiler-agent/C6-phase-diagnostics.json",
+        "audit/compiler-agent/C7-test16-phase.json",
+        "audit/compiler-agent/C8-test16-phase.json",
+        "audit/compiler-agent/C7-prompt-controls.json",
+        "audit/compiler-agent/C8-prompt-controls.json"
+      ],
+      "reproduction": {
+        "commands": [
+          "python3 -c \"import json; x=json.load(open(\"audit/paper/compiler-positive-evidence.json\")); print(json.dumps(next(c[\"metrics\"] for c in x[\"claims\"] if c[\"id\"]==\"C06\"),indent=2))\""
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "These are sums of Agent wall times, not parallel batch makespan. The median paired ratio differs from the ratio of total wall times.",
+        "Final targets, LP relations and mathematical choices differ across rounds, including test9/16/88/58/51. No controlled causal prompt/API speedup or equal-quality conclusion follows.",
+        "C6 solver quality remains unmeasured. C7 test16 repeats a 200.008 s self-authored repeated-set diagnostic despite the frozen API guide already advising set reuse.",
+        "No cross-round selection of fastest individual cases is presented as one method. Full rounds include losses such as C9 test70 858.989 s versus 350.247 s."
+      ]
+    },
+    {
+      "id": "C07",
+      "title": "Author-selected zero and alias helpers preserve a complete large proof",
+      "paper_statement": "Replacing the supplied zero/fixed/alias derivation with zero_sum and batched rewrite_many preserves every checked exact equation and scope, all maps and four MI/LP inverse claims on the original committed test16 model.",
+      "evidence_class": "provided-witness regression plus one serial timing sample per arm",
+      "version_and_date": {
+        "checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+        "date": "2026-10-15"
+      },
+      "metrics": {
+        "source_variables": 228350,
+        "target_variables": 178164,
+        "target_rows": 79835,
+        "supplied_zero_steps": 25842,
+        "zero_coordinates": 29502,
+        "aliases": 20683,
+        "exact_EQs_checked_per_forward_scope": 50186,
+        "full_directional_claims": 4,
+        "observations_per_claim": 178164,
+        "native_obligations_each_arm": 3118120,
+        "zero_fixed_alias_derivation_s": {
+          "baseline": 12.382170832977863,
+          "helpers": 4.613507833011681
+        },
+        "total_measured_s": {
+          "baseline": 147.7342204169836,
+          "helpers": 139.44365570798982
+        },
+        "serialization_compile_binding_s": {
+          "baseline": 41.6365185000177,
+          "helpers": 45.299733166990336
+        },
+        "canonical_source_target_Request_committed_MPS_byte_equal": true,
+        "helper_RPX_identical_to_baseline": false
+      },
+      "primary_local_sources": [
+        "python/kernel_compiler/proof.py",
+        "python/tests/test_zero_sum.py",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/baseline-result.json",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/helpers-result.json",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/benchmark.py",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/original_author_forward.py",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/README.md"
+      ],
+      "reproduction": {
+        "commands": [
+          "PYTHONPATH=<frozen-5c42197-package>/python python audit/compiler-performance/C8-test16-provided-witness-20261015/benchmark.py --arm baseline",
+          "PYTHONPATH=<frozen-5c42197-package>/python python audit/compiler-performance/C8-test16-provided-witness-20261015/benchmark.py --arm helpers"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "The driver has retained fixed output/evidence paths; copy the benchmark/work inputs to a separate reproduction workspace and redirect its output constants before running, never rerun over original records.",
+        "This is the same author-supplied witness, not a fresh Agent discovery, solver result or generalization trial.",
+        "Only one baseline-first serial sample per arm is available on a shared host; a stable speedup or isolated cause is not established. Serialization/binding is slower in the helper sample.",
+        "The helper intentionally changes proof steps and work counts; exact equation/scope, complete Request, maps, committed artifact and native validity are the preserved quantities."
+      ]
+    },
+    {
+      "id": "C08",
+      "title": "Streaming leaf encoding preserves the entire delivered proof byte for byte",
+      "paper_statement": "A leaf-wise JSON encoder serializes the same complete supplied proof without whole-container duplication: all six source/target/Certificate/Request/RPX/committed-model artifacts and all native statistics match the old helper arm exactly.",
+      "evidence_class": "exact-byte provided-witness regression plus one serial timing sample",
+      "version_and_date": {
+        "old_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+        "new_checkpoint": "539c146425e0054fa1127968b72276df4073de8d",
+        "date": "2026-10-15"
+      },
+      "metrics": {
+        "byte_identical_artifact_roles": [
+          "source",
+          "target",
+          "request",
+          "proof",
+          "committed_model",
+          "certificate"
+        ],
+        "Certificate_JSON_bytes": 149703351,
+        "RPX_bytes": 98008826,
+        "directional_claims": 4,
+        "observations_per_claim": 178164,
+        "native_obligations": 3118120,
+        "native_statistics_identical": true,
+        "serialization_compile_binding_s": {
+          "old_helpers": 45.299733166990336,
+          "leaf_encoder": 17.498844750021817
+        },
+        "total_measured_s": {
+          "old_helpers": 139.44365570798982,
+          "leaf_encoder": 99.93025858400506
+        }
+      },
+      "primary_local_sources": [
+        "python/kernel_compiler/session.py",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-summary.json",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-result.json",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder_benchmark.py",
+        "audit/compiler-performance/C8-test16-provided-witness-20261015/ENCODER-RESULTS.md"
+      ],
+      "reproduction": {
+        "commands": [
+          "PYTHONPATH=/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/python /Users/bhz/miniforge3/envs/bigdata/bin/python -u audit/compiler-performance/C8-test16-provided-witness-20261015/encoder_benchmark.py --package /Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015 --checkpoint 539c146425e0054fa1127968b72276df4073de8d --output <new-unique-encoder-directory>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "This is one old-helper sample followed by one new-encoder sample, not a stable repeated benchmark or fresh Agent acceptance.",
+        "Non-serialization phases also vary; the full 39.513 s observed total difference is not attributed wholly to encoding.",
+        "The serialization interval includes exact committed MPS readback/binding and native compile. RSS is informational and is not an acceptance condition."
+      ]
+    },
+    {
+      "id": "C09",
+      "title": "Sparse subset elaboration replaces handwritten proof sharing without changing the proof",
+      "paper_statement": "subset_bounds mechanically reuses one author-selected packing premise and author-selected subsets. On the complete supplied test70 proof it replaces the manually constructed sparse/dyadic proof DAG while generating byte-identical Certificate and RPX, with every map and native statistic preserved.",
+      "evidence_class": "complete given-witness exact-expression/scope/byte regression; no runtime-speed claim",
+      "version_and_date": {
+        "checkpoint": "8ebcc97673f752a5be549ade0d6b25c02109929c",
+        "date": "2026-10-15",
+        "compact_record_commit": "566c9d572fac39a54cfde2aa93a4d9004af392bc"
+      },
+      "metrics": {
+        "exact_subset_facts_checked": 6887,
+        "directional_claims": 3,
+        "observations_per_claim": 45017,
+        "map_dimensions": [
+          46219,
+          48417,
+          48417
+        ],
+        "native_obligations": 522056,
+        "branches": 1679,
+        "Certificate_JSON_bytes": 114694805,
+        "RPX_bytes": 110074809,
+        "all_Certificate_RPX_bytes_and_native_statistics_identical": true,
+        "total_s": {
+          "handwritten": 140.7715883750061,
+          "helper": 144.15752075001365
+        },
+        "subset_elaboration_s": {
+          "handwritten": 22.107202207989758,
+          "helper": 34.17058279199409
+        }
+      },
+      "primary_local_sources": [
+        "python/kernel_compiler/_subsets.py",
+        "python/kernel_compiler/proof.py",
+        "python/tests/test_subset_bounds.py",
+        "audit/compiler-agent/C9-test70-public-proof-cells.py",
+        "audit/compiler-performance/C9-test70-provided-witness-20261015/comparison.json",
+        "audit/compiler-performance/C9-test70-provided-witness-20261015/handwritten-result.json",
+        "audit/compiler-performance/C9-test70-provided-witness-20261015/helper-result.json",
+        "audit/compiler-performance/C9-test70-provided-witness-20261015/benchmark.py",
+        "audit/compiler-performance/C9-test70-provided-witness-20261015/README.md"
+      ],
+      "reproduction": {
+        "commands": [
+          "python audit/compiler-performance/C9-test70-provided-witness-20261015/benchmark.py --arm handwritten --execute --package <retained-8eb-package> --output <new-unique-handwritten-directory>",
+          "python audit/compiler-performance/C9-test70-provided-witness-20261015/benchmark.py --arm helper --execute --package <retained-8eb-package> --output <new-unique-helper-directory>"
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "The helper run also checks against the retained original handwritten result; its fixed reference path must remain available and immutable.",
+        "No cover selection, closure discovery, reformulation discovery or proof search occurs; only the supplied premises and subsets are expanded/shared.",
+        "The helper is slower in this single serial sample. The contribution is reducing author-written DAG plumbing, not a demonstrated runtime or fresh-Agent-time improvement.",
+        "The helper was created after C9 snapshot539 and is not credited as C9 Agent input. Its final fresh C10 use is pending.",
+        "The original C9 639,796,634-byte certificate failed the earlier compile byte limit. This unchanged historical failure is distinct from the new JSON-only budget configuration; no later codec/verify cap was removed."
+      ]
+    },
+    {
+      "id": "C10",
+      "title": "Certified integer/non-affine reformulations can retain measured optimization benefits",
+      "paper_statement": "Selected paired experiments demonstrate that formal proof delivery can coexist with strong integer or non-affine reformulations and favorable measured LP/MIP outcomes. These examples establish feasibility of the approach, while full cohort records retain counterexamples and unresolved exploration gaps.",
+      "evidence_class": "fresh paired-Agent scopes plus separately run bounded solver evaluation",
+      "version_and_date": {
+        "date": "2026-10-15",
+        "rounds": [
+          "C5",
+          "C8",
+          "C9"
+        ],
+        "solver": "HiGHS 1.15.1, fixed serial settings; see per-round raw options"
+      },
+      "metrics": {
+        "C5_test88": {
+          "contract": "MI forward NonIncreasing and reverse Equal, 176 observations",
+          "LP_source": 27,
+          "LP_compiler": 227,
+          "LP_nomf": 27,
+          "MIP_samples_each": 1,
+          "compiler_status": "Optimal",
+          "compiler_objective": 230,
+          "compiler_s": 14.509023,
+          "source_and_nomf_status": "120 s time limit"
+        },
+        "C8_test51": {
+          "contract": "MI Equal inverse pair and reverse LP Equal; points=0",
+          "additional_convex_pair_binary_fixings": 22,
+          "compiler_target_variables": 137,
+          "nomf_target_variables": 161,
+          "MIP_samples_each": 3,
+          "MIP_objective_all": -3,
+          "compiler_MIP_median_s": 0.452504,
+          "nomf_MIP_median_s": 0.707976,
+          "compiler_LP": -3.9755418241,
+          "nomf_LP": -4.9592575252
+        },
+        "C9_test38": {
+          "contract": "MI Equal inverse pair and reverse LP Equal",
+          "MIP_samples_each": 1,
+          "compiler_status": "Optimal",
+          "nomf_status": "Optimal",
+          "MIP_objective_compiler_nomf": 204.081749241,
+          "compiler_MIP_s": 53.688467,
+          "nomf_MIP_s": 62.735951,
+          "compiler_LP": 96.677882487,
+          "nomf_LP": 82.619689331
+        },
+        "mandatory_full_cohort_counterexamples": [
+          "C9 test28 compiler MIP median 13.079011 s versus nomf 13.046314 s; no useful speed advantage.",
+          "C9 test85 compiler LP median 20.396031 s versus nomf 12.941298 s; same constant LP objective does not mean same LP feasible set.",
+          "C9 test70 all three MIP runs time out in presolve with no incumbent; stronger compiler LP bound is not demonstrated MIP efficiency.",
+          "C8 test58 omits the Signed/series candidate used by nomf; faster measured solve does not prove equal exploration ambition.",
+          "C9 test38 leaves 197 reconstruction bounds from a proportional-sharing candidate unproved; box-template failure is not mathematical impossibility."
+        ]
+      },
+      "primary_local_sources": [
+        "audit/compiler-agent/C5-summary.json",
+        "audit/compiler-agent/C5-quality/quality.json",
+        "audit/compiler-agent/C8-test51-phase.json",
+        "audit/compiler-agent/C8-quality-review.json",
+        "audit/compiler-agent/C9-test38-phase.json",
+        "audit/compiler-agent/C9-quality-review.json",
+        "audit/compiler-agent/C9-quality-raw-sha256.json",
+        "tools/evaluate_compiler_quality.py"
+      ],
+      "reproduction": {
+        "commands": [
+          "python3 tools/evaluate_compiler_quality.py --batch /Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015 --cases test28,test38,test60,test62,test70,test80,test65,test85 --label <new-unique-quality-label> --highs <recorded-HiGHS-1.15.1-binary> --time-limit 120 --repeats 3 --repeat-threshold 30",
+          "python3 -c \"import json; x=json.load(open(\"audit/compiler-agent/C9-quality-review.json\")); print(x[\"cases\"][\"test38\"][\"interpretation\"])\""
+        ],
+        "preconditions": "Use a separate checkout/output directory and the pinned source/package/native hashes. Never overwrite retained original runs or audit records. Historical timings require the recorded host/config and are observations, not guaranteed reproduction times."
+      },
+      "claim_boundaries": [
+        "These are selected positive examples, not an unbiased overall quality advantage. Refer to all complete per-round quality records for the full cohort.",
+        "Numerical equality or overlapping solver tolerances do not prove correctness; native proofs and whole-artifact binding are independent evidence.",
+        "Sample counts follow each evaluator policy: repeated solves only for bounded fast cases, not selective repetition of a preferred timeout result.",
+        "Smaller dimensions are not automatically higher quality, nor evidence that proof requirements did not bias mathematical exploration. Remaining expressiveness/convenience gaps are retained.",
+        "No all-cases near-nomf quality/time acceptance or unseen-case generalization claim is supported; acceptance_complete remains false."
+      ]
+    }
+  ],
+  "file_catalog": {
+    "crates/core/src/compiler.rs": {
+      "path": "/Users/bhz/Code/kernel/crates/core/src/compiler.rs",
+      "bytes": 9371,
+      "sha256": "7b0cdb6de76767af2417cd963da684d8918639ab0b628ec9a6177335953dd2c0"
+    },
+    "python/kernel_compiler/session.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/session.py",
+      "bytes": 36065,
+      "sha256": "29cd10469567040cf41315088f42c0bc07779c6c2555bbe607a787f2c8e9e611"
+    },
+    "audit/compiler-replay/summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/summary.json",
+      "bytes": 1371,
+      "sha256": "a654112c076a560a327632b2ce0c8f4f8c0392e1a59d1b2a5459e61b338b416b"
+    },
+    "audit/compiler-replay/identity.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/identity.json",
+      "bytes": 4788,
+      "sha256": "017d4a64270f087f26a25eff4f685a2c4e25b029dbf2c8f0d9f800a74b66a131"
+    },
+    "audit/compiler-replay/test46-merged.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/test46-merged.json",
+      "bytes": 3037,
+      "sha256": "507a5e92c52c839d10ee14052f84a3a43ddab23d34fad08d6220aad7b2e448d0"
+    },
+    "audit/compiler-replay/README.md": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/README.md",
+      "bytes": 3227,
+      "sha256": "101fac01366fdb94351eb1cae791e5e292d4cca6ba6d27a17f4155d56ce94db4"
+    },
+    "audit/compiler-replay/replay.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/replay.py",
+      "bytes": 8605,
+      "sha256": "ffbdba4b1863546970d1defb7ba325a67ed4bfa7149a58492e06d02dd42d78ce"
+    },
+    "audit/compiler-replay/baseline.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/baseline.py",
+      "bytes": 5140,
+      "sha256": "7c8a510815e8798dd7af6d69d59ae5777b8b1d6ac69d261d0e44d2552a79cb9b"
+    },
+    "audit/compiler-replay/merged.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-replay/merged.py",
+      "bytes": 3270,
+      "sha256": "d68137a04598109439bbd7fed0fd926f8935a24da9b066ae978e9ed01d78c04d"
+    },
+    "docs/COMPILER_API.md": {
+      "path": "/Users/bhz/Code/kernel/docs/COMPILER_API.md",
+      "bytes": 49236,
+      "sha256": "1b388a1b9d83678667f38274b59d70b3d2655d0bbf81c333ef2d5fc1d0a2a869"
+    },
+    "python/kernel_compiler/__init__.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/__init__.py",
+      "bytes": 847,
+      "sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c"
+    },
+    "python/kernel_compiler/model.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/model.py",
+      "bytes": 33862,
+      "sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475"
+    },
+    "python/kernel_compiler/proof.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/proof.py",
+      "bytes": 51754,
+      "sha256": "d6db18508585591d42763ff03cefb8133cd3f956965ab2ce0d09a1c6210baff5"
+    },
+    "python/kernel_compiler/request_summary.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/request_summary.py",
+      "bytes": 5658,
+      "sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982"
+    },
+    "audit/compiler-performance/model-load-stream-20261015/report.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/model-load-stream-20261015/report.json",
+      "bytes": 13786,
+      "sha256": "9205276e96ed2fd49b35768ded991ef4f6fb0fc1791a6f1eef314b11be6071cb"
+    },
+    "audit/compiler-performance/model-load-stream-20261015/README.md": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/model-load-stream-20261015/README.md",
+      "bytes": 2439,
+      "sha256": "c09fe5c304dad2a0f5f4e64072995539d860c9fb305b3995430bb63893395c75"
+    },
+    "audit/compiler-performance/model-load-stream-20261015/benchmark.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/model-load-stream-20261015/benchmark.py",
+      "bytes": 10806,
+      "sha256": "3b60ccdb7743619cb5bb6e5b27c2f183459aba4e9102be4eca47a24e58fde519"
+    },
+    "audit/compiler-performance/C10-preflight-20261015/validation.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C10-preflight-20261015/validation.json",
+      "bytes": 3751,
+      "sha256": "ed2e42323c3cd51a426d79e54b8344ca31a47332cb840eb08a2b4bb283b29f8e"
+    },
+    "python/kernel_compiler/bundle.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/bundle.py",
+      "bytes": 19548,
+      "sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9"
+    },
+    "python/tests/test_scope_handles.py": {
+      "path": "/Users/bhz/Code/kernel/python/tests/test_scope_handles.py",
+      "bytes": 8286,
+      "sha256": "3e2df745fd7eb7e2405610409c19af285202e5d09c63f35a4192194df37cfe5d"
+    },
+    "python/tests/test_chain_bundle.py": {
+      "path": "/Users/bhz/Code/kernel/python/tests/test_chain_bundle.py",
+      "bytes": 25850,
+      "sha256": "96588eae3981278b617235b57aa5096c5599a4c2865dfd88c2fb6411a6baa9e0"
+    },
+    "audit/compiler-agent/C6-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C6-summary.json",
+      "bytes": 56281,
+      "sha256": "db5443cbb67b75502dc2fda8af51eae5de10f7eef3232a52f7b35913b6fb9149"
+    },
+    "audit/compiler-agent/C9-test60-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test60-phase.json",
+      "bytes": 45059,
+      "sha256": "518eb21b819126db4961a97ae350ae81185df9a65949cc5c3e2e7aab9277c773"
+    },
+    "audit/compiler-agent/C9-test62-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test62-phase.json",
+      "bytes": 63332,
+      "sha256": "137160b19462a29e97dcffcf88d25d395470af12f070161e0c2e7862c96c5b4a"
+    },
+    "tools/run_compiler_agents.py": {
+      "path": "/Users/bhz/Code/kernel/tools/run_compiler_agents.py",
+      "bytes": 32806,
+      "sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece"
+    },
+    "tools/verify_staged_agent_delivery.py": {
+      "path": "/Users/bhz/Code/kernel/tools/verify_staged_agent_delivery.py",
+      "bytes": 18108,
+      "sha256": "191c20d664833bb74a00806a87f06e606d7e9a72d496d776c27a13d682233b24"
+    },
+    "tools/tests/test_run_compiler_agents.py": {
+      "path": "/Users/bhz/Code/kernel/tools/tests/test_run_compiler_agents.py",
+      "bytes": 11117,
+      "sha256": "932beb47083d61d87901cad7a34735ca3767c1ea037097a359094b0ce3950de2"
+    },
+    "tools/tests/test_staged_agent_review.py": {
+      "path": "/Users/bhz/Code/kernel/tools/tests/test_staged_agent_review.py",
+      "bytes": 16204,
+      "sha256": "4a35b88705cc4174f48100515478a92f0ba75448093c9acdf8a480514c14f21c"
+    },
+    "audit/compiler-agent/C9-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-summary.json",
+      "bytes": 53463,
+      "sha256": "ff855085b8ea7b1b79e0aedf119e37c57ff136c11dceae379e2fe64306d638c3"
+    },
+    "audit/compiler-agent/C1-C3-input-integrity.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-C3-input-integrity.json",
+      "bytes": 10941,
+      "sha256": "9233b3113d5e66e95244022e597b4ee12b2d23b15011d74a9530a1d3a0d4e744"
+    },
+    "audit/compiler-agent/C4-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C4-summary.json",
+      "bytes": 30814,
+      "sha256": "8455d3eda78ae8cf2a1d0d501cb96b63a4ba17df9e0971c220af5cc9afbaeb55"
+    },
+    "audit/compiler-agent/C1-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C1-summary.json",
+      "bytes": 18304,
+      "sha256": "083fe29be6f1d0b06857473f30a7258bcc3541dc4fbf4c087d1fad08382910e9"
+    },
+    "audit/compiler-agent/C2-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C2-summary.json",
+      "bytes": 18096,
+      "sha256": "74294f6e79c20ff39e77036ac4047c8cf1629635804c2d1b50504fda5d54cf3f"
+    },
+    "audit/compiler-agent/C3-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C3-summary.json",
+      "bytes": 25956,
+      "sha256": "4549a3fed10e709fe2c2e5fa27174e585abafed82a037b61258844960fb0a826"
+    },
+    "audit/compiler-agent/C5-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C5-summary.json",
+      "bytes": 63891,
+      "sha256": "d44716847787f42442c67fa0c065ce27e265ed771b60766ee70181c110890e4f"
+    },
+    "audit/compiler-agent/C7-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C7-summary.json",
+      "bytes": 75160,
+      "sha256": "cc56c20d9bc654905651f5fabb67955ebc5af4cc638745bccd946153bd7116d5"
+    },
+    "audit/compiler-agent/C8-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C8-summary.json",
+      "bytes": 32410,
+      "sha256": "12569e6b48d7e9a0529c6619a0c35d72f3306b39df09339e0caa758616a62d7a"
+    },
+    "audit/compiler-agent/C6-phase-diagnostics.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C6-phase-diagnostics.json",
+      "bytes": 47704,
+      "sha256": "aca5b560d166a26407c03d1f3ab6a916ea0acad437919c366568e96ebcbafbb0"
+    },
+    "audit/compiler-agent/C7-test16-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C7-test16-phase.json",
+      "bytes": 12050,
+      "sha256": "165da5e2d6b2779ea41c49eeabb1953406106e680b8ca7f29e1027e0cdaf1801"
+    },
+    "audit/compiler-agent/C8-test16-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C8-test16-phase.json",
+      "bytes": 25754,
+      "sha256": "c2fd6d498099bfa8b8f1f7c5620439cc91867c80e4fa8966d72e29fc0df4334a"
+    },
+    "audit/compiler-agent/C7-prompt-controls.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C7-prompt-controls.json",
+      "bytes": 6655,
+      "sha256": "c0544d34177651ea86cfddabc86f14e8359da65cd233409b9309d70da30e7b5f"
+    },
+    "audit/compiler-agent/C8-prompt-controls.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C8-prompt-controls.json",
+      "bytes": 10766,
+      "sha256": "d420fc1fd1a062d909650c083cce30e04db01e633e5df1acfef74e6d5ef7b236"
+    },
+    "python/tests/test_zero_sum.py": {
+      "path": "/Users/bhz/Code/kernel/python/tests/test_zero_sum.py",
+      "bytes": 8518,
+      "sha256": "1e06c77a44ba505efdd0bea1dd5cbc028b47af85f64a88b546a8627b4234bc94"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json",
+      "bytes": 8743,
+      "sha256": "85ffc95c6246897dd0be761f798f67b2fba01b64b2d40b172444c42bf190c0a7"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/baseline-result.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/baseline-result.json",
+      "bytes": 10901,
+      "sha256": "1c22c8e303cafadd13706c4881de96a3aa94a5097c06de04abce444400f5f72c"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/helpers-result.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/helpers-result.json",
+      "bytes": 10905,
+      "sha256": "5aac15fb8054a8fdc21f776c3279e7b776eb28abdbadc280feef6bf75af7ae18"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/benchmark.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/benchmark.py",
+      "bytes": 14065,
+      "sha256": "0660da64c4262a346b4c4a8362d42c8cbaf0f76f32ef9071c85413d5b0bc1cbb"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/original_author_forward.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/original_author_forward.py",
+      "bytes": 1573,
+      "sha256": "9cb60ab02b2e1148cc83246729aaf0aa355879003626cacbbcb52059fa84707b"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/README.md": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/README.md",
+      "bytes": 3172,
+      "sha256": "6831be096b6ba628291a30710a0a3f5217f3fcf3d81d7173d586bca24b614861"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-summary.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-summary.json",
+      "bytes": 9818,
+      "sha256": "7b3a7b8bfecb66ddb257ce6b062d823ed5b512a71787af29cf6de112ae424004"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-result.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-result.json",
+      "bytes": 12878,
+      "sha256": "b3fcd624ef92d326b093ad3ca27738eabaff3932ae55674f74ac49b29d382dd7"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/encoder_benchmark.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/encoder_benchmark.py",
+      "bytes": 16896,
+      "sha256": "3ea0eb83991301db52152843c803ab56ac21a3fcef3ffc4c6a74fe7ac90ed874"
+    },
+    "audit/compiler-performance/C8-test16-provided-witness-20261015/ENCODER-RESULTS.md": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C8-test16-provided-witness-20261015/ENCODER-RESULTS.md",
+      "bytes": 1372,
+      "sha256": "ee55e282c161e955c9e05bf7037d64c021e095e848ac0e908898a4f6c783dd60"
+    },
+    "python/kernel_compiler/_subsets.py": {
+      "path": "/Users/bhz/Code/kernel/python/kernel_compiler/_subsets.py",
+      "bytes": 4810,
+      "sha256": "9015a59c8e453428a2d8ae546966a3bad9da9fbd78aaa392cdc17f8492656170"
+    },
+    "python/tests/test_subset_bounds.py": {
+      "path": "/Users/bhz/Code/kernel/python/tests/test_subset_bounds.py",
+      "bytes": 10431,
+      "sha256": "7d9b7fbd612aa946bd3f39a518d1aff6f4974f89b187288cb2147dd7d8af2299"
+    },
+    "audit/compiler-agent/C9-test70-public-proof-cells.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test70-public-proof-cells.py",
+      "bytes": 11913,
+      "sha256": "e69f9c47d6577b654f2955b5ad6b8549f5810e9b31f033e6424c1deab9371482"
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/comparison.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C9-test70-provided-witness-20261015/comparison.json",
+      "bytes": 5087,
+      "sha256": "f03ed28f0ed3872e2966e26e3a88b4a96ee2c6c659d151d31d3430af62f85bdd"
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/handwritten-result.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C9-test70-provided-witness-20261015/handwritten-result.json",
+      "bytes": 9050,
+      "sha256": "0023f58efcd56e8fc591c4e8337b9478c1888a41def833df2cc080f7f3f5f67c"
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/helper-result.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C9-test70-provided-witness-20261015/helper-result.json",
+      "bytes": 9018,
+      "sha256": "e939ffeab0e6ebbbaef0fcc572b9a22626fd8d7285704df7506623d2c3e3e9e7"
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/benchmark.py": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C9-test70-provided-witness-20261015/benchmark.py",
+      "bytes": 23443,
+      "sha256": "6b3c61bf3bb4d2a0e8779b448d414cad08b594fb5c312f44260b3c2a73667bac"
+    },
+    "audit/compiler-performance/C9-test70-provided-witness-20261015/README.md": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-performance/C9-test70-provided-witness-20261015/README.md",
+      "bytes": 6872,
+      "sha256": "1655589bfe97732dd7e05623af71684fdfa7bc96d6bbe383e6636bcaf99e7487"
+    },
+    "audit/compiler-agent/C5-quality/quality.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C5-quality/quality.json",
+      "bytes": 126423,
+      "sha256": "7702550d0c953b014a1b03369ba64940fd6b466ceda4828816b98aedfc69ed20"
+    },
+    "audit/compiler-agent/C8-test51-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C8-test51-phase.json",
+      "bytes": 10129,
+      "sha256": "ac1dd557366c947ff3f521c2ce353abc0c683f94da7de9abe8feacbe8299a5a8"
+    },
+    "audit/compiler-agent/C8-quality-review.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C8-quality-review.json",
+      "bytes": 71493,
+      "sha256": "8e3d01ed8c357900e1ea09a3c9e34b1ead7ab9c715cc1fb48237e76fc83fe677"
+    },
+    "audit/compiler-agent/C9-test38-phase.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test38-phase.json",
+      "bytes": 41770,
+      "sha256": "fba9ea06139960006e97b2af3af264bdd66f98c3b9853b1ab2c89890a9851854"
+    },
+    "audit/compiler-agent/C9-quality-review.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality-review.json",
+      "bytes": 160186,
+      "sha256": "04c2b25b0dc761dd8bfa549cb5304684474155c2d7d9db1e6abc2af624f8f0c2"
+    },
+    "audit/compiler-agent/C9-quality-raw-sha256.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality-raw-sha256.json",
+      "bytes": 59871,
+      "sha256": "777ff6bf6ecd68f7e8e2c118c027cf2482660270ceaf5eee36ee0dc942bbaab4"
+    },
+    "tools/evaluate_compiler_quality.py": {
+      "path": "/Users/bhz/Code/kernel/tools/evaluate_compiler_quality.py",
+      "bytes": 13627,
+      "sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d"
+    },
+    "audit/compiler-agent/C10-final-round-controls.json": {
+      "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-final-round-controls.json",
+      "bytes": 4184,
+      "sha256": "2312456bb32c713ecc058bae41d7536898cf5834f69b1050849c8f43df12b877"
+    }
+  }
+}

@@ -1,0 +1,872 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-short-v1",
+  "round": "C10",
+  "case": "test70",
+  "status": "COMPLETED_PAIR_STATIC_REVIEW_QUALITY_PENDING",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C10-20261015",
+  "batch_metadata_sha256": "a4dd3209081d5189a1a7e27a36c656a617fe1d4f95df13425e9cb8c50b217a1d",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "harness_launch_checkpoint": "67d74462317c6a4b558ff0ad4a2516aa152ad8d3",
+  "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "method": "Read only formally completed test70 Compiler and nomf public tool calls/results, final reports, complete actual Request, receipts and trusted assessment metadata. No private reasoning, live other-case mathematics, native/model normalization, solver, test, replay, benchmark or new Agent. Certificate top-level claims and terminal Return arrays are decoded selectively with mmap; its proof-step tree and large models are not parsed. Large artifact digests are reported from the independent completed assessment/receipt rather than rehashed here. Memory is not a gate.",
+  "arms": {
+    "compiler": {
+      "run": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015",
+      "wall_s": 547.476,
+      "exit_code": 0,
+      "timed_out": false,
+      "assessment_errors": [],
+      "source_shape": {
+        "variables": 48417,
+        "rows": 2187,
+        "integers": 48417,
+        "nonzeros": 1995817,
+        "objective_nonzeros": 47217
+      },
+      "target_shape": {
+        "variables": 48096,
+        "rows": 2166,
+        "integers": 48096,
+        "nonzeros": 1969142,
+        "objective_nonzeros": 46901
+      },
+      "kernel_verified": true,
+      "kernel_verification_required": true,
+      "source_anchor": {
+        "trusted_launch_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "assessment_actual_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "assessment_expected_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "execution_expected_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "all_equal": true,
+        "boundary": "This review relies on the completed independent hash check; it does not reread the 2-million-line input."
+      },
+      "committed_model_sha256": "3657b9d7ec925e7034b16584ef4674ec19d9785d5aae0647e63578a52c9ba1f0",
+      "metrics": {
+        "llm_calls": 24,
+        "tool_calls": 23,
+        "tool_calls_failed": 0,
+        "turns": 24,
+        "tokens_in": 53947,
+        "tokens_out": 14732,
+        "tokens_cache_read": 463104,
+        "tokens_cache_write": 0,
+        "tokens_total": 531783,
+        "cost_usd": 0.302,
+        "llm_time_s": 430.446,
+        "llm_ttft_s": 89.645,
+        "tool_time_s": 114.627,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 437.436,
+      "first_check_authority": "Actual proof.verify returned VERIFIED/MATCHED; independent harness also accepted the final source/proof/committed model after agent exit.",
+      "post_check_remaining_s": 110.04,
+      "public_eval_cells": [
+        {
+          "seconds": 25.265,
+          "title": "Loading exact original model",
+          "duration_ms": 5228,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6b875d3842c739591b2bb83de4550bf099112a5c008a6c46e3e5ccf0f31f2d7a"
+        },
+        {
+          "seconds": 37.958,
+          "title": "Summarizing exact formulation structure",
+          "duration_ms": 597,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6904230074dbc4b55f1ecc378a6017425a066d647ca9037b4ce3b1d8743406a9"
+        },
+        {
+          "seconds": 55.144,
+          "title": "Testing gate and partition structure",
+          "duration_ms": 726,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "42cb681a1a3800d5b0ed3fcedc2248a87cd1ee7176a431e7e87883b1d8b29226"
+        },
+        {
+          "seconds": 64.592,
+          "title": "Inspecting forcing constraints",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "7efc18b022c2a466aa3a51cfb13f8e8a852b8b87e77f50700257590e64862ae3"
+        },
+        {
+          "seconds": 100.392,
+          "title": "Constructing exhaustive gate-bound witnesses",
+          "duration_ms": 2252,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "06afb1fcbdc5872e8649135814635844105a73cb50670442fc5b7fee0800987c"
+        },
+        {
+          "seconds": 118.759,
+          "title": "Testing forced gates and interchangeable columns",
+          "duration_ms": 650,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "225d7423e1b2e34d520f89e5165fc50e81797fbc23f0a02c40d84ecf429ff44d"
+        },
+        {
+          "seconds": 128.699,
+          "title": "Bounding alternative simplification candidates",
+          "duration_ms": 70,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6a1a5850c4a8361dad3685e23aa323cc767d77ed15e30a93c873769176a2a69f"
+        },
+        {
+          "seconds": 166.898,
+          "title": "Checking fixed-variable scope and objective signs",
+          "duration_ms": 11,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "64b5b0c007a13cd1bb198485996874c9aee418abba7a6c45b4f14c2e01cba3e6"
+        },
+        {
+          "seconds": 195.723,
+          "title": "Refining covers with all unit packings",
+          "duration_ms": 2497,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9126b70fef605bba6aeb7f572c22a04f3009cffa041293c74c4d33cd6c571d56"
+        },
+        {
+          "seconds": 208.406,
+          "title": "Checking conditional cover refinements",
+          "duration_ms": 243,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "894b78dd7bdfb73ee2ffa38e5cf8898d021e17243772f2494207a2d966f95ee4"
+        },
+        {
+          "seconds": 217.397,
+          "title": "Completing forced-gate witness scope",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "0837f85baab9a0805f4c99ef8f6a2e8ed3641c18b36c7f9fd5eb6eb07c31af93"
+        },
+        {
+          "seconds": 259.556,
+          "title": "Validating source representation and constructing edit plan",
+          "duration_ms": 473,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "39f5b13cf95baedda5bb49885c3614a12c3f72d75d15964c815bb20d5df40680"
+        },
+        {
+          "seconds": 300.358,
+          "title": "Building the intended final formulation",
+          "duration_ms": 6821,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "514603a2b7a1b42df6fd5879cf7e992746268bcd9db411956166f9cb04cae845"
+        },
+        {
+          "seconds": 315.976,
+          "title": "Authoring correspondence and fixed-value certificates",
+          "duration_ms": 1390,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "457160ca21f5edba0df7a38c7017b0ece3c2b24b82686145c1a26687471550c8"
+        },
+        {
+          "seconds": 394.515,
+          "title": "Certifying every strengthened gate and forward map",
+          "duration_ms": 64366,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "bc12682b5becd013532346dbccc3dcf7a7201202fa1741a14d2df59961cad077"
+        },
+        {
+          "seconds": 437.436,
+          "title": "Checking reconstruction and committed MPS artifact",
+          "duration_ms": 28904,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "8027829c25dad974a006766fe2411b528176fbfd3b07f9ca4eeed3881a02a93d"
+        },
+        {
+          "seconds": 535.883,
+          "title": "Writing final mathematical report and audit",
+          "duration_ms": 306,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "8b8c47a423b12083113ae99d5bd878e518a7ee011ac0289f18d3ae93253b4d11"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 4.003,
+          "i": "Inspecting workspace contents",
+          "path": "."
+        },
+        {
+          "seconds": 15.058,
+          "i": "Reading proof authoring API",
+          "path": "compiler/API.md:1-220"
+        },
+        {
+          "seconds": 29.894,
+          "i": "Inspecting MPS header",
+          "path": "input/model.mps:1-28"
+        },
+        {
+          "seconds": 80.044,
+          "i": "Reading implication proof builders",
+          "path": "compiler/API.md:225-520"
+        },
+        {
+          "seconds": 149.245,
+          "i": "Reading case and chain contracts",
+          "path": "compiler/API.md:515-590,735-862"
+        },
+        {
+          "seconds": 455.036,
+          "i": "Listing verified delivery artifacts",
+          "path": "output"
+        }
+      ],
+      "public_eval_duration_sum_s": 114.544,
+      "provenance_sha256": {
+        "execution.json": "d30096f02f7d3bd86fa2bf2391004df9345ae544f782292d938b6fc0107aeafd",
+        "assessment.json": "b740f009be1b974422ff36c1ff848c26ddf8127d71c3065a8e628e91efa88efd",
+        "session.jsonl": "0a0128f3b661fc901aad9145c2c56dd11e9d19dbfe80a156ba310e116aab17c1",
+        "protocol.md": "7775adb56c0aa03992eb4e810796ecca52141980a4acfa81ca1fb3266d1ca103",
+        "output/report.md": "b31269b2bb0f3c88bc137dc3e9e270e1f4ce5adcd37fffdce92b8554b9e7fd16",
+        "output/verification.json": "5eaa4addb2463f0ab6788828da7d50cb5cedf524dac87164777bef83dd38b2f7",
+        "workspace-manifest.json": "5f8533698e40b7eabafdccd00621abbfc3dcc1e9778f74c067f7d76e9072142b",
+        "output/delivery.json": "286df326f68832ebc228a392cac5aedb6d5bd35d044693a34e02a329b980e534",
+        "output/request.json": "b5a0b641973a502eef68c6fdbbbc173b8bbaf0806cdaf72a3abc19f66ad251a8",
+        "output/analysis.json": "f4af89668c1d037d635435f91443ecd1ec525527b7174197a9b54b6ed0b73a0d",
+        "output/edits.json": "5beeffd0a96729b1deab0e850a890e9c501c3826fbd0b7cd0375608eb80afa44"
+      },
+      "receipt_status": "VERIFIED",
+      "native_total_s": 2.962779,
+      "native_execute_s": 2.313096,
+      "native_statistics": {
+        "bijections": 0,
+        "branches": 1957,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 20518927,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 390086,
+        "peak_live_facts": 46440,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 4058737,
+        "work": 73187477
+      },
+      "actual_Request": {
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "index": 0,
+            "observations": 48096,
+            "affine_observations": 0,
+            "observation_sha256": "d27fc28c2690d5426a139a7adc4f17cd03550208c49dbea0898403483c0fcd32",
+            "all_observations_exact_copy_entries": true,
+            "all_retained_target_coordinates_observed": true,
+            "map": {
+              "input_dimension": 48417,
+              "output_dimension": 48096,
+              "expression_count": 48096,
+              "complete": true,
+              "exact_rational_input_indices_checked": true,
+              "map_sha256": "978e933d6a8753cb3332567187893bd4423ae351c1c4ac70628fef64a2e539ae",
+              "constant_histogram": {
+                "0": 48096
+              },
+              "terms_per_expression_histogram": {
+                "1": 48096
+              }
+            },
+            "Return_checks": 194551,
+            "restrictions": "No objective level or halfspace restriction; original/target full mixed-integer domains."
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 1,
+            "observations": 48096,
+            "affine_observations": 0,
+            "observation_sha256": "881139d868a3f40edd8f0050a24836d1015001afeb97e21836181f0d9d479a51",
+            "all_observations_exact_copy_entries": true,
+            "all_retained_target_coordinates_observed": true,
+            "map": {
+              "input_dimension": 48096,
+              "output_dimension": 48417,
+              "expression_count": 48417,
+              "complete": true,
+              "exact_rational_input_indices_checked": true,
+              "map_sha256": "59ef425adb68335f78b7a29c872f3cc867c3a08e6aec3d4fafad8197dadec225",
+              "constant_histogram": {
+                "0": 48397,
+                "1": 20
+              },
+              "terms_per_expression_histogram": {
+                "1": 48096,
+                "0": 321
+              }
+            },
+            "Return_checks": 195535,
+            "restrictions": "No objective level or halfspace restriction; original/target full mixed-integer domains."
+          }
+        ],
+        "points": 0,
+        "improvements": 0,
+        "separate_bijections": 0,
+        "claims_exactly_equal_Certificate_claims": true,
+        "Return_checks_match_native_obligations": true,
+        "all_forward_reverse_observation_pairs_transposed": true
+      },
+      "artifact_binding": {
+        "status": "MATCHED",
+        "method": "Kernel standard-format readback and exact named formulation comparison",
+        "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+        "committed_hash_consistency": true,
+        "source_target_proof_Request_hashes_match_independent_harness_piece": true,
+        "endpoints": {
+          "source": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/source.mcm",
+            "first4_hex": "4d434d00",
+            "actual_reader_family": "kernel_mcm",
+            "sha256_recorded_by_independent_verification": "6700f534955c041dbd4f205f03fc4cda633b8d494479c701367512f9d9a7fe6f"
+          },
+          "target": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/target.mcm",
+            "first4_hex": "4d434d00",
+            "actual_reader_family": "kernel_mcm",
+            "sha256_recorded_by_independent_verification": "bb31219a521fca7c69caddcc4029be4a2bba4573db56fc7642dccf49159013f2"
+          }
+        },
+        "artifact_digests_recorded_by_delivery_and_harness": {
+          "source": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/source.mcm",
+            "sha256": "6700f534955c041dbd4f205f03fc4cda633b8d494479c701367512f9d9a7fe6f"
+          },
+          "target": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/target.mcm",
+            "sha256": "bb31219a521fca7c69caddcc4029be4a2bba4573db56fc7642dccf49159013f2"
+          },
+          "proof": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/proof.rpx",
+            "sha256": "de7ca3c0d8d6a4fbaaf0df204d2e005ad94be3bdf29c31e5f423e740b42cd988"
+          },
+          "request": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/request.json",
+            "sha256": "b5a0b641973a502eef68c6fdbbbc173b8bbaf0806cdaf72a3abc19f66ad251a8"
+          },
+          "committed_model": {
+            "path": "/Users/bhz/Code/reform_test/runs/test70-compiler-compiler-batch-C10-20261015/output/reformulated.mps",
+            "sha256": "3657b9d7ec925e7034b16584ef4674ec19d9785d5aae0647e63578a52c9ba1f0"
+          }
+        }
+      },
+      "JSON_budget": {
+        "manifest_compile_limits": {
+          "certificate_json_bytes": 1073741824
+        },
+        "certificate_JSON_bytes": 93524849,
+        "explicit_Kernel_compile_json_bytes_call_observed": false,
+        "resource_failure_observed": false,
+        "boundary": "Native default effective 1 GiB is recorded, but this 93,524,849 B certificate is also below the prior 512 MiB admission cap. This run does not exercise the larger-budget requirement."
+      }
+    },
+    "nomf": {
+      "run": "/Users/bhz/Code/reform_test/runs/test70-nomf-compiler-batch-C10-20261015",
+      "wall_s": 647.851,
+      "exit_code": 0,
+      "timed_out": false,
+      "assessment_errors": [],
+      "source_shape": {
+        "variables": 48417,
+        "rows": 2187,
+        "integers": 48417,
+        "nonzeros": 1995817,
+        "objective_nonzeros": 47217
+      },
+      "target_shape": {
+        "variables": 44943,
+        "rows": 1886,
+        "integers": 44943,
+        "nonzeros": 1512999,
+        "objective_nonzeros": 44041
+      },
+      "kernel_verified": false,
+      "kernel_verification_required": false,
+      "source_anchor": {
+        "trusted_launch_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "assessment_actual_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "assessment_expected_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "execution_expected_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "all_equal": true,
+        "boundary": "This review relies on the completed independent hash check; it does not reread the 2-million-line input."
+      },
+      "committed_model_sha256": "746932e2f944e448132d39ef31f87d7a59ec2e259597579abcbdda5267a611e2",
+      "metrics": {
+        "llm_calls": 23,
+        "tool_calls": 22,
+        "tool_calls_failed": 1,
+        "turns": 23,
+        "tokens_in": 46104,
+        "tokens_out": 24361,
+        "tokens_cache_read": 329088,
+        "tokens_cache_write": 0,
+        "tokens_total": 399553,
+        "cost_usd": 0.369,
+        "llm_time_s": 625.861,
+        "llm_ttft_s": 69.458,
+        "tool_time_s": 19.705,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 496.908,
+      "first_check_authority": "Independent handwritten verifier returned PASS; this is not Kernel certification.",
+      "post_check_remaining_s": 150.943,
+      "public_eval_cells": [
+        {
+          "seconds": 18.854,
+          "title": "Surveying complete MPS sections",
+          "duration_ms": 485,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "4317af68ff517c44e7698b975654016194799fa0508ada8387deaa79e0ca0644"
+        },
+        {
+          "seconds": 46.781,
+          "title": "Parsing exact full formulation",
+          "duration_ms": 11,
+          "status": [
+            "error"
+          ],
+          "exit_codes": [
+            1
+          ],
+          "public_code_sha256": "b3cdfe8ad6215329e440a82e548dc78e0eda778eb291bff13cdcaeae79d3eaab"
+        },
+        {
+          "seconds": 68.863,
+          "title": "Parsing whitespace MPS records",
+          "duration_ms": 1998,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "5e036d48edd647dc364cd1cd172c7b7e1393c3ad6993dc9a88dfb1efb947325e"
+        },
+        {
+          "seconds": 78.502,
+          "title": "Mapping exact row families",
+          "duration_ms": 380,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "33fe29e7aa082ae258baa6773f11804945e9401a7c2ea5372b3e454951333372"
+        },
+        {
+          "seconds": 85.395,
+          "title": "Inspecting candidate linking structure",
+          "duration_ms": 49,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "b5cc6dd6409c142d16728ef802292ec6b704a8a67ec4c63e70464c61b7df41ac"
+        },
+        {
+          "seconds": 100.647,
+          "title": "Testing linking and partition hypotheses",
+          "duration_ms": 278,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "e773991c4270e8d511936bdcb97f1cc6ea2a76c516800a79edd42431263c5522"
+        },
+        {
+          "seconds": 131.285,
+          "title": "Verifying complete candidate scopes",
+          "duration_ms": 1210,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d5e1806a0d25ac67d2cd2c26bdd267e17ea938e15f2694ed074cbc5efbe6358e"
+        },
+        {
+          "seconds": 140.03,
+          "title": "Separating unused and duplicate columns",
+          "duration_ms": 144,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "5ca1137ae17cd107d589007f78fd943ca20e270af5fac8861866d8e051d26497"
+        },
+        {
+          "seconds": 155.642,
+          "title": "Testing column dominance certificates",
+          "duration_ms": 122,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d0b15096186f27c7f170528169ac2daf6276f10ab71a1459cab5382753fdfea0"
+        },
+        {
+          "seconds": 171.383,
+          "title": "Building exact linking-cap certificates",
+          "duration_ms": 1659,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "84b85f11c2c1b5454665593b7b441f2ffebc89a8a82e0d2c381ec7edea75ae0e"
+        },
+        {
+          "seconds": 201.056,
+          "title": "Checking forced variables and gate compatibility",
+          "duration_ms": 2171,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "368d58b09afe72f54d2db47a30424a4942ed6a44f8122292eaa6296150039c27"
+        },
+        {
+          "seconds": 236.784,
+          "title": "Quantifying exact column coalescing",
+          "duration_ms": 1585,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "4f953e60e814156ad35b41157766acdd183235606a43861594ddd4b6f4ce0ca3"
+        },
+        {
+          "seconds": 284.19,
+          "title": "Verifying complete candidate transformation",
+          "duration_ms": 2165,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "e1b87d85e07109e3446488783c85652321146ba97a49fd4161a35bc698eab259"
+        },
+        {
+          "seconds": 344.585,
+          "title": "Bounding conclusions and checking decomposition",
+          "duration_ms": 390,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9b300da56d036f8564b00040cfef0b5e0e02f10517d8f0dbb9b5cd0ee82c3669"
+        },
+        {
+          "seconds": 392.171,
+          "title": "Writing final committed MPS and audit",
+          "duration_ms": 3700,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6ce2913e8a99a210325b65e96021481eb3b8572c5d32c9502182bed24f5631e4"
+        },
+        {
+          "seconds": 496.908,
+          "title": "Executing independent artifact verification",
+          "duration_ms": 2846,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d75803ced2f85001bd310878cb7d064be5ef36d6f1c57fdd65b1c11f74cb0373"
+        },
+        {
+          "seconds": 606.551,
+          "title": "Documenting proofs and final evidence",
+          "duration_ms": 8,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "3c798ebc46d3c35e4f6c4a18655bfe5f0a10bec13fed7a5fd8157ec10af4ce06"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 4.111,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 8.239,
+          "i": "Inspecting MPS opening records",
+          "path": "input/model.mps:1-65"
+        },
+        {
+          "seconds": 11.219,
+          "i": "Inspecting MPS closing records",
+          "path": "input/model.mps:-65"
+        },
+        {
+          "seconds": 25.392,
+          "i": "Inspecting row and marker boundaries",
+          "path": "input/model.mps:2165-2225,2045200-2045245,2045375-2045410"
+        },
+        {
+          "seconds": 50.768,
+          "i": "Rechecking failed numeric field",
+          "path": "input/model.mps:2191-2197"
+        }
+      ],
+      "public_eval_duration_sum_s": 19.201,
+      "provenance_sha256": {
+        "execution.json": "dd51d3ed17b1abd85d9cb0348e5ecdeaf9e0194bb437e074fb1b3dac4fd8e5cb",
+        "assessment.json": "08e15e43140206e0595de9ad3ec2dbdb9b62a4ddfc5d037a8964804239f155cf",
+        "session.jsonl": "53ff6d241aee7c6534f87934ab8ddba149f1d1631f88e4d8157ba029a823d7f8",
+        "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+        "output/report.md": "fcce07def82638601d48c94bf5bf6129e8120ad5d5dd240fec9828c63113e761",
+        "output/verification.json": "cfc6cb9be57a193333c584a8cf6dbf06dee8430dc57eaa58276b223ca6947584",
+        "workspace-manifest.json": "a5a2f5763b58d282fb2e1d647690c09a038a2e9b4fef15df85b856fe89470f3d"
+      },
+      "independent_handwritten_receipt_status": "PASS",
+      "scope_boundary": "Feasibility/optimal-value correspondence with forward objective nonincrease and reverse equality is mathematically argued in the report and handwritten artifact verifier. No native Kernel proof is inferred."
+    }
+  },
+  "helper_use_and_friction": {
+    "subset_bounds_naturally_used": true,
+    "public_call": "facts=f.subset_bounds(packing_facts[ar],Ts)",
+    "supplied_packing_premises": 82,
+    "derived_subset_facts": 7029,
+    "author_reported_subset_derivation_s": 24.79,
+    "case_proof_method": "Author chooses every gate cover and calls f.cases on the binary gate; native elaboration proves 1,957 strengthened gates.",
+    "new_correspondence_default_maps_used": false,
+    "correspondence": "Explicit full forward/reverse maps, projection=\"retained\"; two full MI claims.",
+    "contract_summary_used": true,
+    "API_tool_errors": 0,
+    "native_rejection_or_resource_failure_observed": false,
+    "no_self_authored_subset_DAG_needed": true,
+    "aggregation_candidate": {
+      "public_complete_signature_scan_extras": 1806,
+      "final_report_exact_public_sentence": "Aggregation was not selected: it requires its own reconstruction/fiber contract and is not justified merely by substituting identical binary columns for each other.",
+      "actual_proof_attempt_observed": false,
+      "API_rejection_observed": false,
+      "interpretation": "There is an explicit proof-contract rationale for not selecting the detected aggregation candidate. The public record contains neither a mathematical impossibility proof nor an attempted aggregation certificate/API failure. The explicit contract rationale is direct feedback that proof-authoring convenience affected route selection. It is not a theorem that Kernel/API cannot express aggregation, and forced retreat is not demonstrated."
+    },
+    "private_zero_cost_gate_elimination": "The Compiler final target does not perform the 298-private-gate projection used by nomf; no explicit public certificate rejection for that candidate is recorded."
+  },
+  "mathematical_comparison": {
+    "compiler": "All 1,987 source gates are inspected. Author-selected 175-row packing family improves 1,975 covers; 18 gate rows vanish with 20 proved-one substitutions, leaving 1,957 actual gate coefficient edits, max retained gate M=63. Delete 301 positive-cost isolated coordinates and 21 rows; objective constant 27,480. Preserve all 48,096 retained coordinates with MI forward NonIncreasing/reverse Equal. No LP or inverse theorem.",
+    "nomf": "Delete 298 private zero-cost gates/rows and 301 isolated positive-cost coordinates, substitute x121=x122=1; 2,478 exact-column groups coalesce 2,873 coordinates, including 683 unequal-cost groups with minimum-cost representatives. Strengthen 1,679 retained gates, max M=50. Final 44,943 binary vars/1,886 rows/1,512,999 nnz, objective constant 2,220. Independent handwritten artifact audit PASS, no Kernel proof.",
+    "same_fresh_pair_boundary": "Compiler retains more coordinates and explicitly observes all of them, whereas nomf also drops private auxiliaries and coalesces objective-dominated fibers. Fewer variables alone does not establish solver quality; all bounded solver measurements remain pending.",
+    "C9_comparison": {
+      "record": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test70-phase.json",
+      "record_sha256": "daab66051f5ce33095ba9fb9bbb449252b33b040d44f4c97f32331013d4a3536",
+      "C9_compiler_target": {
+        "variables": 46219,
+        "rows": 1886,
+        "nonzeros": 1556328
+      },
+      "C9_compiler_claims": "MI forward NonIncreasing, MI reverse Equal, reverse LP Equal; 45,017 observations each.",
+      "C9_compiler_wall_s": 858.989,
+      "C10_compiler_wall_s": 547.476,
+      "boundary": "Target, selected eliminations, observation count and claim count differ. The wall decrease is not a same-proof helper/budget speedup estimate."
+    }
+  },
+  "phase_diagnosis": {
+    "compiler_target_ready_s": 300.358,
+    "load_cell_s": 5.228,
+    "author_reported_Model_load_s": 5.09,
+    "target_build_cell_s": 6.821,
+    "explicit_maps_fixed_values_setup_cell_s": 1.39,
+    "forward_authoring_cell_s": 64.366,
+    "forward_cumulative_author_reported_s": {
+      "subset_bounds_done": 24.79,
+      "all_gate_proofs_done": 42.93
+    },
+    "reverse_build_MPS_compile_verify_binding_cell_s": 28.904,
+    "reverse_author_reported_completion_s": 11.14,
+    "serialization_native_binding_split": "No separate compile/serialization/standard-readback timer exists in the public cell. Subtracting rounded 11.14 s from the combined 28.904 s is only a residual including MPS writing and all native/Python overhead, not a measured serialization interval.",
+    "native_receipt_total_s": 2.962779,
+    "first_complete_final_verify_s": 437.436,
+    "post_verify_s": 110.04,
+    "compiler_LLM_s": 430.446,
+    "compiler_tool_s": 114.627,
+    "post_verify_public_activity": "One output-directory read and one 0.306 s final report/audit-writing eval; most remaining interval is model organization/report prose. No repeated proof verification is observed.",
+    "nomf_first_handwritten_PASS_s": 496.908,
+    "nomf_post_PASS_s": 150.943,
+    "paired_wall_ratio": 0.8450646830829929,
+    "boundary": "Public tool timings and receipt phases are distinct from LLM deliberation time. No private reasoning is read, no entire interval is called wasted time, and no larger-RAM/native-speed explanation is inferred."
+  },
+  "bounded_public_code_evidence": [
+    {
+      "title": "Authoring correspondence and fixed-value certificates",
+      "seconds": 315.976,
+      "code_sha256": "457160ca21f5edba0df7a38c7017b0ece3c2b24b82686145c1a26687471550c8",
+      "code": null
+    },
+    {
+      "title": "Certifying every strengthened gate and forward map",
+      "seconds": 394.515,
+      "code_sha256": "bc12682b5becd013532346dbccc3dcf7a7201202fa1741a14d2df59961cad077",
+      "code": "t0=time.time()\nsubset_requests=collections.defaultdict(dict)\nfor ri in changed_gates:\n for ar,T in covers[ri][1]: subset_requests[ar][T]=None\nsubset_facts={}\nfor ar,requests in subset_requests.items():\n Ts=list(requests)\n facts=f.subset_bounds(packing_facts[ar],Ts)\n subset_facts[ar]=dict(zip(Ts,facts))\nprint('subset bounds established',sum(len(x) for x in subset_facts.values()),'packing premises',len(subset_facts),'seconds',round(time.time()-t0,2))\n# Add the disjoint subset bounds to obtain sum(S)<=U, then split only on y.\nfor ri,(y,M,U) in changed_gates.items():\n S=gate_by_row[ri][2]\n _,groups,singles=covers[ri]\n terms=[(subset_facts[ar][T],1) for ar,T in groups]\n terms.extend((f.upper(source.vars[j].name),1) for j in singles)\n bound=f.le(terms,expect=Expr(-U,{j:1 for j in S}))\n goal=Expr(0,{**{j:Fraction(1) for j in S},y:-Fraction(U)})\n old=f.row(source.rows[ri].name)\n result=f.cases(source.var(source.vars[y].name),kind='Le',expect=goal,\n  left=lambda b,assume,old=old,M=M,U=U,goal=goal:b.le([(old,1),(assume,M-U)],expect=goal),\n  right=lambda b,assume,bound=bound,U=U,goal=goal:b.le([(bound,1),(assume,U)],expect=goal))\n f.check('row.upper['+source.rows[ri].name+']',result)\nprint('gate strengthening certified',len(changed_gates),'seconds',round(time.time()-t0,2))\n# Rewritten definition equalities and objective comparison use the proved fixed values.\nf.substitution({source.vars[j].name:fact for j,fact in fix_facts.items()})\nobj_terms=[(f.lower(source.vars[j].name),source.objective.coefficient(j)) for j in isolated]\nobj_terms.extend((fact,-source.objective.coefficient(j)) for j,fact in fix_facts.items() if source.objective.coefficient(j))\nobj_fact=f.le(obj_terms)\nf.check('objective.non_increasing',obj_fact)\nmissing=f.missing()\nprint('forward missing',len(missing),[(g.label,g.kind,g.expression.summary()) for g in missing[:5]])\nf.complete()\nprint('forward completed')"
+    },
+    {
+      "title": "Checking reconstruction and committed MPS artifact",
+      "seconds": 437.436,
+      "code_sha256": "8027829c25dad974a006766fe2411b528176fbfd3b07f9ca4eeed3881a02a93d",
+      "code": null
+    }
+  ]
+}
