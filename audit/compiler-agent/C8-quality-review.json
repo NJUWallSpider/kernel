@@ -1,0 +1,1823 @@
+{
+  "schema": "kernel-compiler-quality-review-v1",
+  "status": "COMPLETE_BOUNDED_QUALITY_REVIEW",
+  "observed_at_utc": "2026-10-15T04:17:15.182336+00:00",
+  "acceptance_complete": false,
+  "scope": "Light read-only review of all six closed C8 quality-case metadata entries, formal summary and completed public-phase records. No models, large Requests, active solver stdout, solver/tests/replay/Agent calls read or executed. Root confirmed the serial quality process exited successfully before final hash binding.",
+  "quality_source": {
+    "path": "audit/compiler-agent/C8-quality/quality.json",
+    "live": false,
+    "final_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
+    "final_hash_status": "BOUND_AFTER_QUALITY_PROCESS_EXIT0",
+    "completed_cases_reviewed": [
+      "test9",
+      "test16",
+      "test88",
+      "test58",
+      "test63",
+      "test51"
+    ],
+    "pending_cases": [],
+    "completion_evidence": "Root confirmed controller session73602 exit0 and all six quality cases closed. Final metadata hash independently matches the supplied final digest."
+  },
+  "formal_source": {
+    "path": "audit/compiler-agent/C8-summary.json",
+    "sha256": "12569e6b48d7e9a0529c6619a0c35d72f3306b39df09339e0caa758616a62d7a",
+    "compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+    "independent_harness_verified_count": 6
+  },
+  "measurement_settings": {
+    "host": "MyMac.local",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "solver_version": "HiGHS version 1.15.1 Githash 252ef77233. Copyright (c) 2026 under MIT licence terms\nIncludes third-party software components, see THIRD_PARTY_NOTICES.md for full details",
+    "solver_sha256": "5c5a742df14b65c846a9e9c5512777c7c9707df504e78b879ff987f7f332c568",
+    "evaluator_sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d",
+    "model_comparison_sha256": "ee3fef847ad78b5e9537b069fed601367ec5f112056a65dd2dacebc84b722ece",
+    "options": {
+      "parallel": "off",
+      "threads": 1,
+      "random_seed": 0,
+      "time_limit": 120.0,
+      "repeats": 3,
+      "repeat_threshold_seconds": 30.0
+    },
+    "solves_serial": true,
+    "feedback_to_agents": false,
+    "host_resource_isolation": "Own timed Agents/tests/benchmarks did not overlap solver quality. This is a shared user host; unrelated interactive OMP was present at final process check and was not controlled or stopped.",
+    "other_interactive_omp_processes_seen_at_end": [
+      {
+        "pid": 79294,
+        "ppid": 832,
+        "executable": "omp"
+      }
+    ],
+    "limit_status_boundary": "HiGHS Time limit reached and exit_code1 are retained as raw solver outcomes. timed_out=false means the outer subprocess completed normally after the solver internal limit; it does not mean an optimum was proved. No timed-out case was selectively repeated only for its faster variants.",
+    "shared_host_boundary": "Own timed Agents/tests/benchmarks did not overlap C8 solver quality according to the controller. This was a shared user host, with an unrelated interactive OMP process present at final check; no global CPU/resource isolation or absence of every OMP process is claimed."
+  },
+  "correctness_boundary": "Native proof acceptance, trusted pristine-source anchoring and whole committed-artifact binding establish correctness of the declared theorem. Solver statuses, similar objective values and overlapping reported numerical ranges are quality evidence only. Optimal means the solver reported termination at its recorded tolerance, not an exact optimum certificate.",
+  "cases": {
+    "test9": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Two stages, 8 directional stage claims. Explicit selected MI and LP paths compose to unrestricted objective NonIncreasing forward/Equal reverse feasibility and optimal-value correspondence with 1309 joint observations. Only stage 1 carries inverse pairs; no original-to-final affine bijection is inferred.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 362.414,
+        "nomf": 440.316
+      },
+      "Agent_time_ratio_compiler_to_nomf": 0.823077,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test9-phase.json",
+        "sha256": "2c2c3073fb4a51bee623112c6fcf4a27099d5976fa221811ffd4d96014460cfb"
+      },
+      "quality_case_payload_sha256": "a9052e4d80147f661497edb6d3458815c3497d895d5003e5a71716f2d5ca0a5a",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+          "shape": {
+            "variables": 2298,
+            "rows": 1026,
+            "integers": 170,
+            "nonzeros": 4496,
+            "objective_nonzeros": 1742
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+          "shape": {
+            "variables": 1309,
+            "rows": 846,
+            "integers": 170,
+            "nonzeros": 3174,
+            "objective_nonzeros": 1309
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C8-20261015/output/reformulated.lp",
+          "sha256": "4b5768e91a920074242fae955747567730b97d61df4ae67baefdfffa1c47df3f",
+          "shape": {
+            "variables": 1463,
+            "rows": 846,
+            "integers": 170,
+            "nonzeros": 3480,
+            "objective_nonzeros": 1463
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 17.990564,
+          "median_solver_seconds": 17.98,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.53406526,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 17.32496,
+              "solver_seconds": 17.32,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53406526,
+              "gap": "0.00988%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 17.990564,
+              "solver_seconds": 17.98,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53406526,
+              "gap": "0.00988%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 20.473205,
+              "solver_seconds": 20.46,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53406526,
+              "gap": "0.00988%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 22.950602,
+          "median_solver_seconds": 22.94,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.53302772,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 21.813982,
+              "solver_seconds": 21.8,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53302772,
+              "gap": "0.00989%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 22.950602,
+              "solver_seconds": 22.94,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53302772,
+              "gap": "0.00989%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 26.529314,
+              "solver_seconds": 26.52,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.53302772,
+              "gap": "0.00989%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 18.090026,
+          "median_solver_seconds": 18.08,
+          "first_primal_objective": 6742.200024,
+          "first_dual_bound": 6741.54726332,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 17.765627,
+              "solver_seconds": 17.75,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.54726332,
+              "gap": "0.00968%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 18.161488,
+              "solver_seconds": 18.15,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.54726332,
+              "gap": "0.00968%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 18.090026,
+              "solver_seconds": 18.08,
+              "primal_objective": 6742.200024,
+              "dual_bound": 6741.54726332,
+              "gap": "0.00968%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.016731,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 6637.1880269,
+          "first_dual_bound": 6637.1880269,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.016731,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.01662,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.017147,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.013229,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 6637.1880269,
+          "first_dual_bound": 6637.1880269,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.013229,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.012696,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.014042,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.015967,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 6637.1880269,
+          "first_dual_bound": 6637.1880269,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.015967,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.015821,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.016154,
+              "solver_seconds": 0.01,
+              "primal_objective": 6637.1880269,
+              "dual_bound": 6637.1880269,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": true,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "matched_mip_objectives": true,
+        "lp_objective_compiler_minus_nomf": 0.0,
+        "lp_objective_compiler_minus_source": 0.0,
+        "mip_median_wall_ratio_compiler_to_nomf": 1.2686881710396656,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Both develop 73 costly-singleton dominance normalizations; compiler additionally removes all 170 origin coordinates via a 2-stage correspondence+affine-inverse chain. Nomf eliminates 763 singleton pivots and retains the rest, plus an objective-offset coordinate. Neither publicly develops a capacity-strengthening candidate.",
+      "quality_review": "All 9 MIP samples report Optimal at 0.01% tolerance, with the same incumbent 6742.200024. Compiler median 22.950602 s is 4.860576 s slower than nomf 18.090026 s (ratio 1.268688). All LP values 6637.1880269 agree. The smaller compiler formulation is not faster in this bounded repeated experiment; this is not a proof failure or a causal prompt result.",
+      "compiler_and_nomf_named_models_identical": false
+    },
+    "test16": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Four unrestricted Equal directional claims: MI inverse pair and LP inverse pair, 178164 retained observations each.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 481.447,
+        "nomf": 510.234
+      },
+      "Agent_time_ratio_compiler_to_nomf": 0.943581,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test16-phase.json",
+        "sha256": "c2fd6d498099bfa8b8f1f7c5620439cc91867c80e4fa8966d72e29fc0df4334a"
+      },
+      "quality_case_payload_sha256": "ba24779e36cc83fd996272c7406e8c6c91a6f33b339d15e729f89ef81b28adbf",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+          "shape": {
+            "variables": 228350,
+            "rows": 126512,
+            "integers": 334,
+            "nonzeros": 463941,
+            "objective_nonzeros": 215696
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee",
+          "shape": {
+            "variables": 178164,
+            "rows": 79835,
+            "integers": 152,
+            "nonzeros": 362582,
+            "objective_nonzeros": 171299
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "bff896df38e3d1173fbf0e7fd9f0216d7a37d3b8e912614b3b9a1932b9306647",
+          "shape": {
+            "variables": 178165,
+            "rows": 79835,
+            "integers": 152,
+            "nonzeros": 362582,
+            "objective_nonzeros": 171300
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 1,
+          "all_optimal": true,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 39.822927,
+          "median_solver_seconds": 39.53,
+          "first_primal_objective": 586813304.481,
+          "first_dual_bound": 586783732.23,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 39.822927,
+              "solver_seconds": 39.53,
+              "primal_objective": 586813304.481,
+              "dual_bound": 586783732.23,
+              "gap": "0.00504%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 1,
+          "all_optimal": true,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 40.603097,
+          "median_solver_seconds": 40.36,
+          "first_primal_objective": 586822994.077,
+          "first_dual_bound": 586784102.175,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 40.603097,
+              "solver_seconds": 40.36,
+              "primal_objective": 586822994.077,
+              "dual_bound": 586784102.175,
+              "gap": "0.00663%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 1,
+          "all_optimal": true,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 42.855186,
+          "median_solver_seconds": 42.61,
+          "first_primal_objective": 586815770.652,
+          "first_dual_bound": 586784083.7,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 42.855186,
+              "solver_seconds": 42.61,
+              "primal_objective": 586815770.652,
+              "dual_bound": 586784083.7,
+              "gap": "0.0054%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 2.450309,
+          "median_solver_seconds": 2.17,
+          "first_primal_objective": 548044802.98,
+          "first_dual_bound": 548044802.98,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.450309,
+              "solver_seconds": 2.17,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.513316,
+              "solver_seconds": 2.23,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.339372,
+              "solver_seconds": 2.06,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 2.409295,
+          "median_solver_seconds": 2.16,
+          "first_primal_objective": 548044802.98,
+          "first_dual_bound": 548044802.98,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.343362,
+              "solver_seconds": 2.09,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 3.034696,
+              "solver_seconds": 2.8,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.409295,
+              "solver_seconds": 2.16,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 2.304311,
+          "median_solver_seconds": 2.11,
+          "first_primal_objective": 548044802.98,
+          "first_dual_bound": 548044802.98,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.466125,
+              "solver_seconds": 2.24,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.275134,
+              "solver_seconds": 2.1,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 2.304311,
+              "solver_seconds": 2.11,
+              "primal_objective": 548044802.98,
+              "dual_bound": 548044802.98,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": true,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "matched_mip_objectives": false,
+        "lp_objective_compiler_minus_nomf": 0.0,
+        "lp_objective_compiler_minus_source": 0.0,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Both develop 29,502 zeros and 20,683 residual aliases. Compiler additionally substitutes the declared fixed-one objective column; nomf retains it and chooses different alias representatives/intersected bounds. Both claim unrestricted MI+LP affine equivalence.",
+      "quality_review": "One MIP sample per variant exceeds the 30 s repeat threshold. Compiler 40.603097 s, nomf 42.855186 s and source 39.822927 s all report Optimal under 0.01% tolerance. Their incumbents differ, so raw matched_mip_objectives=false is retained; the three reported numerical dual/primal intervals overlap. All LP values 548044802.98 agree. Neither close incumbents nor numerical overlap proves equivalence; native proof and complete artifact binding do.",
+      "compiler_and_nomf_named_models_identical": false,
+      "reported_numerical_MIP_interval_overlap": {
+        "intervals": {
+          "source": [
+            "586783732.23",
+            "586813304.481"
+          ],
+          "compiler": [
+            "586784102.175",
+            "586822994.077"
+          ],
+          "nomf": [
+            "586784083.7",
+            "586815770.652"
+          ]
+        },
+        "nonempty_common_intersection": true,
+        "common_intersection": [
+          "586784102.175",
+          "586813304.481"
+        ],
+        "meaning": "Reported numerical dual/primal ranges at the recorded 0.01% MIP tolerance, not exact certified intervals and not a correctness proof."
+      }
+    },
+    "test88": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Three unrestricted Equal directional claims: MI inverse pair plus reverse LP feasible inclusion,384 observations each. No forward LP or exact LP-equivalence claim; Request points=0.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 323.162,
+        "nomf": 341.698
+      },
+      "Agent_time_ratio_compiler_to_nomf": 0.945753,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test88-phase.json",
+        "sha256": "86cd4cceedc94a4b2237df178f56018a6bd368def2491f56327b80302caeb594"
+      },
+      "quality_case_payload_sha256": "a67720529fc1bf20cbf6565c80c781e968cbee2fd20af4cf61eea6dc3f3cb507",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+          "shape": {
+            "variables": 784,
+            "rows": 5998,
+            "integers": 48,
+            "nonzeros": 19376,
+            "objective_nonzeros": 208
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "7bd8066bd7156096ce4d1c7bc10a291ae6bf838ad229b7a67e176d669f77355a",
+          "shape": {
+            "variables": 384,
+            "rows": 2274,
+            "integers": 48,
+            "nonzeros": 11752,
+            "objective_nonzeros": 208
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test88-nomf-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "a5489539ed1a9c6263a05979c4f5aa5c934ff747a1672fe3369b4471876d70ac",
+          "shape": {
+            "variables": 432,
+            "rows": 2298,
+            "integers": 48,
+            "nonzeros": 7648,
+            "objective_nonzeros": 208
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.018275,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 230.0,
+          "first_dual_bound": 27.04,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.018275,
+              "solver_seconds": 120.0,
+              "primal_objective": 230.0,
+              "dual_bound": 27.04,
+              "gap": "88.24%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.014362,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 236.0,
+          "first_dual_bound": 127.0,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.014362,
+              "solver_seconds": 120.0,
+              "primal_objective": 236.0,
+              "dual_bound": 127.0,
+              "gap": "46.19%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.012009,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 236.0,
+          "first_dual_bound": 38.3942105263,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.012009,
+              "solver_seconds": 120.0,
+              "primal_objective": 236.0,
+              "dual_bound": 38.3942105263,
+              "gap": "83.73%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.080906,
+          "median_solver_seconds": 0.07,
+          "first_primal_objective": 27.0,
+          "first_dual_bound": 27.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.078466,
+              "solver_seconds": 0.06,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.084494,
+              "solver_seconds": 0.07,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.080906,
+              "solver_seconds": 0.07,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.017774,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 27.0,
+          "first_dual_bound": 27.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.017774,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.016776,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.017909,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.019033,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 27.0,
+          "first_dual_bound": 27.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.019033,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.018038,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.02012,
+              "solver_seconds": 0.01,
+              "primal_objective": 27.0,
+              "dual_bound": 27.0,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": false,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "lp_objective_compiler_minus_nomf": 0.0,
+        "lp_objective_compiler_minus_source": 0.0,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Both develop integer-forced ternary-product identities. Compiler eliminates all 144 equality-defined coordinates and 256 product aliases; nomf instead coalesces 96 definition copies and 256 product aliases. Compiler retains reverse LP inclusion but no forward LP theorem. Different representatives/substitution and matrix sparsity prevent identical-target or prompt-causality claims.",
+      "quality_review": "One MIP sample each reaches the 120 s solver limit. Source incumbent 230 differs from compiler/nomf 236; compiler dual 127 versus nomf 38.3942105263 and source 27.04. All LP values 27 agree. Compiler has a better dual bound in this single bounded run, while neither target certifies an exact optimum. This dual difference cannot be attributed to the prompt.",
+      "compiler_and_nomf_named_models_identical": false,
+      "source_incumbent_boundary": "Source is 230; only compiler andnomf share 236. All three are time-limited. No exact optimal-value conclusion is drawn from these incumbents."
+    },
+    "test58": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Two unrestricted MI directional claims, forward NonIncreasing and reverse Equal, 1704 observations each. No inverse, LP or point claim.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 310.167,
+        "nomf": 363.99
+      },
+      "Agent_time_ratio_compiler_to_nomf": 0.852131,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test58-phase.json",
+        "sha256": "f5464fe9ea3678c57a53d38c1991e7387e6114c75927ef3a8cee4232d58581bf"
+      },
+      "quality_case_payload_sha256": "f991fa1ae2eceb26fb96a202524e4db71b8067cb0e898d62325cab384e70ee60",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test58-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+          "shape": {
+            "variables": 2500,
+            "rows": 1750,
+            "integers": 1250,
+            "nonzeros": 5000,
+            "objective_nonzeros": 1250
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test58-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "54037a47f12aea64fa4ff212fcb1f600ab91e545138589a6651c7ae06e6dcfa9",
+          "shape": {
+            "variables": 1704,
+            "rows": 1152,
+            "integers": 852,
+            "nonzeros": 3404,
+            "objective_nonzeros": 852
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test58-nomf-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "6b0c6bb637cc3a1d00f835042b28e658da38a8f53e05657d52e62157762ed9cc",
+          "shape": {
+            "variables": 611,
+            "rows": 789,
+            "integers": 305,
+            "nonzeros": 1827,
+            "objective_nonzeros": 306
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 1,
+          "all_optimal": true,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 13.002188,
+          "median_solver_seconds": 12.99,
+          "first_primal_objective": 754.0,
+          "first_dual_bound": 754.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 13.002188,
+              "solver_seconds": 12.99,
+              "primal_objective": 754.0,
+              "dual_bound": 754.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 1,
+          "all_optimal": true,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 9.696697,
+          "median_solver_seconds": 9.69,
+          "first_primal_objective": 754.0,
+          "first_dual_bound": 754.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 9.696697,
+              "solver_seconds": 9.69,
+              "primal_objective": 754.0,
+              "dual_bound": 754.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.012382,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 763.0,
+          "first_dual_bound": 653.0,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.012382,
+              "solver_seconds": 120.0,
+              "primal_objective": 763.0,
+              "dual_bound": 653.0,
+              "gap": "14.42%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.009026,
+          "median_solver_seconds": 0.0,
+          "first_primal_objective": 40.426829268,
+          "first_dual_bound": 40.426829268,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.011993,
+              "solver_seconds": 0.0,
+              "primal_objective": 40.426829268,
+              "dual_bound": 40.426829268,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.00874,
+              "solver_seconds": 0.0,
+              "primal_objective": 40.426829268,
+              "dual_bound": 40.426829268,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.009026,
+              "solver_seconds": 0.0,
+              "primal_objective": 40.426829268,
+              "dual_bound": 40.426829268,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.008026,
+          "median_solver_seconds": 0.0,
+          "first_primal_objective": 237.98780488,
+          "first_dual_bound": 237.98780488,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.008893,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.008026,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.00766,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.008615,
+          "median_solver_seconds": 0.0,
+          "first_primal_objective": 237.98780488,
+          "first_dual_bound": 237.98780488,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.009409,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.008432,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.008615,
+              "solver_seconds": 0.0,
+              "primal_objective": 237.98780488,
+              "dual_bound": 237.98780488,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": false,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "lp_objective_compiler_minus_nomf": 0.0,
+        "lp_objective_compiler_minus_source": 197.560975612,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Compiler applies 199 bridge canonicalizations with explicit integer rounding, retaining directed pairs in the core. Nomf adds non-affine signed antiparallel compression and 121 degree-two zero-balance series contractions. Compiler publicly rejects a simple activation merge using an affine/bijection objection, with no supplied Signed/Menu proof or API rejection. The non-affine exploration gap remains even when the bounded solver outcome favors compiler.",
+      "quality_review": "MIP has one sample per variant because nomf reaches 120 s; the evaluator avoids selectively repeating only fast variants. Compiler reports 0% gap at 754 in 9.696697 s; source reports 0% gap at 754 in 13.002188 s. Nomf ends with incumbent 763/dual 653/gap 14.42% at 120.012382 s. LP compiler/nomf 237.98780488 versus source 40.426829268. Compiler clearly fares better in this bounded solve, but this does not establish unchanged mathematical exploration willingness or uniform superiority of bridge-only formulations.",
+      "compiler_and_nomf_named_models_identical": false
+    },
+    "test63": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Four unrestricted objective-Equal claims establish MI and LP affine inverse pairs, with 1456 original-coordinate observations per direction. All new slack feasibility and both inverse identities are covered.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 196.629,
+        "nomf": 304.128
+      },
+      "Agent_time_ratio_compiler_to_nomf": 0.646534,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test63-phase.json",
+        "sha256": "03e5f9360edda962143eaa58e2aa93d5c79d2ea85cb1e896d972355d0c8b4be8"
+      },
+      "quality_case_payload_sha256": "7db344557a8fcd652e9b8907933749d50530f9d70290157c1c1d300e13514bdd",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test63-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+          "shape": {
+            "variables": 1456,
+            "rows": 111,
+            "integers": 1454,
+            "nonzeros": 23964,
+            "objective_nonzeros": 2
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test63-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "0af985fa480fd217fd114b6ab40c99ecfbf50bdc67275ec4d9518e683a386ef4",
+          "shape": {
+            "variables": 1546,
+            "rows": 111,
+            "integers": 1454,
+            "nonzeros": 4523,
+            "objective_nonzeros": 2
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test63-nomf-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "4272545efdfbb7cc8730a1502d2828c45daa9c39b51ccd549d5d82f91f9a3c18",
+          "shape": {
+            "variables": 1546,
+            "rows": 111,
+            "integers": 1454,
+            "nonzeros": 4524,
+            "objective_nonzeros": 1
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.019011,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 54.0,
+          "first_dual_bound": 52.0,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.019011,
+              "solver_seconds": 120.0,
+              "primal_objective": 54.0,
+              "dual_bound": 52.0,
+              "gap": "3.7%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.024921,
+          "median_solver_seconds": 120.01,
+          "first_primal_objective": 55.999999,
+          "first_dual_bound": 51.59,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.024921,
+              "solver_seconds": 120.01,
+              "primal_objective": 55.999999,
+              "dual_bound": 51.59,
+              "gap": "7.87%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 1,
+          "all_optimal": false,
+          "repeat_policy_eligible": false,
+          "median_wall_seconds": 120.019971,
+          "median_solver_seconds": 120.0,
+          "first_primal_objective": 56.999999,
+          "first_dual_bound": 51.59,
+          "samples": [
+            {
+              "status": "Time limit reached",
+              "wall_seconds": 120.019971,
+              "solver_seconds": 120.0,
+              "primal_objective": 56.999999,
+              "dual_bound": 51.59,
+              "gap": "9.49%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 1
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.03396,
+          "median_solver_seconds": 0.02,
+          "first_primal_objective": 51.59,
+          "first_dual_bound": 51.59,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.035873,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.03396,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.032099,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.027777,
+          "median_solver_seconds": 0.02,
+          "first_primal_objective": 51.59,
+          "first_dual_bound": 51.59,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.028101,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.027777,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.027317,
+              "solver_seconds": 0.02,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.012284,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": 51.59,
+          "first_dual_bound": 51.59,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.01282,
+              "solver_seconds": 0.01,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.012284,
+              "solver_seconds": 0.01,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.012011,
+              "solver_seconds": 0.01,
+              "primal_objective": 51.59,
+              "dual_bound": 51.59,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": false,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "lp_objective_compiler_minus_nomf": 0.0,
+        "lp_objective_compiler_minus_source": 0.0,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Compiler retains fixed-zero x2 and introduces 90 continuous path slacks, keeping the final capacity inequality; nomf removes x2, introduces 91 event slacks, and adds h>=41 from its integer window certificate. Both develop an extended interval representation, but they are not exact named-model or theorem-scope matches. The compiler does not publicly develop the extra window-bound candidate; no API rejection or explicit proof-cost retreat is observed.",
+      "quality_review": "All three variants have one MIP sample reaching the 120 s internal solver limit. Raw incumbents are 54,55.999999 and56.999999 for source/compiler/nomf; dual bounds are 52,51.59 and51.59. These near-integer decimals are preserved as numerical output, not rounded into exact objective claims. Compiler has a better incumbent than nomf in this single sample, while source has the best incumbent and dual. All three LP values are 51.59 across three repetitions. Equal LP optima do not establish equality of the feasible relaxations or make the explicit h>=41 certificate unnecessary in general.",
+      "compiler_and_nomf_named_models_identical": false
+    },
+    "test51": {
+      "quality_status": "COMPLETE_CASE_REVIEW",
+      "formal_kernel_verified": true,
+      "formal_relation": "Three unrestricted objective-Equal claims: MI forward/reverse affine inverse pair and reverse LP inclusion, 137 observations each. No forward LP/LP-equivalence claim; Request points=0 despite a separately manually checked explicit simplex-vertex smoke example.",
+      "whole_artifact_binding_status": "MATCHED",
+      "Agent_time_s": {
+        "compiler": 489.756,
+        "nomf": 336.253
+      },
+      "Agent_time_ratio_compiler_to_nomf": 1.45651,
+      "phase_source": {
+        "path": "audit/compiler-agent/C8-test51-phase.json",
+        "sha256": "ac1dd557366c947ff3f521c2ce353abc0c683f94da7de9abe8feacbe8299a5a8"
+      },
+      "quality_case_payload_sha256": "e1d8925944fd2b120163acb319e76f7bad710150739d4c58bfe231851164b210",
+      "quality_artifact_hashes_match_existing_formal_record": true,
+      "artifact_metadata": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C8-20261015/input/model.mps",
+          "sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+          "shape": {
+            "variables": 2480,
+            "rows": 4926,
+            "integers": 1225,
+            "nonzeros": 18275,
+            "objective_nonzeros": 23
+          }
+        },
+        "compiler": {
+          "path": "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "e7ff08a3a3010fc15e7eb0f32956e08e2826514724d886ef6ef0ad16cbad7519",
+          "shape": {
+            "variables": 137,
+            "rows": 245,
+            "integers": 108,
+            "nonzeros": 1443,
+            "objective_nonzeros": 4
+          }
+        },
+        "nomf": {
+          "path": "/Users/bhz/Code/reform_test/runs/test51-nomf-compiler-batch-C8-20261015/output/reformulated.mps",
+          "sha256": "4959a59142208e885361aa0b994343b688c36cdfc416489687aeb8ae643a8d59",
+          "shape": {
+            "variables": 161,
+            "rows": 292,
+            "integers": 131,
+            "nonzeros": 1783,
+            "objective_nonzeros": 5
+          }
+        }
+      },
+      "mip": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 18.19694,
+          "median_solver_seconds": 18.18,
+          "first_primal_objective": -3.0,
+          "first_dual_bound": -3.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 16.680736,
+              "solver_seconds": 16.67,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 20.464355,
+              "solver_seconds": 20.44,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 18.19694,
+              "solver_seconds": 18.18,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.452504,
+          "median_solver_seconds": 0.45,
+          "first_primal_objective": -3.0,
+          "first_dual_bound": -3.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.452504,
+              "solver_seconds": 0.45,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.441989,
+              "solver_seconds": 0.44,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.507863,
+              "solver_seconds": 0.5,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.707976,
+          "median_solver_seconds": 0.7,
+          "first_primal_objective": -3.0,
+          "first_dual_bound": -3.0,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.639369,
+              "solver_seconds": 0.63,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.707976,
+              "solver_seconds": 0.7,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.809325,
+              "solver_seconds": 0.8,
+              "primal_objective": -3.0,
+              "dual_bound": -3.0,
+              "gap": "0%",
+              "gap_tolerance": "0.01%",
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "lp": {
+        "source": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.024374,
+          "median_solver_seconds": 0.01,
+          "first_primal_objective": -22.824355359,
+          "first_dual_bound": -22.824355359,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.024374,
+              "solver_seconds": 0.01,
+              "primal_objective": -22.824355359,
+              "dual_bound": -22.824355359,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.023092,
+              "solver_seconds": 0.01,
+              "primal_objective": -22.824355359,
+              "dual_bound": -22.824355359,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.06038,
+              "solver_seconds": 0.05,
+              "primal_objective": -22.824355359,
+              "dual_bound": -22.824355359,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "compiler": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.005149,
+          "median_solver_seconds": 0.0,
+          "first_primal_objective": -3.9755418241,
+          "first_dual_bound": -3.9755418241,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.005149,
+              "solver_seconds": 0.0,
+              "primal_objective": -3.9755418241,
+              "dual_bound": -3.9755418241,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.004872,
+              "solver_seconds": 0.0,
+              "primal_objective": -3.9755418241,
+              "dual_bound": -3.9755418241,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.01412,
+              "solver_seconds": 0.0,
+              "primal_objective": -3.9755418241,
+              "dual_bound": -3.9755418241,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        },
+        "nomf": {
+          "sample_count": 3,
+          "all_optimal": true,
+          "repeat_policy_eligible": true,
+          "median_wall_seconds": 0.005604,
+          "median_solver_seconds": 0.0,
+          "first_primal_objective": -4.9592575252,
+          "first_dual_bound": -4.9592575252,
+          "samples": [
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.006318,
+              "solver_seconds": 0.0,
+              "primal_objective": -4.9592575252,
+              "dual_bound": -4.9592575252,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.005376,
+              "solver_seconds": 0.0,
+              "primal_objective": -4.9592575252,
+              "dual_bound": -4.9592575252,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            },
+            {
+              "status": "Optimal",
+              "wall_seconds": 0.005604,
+              "solver_seconds": 0.0,
+              "primal_objective": -4.9592575252,
+              "dual_bound": -4.9592575252,
+              "gap": null,
+              "gap_tolerance": null,
+              "timed_out": false,
+              "exit_code": 0
+            }
+          ]
+        }
+      },
+      "raw_evaluator_comparison": {
+        "mip_optimality_complete": true,
+        "objective_values_are_numerical_quality_evidence_not_correctness_proof": true,
+        "optimal_means_solver_reported_with_recorded_tolerances_not_exact_optimum": true,
+        "matched_mip_objectives": true,
+        "lp_objective_compiler_minus_nomf": 0.9837157011,
+        "lp_objective_compiler_minus_source": 18.8488135349,
+        "mip_median_wall_ratio_compiler_to_nomf": 0.6391516096590845,
+        "scope_note": "LP deltas use raw standard-artifact objective senses; inspect any original MAX model separately. No timed-out incumbent proves equivalence."
+      },
+      "math_scope_comparison": "Compiler adds 22 convex-pair dominance fixings to the coordinatewise family, proves 1116 total zero binaries, handles the special-zero alternative and group t=0, retains four sub-epsilon gap rows, and proves 108 tightened big-M rows by binary cases. Nomf proves 1094 coordinatewise fixings and leaves convex/special-zero opportunities unresolved. This is positive evidence that the proof workflow can retain more involved integer strengthening on this case, not a generalization result.",
+      "quality_review": "MIP has three samples per variant: source median 18.196940 s, compiler 0.452504 s, nomf 0.707976 s; all report incumbent and dual −3 with 0% gap. Compiler is 0.255472 s faster than nomf, with both targets subsecond; ratio 0.639152 is secondary to that small absolute difference. Nomf first sample 0.639369 s is not its final median. LP compiler −3.9755418241 versus nomf −4.9592575252 and source −22.824355359, all three repetitions per variant. For minimization the compiler target has a stronger observed LP objective bound by 0.9837157011 versus nomf, consistent with its extra proved integer reductions/inclusion; this numerical result is not the correctness proof.",
+      "compiler_and_nomf_named_models_identical": false,
+      "absolute_MIP_median_difference_compiler_minus_nomf_s": -0.255472
+    }
+  },
+  "initial_conclusion": "All six C8 compiler artifacts are independently formally verified and whole-artifact bound; bounded solver review is complete. Quality evidence is mixed: 9 is slower than fresh nomf in repeated MIP timings; 16 has comparable single-sample timing with overlapping tolerance ranges; 88 remains time-limited with a stronger compiler dual in one sample; 58 bridge-only compiler solves substantially better than its signed/series control; 63 remains time-limited, with source outperforming both transformed models; 51 has a stronger compiler LP bound and both targets solve below one second. The non-affine exploration gap on 58 and unpursued extra window-bound candidate on 63 remain. No prompt-effect causality, uniformly unchanged ambition/quality, or held-out generalization is established; user acceptance remains false.",
+  "raw_artifact_binding": {
+    "status": "MATCHED_FINAL_MANIFEST",
+    "manifest": "audit/compiler-agent/C8-quality-raw-sha256.json",
+    "manifest_sha256": "b52a1a077abbb7d68f31c51a3586f9372e87f88bdffe4206cc87950885ecd942",
+    "files": 195,
+    "bytes": 718803,
+    "scope": "All 195 selected small measurement files exist and match their declared hashes. Large normalized models and MCM are intentionally excluded; qmetadata binds original input/artifact hashes."
+  },
+  "C6_quality_status": "PENDING; no C6 evaluation added. No old/new-prompt solver-quality causal claim.",
+  "prompt_comparison_boundary": "C8 freezes old231 package/API/native with the combined candidate prompt. Targets and proofs differ from C7, and the three prompt changes are tested jointly. This record does not identify independent causal effects.",
+  "generalization_status": "NOT_ESTABLISHED. Per the user request, the next fresh latest-source acceptance trial must use other previously nomf-tested cases; repeated success on these same six does not establish generalization. The unlaunched same-six plan was cancelled."
+}

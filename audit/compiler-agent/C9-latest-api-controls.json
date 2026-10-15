@@ -1,6 +1,7 @@
 {
   "acceptance_boundary": {
     "formal": "Fresh compiler Agents must independently complete existing Kernel verification and complete source/committed-target binding.",
+    "generalization": "Different case IDs and diverse structures provide fresh transfer evidence; success on a selected subset cannot prove universal generalization.",
     "mathematics": "Do not equate raw rule coverage, VERIFIED status, dimensions or faster elapsed time with natural expression, preserved complex-reformulation willingness or equal quality.",
     "overall_user_goal_acceptance": false,
     "quality_and_time": "Compare actual mathematical scope and independently measured quality with fresh nomf controls; unchanged C8 prompt does not make the API treatment a prompt-only experiment."
@@ -10,9 +11,48 @@
     "Copied 14 generic files exactly matching 5c42197; Python implementation also exactly matches d916c29.",
     "Marked the old d916c29 preparation SUPERSEDED_PRELAUNCH without altering its generic source files.",
     "Recorded generic documentation discoverability evidence only in audit metadata, not Agent inputs.",
-    "Wrote the new static snapshot and refreshed NOT_LAUNCHED controls."
+    "Wrote the new static snapshot and refreshed NOT_LAUNCHED controls.",
+    "Recorded the root-selected eight-case order and full-file input SHA comparisons; reported the test38 mismatch without parsing, replacing or launching it."
   ],
   "actual_git_HEAD_at_package_creation": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "case_plan_revision_history": [
+    {
+      "meaning": "Original same-six-case plan was cancelled before launch; retained in superseded_same_case_plan.",
+      "status": "PRELAUNCH_PLAN_REVISED_BY_USER"
+    }
+  ],
+  "case_selection": {
+    "candidate_record": {
+      "path": "audit/compiler-agent/C9-generalization-candidates.json",
+      "sha256": "77531d3429e8cada0ef20563a597cee38f7def58b0c822c5e7a6d848a9855381"
+    },
+    "candidate_record_is_agent_input": false,
+    "exclude_previously_fresh_compiler_ids": [
+      9,
+      13,
+      16,
+      51,
+      58,
+      63,
+      84,
+      86,
+      88
+    ],
+    "final_case_decision": "ROOT_SELECTED_ALL_EIGHT_KEEP_TEST38_SOURCE_IDENTITY_PENDING_ROOT_REVIEW",
+    "root_decision": "Use all eight candidates in order for Flow/DAG/menu/Boolean/dense/domain/large/zero coverage, not only easy samples.",
+    "selected_cases": [
+      "test28",
+      "test38",
+      "test60",
+      "test62",
+      "test70",
+      "test80",
+      "test65",
+      "test85"
+    ],
+    "source_policy": "Candidates must have an existing real nomf run and available pristine input; historical answers and strategies stay out of Agent inputs.",
+    "status": "ROOT_SELECTED_ALL_EIGHT"
+  },
   "changed_features": [
     {
       "feature": "streaming Model.load",
@@ -31,7 +71,7 @@
       "semantics": "Two unrestricted total directions between the same declared feasible domains, NI forward / Equal reverse, establish equal optimal values without asserting pointwise inverses. Every scoped Return still supplies all output coordinates."
     }
   ],
-  "comparison_round": "C8-20261015",
+  "comparison_round": "C8-20261015 is historical context only; the revised next-round case set will differ.",
   "comparison_with_superseded_prelaunch": [
     {
       "C9_package_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b",
@@ -120,19 +160,21 @@
   ],
   "core_implementation_checkpoint": "d916c298e81e046f0a24355e62b7218b798e8a4b",
   "created_utc": "2026-10-15T03:57:49+00:00",
-  "evaluation_kind": "Latest-API fresh integrated acceptance; not a prompt-only causal experiment",
+  "evaluation_kind": "Latest-API fresh generalization acceptance on different previously nomf-tested cases; not a prompt-only or same-case causal experiment",
   "fixed_controls": {
     "arms": [
       "compiler",
       "nomf"
     ],
     "cases": [
-      "test9",
-      "test16",
-      "test88",
-      "test58",
-      "test63",
-      "test51"
+      "test28",
+      "test38",
+      "test60",
+      "test62",
+      "test70",
+      "test80",
+      "test65",
+      "test85"
     ],
     "compiler_protocol": {
       "bytes": 4022,
@@ -141,23 +183,39 @@
       "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
     },
     "concurrency": 3,
+    "data_input_sha256": {
+      "test28": "ffbabdea65e5c534bf7773051e8ea56626c7503235774bc0495cf94563caf397",
+      "test38": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+      "test60": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2",
+      "test62": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb",
+      "test65": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+      "test70": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+      "test80": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+      "test85": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4"
+    },
     "hard_timeout_s": 2280.0,
     "max_time": "30m",
     "model": "gpt-6.1-sol",
     "native": {
       "actual_binary_recheck": "REQUIRED_AFTER_QUALITY_STOP_BEFORE_LAUNCH",
+      "latest_actual_recheck_by_root": {
+        "at": "2026-10-15T12:15:50+08:00",
+        "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+      },
       "sha256_from_C8_record": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
       "source_metadata": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015/batch.json",
       "source_metadata_sha256": "93c698c67da75d82e313dc12c20b9adc817707a12762e7422889d9f40bfe6998"
     },
     "nomf_protocol": "Use the same existing nomf protocol as C8; no compiler package or API doc supplied to this arm.",
-    "pristine_input_sha256_from_C8_record": {
-      "test16": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
-      "test51": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
-      "test58": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
-      "test63": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
-      "test88": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
-      "test9": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442"
+    "prior_nomf_input_sha256": {
+      "test28": "ffbabdea65e5c534bf7773051e8ea56626c7503235774bc0495cf94563caf397",
+      "test38": "5eb00dd3c6bd06bd3407b37247bc07db68bdfcc7c0547543d06049aa516e0785",
+      "test60": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2",
+      "test62": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb",
+      "test65": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+      "test70": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+      "test80": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+      "test85": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4"
     },
     "thinking": "high",
     "tools": "eval,read"
@@ -166,7 +224,7 @@
     "case_specific_answers_or_proofs": false,
     "generic_material": "Only the prepared generic package/API/FORMAT/test_proof.py and unchanged protocol.",
     "historical_Agent_outputs": false,
-    "inputs": "Original pristine inputs only; recheck all twelve workspace inputs at launch.",
+    "inputs": "Original pristine inputs only; recheck both arms of every selected case at launch.",
     "solver_feedback": false
   },
   "generic_navigation_change_evidence": {
@@ -177,31 +235,140 @@
     "sha256": "f5464fe9ea3678c57a53d38c1991e7387e6114c75927ef3a8cee4232d58581bf",
     "source": "audit/compiler-agent/C8-test58-phase.json"
   },
+  "input_identity_check": {
+    "all_eight_previous_nomf_inputs_byte_identical": false,
+    "method": "Streaming SHA-256 of complete files with 65536-byte buffers; no parse or native command.",
+    "mismatched_cases": [
+      "test38"
+    ],
+    "recorded_utc": "2026-10-15T04:19:04+00:00",
+    "records": [
+      {
+        "case": "test28",
+        "data_bytes": 343916,
+        "data_path": "/Users/bhz/Code/reform_test/data/test28.mps",
+        "data_sha256": "ffbabdea65e5c534bf7773051e8ea56626c7503235774bc0495cf94563caf397",
+        "identical": true,
+        "nomf_input_bytes": 343916,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test28-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "ffbabdea65e5c534bf7773051e8ea56626c7503235774bc0495cf94563caf397"
+      },
+      {
+        "case": "test38",
+        "data_bytes": 8131210,
+        "data_path": "/Users/bhz/Code/reform_test/data/test38.mps",
+        "data_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "identical": false,
+        "nomf_input_bytes": 8131222,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "5eb00dd3c6bd06bd3407b37247bc07db68bdfcc7c0547543d06049aa516e0785"
+      },
+      {
+        "case": "test60",
+        "data_bytes": 15698417,
+        "data_path": "/Users/bhz/Code/reform_test/data/test60.mps",
+        "data_sha256": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2",
+        "identical": true,
+        "nomf_input_bytes": 15698417,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "b8bbf192cd072565c5ce439c1355a844a44852f787ca5a3e5dd388568fd338d2"
+      },
+      {
+        "case": "test62",
+        "data_bytes": 1770866,
+        "data_path": "/Users/bhz/Code/reform_test/data/test62.mps",
+        "data_sha256": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb",
+        "identical": true,
+        "nomf_input_bytes": 1770866,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "369437697ea4d77fa39a6fb85dd8d5e75d132336e2a4a322c1af17d3a513d5eb"
+      },
+      {
+        "case": "test70",
+        "data_bytes": 100426160,
+        "data_path": "/Users/bhz/Code/reform_test/data/test70.mps",
+        "data_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259",
+        "identical": true,
+        "nomf_input_bytes": 100426160,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "3989e335c0e1c754ae8c6f6b2ab12fa51844a20c27278f915811cab258eb0259"
+      },
+      {
+        "case": "test80",
+        "data_bytes": 5711735,
+        "data_path": "/Users/bhz/Code/reform_test/data/test80.mps",
+        "data_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "identical": true,
+        "nomf_input_bytes": 5711735,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22"
+      },
+      {
+        "case": "test65",
+        "data_bytes": 45882960,
+        "data_path": "/Users/bhz/Code/reform_test/data/test65.mps",
+        "data_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "identical": true,
+        "nomf_input_bytes": 45882960,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7"
+      },
+      {
+        "case": "test85",
+        "data_bytes": 16298241,
+        "data_path": "/Users/bhz/Code/reform_test/data/test85.mps",
+        "data_sha256": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4",
+        "identical": true,
+        "nomf_input_bytes": 16298241,
+        "nomf_input_path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/input/model.mps",
+        "nomf_input_sha256": "242a4f2c9051e5c692c105eb0b0053872387267142e6ed3410338b255eed41d4"
+      }
+    ],
+    "test38_disposition": "REQUIRES_ROOT_IDENTITY_RESOLUTION; do not swap case or choose replacement input automatically.",
+    "unchanged_matches": [
+      "test28",
+      "test60",
+      "test62",
+      "test70",
+      "test80",
+      "test65",
+      "test85"
+    ]
+  },
   "launch_gate": {
     "C6_quality": "May remain explicitly PENDING; it is not required for this launch and does not support old-prompt quality causal claims.",
     "conditions": [
-      "C8 quality process has exited and no C8 HiGHS child remains.",
-      "Root has reviewed C8 quality evidence.",
-      "Root explicitly decides whether to launch C9.",
-      "Recheck actual fixed native binary SHA against recorded C8 identity after quality stops.",
-      "Verify prepared package/API/prompt hashes, harness snapshot and all twelve pristine input copies at launch."
+      "C8 quality process has exited and no owned C8 worker/HiGHS child remains; root reports this satisfied.",
+      "Root has reviewed completed C8 quality; final independent quality review metadata must remain explicit.",
+      "The user explicitly requires feedback-based improvements and targeted regression checks before the next launch.",
+      "Root completes the C8 test16 helper/batch regression and C8 test58 non-affine contract-navigation regression, then reviews the result.",
+      "Root resolves test38 data-versus-previous-nomf byte identity without silently changing the selected case.",
+      "Root freezes the resulting final code/API/doc snapshot; prepared 5c42197 bytes are provisional until then.",
+      "Root explicitly authorizes and starts C9 after final review.",
+      "Recheck final package/API/prompt hashes and actual fixed native identity at launch; the C8 main prompt is to remain unchanged.",
+      "Verify the final harness snapshot and all sixteen selected compiler/nomf pristine input copies at launch."
     ],
-    "decision": "PENDING",
+    "decision": "NOT_AUTHORIZED_PENDING_FEEDBACK_IMPROVEMENT_REGRESSION_AND_FINAL_ROOT_LAUNCH_DECISION",
     "decision_owner": "root"
   },
+  "launch_status": "NOT_LAUNCHED",
   "not_performed": [
+    "Run/workspace creation",
     "Agent launch",
-    "solver",
-    "tests",
-    "benchmark",
-    "proof replay",
-    "source-code changes",
-    "prompt changes",
-    "actual native-binary hash read"
+    "Solver",
+    "Tests",
+    "Benchmark",
+    "Proof replay",
+    "Native execution",
+    "Model parse",
+    "Source-code changes",
+    "Prompt changes"
   ],
   "package": {
     "file_count": 14,
+    "final_launch_freeze": false,
     "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015",
+    "readiness": "PROVISIONAL_PREPARED_5c42197_SNAPSHOT; root must finish feedback improvements and targeted regressions before final freeze.",
     "snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015/snapshot.json",
     "snapshot_sha256": "24d79a006d792561defd9592f27435b017ae50da7c733c102acfb5f530ff6431"
   },
@@ -291,9 +458,22 @@
       "path": "python/tests/test_proof.py"
     }
   ],
+  "plan_status": "ROOT_SELECTED_NEW_CASES_FEEDBACK_IMPROVEMENT_AND_FINAL_FREEZE_PENDING",
   "planned_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "root_reported_C8_stop_and_review": {
+    "evidence_owner": "Parent/root report; this subagent did not execute native or inspect/stop unrelated processes.",
+    "final_quality_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
+    "native_actual_recheck_at": "2026-10-15T12:15:50+08:00",
+    "native_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+    "process_scope": "Root reports no owned C8 worker or HiGHS process remains. Interactive omp PID 79294, parent 832, is unrelated; it is not stopped or classified as a C8 residue.",
+    "quality_process_exit_code": 0,
+    "quality_process_session": 73602,
+    "quality_review_finalization": "agent_acceptance is finalizing the review record.",
+    "root_reviewed_cases": 6
+  },
   "schema": "compiler-latest-api-evaluation-controls-1",
   "source_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "source_checkpoint_status": "PROVISIONAL; 5c42197/core d916c29 are the current prepared bytes, not a final C9 launch commitment.",
   "status": "NOT_LAUNCHED",
   "superseded_prelaunch": {
     "agent_execution": "NOT_LAUNCHED",
@@ -303,6 +483,35 @@
     "snapshot_sha256_before_status_update": "a9b7e0c4e3665436201eea3d9d06ad949dd92519c74119721b15dd343b416885",
     "status": "SUPERSEDED_PRELAUNCH"
   },
+  "superseded_same_case_plan": {
+    "agent_execution": "NOT_LAUNCHED",
+    "cases": [
+      "test9",
+      "test16",
+      "test88",
+      "test58",
+      "test63",
+      "test51"
+    ],
+    "reason": "The user explicitly requested different cases next round to assess generalization.",
+    "recorded_C8_input_sha256": {
+      "test16": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "test51": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+      "test58": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+      "test63": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+      "test88": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "test9": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442"
+    },
+    "status": "SUPERSEDED_PRELAUNCH"
+  },
   "treatment_id": "C9-20261015",
-  "updated_utc": "2026-10-15T04:02:26+00:00"
+  "updated_utc": "2026-10-15T04:19:04+00:00",
+  "test38_input_identity_resolution": {
+    "status": "RESOLVED_NAME_ONLY",
+    "path": "audit/compiler-agent/C9-test38-input-identity.json",
+    "sha256": "b45f63fe3a58f0646c9a909e6a2028c62a3003e62b1d2ff9dbd17fd4bf610270",
+    "selected_input": "/Users/bhz/Code/reform_test/data/test38.mps",
+    "selected_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+    "all_non_NAME_bytes_identical": true
+  }
 }

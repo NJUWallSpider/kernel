@@ -1,8 +1,8 @@
 {
   "schema": "kernel-compiler-agent-summary-v2",
   "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
-  "observed_at_utc": "2026-10-15T04:03:36.011606+00:00",
-  "status": "AGENTS_COMPLETE_QUALITY_RUNNING",
+  "observed_at_utc": "2026-10-15T04:15:50.656004+00:00",
+  "status": "AGENTS_COMPLETE_QUALITY_MEASURED",
   "compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
   "prompt_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
   "combined_compiler_protocol_sha256": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
@@ -47,7 +47,16 @@
           },
           "execution_sha256": "3447605dbddf7f977ceeb7dff82ce81ac2b1da2489a90c63578270fb0e16897f",
           "first_complete_final_artifact_check_s": 281.389,
-          "post_check_remaining_s": 81.025
+          "post_check_remaining_s": 81.025,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C8-20261015",
@@ -74,7 +83,16 @@
             "tool_calls_failed": 2,
             "model_fallback_used": false
           },
-          "execution_sha256": "4bb65e014647f687cce4a3c123f142deb7d889c161428eaefbda31a930f2c809"
+          "execution_sha256": "4bb65e014647f687cce4a3c123f142deb7d889c161428eaefbda31a930f2c809",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 0.823077,
@@ -118,7 +136,16 @@
           },
           "execution_sha256": "4ab4509e045fae105fa0b7bb3d28a1e6a3596bf17fc34399ef55b6beab5c2d73",
           "first_complete_final_artifact_check_s": 407.855,
-          "post_check_remaining_s": 73.592
+          "post_check_remaining_s": 73.592,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C8-20261015",
@@ -143,9 +170,18 @@
             "tool_time_s": 39.217,
             "tool_calls": 17,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
-          "execution_sha256": "9f5b0fe6dbeaf1977eb74378104e0f94f2ef20b47e6e909f75d12b98219c0339"
+          "execution_sha256": "9f5b0fe6dbeaf1977eb74378104e0f94f2ef20b47e6e909f75d12b98219c0339",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 0.943581,
@@ -187,11 +223,20 @@
             "tool_time_s": 8.091,
             "tool_calls": 22,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
           "execution_sha256": "55814da8ce67257112c1050300ab77111d4d95b59f1dacf3dc3eeea8c0ebd0cd",
           "first_complete_final_artifact_check_s": 241.336,
-          "post_check_remaining_s": 81.826
+          "post_check_remaining_s": 81.826,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test88-nomf-compiler-batch-C8-20261015",
@@ -216,9 +261,18 @@
             "tool_time_s": 1.241,
             "tool_calls": 14,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
-          "execution_sha256": "4c7f5e0945b4bdfc7c71ff25e76de91f13ba2c9bd9c5c1d5a6d347d220e35826"
+          "execution_sha256": "4c7f5e0945b4bdfc7c71ff25e76de91f13ba2c9bd9c5c1d5a6d347d220e35826",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 0.945753,
@@ -258,11 +312,20 @@
             "tool_time_s": 1.681,
             "tool_calls": 19,
             "tool_calls_failed": 1,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
           "execution_sha256": "bae722ae3eaabed381e59e72617441c8840c7db28fb4a167f735da596e282dd7",
           "first_complete_final_artifact_check_s": 218.859,
-          "post_check_remaining_s": 91.308
+          "post_check_remaining_s": 91.308,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test58-nomf-compiler-batch-C8-20261015",
@@ -287,9 +350,18 @@
             "tool_time_s": 0.785,
             "tool_calls": 17,
             "tool_calls_failed": 1,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
-          "execution_sha256": "b4a9f5e0bead6ac93dec42b145382d44b34e19c29e79c5956c42c16718502127"
+          "execution_sha256": "b4a9f5e0bead6ac93dec42b145382d44b34e19c29e79c5956c42c16718502127",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 0.852131,
@@ -329,11 +401,20 @@
             "tool_time_s": 6.392,
             "tool_calls": 15,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
           "execution_sha256": "eb821a92ebb61c03e1953c164f3d3c17f0873e486e7fda3cd152094ac3378162",
           "first_complete_final_artifact_check_s": 136.521,
-          "post_check_remaining_s": 60.108
+          "post_check_remaining_s": 60.108,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test63-nomf-compiler-batch-C8-20261015",
@@ -358,9 +439,18 @@
             "tool_time_s": 12.433,
             "tool_calls": 15,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
-          "execution_sha256": "507d9712015598bf38beea9e3e13c940572c50eb8707227fa3cf861e1791c6af"
+          "execution_sha256": "507d9712015598bf38beea9e3e13c940572c50eb8707227fa3cf861e1791c6af",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 0.646534,
@@ -400,11 +490,20 @@
             "tool_time_s": 6.486,
             "tool_calls": 26,
             "tool_calls_failed": 0,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
           "execution_sha256": "852407f393f66947e625153d6f6bd6cdf24243735ff4b0c3ab3b5dbd518c155d",
           "first_complete_final_artifact_check_s": 389.763,
-          "post_check_remaining_s": 99.993
+          "post_check_remaining_s": 99.993,
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         },
         "nomf": {
           "run": "/Users/bhz/Code/reform_test/runs/test51-nomf-compiler-batch-C8-20261015",
@@ -429,9 +528,18 @@
             "tool_time_s": 0.944,
             "tool_calls": 17,
             "tool_calls_failed": 1,
-            "model_fallback_used": null
+            "model_fallback_used": false
           },
-          "execution_sha256": "e2c350535dc9172b89eb6bc7177d6ba82954d57974e350712d4e3e8799f70b93"
+          "execution_sha256": "e2c350535dc9172b89eb6bc7177d6ba82954d57974e350712d4e3e8799f70b93",
+          "actual_model_selections": [
+            {
+              "model": "openai-codex/gpt-6.1-sol",
+              "fallback": false
+            }
+          ],
+          "actual_thinking_levels": [
+            "high"
+          ]
         }
       },
       "compiler_to_nomf_wall_ratio": 1.45651,
@@ -460,14 +568,25 @@
     "boundary": "Fresh mathematical choices and final targets differ. Wall ratios and post-check intervals are observations, not an isolated causal estimate of prompt changes."
   },
   "quality": {
-    "status": "RUNNING",
+    "status": "COMPLETE_BOUNDED_MEASUREMENTS",
     "path": "audit/compiler-agent/C8-quality/quality.json",
-    "final_sha256": null,
+    "final_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
     "launch_utc": "2026-10-15T03:53:03Z",
     "controller_session": 73602,
     "agent_overlap": false,
     "feedback_to_agents": false,
-    "numerical_results_are_quality_not_correctness_evidence": true
+    "numerical_results_are_quality_not_correctness_evidence": true,
+    "controller_exit_code": 0,
+    "completion_evidence": "Root observed session73602 exit0; all six cases complete; no remaining HiGHS or C8 batch driver/OMP.",
+    "review_path": "audit/compiler-agent/C8-quality-review.json",
+    "other_interactive_omp_processes_seen_at_end": [
+      {
+        "pid": 79294,
+        "ppid": 832,
+        "executable": "omp"
+      }
+    ],
+    "host_resource_isolation": "Own timed Agents/tests/benchmarks did not overlap solver quality. This is a shared user host; unrelated interactive OMP was present at final process check and was not controlled or stopped."
   },
   "feature_boundary": {
     "streaming_Model_load_in_frozen_Agent_package": false,
@@ -481,7 +600,8 @@
     "batch_json_sha256": "93c698c67da75d82e313dc12c20b9adc817707a12762e7422889d9f40bfe6998",
     "launch_integrity_sha256": "3ebceba8001238a5ad72282e439d4030d805c512facb07b7679a9908d12c9043",
     "all_agents_and_eval_workers_stopped": "Driver session 5278 exit0; independent process audit after final agent_end found no batch driver, OMP or eval descendants before any test or solver started.",
-    "source_and_artifact_binding": "Existing independent harness requires pristine source anchor, each native proof, explicit composed paths for the chain, and full named committed-artifact binding. Six accepted compiler deliveries include these checks."
+    "source_and_artifact_binding": "Existing independent harness requires pristine source anchor, each native proof, explicit composed paths for the chain, and full named committed-artifact binding. Six accepted compiler deliveries include these checks.",
+    "actual_model_selection_check": "Full-session model/thinking-change metadata filtered for all twelve runs, without inspecting or copying message contents: every resolved selection is gpt-6.1-sol/high and no fallback is reported."
   },
   "mathematical_review": {
     "positive_evidence": [
@@ -492,9 +612,14 @@
     "remaining_gaps": [
       "test58 rejects an opposite-activation candidate with an affine/bijection objection, without using Signed/Menu. Nomf develops signed/path reconstruction. This is a discovery/exploration gap, not a demonstrated API rejection.",
       "test63 does not develop the extra integer window bound found by matched nomf.",
-      "All six solver-quality comparisons and fresh adoption of the latest source remain required before an overall acceptance conclusion."
+      "Fresh latest-source acceptance on other previously nomf-tested cases remains required; this six-case fixed-source trial does not establish generalization."
     ],
     "interpretation": "Absence of a public API failure does not prove the workflow has no effect on exploration. Variable/row counts alone do not measure quality or ambition."
   },
-  "C6_quality_status": "PENDING; no C6/C7/C8 causal quality inference."
+  "C6_quality_status": "PENDING; no C6/C7/C8 causal quality inference.",
+  "next_round_user_steering": {
+    "request": "Test other cases after this round to evaluate generalization.",
+    "same_six_plan_cancelled_before_launch": true,
+    "cases": "PENDING_ROOT_SELECTION; previously nomf-tested and outside all nine prior fresh Compiler IDs."
+  }
 }

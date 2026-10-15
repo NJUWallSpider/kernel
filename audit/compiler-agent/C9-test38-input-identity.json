@@ -1,0 +1,25 @@
+{
+  "schema": "heldout-input-identity-v1",
+  "case": "test38",
+  "checked_utc": "2026-10-15T04:22:57.060249+00:00",
+  "scope": "Exact byte comparison, not a model parse or mathematical strategy inspection.",
+  "data": {
+    "path": "/Users/bhz/Code/reform_test/data/test38.mps",
+    "bytes": 8131210,
+    "sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+    "name_line": "NAME          test38"
+  },
+  "historical_nomf_input": {
+    "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/input/model.mps",
+    "bytes": 8131222,
+    "sha256": "5eb00dd3c6bd06bd3407b37247bc07db68bdfcc7c0547543d06049aa516e0785",
+    "name_line": "NAME          istanbul-no-cutoff"
+  },
+  "first_comment_line_equal": true,
+  "all_bytes_after_NAME_line_equal": true,
+  "common_body_bytes": 8131167,
+  "common_body_sha256": "704d50465b051fb0a0d4b4a4d482c4a525335541587bda77fa7df6f96f72b9c4",
+  "resolution": "Only MPS NAME changes from historical istanbul-no-cutoff to dataset test38. Every remaining byte is identical. Use pristine data/test38.mps for the new run and anchor its exact data SHA; prior nomf case eligibility is retained.",
+  "mutations": false,
+  "native_or_solver_execution": false
+}

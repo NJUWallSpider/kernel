@@ -1,0 +1,42 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+Number of PL entries in BOUNDS section is 1255
+Number of BV entries in BOUNDS section is 1225
+MIP model has 4926 rows; 2480 cols; 18275 nonzeros; 1225 integer variables (1225 binary)
+Coefficient ranges:
+  Matrix  [1e-04, 1e+00]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e-04, 1e+00]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+4925 rows, 2478 cols, 18268 nonzeros 0s
+3649 rows, 1253 cols, 24981 nonzeros 0s
+Dependent equations search running on 1 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+3649 rows, 1253 cols, 24981 nonzeros 0s
+Presolve reductions: rows 3649(-1277); columns 1253(-1227); nonzeros 24981(+6706) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0     0.0000000000e+00 Ph1: 0(0) 0.0s
+         63    -2.2824355359e+01 Pr: 0(0) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 7.62e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : model
+Model status        : Optimal
+Simplex   iterations: 63
+Objective value     : -2.2824355359e+01
+P-D objective error :  7.6158882509e-17
+HiGHS run time      :          0.01

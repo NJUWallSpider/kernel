@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T03:08:14.109074+00:00",
-  "status": "agents_complete_quality_running",
+  "status": "agents_complete_quality_measured",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
   "treatment_id": "C8-20261015",
   "planned_treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
@@ -160,7 +160,9 @@
   "agents_complete": 12,
   "independent_harness_verified_count": 6,
   "all_agents_and_eval_workers_stopped": true,
-  "quality_status": "RUNNING",
+  "quality_status": "COMPLETE_BOUNDED_MEASUREMENTS",
   "summary_path": "audit/compiler-agent/C8-summary.json",
-  "acceptance_complete": false
+  "acceptance_complete": false,
+  "quality_final_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
+  "quality_review_path": "audit/compiler-agent/C8-quality-review.json"
 }

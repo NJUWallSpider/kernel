@@ -1,0 +1,1169 @@
+{
+  "schema": "compiler-quality-small-raw-sha256-v1",
+  "round": "C8",
+  "status": "FINAL_AFTER_CONTROLLER_EXIT0",
+  "quality_sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d",
+  "files": [
+    {
+      "path": "audit/compiler-agent/C8-quality/Highs.log",
+      "bytes": 3491,
+      "sha256": "daf187d7bc6fd88238317191d3c39bc1ed4313f4324a70c513f13f57d17fbcd5"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-lp.json",
+      "bytes": 634,
+      "sha256": "076992a4598f312c6974b72297b6a88b50f85f4f3b58186de59d89d27b910dd7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-lp.log",
+      "bytes": 1458,
+      "sha256": "674b4fa3288231c87215866dc59a273769ce126017fe320d849fde94bda708fc"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-lp.options",
+      "bytes": 82,
+      "sha256": "2c98889657b11bc90271ababbe22310671951eb0a15cf33542e4d51d74ae9da4"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-mip.json",
+      "bytes": 693,
+      "sha256": "45f85debc7285d2771be4e8923a5816fdb188c2e34c5d31b815838d946916411"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-mip.log",
+      "bytes": 2033,
+      "sha256": "989093fb5f565609c36642645a9c8344f1b023892ccfc64bdf00ac5b50e44a32"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/probe-mip.options",
+      "bytes": 83,
+      "sha256": "15e8969e4e890a6f5d68dcfdd5cd98bc1a32c261144a6d0cd4fa18092f05f111"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/quality.json",
+      "bytes": 123289,
+      "sha256": "01e8e3c9f497e98e9dbde63300729630f7b910dd29aee3f1e064d356f3f5a04d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/solver-probe.lp",
+      "bytes": 75,
+      "sha256": "fa684262b00cb949a4ce6b2353beac53e25f3b560f611d358f2b86008ec48fb2"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/Highs.log",
+      "bytes": 31194,
+      "sha256": "a5574e59888a780b27a732b2f3c9f7f56091df2b55ed418048e2515520c08189"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-0.json",
+      "bytes": 742,
+      "sha256": "f7ef106c0fff0299777967eb10505ff462f4efcea7f54a62f7d6cc6e241aa95a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-0.log",
+      "bytes": 2225,
+      "sha256": "432a0aaff59187991410c18c23837e4286b3b20b4257281e6b75bd802357446f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-1.json",
+      "bytes": 734,
+      "sha256": "3505e55ce46113e47d188639b6fd238e05d081aa14d288ca4cfe324bc5df7d92"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-1.log",
+      "bytes": 2225,
+      "sha256": "8ab2b4b7b89ae0dd91035e7018d010265f5240017e0e442b5df5d242b0d7a6cd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-2.json",
+      "bytes": 743,
+      "sha256": "34cb77a05ce92327233d7bed90e79229bb6610979010687d478083bd15b05e1d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-compiler-2.log",
+      "bytes": 2225,
+      "sha256": "91bbbf18ac2c640afa7c46f58a46ade2916b0fe1edb2999a9a806e5807312e5f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-0.json",
+      "bytes": 727,
+      "sha256": "f2aa9223f844927c0fca0142ec847751838845d1f4ecb6cf94cb3e4c7c7bbd9c"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-0.log",
+      "bytes": 2270,
+      "sha256": "0895eb9d47742777614d6dd6864da5002e9b80e678ddf8ad30b23a48dec1ed21"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-1.json",
+      "bytes": 732,
+      "sha256": "6eacf9e78f178ea43737ca2b0bcd9a7a4cc5813ae4b1af65bd8aac42948a57b2"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-1.log",
+      "bytes": 2270,
+      "sha256": "6009480f1abb4d88c2bbbea9195b1a9872b66f0c7492a1f0f729250204b97e0b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-2.json",
+      "bytes": 734,
+      "sha256": "975679ca5d86124006c98b1064ddab727ec4e1b215bbc22d1b9bed5aff95eb28"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-nomf-2.log",
+      "bytes": 2270,
+      "sha256": "90f6e7df1351d7acb16b84f11763f9e1721575ce2cf4da59f370128863e8cb6d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-0.json",
+      "bytes": 733,
+      "sha256": "ba2bce15d35665ecab567c288cbc220d497cd32795a0c0c9ee77491a0cafb6d3"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-0.log",
+      "bytes": 2260,
+      "sha256": "a47441b03555a012f023ab8eb025ec103a886647e1b37f90ec9a5b8623b06e8a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-1.json",
+      "bytes": 732,
+      "sha256": "16fb1c800537ab9b78df4ea0676e20081638b307870f0040f4b980939dd8deb9"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-1.log",
+      "bytes": 2260,
+      "sha256": "3e4325fcd3a95b58ee5eedf8e6fa85f865428fa3d444bb2b8ee3fd6ab648a7a1"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-2.json",
+      "bytes": 733,
+      "sha256": "86b4decee1219bfec188239440d32cb060340dbf0baf86a2e3906f24995b3a2a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp-source-2.log",
+      "bytes": 2260,
+      "sha256": "d0cd8b49c98803c44aef3bf66d9094511ea2eb5194bba58406ba3e7b73bcab11"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-compiler-0.json",
+      "bytes": 780,
+      "sha256": "a070b513778633094f49ede573386786ea8bdc3d4602e4adeda84d3d957e6dce"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-compiler-0.log",
+      "bytes": 3623,
+      "sha256": "50be631d0ef1ba20a86d0e418f70c472c4981afd89b54c2fcfbced30eb62a964"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-nomf-0.json",
+      "bytes": 769,
+      "sha256": "834d8bdc551430912378e2abbf8187a29c51cb2709d8e35c0e9ee298a58ac2ee"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-nomf-0.log",
+      "bytes": 3665,
+      "sha256": "47ae5d86e68cfa949a8afdebbf9057b5f1e5951c5d0e52718953f15f3cd53e81"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-source-0.json",
+      "bytes": 767,
+      "sha256": "ebcc6114f070faeff6e2a23822439b92ced0b0091721f1059e8bc94f1a0cf904"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip-source-0.log",
+      "bytes": 3641,
+      "sha256": "0824a81c27004027321b7ad37231323e6144117eb48062c781d854f7c1646910"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/Highs.log",
+      "bytes": 52723,
+      "sha256": "76581d3aba84af6dffd0b7c34a9c563192d351ce3e1c81522d4096582e5eb658"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-0.json",
+      "bytes": 732,
+      "sha256": "5f93e77d078b0332e055fdf7cef2d6ce76ae1d7e522526b8c77c084343416977"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-0.log",
+      "bytes": 1823,
+      "sha256": "51f618cf8d3af2e81544801e4498f1dfa7b3e6019f86c7053a3e5ed65ca310f8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-1.json",
+      "bytes": 732,
+      "sha256": "bf0cb155f13400e062129817eaed517ceca433c156976f1b4d9e06c7eaa8b5be"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-1.log",
+      "bytes": 1823,
+      "sha256": "51f618cf8d3af2e81544801e4498f1dfa7b3e6019f86c7053a3e5ed65ca310f8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-2.json",
+      "bytes": 731,
+      "sha256": "106f217251a3defa461b931ec4fa7edbe5eeae7125cff91854a0e91f999185ee"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-compiler-2.log",
+      "bytes": 1823,
+      "sha256": "51f618cf8d3af2e81544801e4498f1dfa7b3e6019f86c7053a3e5ed65ca310f8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-0.json",
+      "bytes": 724,
+      "sha256": "7887c65e8a16109981619434352fb41ff6ba05f8d2f9eefedc14dd09f85d19cc"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-0.log",
+      "bytes": 1958,
+      "sha256": "556a068d7348a57e469a8c040375781b9343239ea80da3a125f807c8ff3c2074"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-1.json",
+      "bytes": 724,
+      "sha256": "0e7fa949762e5d9c7c725267f80b11e4233c47f95b87fb5400846210308ef9a7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-1.log",
+      "bytes": 1958,
+      "sha256": "556a068d7348a57e469a8c040375781b9343239ea80da3a125f807c8ff3c2074"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-2.json",
+      "bytes": 724,
+      "sha256": "1a05bbd7b543f68d8df0fbed9c90e1e99699060614616ce56db45c1d48173634"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-nomf-2.log",
+      "bytes": 1958,
+      "sha256": "556a068d7348a57e469a8c040375781b9343239ea80da3a125f807c8ff3c2074"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-0.json",
+      "bytes": 725,
+      "sha256": "ef5693f1bbbe47994a6fcbb47a82cf79b6451ae5d6e0480c8562e3ef5bc83b87"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-0.log",
+      "bytes": 2008,
+      "sha256": "609884653ef17948e6212ae1b986135829a2f04db82d9a7cc8eecb536fb1e424"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-1.json",
+      "bytes": 725,
+      "sha256": "952290326d2a2e07ee5efa54e11b04d89470434c629ec8055062d4490f081f41"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-1.log",
+      "bytes": 2008,
+      "sha256": "609884653ef17948e6212ae1b986135829a2f04db82d9a7cc8eecb536fb1e424"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-2.json",
+      "bytes": 724,
+      "sha256": "bf401d3e90f4c76d547cda187413aae2ec76fc4f88ade0fe867eb68bf86d8817"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp-source-2.log",
+      "bytes": 2008,
+      "sha256": "13745bbb4c7e708cd1e5c6cb58d33391b4e127b943777e0bf012be6c961147a4"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-0.json",
+      "bytes": 746,
+      "sha256": "521c9b6de8db275ed1678d10f1ac7c94e652edef4ab11439c2d4fa5b3f354e7f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-0.log",
+      "bytes": 3110,
+      "sha256": "24271328317ef444d422128ddfb592d769b95fea3875884643c3b97898a585ed"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-1.json",
+      "bytes": 746,
+      "sha256": "0df5a81f14cf9daec25b15e8a5c81f88189625db12cf5851585c442f619b42d2"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-1.log",
+      "bytes": 3110,
+      "sha256": "351f929459b030b2aad39d39cb62a34e0be9ef2540270a8d56b908a27106248b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-2.json",
+      "bytes": 745,
+      "sha256": "af450e450012d03439bab98dced70e9d7957c0f1ce64dd07cf7d05954015dcee"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-compiler-2.log",
+      "bytes": 3110,
+      "sha256": "1a4e2c4214f475cfc6f04d4fa6b73d5eccc302dc6feab3bed68815198ecf8e27"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-0.json",
+      "bytes": 738,
+      "sha256": "5f6f8113bd2a24fd91410bd8828de4d71ccc1790cc4f9162b35b6b3ee6812a3a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-0.log",
+      "bytes": 3617,
+      "sha256": "06947e3fd9b2f52f755d7916a6fc18b9c1cbbcf7501f4bedf61800b5c66f7c20"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-1.json",
+      "bytes": 739,
+      "sha256": "43b5281b4c4d2bd10c9e1a66df23bd794b7f04fee7843e589fd9f3a555824d3f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-1.log",
+      "bytes": 3617,
+      "sha256": "fb26438b2a2df77fc4e5aff9cbc6b7c52cbaf99345428d2488855f9589132fe2"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-2.json",
+      "bytes": 738,
+      "sha256": "2e38476dfe4561a5ab0462a8cf583064bfafa3cd24169f8a600e71b76f0c2893"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-nomf-2.log",
+      "bytes": 3617,
+      "sha256": "59398ee8edf59af8c673e9b653d4c61ab8415dd72d61cfa4471493824f975a35"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-0.json",
+      "bytes": 742,
+      "sha256": "54c0f53eab2c9f40a80a31ec373290691502b2fd42fe3a72016261f8ed0a3cf5"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-0.log",
+      "bytes": 5017,
+      "sha256": "002838f3f80f63721846dc751dc052a68b7e9dc07c99f9ad056f425d59d5571d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-1.json",
+      "bytes": 745,
+      "sha256": "487c31bf3c5dab37d20e1cdb196f7a56740723ae94680f926009fb52106f66cb"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-1.log",
+      "bytes": 5018,
+      "sha256": "7ae1e78f7ea50412999f5b20d9eb56c8c0d30d44fa745b29883dfc66c94ae03d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-2.json",
+      "bytes": 743,
+      "sha256": "12c8580b5747ab7ad64640529888c0b8fd8f9b7493904d83436a0bca41d287a7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip-source-2.log",
+      "bytes": 5140,
+      "sha256": "560d83cfb125163f282c7666452509d51428a0190614885924eba2f8640e6a29"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/Highs.log",
+      "bytes": 34902,
+      "sha256": "898fe79a1a3cd6dd4dbb0ec823a3b9d469e19cac87e00ffafa8fe6cfb6b56053"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-0.json",
+      "bytes": 728,
+      "sha256": "8925814dd862fa01b39825e71cedfbdbf48f13b863cc4f67b212df351ead3c4a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-0.log",
+      "bytes": 1901,
+      "sha256": "94d5e8596c2749561f688bf16c09e6539f7116d20ac94ab3b3f4a0e114d70c93"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-1.json",
+      "bytes": 728,
+      "sha256": "46e3e315106e0150e03fe13041ed868c4aae354ee80e60f0b1eb64fa8980f3ba"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-1.log",
+      "bytes": 1901,
+      "sha256": "94d5e8596c2749561f688bf16c09e6539f7116d20ac94ab3b3f4a0e114d70c93"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-2.json",
+      "bytes": 727,
+      "sha256": "68119ae2ddc16575da881e76b0f6197a114819076c0b6b1176ea603dbe3bafc8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-compiler-2.log",
+      "bytes": 1901,
+      "sha256": "94d5e8596c2749561f688bf16c09e6539f7116d20ac94ab3b3f4a0e114d70c93"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-0.json",
+      "bytes": 718,
+      "sha256": "ed383bf456d08bb0897c126d0e1b2dee680fa843ab9f3adec3e7729586cb5298"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-0.log",
+      "bytes": 1999,
+      "sha256": "89b69b17daff6ad2376881a37133499d8646f355d009f3c80b1adaea523ccafb"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-1.json",
+      "bytes": 718,
+      "sha256": "a89689d367f25f2397dac86556aaaff25c5b3c73b645f9d34fc29a0e1f290c95"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-1.log",
+      "bytes": 1999,
+      "sha256": "89b69b17daff6ad2376881a37133499d8646f355d009f3c80b1adaea523ccafb"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-2.json",
+      "bytes": 718,
+      "sha256": "d65793290f548f427f4a2489d04be10992067938bbd6afd01bb24d21a35e4c25"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-nomf-2.log",
+      "bytes": 1999,
+      "sha256": "89b69b17daff6ad2376881a37133499d8646f355d009f3c80b1adaea523ccafb"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-0.json",
+      "bytes": 718,
+      "sha256": "de2d9adc3f584e93b1060082546753711b59cdbd1fe9e960fd7b94c700df5832"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-0.log",
+      "bytes": 1976,
+      "sha256": "dd09c5fe8ca5d164ab798950b18d5db60d7ec7432abb7414872c833c75713520"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-1.json",
+      "bytes": 717,
+      "sha256": "4e1b677dce73f9f6a6c1ebab202553db8fbb4291b97f54d1f6aaa19a73cbe700"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-1.log",
+      "bytes": 1976,
+      "sha256": "dd09c5fe8ca5d164ab798950b18d5db60d7ec7432abb7414872c833c75713520"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-2.json",
+      "bytes": 718,
+      "sha256": "c29d6e38476e9291cfca085a2f7fcbab6858792695cbd9fef103247a05128655"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp-source-2.log",
+      "bytes": 1976,
+      "sha256": "dd09c5fe8ca5d164ab798950b18d5db60d7ec7432abb7414872c833c75713520"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-compiler-0.json",
+      "bytes": 751,
+      "sha256": "cfb0eab901b3bae1f1355dd6defe41127a6f1ca743a66e4d3ccbef9c1ca1be6e"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-compiler-0.log",
+      "bytes": 3782,
+      "sha256": "76c2ac4dc7d81a0a6437d595ced747708fc135c33377583c4dcbdfc54cc9c274"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-nomf-0.json",
+      "bytes": 765,
+      "sha256": "5e16e79285df1e84b75cb284a088a94847f3ec5a2388ba0ea53a5150bd711aa3"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-nomf-0.log",
+      "bytes": 9434,
+      "sha256": "cfe70be7c1ad66068e29e7c19e454958885b905b1a7ca609a94d43ea8e2626e7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-source-0.json",
+      "bytes": 746,
+      "sha256": "9a158059b7b4ae9ee15f9caadf97b1707883e95ec3e49a0bd6f4f9021fc3519a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip-source-0.log",
+      "bytes": 4058,
+      "sha256": "aa77713ae8bd4c62eb3125cbda2d30ebb42c6be642060259b8feb28555ee168f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/Highs.log",
+      "bytes": 40782,
+      "sha256": "87673fd82c4c35aac57f43511089e08a68ba3ddaeb8b439734e33db1c122ec0a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-0.json",
+      "bytes": 718,
+      "sha256": "841f49aace583214be60918686569a6db8613c61ba140f487ca3f4062e603e2d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-0.log",
+      "bytes": 1898,
+      "sha256": "9bc90975c6192f4575633dfd1ef0309379ee3cfb44d4ed37f139f5df3b50a291"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-1.json",
+      "bytes": 718,
+      "sha256": "7251b36aef7f5f173627ceb222dcc6926e795d9bd339946b025fada1565df25a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-1.log",
+      "bytes": 1898,
+      "sha256": "9bc90975c6192f4575633dfd1ef0309379ee3cfb44d4ed37f139f5df3b50a291"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-2.json",
+      "bytes": 718,
+      "sha256": "d0ac01adb6287f9ed4dd15f3c5ef96e2991ae37eb2679da136b195dd9d43d59d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-compiler-2.log",
+      "bytes": 1898,
+      "sha256": "9bc90975c6192f4575633dfd1ef0309379ee3cfb44d4ed37f139f5df3b50a291"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-0.json",
+      "bytes": 708,
+      "sha256": "a592a884b35a1b9daef2bef32433be638d12c2de1234a3207f646b461dc6726f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-0.log",
+      "bytes": 1882,
+      "sha256": "10a529c08fd698539c57aa2e74ee13c4560b0186926bc55c346bc975a2743f69"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-1.json",
+      "bytes": 709,
+      "sha256": "fb4a82790c98f25f240e6435b86664c90b7653d5fe914ada40765b6efa024c5f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-1.log",
+      "bytes": 1882,
+      "sha256": "10a529c08fd698539c57aa2e74ee13c4560b0186926bc55c346bc975a2743f69"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-2.json",
+      "bytes": 709,
+      "sha256": "4d259af241552c404b1ce255ce9caddf1ca0ecddc4212358584d96b7c70db717"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-nomf-2.log",
+      "bytes": 1882,
+      "sha256": "10a529c08fd698539c57aa2e74ee13c4560b0186926bc55c346bc975a2743f69"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-0.json",
+      "bytes": 708,
+      "sha256": "43cd35d8ce43d9a0a6bba9ef0d5becc88e0e51e600e0b0f98fc243a120d505fd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-0.log",
+      "bytes": 1865,
+      "sha256": "8e886fa3dd3bc091400a8a63c8caa3ba846fc59429d6162fc02122f1e41329ca"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-1.json",
+      "bytes": 707,
+      "sha256": "0813b4a50c1f822a806a7df3d871d2f5f2f75d8ff5570733a2b68f1374e16d29"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-1.log",
+      "bytes": 1865,
+      "sha256": "8e886fa3dd3bc091400a8a63c8caa3ba846fc59429d6162fc02122f1e41329ca"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-2.json",
+      "bytes": 708,
+      "sha256": "3d8e60cf1d960b0ccc6ac3198d6d568cd40d11e45bfad6e30bbe908f9f3a0eac"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp-source-2.log",
+      "bytes": 1865,
+      "sha256": "8e886fa3dd3bc091400a8a63c8caa3ba846fc59429d6162fc02122f1e41329ca"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-compiler-0.json",
+      "bytes": 773,
+      "sha256": "48a3d107f6a12fc289b429f12ffd3ae1343e65a9f862745559897c707588b5d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-compiler-0.log",
+      "bytes": 7663,
+      "sha256": "484ec89d97b45ba459d6d0f70a9f80cd52e2c21e0a257dbe376fddb9ab19c8da"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-nomf-0.json",
+      "bytes": 769,
+      "sha256": "dd7db945eda23baa252befee1d48b4755d1fd72a2a0f42fd0e87539595ce15d3"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-nomf-0.log",
+      "bytes": 7870,
+      "sha256": "61a862b6f2f1f348092e2975ebebba033c06ef801079e13847344768c0e990a4"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-source-0.json",
+      "bytes": 754,
+      "sha256": "4f9e3b11e737d778d7fecf41d98bbc4f1998605093db99f3da3c9919136714e3"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip-source-0.log",
+      "bytes": 8314,
+      "sha256": "6b6af332cab4a4fe06c2556f9c345ef3ffd7c2c4790841a025643de42e923652"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/Highs.log",
+      "bytes": 42354,
+      "sha256": "2b4682cd957ea4b065987ca87e9b4e5016a87fc8c9c3322ed53902ced3091314"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-0.json",
+      "bytes": 720,
+      "sha256": "854340a2c8aaf36637eaa0fd24702b298d5ffb12a408e2ec33ae181c4c5f128b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-0.log",
+      "bytes": 1759,
+      "sha256": "b76c019f72e9de7ab9ebd982dc480bda2f6de5d632d9b3d13d3453721c25409f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-1.json",
+      "bytes": 720,
+      "sha256": "5fb45bd051ddd979cde923bd26543a1c5442271be739bf7cd7f9d1c703924870"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-1.log",
+      "bytes": 1759,
+      "sha256": "b76c019f72e9de7ab9ebd982dc480bda2f6de5d632d9b3d13d3453721c25409f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-2.json",
+      "bytes": 720,
+      "sha256": "011bfea9c9554ba6e332decfdb15bdee1d0ea1ca27fcc3434b5074c31a07bd52"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-compiler-2.log",
+      "bytes": 1759,
+      "sha256": "b76c019f72e9de7ab9ebd982dc480bda2f6de5d632d9b3d13d3453721c25409f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-0.json",
+      "bytes": 711,
+      "sha256": "b27c58034fecd53922efaeaba860570db685e33a6f5ab51d930971a05555a70f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-0.log",
+      "bytes": 1960,
+      "sha256": "c8fbcbb96ebc0632d269813bda8e887a2bd62f3786aeb547c9dec213a854fefd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-1.json",
+      "bytes": 711,
+      "sha256": "cc5544ef749fdfcc442d77a99245f0102339e7c3475e5f75f22abc2a29487cd1"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-1.log",
+      "bytes": 1960,
+      "sha256": "c8fbcbb96ebc0632d269813bda8e887a2bd62f3786aeb547c9dec213a854fefd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-2.json",
+      "bytes": 710,
+      "sha256": "460216fd7eaa056123248852181cec62996f68f92efb5ef99250ebd7b7a19d86"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-nomf-2.log",
+      "bytes": 1960,
+      "sha256": "c8fbcbb96ebc0632d269813bda8e887a2bd62f3786aeb547c9dec213a854fefd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-0.json",
+      "bytes": 711,
+      "sha256": "8e3a147967db48de6bf5b31ff39d4c577d64505fc46f6b5b7aa6ad11f4de8e87"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-0.log",
+      "bytes": 1911,
+      "sha256": "b3ff4c7838285de73cfd9c454043d5d122635bbad414bac22d38a6b7fa2c7995"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-1.json",
+      "bytes": 711,
+      "sha256": "cffbe4d935348bd99d51e11a55887b07fceffc985f5b6dcce14909e46df10cde"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-1.log",
+      "bytes": 1911,
+      "sha256": "8d292cd198605ed15adf4b99a220165aa1a0aed42521e94410b33d7cb15112ba"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-2.json",
+      "bytes": 711,
+      "sha256": "ed86aa12215a025d38e80dc389e338fc222d4bd972704b80e0ef53577ba1c8ea"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp-source-2.log",
+      "bytes": 1911,
+      "sha256": "8d292cd198605ed15adf4b99a220165aa1a0aed42521e94410b33d7cb15112ba"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-compiler-0.json",
+      "bytes": 775,
+      "sha256": "9685e1781fa9db8c6411f2ad759211a5fd58fae3e03faf814ebef9cbca01e2cf"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-compiler-0.log",
+      "bytes": 7375,
+      "sha256": "36a3116f6b0ad604e958938a9d789c129669b0fb25e4fd30ec2294144813baa8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-nomf-0.json",
+      "bytes": 769,
+      "sha256": "c99f7d4019a3e945ff58e3aea1bdde9cbc2a45bc29a828ffac2dd849f5f598a1"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-nomf-0.log",
+      "bytes": 9308,
+      "sha256": "7dd2b7f77a5922e0b446dc3eab506ba515adbefd9825e0ddb4c370e2400122d2"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-source-0.json",
+      "bytes": 765,
+      "sha256": "40cb07a24e7d862fa4f40f7705e5d7afa6b4fbaee09a1b7cc5f361c8d51ffdc7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip-source-0.log",
+      "bytes": 8781,
+      "sha256": "aad726ada8d47655c0bb9da18c51b2267a45976db35f63909e68901e825149a9"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/Highs.log",
+      "bytes": 60132,
+      "sha256": "4f387da6f54dc55b059109d305caff9ed246c88d5aa8242a37833fece4f79939"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-0.json",
+      "bytes": 732,
+      "sha256": "81b561cb04251da51268cba6121da08c7a1c1a3e65ad5e5d8c0c0769c341b480"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-0.log",
+      "bytes": 2096,
+      "sha256": "5ec8d5b2495a9d6ceb9d8f08c13554a21a10a8ad13b322daca8a389034310b1b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-1.json",
+      "bytes": 732,
+      "sha256": "1c273914ed1de69cb9e8c47a573f90de23b34bc1781df0b1fe225fbdc6291d3f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-1.log",
+      "bytes": 2096,
+      "sha256": "5ec8d5b2495a9d6ceb9d8f08c13554a21a10a8ad13b322daca8a389034310b1b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-2.json",
+      "bytes": 732,
+      "sha256": "dd0bf265224508fcff00cba641755cf75d7ae537f5c4e324d351f79f9d3cce1b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-compiler-2.log",
+      "bytes": 2096,
+      "sha256": "5ec8d5b2495a9d6ceb9d8f08c13554a21a10a8ad13b322daca8a389034310b1b"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-0.json",
+      "bytes": 723,
+      "sha256": "26380d99a1bdc4fc6becba8218c9096e53f33fe985607924368eb257e7c7ba40"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-0.log",
+      "bytes": 2099,
+      "sha256": "84919323d5d41480875ecd013ffe4254295c775a7dda4795bb8648103f48b2e8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-1.json",
+      "bytes": 723,
+      "sha256": "dac10f5b9bb1eae03127a94e7148e2716f68146d1d0cd26d51a8f84f3fbce831"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-1.log",
+      "bytes": 2099,
+      "sha256": "84919323d5d41480875ecd013ffe4254295c775a7dda4795bb8648103f48b2e8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-2.json",
+      "bytes": 723,
+      "sha256": "c13f990d696bdddfe5ae3132c1d21164b1cc92e5d586801f1b9c36a95039a24a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-nomf-2.log",
+      "bytes": 2099,
+      "sha256": "84919323d5d41480875ecd013ffe4254295c775a7dda4795bb8648103f48b2e8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-0.json",
+      "bytes": 724,
+      "sha256": "83cc2a7f555045d12ce409727608fb8a482d5e0a4a426f1847f2bddff4ecd9f1"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-0.log",
+      "bytes": 1888,
+      "sha256": "e52a060ae070e1bdede500a792f509a2e1cc9fd84b0d93c17325dc6b47a968df"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-1.json",
+      "bytes": 723,
+      "sha256": "22ba0cd5b0ea8d313f71a33d65b9c24159d17730e2e9bd2d28466418a82d563f"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-1.log",
+      "bytes": 1888,
+      "sha256": "e52a060ae070e1bdede500a792f509a2e1cc9fd84b0d93c17325dc6b47a968df"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-2.json",
+      "bytes": 724,
+      "sha256": "9d7a19775faca80bd37723a5f1a42a25089d285b96a3136ddb67a5cd4b8dadf6"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp-source-2.log",
+      "bytes": 1888,
+      "sha256": "e52a060ae070e1bdede500a792f509a2e1cc9fd84b0d93c17325dc6b47a968df"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/lp.options",
+      "bytes": 86,
+      "sha256": "670e788a68f3f60708a729a174b803b74a6bca0096ef3366b63cb772d0a67392"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-0.json",
+      "bytes": 769,
+      "sha256": "21fe2ff36a239d2577864e1b512f5424abbbf596892d0711327641e4382ed6df"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-0.log",
+      "bytes": 4925,
+      "sha256": "87b40cac99eb23fdd376cf606a2daf7724c0eae73cddec51cc8428f62db72493"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-1.json",
+      "bytes": 771,
+      "sha256": "47baa02af764912803b4d623af9103f6c1bf3d71e427fe86faf30a976ae49740"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-1.log",
+      "bytes": 4921,
+      "sha256": "7ab11ee693ed5b02f4a4d53be8de07fe67efb40b03b7d9ea380608c373b75560"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-2.json",
+      "bytes": 773,
+      "sha256": "28e576373d4fa813ca39de799f486204e46202fab1b68ce7d803a6a60c820cc7"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-compiler-2.log",
+      "bytes": 4925,
+      "sha256": "8c25d6e3e085fafefdc3473e293eb596a44e293f948b1ebfa94d48aa4d2a9436"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-0.json",
+      "bytes": 762,
+      "sha256": "b2e71425a910927318e213e3e5daafb72bea48e3389c162479f1d5287c495024"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-0.log",
+      "bytes": 4679,
+      "sha256": "85ea758bf98552ca9160873d76205be815030597c07b481ebb9a1a6f422f1fb8"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-1.json",
+      "bytes": 763,
+      "sha256": "ff0157c751cf293dec280de36d3974859573b15d952cd09b878d9f4b03099b3e"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-1.log",
+      "bytes": 4557,
+      "sha256": "8a14fd7f25b8132e3656e98fd8b3a919178c12ce274be85abc54abaae3bf0edc"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-2.json",
+      "bytes": 761,
+      "sha256": "642ef9968f755a5a8f202b5ce6c93b7541de63a38be0af424938f4b8babc33fd"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-nomf-2.log",
+      "bytes": 4557,
+      "sha256": "c0e2f0bc492fb6b489223a0cc90be9af0f6f685f46f6804bac2029e59490f830"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-0.json",
+      "bytes": 760,
+      "sha256": "70386575a52a089ec919200357d76769811bb115521c465a343cb9f253db2e09"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-0.log",
+      "bytes": 4399,
+      "sha256": "16fda2d02513a2dbc14868d4dcda8edb307130647f62dbdccdf5bf7e079c9315"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-1.json",
+      "bytes": 762,
+      "sha256": "9e652fd0627677a5945140676785bf0a8f1a65d91bbff21c3db38808416ad66a"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-1.log",
+      "bytes": 4399,
+      "sha256": "62e8467e0657455e8baed80913e77bd26a2d5e61e97f090a8d7b931af4812f05"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-2.json",
+      "bytes": 762,
+      "sha256": "ee4514a995ca595303259a81250829d1be8281be2f2aae4f160648533bd49fa4"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip-source-2.log",
+      "bytes": 4521,
+      "sha256": "f7beb0263f58ff020343d957c90312f29102e41ed9be556225005c8274335d8d"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/mip.options",
+      "bytes": 87,
+      "sha256": "073c95a1a9342fa5e32873bb58ec4dc49c8f246e6de8bd7447f3ab8620fbc8d7"
+    }
+  ],
+  "file_count": 195,
+  "total_bytes": 718803,
+  "excluded": [
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/compiler.mcm",
+      "bytes": 21440948,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/compiler.model.json",
+      "bytes": 63142383,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/nomf.mcm",
+      "bytes": 21427304,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/nomf.model.json",
+      "bytes": 63128194,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/source.mcm",
+      "bytes": 28974956,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test16/source.model.json",
+      "bytes": 84143968,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/compiler.mcm",
+      "bytes": 49143,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/compiler.model.json",
+      "bytes": 155841,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/nomf.mcm",
+      "bytes": 59988,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/nomf.model.json",
+      "bytes": 190059,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/source.mcm",
+      "bytes": 675921,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test51/source.model.json",
+      "bytes": 2193209,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/compiler.mcm",
+      "bytes": 196150,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/compiler.model.json",
+      "bytes": 591441,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/nomf.mcm",
+      "bytes": 91236,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/nomf.model.json",
+      "bytes": 303142,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/source.mcm",
+      "bytes": 291217,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test58/source.model.json",
+      "bytes": 878673,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/compiler.mcm",
+      "bytes": 152732,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/compiler.model.json",
+      "bytes": 437551,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/nomf.mcm",
+      "bytes": 151815,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/nomf.model.json",
+      "bytes": 436835,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/source.mcm",
+      "bytes": 497888,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test63/source.model.json",
+      "bytes": 1566264,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/compiler.mcm",
+      "bytes": 331477,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/compiler.model.json",
+      "bytes": 1091339,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/nomf.mcm",
+      "bytes": 260276,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/nomf.model.json",
+      "bytes": 858738,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/source.mcm",
+      "bytes": 647130,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test88/source.model.json",
+      "bytes": 2158072,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/compiler.mcm",
+      "bytes": 166557,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/compiler.model.json",
+      "bytes": 524150,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/nomf.mcm",
+      "bytes": 175426,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/nomf.model.json",
+      "bytes": 559102,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/source.mcm",
+      "bytes": 240105,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    },
+    {
+      "path": "audit/compiler-agent/C8-quality/test9/source.model.json",
+      "bytes": 745776,
+      "reason": "large normalized model or binary; original artifact hashes remain in quality metadata"
+    }
+  ],
+  "excluded_count": 36,
+  "scope": "All fixed small measurement metadata/log/options/probe files; complete model dumps and MCM are excluded and are not Agent input."
+}

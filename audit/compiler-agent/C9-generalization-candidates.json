@@ -1,0 +1,498 @@
+{
+  "additional_scale_and_zero_sum_candidates": [
+    "test65",
+    "test85"
+  ],
+  "candidates": [
+    {
+      "case": "test28",
+      "demand_types": "Constructive Flow scope, total reconstruction, observation binding",
+      "historical_nomf_agent_wall_s": "672.1",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test28-nomf-B1/output/reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test28-nomf-B1",
+      "historical_nomf_solver_status": "Optimal",
+      "historical_reported_nomf_shape": {
+        "integers": 150,
+        "nonzeros": 2194,
+        "rows": 302,
+        "vars": 850
+      },
+      "historical_reported_source_shape": {
+        "integers": 150,
+        "nonzeros": 9900,
+        "rows": 1062,
+        "vars": 2550
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 343916,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test28.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test28-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test28"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "Small mixed-integer model with many continuous flow coordinates; materially different from the previous affine/slack cases.",
+      "structure": "Network / continuous multicommodity structure"
+    },
+    {
+      "case": "test38",
+      "demand_types": "Exact sparse algebra, composed equality definitions, affine inverse proof",
+      "historical_nomf_agent_wall_s": "636.4",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/output/model_shared_dag.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1",
+      "historical_nomf_solver_status": "Optimal",
+      "historical_reported_nomf_shape": {
+        "integers": 30,
+        "nonzeros": 44927,
+        "rows": 13037,
+        "vars": 3388
+      },
+      "historical_reported_source_shape": {
+        "integers": 30,
+        "nonzeros": 71477,
+        "rows": 20346,
+        "vars": 5282
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 8131222,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test38.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test38-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test38"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "Moderate variables but many rows and recursive definitions; tests shared proof ergonomics rather than only zero fixings.",
+      "structure": "Shared recursive DAG / continuous auxiliaries"
+    },
+    {
+      "case": "test60",
+      "demand_types": "Discrete reencoding, constructive Menu scope, MI-versus-LP contract, LP artifact readback",
+      "historical_nomf_agent_wall_s": "280.4",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".lp",
+        "header": {
+          "LP_sense_keyword_seen": "MINIMIZE",
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": false,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/output/reformulated.lp"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1",
+      "historical_nomf_solver_status": "Time limit reached",
+      "historical_reported_nomf_shape": {
+        "integers": 2508,
+        "nonzeros": 33494,
+        "rows": 2016,
+        "vars": 2508
+      },
+      "historical_reported_source_shape": {
+        "integers": 13550,
+        "nonzeros": 191947,
+        "rows": 717,
+        "vars": 13640
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 15698417,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test60.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test60-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test60"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "Dense option structure and a historical LP delivery add mathematical and file-format variety.",
+      "structure": "Discrete choice / menu / packing"
+    },
+    {
+      "case": "test62",
+      "demand_types": "Branch/case elaboration, non-affine reconstruction, complete MI projections",
+      "historical_nomf_agent_wall_s": "382.5",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/output/reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1",
+      "historical_nomf_solver_status": "Time limit reached",
+      "historical_reported_nomf_shape": {
+        "integers": 500,
+        "nonzeros": 7804,
+        "rows": 2539,
+        "vars": 500
+      },
+      "historical_reported_source_shape": {
+        "integers": 4500,
+        "nonzeros": 27203,
+        "rows": 7029,
+        "vars": 4500
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 1770866,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test62.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test62-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test62"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "All-binary logical auxiliaries test routes beyond a single affine inverse map.",
+      "structure": "Boolean auxiliary / logical block structure"
+    },
+    {
+      "case": "test70",
+      "demand_types": "Caller-supplied combinations, integer validity, directional LP scope, large sparse expressions",
+      "historical_nomf_agent_wall_s": "383.5",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/output/reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1",
+      "historical_nomf_solver_status": "Time limit reached",
+      "historical_reported_nomf_shape": {
+        "integers": 48417,
+        "nonzeros": 1995817,
+        "rows": 2187,
+        "vars": 48417
+      },
+      "historical_reported_source_shape": {
+        "integers": 48417,
+        "nonzeros": 1995817,
+        "rows": 2187,
+        "vars": 48417
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 100426160,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test70.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test70-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test70"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "About two million matrix nonzeros and a coefficient-only change challenge scale without relying on dimension reductions.",
+      "structure": "Dense integer coefficient strengthening"
+    },
+    {
+      "case": "test80",
+      "demand_types": "Explicit relation scope, objective algebra, restricted versus full-domain claims",
+      "historical_nomf_agent_wall_s": "548.8",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/output/reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1",
+      "historical_nomf_solver_status": "Optimal",
+      "historical_reported_nomf_shape": {
+        "integers": 2801,
+        "nonzeros": 2800,
+        "rows": 175,
+        "vars": 2801
+      },
+      "historical_reported_source_shape": {
+        "integers": 14387,
+        "nonzeros": 64073,
+        "rows": 10765,
+        "vars": 14387
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 5711735,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test80.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test80-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test80"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "Tests objective/optimizer contracts and whether authors distinguish them from whole-feasible-set bijections.",
+      "structure": "Optimizer-face / objective-domain structure"
+    },
+    {
+      "case": "test65",
+      "demand_types": "Large model readback, batched row proofs, unchanged-coordinate contracts, resource visibility",
+      "historical_nomf_agent_wall_s": "279.4",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/output/model_reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1",
+      "historical_nomf_solver_status": "Time limit reached",
+      "historical_reported_nomf_shape": {
+        "integers": 26287,
+        "nonzeros": 631307,
+        "rows": 225040,
+        "vars": 154978
+      },
+      "historical_reported_source_shape": {
+        "integers": 26287,
+        "nonzeros": 788969,
+        "rows": 277594,
+        "vars": 154978
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 45882960,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test65.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test65-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test65"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "Stresses the committed stream reader and high-volume row reasoning at roughly 155k variables / 278k rows.",
+      "structure": "Very large mixed-integer row system"
+    },
+    {
+      "case": "test85",
+      "demand_types": "Caller-supplied zero-sum witnesses, sparse proof reuse, row replacement and projection scope",
+      "historical_nomf_agent_wall_s": "437.5",
+      "historical_nomf_artifact": {
+        "exists": true,
+        "format": ".mps",
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/output/reformulated.mps"
+      },
+      "historical_nomf_run": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1",
+      "historical_nomf_solver_status": "Optimal",
+      "historical_reported_nomf_shape": {
+        "integers": 8560,
+        "nonzeros": 47136,
+        "rows": 1923,
+        "vars": 8560
+      },
+      "historical_reported_source_shape": {
+        "integers": 10404,
+        "nonzeros": 517112,
+        "rows": 40962,
+        "vars": 10404
+      },
+      "historical_solver_host": "V100",
+      "input": {
+        "bytes": 16298241,
+        "exists": true,
+        "header": {
+          "LP_sense_keyword_seen": null,
+          "MAX_sense_seen": false,
+          "OBJSENSE_values_seen": [],
+          "ROWS_header_seen": true,
+          "read_prefix_bytes": 4096,
+          "scope": "Bounded prefix observation only; not a new whole-model parse or native normalization."
+        },
+        "original_data_exists": true,
+        "original_data_path": "/Users/bhz/Code/reform_test/data/test85.mps",
+        "path": "/Users/bhz/Code/reform_test/runs/test85-nomf-B1/input/model.mps"
+      },
+      "metadata_sources": [
+        "/Users/bhz/Code/reform_test/results.csv",
+        "docs/COMPILER_API_DEMAND.md section 3, test85"
+      ],
+      "prior_fresh_compiler_case": false,
+      "run_json_exists": true,
+      "selection_reason": "A different support system tests transfer of the new generic zero_sum helper beyond the repeatedly tested test16 family.",
+      "structure": "Binary support blocks / zero propagation"
+    }
+  ],
+  "core_checkpoint": "d916c298e81e046f0a24355e62b7218b798e8a4b",
+  "created_utc": "2026-10-15T04:15:51+00:00",
+  "decision_owner": "root",
+  "excluded_previously_fresh_compiler_ids": [
+    9,
+    13,
+    16,
+    51,
+    58,
+    63,
+    84,
+    86,
+    88
+  ],
+  "generalization_boundary": "Different case IDs and diverse structures are a useful held-out subset, not proof of universal generalization. The catalogue-informed selection and historical metrics are audit-only; future Agents receive only pristine selected inputs, generic API/docs and unchanged protocols, with no historical answers/strategies/solver feedback.",
+  "historical_metrics_boundary": "These are existing CSV measurements, mostly on V100, not fresh matched controls or current-machine quality results. No solver/statistics computation was rerun.",
+  "launch_status": "NOT_LAUNCHED",
+  "not_performed": [
+    "Run/workspace creation",
+    "Agent launch",
+    "Native command",
+    "Solver",
+    "Tests",
+    "Benchmark",
+    "Proof replay",
+    "Full model read",
+    "Mathematical search"
+  ],
+  "objective_sense_boundary": "All eight source and historical-delivery 4KiB prefixes have no explicit MAX. test60 historical LP says Minimize; the other prefixes are MPS headers without OBJSENSE. An additional 2KiB eligible-header inventory found no MAX and one OBJSENSE MIN (test81 delivery). This does not justify assuming a future fresh artifact is MIN: independently normalize objective sense, constants and sign before comparing objectives; do not treat raw MAX/MIN objective deltas as correctness evidence.",
+  "reason": "The human user explicitly requests different cases next round to test generalization; the original same-six C9 plan is superseded before any launch.",
+  "schema": "compiler-generalization-candidates-1",
+  "source_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "status": "CANDIDATES_ONLY_ROOT_SELECTION_PENDING",
+  "suggested_six_for_structural_breadth": [
+    "test28",
+    "test38",
+    "test60",
+    "test62",
+    "test70",
+    "test80"
+  ],
+  "unchanged_main_prompt_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+}
