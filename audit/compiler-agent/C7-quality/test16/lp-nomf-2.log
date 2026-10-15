@@ -1,0 +1,44 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+Number of BV entries in BOUNDS section is 76
+MIP reformulated has 79669 rows; 177938 cols; 362416 nonzeros; 152 integer variables (76 binary)
+Coefficient ranges:
+  Matrix  [6e-01, 3e+03]
+  Cost    [1e-01, 2e+08]
+  Bound   [1e+00, 1e+03]
+  RHS     [1e+00, 8e+03]
+WARNING: Problem has some excessively large costs
+WARNING:    Consider scaling the objective by 1e-3, or setting the user_objective_scale option to -8
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+79077 rows, 177302 cols, 360972 nonzeros 0s
+58738 rows, 155671 cols, 319937 nonzeros 0s
+Dependent equations search running on 52090 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+56164 rows, 153025 cols, 314526 nonzeros 0s
+Presolve reductions: rows 56164(-23505); columns 153025(-24913); nonzeros 314526(-47890) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -2.3505516990e+03 Ph1: 2569(33916); Du: 6265(2350.55) 0.2s
+      70589     5.4804480298e+08 Pr: 0(0); Du: 0(2.87223e-11) 2.1s
+      70589     5.4804480298e+08 Pr: 0(0); Du: 0(2.87223e-11) 2.1s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 / 1.18e-14 (relative      0 /  8.7e-18) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 3.64e-13 (relative      0 / 6.49e-20)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 7.18e-15  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 70589
+Objective value     :  5.4804480298e+08
+P-D objective error :  7.1780747308e-15
+HiGHS run time      :          2.11

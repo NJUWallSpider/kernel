@@ -1,0 +1,74 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+Number of BV entries in BOUNDS section is 1250
+MIP model has 1750 rows; 2500 cols; 5000 nonzeros; 1250 integer variables (1250 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 8e+01]
+  Cost    [1e+00, 1e+01]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+01]
+Presolving model
+1237 rows, 1816 cols, 3632 nonzeros 0s
+1153 rows, 1704 cols, 3408 nonzeros 0s
+Presolve reductions: rows 1153(-597); columns 1704(-796); nonzeros 3408(-1592) 
+Objective function is integral with scale 1
+
+Solving MIP model with:
+   1153 rows
+   1704 cols (852 binary, 0 integer, 0 implied int., 852 continuous, 0 domain fixed)
+   3408 nonzeros
+   Thread count 1 (of 10 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   205             inf                  inf        0      0      0         0     0.0s
+ S       0       0         0   0.00%   205             938               78.14%        0      0      0         0     0.0s
+         0       0         0   0.00%   237.9878049     938               74.63%        0      0      4       346     0.0s
+ L       0       0         0   0.00%   735.8634675     788                6.62%    10081    643      6      4011     0.9s
+ L       0       0         0   0.00%   735.8634675     761                3.30%    10081    643      6      6742     1.1s
+        46       6        13   0.00%   735.8634675     761                3.30%    10149    452    176     73281     6.2s
+ L     101      25        37   0.08%   736.3625749     758                2.85%    10135    622    370     95304     7.8s
+ L     201      30        76   1.75%   736.3625749     756                2.60%     9913    636    731    115023     9.5s
+ T     328      12       142  55.54%   746.7952388     755                1.09%    10585    620   1178    129575    11.0s
+ T     394       6       177  90.25%   748.04181       754                0.79%     9536    679   1497    142576    12.3s
+       402       0       182 100.00%   754             754                0.00%     9541    679   1502    144000    12.4s
+
+Solving report
+  Model             model
+  Status            Optimal
+  Primal bound      754
+  Dual bound        754
+  Gap               0% (tolerance: 0.01%)
+  P-D integral      0.534456046074
+  Solution status   feasible
+                    754 (objective)
+                    0 (bound viol.)
+                    1.1135536937e-13 (int. viol.)
+                    0 (row viol.)
+  Timing            12.43
+                    0.03 (Presolve)
+                        MIP    time [calls] = 0.00 [1]
+                        subMIP time [calls] = 0.03 [14]
+                    12.40 (Solve)
+                        MIP    time [calls] = 11.62 [1]
+                        subMIP time [calls] = 0.78 [14]
+                    0.00 (Postsolve)
+                        MIP    time [calls] = 0.00 [1]
+                        subMIP time [calls] = 0.00 [14]
+  Max sub-MIP depth 6
+  Nodes             402
+  Repair LPs        0
+  LP iterations     144000
+                    104879 (strong br.)
+                    7227 (separation)
+                    9846 (heuristics)

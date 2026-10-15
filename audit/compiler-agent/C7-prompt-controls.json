@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T02:22:45.966941+00:00",
-  "status": "agents_complete_quality_pending",
+  "status": "agents_complete_quality_reviewed",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C6-20261015",
   "treatment_id": "C7-20261015",
   "cases": [
@@ -85,7 +85,22 @@
   "comparison_json_sha256": "e294b1d811fbddcadae5892a7933a8b0f8845a245446235687926889d74f6414",
   "agents_completed_run_count": 12,
   "independent_harness_verified_compiler_count": 6,
-  "quality_status": "PENDING: no solver evaluation or proof replay performed in this record.",
+  "quality_status": "COMPLETE_BOUNDED_RESULTS: overall user acceptance remains false.",
   "summary": "audit/compiler-agent/C7-summary.json",
-  "updated_utc": "2026-10-15T02:59:29.679165+00:00"
+  "updated_utc": "2026-10-15T03:28:30.475551+00:00",
+  "quality_record": {
+    "path": "audit/compiler-agent/C7-quality/quality.json",
+    "sha256": "acc9b435c9f637245ef4c0dade33e2488c98cedd9ee5ebfe0efaa1edc8edd0d4"
+  },
+  "quality_review": {
+    "path": "audit/compiler-agent/C7-quality-review.json",
+    "sha256": "eac3bd00c2cf2195d1f0b0be71024fdcb6499253730d6e417369378835933707"
+  },
+  "quality_raw_artifact_manifest": {
+    "path": "audit/compiler-agent/C7-quality-raw-sha256.json",
+    "sha256": "01f105a99c16ed77908db6c03cf6de8c0d28f5b794ce5a246f6ef51a749cf80d"
+  },
+  "summary_sha256": "cc56c20d9bc654905651f5fabb67955ebc5af4cc638745bccd946153bd7116d5",
+  "acceptance_complete": false,
+  "C6_quality_status": "PENDING: no added C6 solves; no old/new prompt solver-quality causal attribution."
 }

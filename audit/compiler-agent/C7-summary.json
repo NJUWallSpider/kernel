@@ -10,7 +10,7 @@
   "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
   "acceptance_complete": false,
   "independent_harness_verified_count": 6,
-  "quality_status": "PENDING: no C7 solver evaluation in this record. Formal delivery acceptance does not establish quality or near-nomf-time acceptance.",
+  "quality_status": "COMPLETE_BOUNDED_MEASUREMENTS: all six cases reviewed; overall acceptance remains false. No C6 quality evaluation is available.",
   "author_program_replay_status": "NOT_RUN: author scripts/session artifacts are inventoried, not replayed. All twelve Agents are complete; no independent author-program replay is performed.",
   "fresh_case_specific_hints_supplied": false,
   "solver_feedback_to_agents": false,
@@ -1303,7 +1303,7 @@
     }
   },
   "harness_checkpoint": "3b2b20203bac6d81a4dc2a9db3734bb055318ecc",
-  "status": "agents_complete_quality_pending",
+  "status": "agents_complete_quality_reviewed",
   "completed_case_count": 6,
   "completed_run_count": 12,
   "completed_compiler_count": 6,
@@ -1390,7 +1390,7 @@
     "comparison_json_sha256": "e294b1d811fbddcadae5892a7933a8b0f8845a245446235687926889d74f6414",
     "comparison_status": "All twelve completed runs are present.",
     "prompt_controls": "audit/compiler-agent/C7-prompt-controls.json",
-    "prompt_controls_sha256": "ac82cfaac3a2c32de2093e979a6e43d6585331bd49bb8b0ffafdeb2e684e7a29"
+    "prompt_controls_before_quality_update_sha256": "ac82cfaac3a2c32de2093e979a6e43d6585331bd49bb8b0ffafdeb2e684e7a29"
   },
   "six_case_timing": {
     "compiler": {
@@ -1657,5 +1657,15 @@
       "remaining_after_first_verified_total_s": 490.456,
       "remaining_after_first_verified_median_s": 83.21
     }
-  }
+  },
+  "quality_record": {
+    "path": "audit/compiler-agent/C7-quality/quality.json",
+    "sha256": "acc9b435c9f637245ef4c0dade33e2488c98cedd9ee5ebfe0efaa1edc8edd0d4"
+  },
+  "quality_review": "audit/compiler-agent/C7-quality-review.json",
+  "quality_raw_artifact_manifest": {
+    "path": "audit/compiler-agent/C7-quality-raw-sha256.json",
+    "sha256": "01f105a99c16ed77908db6c03cf6de8c0d28f5b794ce5a246f6ef51a749cf80d"
+  },
+  "C6_quality_status": "PENDING: not evaluated; no old-versus-new-prompt solver-quality causal comparison."
 }

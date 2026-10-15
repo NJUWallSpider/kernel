@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C7-quality/test51/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C7-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.005112,
+  "load_average_at_start": [
+    2.46533203125,
+    3.32080078125,
+    3.4404296875
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C7-quality/test51/lp-compiler-1.log",
+  "rows": 289,
+  "variables": 159,
+  "nonzeros": 1773,
+  "status": "Optimal",
+  "primal_objective": -4.9592575252,
+  "solver_seconds": 0.0,
+  "simplex_iterations": 135,
+  "dual_bound": -4.9592575252,
+  "optimal": true
+}
