@@ -1,0 +1,500 @@
+{
+  "schema": "kernel-compiler-agent-summary-v2",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
+  "observed_at_utc": "2026-10-15T04:03:36.011606+00:00",
+  "status": "AGENTS_COMPLETE_QUALITY_RUNNING",
+  "compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+  "prompt_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+  "combined_compiler_protocol_sha256": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+  "model": "gpt-6.1-sol",
+  "thinking": "high",
+  "tools": "eval,read",
+  "max_time": "30m",
+  "concurrency": 3,
+  "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+  "independent_harness_verified_count": 6,
+  "agent_normal_exits": 12,
+  "timeouts": 0,
+  "harness_errors": 0,
+  "acceptance_complete": false,
+  "cases": {
+    "test9": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015",
+          "wall_s": 362.414,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+          "target_shape": {
+            "variables": 1309,
+            "rows": 846,
+            "integers": 170,
+            "nonzeros": 3174,
+            "objective_nonzeros": 1309
+          },
+          "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 358.024,
+            "tool_time_s": 2.996,
+            "tool_calls": 21,
+            "tool_calls_failed": 0,
+            "model_fallback_used": false
+          },
+          "execution_sha256": "3447605dbddf7f977ceeb7dff82ce81ac2b1da2489a90c63578270fb0e16897f",
+          "first_complete_final_artifact_check_s": 281.389,
+          "post_check_remaining_s": 81.025
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C8-20261015",
+          "wall_s": 440.316,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "4b5768e91a920074242fae955747567730b97d61df4ae67baefdfffa1c47df3f",
+          "target_shape": {
+            "variables": 1463,
+            "rows": 846,
+            "integers": 170,
+            "nonzeros": 3480,
+            "objective_nonzeros": 1463
+          },
+          "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 438.44,
+            "tool_time_s": 0.68,
+            "tool_calls": 19,
+            "tool_calls_failed": 2,
+            "model_fallback_used": false
+          },
+          "execution_sha256": "4bb65e014647f687cce4a3c123f142deb7d889c161428eaefbda31a930f2c809"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 0.823077,
+      "actual_formal_scope": "Two-stage explicit ordered chain: stage0 full MI/LP NonIncreasing forward and Equal reverse dominance; stage1 MI/LP Equal affine inverse pairs. Four explicitly composed paths preserve 1309 common observations. No global pointwise inverse is inherited from the affine second stage.",
+      "mathematics": {
+        "compiler": "Stage0 canonicalizes 73 strictly costly singleton coordinates to zero by transferring mass into their nonnegative equal-column leaf absorbers. Stage1 eliminates 746 leaf coordinates, all 170 origin z coordinates and 73 fixed-zero singleton coordinates, then removes 253 bound-valid rows.989 continuous coordinates eliminated; final 1309 variables/846rows/3174nonzeros. Ten weighted binary capacity inequalities remain unchanged.",
+        "nomf": "Same73 singleton dominance normalization, with 763 cheapest leaf pivots substituted across 763 rows;836 total continuous coordinates removed, 180 projected lower rows removed as existing nonnegative bounds. It retains 1462 original coordinates and adds a fixed objective-offset coordinate (1463 total). Ten weighted binary inequalities remain unchanged.",
+        "contract_boundary": "Compiler stage0 has total objective NonIncreasing forward/Equal reverse MI and LP maps; stage1 has objective-Equal inverse MI and LP maps. Four explicit selected paths compose to NI forward/Equal reverse feasibility correspondence, equal optimal infima and conditional attainment transfer with 1309 common observations. The full original-to-final map is not an affine inverse/bijection; no inverse is inherited from stage1. Nomf offers a handwritten universal algebraic projection/optimal-value argument and an independent exact artifact checker; its harness does not require native RPX."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test9-phase.json",
+        "sha256": "2c2c3073fb4a51bee623112c6fcf4a27099d5976fa221811ffd4d96014460cfb"
+      }
+    },
+    "test16": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test16-compiler-compiler-batch-C8-20261015",
+          "wall_s": 481.447,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "a392f1a778ab98c3cf20b73314b9cf204c98618bf64e798f9e409f091d4eb2ee",
+          "target_shape": {
+            "variables": 178164,
+            "rows": 79835,
+            "integers": 152,
+            "nonzeros": 362582,
+            "objective_nonzeros": 171299
+          },
+          "trusted_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 329.362,
+            "tool_time_s": 149.75,
+            "tool_calls": 21,
+            "tool_calls_failed": 0,
+            "model_fallback_used": false
+          },
+          "execution_sha256": "4ab4509e045fae105fa0b7bb3d28a1e6a3596bf17fc34399ef55b6beab5c2d73",
+          "first_complete_final_artifact_check_s": 407.855,
+          "post_check_remaining_s": 73.592
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test16-nomf-compiler-batch-C8-20261015",
+          "wall_s": 510.234,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "bff896df38e3d1173fbf0e7fd9f0216d7a37d3b8e912614b3b9a1932b9306647",
+          "target_shape": {
+            "variables": 178165,
+            "rows": 79835,
+            "integers": 152,
+            "nonzeros": 362582,
+            "objective_nonzeros": 171300
+          },
+          "trusted_input_sha256": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 469.079,
+            "tool_time_s": 39.217,
+            "tool_calls": 17,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "9f5b0fe6dbeaf1977eb74378104e0f94f2ef20b47e6e909f75d12b98219c0339"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 0.943581,
+      "actual_formal_scope": "Four unrestricted total maps: MI forward/reverse and LP forward/reverse, each objective Equal, with inverse pair links0<->1 and2<->3 and178164 retained-coordinate observations each. Full objective-preserving affine bijection in both encoded domains, not merely optimal-value correspondence.",
+      "mathematics": {
+        "compiler": "29,502 proved zeros, 20,683 exact residual pair aliases and one declared-fixed coordinate removed. Retains the tighter-bound original member in each alias class; objective offset 103,901,250 written explicitly.",
+        "nomf": "Same 29,502 zeros and 20,683 pair aliases, earliest-name representative with intersected declarations; changes 12,495 representative bounds. Retains declared fixed-one ID354863 as an objective-bearing column. Reports unrestricted MI and LP objective-preserving affine bijection, backed by independent exact audit, not native RPX.",
+        "difference": "Shapes differ by one fixed objective coordinate and representative choices/bound encoding. Both eliminate the same substantive zero/alias families and 61 box-valid inequalities; no general positive-sum elimination candidate is committed by either. Nomf publicly identifies 227 additional nonzero singleton equalities but intentionally retains them to avoid nonzero constant/objective-offset edits. Compiler removes only the already declared fixed-one coordinate. No claim of maximality or solver quality.",
+        "timing": "Compiler 481.447 s  / nomf 510.234 s; ratio 0.943581. First nomf independent artifact check 286.813 s, final repeated audit 475.330 s, final 510.234 s. Native proof is compiler-only; times are observations, not a controlled identical-proof benchmark.",
+        "public_retreat_boundary": "Neither public completed run shows a failed stronger native proof followed by target weakening. Nomf explicitly bounds its constant-elimination scope; compiler report acknowledges further general affine elimination without claiming impossibility."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test16-phase.json",
+        "sha256": "c2fd6d498099bfa8b8f1f7c5620439cc91867c80e4fa8966d72e29fc0df4334a"
+      }
+    },
+    "test88": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C8-20261015",
+          "wall_s": 323.162,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "7bd8066bd7156096ce4d1c7bc10a291ae6bf838ad229b7a67e176d669f77355a",
+          "target_shape": {
+            "variables": 384,
+            "rows": 2274,
+            "integers": 48,
+            "nonzeros": 11752,
+            "objective_nonzeros": 208
+          },
+          "trusted_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 313.004,
+            "tool_time_s": 8.091,
+            "tool_calls": 22,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "55814da8ce67257112c1050300ab77111d4d95b59f1dacf3dc3eeea8c0ebd0cd",
+          "first_complete_final_artifact_check_s": 241.336,
+          "post_check_remaining_s": 81.826
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test88-nomf-compiler-batch-C8-20261015",
+          "wall_s": 341.698,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "a5489539ed1a9c6263a05979c4f5aa5c934ff747a1672fe3369b4471876d70ac",
+          "target_shape": {
+            "variables": 432,
+            "rows": 2298,
+            "integers": 48,
+            "nonzeros": 7648,
+            "objective_nonzeros": 208
+          },
+          "trusted_input_sha256": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 339.677,
+            "tool_time_s": 1.241,
+            "tool_calls": 14,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "4c7f5e0945b4bdfc7c71ff25e76de91f13ba2c9bd9c5c1d5a6d347d220e35826"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 0.945753,
+      "actual_formal_scope": "Actual Request has MI objective-Equal inverse pair plus objective-Equal reverse continuous inclusion, each with 384 observations. No forward LP theorem. The whole-source fractional counterpoint is direct public evaluation saved in structural witnesses; Request points=0, so it is not a Kernel point theorem.",
+      "mathematics": {
+        "compiler": "All 144 equality-defined continuous coordinates are substituted by their binary expressions, and 256 integer-forced product-value aliases are substituted. All 384 local 14-row templates and all 64 six-binary assignments per block were checked; 27 admissible leaves give the product identity. Full user-authored six-binary trees prove every removed product coordinate. Deletes 3828 exact duplicate rows and 152 box-redundant rows, preserving 24 pair-sum bounds.",
+        "nomf": "Coalesces 96 repeated equality-definition copies while retaining 48 canonical signed/sum coordinates, and coalesces the same 256 integer-forced product-value copies. Deletes 3700 exact duplicate rows. Uses the same ternary-product reasoning with 27 exact assignments per local block.",
+        "difference": "Compiler eliminates 48 further definition representatives but has more matrix nonzeros after substitution. Smaller variable count alone does not establish better quality. Both pursue integer-forced product identities; neither claims a full continuous inverse."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test88-phase.json",
+        "sha256": "86cd4cceedc94a4b2237df178f56018a6bd368def2491f56327b80302caeb594"
+      }
+    },
+    "test58": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test58-compiler-compiler-batch-C8-20261015",
+          "wall_s": 310.167,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "54037a47f12aea64fa4ff212fcb1f600ab91e545138589a6651c7ae06e6dcfa9",
+          "target_shape": {
+            "variables": 1704,
+            "rows": 1152,
+            "integers": 852,
+            "nonzeros": 3404,
+            "objective_nonzeros": 852
+          },
+          "trusted_input_sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 307.36,
+            "tool_time_s": 1.681,
+            "tool_calls": 19,
+            "tool_calls_failed": 1,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "bae722ae3eaabed381e59e72617441c8840c7db28fb4a167f735da596e282dd7",
+          "first_complete_final_artifact_check_s": 218.859,
+          "post_check_remaining_s": 91.308
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test58-nomf-compiler-batch-C8-20261015",
+          "wall_s": 363.99,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "6b0c6bb637cc3a1d00f835042b28e658da38a8f53e05657d52e62157762ed9cc",
+          "target_shape": {
+            "variables": 611,
+            "rows": 789,
+            "integers": 305,
+            "nonzeros": 1827,
+            "objective_nonzeros": 306
+          },
+          "trusted_input_sha256": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 362.44,
+            "tool_time_s": 0.785,
+            "tool_calls": 17,
+            "tool_calls_failed": 1,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "b4a9f5e0bead6ac93dec42b145382d44b34e19c29e79c5956c42c16718502127"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 0.852131,
+      "actual_formal_scope": "Actual Request has exactly two unrestricted MI total maps, forward objective NonIncreasing and reverse Equal, with 1704 retained observations each. No inverse/LP/point claim. The explicit DFS smoke source/projected/lift points are manually checked examples outside Request points=0.",
+      "mathematics": {
+        "compiler": "Canonicalizes all 199 bridge pairs using exact balance-cut sums, eliminates 796 original coordinates and 398 gates, removes 199 zero balance identities and one remaining balance dependency. The 38 necessary bridge activations use supplied linear inequalities plus integer rounding. Retains the directed 301-node core and separate opposite activations; no Signed/Menu or series contraction.",
+        "nomf": "Also removes all 199 bridges, then represents opposite arcs by signed flows and contracts all 121 degree-two zero-adjusted-balance nodes into 305 maximal paths. Uses one binary per path and exact sign/positive-part lifting with objective NI forward and Equal reverse; 611 variables include a fixed objective-offset variable.",
+        "difference": "Compiler preserves integer rounding and non-bijective dominance normalization, but does not implement the broader non-affine signed/path candidate used by nomf. A later solver-quality comparison is needed; model size is not used as a quality proxy."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test58-phase.json",
+        "sha256": "f5464fe9ea3678c57a53d38c1991e7387e6114c75927ef3a8cee4232d58581bf"
+      }
+    },
+    "test63": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test63-compiler-compiler-batch-C8-20261015",
+          "wall_s": 196.629,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "0af985fa480fd217fd114b6ab40c99ecfbf50bdc67275ec4d9518e683a386ef4",
+          "target_shape": {
+            "variables": 1546,
+            "rows": 111,
+            "integers": 1454,
+            "nonzeros": 4523,
+            "objective_nonzeros": 2
+          },
+          "trusted_input_sha256": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 189.41,
+            "tool_time_s": 6.392,
+            "tool_calls": 15,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "eb821a92ebb61c03e1953c164f3d3c17f0873e486e7fda3cd152094ac3378162",
+          "first_complete_final_artifact_check_s": 136.521,
+          "post_check_remaining_s": 60.108
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test63-nomf-compiler-batch-C8-20261015",
+          "wall_s": 304.128,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "4272545efdfbb7cc8730a1502d2828c45daa9c39b51ccd549d5d82f91f9a3c18",
+          "target_shape": {
+            "variables": 1546,
+            "rows": 111,
+            "integers": 1454,
+            "nonzeros": 4524,
+            "objective_nonzeros": 1
+          },
+          "trusted_input_sha256": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 290.63,
+            "tool_time_s": 12.433,
+            "tool_calls": 15,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "507d9712015598bf38beea9e3e13c940572c50eb8707227fa3cf861e1791c6af"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 0.646534,
+      "actual_formal_scope": "Four unrestricted objective-Equal directional claims with MI inverse pair and LP inverse pair, 1456 original-coordinate observations each. Added slack coordinates are still covered by total-map feasibility and inverse obligations. No points/improvements.",
+      "mathematics": {
+        "compiler": "Introduces 90 continuous nonnegative capacity slacks, retains all 1456 original coordinates including fixed-zero x2, replaces 90 load inequalities with telescoping equalities and retains the final capacity inequality. Complete adjacent-difference/prefix linear algebra proves both MI and LP affine inverse pairs.",
+        "nomf": "Drops fixed-zero x2 and adds 91 nonnegative event slacks, replacing all 91 load inequalities with equalities. Additionally proves an integer window bound h>=41 by an exhaustive 4186-window calculation and imposes it in the artifact.",
+        "difference": "Both develop an extended interval-event representation with comparable dimensions, but differ in the last slack, fixed objective coordinate and extra bound. Not exact named-model identity. Compiler does not publicly develop the window-lower-bound candidate; no failed proof or refusal for it is observed."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test63-phase.json",
+        "sha256": "03e5f9360edda962143eaa58e2aa93d5c79d2ea85cb1e896d972355d0c8b4be8"
+      }
+    },
+    "test51": {
+      "arms": {
+        "compiler": {
+          "run": "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C8-20261015",
+          "wall_s": 489.756,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": true,
+          "kernel_verified": true,
+          "assessment_errors": [],
+          "model_sha256": "e7ff08a3a3010fc15e7eb0f32956e08e2826514724d886ef6ef0ad16cbad7519",
+          "target_shape": {
+            "variables": 137,
+            "rows": 245,
+            "integers": 108,
+            "nonzeros": 1443,
+            "objective_nonzeros": 4
+          },
+          "trusted_input_sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 481.538,
+            "tool_time_s": 6.486,
+            "tool_calls": 26,
+            "tool_calls_failed": 0,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "852407f393f66947e625153d6f6bd6cdf24243735ff4b0c3ab3b5dbd518c155d",
+          "first_complete_final_artifact_check_s": 389.763,
+          "post_check_remaining_s": 99.993
+        },
+        "nomf": {
+          "run": "/Users/bhz/Code/reform_test/runs/test51-nomf-compiler-batch-C8-20261015",
+          "wall_s": 336.253,
+          "exit_code": 0,
+          "timed_out": false,
+          "kernel_verification_required": false,
+          "kernel_verified": false,
+          "assessment_errors": [],
+          "model_sha256": "4959a59142208e885361aa0b994343b688c36cdfc416489687aeb8ae643a8d59",
+          "target_shape": {
+            "variables": 161,
+            "rows": 292,
+            "integers": 131,
+            "nonzeros": 1783,
+            "objective_nonzeros": 5
+          },
+          "trusted_input_sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+          "source_matches_trusted": true,
+          "metrics": {
+            "llm_time_s": 334.359,
+            "tool_time_s": 0.944,
+            "tool_calls": 17,
+            "tool_calls_failed": 1,
+            "model_fallback_used": null
+          },
+          "execution_sha256": "e2c350535dc9172b89eb6bc7177d6ba82954d57974e350712d4e3e8799f70b93"
+        }
+      },
+      "compiler_to_nomf_wall_ratio": 1.45651,
+      "actual_formal_scope": "Actual Request has MI objective-Equal inverse pair and objective-Equal reverse LP inclusion, 137 observations each; no forward LP or exact-LP-equivalence claim. Request points=0. explicit_point.json at one simplex vertex is a public manual full-row smoke evaluation, not a native checked point claim.",
+      "mathematics": {
+        "compiler": "Eliminates all 1225 affine y definitions, proves 1116 binary zeros including 22 additional convex-pair dominance fixings, flattens each convex witness to retained alternatives, handles the zero-function alternative with binary=1 and group t=0, preserves four sub-epsilon gap rows, and proves 108 smaller big-M inequalities by explicit binary cases.",
+        "nomf": "Proves 1094 strict coordinatewise-dominance binary zeros, eliminates 1225 y definitions, retains four sub-epsilon gap rows, and tightens remaining upper rows using profile maxima. Keeps the zero-vector group and weak-only/convex opportunities unresolved.",
+        "difference": "Compiler develops and certifies additional convex-combination dominance and the special-zero group while nomf stops at coordinatewise witnesses. This is positive evidence that more involved integer strengthening can survive the proof workflow; no claim about solver runtime or universal mathematical ambition follows."
+      },
+      "phase": {
+        "path": "audit/compiler-agent/C8-test51-phase.json",
+        "sha256": "ac1dd557366c947ff3f521c2ce353abc0c683f94da7de9abe8feacbe8299a5a8"
+      }
+    }
+  },
+  "Agent_time": {
+    "total_s": {
+      "compiler": 2163.575,
+      "nomf": 2296.619
+    },
+    "total_compiler_to_nomf_ratio": 0.94207,
+    "median_paired_ratio": 0.897856,
+    "compiler_faster_cases": 5,
+    "post_complete_final_check_median_s": 81.425,
+    "post_complete_final_check_total_s": 487.852,
+    "boundary": "Fresh mathematical choices and final targets differ. Wall ratios and post-check intervals are observations, not an isolated causal estimate of prompt changes."
+  },
+  "quality": {
+    "status": "RUNNING",
+    "path": "audit/compiler-agent/C8-quality/quality.json",
+    "final_sha256": null,
+    "launch_utc": "2026-10-15T03:53:03Z",
+    "controller_session": 73602,
+    "agent_overlap": false,
+    "feedback_to_agents": false,
+    "numerical_results_are_quality_not_correctness_evidence": true
+  },
+  "feature_boundary": {
+    "streaming_Model_load_in_frozen_Agent_package": false,
+    "zero_sum_in_frozen_Agent_package": false,
+    "early_constructive_scope_navigation_in_frozen_API_doc": false,
+    "latest_features_require_fresh_Agent_acceptance": true
+  },
+  "evidence": {
+    "phase_method": "Read-only actual Requests/receipts, public tool calls and independent harness assessments. Each phase binds its actual raw artifacts. No author-program replay substitutes for fresh calls. Missing metrics above are unavailable, not zero.",
+    "status_jsonl_sha256": "254de7bad852f1325c51e7d8f2b7f69531e97abf59b0bdb01e42314a15534500",
+    "batch_json_sha256": "93c698c67da75d82e313dc12c20b9adc817707a12762e7422889d9f40bfe6998",
+    "launch_integrity_sha256": "3ebceba8001238a5ad72282e439d4030d805c512facb07b7679a9908d12c9043",
+    "all_agents_and_eval_workers_stopped": "Driver session 5278 exit0; independent process audit after final agent_end found no batch driver, OMP or eval descendants before any test or solver started.",
+    "source_and_artifact_binding": "Existing independent harness requires pristine source anchor, each native proof, explicit composed paths for the chain, and full named committed-artifact binding. Six accepted compiler deliveries include these checks."
+  },
+  "mathematical_review": {
+    "positive_evidence": [
+      "test88 preserves exhaustive integer product reasoning and reverse LP inclusion.",
+      "test51 exceeds matched nomf exploration with convex-combination dominance and special zero-function reduction, with full MI inverses.",
+      "test9 uses staged dominance plus affine reconstruction; test63 retains an extended MI/LP formulation."
+    ],
+    "remaining_gaps": [
+      "test58 rejects an opposite-activation candidate with an affine/bijection objection, without using Signed/Menu. Nomf develops signed/path reconstruction. This is a discovery/exploration gap, not a demonstrated API rejection.",
+      "test63 does not develop the extra integer window bound found by matched nomf.",
+      "All six solver-quality comparisons and fresh adoption of the latest source remain required before an overall acceptance conclusion."
+    ],
+    "interpretation": "Absence of a public API failure does not prove the workflow has no effect on exploration. Variable/row counts alone do not measure quality or ambition."
+  },
+  "C6_quality_status": "PENDING; no C6/C7/C8 causal quality inference."
+}

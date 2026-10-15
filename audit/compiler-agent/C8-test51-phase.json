@@ -1,0 +1,254 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-compact-v1",
+  "round": "C8",
+  "scope": "Read-only completed paired Agent reports, actual Request, receipts and public Python tool events. No private reasoning copied, no solver/replay/tests, no model files read beyond four endpoint-magic bytes. All C8 Agents had ended before this review.",
+  "compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+  "prompt_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+  "new_streaming_and_zero_sum_features_in_frozen_package": false,
+  "quality_status": "PENDING; root runs independent serial quality separately. No values from that process read or used here.",
+  "acceptance_complete": false,
+  "case": "test51",
+  "compiler": {
+    "run": "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C8-20261015",
+    "wall_s": 489.756,
+    "exit_code": 0,
+    "timed_out": false,
+    "metrics": {
+      "llm_time_s": 481.538,
+      "tool_time_s": 6.486,
+      "tool_calls": 26,
+      "tool_calls_failed": 0
+    },
+    "target_shape": {
+      "variables": 137,
+      "rows": 245,
+      "integers": 108,
+      "nonzeros": 1443,
+      "objective_nonzeros": 4
+    },
+    "model_sha256": "e7ff08a3a3010fc15e7eb0f32956e08e2826514724d886ef6ef0ad16cbad7519",
+    "trusted_actual_input_hash_match": true,
+    "trusted_input_sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+    "assessment_errors": [],
+    "kernel_verified": true,
+    "first_complete_final_artifact_check_s": 389.763,
+    "post_check_s": 99.993,
+    "provenance_sha256": {
+      "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+      "workspace-manifest.json": "d17d1d1089ff9b9fad277660a0503d04959f075d49d9654627cb7193e17623a0",
+      "execution.json": "852407f393f66947e625153d6f6bd6cdf24243735ff4b0c3ab3b5dbd518c155d",
+      "session.jsonl": "8fbd5851b4dbcf2a7ef116395ffec654878375a25b42cb16ead86dbb14c75eea",
+      "assessment.json": "4c12d728335d531b4343d4519662282eb8156e7edcd3dd786cd03a8225fba7df",
+      "output/report.md": "3cec50db8b9ee1b52b3d1292bf422ecfaf01e2326b68c9662c61111eac5e27d9",
+      "output/request.json": "ab99e028600ed2af45fd975f7a6e0a59516967a1df11416c32ad80d5b6648cd9",
+      "output/verification.json": "ea645400e0cb9c65a913efae32203837ffba6d27631858d97dc028e21bb66407",
+      "output/delivery.json": "c3b047a8fc09a9cd85b929322d83f0570c68a62ee8e4a18dc73e0d149577e640"
+    },
+    "selected_phase_cells": [
+      {
+        "seconds": 170.361,
+        "title": "Testing convex-combination dominance",
+        "duration_ms": 109,
+        "status": [
+          "complete"
+        ],
+        "calls": []
+      },
+      {
+        "seconds": 240.443,
+        "title": "Constructing selected reformulation",
+        "duration_ms": 94,
+        "status": [
+          "complete"
+        ],
+        "calls": []
+      },
+      {
+        "seconds": 252.387,
+        "title": "Declaring full proof contracts",
+        "duration_ms": 455,
+        "status": [
+          "complete"
+        ],
+        "calls": [
+          "proof.bijection",
+          "proof.contract_summary"
+        ]
+      },
+      {
+        "seconds": 291.164,
+        "title": "Certifying integer-valid big-M tightening",
+        "duration_ms": 311,
+        "status": [
+          "complete"
+        ],
+        "calls": [
+          "f.cases"
+        ]
+      },
+      {
+        "seconds": 389.763,
+        "title": "Verifying final model and proof artifact",
+        "duration_ms": 978,
+        "status": [
+          "complete"
+        ],
+        "calls": [
+          "proof.contract_summary",
+          "proof.verify"
+        ]
+      }
+    ],
+    "receipt_status": "VERIFIED",
+    "artifact_audit_status": "MATCHED",
+    "receipt_committed_hash_matches_assessment": true,
+    "native_verify_total_s": 0.348705,
+    "actual_requests": [
+      {
+        "piece": 0,
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "observation_count": 137,
+            "affine_observation_count": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "observation_count": 137,
+            "affine_observation_count": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "observation_count": 137,
+            "affine_observation_count": 0
+          }
+        ],
+        "points": 0,
+        "improvements": 0,
+        "separate_bijections": 0,
+        "sha256": "ab99e028600ed2af45fd975f7a6e0a59516967a1df11416c32ad80d5b6648cd9",
+        "harness_piece_status": "VERIFIED",
+        "harness_piece_sha256": {
+          "source": "8824acdb891669e66e75ce70b1af6253c64fb9d489907c9b2f6ab16f9f1c730c",
+          "target": "71c6df44ef6aea5517a4fe83bddfa2f191707531f283e8c91ad1b1bf94aef3d2",
+          "proof": "81accc89fca36b5971a6519a4f44a953b50becba73122427609dd2cfc4ee8cb3",
+          "request": "ab99e028600ed2af45fd975f7a6e0a59516967a1df11416c32ad80d5b6648cd9"
+        }
+      }
+    ],
+    "standalone_author_script_exists": false,
+    "endpoint_reader_metadata": {
+      "source": {
+        "suffix": ".mcm",
+        "first_four_bytes_hex": "4d434d00",
+        "parser_family": "kernel_mcm"
+      },
+      "target": {
+        "suffix": ".mcm",
+        "first_four_bytes_hex": "4d434d00",
+        "parser_family": "kernel_mcm"
+      }
+    },
+    "proof_API_calls": [
+      {
+        "seconds": 252.387,
+        "title": "Declaring full proof contracts",
+        "calls": [
+          "proof.bijection",
+          "proof.contract_summary"
+        ]
+      },
+      {
+        "seconds": 291.164,
+        "title": "Certifying integer-valid big-M tightening",
+        "calls": [
+          "f.cases"
+        ]
+      },
+      {
+        "seconds": 389.763,
+        "title": "Verifying final model and proof artifact",
+        "calls": [
+          "proof.contract_summary",
+          "proof.verify"
+        ]
+      }
+    ]
+  },
+  "nomf": {
+    "run": "/Users/bhz/Code/reform_test/runs/test51-nomf-compiler-batch-C8-20261015",
+    "wall_s": 336.253,
+    "exit_code": 0,
+    "timed_out": false,
+    "metrics": {
+      "llm_time_s": 334.359,
+      "tool_time_s": 0.944,
+      "tool_calls": 17,
+      "tool_calls_failed": 1
+    },
+    "target_shape": {
+      "variables": 161,
+      "rows": 292,
+      "integers": 131,
+      "nonzeros": 1783,
+      "objective_nonzeros": 5
+    },
+    "model_sha256": "4959a59142208e885361aa0b994343b688c36cdfc416489687aeb8ae643a8d59",
+    "trusted_actual_input_hash_match": true,
+    "trusted_input_sha256": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+    "assessment_errors": [],
+    "kernel_verified": false,
+    "first_complete_final_artifact_check_s": 212.585,
+    "post_check_s": 123.668,
+    "provenance_sha256": {
+      "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+      "workspace-manifest.json": "5a74ef45b09708be7628981740eb5f5e49c59e4beb61a62b010a07ad841e77e0",
+      "execution.json": "e2c350535dc9172b89eb6bc7177d6ba82954d57974e350712d4e3e8799f70b93",
+      "session.jsonl": "56de0ac8874e714bac005e87278e305c658cb63ae3a39d6b3b4dc5ff8d56cbed",
+      "assessment.json": "8b51457c9e135af0805c2ceb600aeebead6c2da1f5c873ae5bc43b3f99880f6c",
+      "output/report.md": "1a2a5c26965ff0b71c12a2b71d45d1dbc33b66e229aa824f65dff18f0fcd6acc",
+      "output/verification.json": "1ac6ff0710bf129fc9f387f6b67cd04c5309d5b96f35c89c15d724eefe1a0d26"
+    },
+    "selected_phase_cells": [
+      {
+        "seconds": 191.636,
+        "title": "Building exact reduced MPS artifact",
+        "duration_ms": 61,
+        "status": [
+          "complete"
+        ],
+        "calls": []
+      }
+    ],
+    "kernel_verification_required": false
+  },
+  "mathematical_comparison": {
+    "compiler": "Eliminates all 1225 affine y definitions, proves 1116 binary zeros including 22 additional convex-pair dominance fixings, flattens each convex witness to retained alternatives, handles the zero-function alternative with binary=1 and group t=0, preserves four sub-epsilon gap rows, and proves 108 smaller big-M inequalities by explicit binary cases.",
+    "nomf": "Proves 1094 strict coordinatewise-dominance binary zeros, eliminates 1225 y definitions, retains four sub-epsilon gap rows, and tightens remaining upper rows using profile maxima. Keeps the zero-vector group and weak-only/convex opportunities unresolved.",
+    "difference": "Compiler develops and certifies additional convex-combination dominance and the special-zero group while nomf stops at coordinatewise witnesses. This is positive evidence that more involved integer strengthening can survive the proof workflow; no claim about solver runtime or universal mathematical ambition follows."
+  },
+  "actual_scope_and_examples": "Actual Request has MI objective-Equal inverse pair and objective-Equal reverse LP inclusion, 137 observations each; no forward LP or exact-LP-equivalence claim. Request points=0. explicit_point.json at one simplex vertex is a public manual full-row smoke evaluation, not a native checked point claim.",
+  "public_expression_and_retreat_evidence": {
+    "convex_pair_integer_dominance_retained": true,
+    "binary_big_M_cases": 108,
+    "public_API_or_tool_failure": false,
+    "explicit_proof_driven_retreat_observed": false,
+    "limit": "Four positive dominance margins remain below epsilon, so their lower-gap rows are deliberately preserved. This avoids claiming a stronger deletion than the supplied exact witnesses justify."
+  },
+  "timing_boundary": {
+    "compiler_to_nomf_wall_ratio": 1.45651,
+    "interpretation": "Observed Agent times only. Targets and mathematical arguments differ; no causal attribution to the combined C8 prompt changes and no solver-quality conclusion."
+  }
+}

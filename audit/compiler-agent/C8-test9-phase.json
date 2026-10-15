@@ -1,0 +1,907 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-v1",
+  "case": "test9",
+  "round": "C8",
+  "scope": "Read-only completed C8 compiler and completed C8 nomf public tool events, actual Requests and delivery receipts. No private reasoning copied, no solver/replay/tests, no other live Agent inputs or sessions read.",
+  "compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+  "prompt_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+  "combined_compiler_protocol_sha256": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+  "new_streaming_implementation_excluded": true,
+  "quality_status": "PENDING; no C8 solver or replay performed for this record",
+  "acceptance_complete": false,
+  "C8_compiler": {
+    "run": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015",
+    "agent_wall_s": 362.414,
+    "exit_code": 0,
+    "timed_out": false,
+    "metrics": {
+      "llm_calls": 22,
+      "tool_calls": 21,
+      "tool_calls_failed": 0,
+      "turns": 22,
+      "tokens_in": 45577,
+      "tokens_out": 13163,
+      "tokens_cache_read": 466432,
+      "tokens_cache_write": 0,
+      "tokens_total": 525172,
+      "cost_usd": 0.269,
+      "llm_time_s": 358.024,
+      "llm_ttft_s": 58.506,
+      "tool_time_s": 2.996,
+      "resolved_models": [
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "thinking_levels": [
+        "high"
+      ],
+      "model_fallback_used": false
+    },
+    "kernel_verified": true,
+    "assessment_errors": [],
+    "source_shape": {
+      "variables": 2298,
+      "rows": 1026,
+      "integers": 170,
+      "nonzeros": 4496,
+      "objective_nonzeros": 1742
+    },
+    "target_shape": {
+      "variables": 1309,
+      "rows": 846,
+      "integers": 170,
+      "nonzeros": 3174,
+      "objective_nonzeros": 1309
+    },
+    "model_sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9",
+    "actual_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "actual_input_matches_trusted": true,
+    "cells": [
+      {
+        "seconds": 14.758,
+        "title": "Loading exact source model",
+        "duration_ms": 422,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "6f259b397e76af4473a963fa5213251ecc8d6b79583a5072a14da56f2f60ef31",
+        "displayed_result_chars": 2184
+      },
+      {
+        "seconds": 26.582,
+        "title": "Mapping exact row and column structure",
+        "duration_ms": 11,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "4e8e28d9a9f83d1ea633e5c41bf00ca049d60700e33cd4f8833a555e08ae9d7f",
+        "displayed_result_chars": 4472
+      },
+      {
+        "seconds": 40.247,
+        "title": "Identifying equality-defined coordinates",
+        "duration_ms": 7,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "2488b1204dce93e5b4b111feda21e77253928d61be4d04bc0664a5f2d63285a1",
+        "displayed_result_chars": 6297
+      },
+      {
+        "seconds": 59.045,
+        "title": "Checking complete equality block structure",
+        "duration_ms": 6,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "fc797aad96669e7589d6a08761988d07d71c7883af6a6ea71e3ec3a022765d84",
+        "displayed_result_chars": 5290
+      },
+      {
+        "seconds": 86.355,
+        "title": "Evaluating sparse elimination candidates",
+        "duration_ms": 82,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "f7e2aaefbeebb963ba5be2d619cebe3f27dbb4c9135753d1e976c5436f68592e",
+        "displayed_result_chars": 1036
+      },
+      {
+        "seconds": 112.827,
+        "title": "Checking composed affine reduction",
+        "duration_ms": 70,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "7701d62a77a724ed226187d35dee2164077e408bac86e7983ae01d176288cf21",
+        "displayed_result_chars": 1457
+      },
+      {
+        "seconds": 129.883,
+        "title": "Testing redundancy and decomposition hypotheses",
+        "duration_ms": 56,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "3973d2de414544b3bf5ad8bb2b2a172cfaebe9ebcb2e73781c260d86a8bcf8af",
+        "displayed_result_chars": 967
+      },
+      {
+        "seconds": 141.108,
+        "title": "Investigating penalized singleton columns",
+        "duration_ms": 3,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "99431cd5fcde5f3f36e58febc817c7f7e3d36ccfda463bf6cb2d70a3f2deda70",
+        "displayed_result_chars": 1180
+      },
+      {
+        "seconds": 202.343,
+        "title": "Validating original records and dominance witnesses",
+        "duration_ms": 23,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "7aea16499f6aa88ec638e4406fcfadfdce0b6af346aa7ebe125bf4f12a54d763",
+        "displayed_result_chars": 490
+      },
+      {
+        "seconds": 222.193,
+        "title": "Proving singleton-column canonicalization",
+        "duration_ms": 251,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "42a8e3c557e3aeb48c9a673c74c12a0b4fe11f569480819806c1dd3c32188a14",
+        "displayed_result_chars": 901
+      },
+      {
+        "seconds": 240.69,
+        "title": "Constructing and proving affine reduced target",
+        "duration_ms": 799,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "879e17ae3118ce50b3530583290aab714862866c3ff520bfe3289b03c317027f",
+        "displayed_result_chars": 440
+      },
+      {
+        "seconds": 281.389,
+        "title": "Committing and verifying final reformulation",
+        "duration_ms": 1153,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "de6c03439b73afead8b6c7c66520f70a84cfd5f8e5bf735ecf72fead05471085",
+        "displayed_result_chars": 14872
+      },
+      {
+        "seconds": 294.646,
+        "title": "Recording complete verification receipt",
+        "duration_ms": 35,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "4b3f0cc14ee9f2387b18348a41653580851a526957acffba6da0d5f54b782e50",
+        "displayed_result_chars": 2898
+      },
+      {
+        "seconds": 351.867,
+        "title": "Writing final mathematical report",
+        "duration_ms": 15,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "5dfd196f8c0cc0e7ee45fa25d1672a933c07379a84177bf36e01e61b09fbc154",
+        "displayed_result_chars": 462
+      }
+    ],
+    "public_read_calls": [
+      {
+        "seconds": 3.6,
+        "i": "Inspecting evaluation workspace",
+        "path": "."
+      },
+      {
+        "seconds": 9.083,
+        "i": "Reading compiler API overview",
+        "path": "compiler/API.md:1-210"
+      },
+      {
+        "seconds": 17.718,
+        "i": "Inspecting MPS sections",
+        "path": "input/model.mps:1-45"
+      },
+      {
+        "seconds": 48.843,
+        "i": "Reading proof construction interfaces",
+        "path": "compiler/API.md:210-405"
+      },
+      {
+        "seconds": 163.852,
+        "i": "Reading composition delivery API",
+        "path": "compiler/API.md:570-709"
+      },
+      {
+        "seconds": 179.722,
+        "i": "Inspecting MPS metadata and bounds",
+        "path": "input/model.mps:1020-1042,6752-6768,7263-7280,7385-7403,7550-7563"
+      },
+      {
+        "seconds": 286.418,
+        "i": "Locating verified delivery artifacts",
+        "path": "output/"
+      }
+    ],
+    "proof_API_calls": [
+      {
+        "seconds": 222.193,
+        "title": "Proving singleton-column canonicalization",
+        "function": "stage0.contract_summary",
+        "expression": "stage0.contract_summary(max_items=2)"
+      },
+      {
+        "seconds": 281.389,
+        "title": "Committing and verifying final reformulation",
+        "function": "stage0.compile",
+        "expression": "stage0.compile('output/stage0')"
+      },
+      {
+        "seconds": 281.389,
+        "title": "Committing and verifying final reformulation",
+        "function": "stage1.compile",
+        "expression": "stage1.compile('output/stage1')"
+      },
+      {
+        "seconds": 281.389,
+        "title": "Committing and verifying final reformulation",
+        "function": "write_chain",
+        "expression": "write_chain(['output/stage0/delivery.json', 'output/stage1/delivery.json'], 'output/delivery.json', original_model='input/model.mps', committed_model='output/reformulated.mps', claim_paths={'mi_forward': [0, 0], 'mi_reverse': [1, 1], 'lp_forward': [2, 2], 'lp_reverse': [3, 3]})"
+      },
+      {
+        "seconds": 281.389,
+        "title": "Committing and verifying final reformulation",
+        "function": "verify_bundle",
+        "expression": "verify_bundle(manifest)"
+      }
+    ],
+    "standalone_author_scripts": [],
+    "provenance_sha256": {
+      "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+      "workspace-manifest.json": "10ba39eba71368dac2eb230b6ba29ae2291490536c47902e03b7d52862bdd3d9",
+      "session.jsonl": "93dda286edd91de4d34ba4098f72ba1d30d1d7f53b02079d725eb9afef4ac1ac",
+      "execution.json": "3447605dbddf7f977ceeb7dff82ce81ac2b1da2489a90c63578270fb0e16897f",
+      "final-answer.txt": "2eecc730bee07de32be9c999b20e08a0455cf97240d1cb0e20ac60718a469c11",
+      "output/report.md": "fcab945cd9d449137ef2e9c597b9c51dbcfac4521c711501f09d916c6a2333e8",
+      "output/verification.json": "ff1b04a2a32dba1162cd68d7024ba5670257d8a53a209306fd1e8377ed4703f0",
+      "output/delivery.json": "979e630b27ff232dfc70478685be4a9865050afd807dbafe04233bf15bcfdf6f",
+      "assessment.json": "e5b9bbdde2d0661a9ca5d571fad18b147f66fd1513c2252aeb1109d06d07b8ca",
+      "output/stage0/request.json": "932edc60baa07602730ea673088988f49659e352ba51d0c8d46804253f8dcaed",
+      "output/stage1/request.json": "51303913bf600c6d7b8ba99abba88ac1c42b318ba9cf252bbe1baeedcc93bd48"
+    },
+    "receipt_status": "VERIFIED",
+    "artifact_audit": {
+      "status": "MATCHED",
+      "method": "Kernel standard-format readback and exact named formulation comparison",
+      "scope": "Only the final complete proof target and committed artifact; every named variable, bound, integrality declaration, row, and objective agrees; model NAME, coordinate/row order and folded row constants may differ",
+      "committed_model": {
+        "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015/output/reformulated.mps",
+        "sha256": "ed8036655eb5587e64e5921d7c6deeea6bea5f9dbd51b4d8789192c6af91cdb9"
+      },
+      "proof_target": {
+        "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015/output/stage1/target.mcm",
+        "sha256": "29358e9bc5d8a8e5ccede17ed0f85cf7c92199f66f94afac2b2585b4a377f7d9"
+      },
+      "committed_reader": "kernel_mps",
+      "proof_target_reader": "kernel_mcm"
+    },
+    "receipt_hash_matches_assessed_model": true,
+    "compiler_sources": {
+      "package": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/python/kernel_compiler",
+        "files_sha256": {
+          "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+          "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+          "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+          "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+          "model.py": "420160cea8e6e40ff01a154c4cd4976146acb307a41e2bceed32ed2dcf892dac",
+          "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+          "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+          "proof.py": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+          "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+          "session.py": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3"
+        }
+      },
+      "protocol": {
+        "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+        "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+      },
+      "api_doc": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/docs/COMPILER_API.md",
+        "sha256": "0dd54c83f501526389be2a5ef2277027a07e6e3d45b03aec2ec0a1b0e6c47b97"
+      },
+      "kernel": {
+        "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015/kernel/rpx",
+        "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+      }
+    },
+    "native_verify_total_s": 0.087673,
+    "pieces": [
+      {
+        "stage": 0,
+        "claims": [
+          {
+            "index": 0,
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "projection_count": 2152,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 1,
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "projection_count": 2152,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 2,
+            "reverse": false,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "projection_count": 2152,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 3,
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "projection_count": 2152,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          }
+        ],
+        "points": 0,
+        "improvements": 0,
+        "separate_bijections": 0,
+        "request_sha256": "932edc60baa07602730ea673088988f49659e352ba51d0c8d46804253f8dcaed",
+        "assessment_verification_exit_code": 0,
+        "assessment_native_status": "VERIFIED",
+        "independent_artifact_sha256": {
+          "source": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378",
+          "target": "aec15ade08a49bfb64999256294b8a4253fe5717c6829b65fcc6e5d23bbd3bf4",
+          "proof": "1689f870f6e9c639e4f0cb17d807a1d176a315cd48f63bfad3c59c1f93841cba",
+          "request": "932edc60baa07602730ea673088988f49659e352ba51d0c8d46804253f8dcaed"
+        },
+        "endpoint_readers": {
+          "source": {
+            "suffix": ".mcm",
+            "first_four_bytes_hex": "4d434d00",
+            "parser_family": "kernel_mcm"
+          },
+          "target": {
+            "suffix": ".mcm",
+            "first_four_bytes_hex": "4d434d00",
+            "parser_family": "kernel_mcm"
+          }
+        }
+      },
+      {
+        "stage": 1,
+        "claims": [
+          {
+            "index": 0,
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "projection_count": 1309,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 1,
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "projection_count": 1309,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 2,
+            "reverse": false,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": 3,
+            "projection_count": 1309,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          },
+          {
+            "index": 3,
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": 2,
+            "projection_count": 1309,
+            "affine_projection_count": 0,
+            "input_restrictions": {},
+            "input_objective_lower": null
+          }
+        ],
+        "points": 0,
+        "improvements": 0,
+        "separate_bijections": 0,
+        "request_sha256": "51303913bf600c6d7b8ba99abba88ac1c42b318ba9cf252bbe1baeedcc93bd48",
+        "assessment_verification_exit_code": 0,
+        "assessment_native_status": "VERIFIED",
+        "independent_artifact_sha256": {
+          "source": "aec15ade08a49bfb64999256294b8a4253fe5717c6829b65fcc6e5d23bbd3bf4",
+          "target": "29358e9bc5d8a8e5ccede17ed0f85cf7c92199f66f94afac2b2585b4a377f7d9",
+          "proof": "559d8a317cdab17f2d18e5cc2c2b72b2e179d7c64180dd053e335714ceaaa621",
+          "request": "51303913bf600c6d7b8ba99abba88ac1c42b318ba9cf252bbe1baeedcc93bd48"
+        },
+        "endpoint_readers": {
+          "source": {
+            "suffix": ".mcm",
+            "first_four_bytes_hex": "4d434d00",
+            "parser_family": "kernel_mcm"
+          },
+          "target": {
+            "suffix": ".mcm",
+            "first_four_bytes_hex": "4d434d00",
+            "parser_family": "kernel_mcm"
+          }
+        }
+      }
+    ],
+    "composition": {
+      "ordered_chain": true,
+      "joins": [
+        {
+          "left_stage": 0,
+          "right_stage": 1,
+          "exact_named_formulation_match": true
+        }
+      ],
+      "original_anchor_checked": true,
+      "original_anchor_reader": "kernel_mps",
+      "final_target_artifact_match": true,
+      "final_relation_derived": true,
+      "paths": [
+        {
+          "label": "mi_forward",
+          "direction": "forward",
+          "input_integers": true,
+          "output_integers": true,
+          "selected_claims": [
+            {
+              "stage": 0,
+              "claim": 0,
+              "input_objective_lower": null
+            },
+            {
+              "stage": 1,
+              "claim": 0,
+              "input_objective_lower": null
+            }
+          ],
+          "composable": true,
+          "affine_inverse_inferred": false,
+          "full_model_bijection_inferred": false,
+          "uncomposed_affine_projection_count": 0,
+          "objective": "NonIncreasing",
+          "observation_count": 1309
+        },
+        {
+          "label": "mi_reverse",
+          "direction": "reverse",
+          "input_integers": true,
+          "output_integers": true,
+          "selected_claims": [
+            {
+              "stage": 1,
+              "claim": 1,
+              "input_objective_lower": null
+            },
+            {
+              "stage": 0,
+              "claim": 1,
+              "input_objective_lower": null
+            }
+          ],
+          "composable": true,
+          "affine_inverse_inferred": false,
+          "full_model_bijection_inferred": false,
+          "uncomposed_affine_projection_count": 0,
+          "objective": "Equal",
+          "observation_count": 1309
+        },
+        {
+          "label": "lp_forward",
+          "direction": "forward",
+          "input_integers": false,
+          "output_integers": false,
+          "selected_claims": [
+            {
+              "stage": 0,
+              "claim": 2,
+              "input_objective_lower": null
+            },
+            {
+              "stage": 1,
+              "claim": 2,
+              "input_objective_lower": null
+            }
+          ],
+          "composable": true,
+          "affine_inverse_inferred": false,
+          "full_model_bijection_inferred": false,
+          "uncomposed_affine_projection_count": 0,
+          "objective": "NonIncreasing",
+          "observation_count": 1309
+        },
+        {
+          "label": "lp_reverse",
+          "direction": "reverse",
+          "input_integers": false,
+          "output_integers": false,
+          "selected_claims": [
+            {
+              "stage": 1,
+              "claim": 3,
+              "input_objective_lower": null
+            },
+            {
+              "stage": 0,
+              "claim": 3,
+              "input_objective_lower": null
+            }
+          ],
+          "composable": true,
+          "affine_inverse_inferred": false,
+          "full_model_bijection_inferred": false,
+          "uncomposed_affine_projection_count": 0,
+          "objective": "Equal",
+          "observation_count": 1309
+        }
+      ],
+      "bidirectional": [
+        {
+          "forward_path": "mi_forward",
+          "reverse_path": "mi_reverse",
+          "feasibility_correspondence": true,
+          "equal_optimal_infima": true,
+          "attainment_transfers_if_optimum_exists": true,
+          "observation_count": 1309
+        },
+        {
+          "forward_path": "lp_forward",
+          "reverse_path": "lp_reverse",
+          "feasibility_correspondence": true,
+          "equal_optimal_infima": true,
+          "attainment_transfers_if_optimum_exists": true,
+          "observation_count": 1309
+        }
+      ]
+    },
+    "declared_claim_paths": {
+      "mi_forward": [
+        0,
+        0
+      ],
+      "mi_reverse": [
+        1,
+        1
+      ],
+      "lp_forward": [
+        2,
+        2
+      ],
+      "lp_reverse": [
+        3,
+        3
+      ]
+    },
+    "independent_staged_review": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C8-20261015/harness-assessment/ordered-chain/staged-review.json",
+      "sha256": "2646145319027864ea336db7641fd4c1256ed20d221c3ce56e7c7152bd461fee",
+      "version": "staged-agent-review-v2",
+      "kernel_verified": true,
+      "errors": []
+    },
+    "claim_coverage_signals": {
+      "directional_claims": 8,
+      "unrestricted_integer_forward": 2,
+      "unrestricted_integer_reverse": 2,
+      "objective_unchecked": 0,
+      "restricted_claims": 0,
+      "affine_inverse_claims": 4
+    },
+    "first_final_artifact_check_s": 281.389,
+    "post_check_remaining_s": 81.025,
+    "eval_time_after_check_s": 0.05
+  },
+  "C8_nomf": {
+    "run": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C8-20261015",
+    "agent_wall_s": 440.316,
+    "exit_code": 0,
+    "timed_out": false,
+    "metrics": {
+      "llm_calls": 20,
+      "tool_calls": 19,
+      "tool_calls_failed": 2,
+      "turns": 20,
+      "tokens_in": 40673,
+      "tokens_out": 21225,
+      "tokens_cache_read": 335488,
+      "tokens_cache_write": 0,
+      "tokens_total": 397386,
+      "cost_usd": 0.327,
+      "llm_time_s": 438.44,
+      "llm_ttft_s": 85.815,
+      "tool_time_s": 0.68,
+      "resolved_models": [
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "thinking_levels": [
+        "high"
+      ],
+      "model_fallback_used": false
+    },
+    "kernel_verified": false,
+    "assessment_errors": [],
+    "source_shape": {
+      "variables": 2298,
+      "rows": 1026,
+      "integers": 170,
+      "nonzeros": 4496,
+      "objective_nonzeros": 1742
+    },
+    "target_shape": {
+      "variables": 1463,
+      "rows": 846,
+      "integers": 170,
+      "nonzeros": 3480,
+      "objective_nonzeros": 1463
+    },
+    "model_sha256": "4b5768e91a920074242fae955747567730b97d61df4ae67baefdfffa1c47df3f",
+    "actual_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "actual_input_matches_trusted": true,
+    "cells": [
+      {
+        "seconds": 27.024,
+        "title": "Locating MPS sections",
+        "duration_ms": 121,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "07c8f9f961687841b3e91fff261ac7841e1453a7467fbbef83b12bc6d8efa884",
+        "displayed_result_chars": 662
+      },
+      {
+        "seconds": 48.302,
+        "title": "Parsing exact MPS representation",
+        "duration_ms": 40,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "85cc7563443cc7786ac1ccabb3a866f2d9ddcf475329e8c6cc61511a60aa242a",
+        "displayed_result_chars": 1324
+      },
+      {
+        "seconds": 57.147,
+        "title": "Inspecting algebraic row families",
+        "duration_ms": 13,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "b708acbd8b0b629b03630b1ff219c9549d6db652ea78469fbb0c8318a08e154f",
+        "displayed_result_chars": 11512
+      },
+      {
+        "seconds": 69.939,
+        "title": "Testing singleton elimination structure",
+        "duration_ms": 22,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "f648da791cff239fe7ed31a5f52c26a91826f66cd23cddb46cb04f35661e744d",
+        "displayed_result_chars": 2698
+      },
+      {
+        "seconds": 90.359,
+        "title": "Testing singleton interactions and connectivity",
+        "duration_ms": 11,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "493c77b6cb90531a5ef5149861d98e675818506ef7f52918fe7756fa1f0d33af",
+        "displayed_result_chars": 2031
+      },
+      {
+        "seconds": 111.137,
+        "title": "Verifying exact elimination candidate",
+        "duration_ms": 48,
+        "status": "error",
+        "exit_code": 1,
+        "public_code_sha256": "a529c8b06c29fa3f719a8123f89abcf6679841d43ebec8536be1f576d7110165",
+        "displayed_result_chars": 541
+      },
+      {
+        "seconds": 119.635,
+        "title": "Completing interval-bound check",
+        "duration_ms": 10,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "cf2acd398bb349e24bb8b6f0eeedee496c35a9e21de27f0d7211a1289a7ea87c",
+        "displayed_result_chars": 850
+      },
+      {
+        "seconds": 131.147,
+        "title": "Checking implied terminal inequalities",
+        "duration_ms": 16,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "a711bf9118afb7e6fdf0cc77f57f1e1235d09b80bcc081d9251d7d17f0d96de7",
+        "displayed_result_chars": 676
+      },
+      {
+        "seconds": 153.938,
+        "title": "Preparing independent representation audit",
+        "duration_ms": 12,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "12728e47de50e31a7220911531556c6451e95732d9777475f5879dd9d5c6af3c",
+        "displayed_result_chars": 334
+      },
+      {
+        "seconds": 203.699,
+        "title": "Cross-checking source and final scope",
+        "duration_ms": 34,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "eaeefb2730a330b150801c013ddc63165f24d4aefc4d2861a4d81e47bc47e00f",
+        "displayed_result_chars": 230
+      },
+      {
+        "seconds": 244.365,
+        "title": "Writing committed formulation and audit",
+        "duration_ms": 33,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "c8ff05c1e601bad1db2efec580545b37bebc48a2680c0a0233133bab81131830",
+        "displayed_result_chars": 146
+      },
+      {
+        "seconds": 308.244,
+        "title": "Running independent exact artifact verifier",
+        "duration_ms": 126,
+        "status": "error",
+        "exit_code": 1,
+        "public_code_sha256": "a1486a3c8b39cd678a154f56c960c25cd18daf2365a10bb993674fc0ec312ad7",
+        "displayed_result_chars": 582
+      },
+      {
+        "seconds": 321.311,
+        "title": "Correcting byte-level provenance and verifying",
+        "duration_ms": 124,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "6d23c09eaed5b02c86522688aad3d1d87991507d246b36870e7f081ca9e956cb",
+        "displayed_result_chars": 1150
+      },
+      {
+        "seconds": 407.866,
+        "title": "Recording proof and final evidence",
+        "duration_ms": 14,
+        "status": "complete",
+        "exit_code": 0,
+        "public_code_sha256": "f2aeeed54da4d814f63503bd0084c4c4011635ddb149146a33f06e1f03a3bf46",
+        "displayed_result_chars": 209
+      }
+    ],
+    "public_read_calls": [
+      {
+        "seconds": 5.654,
+        "i": "Inspecting workspace entries",
+        "path": "."
+      },
+      {
+        "seconds": 12.694,
+        "i": "Inspecting MPS opening records",
+        "path": "input/model.mps:1-95"
+      },
+      {
+        "seconds": 19.045,
+        "i": "Inspecting MPS closing records",
+        "path": "input/model.mps:-75"
+      },
+      {
+        "seconds": 31.389,
+        "i": "Inspecting row and column boundaries",
+        "path": "input/model.mps:1005-1065,7220-7290,7370-7410"
+      },
+      {
+        "seconds": 312.447,
+        "i": "Inspecting failed provenance assertion",
+        "path": "output/verify.py:124-141"
+      }
+    ],
+    "proof_API_calls": [],
+    "standalone_author_scripts": [
+      "output/verify.py"
+    ],
+    "provenance_sha256": {
+      "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+      "workspace-manifest.json": "7d1bf6186639a3da6069750bdc440d76a485d6a1e4bff272b2896e71dde2be03",
+      "session.jsonl": "4fb7e2328457c05edc5b1f697caff0caf0030733a7f3aba703118fff684c7112",
+      "execution.json": "4bb65e014647f687cce4a3c123f142deb7d889c161428eaefbda31a930f2c809",
+      "final-answer.txt": "647dc123c2bc0a30395a9ea32d2c5fd64983f65535ac87169baa8d312e828986",
+      "output/report.md": "e383c6b6f1e575acc9b24f165029ce6fa5655e66e31d33fb81d2fd760198d42b",
+      "output/verification.json": "fd506cb3ed8fdd34de6ee68a6be478b9ce08c4107ba5d3a4eda1aa79fbea7056",
+      "assessment.json": "0ee839e3971a06807c5eba047b7bf098553a374f495a6eb98cd688086b5cafad"
+    },
+    "first_final_artifact_check_s": 321.311,
+    "post_check_remaining_s": 119.005,
+    "eval_time_after_check_s": 0.014
+  },
+  "actual_mathematics": {
+    "compiler": "Stage0 canonicalizes 73 strictly costly singleton coordinates to zero by transferring mass into their nonnegative equal-column leaf absorbers. Stage1 eliminates 746 leaf coordinates, all 170 origin z coordinates and 73 fixed-zero singleton coordinates, then removes 253 bound-valid rows.989 continuous coordinates eliminated; final 1309 variables/846rows/3174nonzeros. Ten weighted binary capacity inequalities remain unchanged.",
+    "nomf": "Same73 singleton dominance normalization, with 763 cheapest leaf pivots substituted across 763 rows;836 total continuous coordinates removed, 180 projected lower rows removed as existing nonnegative bounds. It retains 1462 original coordinates and adds a fixed objective-offset coordinate (1463 total). Ten weighted binary inequalities remain unchanged.",
+    "contract_boundary": "Compiler stage0 has total objective NonIncreasing forward/Equal reverse MI and LP maps; stage1 has objective-Equal inverse MI and LP maps. Four explicit selected paths compose to NI forward/Equal reverse feasibility correspondence, equal optimal infima and conditional attainment transfer with 1309 common observations. The full original-to-final map is not an affine inverse/bijection; no inverse is inherited from stage1. Nomf offers a handwritten universal algebraic projection/optimal-value argument and an independent exact artifact checker; its harness does not require native RPX."
+  },
+  "capacity_opportunity_review": {
+    "compiler_rows_encountered": true,
+    "nomf_rows_encountered": true,
+    "compiler_capacity_cut_candidate_or_proof_attempt_in_public_events": false,
+    "nomf_capacity_cut_candidate_in_public_events": false,
+    "boundary": "Both inspected the 10 weighted binary rows. Their public candidate records develop singleton elimination/dominance, redundancy and graph/duplicate hypotheses. Encountering those rows is not evidence that a capacity-strengthening candidate was developed and then avoided. No public certificate failure or statement of proof-driven retreat is observed."
+  },
+  "prompt_practice_observations": {
+    "optional_author_script": "No standalone .py author program saved by the compiler Agent; Python authorship is preserved by the public interactive eval transcript.",
+    "reuse_of_sets": "The elimination exploration defines invariant yinds,zinds,xinds,binds sets once, and final target construction defines retained=set(target.var_index) and all_base_idx outside map loops. It nevertheless evaluates set(range(len(target.vars))) inside a reverse-expression assertion for each map entry (2298 source coordinates), a small instance of repeated invariant-set construction. No isolated cost measurement.",
+    "bounded_output": "Calls stage0.contract_summary(max_items=2), prints missing goals in slices, and later writes full artifacts to disk. However the first final verify cell prints the first 14000 characters of composition (including observation lists), and a post-verification metadata print excludes keys paths/relations while bidirectional still contains full observation lists; the eval tool truncates individual long lines. Thus summary-only display advice was only partly followed.",
+    "first_verification_does_not_show_early_retreat": "The stronger 73-singleton normalization and full 170-origin elimination were developed before the two-stage certificate. No evidence in public actions that the first verifiable candidate displaced an already-developed stronger candidate."
+  },
+  "timing_comparison": {
+    "C8_compiler_to_nomf_ratio": 0.823077,
+    "C7_phase_record": "audit/compiler-agent/C7-test9-phase.json",
+    "C7_phase_record_sha256": "36cd96cab8a04b8727e3606287e1128fcea68f9d02125569dad4a28b06d9d26f",
+    "C7_compiler_wall_s": 251.949,
+    "C7_compiler_first_final_verified_s": 183.384,
+    "C7_compiler_post_s": 68.565,
+    "C8_minus_C7_wall_s": 110.465,
+    "C8_minus_C7_post_s": 12.46,
+    "C7_protocol_sha256": "9acd04f77f86bb40e4d3a342ebe953156f4d8fd226d9929b63a2c30dae711023",
+    "C7_target_shape": {
+      "variables": 1399,
+      "rows": 846,
+      "integers": 170,
+      "nonzeros": 3264,
+      "objective_nonzeros": 1399
+    },
+    "comparison_boundary": "Same old231 package/API/native and same case, with changed combined addon. C7 instead commits899 affine eliminations and full original MI+LP objective-Equal inverses, retains17 penalized origin coordinates and has no dominance canonicalization. C8 and C7 have different target math and theorem scope. Differences are observations, not causal estimates of the combined prompt changes or solver-quality claims."
+  },
+  "nomf_errors_preserved": {
+    "tool_failures": 2,
+    "descriptions": [
+      "Candidate interval routine unpacked a3-field domain tuple as2 values; corrected next cell.",
+      "Independent artifact verifier rejected a newline-normalized source digest; updated to original-byte SHA, reran and passed."
+    ],
+    "first_complete_independent_check_s": 321.311,
+    "final_verification_status": "PASS",
+    "trusted_actual_input_unchanged": true
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "acceptance_boundary": {
+    "formal": "Fresh compiler Agents must independently complete existing Kernel verification and complete source/committed-target binding.",
+    "mathematics": "Do not equate raw rule coverage, VERIFIED status, dimensions or faster elapsed time with natural expression, preserved complex-reformulation willingness or equal quality.",
+    "overall_user_goal_acceptance": false,
+    "quality_and_time": "Compare actual mathematical scope and independently measured quality with fresh nomf controls; unchanged C8 prompt does not make the API treatment a prompt-only experiment."
+  },
+  "actions_in_this_preparation": [
+    "Read only small source/metadata files.",
+    "Copied 14 generic files exactly matching 5c42197; Python implementation also exactly matches d916c29.",
+    "Marked the old d916c29 preparation SUPERSEDED_PRELAUNCH without altering its generic source files.",
+    "Recorded generic documentation discoverability evidence only in audit metadata, not Agent inputs.",
+    "Wrote the new static snapshot and refreshed NOT_LAUNCHED controls."
+  ],
+  "actual_git_HEAD_at_package_creation": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "changed_features": [
+    {
+      "feature": "streaming Model.load",
+      "fresh_Agent_evidence": "NOT_RUN",
+      "implementation_checkpoint": "72fb200"
+    },
+    {
+      "feature": "Builder.zero_sum deterministic supplied-witness elaboration",
+      "fresh_Agent_evidence": "NOT_RUN",
+      "implementation_checkpoint": "d916c298e81e046f0a24355e62b7218b798e8a4b"
+    },
+    {
+      "feature": "Generic early API navigation to piecewise maps, constructive reconstruction and optional stronger inverse contracts",
+      "fresh_Agent_evidence": "NOT_RUN",
+      "implementation_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+      "semantics": "Two unrestricted total directions between the same declared feasible domains, NI forward / Equal reverse, establish equal optimal values without asserting pointwise inverses. Every scoped Return still supplies all output coordinates."
+    }
+  ],
+  "comparison_round": "C8-20261015",
+  "comparison_with_superseded_prelaunch": [
+    {
+      "C9_package_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b",
+      "change": "CHANGED",
+      "path": "docs/COMPILER_API.md",
+      "previous_prelaunch_sha256": "18a8cc6fe9a53575e6ad660e97e69cb39bfc3350a909bac13d2ea0b0fda882ee"
+    },
+    {
+      "C9_package_sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+      "change": "UNCHANGED",
+      "path": "docs/FORMAT.md",
+      "previous_prelaunch_sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96"
+    },
+    {
+      "C9_package_sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/__init__.py",
+      "previous_prelaunch_sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c"
+    },
+    {
+      "C9_package_sha256": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/_mcm.py",
+      "previous_prelaunch_sha256": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172"
+    },
+    {
+      "C9_package_sha256": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/backend.py",
+      "previous_prelaunch_sha256": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0"
+    },
+    {
+      "C9_package_sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/bundle.py",
+      "previous_prelaunch_sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9"
+    },
+    {
+      "C9_package_sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/expr.py",
+      "previous_prelaunch_sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed"
+    },
+    {
+      "C9_package_sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/model.py",
+      "previous_prelaunch_sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475"
+    },
+    {
+      "C9_package_sha256": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/mps_adapter.py",
+      "previous_prelaunch_sha256": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3"
+    },
+    {
+      "C9_package_sha256": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/mutations.py",
+      "previous_prelaunch_sha256": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992"
+    },
+    {
+      "C9_package_sha256": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/proof.py",
+      "previous_prelaunch_sha256": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33"
+    },
+    {
+      "C9_package_sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/request_summary.py",
+      "previous_prelaunch_sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982"
+    },
+    {
+      "C9_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/session.py",
+      "previous_prelaunch_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3"
+    },
+    {
+      "C9_package_sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b",
+      "change": "UNCHANGED",
+      "path": "python/tests/test_proof.py",
+      "previous_prelaunch_sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b"
+    }
+  ],
+  "core_implementation_checkpoint": "d916c298e81e046f0a24355e62b7218b798e8a4b",
+  "created_utc": "2026-10-15T03:57:49+00:00",
+  "evaluation_kind": "Latest-API fresh integrated acceptance; not a prompt-only causal experiment",
+  "fixed_controls": {
+    "arms": [
+      "compiler",
+      "nomf"
+    ],
+    "cases": [
+      "test9",
+      "test16",
+      "test88",
+      "test58",
+      "test63",
+      "test51"
+    ],
+    "compiler_protocol": {
+      "bytes": 4022,
+      "matches_frozen_C8": true,
+      "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+      "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+    },
+    "concurrency": 3,
+    "hard_timeout_s": 2280.0,
+    "max_time": "30m",
+    "model": "gpt-6.1-sol",
+    "native": {
+      "actual_binary_recheck": "REQUIRED_AFTER_QUALITY_STOP_BEFORE_LAUNCH",
+      "sha256_from_C8_record": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+      "source_metadata": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015/batch.json",
+      "source_metadata_sha256": "93c698c67da75d82e313dc12c20b9adc817707a12762e7422889d9f40bfe6998"
+    },
+    "nomf_protocol": "Use the same existing nomf protocol as C8; no compiler package or API doc supplied to this arm.",
+    "pristine_input_sha256_from_C8_record": {
+      "test16": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "test51": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4",
+      "test58": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+      "test63": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+      "test88": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "test9": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442"
+    },
+    "thinking": "high",
+    "tools": "eval,read"
+  },
+  "fresh_source_isolation": {
+    "case_specific_answers_or_proofs": false,
+    "generic_material": "Only the prepared generic package/API/FORMAT/test_proof.py and unchanged protocol.",
+    "historical_Agent_outputs": false,
+    "inputs": "Original pristine inputs only; recheck all twelve workspace inputs at launch.",
+    "solver_feedback": false
+  },
+  "generic_navigation_change_evidence": {
+    "boundary": "This is discoverability evidence, not proof of an encoding limitation, proof-forced retreat, quality parity or a case-specific mathematical remedy. It remains audit-only and is excluded from Agent inputs.",
+    "change_scope": "Only generic API documentation navigation changed after d916c29. Core code, proof rules and C8 main prompt bytes did not change.",
+    "observation": "A prior fresh Agent treated affine inverse/bijection requirements as necessary and did not discover the available non-affine correspondence/scoped reconstruction route.",
+    "section": "public_expression_and_retreat_evidence",
+    "sha256": "f5464fe9ea3678c57a53d38c1991e7387e6114c75927ef3a8cee4232d58581bf",
+    "source": "audit/compiler-agent/C8-test58-phase.json"
+  },
+  "launch_gate": {
+    "C6_quality": "May remain explicitly PENDING; it is not required for this launch and does not support old-prompt quality causal claims.",
+    "conditions": [
+      "C8 quality process has exited and no C8 HiGHS child remains.",
+      "Root has reviewed C8 quality evidence.",
+      "Root explicitly decides whether to launch C9.",
+      "Recheck actual fixed native binary SHA against recorded C8 identity after quality stops.",
+      "Verify prepared package/API/prompt hashes, harness snapshot and all twelve pristine input copies at launch."
+    ],
+    "decision": "PENDING",
+    "decision_owner": "root"
+  },
+  "not_performed": [
+    "Agent launch",
+    "solver",
+    "tests",
+    "benchmark",
+    "proof replay",
+    "source-code changes",
+    "prompt changes",
+    "actual native-binary hash read"
+  ],
+  "package": {
+    "file_count": 14,
+    "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015",
+    "snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-5c42197-20261015/snapshot.json",
+    "snapshot_sha256": "24d79a006d792561defd9592f27435b017ae50da7c733c102acfb5f530ff6431"
+  },
+  "package_comparison": [
+    {
+      "C8_package_sha256": "0dd54c83f501526389be2a5ef2277027a07e6e3d45b03aec2ec0a1b0e6c47b97",
+      "C9_package_sha256": "f035bc50fc98380ce588c1e06c3622300053a09362a841c36f03ef69c4814c5b",
+      "change": "CHANGED",
+      "path": "docs/COMPILER_API.md"
+    },
+    {
+      "C8_package_sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+      "C9_package_sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+      "change": "UNCHANGED",
+      "path": "docs/FORMAT.md"
+    },
+    {
+      "C8_package_sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "C9_package_sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/__init__.py"
+    },
+    {
+      "C8_package_sha256": null,
+      "C9_package_sha256": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+      "change": "ADDED",
+      "path": "python/kernel_compiler/_mcm.py"
+    },
+    {
+      "C8_package_sha256": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "C9_package_sha256": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/backend.py"
+    },
+    {
+      "C8_package_sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "C9_package_sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/bundle.py"
+    },
+    {
+      "C8_package_sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "C9_package_sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/expr.py"
+    },
+    {
+      "C8_package_sha256": "420160cea8e6e40ff01a154c4cd4976146acb307a41e2bceed32ed2dcf892dac",
+      "C9_package_sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+      "change": "CHANGED",
+      "path": "python/kernel_compiler/model.py"
+    },
+    {
+      "C8_package_sha256": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "C9_package_sha256": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/mps_adapter.py"
+    },
+    {
+      "C8_package_sha256": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "C9_package_sha256": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/mutations.py"
+    },
+    {
+      "C8_package_sha256": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+      "C9_package_sha256": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+      "change": "CHANGED",
+      "path": "python/kernel_compiler/proof.py"
+    },
+    {
+      "C8_package_sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "C9_package_sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/request_summary.py"
+    },
+    {
+      "C8_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
+      "C9_package_sha256": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
+      "change": "UNCHANGED",
+      "path": "python/kernel_compiler/session.py"
+    },
+    {
+      "C8_package_sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b",
+      "C9_package_sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b",
+      "change": "UNCHANGED",
+      "path": "python/tests/test_proof.py"
+    }
+  ],
+  "planned_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "schema": "compiler-latest-api-evaluation-controls-1",
+  "source_checkpoint": "5c42197edc0799e8e97dc4279d8face66ec51390",
+  "status": "NOT_LAUNCHED",
+  "superseded_prelaunch": {
+    "agent_execution": "NOT_LAUNCHED",
+    "generic_source_files_unchanged": true,
+    "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-d916c29-20261015",
+    "snapshot_sha256_after_status_update": "8d4e70d1ec1a936e66d26caa5bb29f43f220ea1c507effe7bbd3e3382a8afe1d",
+    "snapshot_sha256_before_status_update": "a9b7e0c4e3665436201eea3d9d06ad949dd92519c74119721b15dd343b416885",
+    "status": "SUPERSEDED_PRELAUNCH"
+  },
+  "treatment_id": "C9-20261015",
+  "updated_utc": "2026-10-15T04:02:26+00:00"
+}

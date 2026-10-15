@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T03:08:14.109074+00:00",
-  "status": "running",
+  "status": "agents_complete_quality_running",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
   "treatment_id": "C8-20261015",
   "planned_treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
@@ -156,5 +156,11 @@
   "launched_at": "2026-10-15T11:25:15+08:00",
   "driver_pids": [
     25730
-  ]
+  ],
+  "agents_complete": 12,
+  "independent_harness_verified_count": 6,
+  "all_agents_and_eval_workers_stopped": true,
+  "quality_status": "RUNNING",
+  "summary_path": "audit/compiler-agent/C8-summary.json",
+  "acceptance_complete": false
 }
