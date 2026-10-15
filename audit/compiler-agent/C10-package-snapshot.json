@@ -1,0 +1,97 @@
+{
+  "schema": "compiler-generic-package-snapshot-2",
+  "status": "FROZEN_FOR_FINAL_FRESH_ROUND",
+  "created_utc": "2026-10-15T06:22:02.103067+00:00",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "package_path": "/Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015",
+  "files": {
+    "python/kernel_compiler/__init__.py": {
+      "sha256": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "bytes": 847,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/_mcm.py": {
+      "sha256": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+      "bytes": 5994,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/_subsets.py": {
+      "sha256": "9015a59c8e453428a2d8ae546966a3bad9da9fbd78aaa392cdc17f8492656170",
+      "bytes": 4810,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/backend.py": {
+      "sha256": "af11f215ca79e6874606ead38be199c9f260395b2d48a699656337e933a130a4",
+      "bytes": 2865,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/bundle.py": {
+      "sha256": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "bytes": 19548,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/expr.py": {
+      "sha256": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "bytes": 10323,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/model.py": {
+      "sha256": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+      "bytes": 33862,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/mps_adapter.py": {
+      "sha256": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "bytes": 15028,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/mutations.py": {
+      "sha256": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "bytes": 1998,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/proof.py": {
+      "sha256": "d6db18508585591d42763ff03cefb8133cd3f956965ab2ce0d09a1c6210baff5",
+      "bytes": 51754,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/request_summary.py": {
+      "sha256": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "bytes": 5658,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/kernel_compiler/session.py": {
+      "sha256": "29cd10469567040cf41315088f42c0bc07779c6c2555bbe607a787f2c8e9e611",
+      "bytes": 36065,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "docs/COMPILER_API.md": {
+      "sha256": "1b388a1b9d83678667f38274b59d70b3d2655d0bbf81c333ef2d5fc1d0a2a869",
+      "bytes": 49236,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "docs/COMPILER_AGENT_PROTOCOL.md": {
+      "sha256": "35dfe5e4b21ea6904245ba7d026722440731340f392e4f3b7dee85de07a17cbc",
+      "bytes": 4697,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "docs/FORMAT.md": {
+      "sha256": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+      "bytes": 39348,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    },
+    "python/tests/test_proof.py": {
+      "sha256": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b",
+      "bytes": 5742,
+      "source_commit": "982235835dfe3b6c5f74188cd68ef48008747f30"
+    }
+  },
+  "native": {
+    "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015/bin/rpx",
+    "sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+    "build_and_validation": "audit/compiler-performance/C10-preflight-20261015/validation.json"
+  },
+  "case_specific_mathematical_witnesses_included": false,
+  "feedback_from_prior_runs_included": false,
+  "execution_state_is_recorded_separately": true
+}
