@@ -1,0 +1,16 @@
+{
+  "status": "VERIFIED",
+  "artifact_audit": {
+    "status": "MATCHED",
+    "method": "Kernel standard-format readback and exact named formulation comparison",
+    "scope": "Only the final complete proof target and committed artifact; every named variable, bound, integrality declaration, row, and objective agrees; model NAME, coordinate/row order and folded row constants may differ",
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-proof-repro-C5-20261015/output/reformulated.mps",
+      "sha256": "e55bef7cc11cfce457555349b0c632d33ada785126b130289b033e167703dbdb"
+    },
+    "proof_target": {
+      "path": "/Users/bhz/Code/reform_test/runs/test9-compiler-proof-repro-C5-20261015/output/stage2/target.mcm",
+      "sha256": "01c64b19312c231f97274c977a6ec24eea179d15ac7bf95223221c92727b6e6e"
+    }
+  }
+}

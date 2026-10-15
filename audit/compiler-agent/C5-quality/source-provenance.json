@@ -1,0 +1,13 @@
+{
+  "note": "Exact quality-evaluator and imported comparator sources retained after completion; hashes match the pre-recorded running-process provenance.",
+  "files": {
+    "evaluate_compiler_quality.py": {
+      "sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d",
+      "recorded_sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d"
+    },
+    "run_compiler_agents.py": {
+      "sha256": "0ccfb20ea48e2852f3e9bff1521aa5d153815bf75530e8272b415ed6a4185ceb",
+      "recorded_sha256": "0ccfb20ea48e2852f3e9bff1521aa5d153815bf75530e8272b415ed6a4185ceb"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case": "test58",
+  "record": "test58.json",
+  "models_requests_standard_artifact_byte_identical": true,
+  "different_rpx": "stage1/proof.rpx",
+  "original_sha256": "becef02ea1419f7da00c0a7e5dedc22f920acfef873661f5a873a2487a12879d",
+  "regenerated_sha256": "08b53a5fec2cf3c5b38604e3749396016673963a6fa3e50ab144289a6bd29542",
+  "equal_byte_lengths": true,
+  "first_certificate_difference": {
+    "path": "/blocks/0/steps/1/Lin/kind",
+    "original": "Eq",
+    "regenerated": "Le"
+  },
+  "original_verified": true,
+  "regenerated_independently_verified": true,
+  "native_statistics_identical_all_stages": true,
+  "interpretation": "The saved author program regenerates an accepted proof of the same exact endpoints and Requests, with Eq/Le author steps ordered differently. Whole construction is mathematically reproducible; strict RPX byte identity is not claimed. The delivered proof and first regeneration are both preserved."
+}

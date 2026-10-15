@@ -1,0 +1,173 @@
+{
+  "case": "test58",
+  "original_run": "/Users/bhz/Code/reform_test/runs/test58-compiler-compiler-batch-C5-20261015",
+  "fresh_run": "/Users/bhz/Code/reform_test/runs/test58-compiler-proof-repro-C5-20261015",
+  "command": [
+    "/Users/bhz/miniforge3/envs/bigdata/bin/python",
+    "output/proof.py"
+  ],
+  "exit_code": 0,
+  "wall_s": 2.500368,
+  "files": {
+    "stage1/source.mcm": {
+      "original_sha256": "e2a54f1a22a035d9b7f1d2bc7f15f04a56de499d2ea7a77088e00181ad95159c",
+      "reproduced_sha256": "e2a54f1a22a035d9b7f1d2bc7f15f04a56de499d2ea7a77088e00181ad95159c",
+      "byte_identical": true
+    },
+    "stage1/target.mcm": {
+      "original_sha256": "18190bceedad442cf894d87a3df8b003e093acdd7954e7d3f5a112b3237016b2",
+      "reproduced_sha256": "18190bceedad442cf894d87a3df8b003e093acdd7954e7d3f5a112b3237016b2",
+      "byte_identical": true
+    },
+    "stage1/proof.rpx": {
+      "original_sha256": "becef02ea1419f7da00c0a7e5dedc22f920acfef873661f5a873a2487a12879d",
+      "reproduced_sha256": "08b53a5fec2cf3c5b38604e3749396016673963a6fa3e50ab144289a6bd29542",
+      "byte_identical": false
+    },
+    "stage1/request.json": {
+      "original_sha256": "5807f6e46a59e5cfdaf8521c5002ae84fa31de2d7ac471017d34cf51ad4c9c13",
+      "reproduced_sha256": "5807f6e46a59e5cfdaf8521c5002ae84fa31de2d7ac471017d34cf51ad4c9c13",
+      "byte_identical": true
+    },
+    "stage2/source.mcm": {
+      "original_sha256": "18190bceedad442cf894d87a3df8b003e093acdd7954e7d3f5a112b3237016b2",
+      "reproduced_sha256": "18190bceedad442cf894d87a3df8b003e093acdd7954e7d3f5a112b3237016b2",
+      "byte_identical": true
+    },
+    "stage2/target.mcm": {
+      "original_sha256": "2ffab35a7dc5f8ee638a13399931ee3c8bb468b4bdebfc44cb643ab2c479f108",
+      "reproduced_sha256": "2ffab35a7dc5f8ee638a13399931ee3c8bb468b4bdebfc44cb643ab2c479f108",
+      "byte_identical": true
+    },
+    "stage2/proof.rpx": {
+      "original_sha256": "c34f00062c4afea1ae2dd6034a1cfbca1ba5381c9859ae0e0b0b64be08b89cc3",
+      "reproduced_sha256": "c34f00062c4afea1ae2dd6034a1cfbca1ba5381c9859ae0e0b0b64be08b89cc3",
+      "byte_identical": true
+    },
+    "stage2/request.json": {
+      "original_sha256": "5807f6e46a59e5cfdaf8521c5002ae84fa31de2d7ac471017d34cf51ad4c9c13",
+      "reproduced_sha256": "5807f6e46a59e5cfdaf8521c5002ae84fa31de2d7ac471017d34cf51ad4c9c13",
+      "byte_identical": true
+    },
+    "reformulated.mps": {
+      "original_sha256": "a103ae09532d083a179d74de3e83aed8167426d1cd5c3f15cfbfbc3681c1f937",
+      "reproduced_sha256": "a103ae09532d083a179d74de3e83aed8167426d1cd5c3f15cfbfbc3681c1f937",
+      "byte_identical": true
+    }
+  },
+  "all_byte_identical": false,
+  "independent_stage_verifications": [
+    {
+      "stage": 1,
+      "exit_code": 0,
+      "result": {
+        "bijections": 0,
+        "claims": 2,
+        "execute_us": 19718,
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 1000000000
+        },
+        "model_decode_us": 1900,
+        "points": 0,
+        "proof_decode_us": 5338,
+        "read_us": 220,
+        "statistics": {
+          "bijections": 0,
+          "branches": 426,
+          "flow_generated_rows": 0,
+          "flow_generated_terms": 0,
+          "flow_generated_variables": 0,
+          "flow_lifts": 0,
+          "injectivity_coordinates": 0,
+          "injectivity_generated_rows": 0,
+          "injectivity_generated_terms": 0,
+          "injectivity_generated_variables": 0,
+          "interval_generated_rows": 1704,
+          "interval_generated_terms": 3408,
+          "interval_generated_variables": 426,
+          "interval_lifts": 1,
+          "linear_terms": 255428,
+          "menu_generated_rows": 0,
+          "menu_generated_terms": 0,
+          "menu_generated_variables": 0,
+          "menu_lifts": 0,
+          "objective_level_domains": 0,
+          "objective_level_generated_rows": 0,
+          "objective_level_generated_terms": 0,
+          "obligations": 9182,
+          "peak_live_facts": 2593,
+          "plotkin_pairs": 0,
+          "point_coefficient_terms": 0,
+          "points": 0,
+          "signed_generated_rows": 1704,
+          "signed_generated_terms": 4260,
+          "signed_generated_variables": 1704,
+          "signed_lifts": 1,
+          "substitution_terms": 8940,
+          "work": 1175396
+        },
+        "status": "VERIFIED",
+        "total_us": 27186
+      }
+    },
+    {
+      "stage": 2,
+      "exit_code": 0,
+      "result": {
+        "bijections": 0,
+        "claims": 2,
+        "execute_us": 5338,
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 1000000000
+        },
+        "model_decode_us": 1109,
+        "points": 0,
+        "proof_decode_us": 2150,
+        "read_us": 119,
+        "statistics": {
+          "bijections": 0,
+          "branches": 1239,
+          "flow_generated_rows": 0,
+          "flow_generated_terms": 0,
+          "flow_generated_variables": 0,
+          "flow_lifts": 0,
+          "injectivity_coordinates": 0,
+          "injectivity_generated_rows": 0,
+          "injectivity_generated_terms": 0,
+          "injectivity_generated_variables": 0,
+          "interval_generated_rows": 394,
+          "interval_generated_terms": 818,
+          "interval_generated_variables": 91,
+          "interval_lifts": 1,
+          "linear_terms": 14059,
+          "menu_generated_rows": 0,
+          "menu_generated_terms": 0,
+          "menu_generated_variables": 0,
+          "menu_lifts": 0,
+          "objective_level_domains": 0,
+          "objective_level_generated_rows": 0,
+          "objective_level_generated_terms": 0,
+          "obligations": 4136,
+          "peak_live_facts": 1301,
+          "plotkin_pairs": 0,
+          "point_coefficient_terms": 0,
+          "points": 0,
+          "signed_generated_rows": 0,
+          "signed_generated_terms": 0,
+          "signed_generated_variables": 0,
+          "signed_lifts": 0,
+          "substitution_terms": 5111,
+          "work": 283483
+        },
+        "status": "VERIFIED",
+        "total_us": 8724
+      }
+    }
+  ],
+  "kernel_verified": true,
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C5-proof-reproduction/test58.log"
+}

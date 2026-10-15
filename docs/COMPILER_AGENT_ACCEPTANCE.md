@@ -160,3 +160,50 @@ The [phase record](../audit/compiler-agent/C4-phase-diagnostics.json) shows anot
 mostly model time for audit/report and manual staged delivery. This cannot be
 attributed solely to native compilation. **C4 still does not meet the complete
 quality-and-near-nomf-time acceptance goal.**
+
+## C5: six formally verified constructions, remaining time and quality losses
+
+The [C5 summary](../audit/compiler-agent/C5-summary.json) records six fresh
+compiler/nomf pairs from checkpoint `aa90b09`: test9, test16, test88, test58,
+test63, and test51. All six compiler deliveries passed the independent harness,
+including explicit ordered claim paths. Actual endpoints all have MCM magic;
+the [parser records](../audit/compiler-agent/C5-parser-binding) found no
+same-SHA cross-reader-family use of the later-discovered library defect.
+The evaluator verified every stage separately. Fresh agents received no prior
+solutions, mathematical witnesses, solver feedback, or performance reports.
+
+The [serial post-commit quality record](../audit/compiler-agent/C5-quality/quality.json)
+shows that test88 now reaches LP bound **227**, versus 27 for source and fresh
+nomf, and solves to objective/dual bound 230 in 14.51 seconds while both controls
+reach 120 seconds. Thus the earlier missed LP227 opportunity was independently
+recovered with complete MI certification. Test9 retains integer capacity cuts:
+its three-run MIP median is 15.14 seconds versus nomf's 13.57 seconds, with a
+0.203 higher LP bound. Test51 has a stronger LP bound and a 0.166-second MIP
+median versus nomf's 0.445 seconds. Test63 independently expresses a sparse
+extension with 91 unique slacks and full MI/LP inverse-linked claims; its LP and
+time-limited MIP results match fresh nomf.
+
+There are material failures against the overall goal. Test16's single bounded
+MIP measurement is 95.07 seconds versus nomf's 30.77 seconds, with equal LP
+bounds. Test58 uses SignedLift and IntervalLift to deliver the same LP bound
+as nomf, but both reformulations reach 120 seconds while the pristine source
+solves in 10.35 seconds. Both test63 reformulations also have worse
+time-limited incumbent/bound evidence than the pristine source. Agent wall
+ratios for test9/16/88/58/63/51 are **1.496/3.106/2.214/1.340/0.924/1.786**.
+The [phase record](../audit/compiler-agent/C5-phase-diagnostics.json) retains
+119–332 seconds after first observed verification for scope and remaining-hypothesis
+checks, reporting, author-program preservation, and audit work. Observed transform choices and corrected proof
+errors do not establish that agents retreated because of an expression limit;
+these timing and numerical quality losses still count against acceptance.
+
+Independent author-program replays verify all six constructions. Test9, test16,
+test63, and test51 reproduce every checked artifact byte for byte. Test58
+reproduces all models, Requests and final MPS, but one RPX differs in author-step
+order while still verifying the same theorem with identical native statistics;
+the [difference record](../audit/compiler-agent/C5-proof-reproduction/test58-proof-difference.json)
+preserves both hashes. Test88's empty-output replay first fails because its
+script reads the saved target MCM as an expected-model comparison. A separate
+replay explicitly retains that reference, regenerates all outputs, and verifies
+with byte-identical artifacts; the initial failure remains preserved. These
+are distinct reproducibility outcomes. **C5 does not establish the complete
+quality-and-near-nomf-time acceptance goal.**

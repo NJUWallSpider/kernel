@@ -1,0 +1,98 @@
+{
+  "case": "test51",
+  "original_run": "/Users/bhz/Code/reform_test/runs/test51-compiler-compiler-batch-C5-20261015",
+  "fresh_run": "/Users/bhz/Code/reform_test/runs/test51-compiler-proof-repro-C5-20261015",
+  "command": [
+    "/Users/bhz/miniforge3/envs/bigdata/bin/python",
+    "output/proof.py"
+  ],
+  "exit_code": 0,
+  "wall_s": 5.398046,
+  "files": {
+    "source.mcm": {
+      "original_sha256": "8824acdb891669e66e75ce70b1af6253c64fb9d489907c9b2f6ab16f9f1c730c",
+      "reproduced_sha256": "8824acdb891669e66e75ce70b1af6253c64fb9d489907c9b2f6ab16f9f1c730c",
+      "byte_identical": true
+    },
+    "target.mcm": {
+      "original_sha256": "272e022a72d3ab1dac46f9bc1b3465ecedd81afb272c2989d55781a9f0b85baf",
+      "reproduced_sha256": "272e022a72d3ab1dac46f9bc1b3465ecedd81afb272c2989d55781a9f0b85baf",
+      "byte_identical": true
+    },
+    "proof.rpx": {
+      "original_sha256": "7e8a5c360aa0c60d38461d477c750250a88681ea5e1b89c86e620ee09b244de2",
+      "reproduced_sha256": "7e8a5c360aa0c60d38461d477c750250a88681ea5e1b89c86e620ee09b244de2",
+      "byte_identical": true
+    },
+    "request.json": {
+      "original_sha256": "ab99e028600ed2af45fd975f7a6e0a59516967a1df11416c32ad80d5b6648cd9",
+      "reproduced_sha256": "ab99e028600ed2af45fd975f7a6e0a59516967a1df11416c32ad80d5b6648cd9",
+      "byte_identical": true
+    },
+    "reformulated.mps": {
+      "original_sha256": "9aa9aa4ce0e612db4934018b789a81d3cb49c913e469f76e0d76c154a5535853",
+      "reproduced_sha256": "9aa9aa4ce0e612db4934018b789a81d3cb49c913e469f76e0d76c154a5535853",
+      "byte_identical": true
+    }
+  },
+  "all_byte_identical": true,
+  "independent_stage_verifications": [
+    {
+      "stage": 0,
+      "exit_code": 0,
+      "result": {
+        "bijections": 0,
+        "claims": 3,
+        "execute_us": 366018,
+        "limits": {
+          "depth": 64,
+          "live_facts": 1000000,
+          "work": 1000000000
+        },
+        "model_decode_us": 8146,
+        "points": 0,
+        "proof_decode_us": 26529,
+        "read_us": 440,
+        "statistics": {
+          "bijections": 0,
+          "branches": 108,
+          "flow_generated_rows": 0,
+          "flow_generated_terms": 0,
+          "flow_generated_variables": 0,
+          "flow_lifts": 0,
+          "injectivity_coordinates": 0,
+          "injectivity_generated_rows": 0,
+          "injectivity_generated_terms": 0,
+          "injectivity_generated_variables": 0,
+          "interval_generated_rows": 0,
+          "interval_generated_terms": 0,
+          "interval_generated_variables": 0,
+          "interval_lifts": 0,
+          "linear_terms": 199694,
+          "menu_generated_rows": 0,
+          "menu_generated_terms": 0,
+          "menu_generated_variables": 0,
+          "menu_lifts": 0,
+          "objective_level_domains": 0,
+          "objective_level_generated_rows": 0,
+          "objective_level_generated_terms": 0,
+          "obligations": 22120,
+          "peak_live_facts": 15414,
+          "plotkin_pairs": 0,
+          "point_coefficient_terms": 0,
+          "points": 0,
+          "signed_generated_rows": 0,
+          "signed_generated_terms": 0,
+          "signed_generated_variables": 0,
+          "signed_lifts": 0,
+          "substitution_terms": 75687,
+          "work": 992982
+        },
+        "status": "VERIFIED",
+        "total_us": 401144
+      }
+    }
+  ],
+  "kernel_verified": true,
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C5-proof-reproduction/test51.log"
+}

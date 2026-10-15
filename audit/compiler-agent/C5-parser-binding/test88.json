@@ -1,0 +1,28 @@
+{
+  "case": "test88",
+  "checkpoint": "aa90b099d3a389d75bb10f5742c649caf1de442e",
+  "independent_assessor_model_reuse": false,
+  "endpoints": [
+    {
+      "piece": 0,
+      "role": "source",
+      "path": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C5-20261015/output/source.mcm",
+      "first4_hex": "4d434d00",
+      "suffix": ".mcm",
+      "reader_family": "MCM",
+      "sha256": "b513f1e4bd103095b69262d31196ca19d45ec13dfa348696f341b53f51f6242f"
+    },
+    {
+      "piece": 0,
+      "role": "target",
+      "path": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C5-20261015/output/target.mcm",
+      "first4_hex": "4d434d00",
+      "suffix": ".mcm",
+      "reader_family": "MCM",
+      "sha256": "c365ba4740050c9195f445d2bed321fd53fe8e2917db030935567234f3a5fc21"
+    }
+  ],
+  "same_sha256_cross_parser_family_pairs": [],
+  "cross_parser_library_bug_observed": false,
+  "scope_note": "Actual first4 MCM magic overrides suffix for the Kernel model reader. Each stage was independently canonicalized/exported/verified; no same-SHA model substitution. Normal Model/Proof compiled MCM endpoints do not exercise the later-discovered package standard-text reader-reuse defect."
+}
