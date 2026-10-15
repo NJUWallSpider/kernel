@@ -1,0 +1,44 @@
+{
+  "schema": "compiler-agent-prompt-refinement-v1",
+  "status": "NOT_RUN",
+  "created_utc": "2026-10-15T02:59:06.309979+00:00",
+  "frozen_previous_trial": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
+  "previous_protocol_commit": "3b2b20203bac6d81a4dc2a9db3734bb055318ecc",
+  "previous_protocol_sha256": "9c35f5e28e40fbaab163b39eae2e4448df9e8f22d52815caf8b08ad9bd095b64",
+  "previous_protocol_bytes": 3579,
+  "candidate_protocol": "docs/COMPILER_AGENT_PROTOCOL.md",
+  "candidate_protocol_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+  "candidate_protocol_bytes": 4022,
+  "changes": [
+    {
+      "change": "Develop mathematical candidates before committing to proof builders; successful verification alone does not finish exploration. Model/proof APIs remain available throughout.",
+      "evidence": "C7 test58 undertakes bridge canonicalization while fresh nomf also develops signed-flow and series compression. No public API failure or explicit proof-driven retreat was observed.",
+      "inference": "Possible early stopping is a hypothesis, not an established reason for the mathematical difference. No candidate list, required count, rigid phase barrier or case strategy is supplied."
+    },
+    {
+      "change": "Construct invariant membership sets/indexes once, then reuse sparse batches.",
+      "evidence": "Public C7 test16 diagnostic rebuilds the entire definition-name set within every equality-row membership test and times out after 200.008 s. C5 has a similar collection-rebuild pattern.",
+      "inference": "The whole cell is not an isolated timing of one line. This advice already appears in frozen API.md:189-191, which C7 test16 read. Main-prompt placement tests salience, not a new capability."
+    },
+    {
+      "change": "Keep full Requests/maps/observations on disk, display bounded summaries and selected entries without reducing proof coverage.",
+      "evidence": "Large actual Requests and bounded summary use are recorded; C5 had a truncated large Request read.",
+      "inference": "Output hygiene is a low-cost precaution; no standalone speedup from this addition has been measured."
+    }
+  ],
+  "preserved_requirements": [
+    "Strongest mathematically justified target and autonomous exploration.",
+    "Caller-supplied proof, complete declared maps/domains/objective/observations/inverses/restrictions.",
+    "Fresh Python proof construction, direct RPX, independent pristine source and whole committed-artifact binding.",
+    "Agent invokes Kernel and requires VERIFIED plus MATCHED; accurate limits/failure reports.",
+    "Standalone author program remains optional and original session calls remain evidence."
+  ],
+  "evaluation_boundary": "No new Agent has received this candidate prompt. All C7 Agents ended before editing. C7 source snapshots, copied protocols and results remain unchanged; solver quality is pending.",
+  "future_control": "For a prompt-only follow-up, use the existing 231e6f4 package/API/native snapshot, not the pending streaming Model.load implementation. Wait until post-run quality measurement is finished before new timed Agents.",
+  "phase_records_sha256": {
+    "C7-test9-phase.json": "36cd96cab8a04b8727e3606287e1128fcea68f9d02125569dad4a28b06d9d26f",
+    "C7-test16-phase.json": "165da5e2d6b2779ea41c49eeabb1953406106e680b8ca7f29e1027e0cdaf1801",
+    "C7-test88-phase.json": "d953fd6eaf683ad1e090f0ae011a411dabc7c99768d552a002c7c0b2bac74eef",
+    "C7-test58-phase.json": "dc378e7c006830f9a9659758f37263a3e063616447b6567a8fb3a6b9c6f31366"
+  }
+}
