@@ -191,8 +191,19 @@ internals:
 | Elaborate literal-zero equality obligations from selected definitions | `claim.substitution(definitions)` |
 | Reconstruct a given goal from its caller-proved residual | `builder.derive_substitution(goal, definitions, residual)` |
 | Prove a given inequality using the actual input variable bounds | `builder.box_le(goal)` |
+| Give piecewise maps or constructive reconstruction witnesses | `builder.split(...)`, `.intervals(...)`, `.menus(...)`, `.signed(...)`, `.flow(...)`, `.subflow(...)`; `claim.complete(scope=scope, mapping=...)` |
 | Inspect unresolved obligations without printing full affine vectors | `[(g.label, g.kind, g.expression.summary()) for g in claim.missing()[:8]]` |
 | Inspect contract scope and observation counts without dumping Request | `proof.contract_summary()` |
+
+Choose the intended mathematical relation independently of its proof template.
+An affine bijection is an optional stronger contract. Two unrestricted total
+directions connecting the same two declared feasible domains, with non-increasing
+canonicalization and equal-objective reconstruction, establish equal optimal
+values; full pointwise inverse identities are a separate assertion. Use the
+relation your argument intends and establishes. A reconstruction need not be
+one affine formula in the original coordinates: splits allow branch maps,
+and constructive scopes supply witnessed coordinates for a complete Return map.
+The sections below explain their premises and exact certified scope.
 
 Definitions are caller-selected ordered pivot/equality pairs. Batch helpers
 reuse the same sparse elimination plan; they do not discover pivots or missing
@@ -202,6 +213,10 @@ membership sets and dependency metadata once outside the loop.
 Each directional claim is a total map from every feasible input to a feasible
 output. You supply an expression for **every output coordinate**. Projection
 only states observations that are preserved; it does not replace the full map.
+At each Return those expressions are affine in that proof scope's coordinates;
+the whole proof may use different branch maps or generated witness coordinates.
+Declare a claim without `mapping` when its complete map will be supplied later
+to `claim.complete(scope=your_scope, mapping=your_complete_map)`.
 
 `proof.contract_summary(max_items=8)` shows domains, directions, objective
 relations, inverse indices, actual observation counts and a bounded sample of
