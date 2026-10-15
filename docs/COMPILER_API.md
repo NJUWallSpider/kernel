@@ -181,11 +181,11 @@ model or prescribing a transformation.
 
 ## Contracts, complete maps, and obligations
 
-For large supplied affine proofs, use these entry points before reading package
-internals:
+For supplied proofs, use these entry points before reading package internals:
 
 | Authoring task | API |
 | --- | --- |
+| Declare paired full-domain contracts before supplying branch or lift maps | `proof.correspondence(projection=your_observations)` |
 | Derive selected coordinate zeros from one supplied nonnegative zero-sum witness | `builder.zero_sum(fact, zeros=proved_zeros, scale=1, coordinates=None)` |
 | Rewrite a batch of given facts using selected equality pivots | `builder.rewrite_many(facts, definitions)` |
 | Elaborate literal-zero equality obligations from selected definitions | `claim.substitution(definitions)` |
@@ -204,6 +204,21 @@ relation your argument intends and establishes. A reconstruction need not be
 one affine formula in the original coordinates: splits allow branch maps,
 and constructive scopes supply witnessed coordinates for a complete Return map.
 The sections below explain their premises and exact certified scope.
+
+Declare the directions first when their maps will use branches or constructive
+witnesses:
+
+```python
+forward, reverse = proof.correspondence(projection=your_observations)
+# In each supplied split callback, or after a constructive lift:
+forward.complete(scope=your_forward_scope, mapping=your_complete_forward_map)
+reverse.complete(scope=your_reverse_scope, mapping=your_complete_reverse_map)
+```
+
+`split(...)` calls your branch proofs with their own scopes; each branch must
+complete its full map or close a contradiction. A constructive lift returns the
+scope whose generated coordinates may occur in that terminal map. Omitting the
+initial maps does not select a transformation, witness, or proof for you.
 
 Definitions are caller-selected ordered pivot/equality pairs. Batch helpers
 reuse the same sparse elimination plan; they do not discover pivots or missing
@@ -264,6 +279,7 @@ f, r = proof.correspondence(forward_map, reverse_map,
                            projection=[("core_decision", "core_decision")])
 ```
 
+Either map may be omitted and supplied later to `complete(scope=..., mapping=...)`.
 Its explicit defaults are forward NonIncreasing and reverse Equal objective
 relations; you can change either relation. This proves optimal-value and
 feasibility correspondence when both maps are verified. Preserve observations

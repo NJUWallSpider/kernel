@@ -408,9 +408,13 @@ class Proof:
                        projection=reversed_projection, inverse=index, mapping=reverse)
         return f, r
 
-    def correspondence(self, forward, reverse, *, integers=True, projection=(),
+    def correspondence(self, forward=None, reverse=None, *, integers=True, projection=(),
                        forward_objective="NonIncreasing", reverse_objective="Equal"):
-        """Caller-declared total maps; observations and inverse are separate choices."""
+        """Caller-declared total directions, with optional deferred complete maps.
+
+        Supply branch/lift maps later through complete(scope=..., mapping=...).
+        Observations and inverse identities remain separate contract choices.
+        """
         if projection != "retained":
             projection = tuple(projection)
         f = self.claim(integers=integers, objective=forward_objective, projection=projection, mapping=forward)
