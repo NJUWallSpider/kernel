@@ -1,0 +1,926 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-compact-v1",
+  "round": "C9",
+  "case": "test38",
+  "scope": "Static completed-pair audit after formal agent_end+assessed. Public tool calls/results only, no private reasoning or live-run math. No native command, model normalization, solver, replay, test or new Agent is executed. Certificate proof-step trees are not expanded; only complete claims and terminal maps/check arrays are statically decoded. Memory is not a gate.",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "batch_metadata_sha256": "a4c4d9f9245ec0947a074586a11fdf3f492b916a38ac5206fa5c538ad3aa7735",
+  "trusted_batch_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "arms": {
+    "compiler": {
+      "run": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015",
+      "wall_s": 421.807,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 5282,
+        "rows": 20346,
+        "integers": 30,
+        "nonzeros": 71477,
+        "objective_nonzeros": 77
+      },
+      "target_shape": {
+        "variables": 3293,
+        "rows": 12769,
+        "integers": 29,
+        "nonzeros": 43486,
+        "objective_nonzeros": 77
+      },
+      "committed_model_sha256": "2e09d00bfc47bfef267a2640cf6d3d963e115c3fab97224790bdc6d5eb0e7134",
+      "trusted_source_anchor": {
+        "actual_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "batch_launch_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "assessment_expected_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "assessment_actual_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "execution_expected_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "all_equal": true
+      },
+      "kernel_verification_required": true,
+      "kernel_verified": true,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 21,
+        "tool_calls": 20,
+        "tool_calls_failed": 0,
+        "turns": 21,
+        "tokens_in": 40009,
+        "tokens_out": 19737,
+        "tokens_cache_read": 429696,
+        "tokens_cache_write": 0,
+        "tokens_total": 489442,
+        "cost_usd": 0.32,
+        "llm_time_s": 406.339,
+        "llm_ttft_s": 55.249,
+        "tool_time_s": 13.311,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 337.404,
+      "post_check_s": 84.403,
+      "public_eval_cells": [
+        {
+          "seconds": 11.294,
+          "title": "Loading exact formulation",
+          "duration_ms": 1144,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "f2c892560110eeb9cb5ed8274f80c09bc35846d5f11cd23644c46f0e2f8bc8d0"
+        },
+        {
+          "seconds": 20.712,
+          "title": "Inspecting exact structural patterns",
+          "duration_ms": 20,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9191f43c28a18557bec6a7291d76d081f927bfbf248dd9aea4e3e794bfd5cd9e"
+        },
+        {
+          "seconds": 41.432,
+          "title": "Validating complete gate formulation",
+          "duration_ms": 454,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "01d8dd7af2d4a79e31349aeb228aaac7a016001c869654de197d90ee3658622c"
+        },
+        {
+          "seconds": 70.882,
+          "title": "Investigating exact recursive sharing",
+          "duration_ms": 31,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "dd5ea70f2898a78fb6bf3212097e9571d7cbef394446c7a3f874e34c42b0d7a2"
+        },
+        {
+          "seconds": 100.381,
+          "title": "Testing affine gate reduction candidates",
+          "duration_ms": 161,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "14f6ab13b04cdc200bf4bae6120b45d5ac17ed55762b10eb1dee6c6aacd4461d"
+        },
+        {
+          "seconds": 133.605,
+          "title": "Testing gate ordering and elimination scope",
+          "duration_ms": 225,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "028d7374fc72cd52d9ae410bc01e4a98bf1e984c8d56fabc31815280f65fe8a3"
+        },
+        {
+          "seconds": 159.275,
+          "title": "Investigating proportional nonlinear sharing",
+          "duration_ms": 193,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "8bb7e2f9b983c796e484d1135979c8c89959c50a65df560591b0faf80d706aa5"
+        },
+        {
+          "seconds": 215.627,
+          "title": "Constructing intended sparse reformulation",
+          "duration_ms": 558,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "b74dcdaed040536bd01be5a0fcd086effc0b28c71894d77ff38f596f0a4e0351"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "duration_ms": 737,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6da12233d1529fc4feaf59b4dff6c65608f7505f746e0262ead279aadef05145"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "duration_ms": 5083,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "3ae50fb3845930287f10d14032b7e9f4f339e8416d016216b6edb23ff243bb7e"
+        },
+        {
+          "seconds": 295.903,
+          "title": "Proving complete reconstruction map",
+          "duration_ms": 1228,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "81bc17a6c80febbe935b4bdef045af1c79831b7784be0ab5aab07b36bad21404"
+        },
+        {
+          "seconds": 337.404,
+          "title": "Verifying final committed artifact",
+          "duration_ms": 3372,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "002fd0c8bfd3cdc79585ec26d7d42d746e8666fabe933b6d933ea3bb16d0c00f"
+        },
+        {
+          "seconds": 342.552,
+          "title": "Reading recorded delivery evidence",
+          "duration_ms": 44,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "c80f5b62a54d4e52fbd17848f385f7cd0db9e56cd5b701c2558ae5b08f13898c"
+        },
+        {
+          "seconds": 409.089,
+          "title": "Writing final investigation report",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "623d2e8bc26c7916eb767fc3414f66c6ab843efe021d6d3948f447ef3e3ac5f4"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 3.431,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 6.272,
+          "i": "Reading compiler model API",
+          "path": "compiler/API.md:1-210"
+        },
+        {
+          "seconds": 13.715,
+          "i": "Inspecting raw MPS sections",
+          "path": "input/model.mps:1-65"
+        },
+        {
+          "seconds": 55.59,
+          "i": "Reading branching proof API",
+          "path": "compiler/API.md:210-460"
+        },
+        {
+          "seconds": 60.026,
+          "i": "Reading case derivation interface",
+          "path": "compiler/API.md:460-555"
+        },
+        {
+          "seconds": 345.153,
+          "i": "Inspecting final artifact paths",
+          "path": "output"
+        }
+      ],
+      "proof_API_calls": [
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "proof.bijection(forward_map, reverse_map, integers=True, projection='retained')"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "f.round(forced_capacity, f.integer(forced_name))"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "proof.contract_summary()"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "round(time.time() - start, 2)"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "scope.rewrite(e, local_defs)"
+        },
+        {
+          "seconds": 251.77,
+          "title": "Proving exact coordinate elimination",
+          "expression": "f.cases(source.var(source.vars[q['x']].name), kind='Eq', expect=goal, left=lambda b, a: leaf(b, a, 0), right=lambda b, a: leaf(b, a, 1))"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "f.rewrite(budget_lattice, {forced_i: definitions[forced_i]})"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "f.substitution(definitions)"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "f.complete()"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "f.cases(source.var(source.vars[q['x']].name), kind='Le', expect=goal, left=lambda b, a: tight_leaf(b, a, 0), right=lambda b, a: tight_leaf(b, a, 1))"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "round(time.time() - start, 2)"
+        },
+        {
+          "seconds": 277.457,
+          "title": "Proving tightened gate formulation",
+          "expression": "f.round(budget_scaled, budget_int)"
+        },
+        {
+          "seconds": 295.903,
+          "title": "Proving complete reconstruction map",
+          "expression": "r.complete()"
+        },
+        {
+          "seconds": 295.903,
+          "title": "Proving complete reconstruction map",
+          "expression": "round(time.time() - start, 2)"
+        },
+        {
+          "seconds": 337.404,
+          "title": "Verifying final committed artifact",
+          "expression": "rlp.complete()"
+        },
+        {
+          "seconds": 337.404,
+          "title": "Verifying final committed artifact",
+          "expression": "proof.verify('output', committed_model='output/reformulated.mps')"
+        },
+        {
+          "seconds": 337.404,
+          "title": "Verifying final committed artifact",
+          "expression": "proof.contract_summary()"
+        },
+        {
+          "seconds": 342.552,
+          "title": "Reading recorded delivery evidence",
+          "expression": "round(100 * (1 - target.stats()[k] / source.stats()[k]), 2)"
+        }
+      ],
+      "standalone_author_scripts": [],
+      "provenance_sha256": {
+        "workspace-manifest.json": "54ac652a95ed7973fa85052e91b49001a0cc67ef42d056cff18adeb865a9d7f9",
+        "execution.json": "c1e0d8e5f8e9c2763d6cf33f2690309c059043fbbeadfac57570fa68dfb83671",
+        "session.jsonl": "a9772889bd9cb8ad8874b4fff5a3c66d11283a500741cbf3228c15574ac223fd",
+        "assessment.json": "ac9951cfce8481358654ed0e55fa5cefd51a51e4baafe010ccab08a72cd0c139",
+        "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+        "final-answer.txt": "cd2b3b18aeb6a2f05f0b0c54077484cbafc30e3f622192c2769c6a475a95bff8",
+        "output/report.md": "1c17a1b478e4fd1be7b7b378e5b50b49f33bb8a5e77e195703341be8854adf1e",
+        "output/verification.json": "fd4e1e4604b993f60f3975cf718346194423aa0a08c04da85a4e2a88f95dd730",
+        "output/delivery.json": "2b1e0781a50bdfddfb2c7917c49efa368bf858864ac82100b99fd210b599c502",
+        "output/request.json": "1aabeb1668ec8cbe6ddc53927e0133619a05dfde6c9f9428305b47be21628575",
+        "output/certificate.json": "1422f02937f45d184b0e849be437117630c39bc74dfb3c2428e5dea71e3beb2f",
+        "output/structural_witnesses.json": "3f0bcbc1a34b29d8cc858daec5238d7ef61764973a0de86f423cbc4248269c24",
+        "output/edit_audit.json": "8a754fa94de95055baf3f04e0adbbf5fbd679517e29eed8edbaa70b6c4b5aa4c"
+      },
+      "compiler_sources": {
+        "package": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/python/kernel_compiler",
+          "files_sha256": {
+            "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+            "_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+            "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+            "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+            "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+            "model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+            "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+            "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+            "proof.py": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+            "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+            "session.py": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a"
+          }
+        },
+        "protocol": {
+          "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+          "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+        },
+        "api_doc": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/docs/COMPILER_API.md",
+          "sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f"
+        },
+        "kernel": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/kernel/rpx",
+          "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+        }
+      },
+      "receipt_status": "VERIFIED",
+      "artifact_audit": {
+        "status": "MATCHED",
+        "method": "Kernel standard-format readback and exact named formulation comparison",
+        "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "sha256": "2e09d00bfc47bfef267a2640cf6d3d963e115c3fab97224790bdc6d5eb0e7134"
+        },
+        "proof_target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "sha256": "4b6ac52f6ab36934520651f70332571efb40fbfc1b7008cf3ae0f449727cc429"
+        }
+      },
+      "native_reported_total_s": 0.352954,
+      "native_statistics": {
+        "bijections": 0,
+        "branches": 14382,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 727866,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 99691,
+        "peak_live_facts": 32956,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 185793,
+        "work": 5454246
+      },
+      "actual_Request": {
+        "claim_count": 3,
+        "point_count": 0,
+        "improvement_count": 0,
+        "separate_bijection_count": 0,
+        "Certificate_claims_exactly_equal_Request": true,
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "index": 0,
+            "input_variables": 5282,
+            "output_variables": 3293,
+            "observations": 3293,
+            "affine_observations": 0,
+            "unique_observation_pairs": 3293,
+            "all_observation_indices_in_directional_ranges": true,
+            "all_retained_target_coordinates_observed": true,
+            "observations_are_exact_copy_entries_in_same_map": true,
+            "observation_sha256": "8e5334d46ec26fe7ccd93ff8ada18ec267a9111d969e5e945631d1076d8af22b",
+            "map_summary": {
+              "expression_count": 3293,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 3293,
+              "nonzero_constant_expressions": 0,
+              "term_count_histogram": {
+                "1": 3293
+              },
+              "map_sha256": "9281d1b9810d4b47faaddc4e075377bc8c67c1cb210dc95a0ae473f8cf8ce329"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 27960,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally."
+            }
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "index": 1,
+            "input_variables": 3293,
+            "output_variables": 5282,
+            "observations": 3293,
+            "affine_observations": 0,
+            "unique_observation_pairs": 3293,
+            "all_observation_indices_in_directional_ranges": true,
+            "all_retained_target_coordinates_observed": true,
+            "observations_are_exact_copy_entries_in_same_map": true,
+            "observation_sha256": "5f60609c98690798ff95c61de8f19a6b6037aac48225d7dc3c401b5b8139250f",
+            "map_summary": {
+              "expression_count": 5282,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 5153,
+              "nonzero_constant_expressions": 316,
+              "term_count_histogram": {
+                "1": 5077,
+                "0": 167,
+                "2": 38
+              },
+              "map_sha256": "bc431e6aad840fcb023e06287f059a80303e4a2cbb26abf1c67b3029d9a64c26"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 37527,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally."
+            }
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 2,
+            "input_variables": 3293,
+            "output_variables": 5282,
+            "observations": 3293,
+            "affine_observations": 0,
+            "unique_observation_pairs": 3293,
+            "all_observation_indices_in_directional_ranges": true,
+            "all_retained_target_coordinates_observed": true,
+            "observations_are_exact_copy_entries_in_same_map": true,
+            "observation_sha256": "5f60609c98690798ff95c61de8f19a6b6037aac48225d7dc3c401b5b8139250f",
+            "map_summary": {
+              "expression_count": 5282,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 5153,
+              "nonzero_constant_expressions": 316,
+              "term_count_histogram": {
+                "1": 5077,
+                "0": 167,
+                "2": 38
+              },
+              "map_sha256": "bc431e6aad840fcb023e06287f059a80303e4a2cbb26abf1c67b3029d9a64c26"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 34204,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally."
+            }
+          }
+        ],
+        "inverse_pair_observations_transposed": {
+          "(0, 1)": true
+        },
+        "Return_checks_sum": 99691,
+        "Return_checks_match_native_obligations": true
+      },
+      "artifact_hash_binding": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/source.mcm",
+          "declared_sha256": "d948af556a3f552c9ddfd9ddde74df301b6b63f55222e8aa84c4cc8c7fbffdf5",
+          "actual_sha256": "d948af556a3f552c9ddfd9ddde74df301b6b63f55222e8aa84c4cc8c7fbffdf5",
+          "match": true,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "declared_sha256": "4b6ac52f6ab36934520651f70332571efb40fbfc1b7008cf3ae0f449727cc429",
+          "actual_sha256": "4b6ac52f6ab36934520651f70332571efb40fbfc1b7008cf3ae0f449727cc429",
+          "match": true,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "proof": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/proof.rpx",
+          "declared_sha256": "7f456b834b7ad2388ed1b6d85c2c115ce72512d00f477e8e8da745486a59f53c",
+          "actual_sha256": "7f456b834b7ad2388ed1b6d85c2c115ce72512d00f477e8e8da745486a59f53c",
+          "match": true
+        },
+        "request": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/request.json",
+          "declared_sha256": "1aabeb1668ec8cbe6ddc53927e0133619a05dfde6c9f9428305b47be21628575",
+          "actual_sha256": "1aabeb1668ec8cbe6ddc53927e0133619a05dfde6c9f9428305b47be21628575",
+          "match": true
+        },
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "declared_sha256": "2e09d00bfc47bfef267a2640cf6d3d963e115c3fab97224790bdc6d5eb0e7134",
+          "actual_sha256": "2e09d00bfc47bfef267a2640cf6d3d963e115c3fab97224790bdc6d5eb0e7134",
+          "match": true
+        }
+      },
+      "committed_hash_receipt_delivery_assessment_actual_all_equal": true
+    },
+    "nomf": {
+      "run": "/Users/bhz/Code/reform_test/runs/test38-nomf-compiler-batch-C9-20261015",
+      "wall_s": 342.704,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 5282,
+        "rows": 20346,
+        "integers": 30,
+        "nonzeros": 71477,
+        "objective_nonzeros": 77
+      },
+      "target_shape": {
+        "variables": 3388,
+        "rows": 13038,
+        "integers": 29,
+        "nonzeros": 44979,
+        "objective_nonzeros": 77
+      },
+      "committed_model_sha256": "37a0dc4eae5886b545a21a2a3c9adc8f83080fecad3b7021398769db412f8919",
+      "trusted_source_anchor": {
+        "actual_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "batch_launch_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "assessment_expected_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "assessment_actual_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "execution_expected_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+        "all_equal": true
+      },
+      "kernel_verification_required": false,
+      "kernel_verified": false,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 15,
+        "tool_calls": 15,
+        "tool_calls_failed": 0,
+        "turns": 15,
+        "tokens_in": 32728,
+        "tokens_out": 17078,
+        "tokens_cache_read": 205184,
+        "tokens_cache_write": 0,
+        "tokens_total": 254990,
+        "cost_usd": 0.257,
+        "llm_time_s": 336.362,
+        "llm_ttft_s": 39.357,
+        "tool_time_s": 5.443,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 236.808,
+      "post_check_s": 105.896,
+      "public_eval_cells": [
+        {
+          "seconds": 10.779,
+          "title": "Locating MPS sections",
+          "duration_ms": 137,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "e21e3e36b9f2c0e338fcc4be72b28c30efb376e817256b1345858c76763beb06"
+        },
+        {
+          "seconds": 31.311,
+          "title": "Parsing exact model data",
+          "duration_ms": 197,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d93b18780ead467d70ced2c5936ccebf34e3de04c87f4a648560384505608553"
+        },
+        {
+          "seconds": 36.387,
+          "title": "Inspecting complete local blocks",
+          "duration_ms": 2,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "b4f33aaf23fc1677f7400f9f4c2a182c09718e8399ef08458b79d0b41aea2b34"
+        },
+        {
+          "seconds": 60.435,
+          "title": "Certifying gated DAG structure",
+          "duration_ms": 94,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a790c68a91ae6bd8f0dc60991c5f6e03895b9ca88a274a54310c648349a88429"
+        },
+        {
+          "seconds": 102.652,
+          "title": "Testing simplification hypotheses",
+          "duration_ms": 58,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "559a9a303de7957873d68979a3cad351286ed87d3183d705a71fadbd6c9bcaa6"
+        },
+        {
+          "seconds": 112.663,
+          "title": "Defining final reformulation scope",
+          "duration_ms": 3,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a28a213d472c3a3af1181a10d5371411b13b197293d0dd125b20ac15a773d869"
+        },
+        {
+          "seconds": 151.605,
+          "title": "Constructing committed formulation",
+          "duration_ms": 349,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d2e999b195734108600d7ac9b08f5db295cf4a56a50808c91d70da32973b8313"
+        },
+        {
+          "seconds": 173.985,
+          "title": "Writing model and edit certificate",
+          "duration_ms": 93,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "5abffae7bb0accc9e882241bbb7af68d96347681ecdff3e7ba955ff21eb3b476"
+        },
+        {
+          "seconds": 236.808,
+          "title": "Independently auditing written MPS",
+          "duration_ms": 4396,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "73b5320198848bb882516a26563fd4d7156b4b861dd770167f411417268bd6ee"
+        },
+        {
+          "seconds": 258.596,
+          "title": "Verifying cumulative link structure",
+          "duration_ms": 4,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "bf5b500a7454dd30b9e09a384409bda29fea1a659897d46fbe5a7b87f50620dd"
+        },
+        {
+          "seconds": 317.141,
+          "title": "Writing final mathematical report",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "637b98d05b46123749e7836e90be31aeaef4b847babc6225e43b570ef6b27bfe"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 2.745,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 6.042,
+          "i": "Inspecting MPS header",
+          "path": "input/model.mps:1-75"
+        },
+        {
+          "seconds": 14.64,
+          "i": "Reading coefficient section layout",
+          "path": "input/model.mps:20345-20395"
+        },
+        {
+          "seconds": 14.691,
+          "i": "Reading RHS and bounds layout",
+          "path": "input/model.mps:91898-91925,102040-102080,107310-107332"
+        }
+      ],
+      "proof_API_calls": [
+        {
+          "seconds": 258.596,
+          "title": "Verifying cumulative link structure",
+          "expression": "round(100 * (1 - len(kept) / len(cols)), 2)"
+        },
+        {
+          "seconds": 258.596,
+          "title": "Verifying cumulative link structure",
+          "expression": "round(100 * (1 - (len(newA) - 1) / (len(rows) - 1)), 2)"
+        },
+        {
+          "seconds": 258.596,
+          "title": "Verifying cumulative link structure",
+          "expression": "round(100 * (1 - sum(map(len, newA.values())) / sum(map(len, A.values()))), 2)"
+        }
+      ],
+      "standalone_author_scripts": [
+        "output/verify.py"
+      ],
+      "provenance_sha256": {
+        "workspace-manifest.json": "9f9c1ce624a3daa033f53d651dc78f7f954dabbad20d8d3ffbebf870456c06e4",
+        "execution.json": "85081de332e55467b19467e3c36544a68ea056d587d72e794e208529486dd7db",
+        "session.jsonl": "3e3f388b8c7d8648109d382b546c950833b271de37080f730cd28a3130955093",
+        "assessment.json": "5e8a53dcbd1d61d1a9fc9b96ffb2a4c3eb4173566b715edd5d9b3e6c5ce8b9ac",
+        "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+        "final-answer.txt": "f8e7977d903d97a9c91cde70a4eea77aee9cb6b1bce2e91cfaab13f4a814973a",
+        "output/report.md": "4e21299eb937e3bd788eb603f5668231caa6c7b190b7e750531e98c1b6246f83",
+        "output/verification.json": "8d3c9bd2844cb979cdc1e819babf1355c9e1cbbb518b15993ad1a8dc2914957b"
+      },
+      "independent_handwritten_audit_status": "PASS"
+    }
+  },
+  "formal_scope": "Three unrestricted objective-Equal claims: MI forward/reverse affine inverse pair, plus reverse continuous inclusion. Each observes all 3293 retained coordinates. No forward LP inverse/equivalence, input restrictions, points, improvements or separate bijection entry. Actual Request and total Return maps are authoritative.",
+  "mathematics": {
+    "shared": "Both verify all 5031 binary-controlled four-row gates, 144 fixed terminals, a DAG and the integer budget lattice. Both round budget 1164->1160, fix the 1180-cost binary to 0, share exact recursive functions, and tighten gate inequalities while retaining all 77 objective coordinates.",
+    "compiler": "After fixed/control substitutions and child normalization: 153 forced-selector outputs, 175 affine outputs and 1516 exact shared outputs eliminated; 3187 retained gates use exact one-sided unit-box l/u on B-A. 57 bound-valid tightened rows omitted. Total 1989 coordinates removed, 3293 variables/12769 rows/43486 constraint nonzeros; full MI inverse pair and reverse LP inclusion.",
+    "nomf": "Uses 3282 recursive signatures (1749 duplicates), keeps 56 forced-control representative outputs as explicit equalities and tightens other gates symmetrically with M=a. Target 3388 variables/13038 rows/44979 constraint nonzeros. Its reported 45056 nonzeros includes 77 objective coefficients; this is a convention difference, not a conflict.",
+    "quality_boundary": "Different mathematical targets/coefficients. No solver-quality or full-relaxation dominance conclusion follows from dimension comparisons. The compiler additionally explores a broader proportional candidate; the control not exploring it does not remove the possibility of proof-convenience bias."
+  },
+  "proportional_candidate_and_retreat_boundary": {
+    "public_event_seconds": 159.275,
+    "public_cell_code_sha256": "8bb7e2f9b983c796e484d1135979c8c89959c50a65df560591b0faf80d706aa5",
+    "public_candidate_code": "desc_select={};repeat_nodes=[]\nfor y in topo:\n q=gate_by_y[y]; ds=set()\n for j in set(q['A'].terms)|set(q['B'].terms):\n  if j in desc_select:ds.update(desc_select[j])\n if q['x'] in ds:repeat_nodes.append(y)\n ds.add(q['x']);desc_select[y]=ds\nprint('nodes repeating a selector in descendants',len(repeat_nodes))\n# Normalize the bilinear difference. y=A+x*(B-A); proportional differences share one nonlinear coordinate.\nreplacements2={i:Expr(v) for i,v in fixed_defs.items()};replacements2.update({i:Expr(0) for i in forced_zero})\nnormalized2={}; actions2={}; normal2={}; kept2=[]\nfor y in topo:\n q=gate_by_y[y]; A=q['A'].substitute(replacements2); B=q['B'].substitute(replacements2);D=B-A\n normal2[y]=(A,B)\n if q['x'] in forced_zero:\n  replacements2[y]=A;actions2[y]=('forced_selector',None,None)\n elif not D.terms:\n  replacements2[y]=A+D.constant*source.var(source.vars[q['x']].name);actions2[y]=('affine',None,None)\n else:\n  # D may not contain its own selector, since no repeated selectors on any gate path.\n  assert q['x'] not in D.terms\n  scale=next(c for i,c in sorted(D.terms.items()))\n  key=(q['x'],exprkey(D/scale))\n  if key in normalized2:\n   rep,rs=normalized2[key];alpha=scale/rs;Ar,Br=normal2[rep]\n   replacements2[y]=A-alpha*Ar+alpha*source.var(source.vars[rep].name)\n   actions2[y]=('proportional',rep,alpha)\n  else: normalized2[key]=(y,scale);kept2.append(y)\nprint('normalized nonlinear-sharing actions',Counter(v[0] for v in actions2.values()),'retained',len(kept2))\nprint('replacement widths',Counter(len(e.terms) for e in replacements2.values()))\nprint('box bounded replacements',sum(0<=box(e)[0] and box(e)[1]<=1 for e in replacements2.values()),'of',len(replacements2))\nprint('nontrivial affine shares',sum(a=='proportional' and (alpha!=1 or len(replacements2[y].terms)!=1 or replacements2[y].constant) for y,(a,r,alpha) in actions2.items()))",
+    "public_candidate_output": "nodes repeating a selector in descendants 0\nnormalized nonlinear-sharing actions Counter({'proportional': 1580, 'affine': 175, 'forced_selector': 153}) retained 3123\nreplacement widths Counter({1: 1774, 0: 167, 2: 102, 3: 10})\nbox bounded replacements 1856 of 2053\nnontrivial affine shares 245",
+    "specific_map_rule": "For D=B-A, group by the same selector x and normalized sparse D/scale. For an existing representative with (Ar,Br) and scale rs, alpha=scale/rs; reconstruct y=A-alpha*Ar+alpha*y_rep. This is an affine reconstruction after sharing the common nonlinear x*normalizedD term.",
+    "box_check_exact_definition": "box(e)=(e.constant+sum(min(0,c) for c in e.terms.values()), e.constant+sum(max(0,c) for c in e.terms.values())). It checks the full independent declared unit box, not the globally constrained target feasible set.",
+    "recorded_counts": {
+      "alternative_retained_gates": 3123,
+      "alternative_eliminations": 2053,
+      "additional_eliminations_over_selected": 64,
+      "box_bounded_alternative_reconstructions": 1856,
+      "not_box_bounded_reconstructions": 197,
+      "nontrivial_affine_shares": 245,
+      "replacement_term_count_histogram": {
+        "0": 167,
+        "1": 1774,
+        "2": 102,
+        "3": 10
+      }
+    },
+    "artifact_recorded_rejection_reason": "Keep sparse coordinate aliases and box-bounded affine reconstructions; generalized proportional sharing creates additional bound rows and fill-in.",
+    "API_path_used_for_candidate": "Exact Expr.substitute/affine arithmetic, scalar normalization, sparse key matching and explicit unit-box extrema. No Proof/Builder completion, compile or Kernel verification was attempted for this alternative.",
+    "what_is_unproved": "The 197 failures are failures of this box-only bound-sufficiency template. They do not prove the affine reconstruction is invalid on the complete feasible set. The public record does not provide the 197 per-coordinate failed intervals or full alternate mapping table; the selected structural witnesses retain its summary counts/reason.",
+    "proof_cost_vs_math_quality": "Adding reconstructed bounds or proving them from other constraints is a further expression/proof obligation; denser maps and extra bound rows may also change model quality. Static evidence does not separate a legitimate sparse-formulation preference from a proof-convenience preference. No API inability/rejection or failed certificate is observed, but the alternative was consciously not completed because the chosen representation avoided these extra obligations.",
+    "followup_boundary": "Determining whether the full alternate model is preferable/valid needs a later supplied-witness regression after the batch stops. No new model or proof was generated by this audit."
+  },
+  "latest_helper_usage": {
+    "actual_case_proofs": "Explicit f.cases on binary selectors derive eliminated gate equalities and retained one-sided tightened inequalities; supplied child definitions are rewritten inside branches.",
+    "actual_integer_rounding": "Builder.round for forced binary and gcd-scaled budget; no proof search.",
+    "actual_substitution": "Complete user-supplied affine definitions passed to f.substitution; reverse MI and reverse LP feasibility are completed explicitly.",
+    "zero_sum_or_parity_fix_or_rewrite_many_called": false,
+    "correspondence_optional_maps_called": false,
+    "transparent_snapshot_features": "Frozen 539 includes streaming load and leaf encoder. Calls use explicit bijection maps; unused optional-map defaults do not account for mathematical changes."
+  },
+  "public_proof_friction": {
+    "tool_or_API_exceptions": 0,
+    "failed_native_verification_observed": false,
+    "explicit_target_change_after_failed_native_proof": false,
+    "scope_boundary": "No failed certificate is relied on. The selected target is established 215.627 s before proof authorship, forward completes 277.457 s, MI reverse 295.903 s, final reverse LP+native verification 337.404 s. The proportional candidate was excluded earlier for the documented mixed box-bound/fill rationale; that remains a distinct exploration concern."
+  },
+  "timing_comparison": {
+    "compiler_wall_s": 421.807,
+    "nomf_wall_s": 342.704,
+    "ratio": 1.23082018301508,
+    "compiler_target_ready_s": 215.627,
+    "compiler_first_final_VERIFIED_binding_s": 337.404,
+    "compiler_post_VERIFIED_s": 84.403,
+    "nomf_first_independent_artifact_PASS_s": 236.808,
+    "nomf_post_PASS_s": 105.896,
+    "boundary": "Different targets; all times are observations, with no prompt/helper causal claim or measured quality conclusion."
+  },
+  "source_resolution_note": "The trusted launch input is the root-selected pristine data/test38.mps identity SHA eea4971f…; this audit checks the complete actual input byte hash against the outside-workspace batch anchor, without performing NAME resolution or normalization itself.",
+  "acceptance_boundary": "Fresh closed-pair evidence preserves substantial integer-case reasoning and full MI bijection, but alternative-candidate completion convenience remains unresolved. Generalization and overall acceptance are not established by this pair; solver quality is pending."
+}
