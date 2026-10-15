@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T02:22:45.966941+00:00",
-  "status": "prepared_not_launched",
+  "status": "running",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C6-20261015",
   "treatment_id": "C7-20261015",
   "cases": [
@@ -77,5 +77,8 @@
   ],
   "interpretation": "Prompt packaging is a hypothesis supported by visible C5/C6 work. Fresh runs vary mathematically; shorter wall alone does not prove causation or quality parity.",
   "pending_streaming_feature_excluded": true,
-  "prior_answers_or_solver_feedback_exposed": false
+  "prior_answers_or_solver_feedback_exposed": false,
+  "treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
+  "launch_integrity_sha256": "d516beeb1db1f8080065a8f68bf089a2dae0f3d04ee79a5ce1f3b21bebcf65ef",
+  "launched_at": "2026-10-15T10:27:07+08:00"
 }
