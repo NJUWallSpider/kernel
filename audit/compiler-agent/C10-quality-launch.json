@@ -1,0 +1,26 @@
+{
+  "status": "RUNNING",
+  "launched_after_owned_Agents_stopped": true,
+  "session": 99871,
+  "driver": {
+    "pid": 31390,
+    "ppid": 59553,
+    "command": "/Users/bhz/miniforge3/envs/bigdata/bin/python tools/evaluate_compiler_quality.py --batch /Users/bhz/Code/reform_test/runs/compiler-batch-C10-20261015 --label C10-quality --time-limit 120 --repeats 3 --repeat-threshold 30"
+  },
+  "observed_utc": "2026-10-15T06:55:44.204180+00:00",
+  "quality_created": "2026-10-15T14:54:40.166124+08:00",
+  "solver_sha256": "5c5a742df14b65c846a9e9c5512777c7c9707df504e78b879ff987f7f332c568",
+  "evaluator_sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d",
+  "options": {
+    "parallel": "off",
+    "threads": 1,
+    "random_seed": 0,
+    "time_limit": 120.0,
+    "repeats": 3,
+    "repeat_threshold_seconds": 30.0
+  },
+  "quality_path": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/quality.json",
+  "Agent_stop_audit_sha256": "dee5a7de14d063231bb0925d6bc892149c7a8dc7a0a1fdfa6611a9c8ba15b833",
+  "memory_is_acceptance_gate": false,
+  "user_boundary": "Last final batch; only its quality measurements and documentation closeout remain. No C11 or further optimization round."
+}

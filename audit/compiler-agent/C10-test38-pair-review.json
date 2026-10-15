@@ -1,0 +1,223 @@
+{
+  "schema": "kernel-compiler-agent-pair-appendix-short-v1",
+  "round": "C10",
+  "case": "test38",
+  "status": "COMPLETED_PAIR_STATIC_REVIEW_QUALITY_PENDING",
+  "overall_acceptance": false,
+  "quality_status": "PENDING",
+  "method": "Only completed nomf public calls/results, reports, receipts and assessment; Compiler actual scope is referenced from its retained earlier cutoff phase. No private reasoning, live other-case math, native, solver, test, model normalization, replay or benchmark. Earlier Compiler-only phase remains unchanged.",
+  "compiler_phase": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-test38-compiler-phase.json",
+    "sha256": "68de996db48a565bdec61c80b440c3241f7411bd9f139139971b8704823deab6"
+  },
+  "paired_wall_s": {
+    "compiler": 659.548,
+    "nomf": 555.455
+  },
+  "paired_wall_ratio": 1.1874013196388546,
+  "compiler_scope": "Two-stage declared paths: MI Equal both directions and reverse LP Equal,3250 observations each; stage0 has local MI inverse but no composed inverse,forward LP or points. See primary phase for all six complete actual maps and source/artifact hashes.",
+  "nomf": {
+    "run": "/Users/bhz/Code/reform_test/runs/test38-nomf-compiler-batch-C10-20261015",
+    "wall_s": 555.455,
+    "exit_code": 0,
+    "timed_out": false,
+    "assessment_errors": [],
+    "kernel_verified": false,
+    "kernel_proof_required": false,
+    "metrics": {
+      "llm_calls": 16,
+      "tool_calls": 15,
+      "tool_calls_failed": 0,
+      "turns": 16,
+      "tokens_in": 62689,
+      "tokens_out": 21613,
+      "tokens_cache_read": 209024,
+      "tokens_cache_write": 0,
+      "tokens_total": 293326,
+      "cost_usd": 0.362,
+      "llm_time_s": 542.82,
+      "llm_ttft_s": 51.382,
+      "tool_time_s": 11.605,
+      "resolved_models": [
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "thinking_levels": [
+        "high"
+      ],
+      "model_fallback_used": false
+    },
+    "source_shape": {
+      "variables": 5282,
+      "rows": 20346,
+      "integers": 30,
+      "nonzeros": 71477,
+      "objective_nonzeros": 77
+    },
+    "target_shape": {
+      "variables": 3387,
+      "rows": 13037,
+      "integers": 29,
+      "nonzeros": 44926,
+      "objective_nonzeros": 77
+    },
+    "trusted_input_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+    "input_execution_assessment_and_handwritten_receipt_hashes_match": true,
+    "committed_model_sha256": "a590ae3d77bc9cca95f3a7a89b8952c860458ade6bafc8b1be63b8e529ee8059",
+    "committed_hash_matches_handwritten_receipt": true,
+    "handwritten_verification": {
+      "artifact_coefficients_checked": 45003,
+      "artifact_rows_checked": 13038,
+      "conditional_affine_corners_checked": 40,
+      "exact_complete_model_smoke_cases": 54,
+      "final_sha256": "a590ae3d77bc9cca95f3a7a89b8952c860458ade6bafc8b1be63b8e529ee8059",
+      "scope": "Exact algebraic source-to-artifact comparison plus finite smoke checks; not optimization.",
+      "solver_calls": 0,
+      "source_node_quartets_checked": 5031,
+      "source_sha256": "eea4971fc94e2a783b957027a1428022489e4285542f28757640aaa866573d0e",
+      "status": "passed"
+    },
+    "smoke_cases_retained_in_hashed_raw_receipt": 54,
+    "first_final_artifact_audit_s": 399.273,
+    "post_audit_remaining_s": 156.182,
+    "public_eval_cells": [
+      {
+        "result_s": 15.685,
+        "title": "Locating all MPS sections",
+        "duration_s": 0.157,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "28e095984ffc1d397e689993ad9423dd73a553504fc8efcd79c998dfbf1547d6"
+      },
+      {
+        "result_s": 35.868,
+        "title": "Parsing exact MPS representation",
+        "duration_s": 0.184,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "20715f518291216651aa06e17cc68efbf7c8ebae0039d9cc13d2bc03d3a851a7"
+      },
+      {
+        "result_s": 42.391,
+        "title": "Inspecting complete row families",
+        "duration_s": 0.048,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "95b9a4334a5492ac874236b91ec65b8e79ddbcfd20d5aedac79d6893abaf9ae3"
+      },
+      {
+        "result_s": 72.337,
+        "title": "Verifying conditional graph identities",
+        "duration_s": 0.075,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "e38d4817f2867e529e763cf3cd635a747c01ab7d270b6a6e91c4d9923955c4c9"
+      },
+      {
+        "result_s": 122.134,
+        "title": "Checking forced selectors and coupling",
+        "duration_s": 0.028,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "ea83f7a41afc175d0fdda50acc28bff52074c0725b2e4c081276e94dc185920a"
+      },
+      {
+        "result_s": 157.686,
+        "title": "Reducing the exact conditional graph",
+        "duration_s": 0.032,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "c4a8f7a0ae132083f27c7a82e885df91ed80a77fa9f40a71b8c353ecb8ef3f60"
+      },
+      {
+        "result_s": 189.061,
+        "title": "Independently checking parsed algebra",
+        "duration_s": 0.159,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "8659e699b0324625f309aa67978ce9e49b03fcebde5fc0b64c999e681d2aa379"
+      },
+      {
+        "result_s": 229.478,
+        "title": "Constructing compact strengthened formulation",
+        "duration_s": 0.069,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "5d7a2ee46fe68823170f123679bf243a813f8bcf869275b10d8dce128768c646"
+      },
+      {
+        "result_s": 261.993,
+        "title": "Exercising both full formulations exactly",
+        "duration_s": 5.378,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "282c8c3830171222ae119953cf3791a2c05fee8d47e46e9e1e35cb3044e988b3"
+      },
+      {
+        "result_s": 306.975,
+        "title": "Writing final model and substitution audit",
+        "duration_s": 0.092,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "fe95921666c833868d3db922789bceb5b6be13eebe88daff22d0cb23b10fb502"
+      },
+      {
+        "result_s": 399.273,
+        "title": "Auditing written model independently",
+        "duration_s": 5.323,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "0d914f377b4022e493158f0251b0031cf2b8dbfdc15f03de31db74a761a960c2"
+      },
+      {
+        "result_s": 430.523,
+        "title": "Recording structural evidence and limits",
+        "duration_s": 0.009,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "9f846b9d8a15b5e29d100b268ca3861b9a7c8d0362be235e9c0b6a9c80c25d1a"
+      },
+      {
+        "result_s": 526.534,
+        "title": "Writing final justification and limitations",
+        "duration_s": 0.006,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "1af78149ff9991f7c06abf16ed08994187544da9465ec4b4d624bdb3cf812cb2"
+      }
+    ],
+    "provenance_sha256": {
+      "execution.json": "fa9c47ca79a579bbc324bc228b10985d0855f788c57e0048425b8ecdb8867355",
+      "assessment.json": "f7544db47b5067b9d7b4ed70d340bd682b6967050c569a71758278b8124941f7",
+      "session.jsonl": "3af7b837ffb85c79c0670b9edc240e168d3c4afee3b2c3d55d94ac6d4bc06c67",
+      "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+      "output/report.md": "93a8c2792762a5240f88a6ccaf300a542743721858d65e8fb88e49d27a770938",
+      "output/verification.json": "e69c54d832f493ab63da9408efd81493dcffe19386cc14eff50ca8e03135a81e",
+      "output/structure.json": "151faaa72c00e73c98db4da7e2bda654a944492260ae3327f6b0a1aa982912fe",
+      "output/verify.py": "65a0b77badb72a8424d40d11c0e3eb647fe78b6f5d201254fbba56c2379acbd6"
+    }
+  },
+  "mathematical_comparison": {
+    "shared": "Both prove the unaffordable1180-cost selector is0 from budget1164, exploit exact conditional-DAG identity sharing, and tighten all3226 retained conditional quartets fromM1 to1-q.",
+    "Compiler": "Eliminates all77 objective variables by triangular affine definitions with67 necessary lower-bound rows retained, all153 fixed-branch nodes substituted, and1652 aliases. Then drops5 zero-cost budget-only binaries and integer-rounds1164→1160. Final3250vars/12972rows/44128matrix nnz/24integer,constant600. Canonicalization changes fiber/bijection scope explicitly.",
+    "nomf": "Retains77 objective variables and29 binaries, including5 budget-only selectors, to preserve all original retained selector assignments. Fixed branch nodes become22constant1/2 values and55 shared nonconstant affine definitions; final3281nonconstant graph variables plus77objective and29binary. Final3387vars/13037rows/44926matrix nnz,offset0.",
+    "explicit_nomf_scope_choice": "Nomf report says setting five budget-only binaries to0 could preserve an optimum in projection,but discards selector assignments outside its chosen equivalence claim. This is a declared commitment choice,not a Compiler limitation.",
+    "Compiler_scope_not_weaker_by_dimension": "Compiler adds certified nonbijective budget canonicalization and retains reverse LP relation; nomf describes exact integer quotient with recoverable auxiliary values. Different preserved fibers and observation choices prevent dimension-only ranking.",
+    "proportional_candidate": "Neither completed public record attempts the additional proportional-sharing witness from C9. No proof failure or API rejection of that candidate is observed; no inference that it was impossible or forced away is made.",
+    "no_case_feedback": "No results or mathematical hints from this audit are sent to any live research Agent."
+  },
+  "time_boundary": "659.548/555.455s are full actual Agent walls for different mathematics/claim scopes. Compiler tool17.792s/LLM639.526s; nomf tool11.605s/LLM542.820s. Native Compiler receipts total only0.423199s across2stages; whole Python/compile/binding work is separately cumulative in the primary phase. This does not isolate prompt/helper latency or establish equal solver quality.",
+  "formal_correctness_boundary": "Compiler native claims and full committed-artifact binding are actual independent proofs. Nomf passed exact handwritten source-to-artifact verification and54 finite smoke scenarios; those are not native Kernel proofs and numerical/model similarity is not used as correctness evidence."
+}

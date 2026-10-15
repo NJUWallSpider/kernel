@@ -1,0 +1,459 @@
+{
+  "schema": "kernel-compiler-agent-compiler-phase-short-v1",
+  "round": "C10",
+  "case": "test69",
+  "status": "COMPILER_COMPLETE_CONTROL_NOT_INSPECTED",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "method": "Only completed Compiler public calls/results, complete actual Requests/terminal maps, receipts and independent harness assessment. No private reasoning, live control/other-case math, native, solver, tests, model normalization, replay, benchmark or new Agent. Certificate claim/Return arrays are decoded without its proof-step tree. Memory is not a gate.",
+  "run": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "harness_checkpoint": "67d74462317c6a4b558ff0ad4a2516aa152ad8d3",
+  "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "wall_s": 469.392,
+  "exit_code": 0,
+  "timed_out": false,
+  "assessment_errors": [],
+  "source_shape": {
+    "variables": 11697,
+    "rows": 16381,
+    "integers": 7196,
+    "nonzeros": 44903,
+    "objective_nonzeros": 751
+  },
+  "target_shape": {
+    "variables": 10198,
+    "rows": 14884,
+    "integers": 7196,
+    "nonzeros": 41910,
+    "objective_nonzeros": 750
+  },
+  "metrics": {
+    "llm_calls": 20,
+    "tool_calls": 19,
+    "tool_calls_failed": 0,
+    "turns": 20,
+    "tokens_in": 36271,
+    "tokens_out": 14258,
+    "tokens_cache_read": 353408,
+    "tokens_cache_write": 0,
+    "tokens_total": 403937,
+    "cost_usd": 0.25,
+    "llm_time_s": 414.44,
+    "llm_ttft_s": 57.424,
+    "tool_time_s": 53.125,
+    "resolved_models": [
+      "openai-codex/gpt-6.1-sol"
+    ],
+    "thinking_levels": [
+      "high"
+    ],
+    "model_fallback_used": false
+  },
+  "source_anchor": {
+    "trusted_launch_sha256": "c52756e005f676ff70f041b1680e77fc381bf08d6f420844b42150838deb69a7",
+    "assessment_actual_sha256": "c52756e005f676ff70f041b1680e77fc381bf08d6f420844b42150838deb69a7",
+    "all_trusted_execution_assessment_hashes_equal": true
+  },
+  "actual_Request": {
+    "claims": [
+      {
+        "reverse": false,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 1,
+        "index": 0,
+        "observations": 10198,
+        "affine_observations": 0,
+        "observation_sha256": "23f3a2f8a3b3723e38dd22b69db1c126d5cb62fc765ad00bea5b8eaab2abf952",
+        "all_observations_same_map_exact_copy": true,
+        "all_target_coordinates_observed": true,
+        "map": {
+          "input_dimension": 11697,
+          "complete_output_dimension": 10198,
+          "expression_count": 10198,
+          "all_indices_in_actual_root_scope": true,
+          "exact_rational_constants_and_coefficients": true,
+          "map_sha256": "8cbc9622331a79212523b2717f6a14daf703c5ae58e27f62cb71ee1000ff5698",
+          "term_count_histogram": {
+            "1": 10198
+          },
+          "nonzero_constants": 0
+        },
+        "Return_checks": 64372
+      },
+      {
+        "reverse": true,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 0,
+        "index": 1,
+        "observations": 10198,
+        "affine_observations": 0,
+        "observation_sha256": "153520f5045a0619fa615269c4e72474d0b0cb139519629f6e9ea302b8395f38",
+        "all_observations_same_map_exact_copy": true,
+        "all_target_coordinates_observed": true,
+        "map": {
+          "input_dimension": 10198,
+          "complete_output_dimension": 11697,
+          "expression_count": 11697,
+          "all_indices_in_actual_root_scope": true,
+          "exact_rational_constants_and_coefficients": true,
+          "map_sha256": "9340cf6dee4477a832e2987b23fbe90923f06121bd3de96698f1cc2207887e06",
+          "term_count_histogram": {
+            "0": 1,
+            "1": 11696
+          },
+          "nonzero_constants": 1499
+        },
+        "Return_checks": 67367
+      },
+      {
+        "reverse": true,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": null,
+        "index": 2,
+        "observations": 10198,
+        "affine_observations": 0,
+        "observation_sha256": "153520f5045a0619fa615269c4e72474d0b0cb139519629f6e9ea302b8395f38",
+        "all_observations_same_map_exact_copy": true,
+        "all_target_coordinates_observed": true,
+        "map": {
+          "input_dimension": 10198,
+          "complete_output_dimension": 11697,
+          "expression_count": 11697,
+          "all_indices_in_actual_root_scope": true,
+          "exact_rational_constants_and_coefficients": true,
+          "map_sha256": "9340cf6dee4477a832e2987b23fbe90923f06121bd3de96698f1cc2207887e06",
+          "term_count_histogram": {
+            "0": 1,
+            "1": 11696
+          },
+          "nonzero_constants": 1499
+        },
+        "Return_checks": 49973
+      }
+    ],
+    "other_counts": {
+      "points": 0,
+      "improvements": 0,
+      "bijections": 0
+    },
+    "Certificate_claims_exactly_equal_Request": true,
+    "Return_checks_match_native_obligations": true,
+    "MI_inverse_pair_projection_sets_transposed": true,
+    "scope": "Three unrestricted Equal claims: full MI affine inverse pair plus reverse LP total map,10198retained coordinate observations each. No forward LP,points,improvements or separate bijection record."
+  },
+  "native_status": "VERIFIED",
+  "native_total_s": 0.115394,
+  "native_statistics": {
+    "bijections": 0,
+    "branches": 0,
+    "flow_generated_rows": 0,
+    "flow_generated_terms": 0,
+    "flow_generated_variables": 0,
+    "flow_lifts": 0,
+    "injectivity_coordinates": 0,
+    "injectivity_generated_rows": 0,
+    "injectivity_generated_terms": 0,
+    "injectivity_generated_variables": 0,
+    "interval_generated_rows": 0,
+    "interval_generated_terms": 0,
+    "interval_generated_variables": 0,
+    "interval_lifts": 0,
+    "linear_terms": 86898,
+    "menu_generated_rows": 0,
+    "menu_generated_terms": 0,
+    "menu_generated_variables": 0,
+    "menu_lifts": 0,
+    "objective_level_domains": 0,
+    "objective_level_generated_rows": 0,
+    "objective_level_generated_terms": 0,
+    "obligations": 181712,
+    "peak_live_facts": 22480,
+    "plotkin_pairs": 0,
+    "point_coefficient_terms": 0,
+    "points": 0,
+    "signed_generated_rows": 0,
+    "signed_generated_terms": 0,
+    "signed_generated_variables": 0,
+    "signed_lifts": 0,
+    "substitution_terms": 155858,
+    "work": 1474197
+  },
+  "artifact_audit": {
+    "status": "MATCHED",
+    "method": "Kernel standard-format readback and exact named formulation comparison",
+    "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/reformulated.mps",
+      "sha256": "54a1c499ee9db5a26d067080ca1389252e8c93e8f9006718ec38ad052d0c6e87"
+    },
+    "proof_target": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/target.mcm",
+      "sha256": "cfbbf27846a279232c9fe05b2e7e02b7a14c5845e94b406c256eb22958d107a9"
+    }
+  },
+  "actual_artifact_hash_binding": {
+    "source": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/source.mcm",
+      "actual_sha256": "e17d642ebcb90ee2262ba94b67a7795c63d635811abd13ef9cac2392671095b4",
+      "matches_delivery": true,
+      "first4_hex": "4d434d00",
+      "reader_family": "kernel_mcm"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/target.mcm",
+      "actual_sha256": "cfbbf27846a279232c9fe05b2e7e02b7a14c5845e94b406c256eb22958d107a9",
+      "matches_delivery": true,
+      "first4_hex": "4d434d00",
+      "reader_family": "kernel_mcm"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/proof.rpx",
+      "actual_sha256": "855d1ace8bd9c5834cb67a3c30be13a4fbd239a1077a2b2673bc518a6722177e",
+      "matches_delivery": true
+    },
+    "request": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/request.json",
+      "actual_sha256": "00815925b4225457fb715a9e7f48f5ff18e5a5fcaef4b39123578a2b610e8f06",
+      "matches_delivery": true
+    },
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test69-compiler-compiler-batch-C10-20261015/output/reformulated.mps",
+      "actual_sha256": "54a1c499ee9db5a26d067080ca1389252e8c93e8f9006718ec38ad052d0c6e87",
+      "matches_delivery": true
+    }
+  },
+  "harness_piece_digests_match": true,
+  "mathematical_route": {
+    "equalities": "Exhaustive1498opposite lower-row pairs form two consistent750-vertex continuous paths. Explicit EqPair per edge and accumulated root-relative Eq per1498coordinate, plus xx0=1000.",
+    "bounds": "Choose each path minimum-potential representative; consolidate all component bounds using a maximum-offset coordinate. New root uppers998422/998778,offset maxima1578/1222. Reverse proves every eliminated bound from target intervals.",
+    "integer_strengthening": "Match1500 positive-width rows to3000 binary gate rows, widths60/14 andM61/15. Given three-row Lin gives a+b<=1+1/M; explicit Int(a+b)+Round proves a+b<=1. All1500distinct cuts are included in the final artifact.",
+    "exact_edits": "1499continuous-coordinate deletions,2retained upper changes,2997row deletions,5992surviving row substitutions,1500new cuts,objective constant1000. Integer count7196 unchanged.",
+    "rejected_candidates": "No literal duplicates among16380lower rows. Remaining3446cross-gates have3306positive and140zero inspected gap witnesses,no negative gap,so that selected forced-zero criterion yields no fixings. Other arguments remain possible.",
+    "expression_retreat": "No API/tool error,no attempted target abandoned because of proof or resource rejection,and no explicit proof-cost refusal appears publicly. The inspected gap criterion failing is a mathematical condition result,not a Kernel inability theorem. Absence of other attempted candidates is not evidence of exhaustive reformulation."
+  },
+  "actual_API_use": {
+    "calls": [
+      "Proof.bijection(explicit maps,integers=True,projection=retained)",
+      "reverse LP claim",
+      "eqpair on given opposite rows",
+      "eq accumulated path definitions",
+      "substitution(definitions)",
+      "le+int+round for1500given triples",
+      "missing/complete",
+      "contract_summary",
+      "proof.verify(committed_model=...)"
+    ],
+    "subset_bounds_or_zero_sum_used": false,
+    "tool_errors": 0,
+    "budget": {
+      "manifest_compile_limits": {
+        "certificate_json_bytes": 1073741824
+      },
+      "Certificate_JSON_bytes": 6944100,
+      "explicit_compile_json_bytes_override": false,
+      "resource_rejection_observed": false
+    }
+  },
+  "phase": {
+    "first_candidate_validated_s": 101.786,
+    "integer_cut_witnesses_validated_s": 169.616,
+    "final_target_plus_forward_authoring_result_s": 292.48,
+    "reverse_and_LP_complete_s": 309.58,
+    "first_complete_final_Verified_Matched_s": 363.232,
+    "post_check_remaining_s": 106.16,
+    "LLM_s": 414.44,
+    "tool_s": 53.125,
+    "source_load_cell_s": 3.66,
+    "cut_witness_analysis_cell_s": 3.936,
+    "combined_target_map_definitions_forward_proof_cell_s": 41.274,
+    "reverse_obligation_inspection_cell_s": 0.989,
+    "reverse_LP_completion_cell_s": 0.685,
+    "final_MPS_compile_verify_binding_cell_s": 1.806,
+    "native_receipt_total_s": 0.115394,
+    "mechanical_repetition": {
+      "public_code_sha256": "c9c4c5470a80db7ba7540a8c17b1340c68853df10d60ceedf36f5ddd558626e3",
+      "exact_public_line": "reverse_map={v.name:(replacements[v.name].substitute({source.var_index[w.name]:target.var(w.name) for w in target.vars}) if v.name in replacements else target.var(v.name)) for v in source.vars}",
+      "replacement_expressions": 1499,
+      "unchanged_target_mapping_entries": 10198,
+      "mapping_entries_rebuilt_by_that_loop": 15286802,
+      "inference": "The unchanged full source-index→target-expression dictionary is rebuilt once per replaced coordinate. Its repetition is statically visible; the41.274s mixed cell has no internal timers,so no measured fraction is assigned to this loop. General mapping/index reuse is a future authoring opportunity,not a new final-round implementation or benchmark."
+    },
+    "post_check_activity": "One directory read and0.008s final report-writing eval; no repeat native proof or parser reimplementation is observed. Most remaining106.160s is recorded LLM organization/prose.",
+    "causal_boundary": "New held-out-within-our-run-program case,control not inspected yet; no causal helper/prompt effect,solver performance or complete overall acceptance claim."
+  },
+  "public_eval_cells": [
+    {
+      "result_s": 16.168,
+      "title": "Loading exact formulation",
+      "wall_s": 3.66,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "1a76ab1125a9f094d7554fab20e8081df61543ffefbcd6fc3dc8f68e394277e5"
+    },
+    {
+      "result_s": 29.125,
+      "title": "Classifying exact row structures",
+      "wall_s": 0.065,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "96d9c689ec06c30f4f8295ef64a298331d5c8a17c82e9441b4eb4938bb2032ab"
+    },
+    {
+      "result_s": 36.586,
+      "title": "Inspecting constraint block transitions",
+      "wall_s": 0.004,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "d57baff2a05ee4303a95c4d3dcda734800eb1bc585bf1fe826b3e62755dfa41f"
+    },
+    {
+      "result_s": 67.425,
+      "title": "Verifying implicit affine equality graph",
+      "wall_s": 0.07,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "583a95329b55b7d8eb931dff68898864c9e5eccb341919b7afe638d5682ded1f"
+    },
+    {
+      "result_s": 101.786,
+      "title": "Validating candidate affine elimination",
+      "wall_s": 0.301,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "e1eb1707456b0037853d23c1e9008adb0f6c24200c176f0b29115a2429b6e4d3"
+    },
+    {
+      "result_s": 169.616,
+      "title": "Verifying local integer strengthening cuts",
+      "wall_s": 3.936,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "adb6b47fe0b2f7df9d895d97e810f3a3c7428b39a4610e170009ba1fd95e8706"
+    },
+    {
+      "result_s": 199.206,
+      "title": "Investigating forced binary directions",
+      "wall_s": 0.045,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "9af737c00ad879b114ac2747f1161a9f72a967a827a5911417e3bd413efb1a13"
+    },
+    {
+      "result_s": 216.575,
+      "title": "Inspecting construction signatures",
+      "wall_s": 0.002,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "f9f59c03a03d0fb5dc95a13eeada4db86e83819692381e0a00a74e1839253474"
+    },
+    {
+      "result_s": 292.48,
+      "title": "Building target and integer proof",
+      "wall_s": 41.274,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "c9c4c5470a80db7ba7540a8c17b1340c68853df10d60ceedf36f5ddd558626e3"
+    },
+    {
+      "result_s": 299.793,
+      "title": "Inspecting reverse-map obligations",
+      "wall_s": 0.989,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "5f2e39cdd25bd7e1d3371cb4038e4989c3a0ea71db9a7569ac1161f61e4b826f"
+    },
+    {
+      "result_s": 309.58,
+      "title": "Completing reverse and LP certificates",
+      "wall_s": 0.685,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "397c21a4212e83bd413a0d451e8447042cc5cdf2b2b22fd6c0be9959b0854622"
+    },
+    {
+      "result_s": 322.43,
+      "title": "Recording representation and edit evidence",
+      "wall_s": 0.184,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "b6b28abd81a77f180e00b65d6ac42f6af5e7e2675162d5bf1cb5d2a11f99df13"
+    },
+    {
+      "result_s": 363.232,
+      "title": "Committing and verifying final formulation",
+      "wall_s": 1.806,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "dad9df7b7d6f94396b184220713433da813a1bea4a7165edb13bd7345816f92f"
+    },
+    {
+      "result_s": 457.628,
+      "title": "Writing final evidence report",
+      "wall_s": 0.008,
+      "status": [
+        "complete"
+      ],
+      "code_sha256": "c7ebc481e7bb902a1bbfd224ab0b1c52337463b0572d19236a415815a6c91842"
+    }
+  ],
+  "public_API_reads": [
+    {
+      "seconds": 3.137,
+      "i": "Inspecting workspace entries",
+      "path": "."
+    },
+    {
+      "seconds": 7.159,
+      "i": "Reading compiler model interface",
+      "path": "compiler/API.md:1-210"
+    },
+    {
+      "seconds": 21.564,
+      "i": "Inspecting MPS section syntax",
+      "path": "input/model.mps:1-42,-42"
+    },
+    {
+      "seconds": 52.386,
+      "i": "Reading affine proof builders",
+      "path": "compiler/API.md:250-505"
+    },
+    {
+      "seconds": 368.289,
+      "i": "Locating verified delivery artifacts",
+      "path": "output"
+    }
+  ],
+  "provenance_sha256": {
+    "execution.json": "26161bb7609da6cac49fb46ed8f4090f6ced28aee6f7f11b371137958d7ba90d",
+    "assessment.json": "fb1428e955eb653faa97665d9902f24604405b090ed22cf3553626bb9247230d",
+    "session.jsonl": "2fb91b1a0f1784d3a82f331509528b21da1e8718bb2de4b8dbe92dd032329da5",
+    "protocol.md": "7775adb56c0aa03992eb4e810796ecca52141980a4acfa81ca1fb3266d1ca103",
+    "workspace-manifest.json": "c1c6a6400051e623df0086288fa1eb793f5b1a73dc4e53f25d75a38213ea22bd",
+    "output/report.md": "bb97fd7fc4a59cbaffd0a01682822b3a4e0850c32d1520c93b5cce8ccf02dea7",
+    "output/request.json": "00815925b4225457fb715a9e7f48f5ff18e5a5fcaef4b39123578a2b610e8f06",
+    "output/delivery.json": "f898dad8378edd01776ebc1c1b0d3eb6d43db7ff1019f92861cd12e2e674971d",
+    "output/verification.json": "dcf701bac7b104d84abb932c1fc972e67166e8dd09735b0ec3db4d4626c0bee7",
+    "output/witnesses.json": "d5b2f8e5db33fc688b3c54e78968e031d704e31d2ec631d8923e7083251bb76b",
+    "output/analysis.json": "a76734b77aea4e8a6d8432e6b8e68ee3220c328dfc367ee3fcbc0ebf2c9e136d"
+  }
+}

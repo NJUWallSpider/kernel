@@ -1,0 +1,242 @@
+{
+  "schema": "kernel-compiler-agent-pair-appendix-short-v1",
+  "round": "C10",
+  "case": "test69",
+  "status": "COMPLETED_PAIR_STATIC_REVIEW_QUALITY_PENDING",
+  "overall_acceptance": false,
+  "quality_status": "PENDING",
+  "method": "Read-only completed nomf public calls/results,report,receipt and assessment. Compiler actual Request/maps/binding are referenced from its immutable earlier phase. No private reasoning,native,solver,test,normalization,replay,benchmark or new Agent. Earlier phase cutoff remains unchanged.",
+  "compiler_phase": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-test69-compiler-phase.json",
+    "sha256": "8a9d31d389d859fcc23d6d8d4168577fe4b06b1f0e050ce169939a6b2b939965"
+  },
+  "paired_wall_s": {
+    "compiler": 469.392,
+    "nomf": 374.934
+  },
+  "paired_wall_ratio": 1.251932340091856,
+  "compiler_contract": "Three unrestricted Equal claims: MI affine inverse pair and reverse LP total map,10,198 retained observations each. No forward LP,point or improvement claim. Actual181,712obligations and whole committed-artifact binding are in the primary phase.",
+  "nomf": {
+    "run": "/Users/bhz/Code/reform_test/runs/test69-nomf-compiler-batch-C10-20261015",
+    "wall_s": 374.934,
+    "exit_code": 0,
+    "timed_out": false,
+    "assessment_errors": [],
+    "kernel_verified": false,
+    "kernel_proof_required": false,
+    "source_shape": {
+      "variables": 11697,
+      "rows": 16381,
+      "integers": 7196,
+      "nonzeros": 44903,
+      "objective_nonzeros": 751
+    },
+    "target_shape": {
+      "variables": 10199,
+      "rows": 13385,
+      "integers": 7196,
+      "nonzeros": 38911,
+      "objective_nonzeros": 751
+    },
+    "metrics": {
+      "llm_calls": 16,
+      "tool_calls": 17,
+      "tool_calls_failed": 0,
+      "turns": 16,
+      "tokens_in": 32883,
+      "tokens_out": 14342,
+      "tokens_cache_read": 173696,
+      "tokens_cache_write": 0,
+      "tokens_total": 220921,
+      "cost_usd": 0.227,
+      "llm_time_s": 372.429,
+      "llm_ttft_s": 48.668,
+      "tool_time_s": 1.647,
+      "resolved_models": [
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "thinking_levels": [
+        "high"
+      ],
+      "model_fallback_used": false
+    },
+    "trusted_input_sha256": "c52756e005f676ff70f041b1680e77fc381bf08d6f420844b42150838deb69a7",
+    "trusted_execution_assessment_handwritten_receipt_input_hashes_equal": true,
+    "committed_model_sha256": "d4a91d681d031ab6e1d15a0a2b52c580d6bfb4d45bb341913124a507916c6162",
+    "model_hash_matches_receipt": true,
+    "handwritten_verification": {
+      "status": "PASS",
+      "source_sha256": "c52756e005f676ff70f041b1680e77fc381bf08d6f420844b42150838deb69a7",
+      "reformulated_sha256": "d4a91d681d031ab6e1d15a0a2b52c580d6bfb4d45bb341913124a507916c6162",
+      "original": {
+        "variables": 11697,
+        "constraints": 16381,
+        "integer_variables": 7196,
+        "matrix_nonzeros_excluding_objective": 44903
+      },
+      "reformulated": {
+        "variables": 10199,
+        "constraints": 13385,
+        "integer_variables": 7196,
+        "matrix_nonzeros_excluding_objective": 38911
+      },
+      "equality_component_sizes": [
+        750,
+        750
+      ],
+      "equality_component_spans": [
+        1578,
+        1222
+      ],
+      "eliminated_variables": 1498,
+      "removed_rows": 2996,
+      "changed_retained_rows": 5992,
+      "audit_row_records": 8988,
+      "exact_slack_identities_exercised": 16382,
+      "bound_changes": {
+        "x10078": {
+          "original_upper": "1000000",
+          "reformulated_upper": "998778"
+        },
+        "x10311": {
+          "original_upper": "1000000",
+          "reformulated_upper": "998422"
+        }
+      },
+      "objective_unchanged": true,
+      "solver_used": false
+    },
+    "first_independent_artifact_PASS_s": 259.858,
+    "post_PASS_s": 115.076,
+    "public_eval_cells": [
+      {
+        "result_s": 14.587,
+        "title": "Locating all MPS sections",
+        "wall_s": 0.137,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "7ff61519e39a4859ed2e089c6a0cc048a74e6d84c35bb01914de182348e9ff67"
+      },
+      {
+        "result_s": 39.432,
+        "title": "Parsing exact MPS representation",
+        "wall_s": 0.135,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "929afa451e3677fa7fb5168e38205ecf6a493199b16a304d6e24fe06e6480650"
+      },
+      {
+        "result_s": 49.522,
+        "title": "Investigating algebraic row families",
+        "wall_s": 0.058,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "2e4fd6f53f1c4c254a7f9d6093f4ac1e3f5435bbb8201308c1aed12ac4f88d67"
+      },
+      {
+        "result_s": 64.475,
+        "title": "Checking exact difference equalities",
+        "wall_s": 0.045,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "7a39e57867905006a85100930f12891673b5a5b43de28ee3c6b547c8c471eefb"
+      },
+      {
+        "result_s": 93.144,
+        "title": "Verifying global affine substitution",
+        "wall_s": 0.13,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "182e6387b242e4ce7f51ed00e02b2d4f41e8999bc07d448f24b22da826a38f3d"
+      },
+      {
+        "result_s": 111.625,
+        "title": "Checking parsing and equality coverage",
+        "wall_s": 0.01,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "0736eda98c0b2322059d9e7697f419b17cb0b74918e605069562f471a64baa98"
+      },
+      {
+        "result_s": 145.659,
+        "title": "Independently checking source interpretation",
+        "wall_s": 0.152,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "44f74138d062e6b3529e6e8083123614ec2c857b65dbcd91705187677cfd3457"
+      },
+      {
+        "result_s": 168.877,
+        "title": "Determining exact reformulation scope",
+        "wall_s": 0.033,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "b4540c454a8773c6d8a2101173a17a72863a86a7c9b3da0a9654c8965d3f1824"
+      },
+      {
+        "result_s": 198.675,
+        "title": "Writing committed affine reformulation",
+        "wall_s": 0.371,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "a8d9948ca94b584c8deaf69562f5e57f52177a6ae99f4d5e79250fd9ad5f5535"
+      },
+      {
+        "result_s": 259.858,
+        "title": "Running independent artifact audit",
+        "wall_s": 0.424,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "983ddeab333715dd14ee96971bbd1e79eba17d3bec275b1d74015fad17688e29"
+      },
+      {
+        "result_s": 345.449,
+        "title": "Writing final evidence and commitment",
+        "wall_s": 0.012,
+        "status": [
+          "complete"
+        ],
+        "code_sha256": "103cadfff91191d2948253bd2e83c168f62bed17f9cb2aac1858182cb48bf926"
+      }
+    ],
+    "provenance_sha256": {
+      "execution.json": "1a22a74d5780006b9f9bf4ee5b5e83c8d6b29b99da8ef2087d7c03fc069537e2",
+      "assessment.json": "94bfab7125b2676aa1e6b7f8a84908f28d7e1798a0c4ee326ef0c92c7cb42a7b",
+      "session.jsonl": "70325072dda65ae23c3d04658322d1b3832c9f095a4d96022e445798965e89bb",
+      "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+      "output/report.md": "c8e1ef9594ce3adec2662308e992d064cf3417b0f1488d3288109e526f8c2774",
+      "output/verification.json": "283c174bd318933d886b0a6550d07a7c798c1f478891022118b9bdf60341c815",
+      "output/audit.json": "164afccce980815cb9faeac09b2662fe48540c742bfc8a41e7074d367a42900e",
+      "output/verify.py": "cb79af78a7a621b4e06ef75b6a1478dac42428526affd99aedb55c0de3d212a8",
+      "output/affine_mapping.csv": "4c720e1245555e86e741d5ef3c5ad95ff86a7ee6349e0d709e9c15faf81c2e4d"
+    }
+  },
+  "mathematical_comparison": {
+    "shared_elimination": "Both identify the same1,498opposite-row affine differences in two750-coordinate paths,remove2,996 defining inequalities,substitute5,992surviving rows,and tighten representative upper bounds to998,422/998,778 with the same potential spans1,578/1,222.",
+    "Compiler_additions": "Also removes fixed xx0=1000 and c0,encodes constant1000,and adds1,500distinct integer-valid endpoint-pair cuts a+b<=1 via given width/gate triple plus Int/Round. Final10,198vars/14,884rows/41,910matrix nnz,all7,196binaries retained.",
+    "nomf_commitment": "Pure affine quotient: retains xx0,c0,all original binaries and all constraints beyond the2,996defining inequalities. Final10,199vars/13,385rows/38,911matrix nnz. Report argues full MI and LP inverse correspondence under the mapping,with no new cuts. No native proof is supplied.",
+    "scope_tradeoff": "Compiler proves stronger integer-valid target inequalities but intentionally has no forward LP theorem; nomf preserves its original relaxation by pure affine elimination. More Compiler rows/nonzeros include useful proved cuts,so model dimensions alone are not quality evidence.",
+    "exploration": "Compiler publicly explores the1,500cut families and a further forced-zero gap criterion; the latter yields no negative gaps. Nomf does not publicly develop these cuts or an associated failed witness. No evidence shows Compiler abandoned them to ease proof; they are fully certified.",
+    "quality_boundary": "LP/MIP quality is pending independently measured results. Reverse LP inclusion is formally proved for Compiler,but strict global LP improvement is not inferred without evidence."
+  },
+  "time_interpretation": {
+    "compiler_LLM_s": 414.44,
+    "compiler_tool_s": 53.125,
+    "nomf_LLM_s": 372.429,
+    "nomf_tool_s": 1.647,
+    "public_mechanical_cost": "Compiler mixed target/maps/forward proof cell41.274s contains repeated construction of an unchanged10,198-entry substitution dictionary for1,499replacement expressions. This is static call-path evidence,not an isolated measured cost. Final native verifier is0.115394s.",
+    "post_verification": "Compiler106.160s after final VERIFIED/MATCHED versus nomf115.076s after handwritten PASS. Neither interval is treated wholly as wasted time or proof search.",
+    "causal_boundary": "469.392/374.934s compare distinct mathematics/claim scopes. No same-target causal helper/prompt estimate,no unmeasured performance advantage and no overall acceptance success are claimed."
+  },
+  "formal_correctness_boundary": "Compiler native proof plus pristine/whole-artifact binding is separate from nomf handwritten algebraic verifier and finite non-feasible slack-identity smoke. Nomf checks16,382identities at one arbitrary rational assignment but does not claim it feasible; no solver-derived primal evidence or Kernel proof is inferred."
+}

@@ -1,0 +1,42 @@
+{
+  "checked_utc": "2026-10-15T06:50:25.598293+00:00",
+  "driver_pid": 19369,
+  "session": 9734,
+  "current_owned_subtree": [
+    {
+      "pid": 19369,
+      "ppid": 59553,
+      "command": "/Users/bhz/miniforge3/envs/bigdata/bin/python tools/run_compiler_agents.py --cases test70,test38,test58,test55,test69 --arms compiler,nomf --id C10-20261015 --jobs 3 --model gpt-6.1-sol --thinking high --tools eval,read --max-time 30m --hard-timeout 2280 --kernel /Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015/bin/rpx --compiler-package /Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015/python/kernel_compiler --api-doc /Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015/docs/COMPILER_API.md --compiler-protocol /Users/bhz/Code/reform_test/runs/compiler-package-C10-9822358-20261015/docs/COMPILER_AGENT_PROTOCOL.md"
+    },
+    {
+      "pid": 26144,
+      "ppid": 19369,
+      "command": "/Users/bhz/.local/bin/omp -p --cwd /Users/bhz/Code/reform_test/runs/test55-nomf-compiler-batch-C10-20261015 --session-dir /Users/bhz/Code/reform_test/runs/test55-nomf-compiler-batch-C10-20261015/.omp/sessions --model gpt-6.1-sol --thinking high --tools eval,read --no-skills --no-extensions --no-rules --no-lsp --no-pty --append-system-prompt /Users/bhz/Code/reform_test/runs/test55-nomf-compiler-batch-C10-20261015/protocol.md --mode json --max-time 30m Analyze input/model.mps under the evaluation protocol and return your final committed result."
+    },
+    {
+      "pid": 26283,
+      "ppid": 26144,
+      "command": "/Users/bhz/miniforge3/envs/bigdata/bin/python -u /var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/omp-python-runner-501/runner-3lfu17szi4fd2.py"
+    },
+    {
+      "pid": 27668,
+      "ppid": 19369,
+      "command": "/Users/bhz/.local/bin/omp -p --cwd /Users/bhz/Code/reform_test/runs/test69-nomf-compiler-batch-C10-20261015 --session-dir /Users/bhz/Code/reform_test/runs/test69-nomf-compiler-batch-C10-20261015/.omp/sessions --model gpt-6.1-sol --thinking high --tools eval,read --no-skills --no-extensions --no-rules --no-lsp --no-pty --append-system-prompt /Users/bhz/Code/reform_test/runs/test69-nomf-compiler-batch-C10-20261015/protocol.md --mode json --max-time 30m Analyze input/model.mps under the evaluation protocol and return your final committed result."
+    },
+    {
+      "pid": 27757,
+      "ppid": 27668,
+      "command": "/Users/bhz/miniforge3/envs/bigdata/bin/python -u /var/folders/dp/92zcv0g50zg13k6bj5p2pqmc0000gn/T/omp-python-runner-501/runner-3lfu17szi4fd2.py"
+    }
+  ],
+  "previous_launch_observed_pids": [
+    19369,
+    19372,
+    19373,
+    19375,
+    19490,
+    19493,
+    19515
+  ],
+  "meaning": "Observed task-owned process subtree for later stop audit; not a global process inventory."
+}

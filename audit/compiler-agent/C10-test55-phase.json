@@ -1,0 +1,471 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-compact-v1",
+  "round": "C10",
+  "case": "test55",
+  "status": "COMPILER_FORMAL_AND_STATIC_AUDIT_COMPLETE_PAIR_PENDING",
+  "prepared_utc": "2026-10-15T06:52:45.163129+00:00",
+  "scope": "Completed Compiler arm only. Public calls/results, full Request/Return map/check arrays, bounded existing native model exports and artifacts inspected statically. No private reasoning, Nomf math, native command, solver, test, replay, benchmark or new Agent. Original run remains read-only.",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C10-20261015",
+  "run": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015",
+  "nomf": {
+    "status": "PENDING AT COMPILER-ONLY CUTOFF; no Nomf files inspected",
+    "quality": "PENDING; no solver comparison"
+  },
+  "overall_acceptance": false,
+  "controls": {
+    "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+    "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+    "api_sha256": "1b388a1b9d83678667f38274b59d70b3d2655d0bbf81c333ef2d5fc1d0a2a869",
+    "combined_protocol_sha256": "7775adb56c0aa03992eb4e810796ecca52141980a4acfa81ca1fb3266d1ca103",
+    "pristine_input_sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3",
+    "historical_solutions_exposed_as_declared_by_harness": false,
+    "generalization": "test55 was previously Nomf-tested and is not in the earlier fresh Compiler case set; this is actual new-case usage, not a supplied-proof regression."
+  },
+  "formal": {
+    "execution": {
+      "event": "agent_end",
+      "run": "test55-compiler-compiler-batch-C10-20261015",
+      "exit_code": 0,
+      "wall_s": 302.993,
+      "timed_out": false,
+      "expected_input_sha256": "d9767638a82224845f462517a5c308d22e51ab6793d14bab00cf2811b01616e3"
+    },
+    "assessment_kernel_verified": true,
+    "assessment_errors": [],
+    "source_shape": {
+      "variables": 3872,
+      "rows": 3904,
+      "integers": 288,
+      "nonzeros": 11408,
+      "objective_nonzeros": 1568
+    },
+    "target_shape": {
+      "variables": 2848,
+      "rows": 2880,
+      "integers": 288,
+      "nonzeros": 9360,
+      "objective_nonzeros": 1568
+    },
+    "native_status": "VERIFIED",
+    "author_native_total_us": 36765,
+    "harness_independent_verify_exit_code": 0,
+    "harness_independent_verify_seconds": 0.0411,
+    "harness_status": "VERIFIED",
+    "native_statistics": {
+      "bijections": 0,
+      "branches": 1024,
+      "linear_terms": 42048,
+      "obligations": 31267,
+      "peak_live_facts": 3616,
+      "points": 0,
+      "substitution_terms": 36880,
+      "work": 433155
+    },
+    "artifact_audit": {
+      "status": "MATCHED",
+      "method": "Kernel standard-format readback and exact named formulation comparison",
+      "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+      "committed_model": {
+        "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/reformulated.mps",
+        "sha256": "3483b10855d440d55b162cb1ecfc3ab08ede7d0b28141f076ed414cd479e03b5"
+      },
+      "proof_target": {
+        "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/target.mcm",
+        "sha256": "82658b206c89cde0785d2b6582dd3634b2982d27abed04810e5e50544bef2e64"
+      }
+    },
+    "compile_limits": {
+      "certificate_json_bytes": 1073741824
+    },
+    "native_statistics_note": "Zero extension/point counters omitted here; complete original statistics remain in verification.json and equal the independent harness report."
+  },
+  "mathematical_reformulation": {
+    "summary": "Project 1024 continuous y auxiliaries from complete x-480y<=0, y<=u blocks, and strengthen selected retained x<=480u gates using explicit capacity rows and binary cases. All 288 binaries, complete objective, 1280 equalities and 64 capacities are retained.",
+    "original_families": {
+      "s": 1280,
+      "x": 1280,
+      "y": 1024,
+      "u": 288
+    },
+    "auxiliary_blocks": 1024,
+    "one_gate_blocks": 768,
+    "three_gate_blocks": 256,
+    "gate_rows_total": 1536,
+    "distinct_linked_x": 1024,
+    "unlinked_x_retained": 256,
+    "new_M_by_linked_coordinate": {
+      "120": 256,
+      "400": 256,
+      "480": 512
+    },
+    "new_M_by_gate_row": {
+      "120": 256,
+      "400": 768,
+      "480": 512
+    },
+    "explicit_capacity_witnesses": 512,
+    "distinct_selected_capacity_rows": 48,
+    "forward_map": "Identity on every retained (s,x,u) coordinate; eliminated y is not an output.",
+    "reverse_map": "Identity on every retained coordinate plus y=x/480 for all 1024 eliminated auxiliaries.",
+    "forward_derivation": [
+      "Given link +480*given gate proves x-480u<=0.",
+      "Batch singleton subset_bounds from each selected positive capacity row, then divide by the given x coefficient to prove x<=U. Every canceled capacity term, including binary controls, uses its declared nonnegative bound.",
+      "For each of 1024 tightened gates, author supplies Cases on integer u. The u<=0 branch adds (480-U)u<=0; the u>=1 branch adds U(1-u)<=0 to x-U<=0."
+    ],
+    "reverse_derivation": "Nonnegativity of x proves y=x/480>=0. The original link reduces to zero. Each original gate is (x-Uu)/480+(1-U/480)*(-u)<=0 with a nonnegative second multiplier. All remaining original rows and objective are preserved.",
+    "scope_boundary": "Auxiliary projection/canonicalization without an inverse contract; both complete maps are affine and integer Cases prove selected strengthened gates. This is not a non-affine map example. No forward LP, original-y preservation, strictness point, optimum/feasibility witness or solver-performance improvement is requested. Reverse LP Equal establishes target-to-source relaxed feasibility and objective preservation; strict separation is unproved."
+  },
+  "contracts_and_maps": [
+    {
+      "index": 0,
+      "reverse": false,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "inverse": null,
+      "input_restrictions": {},
+      "coordinate_observations": 2848,
+      "complete_output_map_length": 2848,
+      "Return_checks": 9153,
+      "all_map_entries_exact_recipe": true,
+      "all_observation_pairs_exact_retained_identity": true,
+      "map_sha256": "ec22a16a64799c1eb2ee966b0a656fdc5501ba2304106b7ab15ba473c651b616"
+    },
+    {
+      "index": 1,
+      "reverse": true,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "inverse": null,
+      "input_restrictions": {},
+      "coordinate_observations": 2848,
+      "complete_output_map_length": 3872,
+      "Return_checks": 11201,
+      "all_map_entries_exact_recipe": true,
+      "all_observation_pairs_exact_retained_identity": true,
+      "map_sha256": "86259be16b8a2b3f7d1ff776241cda69eeb85e67c65d2483de942568c5cd7f3b"
+    },
+    {
+      "index": 2,
+      "reverse": true,
+      "input_integers": false,
+      "output_integers": false,
+      "objective": "Equal",
+      "inverse": null,
+      "input_restrictions": {},
+      "coordinate_observations": 2848,
+      "complete_output_map_length": 3872,
+      "Return_checks": 10913,
+      "all_map_entries_exact_recipe": true,
+      "all_observation_pairs_exact_retained_identity": true,
+      "map_sha256": "86259be16b8a2b3f7d1ff776241cda69eeb85e67c65d2483de942568c5cd7f3b"
+    }
+  ],
+  "api_usage": {
+    "construction": [
+      "Model.load, stats, coefficient_stats, column_incidence",
+      "Model.substitute with author-selected y=x/480 and drop_rows, preserve_bounds=False",
+      "Bulk Model/Row construction and source.diff",
+      "Proof.correspondence with explicit maps and Equal/Equal, projection=retained",
+      "Separate reverse LP claim",
+      "subset_bounds, row/lower/le, local cases, check, missing, complete",
+      "target.write_mps and proof.verify(committed_model=...)"
+    ],
+    "subset_adoption": {
+      "used_in_new_case": true,
+      "public_call": "facts=f.subset_bounds(f.row(cr), [[i] for i in indices])",
+      "batch_calls_from_public_recipe_and_saved_witnesses": 48,
+      "derived_singleton_capacity_facts": 512,
+      "caller_selects": "The source row, all singleton subsets, capacity coefficient and retained target are author-selected. The helper elaborates only cancellation.",
+      "code_sha256": "643ad035ec344aaf729b0800e6bd2e3184fda03d358795435a2624b367ddbccd"
+    },
+    "discovery_reads": [
+      "compiler/API.md:1-210",
+      "compiler/API.md:214-490",
+      "compiler/API.md:494-670"
+    ],
+    "signature_introspection": true,
+    "private_package_source_reads_observed": false,
+    "custom_compile_budget_override_observed": false,
+    "friction": "No API/native compilation or verification failure is recorded. One author AssertionError tests a gate-only binary-neighborhood hypothesis; full inspection reveals 224 extra capacity incidences and 288 distinct full signatures. This is a corrected mathematical-analysis assumption, not proof-tool rejection.",
+    "abandoned_or_rejected_routes": {
+      "auxiliary_projection": "Verified for all 1024 y variables and their complete column incidences",
+      "capacity_strengthening": "512 x upper bounds; 1024 binary gates tightened",
+      "duplicate_rows": {
+        "identical_groups": 0
+      },
+      "homogeneous_one_sign_zero_rows": 0,
+      "binary_control_merging": {
+        "result": "rejected: gate-only assumption falsified by 224 capacity-row incidences; complete column-neighborhood signatures all distinct",
+        "capacity_incidence_count": 224,
+        "distinct_full_signatures": 288
+      },
+      "independent_constraint_components": {
+        "count": 1,
+        "sizes": [
+          3872
+        ]
+      }
+    },
+    "proof_retreat_observed": "No selected target/map/claim is weakened after a certification failure. Rejected structural hypotheses are bounded checks, not claims that all merging or zero/redundancy opportunities are impossible.",
+    "constructive_scope_lifts_or_raw_Certificate_fallback_used": false
+  },
+  "costs": {
+    "wall_s": 302.993,
+    "metrics": {
+      "llm_calls": 21,
+      "tool_calls": 20,
+      "tool_calls_failed": 1,
+      "turns": 21,
+      "tokens_in": 54152,
+      "tokens_out": 9841,
+      "tokens_cache_read": 399232,
+      "tokens_cache_write": 0,
+      "tokens_total": 463225,
+      "cost_usd": 0.247,
+      "llm_time_s": 299.429,
+      "llm_ttft_s": 59.663,
+      "tool_time_s": 2.361,
+      "resolved_models": [
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "thinking_levels": [
+        "high"
+      ],
+      "model_fallback_used": false
+    },
+    "first_complete_committed_verification_result_prompt_elapsed_s": 233.016,
+    "timing_note": "Tool issue uses public assistant completedAt, after inference; first verification uses its tool-result timestamp. Driver wall has a different origin. Native totals are components, not Agent speedups; no Nomf/cross-round causal claim.",
+    "public_eval_cells": [
+      {
+        "title": "Loading exact model and inspecting structure",
+        "duration_ms": 800,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 15.531
+      },
+      {
+        "title": "Mapping exact row and variable families",
+        "duration_ms": 20,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 27.067
+      },
+      {
+        "title": "Verifying all auxiliary gate blocks",
+        "duration_ms": 45,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 62.639
+      },
+      {
+        "title": "Testing capacity strengthening and alternatives",
+        "duration_ms": 51,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 90.089
+      },
+      {
+        "title": "Checking target construction and contract interfaces",
+        "duration_ms": 14,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 113.769
+      },
+      {
+        "title": "Constructing projected and tightened formulation",
+        "duration_ms": 145,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "code_sha256": "0ce7b16ef6dbf3b18603a1240815de14c3724bffee4711b907e567d8e313d738",
+        "tool_call_issued_elapsed_s": 135.418
+      },
+      {
+        "title": "Proving integer projection and binary capacity gates",
+        "duration_ms": 341,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "code_sha256": "643ad035ec344aaf729b0800e6bd2e3184fda03d358795435a2624b367ddbccd",
+        "tool_call_issued_elapsed_s": 154.205
+      },
+      {
+        "title": "Proving integer and continuous reconstruction",
+        "duration_ms": 413,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "code_sha256": "6f28ae98f8f0381497819393b4dd70812cc0ebc736e0742b7b3045dc814c97e0",
+        "tool_call_issued_elapsed_s": 161.853
+      },
+      {
+        "title": "Testing complete binary control neighborhoods",
+        "duration_ms": 10,
+        "status": "error",
+        "exit_codes": [
+          1
+        ],
+        "tool_call_issued_elapsed_s": 185.947
+      },
+      {
+        "title": "Resolving binary neighborhood hypothesis failure",
+        "duration_ms": 18,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 194.979
+      },
+      {
+        "title": "Committing and verifying exact reformulation artifact",
+        "duration_ms": 401,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "code_sha256": "3c26b897d390301bb7ef6c55a21305909df482c743d5443d5f6f0d7066de6dc3",
+        "tool_call_issued_elapsed_s": 232.609
+      },
+      {
+        "title": "Writing final mathematical report",
+        "duration_ms": 5,
+        "status": "complete",
+        "exit_codes": [
+          0
+        ],
+        "tool_call_issued_elapsed_s": 290.446
+      }
+    ]
+  },
+  "static_readback_checks": {
+    "source_native_export_exact_pristine": true,
+    "complete_final_named_formulation_matches_committed": true,
+    "exactly1024distinct_removed_auxiliaries": true,
+    "retained_variable_names_bounds_integrality_exact": true,
+    "exact_deleted_link_rows": true,
+    "no_added_rows": true,
+    "all_untouched_rows_exact_by_name": true,
+    "complete_named_objective_unchanged": true,
+    "all1024_complete_source_auxiliary_blocks_match_public_witness": true,
+    "all1536_actual_gate_replacements_and_binary_domains_match": true,
+    "all512_given_capacity_bounds_follow_by_nonnegative_cancellation": true,
+    "three_ordered_certificate_claims_exact_request": true,
+    "no_extra_point_improvement_bijection_contracts": true,
+    "claim0_all_map_coordinates_exact_recipe": true,
+    "claim0_all_observations_exact_retained_identity": true,
+    "claim1_all_map_coordinates_exact_recipe": true,
+    "claim1_all_observations_exact_retained_identity": true,
+    "claim2_all_map_coordinates_exact_recipe": true,
+    "claim2_all_observations_exact_retained_identity": true,
+    "native_and_harness_statistics_exact": true,
+    "all_return_checks_equal_native_obligations": true,
+    "all_declared_artifact_hashes_match_actual_files": true,
+    "harness_four_role_hashes_match": true,
+    "pristine_input_hash_matches_all_declared_anchors": true,
+    "all_static_checks_pass": true
+  },
+  "artifact_hashes": {
+    "source": {
+      "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/source.mcm",
+      "bytes": 547795,
+      "sha256": "80fb1e939089ef781cc2ea73fcabe2f07fe271093c4517b35e84c63659b908e4",
+      "manifest_sha256": "80fb1e939089ef781cc2ea73fcabe2f07fe271093c4517b35e84c63659b908e4",
+      "matches": true
+    },
+    "target": {
+      "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/target.mcm",
+      "bytes": 434397,
+      "sha256": "82658b206c89cde0785d2b6582dd3634b2982d27abed04810e5e50544bef2e64",
+      "manifest_sha256": "82658b206c89cde0785d2b6582dd3634b2982d27abed04810e5e50544bef2e64",
+      "matches": true
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/proof.rpx",
+      "bytes": 1634863,
+      "sha256": "b5ebc217e9cd2c3228cdbd721e1d0ca3a2ac6aca1033c2a2ea51a4dfb7e89f56",
+      "manifest_sha256": "b5ebc217e9cd2c3228cdbd721e1d0ca3a2ac6aca1033c2a2ea51a4dfb7e89f56",
+      "matches": true
+    },
+    "request": {
+      "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/request.json",
+      "bytes": 96266,
+      "sha256": "c0725c54db78a74db7663b227216f1c5ced7b45bb2e12f4e1455fb2ce78ba8ad",
+      "manifest_sha256": "c0725c54db78a74db7663b227216f1c5ced7b45bb2e12f4e1455fb2ce78ba8ad",
+      "matches": true
+    },
+    "committed_model": {
+      "path": "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/reformulated.mps",
+      "bytes": 416813,
+      "sha256": "3483b10855d440d55b162cb1ecfc3ab08ede7d0b28141f076ed414cd479e03b5",
+      "manifest_sha256": "3483b10855d440d55b162cb1ecfc3ab08ede7d0b28141f076ed414cd479e03b5",
+      "matches": true
+    }
+  },
+  "evidence": {
+    "execution.json": {
+      "bytes": 239,
+      "sha256": "c3ca2f993aae66b5406060deb3d4d317be817c17d4bfab0fef616ef0cd9d962e"
+    },
+    "assessment.json": {
+      "bytes": 578855,
+      "sha256": "71578c3f8d08f8aef839a564fa30b2d5e72fbc84a95ba3b07606c25f061854d1"
+    },
+    "workspace-manifest.json": {
+      "bytes": 4164,
+      "sha256": "772eba30552cb7a897800bbea21aea9270f139979e85ae1986719bed08b62363"
+    },
+    "session.jsonl": {
+      "bytes": 328465,
+      "sha256": "b10128e58b895f7fcd380ef68086723b191f2c74748c4abc0451c07210a55544"
+    },
+    "output/report.md": {
+      "bytes": 7205,
+      "sha256": "fbe32cd07f2472389ec1a0800eb3dd6f838cb61030e9317c71a0b1f6bcd059e1"
+    },
+    "output/delivery.json": {
+      "bytes": 7625,
+      "sha256": "43814b59f9a1ecf8dd06fb790ae068296f4856b754e9a14bea5b3b910a1dc0fd"
+    },
+    "output/verification.json": {
+      "bytes": 8163,
+      "sha256": "7db533297c7e202ad507aa875a5966d7deba6b4882d07169df251b3538a2528e"
+    },
+    "output/request.json": {
+      "bytes": 96266,
+      "sha256": "c0725c54db78a74db7663b227216f1c5ced7b45bb2e12f4e1455fb2ce78ba8ad"
+    },
+    "output/certificate.json": {
+      "bytes": 2373015,
+      "sha256": "7824997128594ec1737787f67179846a151179ff0cd89c0f5fe2c45c8dced077"
+    },
+    "output/maps.json": {
+      "bytes": 833464,
+      "sha256": "29a5e1d9d3de2ec18f808f42fe0f9875484354be7d0a5e2c6e27c2a62e8bd883"
+    },
+    "output/analysis_audit.json": {
+      "bytes": 382327,
+      "sha256": "61d82332228f7f8f4200e00e4e291723560b5b501c9f9de183b6ec95103faeb9"
+    }
+  },
+  "review_limits": [
+    "No new proof verification or author-script replay was run; native truth comes from the recorded author and independent harness executions.",
+    "Static full maps and native-export formulations are checked without printing them. The 2373015-byte Certificate step tree is not independently re-proved line by line.",
+    "No live Nomf mathematics or solver quality result is used. This compiler-only cutoff is to be supplemented after the matched arm formally closes.",
+    "A successful new-case adoption of subset_bounds does not establish universal naturalness, unaltered exploration or total user-goal completion."
+  ]
+}

@@ -1,6 +1,6 @@
 # Kernel 与 Compiler 项目成果：论文准备报告
 
-本文整理整个项目截至 2026-10-15 的正面成果及其可引用证据，覆盖早期 Kernel 工作、历史完整验收、性能优化、Python Compiler 和真实 Agent 实验。当前最后一轮 C10 正在运行，最终对照结果将在下方补齐；历史资料保持各自截止版本。
+本文整理整个项目截至 2026-10-15 的正面成果及其可引用证据，覆盖早期 Kernel 工作、历史完整验收、性能优化、Python Compiler 和真实 Agent 实验。最后一轮 C10 的十个 Agent 已全部结束，五个 Compiler 交付均通过独立正式验证；提交后质量测量进行中。历史资料保持各自截止版本。
 
 最扎实的结果包括：完整原始合同下的 81 个真实算例和 83 次验证；带精确有理数、完整模型义务和联合构造见证的 Kernel；不经过 RPA 的 Python 证明 API；跨全部冻结版本的 83 份证书兼容性回放；以及连续成熟阶段 C5–C9 的 32 次自主正式交付。这些是不同实验单位，不能相加为独立算例数。
 
@@ -26,8 +26,6 @@ Python Compiler 与作者脚本提供证明，不是数学接受权威。Kernel 
 Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel**，没有 RPA 中间步骤，也不寻找变换或非平凡证明。项目另有独立的 RPA / 可读 RPA-S 显式作者工具，它们不参与此 Python 编译路径。MCM v1 和 RPX v1–v10 已冻结。
 
 ## Kernel 的项目级正面结果
-
-这份稿件整理整个 Kernel 项目的正面成果，供最终论文准备报告合并；它不宣告用户总目标完成，也不是一次新实验。条目 K01–K12 的精确指标、版本、复现入口、边界和 35 份本地资料的 SHA-256 见 [kernel-positive-evidence.json](../audit/paper/kernel-positive-evidence.json)。本稿只读既有资料，没有执行测试、构建、Kernel、求解器、基准或 Agent，没有重新解析大型模型、证明或验收总账。
 
 可以支撑论文主线的结果是：**项目实现了一个面向 MILP reformulation 的精确证明检查核心，将作者给定的完整模型关系与具体推导分离；除了仿射映射，还支持带联合存在条件的构造式恢复，并以原始合同审查、实际模型验收、独立精确算术与字节测试，以及限定条件下的性能实验提供证据。** 这里的贡献表述不包含文献中的优先权或首创性比较。
 
@@ -131,14 +129,28 @@ C6/C7/C8 首次完整验证后的剩余工作总计分别为 974.259/490.456/487
 
 资源项仅解释工程失败：新版本 JSON compile 默认预算 1 GiB、可显式配置；这不放宽后续 RPX/verify 的独立 caps，也不能把资源拒绝解释为数学命题为假。内存不作论文验收门槛。
 
-本稿的 Kernel 测试和 native receipts 用于支撑 Compiler 集成；Kernel 本身的项目级贡献由主报告另行汇总。
+
 
 ## 最后一轮 C10
 
 <!-- C10_RESULTS_START -->
-本轮为最后一次 fresh Agent 对照，使用 source `9822358`、native `cf9941c2…`，五组 test70、test38、test58、test55、test69；后两题为此前已测、但未进入前几轮 fresh Compiler 的泛化检查。每组均有 fresh nomf，对照共享数学分析协议、模型、工具与预算。
+C10 是最后一次 fresh Agent 对照，使用 source `9822358`、native `cf9941c2…`，五组 test70、test38、test58、test55、test69。后两题此前已做 nomf，但未进入前几轮 fresh Compiler，是本轮泛化检查。十个 Agent 均正常结束，5/5 Compiler 完整交付、合计六份 RPX piece 通过独立验证；原始输入锚定和完整提交模型读回均成立。
 
-当前运行中，完整时间、正式合同、数学选择和提交后质量测量尚未汇总。冻结记录见 [最后一轮控制](../audit/compiler-agent/C10-final-round-controls.json)、[package snapshot](../audit/compiler-agent/C10-package-snapshot.json)、[十个工作区独立核对](../audit/compiler-agent/C10-launch-integrity.json)。不把未闭合结果计入成功率。
+| 算例 | Compiler / nomf Agent wall（秒） | 实际 Compiler 合同与表达 |
+|---|---:|---|
+| test70 | 547.476 / 647.851 | MI 前向不增、逆向相等，48,096 个保留观察；`subset_bounds` 自主用于 82 个作者选定前提、7,029 个 subset facts；无 LP/inverse 合同 |
+| test38 | 659.548 / 555.455 | 两段显式 MI Equal 双向与逆向 LP Equal，最终 3,250 个观察；只有第一段有局部 inverse，全链不继承；带权预算 subset 与整数 canonicalization |
+| test58 | 551.340 / 383.939 | MI 前向不增、逆向相等，625 个 affine 净流观察；两类 Menu 构造及 305 个 Signed 重构见证，包含桥边和串联收缩 |
+| test55 | 302.993 / 625.990 | MI Equal 双向与逆向 LP Equal，2,848 个观察；消去 1,024 个连续辅助量，48 个给定容量前提批导出 512 个界；无 inverse/前向 LP |
+| test69 | 469.392 / 374.934 | MI Equal 观察逆对与逆向 LP Equal，10,198 个观察；1,499 个精确消元与 1,500 条整数强化；无前向 LP |
+
+整轮总 Agent wall 为 **2,530.749 / 2,588.169 秒，比值 0.977814**；逐题比值中位数为 **1.187401**，Compiler 在 2/5 题更快。总和比较与逐题比较均保留，不能只取较有利指标。C5–C10 这一连续成熟阶段因此累计 37 次形式交付成功、37 次 fresh nomf 对照和 16 个不同输入；它不是全项目无失败，也不是 37 个独立算例。
+
+test58 展示了复杂证明表达：前向 426 个 edge-OR 与 91 个 path-min Menu，逆向 305 个 Signed witnesses；完整 maps 和 9,706 个义务均检查。三处公开代数/证明输入错误修正后，保留了原 610 变量目标和全部 625 个观察。test55 是新题自然采用批量界接口的证据。test69 的实际整数 cuts 使目标行数增加，不能用行数增加判为质量下降。
+
+表达便利性仍有直接缺口：test70 发现了更多同列候选，但报告把额外重构/fiber 契约作为不选聚合的理由，nomf 实施了更多聚合。它并未证明该 API 或 Kernel 不能表达聚合；这一观察也不能被较短 wall time 抵消。test55 的 nomf 另作 common-gate 容量聚合及更紧的 bound strengthening，需与提交后求解结果一并呈现。
+
+质量评估尚未结束，不在此填入未闭合样本或宣称整体验收。冻结设置见[控制记录](../audit/compiler-agent/C10-final-round-controls.json)、[snapshot](../audit/compiler-agent/C10-package-snapshot.json)、[工作区核对](../audit/compiler-agent/C10-launch-integrity.json)；完整正式结果与时间见 [C10 formal summary](../audit/compiler-agent/C10-formal-summary.json)。原始正式记录在质量测量前冻结，后续 quality 将独立记录。
 <!-- C10_RESULTS_END -->
 
 ## 证据与复现入口
