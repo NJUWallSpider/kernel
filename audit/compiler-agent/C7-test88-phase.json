@@ -1,0 +1,217 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-v1",
+  "case": "test88",
+  "round": "C7",
+  "scope": "Read-only completed compiler arm public events and artifacts. No solver, proof replay, tests or feedback to live Agents. No private reasoning is copied.",
+  "run": "/Users/bhz/Code/reform_test/runs/test88-compiler-compiler-batch-C7-20261015",
+  "agent_wall_s": 319.804,
+  "metrics": {
+    "llm_time_s": 312.344,
+    "tool_time_s": 5.871,
+    "tool_calls": 20,
+    "tool_calls_failed": 0
+  },
+  "target_shape": {
+    "variables": 432,
+    "rows": 2298,
+    "integers": 48,
+    "nonzeros": 7648,
+    "objective_nonzeros": 208
+  },
+  "model_sha256": "06e8fe3496a884d76e1039cd4d45979b34230df75c22059a59f34fa690f741c4",
+  "kernel_verified": true,
+  "assessment_errors": [],
+  "actual_input_matches_trusted": true,
+  "claims": [
+    {
+      "reverse": false,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "inverse": 1,
+      "projection_count": 432,
+      "affine_projection_count": 0
+    },
+    {
+      "reverse": true,
+      "input_integers": true,
+      "output_integers": true,
+      "objective": "Equal",
+      "inverse": 0,
+      "projection_count": 432,
+      "affine_projection_count": 0
+    },
+    {
+      "reverse": true,
+      "input_integers": false,
+      "output_integers": false,
+      "objective": "Equal",
+      "inverse": null,
+      "projection_count": 432,
+      "affine_projection_count": 0
+    }
+  ],
+  "point_contract_count": 0,
+  "formal_relation": "Unrestricted MI Equal affine bijection with both inverse identities and 432 retained observations, plus an unrestricted reverse LP Equal map. No forward LP equivalence or native strictness/point claim.",
+  "proof_construction": "96 duplicate definition coordinates and 256 VALUE product copies are eliminated. All 384 product blocks are structurally checked. Product-copy identities use supplied exhaustive binary case trees, after which exact substitutions and retained-row representatives discharge every final obligation.",
+  "first_final_native_verified_s": 237.568,
+  "post_verification_remaining_s": 82.236,
+  "post_verification_eval_s": 0.115,
+  "cells": [
+    {
+      "seconds": 12.2,
+      "title": "Loading exact source model",
+      "duration_ms": 952,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 21.134,
+      "title": "Inspecting complete structural summaries",
+      "duration_ms": 55,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 27.692,
+      "title": "Inspecting algebraic row relationships",
+      "duration_ms": 10,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 45.079,
+      "title": "Testing elimination and redundancy hypotheses",
+      "duration_ms": 264,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 66.828,
+      "title": "Testing repeated product structure",
+      "duration_ms": 9,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 117.893,
+      "title": "Verifying all product block signatures",
+      "duration_ms": 106,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 127.79,
+      "title": "Constructing intended compact target",
+      "duration_ms": 107,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 155.38,
+      "title": "Authoring integer product equality witness",
+      "duration_ms": 44,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 167.553,
+      "title": "Proving complete integer alias scope",
+      "duration_ms": 3171,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 195.334,
+      "title": "Completing contracts and checking LP limitation",
+      "duration_ms": 162,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 217.305,
+      "title": "Cross-checking original MPS bookkeeping",
+      "duration_ms": 49,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 237.568,
+      "title": "Verifying final committed formulation",
+      "duration_ms": 763,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 259.036,
+      "title": "Recording verified delivery scope",
+      "duration_ms": 110,
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "seconds": 308.46,
+      "title": "Writing final mathematical report",
+      "duration_ms": 5,
+      "status": "complete",
+      "exit_code": 0
+    }
+  ],
+  "contract_summary_calls": [
+    {
+      "seconds": 155.38,
+      "expression": "proof.contract_summary()"
+    },
+    {
+      "seconds": 195.334,
+      "expression": "proof.contract_summary()"
+    }
+  ],
+  "request_summary_consumed": true,
+  "receipt_status": "VERIFIED",
+  "artifact_audit_status": "MATCHED",
+  "receipt_hash_matches_assessed_actual_model": true,
+  "standalone_proof_py_exists": false,
+  "native_verify_total_s": 0.056997,
+  "verification_statistics": {
+    "obligations": 20905,
+    "work": 1996459,
+    "peak_live_facts": 6927,
+    "branches": 3584
+  },
+  "outside_Request_witness": {
+    "path": "output/lp_non_equivalence_witness.json",
+    "sha256": "f35d5f2bbbfc4e6145c6624ba7e2563a488db2187eb366157710444ab9dc92ba",
+    "top_level_keys": [
+      "scope",
+      "values",
+      "unequal_product_alias",
+      "exact_checks"
+    ],
+    "scope": "The Agent separately exact-checks a full-source fractional point that violates the selected copy identity, supporting its reported LP non-equivalence. This artifact is not a submitted Kernel point or strictness contract; its claim must remain separate from the native VERIFIED status."
+  },
+  "C6_comparison": {
+    "source": "audit/compiler-agent/C6-summary.json",
+    "source_sha256": "db5443cbb67b75502dc2fda8af51eae5de10f7eef3232a52f7b35913b6fb9149",
+    "agent_wall_s": 541.166,
+    "target_shape": {
+      "variables": 384,
+      "rows": 2274,
+      "integers": 48,
+      "nonzeros": 11752,
+      "objective_nonzeros": 208
+    },
+    "math_difference": "C6 additionally eliminates all 144 definition coordinates; C7 eliminates 96 duplicate definitions and retains 48 representatives. Both deliver MI inverse maps and reverse LP inclusion, but with different target dimensions/rows/nonzeros.",
+    "causal_boundary": "No same-mathematics runtime or solver-quality comparison is established. No public API error or explicit proof-driven retreat is observed; the tested 144-definition-elimination preview is different from the committed duplicate-only selection, and the report does not attribute that selection to an API limitation."
+  },
+  "quality_status": "PENDING; no overall acceptance or quality parity claim.",
+  "provenance_sha256": {
+    "protocol.md": "9acd04f77f86bb40e4d3a342ebe953156f4d8fd226d9929b63a2c30dae711023",
+    "session.jsonl": "f2cc16f3c752c3d2b88bd4f7ef9b1b2c2d95147ef975340608b101e008fd0363",
+    "execution.json": "3522612bbde05423000bf1c8ec2d4be7baf289d4b5d7860c7070a70a5c81b4ef",
+    "assessment.json": "9791e4c7d41a03a8f7f543c005bde9e02eaba8c95007b9e7d97cf72208d63653",
+    "output/report.md": "14ec1aa058a6bb2617b3483e6b6c654efd29ca07d2c395cd71063b833b7faeab",
+    "output/verification.json": "a28d2decbf5a1366a4ae66b596821c0a58b279667c43ad1c562c8711bd10d2d4",
+    "output/request.json": "2e5d9da16eca8dbadda00a1732e2d8d80d9b34cf884ecc9fa62f58b05d6c944e"
+  }
+}
