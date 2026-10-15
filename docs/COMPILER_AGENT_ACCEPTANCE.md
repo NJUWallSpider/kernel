@@ -1,5 +1,11 @@
 # Independent agent acceptance runs
 
+Current cutoff: C8 and C9 have completed formal and bounded solver reviews;
+C6 solver quality remains unmeasured. The final C10 batch is running and is
+excluded from completed-cohort counts below. The user has limited further work
+to this last fresh round, followed by documentation and closure. Earlier
+sections retain their original round-specific cutoff and failures.
+
 `tools/run_compiler_agents.py` launches fresh `omp` agents on previously tested
 MPS cases from `~/Code/reform_test/data`. It gives the compiler arm only the
 original input, a snapshot of the generic Python API/native kernel, and generic
@@ -15,12 +21,12 @@ The executable, protocol, compiler source, model inputs, invocation and session
 are retained with hashes for each run. A fresh model catalog lookup is not proof
 that an authenticated model call will succeed; launch failures are recorded.
 
-Start with affine elimination (`test9`), integer case-based strengthening
-(`test86`), and mixed-integer affine/product aliases (`test88`). Add private
-one-hot projection (`test13`), interval/menu extensions (`test78`), objective
-level restrictions (`test80`), and large staged covering reductions (`test87`)
-as the implementation and real feedback support them. These are strata from
-the measured demand corpus, not hints supplied to the agents.
+The initial coverage plan used affine elimination (`test9`), integer case-based
+strengthening (`test86`), and mixed-integer affine/product aliases (`test88`),
+with constructive scopes and larger cases added as real feedback supported
+them. These are strata from the measured demand corpus, not hints supplied to
+the agents. The commands below illustrate the harness; they are not a plan to
+launch additional rounds after C10.
 
 ```sh
 python3 tools/run_compiler_agents.py --cases test9,test86,test88 --prepare-only
@@ -54,6 +60,12 @@ do not imply an inverse for the whole chain. The report retains the selected
 claim paths and named observation relations. Legacy manually assembled chains
 without `claim_paths` use an explicitly labeled conservative selection rule.
 The evaluator sources are snapshotted outside the agent workspace before launch.
+
+These checks describe the mature harness. Earlier versions had different
+source-order and chain-entry checks. Historical claims use each retained
+version's records: the C1–C3 pristine-input revalidation is retrospective, and
+C4's original chain rejection remains a failure of that entry point. Current
+checks are not retroactively attributed to the original earlier launches.
 
 `assessment.json` records source and target dimensions, integer counts,
 nonzeros, complete request claim descriptors, kernel results, transcript metrics,
@@ -242,3 +254,111 @@ selection flags allow this prompt experiment to exclude ongoing library
 changes. Compare actual reformulations, claim scopes, quality, full wall time
 and work after verification together; shorter time from a weaker target is
 not a successful result. Launch and outcome are recorded separately.
+
+## C6–C8: completed prompt controls and mixed mathematical outcomes
+
+The [C6 formal summary](../audit/compiler-agent/C6-summary.json) records six
+independently accepted Compiler deliveries, including SignedLift with two
+MenuLift scopes on test58 and full MI/LP inverse pairs on test16 and test63.
+It contains no solver evaluation. That missing C6 quality measurement prevents
+an old-prompt/new-prompt quality attribution.
+
+The [C7 summary](../audit/compiler-agent/C7-summary.json) and
+[C8 summary](../audit/compiler-agent/C8-summary.json) each record six accepted
+Compiler deliveries and six fresh nomf controls. C6, C7 and C8 use the same
+`231e6f4` package/API and native binary; the prompt supplements change. Their
+mathematical targets and contract scopes also change, so the experiment does
+not isolate a causal prompt effect at equal reformulation quality.
+
+| Round | Compiler total Agent wall s | nomf total Agent wall s | Ratio of totals | Median paired ratio |
+|---|---:|---:|---:|---:|
+| C5 | 4582.558 | 2516.589 | 1.821 | 1.641 |
+| C6 | 3141.919 | 2427.598 | 1.294 | 1.205 |
+| C7 | 2106.979 | 2391.847 | 0.881 | 0.859 |
+| C8 | 2163.575 | 2296.619 | 0.942 | 0.898 |
+
+These are complete-round sums, not parallel batch makespan or a selection of
+the fastest case from each round. Work after first complete verification has
+total/median 974.259/147.239 s in C6, 490.456/83.210 s in C7 and
+487.852/81.425 s in C8. Different targets, spontaneous mathematical choices
+and reporting work remain material. C7 test16 still spends 200.008 s in a
+self-authored repeated-set construction, despite the frozen API guide already
+advising membership-set reuse. The public phase records preserve this failure.
+
+The [C7 quality review](../audit/compiler-agent/C7-quality-review.json) and
+[C8 quality review](../audit/compiler-agent/C8-quality-review.json) are separate
+post-run, solver-blind measurements. Positive C8 evidence includes test51's
+22 additional convex-pair dominance fixings and complete MI inverse plus
+reverse-LP proof: MIP medians are 0.452504/0.707976 s for Compiler/nomf,
+with objective/dual −3, while the Compiler LP objective is −3.9755418241
+versus −4.9592575252. The absolute MIP difference is only 0.255472 s.
+The manual point smoke check is outside the actual Request, whose points
+array is empty.
+
+Material exploration differences remain. C8 test58 retains bridge
+canonicalization and integer rounding but omits nomf's signed-flow/path
+contraction. Its one bounded MIP solve is better (9.696697 s at 754 versus
+nomf's 120 s limit with incumbent 763/dual 653), but that does not establish
+equal exploration ambition. C8 test63 uses 90 continuous slacks and full MI/LP
+inverse pairs, whereas nomf adds 91 slacks, deletes a fixed coordinate, and
+proves an extra integer window bound. All LP objectives are 51.59; the
+time-limited source/Compiler/nomf incumbents are 54/55.999999/56.999999.
+Equal numerical objectives do not establish equal relaxation sets or excuse
+missing mathematical candidates. Overall acceptance remains false.
+
+## C9: eight different previously tested cases, complete formal delivery
+
+The frozen [C9 formal summary](../audit/compiler-agent/C9-summary.json) records
+eight new pairs on test28, test38, test60, test62, test70, test80, test65 and
+test85. All sixteen Agents exit normally without harness errors, and all eight
+Compiler deliveries pass native verification, pristine anchoring and complete
+committed-artifact matching. C9 uses package `539c146`; the later
+`subset_bounds` helper is excluded from its frozen inputs. The summary retains
+its original pre-quality cutoff and exact bytes. Completed quality is recorded
+separately in the [final review](../audit/compiler-agent/C9-quality-review.json)
+and [small-record manifest](../audit/compiler-agent/C9-quality-raw-sha256.json).
+
+The actual scopes include constructive MenuLift reconstruction of 13,550
+one-hot variables on test60; test62's two-stage MI chain with 2,029 reverse
+IntervalLift variables and 30,888 case branches; and test80's one-coordinate
+objective-image formulation with full MI/LP maps. These differ from a theorem
+that preserves every original coordinate or proves a full-model bijection.
+Test85 naturally uses `zero_sum` and batched `rewrite_many` on its supplied
+zero/alias witnesses. Every scope is described by the actual Request rather
+than inferred from model dimensions.
+
+Compiler/nomf Agent totals are 3435.519/3023.927 s (ratio 1.136; median paired
+ratio 1.118). Test70 costs 858.989/350.247 s: its initial 639,796,634-byte
+certificate hits the old input cap, then the Agent preserves its target/maps
+and three claims while hand-sharing the supplied subset proof down to
+114,694,805 bytes. The final native verifier takes 3.551523 s; this is not
+evidence that native verification consumed the whole delay. Later generic
+helper and budget changes are separate supplied-witness/test evidence.
+
+Quality is mixed. Test38 has stronger measured LP objective
+96.677882487 versus nomf's 82.619689331 and single MIP observations
+53.688467/62.735951 s, both reporting Optimal at 204.081749241. Its
+additional proportional-sharing candidate still has 197 unproved
+reconstruction bounds; a failed box sufficient condition is not mathematical
+impossibility. Test70's stronger LP bound does not establish MIP efficiency:
+all three variants time out in presolve without incumbents. Test85's Compiler
+LP median is 20.396031 s versus nomf's 12.941298 s. The full review preserves
+no-incumbent and partial-LP outcomes rather than treating them as optima.
+
+C5–C9 is a continuous mature-stage cohort of **32/32 formally accepted
+Compiler runs, 32 fresh matched nomf controls and 14 distinct cases**. It is
+not the whole project's success rate, not 32 independent cases, and not a
+proof of unseen-case generalization. Early C1–C4 failures remain above.
+The joint near-nomf time, mathematical ambition and model-quality acceptance
+criterion is still unmet.
+
+## Final C10 cutoff
+
+C10 is the last authorized fresh batch, on test70, test38, test58, test55 and
+test69, with source `9822358` and native `cf9941c2…`. Results are pending at
+this documentation cutoff and are not counted above. Its frozen generic
+package includes `subset_bounds` and the Certificate-JSON-only compile budget;
+later documentation is not part of those Agent inputs. Completed-case static
+phase records retain actual helper use, target changes and proof-contract
+feedback. Final paired quality and limitations must be appended after the
+batch stops; no additional fresh round follows it.

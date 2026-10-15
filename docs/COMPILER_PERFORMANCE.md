@@ -1,5 +1,11 @@
 # Compiler API plumbing measurements
 
+This document separates early identity plumbing, actual public Agent phases,
+and later fixed-witness regressions. RSS and the old benchmark's optional
+memory guard are retained as historical metadata; memory is not a current
+Agent-acceptance gate. The final C10 batch is live at this cutoff, so no C10
+timing/quality conclusion is included here.
+
 These are fresh API identity-bijection measurements on 2026-10-14, with Python 3.9.6 and a pinned Kernel binary. They use no solver, historical proof, preparer, reformulated target, or Agent transcript. **They measure plumbing scalability, not reformulation quality or real-Agent acceptance.** Each workload has one fresh Python worker observation; concurrent Agent runs and warm filesystem caches prevent interpreting these as controlled latency distributions.
 
 | Workload | Variables / rows | Total obligations, two MI claims | Load s | Plans s, forward + reverse | Complete s, forward + reverse | Compile s | Verify s | Python peak RSS |
@@ -117,3 +123,110 @@ python3 tools/benchmark_compiler_api.py --compact-only --cases test16 \
 ```
 
 The script refuses to overwrite preserved outputs, pins the current binary, records implementation hashes, checks cache behavior, and stops on a failed verifier outcome or memory guard. Its default sources are the pristine input files from previously tested runs. Full-plan mode inspects every goal and tests plan caching; compact mode counts the Kernel resolver's obligations and completed checks without materializing goal expressions. New implementation changes can justify a new observation; these clear passing samples were not repeated to improve their reported timing.
+
+## Exact MCM readback
+
+The [stream-readback record](../audit/compiler-performance/model-load-stream-20261015/report.json)
+compares the old `231e6f4` package with the preserved stream-reader package on
+the same pristine test16 source: 228,350 variables and 126,512 rows. Three
+fresh processes per arm run serially in interleaved order. Median `Model.load`
+wall time is **5.137581/3.837865 s** (old/stream). All six Python re-encodings
+equal the native canonical MCM bytes; once per arm, every loaded Python field
+also matches the native JSON oracle. The native binary remains unchanged.
+
+The new path reads the 28,974,956-byte MCM rather than round-tripping an
+84,143,968-byte exported JSON model. It preserves the prior file-reader cap
+and exact input interpretation. There is no OS cache flush, and oracle setup
+reads the input first. This is a load microbenchmark, not Agent latency or a
+global resource-isolation result. See its [script and reproduction notes](../audit/compiler-performance/model-load-stream-20261015/README.md)
+for pinned package/input/native identities and all samples.
+
+## Same complete test16 proof: zero/alias helpers and leaf encoding
+
+The [provided-witness comparison](../audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json)
+fixes the original C8 source, target, complete maps and four MI/LP Equal
+inverse claims, each with 178,164 observations. Both authoring arms use the
+same frozen `5c42197` package and native binary. The only intended change is
+replacing the supplied zero/fixed/alias derivation with `zero_sum` and batched
+`rewrite_many`; no closure, target or proof is searched.
+
+Each forward scope checks all **50,186** generated equations for exact
+expression, scope and visibility, covering 29,502 zeros, 20,683 aliases and
+one declared nonzero fixing. Both complete proofs verify **3,118,120** native
+obligations and match the original committed MPS. Source/target/Request/MPS
+bytes agree. The helper intentionally changes proof steps, so its RPX and
+work count differ; validity and full theorem scope are the preserved checks.
+
+| Measured interval, s | Original supplied author function | Helpers |
+|---|---:|---:|
+| Zero/fixed/alias derivation, both forward scopes | 12.382171 | 4.613508 |
+| Forward author functions including substitution | 49.840015 | 41.691923 |
+| Serialization + compile + whole-artifact binding | 41.636519 | 45.299733 |
+| Native verifier process wall | 6.124031 | 5.314956 |
+| Full measured execution | 147.734220 | 139.443656 |
+
+This is one serial baseline-first sample per arm on a shared host, not a
+fresh Agent or solver comparison. Serialization is slower in the helper arm;
+the favorable derivation observation is not a stable whole-pipeline speedup
+estimate or isolated attribution to a single repeated-set line. The original
+two-arm scripts and results remain unchanged.
+
+A third, separately preserved [leaf-encoder arm](../audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-summary.json)
+uses frozen `539c146`. The supplied helper proof is unchanged: all six
+source/target/Certificate JSON/Request/RPX/committed-model artifacts are
+**byte-identical**, as are all native statistics and the 3,118,120 obligations.
+The Certificate and RPX sizes are 149,703,351 and 98,008,826 bytes. Recorded
+serialization/compile/whole-binding time falls from 45.299733 to 17.498845 s;
+full execution is 139.443656/99.930259 s. Non-serialization phases also vary,
+so the entire 39.513397 s total difference is not assigned to the encoder.
+It is one final serial regression sample, with no additional memory rounds
+or RSS gate. The [encoder notes](../audit/compiler-performance/C8-test16-provided-witness-20261015/ENCODER-RESULTS.md)
+bind the exact package, original helper reference, script, native and outputs.
+
+## Same complete test70 proof: subset DAG authoring
+
+The [test70 provided-witness comparison](../audit/compiler-performance/C9-test70-provided-witness-20261015/comparison.json)
+uses frozen `8ebcc97` after C9 and after its solver process has stopped. Both
+arms preserve the original author's chosen 1,202 aggregate groups, 1,679 gate
+covers, all complete maps, three directional claims and 45,017 observations
+per claim. No cover selection, mathematical discovery or reformulation search
+is rerun. `subset_bounds` replaces the supplied hand-written sparse/dyadic
+sharing code using the same author-selected premises and subsets.
+
+All **6,887** subset facts match in exact expression and root-scope visibility.
+The 114,694,805-byte Certificate JSON and 110,074,809-byte RPX are byte-identical
+to the hand-written proof, with identical full native statistics:
+522,056 obligations, 1,679 branches and work 81,652,500. Source, target,
+Request and committed MPS also preserve the original identities.
+
+| Interval, s | Hand-written DAG | Generic helper |
+|---|---:|---:|
+| Subset elaboration | 22.107202 | 34.170583 |
+| Full measured execution | 140.771588 | 144.157521 |
+
+The helper is slower in this single serial observation. The demonstrated
+benefit is removing author-written proof DAG plumbing while preserving the
+complete proof; it is **not** a runtime speedup or fresh-Agent improvement.
+The original C9 large-certificate failure remains unchanged. C10 later
+includes the helper and a separate configurable Certificate JSON budget,
+but this fixed-witness record is not evidence of C10's autonomous result.
+The budget does not relax downstream RPX/verification resource policies,
+and resource rejection is not a mathematical counterexample.
+
+## Agent-level interpretation and final cutoff
+
+The [acceptance record](COMPILER_AGENT_ACCEPTANCE.md) and individual round
+summaries give complete C5–C9 timing and quality rather than concatenating
+the best measurements across rounds. In particular, C7 test16 repeats a
+200.008 s self-authored large-set diagnostic; C8 lacks that cell, but chooses
+a different target, so its shorter wall time is not an isolated prompt effect.
+C9 test70's 858.989 s Agent wall includes a failed oversized Certificate and
+re-authoring the same given proof, while final native verification takes
+3.551523 s. Most pipeline or model time must not be labeled Kernel execution.
+
+All supplied regressions above retain full actual contracts and independent
+committed-artifact binding. They are distinct from the fresh Agent acceptance
+criterion. C6 quality is unmeasured; C7/C8/C9 bounded quality is separately
+complete and mixed. C10 remains the final pending round at this cutoff. Its
+actual target/scope and paired solver results must be reviewed before adding
+any conclusion; no further fresh run or optimization round is planned.
