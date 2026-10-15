@@ -1,7 +1,7 @@
 {
   "schema": "compiler-prompt-only-experiment-v1",
   "created_utc": "2026-10-15T02:22:45.966941+00:00",
-  "status": "running",
+  "status": "agents_complete_quality_pending",
   "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C6-20261015",
   "treatment_id": "C7-20261015",
   "cases": [
@@ -80,5 +80,12 @@
   "prior_answers_or_solver_feedback_exposed": false,
   "treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
   "launch_integrity_sha256": "d516beeb1db1f8080065a8f68bf089a2dae0f3d04ee79a5ce1f3b21bebcf65ef",
-  "launched_at": "2026-10-15T10:27:07+08:00"
+  "launched_at": "2026-10-15T10:27:07+08:00",
+  "comparison_json": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015/comparison.json",
+  "comparison_json_sha256": "e294b1d811fbddcadae5892a7933a8b0f8845a245446235687926889d74f6414",
+  "agents_completed_run_count": 12,
+  "independent_harness_verified_compiler_count": 6,
+  "quality_status": "PENDING: no solver evaluation or proof replay performed in this record.",
+  "summary": "audit/compiler-agent/C7-summary.json",
+  "updated_utc": "2026-10-15T02:59:29.679165+00:00"
 }
