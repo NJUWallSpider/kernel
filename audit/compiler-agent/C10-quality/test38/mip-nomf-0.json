@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test38/mip.options",
+    "/Users/bhz/Code/reform_test/runs/test38-nomf-compiler-batch-C10-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 71.355489,
+  "load_average_at_start": [
+    2.9970703125,
+    3.08740234375,
+    3.02392578125
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test38/mip-nomf-0.log",
+  "rows": 13037,
+  "variables": 3387,
+  "nonzeros": 44926,
+  "status": "Optimal",
+  "primal_objective": 204.081749241,
+  "dual_bound": 204.081749241,
+  "gap": "0%",
+  "gap_tolerance": "0.01%",
+  "solver_seconds": 71.33,
+  "nodes": 298,
+  "optimal": true
+}

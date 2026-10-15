@@ -7,7 +7,9 @@ The package now has historical-corpus compatibility, native-backed examples,
 supplied-proof regressions and fresh real-Agent evidence. These evidence layers
 have different meanings. **The overall goal of comparable reformulation ambition,
 quality and time together with complete verification is not yet established.**
-The final C10 fresh round is running; this document includes no result from it.
+The final C10 fresh round and its bounded quality review have ended. Five of
+five Compiler deliveries were formally verified; the joint acceptance goal
+remains unestablished. Work stopped after this round at the user's request.
 
 The usage contract and examples are in [COMPILER_API.md](COMPILER_API.md). Counts below are demand occurrences from catalogue §3, not numbers of cases passed by this implementation.
 
@@ -230,11 +232,24 @@ or deleting claims. Tests and supplied-proof checks establish their stated
 mechanical behavior; they do not retroactively turn an uncompleted candidate
 or failed attempt into a successful fresh proof.
 
-The final C10 batch is running on source `9822358` with five pairs (test70, test38,
+The final C10 batch used source `9822358` with five pairs (test70, test38,
 test58, test55, test69), including two inputs not previously fresh Compiler-tested.
-No live result is used here. Its closed proofs, tool adoption, actual mathematical
-choices, bounded solver quality and timing must be reported separately after
-completion. Overall acceptance remains open: the user requires strong
-reformulation exploration and quality near Nomf, with autonomous complete
-verification and comparable total time. Existing accepted certificates alone
-do not settle that comparison.
+All ten arms ended normally and all five Compiler deliveries (six proof pieces)
+passed independent native checks, pristine-source anchoring and complete
+committed-model readback. Agents naturally used `subset_bounds` on test70,
+test38 and new test55. Test58 retained series contraction, two Menu lifts,
+Signed recovery and 625 affine observations after correcting three proof-input
+errors. These are actual expression and generalization positives.
+
+The [final results](../audit/compiler-agent/C10-results.json) retain mixed
+quality and time: total Compiler/nomf Agent wall is 2530.749/2588.169 s, but
+the median paired ratio is 1.187401 and only two Compiler arms are faster.
+Test70 explicitly cites reconstruction/fiber-contract work when choosing not
+to aggregate; nomf aggregates more and alone finds a finite MIP incumbent in
+the 120 s measurement. Test55's nomf adds stronger common-gate capacity work.
+Test58's stronger LP bound coexists with slower MIP solving than the source.
+These findings do not prove an API expressiveness impossibility, but they
+prevent declaring the requested no-sacrifice near-nomf joint goal achieved.
+No implementation or fresh experimental round follows C10. The
+[project report](PROJECT_RESULTS_FOR_PAPER.md) collects project-wide positive
+results and their exact evidence boundaries.

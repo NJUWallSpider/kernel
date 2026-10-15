@@ -3,8 +3,8 @@
 This document separates early identity plumbing, actual public Agent phases,
 and later fixed-witness regressions. RSS and the old benchmark's optional
 memory guard are retained as historical metadata; memory is not a current
-Agent-acceptance gate. The final C10 batch is live at this cutoff, so no C10
-timing/quality conclusion is included here.
+Agent-acceptance gate. The final C10 batch and bounded quality measurements
+are complete; their separate workflow interpretation is recorded at the end.
 
 These are fresh API identity-bijection measurements on 2026-10-14, with Python 3.9.6 and a pinned Kernel binary. They use no solver, historical proof, preparer, reformulated target, or Agent transcript. **They measure plumbing scalability, not reformulation quality or real-Agent acceptance.** Each workload has one fresh Python worker observation; concurrent Agent runs and warm filesystem caches prevent interpreting these as controlled latency distributions.
 
@@ -145,7 +145,8 @@ for pinned package/input/native identities and all samples.
 
 The [provided-witness comparison](../audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json)
 fixes the original C8 source, target, complete maps and four MI/LP Equal
-inverse claims, each with 178,164 observations. Both authoring arms use the
+direction claims, each with inverse checks on 178,164 retained observations;
+no separate full-model Bijection is requested. Both authoring arms use the
 same frozen `5c42197` package and native binary. The only intended change is
 replacing the supplied zero/fixed/alias derivation with `zero_sum` and batched
 `rewrite_many`; no closure, target or proof is searched.
@@ -227,6 +228,27 @@ re-authoring the same given proof, while final native verification takes
 All supplied regressions above retain full actual contracts and independent
 committed-artifact binding. They are distinct from the fresh Agent acceptance
 criterion. C6 quality is unmeasured; C7/C8/C9 bounded quality is separately
-complete and mixed. C10 remains the final pending round at this cutoff. Its
-actual target/scope and paired solver results must be reviewed before adding
-any conclusion; no further fresh run or optimization round is planned.
+complete and mixed. Final C10 has five formally accepted deliveries, six proof
+pieces and ten normally ended arms. Its total Compiler/nomf Agent wall is
+2530.749/2588.169 s (ratio 0.977814), but the median paired ratio is 1.187401
+and Compiler is faster on only 2/5 cases. These different targets and contracts
+are not a fixed-task causal prompt comparison.
+
+The [final review](../audit/compiler-agent/C10-results.json) retains all quality
+outcomes: test70 has a stronger Compiler LP bound but only nomf finds a MIP
+incumbent; test55 has stronger nomf capacity aggregation/LP bounds but a better
+Compiler MIP incumbent; test58 expresses complex Signed/series recovery yet
+both reformulations solve worse than the source; test69 has equal LP bounds
+and a better Compiler incumbent. Test38 reports Optimal in 66.161/71.355 s
+for Compiler/nomf, each n=1. Optimal is the solver's numerical tolerance status,
+not an exact optimum proof. Full n, objectives, dual bounds and time limits
+remain in the raw review.
+
+The test69 phase records a repeated 10198-coordinate dictionary construction
+1499 times inside one mixed 41.274 s tool cell. This is an observed author-script
+cost; the entire cell cannot be attributed to that loop. Test38's public
+1.35/1.55/5.12 s values share one start time and are cumulative, not independent
+compile/verify measurements. Final phase records preserve those distinctions.
+No further profiling, optimization or experimental round follows C10. The
+[project report](PROJECT_RESULTS_FOR_PAPER.md) collects historical and current
+positive results without converting them into the unmet joint acceptance claim.

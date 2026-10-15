@@ -1,10 +1,10 @@
 # Independent agent acceptance runs
 
-Current cutoff: C8 and C9 have completed formal and bounded solver reviews;
-C6 solver quality remains unmeasured. The final C10 batch is running and is
-excluded from completed-cohort counts below. The user has limited further work
-to this last fresh round, followed by documentation and closure. Earlier
-sections retain their original round-specific cutoff and failures.
+Final cutoff: C10 formal and bounded solver reviews are complete. C6 solver
+quality remains unmeasured. C5–C10 contains 37 formally accepted Compiler runs,
+37 fresh nomf controls and 16 distinct previously tested inputs; early failures
+remain part of the project record. Work stopped after the last authorized C10
+round and documentation. Earlier sections retain their round-specific cutoffs.
 
 `tools/run_compiler_agents.py` launches fresh `omp` agents on previously tested
 MPS cases from `~/Code/reform_test/data`. It gives the compiler arm only the
@@ -154,8 +154,10 @@ later generic chain-writer improvements are not credited to this run.
 
 All three agents' own construction scripts reproduced their standard models,
 Requests and RPX files byte for byte in fresh workspaces. Test16's previously
-failed large construction now completes: its four MI/LP affine-bijection claims
-certify a target with 143,114 variables and 56,444 rows. Its three-repeat median
+failed large construction now completes: four MI/LP Equal direction claims
+check inverse compositions on 143,114 retained observations, for a target
+with 143,114 variables and 56,444 rows; no full-model Bijection is requested.
+Its three-repeat median
 MIP solve is 26.62 seconds versus nomf's 30.16 seconds; all LP objectives match.
 Nomf's 91 additionally removed integer coordinates are zero by real-valid
 homogeneous witnesses, so its smaller integer count does not imply an
@@ -192,7 +194,8 @@ recovered with complete MI certification. Test9 retains integer capacity cuts:
 its three-run MIP median is 15.14 seconds versus nomf's 13.57 seconds, with a
 0.203 higher LP bound. Test51 has a stronger LP bound and a 0.166-second MIP
 median versus nomf's 0.445 seconds. Test63 independently expresses a sparse
-extension with 91 unique slacks and full MI/LP inverse-linked claims; its LP and
+extension with 91 unique slacks and MI/LP inverse-linked direction claims at
+the declared observations; its LP and
 time-limited MIP results match fresh nomf.
 
 There are material failures against the overall goal. Test16's single bounded
@@ -259,7 +262,8 @@ not a successful result. Launch and outcome are recorded separately.
 
 The [C6 formal summary](../audit/compiler-agent/C6-summary.json) records six
 independently accepted Compiler deliveries, including SignedLift with two
-MenuLift scopes on test58 and full MI/LP inverse pairs on test16 and test63.
+MenuLift scopes on test58 and MI/LP inverse pairs at the declared observations
+on test16 and test63. These inverse links are not full-model Bijection claims.
 It contains no solver evaluation. That missing C6 quality measurement prevents
 an old-prompt/new-prompt quality attribution.
 
@@ -288,7 +292,8 @@ advising membership-set reuse. The public phase records preserve this failure.
 The [C7 quality review](../audit/compiler-agent/C7-quality-review.json) and
 [C8 quality review](../audit/compiler-agent/C8-quality-review.json) are separate
 post-run, solver-blind measurements. Positive C8 evidence includes test51's
-22 additional convex-pair dominance fixings and complete MI inverse plus
+22 additional convex-pair dominance fixings and MI inverse checks on 137
+retained observations plus
 reverse-LP proof: MIP medians are 0.452504/0.707976 s for Compiler/nomf,
 with objective/dual −3, while the Compiler LP objective is −3.9755418241
 versus −4.9592575252. The absolute MIP difference is only 0.255472 s.
@@ -299,8 +304,8 @@ Material exploration differences remain. C8 test58 retains bridge
 canonicalization and integer rounding but omits nomf's signed-flow/path
 contraction. Its one bounded MIP solve is better (9.696697 s at 754 versus
 nomf's 120 s limit with incumbent 763/dual 653), but that does not establish
-equal exploration ambition. C8 test63 uses 90 continuous slacks and full MI/LP
-inverse pairs, whereas nomf adds 91 slacks, deletes a fixed coordinate, and
+equal exploration ambition. C8 test63 uses 90 continuous slacks and MI/LP
+inverse pairs at the declared observations, whereas nomf adds 91 slacks, deletes a fixed coordinate, and
 proves an extra integer window bound. All LP objectives are 51.59; the
 time-limited source/Compiler/nomf incumbents are 54/55.999999/56.999999.
 Equal numerical objectives do not establish equal relaxation sets or excuse
@@ -352,13 +357,48 @@ proof of unseen-case generalization. Early C1–C4 failures remain above.
 The joint near-nomf time, mathematical ambition and model-quality acceptance
 criterion is still unmet.
 
-## Final C10 cutoff
+## Final C10 results and stop
 
-C10 is the last authorized fresh batch, on test70, test38, test58, test55 and
-test69, with source `9822358` and native `cf9941c2…`. Results are pending at
-this documentation cutoff and are not counted above. Its frozen generic
-package includes `subset_bounds` and the Certificate-JSON-only compile budget;
-later documentation is not part of those Agent inputs. Completed-case static
-phase records retain actual helper use, target changes and proof-contract
-feedback. Final paired quality and limitations must be appended after the
-batch stops; no additional fresh round follows it.
+C10 was the last authorized fresh batch, on test70, test38, test58, test55 and
+test69, with source `9822358` and native `cf9941c2…`. Its frozen generic package
+includes `subset_bounds` and the Certificate-JSON-only compile budget; later
+documentation was not part of those Agent inputs. All ten arms ended normally;
+5/5 Compiler deliveries and six proof pieces passed independent native
+verification, pristine-input anchoring and complete committed-model readback.
+The historical [formal cutoff](../audit/compiler-agent/C10-formal-summary.json)
+remains unchanged; the [final results](../audit/compiler-agent/C10-results.json)
+add the completed quality review and phase/pair records.
+
+| Case | Compiler / nomf Agent wall s | Actual expression |
+|---|---:|---|
+| test70 | 547.476 / 647.851 | 7029 subset facts from 82 author-selected premises; MI NI/Equal, 48096 observations |
+| test38 | 659.548 / 555.455 | Two stages, final MI Equal both ways plus reverse LP, 3250 observations; no inherited global inverse |
+| test58 | 551.340 / 383.939 | Two Menu lifts and 305 Signed witnesses; MI NI/Equal, 625 affine netflow observations |
+| test55 | 302.993 / 625.990 | New case: projection of 1024 auxiliaries, 512 requested subset bounds; MI Equal both ways plus reverse LP |
+| test69 | 469.392 / 374.934 | New case: 1499 exact eliminations and 1500 integer cuts; MI observed-coordinate inverse pair plus reverse LP |
+
+Totals are **2530.749/2588.169 s**, ratio **0.977814**; median paired ratio is
+**1.187401**, with Compiler faster on **2/5** cases. The total alone does not
+establish equal per-case time or quality. Test58 corrected three proof-input
+errors while preserving the original 610-variable target and all observations;
+the complex reconstruction was not abandoned.
+
+Serial HiGHS 1.15.1 quality measurements use one thread, parallel off, seed 0,
+120 s, with MIP n=1 and LP n=3 per variant under the fixed repeat policy.
+Compiler/nomf LP objectives are respectively: test70 997784.95132/991730.67069;
+test38 82.619689331/82.303925238; test58 237.98780488/40.426829268;
+test55 3378.0041667/3975.4029888; test69 250/250. These numerical comparisons
+do not prove LP polyhedral inclusion. All MIPs reach the time limit except
+the source test58 and both reformulations of test38, which report Optimal
+under solver tolerances. Test70 has no source/Compiler incumbent while nomf
+has one. Test55's Compiler has a better incumbent but a worse dual bound than
+nomf; test69's Compiler has a better incumbent and the same dual bound.
+Both test58 reformulations solve worse than its source in this measurement.
+
+Test70 explicitly cites extra reconstruction/fiber-contract work when deciding
+not to aggregate, whereas nomf aggregates. Test55's nomf also performs stronger
+common-gate capacity aggregation. These are material feedback on the requested
+no-sacrifice criterion, not proof that the API cannot express those operations.
+The overall near-nomf ambition/quality/time goal is **not established**.
+The [paper preparation report](PROJECT_RESULTS_FOR_PAPER.md) records the positive
+project results and limitations. No C11 or further implementation loop follows.

@@ -1,10 +1,17 @@
 # Kernel 与 Compiler 项目成果：论文准备报告
 
-本文整理整个项目截至 2026-10-15 的正面成果及其可引用证据，覆盖早期 Kernel 工作、历史完整验收、性能优化、Python Compiler 和真实 Agent 实验。最后一轮 C10 的十个 Agent 已全部结束，五个 Compiler 交付均通过独立正式验证；提交后质量测量进行中。历史资料保持各自截止版本。
+本文整理整个项目截至 2026-10-15 的正面成果及其可引用证据，覆盖早期 Kernel 工作、历史完整验收、性能优化、Python Compiler 和真实 Agent 实验。最后一轮 C10 的十个 Agent 与提交后质量测量均已结束，五个 Compiler 交付全部通过独立正式验证。按用户要求，本项目在本轮与文档整理后停工；历史资料保持各自截止版本。
 
-最扎实的结果包括：完整原始合同下的 81 个真实算例和 83 次验证；带精确有理数、完整模型义务和联合构造见证的 Kernel；不经过 RPA 的 Python 证明 API；跨全部冻结版本的 83 份证书兼容性回放；以及连续成熟阶段 C5–C9 的 32 次自主正式交付。这些是不同实验单位，不能相加为独立算例数。
+最扎实的结果包括：完整原始合同下的 81 个真实算例和 83 次验证；带精确有理数、完整模型义务和联合构造见证的 Kernel；不经过 RPA 的 Python 证明 API；跨全部冻结版本的 83 份证书兼容性回放；以及连续成熟阶段 C5–C10 的 37 次自主正式交付、涉及 16 个不同输入。这些是不同实验单位，不能相加为独立算例数。
 
 同一任务上的工程结果也有独立证据：共享作用域、有理数快捷路径，以及保持完整证明字节和验证统计的 Compiler 序列化回归。各项测量以下文给出的固定版本、样本和条件为准。
+
+论文可以围绕四项贡献组织：
+
+- **完整关系合同的精确验证。** 将完整模型可行性、目标关系、保留观测、LP 性质、互逆与严格改进分别声明和检查，避免只验证局部变换公式。
+- **超出单条仿射恢复的证明表达。** 用作用域、穷尽分支和联合构造见证表达整数强化、投影恢复、网络与离散选择变换。
+- **从作者证明到现有 Kernel 的直接接口。** Python API 将用户给定证明编译为现有 RPX，保留历史证书字节兼容，并减少索引、义务顺序与共享推导的手写工作。
+- **真实工作流与可审计工程证据。** 分开报告历史完整验收、固定任务性能对照和 fresh Agent 配对实验，展示复杂证明的自主使用，并记录影响表达选择的实际反馈。
 
 ## 系统与贡献边界
 
@@ -105,7 +112,7 @@ Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel*
 
 C6/C7/C8 首次完整验证后的剩余工作总计分别为 974.259/490.456/487.852 s，中位数为 147.239/83.210/81.425 s。这是可观察流程成本，不等于全部浪费，也不是 prompt 因果估计。C9 test70 仍为 858.989 s 对 350.247 s；C7 test16 仍有 200.008 s 的自写重复集合构造。C6 solver quality 未测，不能作为旧 prompt 的质量因果基线。证据：[C7-summary.json](../audit/compiler-agent/C7-summary.json)、[C8-summary.json](../audit/compiler-agent/C8-summary.json)、[C9-summary.json](../audit/compiler-agent/C9-summary.json)。
 
-7. **同一完整大证明上的 zero/alias helper 回归。** 固定 C8 test16 的原始见证顺序、目标、maps、四项 MI/LP Equal inverse 契约和每项 178,164 observations；两个 forward scope 各逐项检查 50,186 个零/固定/alias Eq 的 exact expression 与可见 scope。`zero_sum` + `rewrite_many` 的给定推导耗时单样本从 12.382 降到 4.614 s，完整执行 147.734/139.444 s；source/target/Request/committed MPS 字节一致，helper RPX 有意不同，但两者 native VERIFIED。同时 serialization/binding 从 41.637 增到 45.300 s，不能只报有利阶段。这是 provided-witness regression，不是 fresh Agent 提速。证据：[summary.json](../audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json)。
+7. **同一完整大证明上的 zero/alias helper 回归。** 固定 C8 test16 的原始见证顺序、目标、maps 与四项 MI/LP Equal 方向合同，每项在 178,164 个保留观测坐标上校验互逆；未单独声明完整模型 Bijection 合同。两个 forward scope 各逐项检查 50,186 个零/固定/alias Eq 的 exact expression 与可见 scope。`zero_sum` + `rewrite_many` 的给定推导耗时单样本从 12.382 降到 4.614 s，完整执行 147.734/139.444 s；source/target/Request/committed MPS 字节一致，helper RPX 有意不同，但两者 native VERIFIED。同时 serialization/binding 从 41.637 增到 45.300 s，不能只报有利阶段。这是 provided-witness regression，不是 fresh Agent 提速。证据：[summary.json](../audit/compiler-performance/C8-test16-provided-witness-20261015/summary.json)。
 
 8. **leaf encoder 在不改证明字节的条件下降低一次 serialization 成本。** 同一 test16 supplied helper proof，source、target、Certificate JSON、Request、RPX、committed MPS 六类产物全部字节一致，四项完整契约与 3,118,120 obligations、所有 native Statistics 相同。记录的 serialization/compile/whole-binding 为 45.300/17.499 s，完整执行 139.444/99.930 s。仅一次串行比较，非 serialization 阶段也变化，不能把全部 39.513 s 差归于 encoder；RSS 不作门槛。证据：[encoder-summary.json](../audit/compiler-performance/C8-test16-provided-witness-20261015/encoder-summary.json)。
 
@@ -115,9 +122,9 @@ C6/C7/C8 首次完整验证后的剩余工作总计分别为 974.259/490.456/487
 
 | 实验 | 实际形式契约 | 有界质量结果 | 证据边界 |
 |---|---|---|---|
-| C5 test88 | MI forward NI / reverse Equal，176 observations | Compiler LP 227，source/nomf 27；Compiler MIP 14.509 s 证得 230，另两者 120 s limit | MIP 每项单样本；不是三重复中位数 |
-| C8 test51 | MI Equal inverse pair + reverse LP Equal，Request points=0 | 额外 22 个 convex-pair dominance fixes；MIP median 0.453/0.708 s，均 −3；LP −3.9755/−4.9593 | 绝对 MIP 差仅 0.255 s；author explicit point smoke 不在 Kernel Request |
-| C9 test38 | MI Equal inverse pair + reverse LP Equal | MIP 单样本 53.688/62.736 s，均报告 Optimal、目标 204.081749241；LP 96.6779/82.6197 | proportional-sharing 候选另有 197 个 reconstruction 界未完成 |
+| C5 test88 | MI forward NI / reverse Equal，176 observations | Compiler LP 227，source/nomf 27；Compiler MIP 14.509 s 报告 Optimal、目标 230（gap tolerance 0.01%），另两者 120 s limit | MIP 每项单样本；不是三重复中位数，也不是 RPX 最优值证明 |
+| C8 test51 | MI Equal 观测坐标 inverse pair（137 observations）+ reverse LP Equal，Request points=0 | 额外 22 个 convex-pair dominance fixes；MIP median 0.453/0.708 s，均 −3；LP −3.9755/−4.9593 | 绝对 MIP 差仅 0.255 s；author explicit point smoke 不在 Kernel Request；无完整模型双射合同 |
+| C9 test38 | MI Equal 观测坐标 inverse pair（3,293 observations）+ reverse LP Equal | MIP 单样本 53.688/62.736 s，均报告 Optimal、目标 204.081749241；LP 96.6779/82.6197 | proportional-sharing 候选另有 197 个 reconstruction 界未完成；无完整模型双射合同 |
 
 这些例子之外，C9 test85 的 Compiler LP solve median 20.396 s 慢于 nomf 12.941 s；test70 三者 MIP 均在 presolve 时间限制且没有 incumbent。C8 test58 较快的求解并不能抵消遗漏 Signed/series 探索的事实。solver 数值接近或目标相同不承担正确性证明职责；正确性来自实际 RPX/Request 和 whole-model binding。证据：[C5-summary.json](../audit/compiler-agent/C5-summary.json)、[C8-quality-review.json](../audit/compiler-agent/C8-quality-review.json)、[C9-quality-review.json](../audit/compiler-agent/C9-quality-review.json)。
 
@@ -148,9 +155,33 @@ C10 是最后一次 fresh Agent 对照，使用 source `9822358`、native `cf994
 
 test58 展示了复杂证明表达：前向 426 个 edge-OR 与 91 个 path-min Menu，逆向 305 个 Signed witnesses；完整 maps 和 9,706 个义务均检查。三处公开代数/证明输入错误修正后，保留了原 610 变量目标和全部 625 个观察。test55 是新题自然采用批量界接口的证据。test69 的实际整数 cuts 使目标行数增加，不能用行数增加判为质量下降。
 
-表达便利性仍有直接缺口：test70 发现了更多同列候选，但报告把额外重构/fiber 契约作为不选聚合的理由，nomf 实施了更多聚合。它并未证明该 API 或 Kernel 不能表达聚合；这一观察也不能被较短 wall time 抵消。[test55 的配对静态审查](../audit/compiler-agent/C10-test55-pair.json)确认 nomf 另作 common-gate 容量聚合及更紧的 bound strengthening，需与提交后求解结果一并呈现。
+表达便利性仍有直接缺口：test70 发现了更多同列候选，但报告把额外重构/fiber 契约作为不选聚合的理由，nomf 实施了更多聚合。它并未证明该 API 或 Kernel 不能表达聚合；这一观察也不能被较短 wall time 抵消。[test55 的配对静态审查](../audit/compiler-agent/C10-test55-pair.json)确认 nomf 另作 common-gate 容量聚合及更紧的 bound strengthening；这是两端实际数学选择的区别。
 
-质量评估尚未结束，不在此填入未闭合样本或宣称整体验收。冻结设置见[控制记录](../audit/compiler-agent/C10-final-round-controls.json)、[snapshot](../audit/compiler-agent/C10-package-snapshot.json)、[工作区核对](../audit/compiler-agent/C10-launch-integrity.json)；完整正式结果与时间见 [C10 formal summary](../audit/compiler-agent/C10-formal-summary.json)。原始正式记录在质量测量前冻结，后续 quality 将独立记录。
+### 闭合的质量测量
+
+HiGHS 1.15.1，单线程、parallel off、seed 0、每次 120 s，三个 variant 串行测量，不向 Agent 回传结果。预定规则只在三个 variant 均报告 Optimal 且不超过 30 s 时追加两次旋转顺序的重复；本轮每题每端 MIP 实际 n=1，LP n=3。共有 15 次 MIP、45 次 LP 样本，另有两个独立 conformance probes 和一次版本查询。以下均为实际标准 MIN 模型的数值结果；Optimal 是求解器容差状态，不是 RPX 对最优值的精确证明。
+
+| 算例 | source LP 目标 / median wall s | Compiler LP 目标 / median wall s | nomf LP 目标 / median wall s |
+|---|---:|---:|---:|
+| test70 | 917102.21443 / 1.747425 | 997784.95132 / 1.612667 | 991730.67069 / 0.875235 |
+| test38 | 51.11 / 0.865065 | 82.619689331 / 1.387101 | 82.303925238 / 1.355528 |
+| test58 | 40.426829268 / 0.010992 | 237.98780488 / 0.009117 | 40.426829268 / 0.010435 |
+| test55 | 2866.85625 / 0.022519 | 3378.0041667 / 0.018552 | 3975.4029888 / 0.017894 |
+| test69 | 250 / 0.149338 | 250 / 0.099696 | 250 / 0.098428 |
+
+下表的限时项依次列 incumbent / dual，均达到 120 s solver 限制；完整 wall 与 gap 保存在原始记录。没有 incumbent 不能解释为不可行或无界。所有题的原始 `mip_optimality_complete` 都为 false，因为三端并未全部完成最优性求解，保留该 flag。
+
+| 算例 | source MIP | Compiler MIP | nomf MIP |
+|---|---|---|---|
+| test70 | 限时，无 incumbent，dual −∞ | 限时，无 incumbent，dual −∞ | 限时，3929965.33 / 1097904.19859 |
+| test38 | 限时，204.081749241 / 79.8225548536 | Optimal，204.081749241，66.161356 s | Optimal，204.081749241，71.355489 s |
+| test58 | Optimal，754，13.384299 s | 限时，765 / 645 | 限时，759 / 642 |
+| test55 | 限时，26114.91 / 20971.3982242 | 限时，25604.86 / 21053.5364249 | 限时，25984.62 / 21163.5395072 |
+| test69 | 限时，753 / 250 | 限时，679 / 250 | 限时，737 / 250 |
+
+这些结果提供了可用于论文的具体正面观察：test38 在自主完整验证的同时得到略强于 nomf 的 LP 下界，两个改写均报告同一最优目标；test58 的复杂构造给出更高 LP 下界；新题 test69 的精确消元与整数强化得到更好的限时 incumbent；test55 用较短 Agent wall 完成验证且 incumbent 更好。它们各有适用范围：test70 只有 nomf 找到 incumbent，test55 的 nomf LP 和 MIP dual 更强，test58 的两个改写都比原模型更难求解。LP 目标差不证明多面体包含，较小维数也不能替代求解和数学选择的分析。
+
+最终资料见 [C10 结果汇总](../audit/compiler-agent/C10-results.json)、[质量审查](../audit/compiler-agent/C10-quality-review.json)和[原始 quality](../audit/compiler-agent/C10-quality/quality.json)。冻结设置见[控制记录](../audit/compiler-agent/C10-final-round-controls.json)、[snapshot](../audit/compiler-agent/C10-package-snapshot.json)、[工作区核对](../audit/compiler-agent/C10-launch-integrity.json)。原始 [formal summary](../audit/compiler-agent/C10-formal-summary.json)保留质量测量前的历史截止；最终记录另行关联它及全部 phase/pair 审查。[Agent 停止记录](../audit/compiler-agent/C10-process-stop.json)与[质量进程停止记录](../audit/compiler-agent/C10-quality-process-stop.json)均通过，没有开启后续实验轮次。
 <!-- C10_RESULTS_END -->
 
 ## 证据与复现入口
@@ -173,5 +204,9 @@ PYTHONPATH=python python3 -m unittest discover -s python/tests
 ## 收尾状态
 
 <!-- CLOSEOUT_START -->
-本轮完成后将补齐总体结论、可用于论文的最终表述和遗留问题，按用户要求停止实现与实验工作。
+适合论文使用的总体表述是：**项目实现并评估了一条由作者给定 reformulation 及数学证明、通过 Python 编译为现有 RPX、再由精确 Kernel 检查完整调用合同的路径。Kernel 已在 81 个历史实际算例的完整原始合同上验收，并有独立格式、有限精确 oracle 和固定任务性能证据；Compiler 重现全部 83 份历史 RPX 字节及验证统计，并在连续成熟阶段的 37 次 fresh 交付、16 个不同输入中自主完成正式验证，包含复杂构造式恢复与新输入上的通用 API 使用。**
+
+这足以支持“可表达、可独立验证、已有实际 Agent 使用与限定条件下的工程收益”的论文结果。最初要求的“近似 nomf 时间和质量，同时完全不降低复杂 reformulation 探索意愿”的联合目标仍未确立：最后一轮的总时间接近，但逐题表现与求解质量混合，并存在 test70 的直接 proof-contract 便利性反馈。报告因此不将项目包装为已全面达到该目标，也不把观察到的取舍宣称为表达能力不可能性。
+
+当前 source feature checkpoint 为 `9822358`；C10 运行后只整理文档和审计证据，未再修改实现、启动新一轮 Agent 实验或追加优化实验。预先完成的集成检查为 Rust 344 项、Python 3.9/3.14 各 158 项全部通过。最后 Agent 与质量进程已正常退出，按用户明确要求在此停工，不再开启 C11 或后续闭环。
 <!-- CLOSEOUT_END -->

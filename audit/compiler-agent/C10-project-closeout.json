@@ -1,0 +1,133 @@
+{
+  "schema": "compiler-project-paper-closeout-v1",
+  "status": "DOCUMENTATION_AND_AUTHORIZED_FINAL_ROUND_CLOSED",
+  "created_utc": "2026-10-15T07:29:38.145344+00:00",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "branch": "codex/compiler-agent-api",
+  "HEAD_before_final_evidence_commit": "43450b64ad7a9211931f020992f59627b443efbf",
+  "overall_joint_user_goal_established": false,
+  "stopped_at_explicit_user_request": true,
+  "stop_request": "本次改进完以后，下一轮再测最后一轮，然后整理文档停工",
+  "paper_request": "最终项目不限于本轮，汇总compiler和kernel正面结果供论文准备",
+  "goal_status_update_policy": "Pause the unmet original joint goal only after this closeout is committed and shown; do not mark achieved.",
+  "no_further_fresh_round_or_implementation_loop": true,
+  "checks": {
+    "source_API_protocol_changed_since_frozen_C10_checkpoint": [],
+    "local_links_checked": 175,
+    "missing_local_links": [],
+    "paper_primary_metadata_entries_hash_checked": 104,
+    "curated_raw_files_hash_checked": 144,
+    "curated_raw_bytes": 483707,
+    "curated_Highs_log_count": 6,
+    "observed_owned_PIDs_checked": [
+      19369,
+      19372,
+      19373,
+      19375,
+      19490,
+      19493,
+      19515,
+      26144,
+      26283,
+      27668,
+      27757,
+      31390,
+      37906
+    ],
+    "present_observed_owned_PIDs": [],
+    "new_unit_native_solver_benchmark_or_fresh_Agent_for_closeout": false
+  },
+  "validation_already_completed_before_C10": {
+    "Rust": 344,
+    "Python3.9": 158,
+    "Python3.14": 158,
+    "path": "audit/compiler-performance/C10-preflight-20261015/validation.json"
+  },
+  "historical_cutoffs_preserved": [
+    "C9-summary.json",
+    "C10-formal-summary.json",
+    "C10-final-round-controls.json",
+    "C10-quality-launch.json",
+    "audit/paper/kernel-positive-evidence.json",
+    "audit/paper/compiler-positive-evidence.json"
+  ],
+  "evidence": [
+    {
+      "path": "audit/compiler-agent/C10-results.json",
+      "bytes": 29770,
+      "sha256": "455f0cb6ffa854110aa3b914d6943e84c80c2e92165a7b3b30ac0eb20ebd6eaa"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-review.json",
+      "bytes": 116493,
+      "sha256": "10af6879689c0bb1ea5f711c517c2633ce3f050277617fdd030a690842ba91f6"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-raw-sha256.json",
+      "bytes": 50545,
+      "sha256": "ec61df5cf8e85ef7bbb6ea890562aabf10654649e5ae02d6cb627aad94db5b13"
+    },
+    {
+      "path": "audit/compiler-agent/C10-process-stop.json",
+      "bytes": 1123,
+      "sha256": "dee5a7de14d063231bb0925d6bc892149c7a8dc7a0a1fdfa6611a9c8ba15b833"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-process-stop.json",
+      "bytes": 1008,
+      "sha256": "dbdf5560bf92f6829c2689ae38f8a1e75f29f0ab9c6025210c2cbbe4b4eb726c"
+    },
+    {
+      "path": "audit/paper/kernel-positive-evidence.json",
+      "bytes": 40432,
+      "sha256": "2e4da00aebb09193ad513e8b6aa0735ab0fa968518a7d5db903427ed393cf873"
+    },
+    {
+      "path": "audit/paper/kernel-results-draft.md",
+      "bytes": 14256,
+      "sha256": "1e48b2258c9dd41de676d175f9b4f834414c9a153c01c5594a522219e8f8ebcd"
+    },
+    {
+      "path": "audit/paper/compiler-positive-evidence.json",
+      "bytes": 67127,
+      "sha256": "6235144e1b79dbc805cb1cc89419b2e3a866b5e9671f3ecbe768fe184719cbbc"
+    },
+    {
+      "path": "audit/paper/compiler-results-draft.md",
+      "bytes": 11216,
+      "sha256": "769e55ce04ad9c6e05b3ee1adfe08654dc3ce6ca54c7742d130053d85d05e12a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 8613,
+      "sha256": "2557cbecd5301a1f49acd7f6ff4c789d23e917ef8a20efe1cbfcba174e15dfe4"
+    },
+    {
+      "path": "docs/COMPILER_DESIGN.md",
+      "bytes": 23475,
+      "sha256": "1201f6b408843dc9f1ee7578ebf596f6203f30f3116b0cd4dc082a8b9154dfb5"
+    },
+    {
+      "path": "docs/COMPILER_AGENT_ACCEPTANCE.md",
+      "bytes": 26225,
+      "sha256": "ece537eb7459283fa35912cfda3e5efed7ed5eda64541a7987c50ff074aca14d"
+    },
+    {
+      "path": "docs/COMPILER_PERFORMANCE.md",
+      "bytes": 19330,
+      "sha256": "c39a01ac4e1d23a103365ce73b1672b9f2d9d33d1791d2b922746d4cbbb252d2"
+    },
+    {
+      "path": "docs/PROJECT_RESULTS_FOR_PAPER.md",
+      "bytes": 36393,
+      "sha256": "02e82a740b7495b49ed73755dafbe64909fea564f91c371626bc6cdb8f1dd702"
+    }
+  ],
+  "limits": [
+    "Observed PID subsets and task-qualified stop audits do not imply global machine idleness.",
+    "Paper-primary hashes locate existing evidence;they are not mathematical proof.",
+    "Finite oracles,complete actual requests,historical replay and fresh Agent experiments retain separate meanings.",
+    "The final report records observed aggregation-contract convenience feedback and mixed quality;the no-sacrifice near-nomf goal is not declared achieved."
+  ]
+}

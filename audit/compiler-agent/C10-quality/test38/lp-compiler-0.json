@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test38/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test38-compiler-compiler-batch-C10-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 1.387101,
+  "load_average_at_start": [
+    3.03271484375,
+    3.0791015625,
+    3.0224609375
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test38/lp-compiler-0.log",
+  "rows": 12972,
+  "variables": 3250,
+  "nonzeros": 44128,
+  "status": "Optimal",
+  "primal_objective": 82.619689331,
+  "solver_seconds": 1.36,
+  "simplex_iterations": 13425,
+  "dual_bound": 82.619689331,
+  "optimal": true
+}

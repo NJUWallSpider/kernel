@@ -1,0 +1,610 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 3904 rows; 3872 cols; 11408 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Presolving model
+3884 rows, 3848 cols, 11354 nonzeros 0s
+2763 rows, 2729 cols, 9208 nonzeros 0s
+2748 rows, 2718 cols, 9164 nonzeros 0s
+Presolve reductions: rows 2748(-1156); columns 2718(-1154); nonzeros 9164(-2244) 
+
+Solving MIP model with:
+   2748 rows
+   2718 cols (288 binary, 0 integer, 0 implied int., 2430 continuous, 0 domain fixed)
+   9164 nonzeros
+   Thread count 1 (of 10 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   -12703.6        inf                  inf        0      0      0         0     0.1s
+         0       0         0   0.00%   3378.004167     inf                  inf        0      0      3      1504     0.1s
+ C       0       0         0   0.00%   11585.557743    72232.91          83.96%     7150    489     81      2880     0.3s
+ L       0       0         0   0.00%   18717.03649     34812.54          46.23%     9720    816     81     10382     4.2s
+        26       0         1   0.00%   18717.03649     34812.54          46.23%     9721    445     82     74149    15.5s
+ L     100      42        23   0.00%   18815.697904    31218.23          39.73%    10118    798    197    115638    23.6s
+       202     100        27   0.00%   18815.697904    31218.23          39.73%    11340    922    255    184200    35.5s
+ L     268     102        49   0.00%   18815.697904    28076.77          32.98%     9233    914    342    218048    39.3s
+ L     338     139        62   0.00%   18815.697904    27892.58          32.54%    10903    853    379    248063    43.8s
+ L     438     160        95   0.00%   18815.697904    27552.77          31.71%    10359    866    547    274321    52.2s
+ L     644     218       154   0.00%   20367.020055    26836.197143      24.11%     8771    836    725    339033    61.7s
+       864     281       224   0.00%   20367.020055    26836.197143      24.11%    10103    868    990    401746    66.7s
+      1110     315       332   0.01%   20971.398224    26836.197143      21.85%     9570    941   1303    430643    71.7s
+ L    1116     277       337   0.01%   20971.398224    26469.2           20.77%    10129    760   1337    431183    75.4s
+      1366     302       448   0.02%   20971.398224    26469.2           20.77%    11323    787   1677    483741    80.4s
+ L    1490     285       505   0.02%   20971.398224    26179.61          19.89%     9377    686   1883    510027    89.2s
+      1637     306       566   0.03%   20971.398224    26179.61          19.89%    10278    850   2084    566185    94.2s
+      1925     379       667   0.03%   20971.398224    26179.61          19.89%    11128    701   2567    597123    99.2s
+ L    1951     388       676   0.03%   20971.398224    26114.91          19.70%    10385    824   2627    600360   109.1s
+      2211     459       761   0.03%   20971.398224    26114.91          19.70%    11025    795   3077    683853   114.1s
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+      2438     546       839   0.03%   20971.398224    26114.91          19.70%    10605    790   3386    718638   120.0s
+      2438     546       839   0.03%   20971.398224    26114.91          19.70%    10605    790   3386    718638   120.0s
+
+Solving report
+  Model             model
+  Status            Time limit reached
+  Primal bound      26114.91
+  Dual bound        20971.3982242
+  Gap               19.7% (tolerance: 0.01%)
+  P-D integral      37.1149682838
+  Solution status   feasible
+                    26114.91 (objective)
+                    0 (bound viol.)
+                    8.51066092949e-15 (int. viol.)
+                    0 (row viol.)
+  Timing            120.00
+                    0.64 (Presolve)
+                        MIP    time [calls] = 0.01 [1]
+                        subMIP time [calls] = 0.63 [133]
+                    119.35 (Solve)
+                        MIP    time [calls] = 77.62 [1]
+                        subMIP time [calls] = 41.73 [133]
+                    0.00 (Postsolve)
+                        MIP    time [calls] = 0.00 [1]
+                        subMIP time [calls] = 0.00 [133]
+  Max sub-MIP depth 16
+  Nodes             2438
+  Repair LPs        0
+  LP iterations     718638
+                    180706 (strong br.)
+                    48151 (separation)
+                    260909 (heuristics)
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2880 rows; 2848 cols; 9360 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Presolving model
+2860 rows, 2826 cols, 9308 nonzeros 0s
+2748 rows, 2718 cols, 9164 nonzeros 0s
+Presolve reductions: rows 2748(-132); columns 2718(-130); nonzeros 9164(-196) 
+
+Solving MIP model with:
+   2748 rows
+   2718 cols (288 binary, 0 integer, 0 implied int., 2430 continuous, 0 domain fixed)
+   9164 nonzeros
+   Thread count 1 (of 10 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   -12703.6        inf                  inf        0      0      0         0     0.1s
+         0       0         0   0.00%   3378.004167     inf                  inf        0      0      3      1485     0.2s
+ C       0       0         0   0.00%   11685.1478      72746.22          83.94%     7146    489     80      2969     0.4s
+ L       0       0         0   0.00%   18652.947586    34978.42          46.67%     8054    829    102     10083     3.8s
+        72       0         1   0.00%   18652.947586    34978.42          46.67%     8057    419    105     69759    15.4s
+ L     100      41        14   0.00%   18767.758776    28063.5           33.12%     8877    776    175     84730    20.6s
+       143      42        15   0.00%   18767.758776    28063.5           33.12%     8878    776    176    150181    27.4s
+ L     165      75        24   0.00%   18767.758776    26880.37          30.18%    10116    894    220    169159    30.7s
+ L     266     106        49   0.00%   18767.758776    26048.03          27.95%     9219    846    271    197263    36.8s
+       392     147        81   0.00%   18767.758776    26048.03          27.95%     8738    869    399    242759    49.7s
+       498     186       113   0.00%   19529.695523    26048.03          25.02%    10249    938    538    313793    62.7s
+       836     340       207   0.00%   19807.574761    26048.03          23.96%    10238    847    908    401920    67.7s
+      1105     405       311   0.00%   20405.466601    26048.03          21.66%    10212    821   1382    439744    72.8s
+      1371     464       414   0.00%   20707.304375    26048.03          20.50%     9869    719   1800    470268    81.1s
+      1716     515       561   0.00%   20990.637831    26048.03          19.42%     9997    665   2487    527241    86.1s
+ L    1766     386       583   0.00%   20990.637831    25604.86          18.02%    10692    700   2563    532710    91.7s
+      1925     399       648   0.00%   20990.637831    25604.86          18.02%    10456    723   2892    607176    98.3s
+      2189     453       760   0.05%   20990.637831    25604.86          18.02%     9125    820   3370    638437   113.1s
+      2450     498       862   0.06%   21053.536425    25604.86          17.78%    10243    864   3701    716978   118.1s
+      2491     517       880   0.06%   21053.536425    25604.86          17.78%    10738    816   3777    725166   120.0s
+
+Solving report
+  Model             reformulated
+  Status            Time limit reached
+  Primal bound      25604.86
+  Dual bound        21053.5364249
+  Gap               17.78% (tolerance: 0.01%)
+  P-D integral      33.7979330243
+  Solution status   feasible
+                    25604.86 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            120.03
+                    0.72 (Presolve)
+                        MIP    time [calls] = 0.01 [1]
+                        subMIP time [calls] = 0.71 [135]
+                    119.30 (Solve)
+                        MIP    time [calls] = 72.95 [1]
+                        subMIP time [calls] = 46.35 [135]
+                    0.00 (Postsolve)
+                        MIP    time [calls] = 0.00 [1]
+                        subMIP time [calls] = 0.00 [135]
+  Max sub-MIP depth 16
+  Nodes             2491
+  Repair LPs        0
+  LP iterations     725166
+                    187013 (strong br.)
+                    36110 (separation)
+                    265900 (heuristics)
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2624 rows; 2848 cols; 8880 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Presolving model
+2606 rows, 2826 cols, 8832 nonzeros 0s
+2494 rows, 2718 cols, 8688 nonzeros 0s
+Presolve reductions: rows 2494(-130); columns 2718(-130); nonzeros 8688(-192) 
+
+Solving MIP model with:
+   2494 rows
+   2718 cols (288 binary, 0 integer, 0 implied int., 2430 continuous, 0 domain fixed)
+   8688 nonzeros
+   Thread count 1 (of 10 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   -12703.6        inf                  inf        0      0      0         0     0.1s
+         0       0         0   0.00%   3975.402989     inf                  inf        0      0      3      1518     0.1s
+ C       0       0         0   0.00%   11762.84316     74210.52          84.15%     7867    514     83      2973     0.3s
+ L       0       0         0   0.00%   18746.186548    36192.1           48.20%    10906    801     83     10666     4.6s
+        39       0         1   0.00%   18746.186548    36192.1           48.20%     9690    430     84     74546    15.5s
+ T      99       5        12   0.00%   18746.186548    34756.84          46.06%     9727    430    147     86903    16.9s
+ L     120      48        13   0.00%   18793.882397    29072.99          35.36%    10382    786    147     94001    21.2s
+       165      49        14   0.00%   18793.882397    29072.99          35.36%    10383    786    150    156357    27.6s
+       262     108        35   0.00%   18793.882397    29072.99          35.36%     7719    916    194    180399    35.0s
+       347     157        61   0.00%   18793.882397    29072.99          35.36%    10858    852    313    233047    42.7s
+ L     532     150       122   0.00%   18793.882397    27088.39          30.62%     9819    896    441    276609    47.3s
+ L     634     183       156   0.00%   18793.882397    27042.02          30.50%     9086    946    576    309006    56.0s
+ L     937     253       257   0.01%   18793.882397    26814.39          29.91%    11207    948    892    375554    67.1s
+      1113     308       309   0.01%   18793.882397    26814.39          29.91%    10700    968   1002    442484    73.6s
+      1311     379       373   0.02%   19553.012233    26814.39          27.08%     9783    814   1294    466266    78.6s
+ L    1456     406       425   0.02%   19979.26836     26647.03          25.02%     7734    879   1403    481291    87.7s
+      1768     482       540   0.02%   20713.20807     26647.03          22.27%    10227    817   1797    548611    92.9s
+      2070     545       657   0.02%   21058.316052    26647.03          20.97%    10196    819   2280    579066    97.9s
+ L    2206     444       713   0.02%   21163.539507    25984.62          18.55%    10664    633   2518    587491   106.0s
+      2556     486       865   0.02%   21163.539507    25984.62          18.55%     9451    673   2908    639208   111.0s
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+      2855     525       998   0.02%   21163.539507    25984.62          18.55%     9585    782   3477    681627   120.0s
+      2855     525       998   0.02%   21163.539507    25984.62          18.55%     9585    782   3477    681627   120.0s
+
+Solving report
+  Model             reformulated
+  Status            Time limit reached
+  Primal bound      25984.62
+  Dual bound        21163.5395072
+  Gap               18.55% (tolerance: 0.01%)
+  P-D integral      38.7641532121
+  Solution status   feasible
+                    25984.62 (objective)
+                    0 (bound viol.)
+                    2.6016608233e-15 (int. viol.)
+                    0 (row viol.)
+  Timing            120.01
+                    0.78 (Presolve)
+                        MIP    time [calls] = 0.01 [1]
+                        subMIP time [calls] = 0.77 [135]
+                    119.20 (Solve)
+                        MIP    time [calls] = 76.01 [1]
+                        subMIP time [calls] = 43.19 [135]
+                    0.00 (Postsolve)
+                        MIP    time [calls] = 0.00 [1]
+                        subMIP time [calls] = 0.00 [135]
+  Max sub-MIP depth 18
+  Nodes             2855
+  Repair LPs        0
+  LP iterations     681627
+                    166697 (strong br.)
+                    34383 (separation)
+                    245001 (heuristics)
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 3904 rows; 3872 cols; 11408 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+3884 rows, 3848 cols, 11354 nonzeros 0s
+3019 rows, 2985 cols, 9688 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+3002 rows, 2972 cols, 9640 nonzeros 0s
+Presolve reductions: rows 3002(-902); columns 2972(-900); nonzeros 9640(-1768) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.1299645104e+01 Ph1: 74(75); Du: 16(61.2996) 0.0s
+       1774     2.8668562500e+03 Pr: 0(0); Du: 0(1.33227e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 5.55e-17 (relative      0 / 4.62e-20)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 7.93e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : model
+Model status        : Optimal
+Simplex   iterations: 1774
+Objective value     :  2.8668562500e+03
+P-D objective error :  7.9297323255e-17
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2880 rows; 2848 cols; 9360 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2860 rows, 2826 cols, 9308 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2748 rows, 2718 cols, 9164 nonzeros 0s
+Presolve reductions: rows 2748(-132); columns 2718(-130); nonzeros 9164(-196) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -5.0524768899e+01 Ph1: 74(91.5); Du: 16(50.5248) 0.0s
+       1506     3.3780041667e+03 Pr: 0(0); Du: 0(1.55431e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 1.84e-16 (relative      0 / 1.53e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 6.73e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1506
+Objective value     :  3.3780041667e+03
+P-D objective error :  6.7300102124e-17
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2624 rows; 2848 cols; 8880 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2606 rows, 2826 cols, 8832 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2494 rows, 2718 cols, 8688 nonzeros 0s
+Presolve reductions: rows 2494(-130); columns 2718(-130); nonzeros 8688(-192) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.0524637451e+01 Ph1: 77(169.125); Du: 48(60.5246) 0.0s
+       1544     3.9754029888e+03 Pr: 0(0); Du: 0(2.66454e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 2.78e-16 (relative      0 / 2.31e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 /    4e-16  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1544
+Objective value     :  3.9754029888e+03
+P-D objective error :  4.0031553400e-16
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2880 rows; 2848 cols; 9360 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2860 rows, 2826 cols, 9308 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2748 rows, 2718 cols, 9164 nonzeros 0s
+Presolve reductions: rows 2748(-132); columns 2718(-130); nonzeros 9164(-196) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -5.0524768899e+01 Ph1: 74(91.5); Du: 16(50.5248) 0.0s
+       1506     3.3780041667e+03 Pr: 0(0); Du: 0(1.55431e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 1.84e-16 (relative      0 / 1.53e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 6.73e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1506
+Objective value     :  3.3780041667e+03
+P-D objective error :  6.7300102124e-17
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2624 rows; 2848 cols; 8880 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2606 rows, 2826 cols, 8832 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2494 rows, 2718 cols, 8688 nonzeros 0s
+Presolve reductions: rows 2494(-130); columns 2718(-130); nonzeros 8688(-192) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.0524637451e+01 Ph1: 77(169.125); Du: 48(60.5246) 0.0s
+       1544     3.9754029888e+03 Pr: 0(0); Du: 0(2.66454e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 2.78e-16 (relative      0 / 2.31e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 /    4e-16  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1544
+Objective value     :  3.9754029888e+03
+P-D objective error :  4.0031553400e-16
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 3904 rows; 3872 cols; 11408 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+3884 rows, 3848 cols, 11354 nonzeros 0s
+3019 rows, 2985 cols, 9688 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+3002 rows, 2972 cols, 9640 nonzeros 0s
+Presolve reductions: rows 3002(-902); columns 2972(-900); nonzeros 9640(-1768) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.1299645104e+01 Ph1: 74(75); Du: 16(61.2996) 0.0s
+       1774     2.8668562500e+03 Pr: 0(0); Du: 0(1.33227e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 5.55e-17 (relative      0 / 4.62e-20)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 7.93e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : model
+Model status        : Optimal
+Simplex   iterations: 1774
+Objective value     :  2.8668562500e+03
+P-D objective error :  7.9297323255e-17
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2624 rows; 2848 cols; 8880 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2606 rows, 2826 cols, 8832 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2494 rows, 2718 cols, 8688 nonzeros 0s
+Presolve reductions: rows 2494(-130); columns 2718(-130); nonzeros 8688(-192) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.0524637451e+01 Ph1: 77(169.125); Du: 48(60.5246) 0.0s
+       1544     3.9754029888e+03 Pr: 0(0); Du: 0(2.66454e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 2.78e-16 (relative      0 / 2.31e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 /    4e-16  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1544
+Objective value     :  3.9754029888e+03
+P-D objective error :  4.0031553400e-16
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 3904 rows; 3872 cols; 11408 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+3884 rows, 3848 cols, 11354 nonzeros 0s
+3019 rows, 2985 cols, 9688 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+3002 rows, 2972 cols, 9640 nonzeros 0s
+Presolve reductions: rows 3002(-902); columns 2972(-900); nonzeros 9640(-1768) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.1299645104e+01 Ph1: 74(75); Du: 16(61.2996) 0.0s
+       1774     2.8668562500e+03 Pr: 0(0); Du: 0(1.33227e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 5.55e-17 (relative      0 / 4.62e-20)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 7.93e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : model
+Model status        : Optimal
+Simplex   iterations: 1774
+Objective value     :  2.8668562500e+03
+P-D objective error :  7.9297323255e-17
+HiGHS run time      :          0.01
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 2880 rows; 2848 cols; 9360 nonzeros; 288 integer variables (288 binary)
+Coefficient ranges:
+  Matrix  [2e-01, 5e+02]
+  Cost    [2e-02, 1e+03]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 8e+03]
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+2860 rows, 2826 cols, 9308 nonzeros 0s
+Dependent equations search running on 1160 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+2748 rows, 2718 cols, 9164 nonzeros 0s
+Presolve reductions: rows 2748(-132); columns 2718(-130); nonzeros 9164(-196) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -5.0524768899e+01 Ph1: 74(91.5); Du: 16(50.5248) 0.0s
+       1506     3.3780041667e+03 Pr: 0(0); Du: 0(1.55431e-15) 0.0s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 / 1.84e-16 (relative      0 / 1.53e-19)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 6.73e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1506
+Objective value     :  3.3780041667e+03
+P-D objective error :  6.7300102124e-17
+HiGHS run time      :          0.01

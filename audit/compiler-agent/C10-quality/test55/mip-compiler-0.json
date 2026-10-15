@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test55/mip.options",
+    "/Users/bhz/Code/reform_test/runs/test55-compiler-compiler-batch-C10-20261015/output/reformulated.mps"
+  ],
+  "exit_code": 1,
+  "timed_out": false,
+  "wall_seconds": 120.052828,
+  "load_average_at_start": [
+    2.89794921875,
+    2.74560546875,
+    2.8544921875
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C10-quality/test55/mip-compiler-0.log",
+  "rows": 2880,
+  "variables": 2848,
+  "nonzeros": 9360,
+  "status": "Time limit reached",
+  "primal_objective": 25604.86,
+  "dual_bound": 21053.5364249,
+  "gap": "17.78%",
+  "gap_tolerance": "0.01%",
+  "solver_seconds": 120.03,
+  "nodes": 2491,
+  "optimal": false
+}

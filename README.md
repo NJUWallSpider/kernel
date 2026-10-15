@@ -18,6 +18,10 @@ offset bookkeeping. See [design coverage](docs/COMPILER_DESIGN.md) and
 [real Agent acceptance](docs/COMPILER_AGENT_ACCEPTANCE.md); autonomous Agent
 quality/time acceptance is separate from the historical corpus replay above.
 
+The [project results report for paper preparation](docs/PROJECT_RESULTS_FOR_PAPER.md)
+collects Kernel and Compiler contributions across the project, with exact
+claims, experiment versions, primary evidence and reproducibility limits.
+
 Pure safe Rust validates exact rational MILP reformulation proofs
 against complete source/target models and a caller-supplied requested contract.
 The [Chinese kernel manual](docs/rpx/rpx-manual.pdf) and its

@@ -1,0 +1,935 @@
+{
+  "schema": "compiler-final-authorized-round-results-v1",
+  "status": "CLOSED_FORMAL_AND_BOUNDED_QUALITY_COMPLETE",
+  "created_utc": "2026-10-15T07:28:12.346501+00:00",
+  "round": "C10",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C10-20261015",
+  "source_checkpoint": "982235835dfe3b6c5f74188cd68ef48008747f30",
+  "native_sha256": "cf9941c2daf9ab1434090069cc5040f902229e7b2d6d56003bcb0d8568e09da1",
+  "overall_joint_user_acceptance_established": false,
+  "authorization_boundary": "Human requested one final fresh round after the current improvement, then documentation and stop. C10 is that final round; no C11 or further implementation/optimization experiment is authorized by this record.",
+  "formal": {
+    "normal_arms": 10,
+    "case_count": 5,
+    "Compiler_verified_deliveries": 5,
+    "proof_pieces": 6,
+    "total_native_obligations": 780679,
+    "all_pristine_and_complete_committed_models_bound": true,
+    "historical_formal_summary_is_preserved_at_prequality_cutoff": true,
+    "full_model_Bijection_not_inferred_from_observed_coordinate_inverse": true
+  },
+  "cases": {
+    "test70": {
+      "Compiler_formally_verified": true,
+      "source_and_complete_committed_artifact_bound": true,
+      "Compiler_wall_s": 547.476,
+      "nomf_wall_s": 647.851,
+      "paired_wall_ratio": 0.8450646830829929,
+      "source_shape": {
+        "variables": 48417,
+        "rows": 2187,
+        "integers": 48417,
+        "nonzeros": 1995817,
+        "objective_nonzeros": 47217
+      },
+      "Compiler_target_shape": {
+        "variables": 48096,
+        "rows": 2166,
+        "integers": 48096,
+        "nonzeros": 1969142,
+        "objective_nonzeros": 46901
+      },
+      "nomf_target_shape": {
+        "variables": 44943,
+        "rows": 1886,
+        "integers": 44943,
+        "nonzeros": 1512999,
+        "objective_nonzeros": 44041
+      },
+      "proof_pieces": 1,
+      "native_obligations": 390086,
+      "native_claims": [
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "coordinate_observations": 48096,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 48096,
+            "affine_observations": 0
+          }
+        ]
+      ],
+      "raw_mip_optimality_complete": false
+    },
+    "test38": {
+      "Compiler_formally_verified": true,
+      "source_and_complete_committed_artifact_bound": true,
+      "Compiler_wall_s": 659.548,
+      "nomf_wall_s": 555.455,
+      "paired_wall_ratio": 1.1874013196388546,
+      "source_shape": {
+        "variables": 5282,
+        "rows": 20346,
+        "integers": 30,
+        "nonzeros": 71477,
+        "objective_nonzeros": 77
+      },
+      "Compiler_target_shape": {
+        "variables": 3250,
+        "rows": 12972,
+        "integers": 24,
+        "nonzeros": 44128,
+        "objective_nonzeros": 73
+      },
+      "nomf_target_shape": {
+        "variables": 3387,
+        "rows": 13037,
+        "integers": 29,
+        "nonzeros": 44926,
+        "objective_nonzeros": 77
+      },
+      "proof_pieces": 2,
+      "native_obligations": 167908,
+      "native_claims": [
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "coordinate_observations": 3255,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "coordinate_observations": 3255,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 3255,
+            "affine_observations": 0
+          }
+        ],
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 3250,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 3250,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 3250,
+            "affine_observations": 0
+          }
+        ]
+      ],
+      "raw_mip_optimality_complete": false
+    },
+    "test58": {
+      "Compiler_formally_verified": true,
+      "source_and_complete_committed_artifact_bound": true,
+      "Compiler_wall_s": 551.34,
+      "nomf_wall_s": 383.939,
+      "paired_wall_ratio": 1.4360093660711728,
+      "source_shape": {
+        "variables": 2500,
+        "rows": 1750,
+        "integers": 1250,
+        "nonzeros": 5000,
+        "objective_nonzeros": 1250
+      },
+      "Compiler_target_shape": {
+        "variables": 610,
+        "rows": 789,
+        "integers": 305,
+        "nonzeros": 1827,
+        "objective_nonzeros": 305
+      },
+      "nomf_target_shape": {
+        "variables": 666,
+        "rows": 875,
+        "integers": 333,
+        "nonzeros": 1997,
+        "objective_nonzeros": 333
+      },
+      "proof_pieces": 1,
+      "native_obligations": 9706,
+      "native_claims": [
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "NonIncreasing",
+            "inverse": null,
+            "coordinate_observations": 0,
+            "affine_observations": 625
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 0,
+            "affine_observations": 625
+          }
+        ]
+      ],
+      "raw_mip_optimality_complete": false
+    },
+    "test55": {
+      "Compiler_formally_verified": true,
+      "source_and_complete_committed_artifact_bound": true,
+      "Compiler_wall_s": 302.993,
+      "nomf_wall_s": 625.99,
+      "paired_wall_ratio": 0.48402210897937664,
+      "source_shape": {
+        "variables": 3872,
+        "rows": 3904,
+        "integers": 288,
+        "nonzeros": 11408,
+        "objective_nonzeros": 1568
+      },
+      "Compiler_target_shape": {
+        "variables": 2848,
+        "rows": 2880,
+        "integers": 288,
+        "nonzeros": 9360,
+        "objective_nonzeros": 1568
+      },
+      "nomf_target_shape": {
+        "variables": 2848,
+        "rows": 2624,
+        "integers": 288,
+        "nonzeros": 8880,
+        "objective_nonzeros": 1568
+      },
+      "proof_pieces": 1,
+      "native_obligations": 31267,
+      "native_claims": [
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 2848,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 2848,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 2848,
+            "affine_observations": 0
+          }
+        ]
+      ],
+      "raw_mip_optimality_complete": false
+    },
+    "test69": {
+      "Compiler_formally_verified": true,
+      "source_and_complete_committed_artifact_bound": true,
+      "Compiler_wall_s": 469.392,
+      "nomf_wall_s": 374.934,
+      "paired_wall_ratio": 1.251932340091856,
+      "source_shape": {
+        "variables": 11697,
+        "rows": 16381,
+        "integers": 7196,
+        "nonzeros": 44903,
+        "objective_nonzeros": 751
+      },
+      "Compiler_target_shape": {
+        "variables": 10198,
+        "rows": 14884,
+        "integers": 7196,
+        "nonzeros": 41910,
+        "objective_nonzeros": 750
+      },
+      "nomf_target_shape": {
+        "variables": 10199,
+        "rows": 13385,
+        "integers": 7196,
+        "nonzeros": 38911,
+        "objective_nonzeros": 751
+      },
+      "proof_pieces": 1,
+      "native_obligations": 181712,
+      "native_claims": [
+        [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "coordinate_observations": 10198,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "coordinate_observations": 10198,
+            "affine_observations": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "coordinate_observations": 10198,
+            "affine_observations": 0
+          }
+        ]
+      ],
+      "raw_mip_optimality_complete": false
+    }
+  },
+  "quality": {
+    "complete": true,
+    "numeric_rows": [
+      {
+        "case": "test70",
+        "mode": "mip",
+        "variant": "source",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.675204,
+        "first_primal_objective": "+Infinity",
+        "first_dual_bound": "-Infinity",
+        "finite_primal_in_all_samples": false,
+        "finite_dual_in_all_samples": false
+      },
+      {
+        "case": "test70",
+        "mode": "mip",
+        "variant": "compiler",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.807653,
+        "first_primal_objective": "+Infinity",
+        "first_dual_bound": "-Infinity",
+        "finite_primal_in_all_samples": false,
+        "finite_dual_in_all_samples": false
+      },
+      {
+        "case": "test70",
+        "mode": "mip",
+        "variant": "nomf",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.473126,
+        "first_primal_objective": 3929965.33,
+        "first_dual_bound": 1097904.19859,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test70",
+        "mode": "lp",
+        "variant": "source",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 1.747425,
+        "first_primal_objective": 917102.21443,
+        "first_dual_bound": 917102.21443,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test70",
+        "mode": "lp",
+        "variant": "compiler",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 1.612667,
+        "first_primal_objective": 997784.95132,
+        "first_dual_bound": 997784.95132,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test70",
+        "mode": "lp",
+        "variant": "nomf",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.875235,
+        "first_primal_objective": 991730.67069,
+        "first_dual_bound": 991730.67069,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "mip",
+        "variant": "source",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.110196,
+        "first_primal_objective": 204.081749241,
+        "first_dual_bound": 79.8225548536,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "mip",
+        "variant": "compiler",
+        "n": 1,
+        "status_counts": {
+          "Optimal": 1
+        },
+        "median_process_wall_s": 66.161356,
+        "first_primal_objective": 204.081749241,
+        "first_dual_bound": 204.081749241,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "mip",
+        "variant": "nomf",
+        "n": 1,
+        "status_counts": {
+          "Optimal": 1
+        },
+        "median_process_wall_s": 71.355489,
+        "first_primal_objective": 204.081749241,
+        "first_dual_bound": 204.081749241,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "lp",
+        "variant": "source",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.865065,
+        "first_primal_objective": 51.11,
+        "first_dual_bound": 51.11,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "lp",
+        "variant": "compiler",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 1.387101,
+        "first_primal_objective": 82.619689331,
+        "first_dual_bound": 82.619689331,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test38",
+        "mode": "lp",
+        "variant": "nomf",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 1.355528,
+        "first_primal_objective": 82.303925238,
+        "first_dual_bound": 82.303925238,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "mip",
+        "variant": "source",
+        "n": 1,
+        "status_counts": {
+          "Optimal": 1
+        },
+        "median_process_wall_s": 13.384299,
+        "first_primal_objective": 754.0,
+        "first_dual_bound": 754.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "mip",
+        "variant": "compiler",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.01041,
+        "first_primal_objective": 765.0,
+        "first_dual_bound": 645.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "mip",
+        "variant": "nomf",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.012263,
+        "first_primal_objective": 759.0,
+        "first_dual_bound": 642.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "lp",
+        "variant": "source",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.010992,
+        "first_primal_objective": 40.426829268,
+        "first_dual_bound": 40.426829268,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "lp",
+        "variant": "compiler",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.009117,
+        "first_primal_objective": 237.98780488,
+        "first_dual_bound": 237.98780488,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test58",
+        "mode": "lp",
+        "variant": "nomf",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.010435,
+        "first_primal_objective": 40.426829268,
+        "first_dual_bound": 40.426829268,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "mip",
+        "variant": "source",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.022678,
+        "first_primal_objective": 26114.91,
+        "first_dual_bound": 20971.3982242,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "mip",
+        "variant": "compiler",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.052828,
+        "first_primal_objective": 25604.86,
+        "first_dual_bound": 21053.5364249,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "mip",
+        "variant": "nomf",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.031249,
+        "first_primal_objective": 25984.62,
+        "first_dual_bound": 21163.5395072,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "lp",
+        "variant": "source",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.022519,
+        "first_primal_objective": 2866.85625,
+        "first_dual_bound": 2866.85625,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "lp",
+        "variant": "compiler",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.018552,
+        "first_primal_objective": 3378.0041667,
+        "first_dual_bound": 3378.0041667,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test55",
+        "mode": "lp",
+        "variant": "nomf",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.017894,
+        "first_primal_objective": 3975.4029888,
+        "first_dual_bound": 3975.4029888,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "mip",
+        "variant": "source",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.052949,
+        "first_primal_objective": 753.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "mip",
+        "variant": "compiler",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.286891,
+        "first_primal_objective": 679.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "mip",
+        "variant": "nomf",
+        "n": 1,
+        "status_counts": {
+          "Time limit reached": 1
+        },
+        "median_process_wall_s": 120.049759,
+        "first_primal_objective": 737.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "lp",
+        "variant": "source",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.149338,
+        "first_primal_objective": 250.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "lp",
+        "variant": "compiler",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.099696,
+        "first_primal_objective": 250.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      },
+      {
+        "case": "test69",
+        "mode": "lp",
+        "variant": "nomf",
+        "n": 3,
+        "status_counts": {
+          "Optimal": 3
+        },
+        "median_process_wall_s": 0.098428,
+        "first_primal_objective": 250.0,
+        "first_dual_bound": 250.0,
+        "finite_primal_in_all_samples": true,
+        "finite_dual_in_all_samples": true
+      }
+    ],
+    "controlled_process_accounting": {
+      "matched_solve_samples_total": 60,
+      "matched_MIP_samples": 15,
+      "matched_LP_samples": 45,
+      "samples_by_variant": {
+        "source": 20,
+        "compiler": 20,
+        "nomf": 20
+      },
+      "additional_conformance_probe_solve_processes": 2,
+      "all_model_solve_processes_including_probes": 62,
+      "solver_version_metadata_processes": 1,
+      "total_solver_process_launches_including_version": 63,
+      "matched_sample_reported_status_counts": {
+        "mip:Time limit reached": 12,
+        "lp:Optimal": 45,
+        "mip:Optimal": 3
+      },
+      "sum_matched_sample_process_wall_s": 1618.6215380000006,
+      "boundary": "One executable solve process per recorded matched/probe sample;one --version process is recorded by the evaluator source. These count this controlled evaluator only,not unrelated user jobs or Kernel canonicalization commands. Process-wall sums are not Agent time or total batch makespan."
+    },
+    "settings": {
+      "parallel": "off",
+      "threads": 1,
+      "random_seed": 0,
+      "time_limit": 120.0,
+      "repeats": 3,
+      "repeat_threshold_seconds": 30.0
+    },
+    "solver_version": "HiGHS version 1.15.1 Githash 252ef77233. Copyright (c) 2026 under MIT licence terms\nIncludes third-party software components, see THIRD_PARTY_NOTICES.md for full details",
+    "solver_sha256": "5c5a742df14b65c846a9e9c5512777c7c9707df504e78b879ff987f7f332c568",
+    "evaluator_sha256": "e083521b589913b4c0e84749c00ac4b5ac49504c43133927e01e5e3216e9573d",
+    "all_raw_mip_optimality_complete_flags_are_false": true,
+    "review_nonfinite_encoding": "Raw quality.json preserves its actual Infinity values. This strict JSON review renders them as+Infinity/-Infinity strings and records explicit finite-incumbent flags;no incumbent does not mean proven infeasible or unbounded.",
+    "numerical_solver_results_are_not_correctness_proof": true
+  },
+  "workflow": {
+    "compiler_total_s": 2530.749,
+    "nomf_total_s": 2588.169,
+    "ratio_of_totals": 0.9778144317469222,
+    "median_paired_ratio": 1.1874013196388546,
+    "boundary": "Full round sums and median paired ratios differ. Different targets/contracts prevent a causal speedup or equal-quality claim."
+  },
+  "positive_results": [
+    "All five fresh Compiler deliveries independently verify their actual complete Requests against pristine source and committed solver artifacts.",
+    "Natural subset_bounds adoption on test70,test38 and previously Compiler-untested test55.",
+    "Complex test58 bridge/series plus two Menu scopes and Signed recovery retained after proof-input repair,with all625affine observations.",
+    "Previously Compiler-untested test69 combines exact elimination and1500integer cuts;its bounded MIP incumbent is better than source and nomf in this fixed run.",
+    "Whole-round total Agent wall is close to nomf;both total ratio and slower median paired ratio remain reported."
+  ],
+  "material_unresolved_findings": [
+    "Test70 explicitly cites extra reconstruction/fiber-contract work when declining aggregation that nomf performs;this is observed convenience feedback,not proof of mathematical/API impossibility.",
+    "Quality is mixed: test70 only nomf has an incumbent;test55 nomf has stronger LP/dual;test58 both reformulations time out while the source reports Optimal.",
+    "Median paired Agent wall ratio1.187401 and only2/5faster cases prevent interpreting the favorable total as per-case parity or a causal prompt/API speedup.",
+    "The joint near-nomf quality,time and unaffected exploration criterion is not established."
+  ],
+  "mature_cohort_context": {
+    "rounds": "C5-C10",
+    "Compiler_formal_deliveries": 37,
+    "fresh_nomf_controls": 37,
+    "distinct_previously_tested_inputs": 16,
+    "formal_count_must_not_be_read_as_independent_cases": true,
+    "early_C1_C4_failures_are_preserved": true,
+    "historical_81_case_83_piece_replay_is_separate": true
+  },
+  "memory_is_acceptance_gate": false,
+  "implementation_changed_after_C10_freeze": false,
+  "new_experiment_launched_for_closeout": false,
+  "evidence": [
+    {
+      "path": "audit/compiler-agent/C10-final-round-controls.json",
+      "bytes": 4184,
+      "sha256": "2312456bb32c713ecc058bae41d7536898cf5834f69b1050849c8f43df12b877"
+    },
+    {
+      "path": "audit/compiler-agent/C10-package-snapshot.json",
+      "bytes": 4279,
+      "sha256": "c4a61269735c86ddb1c55ba59c038bacf0b1ca43e2aead5ae68a27bc4a018fa6"
+    },
+    {
+      "path": "audit/compiler-agent/C10-launch-integrity.json",
+      "bytes": 4331,
+      "sha256": "e363a88afbb2374e8d7b59e0c33be9e04a89915decb659907a921c69d36bf28f"
+    },
+    {
+      "path": "audit/compiler-agent/C10-process-observed-second.json",
+      "bytes": 2787,
+      "sha256": "1c04c2c85bc6cbdfcb19ceb950af3b68311a629d3f856a03098d05678929012c"
+    },
+    {
+      "path": "audit/compiler-agent/C10-process-stop.json",
+      "bytes": 1123,
+      "sha256": "dee5a7de14d063231bb0925d6bc892149c7a8dc7a0a1fdfa6611a9c8ba15b833"
+    },
+    {
+      "path": "audit/compiler-agent/C10-formal-summary.json",
+      "bytes": 32641,
+      "sha256": "9218699bde6fca0646acb27329185e65b56ecb409c8e20a8e0defc2b2e396c10"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-launch.json",
+      "bytes": 1206,
+      "sha256": "96b32286913353a15e7ce8f09fd6b56acfa444758533c4ff63c5760153b36f5c"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-process-stop.json",
+      "bytes": 1008,
+      "sha256": "dbdf5560bf92f6829c2689ae38f8a1e75f29f0ab9c6025210c2cbbe4b4eb726c"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality/quality.json",
+      "bytes": 91583,
+      "sha256": "0d2cac14330f1c0f7fc53d152c6ea9ef36677580c6bb45758f0d4a677c97b65f"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-review.json",
+      "bytes": 116493,
+      "sha256": "10af6879689c0bb1ea5f711c517c2633ce3f050277617fdd030a690842ba91f6"
+    },
+    {
+      "path": "audit/compiler-agent/C10-quality-raw-sha256.json",
+      "bytes": 50545,
+      "sha256": "ec61df5cf8e85ef7bbb6ea890562aabf10654649e5ae02d6cb627aad94db5b13"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test70-compiler-phase.json",
+      "bytes": 36344,
+      "sha256": "a7975100963fa1bb8db54c35879ec0671212545ba7feb3639f37443194436825"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test38-compiler-phase.json",
+      "bytes": 26879,
+      "sha256": "68de996db48a565bdec61c80b440c3241f7411bd9f139139971b8704823deab6"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test38-pair-review.json",
+      "bytes": 10315,
+      "sha256": "f5f92f71770bf397f7b099ee64c1655a672836e570523303ea64a5a93faf3fcc"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test58-phase.json",
+      "bytes": 29793,
+      "sha256": "6787b09f21346ddce634bb961d65a17d32b78bc7451915a1852003ff61cc2909"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test55-phase.json",
+      "bytes": 19710,
+      "sha256": "935b1bfc39ae886f3486d08695ca1cb440a1f6f3ed464ce9090d14ec08fa6561"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test55-pair.json",
+      "bytes": 13700,
+      "sha256": "1e0f090b0b125f99970b62e8ff60165f575743e04bb14f117d70e333c220d630"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test69-compiler-phase.json",
+      "bytes": 18175,
+      "sha256": "8a9d31d389d859fcc23d6d8d4168577fe4b06b1f0e050ce169939a6b2b939965"
+    },
+    {
+      "path": "audit/compiler-agent/C10-test69-pair-review.json",
+      "bytes": 10639,
+      "sha256": "0bff06d46b51590e031ca3b82d419fcb3c8670209d59c9a7a0771230a500a9ee"
+    }
+  ],
+  "project_wide_paper_report": "docs/PROJECT_RESULTS_FOR_PAPER.md",
+  "stop_plan": "Only documentation and evidence commit closeout remains; then stop/pause the original unmet joint goal at the explicit human stop request."
+}
