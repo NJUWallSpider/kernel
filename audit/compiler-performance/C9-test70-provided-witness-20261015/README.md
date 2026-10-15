@@ -1,4 +1,19 @@
-# C9 test70 supplied-proof regression (prepared, not executed)
+# C9 test70 supplied-proof regression
+
+Both sequential executions completed with `VERIFIED` after C9 quality stopped.
+See [comparison.json](comparison.json), [handwritten-result.json](handwritten-result.json),
+and [helper-result.json](helper-result.json). The source, target, Request,
+114,694,805-byte Certificate and 110,074,809-byte RPX are byte-identical across
+arms and match the original C9 proof. All 6,887 supplied subset Facts, complete
+maps, 522,056 obligations and native work statistics agree.
+
+Measured execution was 140.772 s handwritten versus 144.158 s helper; subset
+elaboration was 22.107 s versus 34.171 s. This single sample demonstrates
+equivalent elaboration and removal of handwritten derivation code, **not a
+runtime speedup**. Fresh Agent time and discoverability remain separate evidence.
+The recorded interpreter was Python 3.14.6 in the `bigdata` environment.
+
+The following preparation and execution contract was fixed before either arm ran.
 
 This checks a performance fix on the completed Agent's **provided mathematical
 proof**. It is not fresh autonomous acceptance, a new reformulation, a solver
@@ -99,7 +114,6 @@ recorded it is the Darwin Python parent's process-lifetime value, including
 the post-measurement oracle, not a process-tree peak and never an acceptance
 gate.
 
-Both `result.json` files must report `VERIFIED`; until then this preparation
-claims no successful replay or speedup. The root controller will copy compact
-results into the audit after execution. No further memory-only rounds are
-planned.
+Both `result.json` files must report `VERIFIED` before a successful replay is
+claimed. Compact result records are now copied into this audit. No further
+memory-only rounds are planned.
