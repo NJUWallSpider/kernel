@@ -1,0 +1,62 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 40962 rows; 10404 cols; 517112 nonzeros; 10404 integer variables (10404 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 1e+00]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 1e+00]
+Presolving model
+37690 rows, 9080 cols, 447738 nonzeros 0s
+30667 rows, 7173 cols, 342727 nonzeros 1s
+28033 rows, 238 cols, 9982 nonzeros 1s
+1112 rows, 237 cols, 2750 nonzeros 1s
+951 rows, 138 cols, 2092 nonzeros 1s
+774 rows, 93 cols, 1680 nonzeros 1s
+599 rows, 88 cols, 1618 nonzeros 1s
+485 rows, 35 cols, 1080 nonzeros 1s
+353 rows, 21 cols, 936 nonzeros 1s
+283 rows, 12 cols, 812 nonzeros 1s
+53 rows, 11 cols, 158 nonzeros 1s
+40 rows, 10 cols, 140 nonzeros 1s
+27 rows, 9 cols, 122 nonzeros 1s
+14 rows, 8 cols, 104 nonzeros 1s
+6 rows, 8 cols, 48 nonzeros 1s
+0 rows, 0 cols, 0 nonzeros 1s
+Presolve reductions: rows 0(-40962); columns 0(-10404); nonzeros 0(-517112) - Reduced to empty
+Presolve: Optimal
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   81              81                 0.00%        0      0      0         0     1.8s
+
+Solving report
+  Model             model
+  Status            Optimal
+  Primal bound      81
+  Dual bound        81
+  Gap               0% (tolerance: 0.01%)
+  P-D integral      0
+  Solution status   feasible
+                    81 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            1.84
+                    1.84 (Presolve)
+                    0.00 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             0
+  Repair LPs        0
+  LP iterations     0

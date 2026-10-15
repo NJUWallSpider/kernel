@@ -1,0 +1,41 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP reformulated has 1886 rows; 46313 cols; 1556330 nonzeros; 46313 integer variables (46275 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 2e+04]
+  Cost    [4e+01, 8e+06]
+  Bound   [1e+00, 3e+01]
+  RHS     [1e+00, 1e+00]
+WARNING: Problem has some excessively large costs
+WARNING:    Consider scaling the objective by 1e-1, or setting the user_objective_scale option to -4
+Solving LP relaxation since solve_relaxation is true
+Presolving model
+1886 rows, 46219 cols, 1556328 nonzeros 0s
+Dependent equations search running on 93 equations with time limit of 1.20s
+Dependent equations search removed 0 rows and 0 nonzeros in 0.00s (limit = 1.20s)
+1796 rows, 45536 cols, 1535760 nonzeros 0s
+Presolve reductions: rows 1796(-90); columns 45536(-777); nonzeros 1535760(-20570) 
+Solving the presolved LP
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -9.5774124988e+04 Ph1: 777(838.898); Du: 777(95774.1) 0.6s
+       1139     9.8797548331e+05 Pr: 0(0); Du: 0(1.73983e-14) 0.7s
+
+Performed postsolve
+Solving the original LP from the solution after postsolve
+WARNING: Solution optimality conditions
+    max           inf                                  integrality violations     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0) primal infeasibilities     (tolerance = 1e-06)
+num/max      0 /        0 (relative      0 /        0)   dual infeasibilities     (tolerance = 1e-07)
+                                         0 / 5.89e-17  P-D objective error        (tolerance = 1e-07)
+
+Model name          : reformulated
+Model status        : Optimal
+Simplex   iterations: 1139
+Objective value     :  9.8797548331e+05
+P-D objective error :  5.8916068707e-17
+HiGHS run time      :          0.73

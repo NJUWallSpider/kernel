@@ -1,0 +1,26 @@
+{
+  "checked_utc": "2026-10-15T06:06:17.412514+00:00",
+  "session": 86261,
+  "session_exit_code": 0,
+  "owned_driver_pid": 91057,
+  "observed_owned_pids": [
+    5546,
+    91057,
+    96022
+  ],
+  "present_observed": [],
+  "task_qualified_solver_or_driver_matches": [],
+  "quality_sha256": "9329c0739d72eedd63e8a09dc0bab9111ccd2a857526ad8a9fbe797e3e5930bf",
+  "closed_cases": [
+    "test28",
+    "test38",
+    "test60",
+    "test62",
+    "test70",
+    "test80",
+    "test65",
+    "test85"
+  ],
+  "status": "PASS",
+  "meaning": "All eight serial quality cases are closed and the owned quality driver/observed child processes have stopped. Does not assert globally no unrelated solver processes."
+}

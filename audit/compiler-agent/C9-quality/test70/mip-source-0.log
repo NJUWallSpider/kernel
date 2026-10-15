@@ -1,0 +1,68 @@
+Running HiGHS 1.15.1 (git hash: 252ef77233): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Command line parsed using CLI11 2.5.0: Copyright (c) 2017-2025 University of Cincinnati
+Set option parallel to "off"
+Set option threads to 1
+Set option time_limit to 120
+MIP model has 2187 rows; 48417 cols; 1995817 nonzeros; 48417 integer variables (48417 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 2e+04]
+  Cost    [4e+01, 8e+06]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 4e+01]
+WARNING: Problem has some excessively large costs
+WARNING:    Consider scaling the objective by 1e-1, or setting the user_objective_scale option to -4
+Presolving model
+2184 rows, 47809 cols, 1995488 nonzeros 0s
+1748 rows, 22819 cols, 717943 nonzeros 5s
+   Considered 2036 / 22819 binaries; 2036 probed  (rate 2/ms => expected probing finish time 63s) 12s
+   Considered 3416 / 22819 binaries; 3416 probed  (rate 3/ms => expected probing finish time 87s) 17s
+   Considered 4827 / 22819 binaries; 4827 probed  (rate 3/ms => expected probing finish time 86s) 22s
+   Considered 6269 / 22819 binaries; 6269 probed  (rate 3/ms => expected probing finish time 84s) 27s
+   Considered 7726 / 22819 binaries; 7726 probed  (rate 3/ms => expected probing finish time 84s) 32s
+   Considered 2213 / 21818 binaries; 2213 probed  (rate 2/ms => expected probing finish time 83s) 39s
+   Considered 3780 / 21818 binaries; 3780 probed  (rate 3/ms => expected probing finish time 102s) 44s
+   Considered 5399 / 21818 binaries; 5399 probed  (rate 3/ms => expected probing finish time 100s) 49s
+   Considered 7007 / 21818 binaries; 7007 probed  (rate 3/ms => expected probing finish time 100s) 54s
+   Considered 8667 / 21818 binaries; 8667 probed  (rate 3/ms => expected probing finish time 99s) 59s
+   Considered 10362 / 21818 binaries; 10362 probed  (rate 2/ms => expected probing finish time 98s) 64s
+   Considered 2429 / 20787 binaries; 2429 probed  (rate 2/ms => expected probing finish time 112s) 74s
+   Considered 4324 / 20787 binaries; 4324 probed  (rate 2/ms => expected probing finish time 122s) 79s
+   Considered 6185 / 20787 binaries; 6185 probed  (rate 2/ms => expected probing finish time 123s) 84s
+   Considered 8141 / 20787 binaries; 8141 probed  (rate 2/ms => expected probing finish time 121s) 89s
+   Considered 10036 / 20787 binaries; 10036 probed  (rate 2/ms => expected probing finish time 122s) 94s
+   Considered 11923 / 20787 binaries; 11923 probed  (rate 2/ms => expected probing finish time 123s) 99s
+   Considered 13868 / 20787 binaries; 13868 probed  (rate 2/ms => expected probing finish time 122s) 104s
+   Considered 15810 / 20787 binaries; 15810 probed  (rate 2/ms => expected probing finish time 122s) 109s
+   Considered 17788 / 20787 binaries; 17788 probed  (rate 2/ms => expected probing finish time 122s) 114s
+   Considered 20426 / 20787 binaries; 20426 probed  (rate 2/ms => expected probing finish time 120s) 119s
+Time limit reached in probing: consider not using probing by setting option presolve_rule_off to 2^15 = 32768
+Presolve reductions: rows 1741(-446); columns 20787(-27630); nonzeros 603865(-1391952) 
+Presolve: Time limit reached
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   -inf            inf                  inf        0      0      0         0   120.1s
+
+Solving report
+  Model             model
+  Status            Time limit reached
+  Primal bound      inf
+  Dual bound        -inf
+  Gap               inf
+  P-D integral      0
+  Solution status   -
+  Timing            120.13
+                    120.12 (Presolve)
+                    0.00 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             0
+  Repair LPs        0
+  LP iterations     0

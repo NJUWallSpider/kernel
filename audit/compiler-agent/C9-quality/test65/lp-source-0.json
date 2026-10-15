@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality/test65/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/input/model.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 100.057009,
+  "load_average_at_start": [
+    3.13427734375,
+    3.67578125,
+    3.6123046875
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality/test65/lp-source-0.log",
+  "rows": 277594,
+  "variables": 154978,
+  "nonzeros": 788969,
+  "status": "Optimal",
+  "primal_objective": 33246.215059,
+  "solver_seconds": 99.7,
+  "simplex_iterations": 240712,
+  "dual_bound": 33246.215059,
+  "optimal": true
+}

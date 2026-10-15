@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/Users/bhz/.local/bin/highs",
+    "--options_file",
+    "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality/test85/lp.options",
+    "/Users/bhz/Code/reform_test/runs/test85-nomf-compiler-batch-C9-20261015/output/model.mps"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 12.941298,
+  "load_average_at_start": [
+    3.8203125,
+    4.439453125,
+    4.0693359375
+  ],
+  "log": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-quality/test85/lp-nomf-0.log",
+  "rows": 1923,
+  "variables": 8544,
+  "nonzeros": 47080,
+  "status": "Optimal",
+  "primal_objective": 81.0,
+  "solver_seconds": 12.91,
+  "simplex_iterations": 68344,
+  "dual_bound": 81.0,
+  "optimal": true
+}
