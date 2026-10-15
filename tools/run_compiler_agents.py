@@ -328,7 +328,34 @@ def assess(run, binary, arm, *, expected_input_sha256):
     return result
 
 
-def create_workspace(batch, corpus, case, arm, interpreter, binary, api_doc):
+def selected_compiler_inputs(compiler_package=None, compiler_protocol=None):
+    package = Path(compiler_package or ROOT / "python/kernel_compiler").resolve()
+    protocol = Path(compiler_protocol or ROOT / "docs/COMPILER_AGENT_PROTOCOL.md").resolve()
+    if not (package / "__init__.py").is_file():
+        raise ValueError(f"missing selected compiler package: {package}")
+    if not protocol.is_file():
+        raise ValueError(f"missing selected compiler protocol: {protocol}")
+    return package, protocol
+
+
+def compiler_source_metadata(package, protocol, binary, api_doc):
+    return {
+        "package": {"path": str(package), "files_sha256": {
+            str(path.relative_to(package)): digest(path)
+            for path in sorted(package.rglob("*"))
+            if path.is_file() and "__pycache__" not in path.relative_to(package).parts
+            and path.suffix != ".pyc"}},
+        "protocol": {"path": str(protocol), "sha256": digest(protocol)},
+        "api_doc": {"path": str(Path(api_doc).resolve()), "sha256": digest(api_doc)},
+        "kernel": {"path": str(Path(binary).resolve()), "sha256": digest(binary)},
+    }
+
+
+def create_workspace(batch, corpus, case, arm, interpreter, binary, api_doc, *,
+                     compiler_package=None, compiler_protocol=None):
+    if arm == "compiler":
+        package, protocol = selected_compiler_inputs(compiler_package, compiler_protocol)
+        selected_sources = compiler_source_metadata(package, protocol, binary, api_doc)
     run = corpus / "runs" / f"{case}-{arm}-{batch.name}"
     run.mkdir()  # Never reuse or modify a historical workspace.
     for directory in ("input", "output", ".omp"):
@@ -350,10 +377,10 @@ def create_workspace(batch, corpus, case, arm, interpreter, binary, api_doc):
             if old not in baseline_protocol:
                 raise ValueError("nomf protocol changed; review the compiler exception before launch")
             baseline_protocol = baseline_protocol.replace(old, new, 1)
-        baseline_protocol += "\n\n" + (ROOT / "docs/COMPILER_AGENT_PROTOCOL.md").read_text()
+        baseline_protocol += "\n\n" + protocol.read_text()
     (run / "protocol.md").write_text(baseline_protocol)
     if arm == "compiler":
-        shutil.copytree(ROOT / "python/kernel_compiler", run / "compiler/python/kernel_compiler",
+        shutil.copytree(package, run / "compiler/python/kernel_compiler",
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
         (run / "compiler/bin").mkdir()
         shutil.copy2(binary, run / "compiler/bin/rpx")
@@ -366,6 +393,7 @@ def create_workspace(batch, corpus, case, arm, interpreter, binary, api_doc):
         "protocol_sha256": digest(run / "protocol.md"), "interpreter": str(interpreter),
         "compiler_snapshot": {str(p.relative_to(run)): digest(p)
             for p in sorted((run / "compiler").rglob("*")) if p.is_file()},
+        **({"compiler_sources": selected_sources} if arm == "compiler" else {}),
         "baseline_solutions_exposed": False, "filesystem_boundary": "protocol only"})
     return run
 
@@ -454,6 +482,8 @@ def main():
     parser.add_argument("--interpreter", type=Path, default=INTERPRETER)
     parser.add_argument("--kernel", type=Path, default=ROOT / "target/release/rpx")
     parser.add_argument("--api-doc", type=Path, default=ROOT / "docs/COMPILER_API.md")
+    parser.add_argument("--compiler-package", type=Path, default=ROOT / "python/kernel_compiler")
+    parser.add_argument("--compiler-protocol", type=Path, default=ROOT / "docs/COMPILER_AGENT_PROTOCOL.md")
     parser.add_argument("--id", default=datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y%m%d-%H%M%S"))
     parser.add_argument("--jobs", type=int, default=2)
     parser.add_argument("--model", default="gpt-6.1-sol")
@@ -480,9 +510,14 @@ def main():
     omp = shutil.which("omp")
     if not omp or not args.interpreter.is_file() or not args.kernel.is_file():
         parser.error("omp, the pinned Python interpreter, and a built RPX kernel are required")
-    if "compiler" in arms and (not args.api_doc.is_file()
-            or not (ROOT / "python/kernel_compiler/__init__.py").is_file()):
-        parser.error("Python compiler package and public API documentation must be ready before launch")
+    if "compiler" in arms:
+        try:
+            args.compiler_package, args.compiler_protocol = selected_compiler_inputs(
+                args.compiler_package, args.compiler_protocol)
+        except ValueError as error:
+            parser.error(str(error))
+        if not args.api_doc.is_file():
+            parser.error("Python compiler public API documentation must be ready before launch")
     batch = args.corpus / "runs" / f"compiler-batch-{args.id}"
     batch.mkdir()
     # Capture and load the independent evaluator before any agents start.
@@ -506,12 +541,16 @@ def main():
         "max_time": args.max_time, "hard_timeout_s": args.hard_timeout,
         "omp_version": version, "omp_sha256": digest(omp), "kernel_sha256": digest(kernel),
         "git_head": git_head, "concurrency": args.jobs, "historical_baseline": historical_metrics(args.corpus, cases),
+        "compiler_sources": compiler_source_metadata(args.compiler_package, args.compiler_protocol,
+            args.kernel, args.api_doc) if "compiler" in arms else None,
         "input_sha256": input_catalog,
         "harness_snapshot": {str(p.relative_to(batch)): digest(p)
                              for p in sorted((batch / "harness").glob("*.py"))},
         "historical_baseline_is_not_a_fresh_matched_control": True})
     workspaces = [create_workspace(batch, args.corpus, case, arm, args.interpreter,
-                                  kernel, args.api_doc) for case in cases for arm in arms]
+                                  kernel, args.api_doc, compiler_package=args.compiler_package,
+                                  compiler_protocol=args.compiler_protocol)
+                  for case in cases for arm in arms]
     expected_inputs = {run: input_catalog[run.name.split("-")[0]] for run in workspaces}
     if any(digest(run / "input/model.mps") != expected_inputs[run] for run in workspaces):
         raise ValueError("source changed during workspace preparation")

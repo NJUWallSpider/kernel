@@ -207,3 +207,38 @@ replay explicitly retains that reference, regenerates all outputs, and verifies
 with byte-identical artifacts; the initial failure remains preserved. These
 are distinct reproducibility outcomes. **C5 does not establish the complete
 quality-and-near-nomf-time acceptance goal.**
+
+
+## Prompt-only follow-up controls
+
+The [C6 public-event diagnosis](../audit/compiler-agent/C6-phase-diagnostics.json)
+contains completed paired runs for test9 and test16; it is not a final C6
+quality result. Test16 has four independently accepted MI/LP inverse-linked
+claims. Its first complete final-artifact verification is at 508.17 seconds,
+while the Agent ends at 704.36 seconds. The subsequent 196.18 seconds include
+saving authoring code, scope checks and reporting. These visible intentions
+support a packaging-cost hypothesis; they do not assign every second to the
+prompt or prove a causal improvement.
+
+Inspection found that the compiler protocol concatenates the shared nomf
+instructions with a second complete analysis/report workflow. The C6 compiler
+prompt is 14,422 bytes, compared with the 5,970-byte nomf protocol. The added
+workflow also requires a standalone proof-construction program, whereas nomf
+explicitly encourages persistent interactive work. That requirement is an
+extra delivery burden, separate from constructing and verifying the proof.
+
+The revised supplement keeps the shared mathematical task once and adds only
+compiler-specific contract, verification and delivery instructions. Independent
+source anchoring, complete target/artifact binding, every submitted Request,
+ordered claim-path checks and failure transparency remain required. A separate
+authoring script is optional; the actual Python construction calls, canonical
+models, RPX, Request and successful receipt remain preserved. Serialized-proof
+replay is not a substitute for fresh autonomous proof construction.
+
+The [C7 controls](../audit/compiler-agent/C7-prompt-controls.json) fix the
+compiler package and API at the same `231e6f4` snapshot as C6, with the same
+kernel, model, budgets, six cases and fresh nomf controls. The new package/path
+selection flags allow this prompt experiment to exclude ongoing library
+changes. Compare actual reformulations, claim scopes, quality, full wall time
+and work after verification together; shorter time from a weaker target is
+not a successful result. Launch and outcome are recorded separately.
