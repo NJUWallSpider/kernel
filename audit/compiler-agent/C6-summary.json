@@ -128,7 +128,8 @@
             "target_canonical_bytes_equal_independent_committed_canonical": false,
             "artifact_audit": "MATCHED",
             "artifact_audit_method": "Kernel standard-format readback and exact named formulation comparison",
-            "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ"
+            "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+            "canonical_byte_difference_explanation": "Independent exported JSON has identical model NAME, variables and objective. Exactly ten generated lower-bound rows fold affine constant1/lower0 into affine constant0/lower-1 in MPS, preserving the same named constraint. The independent harness and artifact audit compare these normalized exact inequalities."
           },
           "endpoint_readers": [
             {

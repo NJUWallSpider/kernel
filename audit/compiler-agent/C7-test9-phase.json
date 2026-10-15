@@ -1,0 +1,567 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-v1",
+  "case": "test9",
+  "scope": "Read-only completed C7 compiler/nomf public events and delivery artifacts, aligned with C6 compiler. No private reasoning copied; no solver, author replay or further Agent action. Other C7 runs remain untouched.",
+  "C6_compiler": {
+    "run": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C6-20261015",
+    "agent_wall_s": 577.156,
+    "metrics": {
+      "llm_time_s": 571.166,
+      "tool_time_s": 4.673,
+      "tool_calls": 29,
+      "tool_calls_failed": 1
+    },
+    "assessment_errors": [],
+    "kernel_verified": true,
+    "target_shape": {
+      "variables": 1399,
+      "rows": 886,
+      "integers": 170,
+      "nonzeros": 3814,
+      "objective_nonzeros": 1399
+    },
+    "model_sha256": "5aaa3f8cbe2e9672d9024ad32ec9f8f134d4bbdf48fcb4bedefb7ac458942218",
+    "actual_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "first_final_artifact_check_s": 449.116,
+    "post_check_remaining_s": 128.04,
+    "eval_time_after_check_s": 0.023,
+    "cells": [
+      {
+        "seconds": 13.841,
+        "title": "Loading exact model",
+        "duration_ms": 417,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 20.251,
+        "title": "Characterizing exact structure",
+        "duration_ms": 26,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 37.058,
+        "title": "Inspecting equality and auxiliary roles",
+        "duration_ms": 25,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 53.498,
+        "title": "Testing coordinate pairing hypothesis",
+        "duration_ms": 13,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 75.57,
+        "title": "Verifying complete auxiliary partition",
+        "duration_ms": 16,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 96.829,
+        "title": "Establishing path structure exactly",
+        "duration_ms": 25,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 176.213,
+        "title": "Constructing exact elimination candidate",
+        "duration_ms": 90,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 238.107,
+        "title": "Testing additional structural candidates",
+        "duration_ms": 11,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 258.074,
+        "title": "Deriving compact cardinality family",
+        "duration_ms": 9,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 305.52,
+        "title": "Defining final target and claims",
+        "duration_ms": 2640,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 317.6,
+        "title": "Authoring exact certificate obligations",
+        "duration_ms": 321,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 327.588,
+        "title": "Completing dependency-ordered proof",
+        "duration_ms": 236,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 354.074,
+        "title": "Checking exact reconstruction identities",
+        "duration_ms": 27,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 364.007,
+        "title": "Checking penalty retention tradeoff",
+        "duration_ms": 7,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 428.368,
+        "title": "Saving reproducible proof construction",
+        "duration_ms": 5,
+        "status": "error",
+        "exit_code": 1
+      },
+      {
+        "seconds": 438.187,
+        "title": "Completing reproducible proof script",
+        "duration_ms": 393,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 449.116,
+        "title": "Verifying final RPX and MPS",
+        "duration_ms": 307,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 456.309,
+        "title": "Recording verified contract scope",
+        "duration_ms": 16,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 549.701,
+        "title": "Writing final mathematical report",
+        "duration_ms": 7,
+        "status": "complete",
+        "exit_code": 0
+      }
+    ],
+    "contract_summary_calls": [
+      {
+        "seconds": 305.52,
+        "expression": "proof.contract_summary(max_items=2)"
+      }
+    ],
+    "receipt_request_summary_consumed": true,
+    "standalone_author_script_exists": true,
+    "provenance_sha256": {
+      "protocol.md": "6e219469be7e20dde1f4f82a5b86c484613f57ea725b179f18370f30f4e6b8fa",
+      "session.jsonl": "f6a78e6361a33b6a91529e2bf435b6882fb3244c3127c5bc6d606f18d8d5e626",
+      "execution.json": "b405a55c3496aac3b71dd72a784483cd5d9abd93c94d83503f3791c13d4b4a79",
+      "assessment.json": "43aaf2ff9b7e48bc13785921716996a94825d34176d6745fa1e60e1425e9683a",
+      "output/report.md": "c1ebf882ee1bf68c76d728eb4a7605f8a077794ebf250cfe554fe02c16ebf617",
+      "output/verification.json": "0f6674a1ca8198f4c3a6f88d326b0b4fb68a99bb99b802b2a2ce83c01cdf6c3d"
+    },
+    "claims": [
+      {
+        "reverse": false,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 1,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      },
+      {
+        "reverse": true,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 0,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      },
+      {
+        "reverse": true,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": null,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      }
+    ],
+    "receipt_status": "VERIFIED",
+    "artifact_audit_status": "MATCHED",
+    "receipt_hash_matches_assessed_model": true,
+    "native_total_s": 0.033828
+  },
+  "C7_compiler": {
+    "run": "/Users/bhz/Code/reform_test/runs/test9-compiler-compiler-batch-C7-20261015",
+    "agent_wall_s": 251.949,
+    "metrics": {
+      "llm_time_s": 248.718,
+      "tool_time_s": 2.281,
+      "tool_calls": 20,
+      "tool_calls_failed": 0
+    },
+    "assessment_errors": [],
+    "kernel_verified": true,
+    "target_shape": {
+      "variables": 1399,
+      "rows": 846,
+      "integers": 170,
+      "nonzeros": 3264,
+      "objective_nonzeros": 1399
+    },
+    "model_sha256": "44a9f826c84bdda9ef0358dbb9ecab618e9aef543dace3c793c07d07c8a8bc58",
+    "actual_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "first_final_artifact_check_s": 183.384,
+    "post_check_remaining_s": 68.565,
+    "eval_time_after_check_s": 0.015,
+    "cells": [
+      {
+        "seconds": 14.358,
+        "title": "Loading exact model representation",
+        "duration_ms": 446,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 24.848,
+        "title": "Profiling exact sparsity and bounds",
+        "duration_ms": 7,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 31.391,
+        "title": "Inspecting complete block signatures",
+        "duration_ms": 8,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 49.558,
+        "title": "Tracing elimination and aggregation candidates",
+        "duration_ms": 9,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 80.742,
+        "title": "Verifying complete affine elimination scope",
+        "duration_ms": 56,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 105.497,
+        "title": "Checking redundancy and representation costs",
+        "duration_ms": 41,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 135.805,
+        "title": "Constructing chosen exact target",
+        "duration_ms": 258,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 148.338,
+        "title": "Authoring integer and continuous bijections",
+        "duration_ms": 593,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 161.135,
+        "title": "Completing dependency-ordered proof witnesses",
+        "duration_ms": 486,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 183.384,
+        "title": "Verifying final committed formulation",
+        "duration_ms": 299,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 197.727,
+        "title": "Recording verified scope and edit totals",
+        "duration_ms": 8,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 242.585,
+        "title": "Writing final mathematical report",
+        "duration_ms": 7,
+        "status": "complete",
+        "exit_code": 0
+      }
+    ],
+    "contract_summary_calls": [
+      {
+        "seconds": 148.338,
+        "expression": "proof.contract_summary(max_items=2)"
+      }
+    ],
+    "receipt_request_summary_consumed": true,
+    "standalone_author_script_exists": false,
+    "provenance_sha256": {
+      "protocol.md": "9acd04f77f86bb40e4d3a342ebe953156f4d8fd226d9929b63a2c30dae711023",
+      "session.jsonl": "3fb999ec8f4bd9975a115b806badba2081f7433b2a36227084c6288022159a6c",
+      "execution.json": "52e55841399046ae68ea543132f6d2c052d58382c0932cc2a03f5a21297c55c3",
+      "assessment.json": "e95174e0a8d19e97d29e924ebd875679ca74b8d14d6b1a18525feafa0b1f0842",
+      "output/report.md": "c520daaaa0185a8ca54f4dd051d98a8a1f15fe74c134c11faeb2b3879e41d65e",
+      "output/verification.json": "b3443be320ce6e61ba89ffaaeb791e9a026736384220a496f599895644d07ab8"
+    },
+    "claims": [
+      {
+        "reverse": false,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 1,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      },
+      {
+        "reverse": true,
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse": 0,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      },
+      {
+        "reverse": false,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": 3,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      },
+      {
+        "reverse": true,
+        "input_integers": false,
+        "output_integers": false,
+        "objective": "Equal",
+        "inverse": 2,
+        "projection_count": 1399,
+        "affine_projection_count": 0
+      }
+    ],
+    "receipt_status": "VERIFIED",
+    "artifact_audit_status": "MATCHED",
+    "receipt_hash_matches_assessed_model": true,
+    "native_total_s": 0.053382
+  },
+  "C7_nomf": {
+    "run": "/Users/bhz/Code/reform_test/runs/test9-nomf-compiler-batch-C7-20261015",
+    "agent_wall_s": 505.278,
+    "metrics": {
+      "llm_time_s": 503.123,
+      "tool_time_s": 1.105,
+      "tool_calls": 21,
+      "tool_calls_failed": 0
+    },
+    "assessment_errors": [],
+    "kernel_verified": false,
+    "target_shape": {
+      "variables": 1535,
+      "rows": 846,
+      "integers": 170,
+      "nonzeros": 3553,
+      "objective_nonzeros": 1535
+    },
+    "model_sha256": "3ce27fc4b0b85af0d1f0979f50c9093ad72425ca90b9f58a0d6916793392ea54",
+    "actual_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "trusted_input_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "first_final_artifact_check_s": 322.444,
+    "post_check_remaining_s": 182.834,
+    "eval_time_after_check_s": 0.189,
+    "cells": [
+      {
+        "seconds": 14.993,
+        "title": "Locating MPS sections",
+        "duration_ms": 81,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 36.088,
+        "title": "Parsing exact model data",
+        "duration_ms": 43,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 46.37,
+        "title": "Identifying matrix structure",
+        "duration_ms": 15,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 71.033,
+        "title": "Testing elimination opportunities",
+        "duration_ms": 10,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 104.378,
+        "title": "Examining terminal-variable alternatives",
+        "duration_ms": 15,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 119.861,
+        "title": "Testing capacity and equality hypotheses",
+        "duration_ms": 322,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 174.14,
+        "title": "Constructing exact candidate algebra",
+        "duration_ms": 105,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 193.11,
+        "title": "Verifying candidate equivalence",
+        "duration_ms": 72,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 235.596,
+        "title": "Serializing final formulation",
+        "duration_ms": 24,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 267.006,
+        "title": "Writing committed model and audit",
+        "duration_ms": 27,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 322.444,
+        "title": "Independently auditing written MPS",
+        "duration_ms": 146,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 341.751,
+        "title": "Recording boundary proof witness",
+        "duration_ms": 3,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 378.151,
+        "title": "Proving capacity relaxation implication",
+        "duration_ms": 11,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 391.039,
+        "title": "Verifying capacity strengthening certificate",
+        "duration_ms": 171,
+        "status": "complete",
+        "exit_code": 0
+      },
+      {
+        "seconds": 473.192,
+        "title": "Writing final evidence report",
+        "duration_ms": 4,
+        "status": "complete",
+        "exit_code": 0
+      }
+    ],
+    "contract_summary_calls": [],
+    "receipt_request_summary_consumed": false,
+    "standalone_author_script_exists": false,
+    "provenance_sha256": {
+      "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+      "session.jsonl": "d6557773098048adcd80eb4ab1f8b1293c06e7d5b78d9bb452a0a2fcb66b1f58",
+      "execution.json": "24e682e537ab25f91862a2da27aceb9e076202d85d0fb1efdaa14f26723be765",
+      "assessment.json": "e972989621b055dba9ef66ca5100da5af20f434f2bf96f960358a63128d7960b",
+      "output/report.md": "ce383f0decaaf1c522abba9548ca009c01d68a6af3ca65fb1d4d4777ff444a06",
+      "output/verification.json": "e263e129ce1fa07f2df3cb6cb225d841ffc84d9c6f7199dd43dc471ac3f62c9a"
+    }
+  },
+  "observed_differences": {
+    "compiler_wall_reduction_s": 325.207,
+    "compiler_first_final_verification_earlier_s": 265.732,
+    "compiler_post_verification_remaining_reduction_s": 59.475,
+    "C7_wall_ratio_compiler_to_nomf": 0.498634,
+    "causal_status": "Observation only. In particular, the 59.475-second reduction in work after final verification is not a causal prompt-effect estimate. Different mathematical exploration, targets, scopes and nondeterministic Agent behavior prevent attributing the full wall-time difference to verification or the new prompt."
+  },
+  "math_and_contract_boundary": {
+    "C6_compiler": "899 affine eliminations plus 40 integer capacity cardinality cuts. MI Equal inverse pair and reverse LP Equal, with 1399 observations.",
+    "C7_compiler": "899 affine eliminations and 180 redundant nonnegativity rows omitted; no capacity edits/cuts. Four unrestricted Equal inverse claims establish both MI and LP affine bijections, with 1399 observations each.",
+    "C7_nomf": "763 affine eliminations plus ten integerized capacity rows with RHS 8433, independently checked by 131072 local binary masks. Manual MI correspondence and reverse LP implication, not a Kernel proof.",
+    "comparison_limit": "C7 compiler has broader LP equivalence but does not undertake the capacity strengthening selected by C6 compiler and C7 nomf. Dimensions and elapsed time do not establish equivalent solver quality."
+  },
+  "capacity_opportunity_review": {
+    "capacity_rows_encountered": true,
+    "public_evidence": [
+      {
+        "seconds": 24.848,
+        "title": "Profiling exact sparsity and bounds",
+        "observation": "The full row-class summary includes ten 17-coordinate upper-capacity rows with exact RHS."
+      },
+      {
+        "seconds": 31.391,
+        "title": "Inspecting complete block signatures",
+        "observation": "Public code/output inspects the complete surrounding row block, including the capacity rows."
+      }
+    ],
+    "public_capacity_strengthening_candidate_or_proof_attempt_observed": false,
+    "public_API_failure_causing_capacity_retreat_observed": false,
+    "boundary": "Seeing the capacity rows does not establish that the Agent discovered an integer strengthening. No public computational result, submitted report or actual API call shows a proposed capacity-strengthening witness, an unexpressible proof, or an explicit choice to drop such a proof. The internal reason for not pursuing it is not inferred.",
+    "other_selection_tradeoff": "The 916-coordinate aggressive affine candidate introduces 17 large negative objective coefficients. The report explicitly retains those 17 penalty coordinates to avoid introduced cancellation. That is a stated representation choice, not an observed API failure.",
+    "authoring_friction": "Both integer and continuous forward blocks initially show 307 unresolved inequalities from pivot ordering. Dependent-first ordering completes all four maps on the same target. No native failure or weaker target substitution follows."
+  },
+  "nomf_report_hash_metadata": {
+    "reported_source_sha256": "8167e7544794290362363048270535fa3a726885eaa35aaa8b13adc7c175f365",
+    "actual_trusted_source_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+    "normalized_read_text_sha256": "8167e7544794290362363048270535fa3a726885eaa35aaa8b13adc7c175f365",
+    "actual_input_matches_trusted": true,
+    "explanation": "The report/own verifier labels a normalized-text hash as the source SHA. It differs from the raw file-byte digest used by the independent harness. Normalized read_text reproduces that reported value; the actual frozen input bytes still match the trusted launch hash. This is metadata labeling, not evidence of input mutation."
+  },
+  "quality_status": "PENDING; no solver quality result or end-to-end acceptance claim."
+}
