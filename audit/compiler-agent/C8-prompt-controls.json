@@ -1,0 +1,141 @@
+{
+  "schema": "compiler-prompt-only-experiment-v1",
+  "created_utc": "2026-10-15T03:08:14.109074+00:00",
+  "status": "NOT_LAUNCHED",
+  "control_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015",
+  "treatment_id": "C8-20261015",
+  "planned_treatment_batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C8-20261015",
+  "cases": [
+    "test9",
+    "test16",
+    "test88",
+    "test58",
+    "test63",
+    "test51"
+  ],
+  "fixed_controls": {
+    "compiler_source_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+    "compiler_snapshot": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015",
+    "files_sha256": {
+      "docs/COMPILER_API.md": "0dd54c83f501526389be2a5ef2277027a07e6e3d45b03aec2ec0a1b0e6c47b97",
+      "docs/FORMAT.md": "693332a10ecfb2ee9ed2676684d6ff6f4cbaed3346eafd26ad990855c7f13a96",
+      "python/kernel_compiler/__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+      "python/kernel_compiler/backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+      "python/kernel_compiler/bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+      "python/kernel_compiler/expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+      "python/kernel_compiler/model.py": "420160cea8e6e40ff01a154c4cd4976146acb307a41e2bceed32ed2dcf892dac",
+      "python/kernel_compiler/mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+      "python/kernel_compiler/mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+      "python/kernel_compiler/proof.py": "791c0c087c4b255f77bf38b38ad6b731816e803d8fb17a11d73606cd33cfec03",
+      "python/kernel_compiler/request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+      "python/kernel_compiler/session.py": "80a66168f6105253dbd0ac729d5d7336b624fa2567194bf0dbaa8e2e69dae9c3",
+      "python/tests/test_proof.py": "def11d083e2c941a6ffda5d9c2dc54fee5fdd3dda1f1bc4d3274c5272b47a42b"
+    },
+    "kernel_sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4",
+    "baseline_protocol_sha256": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+    "original_inputs_sha256": {
+      "test9": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+      "test16": "d39273f74cdd8249ff459ae5c4056753ab11036d02624c09470b6949fbc071b4",
+      "test88": "753a5e9d2be4998a2109eaeccbb2f9c2710682887f2d112bcc5fcf8877319c7a",
+      "test58": "dee9319d16032902854d40ce241e608649eb3b94f3e8292a59c25cc978c6b3d0",
+      "test63": "bde6f152055ffed6fcf8c0e53429011f0820f21c4c6bb602514c69df648f1a5a",
+      "test51": "fbdfa9268258e2e3dbbb2f94352c235d6ba89b0ed581620e964f1cebe96b79a4"
+    },
+    "model": "gpt-6.1-sol",
+    "thinking": "high",
+    "tools": "eval,read",
+    "interpreter": "/Users/bhz/miniforge3/envs/bigdata/bin/python",
+    "jobs": 3,
+    "agent_max_time": "30m",
+    "hard_timeout_s": 2280,
+    "kernel_path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015/kernel/rpx",
+    "compiler_package_path": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/python/kernel_compiler",
+    "api_doc_path": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/docs/COMPILER_API.md"
+  },
+  "prompt_treatment": {
+    "previous_addon_bytes": 3579,
+    "new_addon_bytes": 4022,
+    "previous_addon_sha256": "9c35f5e28e40fbaab163b39eae2e4448df9e8f22d52815caf8b08ad9bd095b64",
+    "new_addon_sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90",
+    "file": "docs/COMPILER_AGENT_PROTOCOL.md",
+    "previous_combined_protocol_bytes": 9611,
+    "expected_combined_protocol_bytes": 10054,
+    "expected_combined_protocol_sha256": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+    "change_bundle": [
+      {
+        "change": "Develop mathematical candidates before committing to proof builders; successful verification alone does not finish exploration. Model/proof APIs remain available throughout.",
+        "evidence_boundary": "Possible early stopping is a hypothesis, not an established reason for the mathematical difference. No candidate list, required count, rigid phase barrier or case strategy is supplied."
+      },
+      {
+        "change": "Construct invariant membership sets/indexes once, then reuse sparse batches.",
+        "evidence_boundary": "The whole cell is not an isolated timing of one line. This advice already appears in frozen API.md:189-191, which C7 test16 read. Main-prompt placement tests salience, not a new capability."
+      },
+      {
+        "change": "Keep full Requests/maps/observations on disk, display bounded summaries and selected entries without reducing proof coverage.",
+        "evidence_boundary": "Output hygiene is a low-cost precaution; no standalone speedup from this addition has been measured."
+      }
+    ],
+    "interpretation": "The three prompt edits form one combined hypothesis. This design does not independently identify the effect of candidate development, set/index salience, or output hygiene; no independent causal or quality claim is made."
+  },
+  "formal_acceptance_unchanged": [
+    "Fresh Agent must construct and invoke its own Python proof during the run; no supplied proof or certificate replay can substitute.",
+    "Independently anchor source to trusted pristine input, bind complete final target to committed solver artifact and verify every submitted Request and composed stage path.",
+    "Preserve mathematical exploration and strongest justified target; fewer claims or a weaker target do not establish a successful prompt optimization."
+  ],
+  "measurements": [
+    "Full Agent wall, tool and assistant durations; same budget and model in fresh nomf controls.",
+    "Time of first complete final-artifact verification and subsequent work, with visible-event timing boundaries.",
+    "Actual transformation, model structure, declared domains/maps/objective/observations and signs of proof-forced retreat.",
+    "Post-commit serial matched solver-quality measurements, after all active Agents stop."
+  ],
+  "source_isolation": {
+    "frozen_compiler_checkpoint": "231e6f40ce8c01afd9d93ef1e9496f74d0100703",
+    "excluded_streaming_checkpoint": "72fb200da537735b7529fc2f900f490309423e41",
+    "excluded_feature": "Streaming Model.load and _mcm reader added after the frozen 231 source.",
+    "planned_overrides": {
+      "--compiler-package": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/python/kernel_compiler",
+      "--api-doc": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/docs/COMPILER_API.md",
+      "--kernel": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015/kernel/rpx",
+      "--compiler-protocol": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md"
+    },
+    "why_old_paths_are_explicit": "Current checkout defaults include newer streaming code/API. Planned package/API/native inputs point to the existing frozen controls; the current harness may prepare them only after the quality gate.",
+    "generic_FORMAT_and_test_proof_default_copies_match_frozen_hashes": true,
+    "frozen_package_has_streaming_mcm_module": false,
+    "candidate_hypothesis_document_is_not_an_Agent_input": true
+  },
+  "launch_gate": {
+    "status": "WAITING_FOR_ROOT_QUALITY_COMPLETION_NOTICE",
+    "current_blocker": "C7 quality process is active (root session 5524). Do not overlap timed Agents, solvers or tests.",
+    "authority": "Root will decide launch after quality completes. This file only records a planned experiment.",
+    "created_workspaces": false,
+    "agents_launched": false,
+    "solvers_or_tests_started": false,
+    "native_binary_rehashed_for_this_draft": false,
+    "native_hash_evidence": "Existing frozen C7 launch-integrity record and fixed-controls metadata; binary existence checked without reading its bytes during live quality work.",
+    "no_timed_Agent_solver_or_benchmark_overlap": true
+  },
+  "interpretation": "Fresh mathematical choices may differ. Compare exact targets/contracts, post-verification work and eventual solver-quality evidence. Faster elapsed time alone does not establish preserved reformulation ambition, causal prompt improvement or completion of the user goal.",
+  "prior_answers_or_solver_feedback_exposed": false,
+  "agent_input_boundary": "Only pristine original input, generic frozen compiler package/API/FORMAT/example, and candidate prompt. No C5-C7 solutions, case mathematics, audits, trajectories or post-commit quality results are supplied.",
+  "provenance": {
+    "C7_controls": {
+      "path": "audit/compiler-agent/C7-prompt-controls.json",
+      "sha256": "ac82cfaac3a2c32de2093e979a6e43d6585331bd49bb8b0ffafdeb2e684e7a29"
+    },
+    "C7_launch_integrity": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C7-20261015/launch-integrity.json",
+      "sha256": "d516beeb1db1f8080065a8f68bf089a2dae0f3d04ee79a5ce1f3b21bebcf65ef"
+    },
+    "frozen_snapshot_metadata": {
+      "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C7-231e6f4-20261015/snapshot.json",
+      "sha256": "acae374d957e5d9e12fc7179ccbc3b33dbadac8843b7eddf24f1ff74b00a96ef"
+    },
+    "candidate_hypothesis": {
+      "path": "audit/compiler-agent/prompt-refinement-after-C7.json",
+      "sha256": "6e11c409d8b7b903b7dc33a5257b65417335fab2f6dbad469f75008e2203b31d",
+      "status": "NOT_RUN"
+    },
+    "draft_checkout_HEAD": "72fb200da537735b7529fc2f900f490309423e41"
+  },
+  "streaming_feature_excluded": true
+}
