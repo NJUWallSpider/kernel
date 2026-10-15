@@ -1,0 +1,964 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-compact-v1",
+  "round": "C9",
+  "case": "test65",
+  "scope": "Static completed-pair audit of public calls/results, complete Request, small receipts and Certificate claim prefix. No private reasoning, live mathematics, model normalization, native invocation, solver, replay, test or new Agent. Large model bodies and proof step/map trees are not read. Memory is not a gate.",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "batch_metadata_sha256": "a4c4d9f9245ec0947a074586a11fdf3f492b916a38ac5206fa5c538ad3aa7735",
+  "trusted_batch_input_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "arms": {
+    "compiler": {
+      "run": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015",
+      "wall_s": 325.228,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 154978,
+        "rows": 277594,
+        "integers": 26287,
+        "nonzeros": 788969,
+        "objective_nonzeros": 68740
+      },
+      "target_shape": {
+        "variables": 154977,
+        "rows": 225037,
+        "integers": 26287,
+        "nonzeros": 631302,
+        "objective_nonzeros": 68739
+      },
+      "committed_model_sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220",
+      "trusted_source_anchor": {
+        "batch_launch_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "assessment_expected_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "assessment_actual_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "execution_expected_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "all_equal": true,
+        "authority": "Actual source-byte recheck is recorded by independent harness against the immutable outside-workspace launch catalog; source body is not reread here."
+      },
+      "kernel_verification_required": true,
+      "kernel_verified": true,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 19,
+        "tool_calls": 18,
+        "tool_calls_failed": 0,
+        "turns": 19,
+        "tokens_in": 35617,
+        "tokens_out": 10775,
+        "tokens_cache_read": 340608,
+        "tokens_cache_write": 0,
+        "tokens_total": 387000,
+        "cost_usd": 0.213,
+        "llm_time_s": 249.322,
+        "llm_ttft_s": 39.86,
+        "tool_time_s": 73.889,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 251.581,
+      "post_check_s": 73.647,
+      "public_eval_cells": [
+        {
+          "seconds": 17.695,
+          "title": "Loading exact original model",
+          "duration_ms": 7457,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "50fc4e74471d4aebcdacfa773d94dc31392260db940840fa1cecf56d61679cc0"
+        },
+        {
+          "seconds": 27.887,
+          "title": "Summarizing complete model structure",
+          "duration_ms": 1442,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "806f48a181ba07e510f63205171f8c78186a98e838ae10460a5cb0ee8504f29e"
+        },
+        {
+          "seconds": 49.433,
+          "title": "Inspecting structural variable families",
+          "duration_ms": 727,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "45ad72d8592f365792a3fd5a49215652d5a2ae1b1dd41149a6d64948244e647f"
+        },
+        {
+          "seconds": 58.286,
+          "title": "Investigating shared coordinates and redundancy",
+          "duration_ms": 575,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "230a79f6b99bd354c29597f59245570a08fedc07686a18dcd6e5107f2380de72"
+        },
+        {
+          "seconds": 64.071,
+          "title": "Examining equality and capacity interactions",
+          "duration_ms": 9,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "5a9adba40cf05ebfe76953592e772327d72657206efee656820abd320befc832"
+        },
+        {
+          "seconds": 112.438,
+          "title": "Verifying complete ramp redundancy witnesses",
+          "duration_ms": 1777,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "8af47c80edf707f7b7fdef3dfc808d0a7add746d95664f5a363d18579cd8c6ae"
+        },
+        {
+          "seconds": 130.397,
+          "title": "Checking remaining local redundancies and MPS interpretation",
+          "duration_ms": 436,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "52e1669807590014e4f840621c6f2a90b2e4efbb4ab847684fa7c8baa56d895e"
+        },
+        {
+          "seconds": 161.461,
+          "title": "Establishing exact edit scope and domain semantics",
+          "duration_ms": 463,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "df0a400dfbc43b8e2869c3de27f937970d710d6e7198e9c2c7a9d17c7bfb2203"
+        },
+        {
+          "seconds": 185.439,
+          "title": "Constructing final target and equivalence contracts",
+          "duration_ms": 7795,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "3b49757e0cc3c36755c15092924513546560f84819351f18334c504ee78d934c"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "duration_ms": 32685,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "802bcb130628601666a20a4eb56df75ac445193a2ba468571a13de5df71471ff"
+        },
+        {
+          "seconds": 251.581,
+          "title": "Verifying final committed MPS and proof",
+          "duration_ms": 20440,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a74fc90b29769ee6e0e13d2cc81e7c3edf2f5532ceb2352b6b4a8d48bfe93301"
+        },
+        {
+          "seconds": 315.316,
+          "title": "Writing final mathematical and artifact report",
+          "duration_ms": 7,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "544578a2bd72de161dcf1cacbd832c66fa7a8b8a4d9e0e0584b852d73a446824"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 2.204,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 6.152,
+          "i": "Reading compiler model API",
+          "path": "compiler/API.md:1-220"
+        },
+        {
+          "seconds": 20.266,
+          "i": "Inspecting original MPS sections",
+          "path": "input/model.mps:1-45"
+        },
+        {
+          "seconds": 81.684,
+          "i": "Reading linear proof builders",
+          "path": "compiler/API.md:260-490"
+        },
+        {
+          "seconds": 165.519,
+          "i": "Reading proof contract signatures",
+          "path": "compiler/API.md:224-278"
+        },
+        {
+          "seconds": 262.282,
+          "i": "Listing final verification artifacts",
+          "path": "output"
+        }
+      ],
+      "proof_API_calls": [
+        {
+          "seconds": 17.695,
+          "title": "Loading exact original model",
+          "expression": "round(time.time() - start, 2)"
+        },
+        {
+          "seconds": 185.439,
+          "title": "Constructing final target and equivalence contracts",
+          "expression": "proof.bijection('identity', reverse_map, integers=True, projection='retained')"
+        },
+        {
+          "seconds": 185.439,
+          "title": "Constructing final target and equivalence contracts",
+          "expression": "proof.bijection('identity', reverse_map, integers=False, projection='retained')"
+        },
+        {
+          "seconds": 185.439,
+          "title": "Constructing final target and equivalence contracts",
+          "expression": "proof.contract_summary(max_items=2)"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "expression": "b.substitution({'x154978': b.row('c277594')})"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "expression": "b.complete()"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "expression": "b.complete()"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "expression": "round(time.time() - t, 2)"
+        },
+        {
+          "seconds": 226.673,
+          "title": "Authoring exact row implications and inverse proofs",
+          "expression": "round(time.time() - t, 2)"
+        },
+        {
+          "seconds": 251.581,
+          "title": "Verifying final committed MPS and proof",
+          "expression": "proof.verify('output', committed_model='output/reformulated.mps')"
+        },
+        {
+          "seconds": 251.581,
+          "title": "Verifying final committed MPS and proof",
+          "expression": "round(time.time() - t, 2)"
+        }
+      ],
+      "standalone_author_scripts": [],
+      "provenance_sha256": {
+        "workspace-manifest.json": "df388bfc09135093a8d34937f5cf1826f8b3ecb2600b160a97204c4304e99ec5",
+        "execution.json": "ab1ced8d8107f8d0dd391444369e003fcd1e0a8e15891c9b1784598b23dea94c",
+        "session.jsonl": "cae459312b0eb8f4a6ca36efe199c4af70a7680c776402a8a1ddaede8b83e0e6",
+        "assessment.json": "b63b0e387d16aa8625e32fcf6c55c199dfccc0834f990c8c54726e64e739205a",
+        "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+        "final-answer.txt": "3e0e28fd7a6866d056851291539ab12ab8fff1fc6194c9d4e88db924690de076",
+        "output/report.md": "9e202784a7b2b92df330d7034087180d8d1e48a6392d95c56265df28768fd838",
+        "output/verification.json": "1fd6badb83eee2d19eecefdebe4144f4a43a8aa55d0d6ebe369773d5e5367c8e",
+        "output/request.json": "032d7ab2cd15db9e9fb211024f009588dedf3a68250cec7590485806555a3237",
+        "output/delivery.json": "a5c617742165c00d9fd9e4c12d8b725226561dc2c9ed6de7bdc836d637c55d6e"
+      },
+      "compiler_sources": {
+        "package": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/python/kernel_compiler",
+          "files_sha256": {
+            "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+            "_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+            "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+            "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+            "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+            "model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+            "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+            "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+            "proof.py": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+            "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+            "session.py": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a"
+          }
+        },
+        "protocol": {
+          "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+          "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+        },
+        "api_doc": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/docs/COMPILER_API.md",
+          "sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f"
+        },
+        "kernel": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/kernel/rpx",
+          "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+        }
+      },
+      "receipt_status": "VERIFIED",
+      "artifact_audit": {
+        "status": "MATCHED",
+        "method": "Kernel standard-format readback and exact named formulation comparison",
+        "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220"
+        },
+        "proof_target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "sha256": "5fee69ac9c61979e05eac81a49c9ceedd299bae27deab7e8c92cf99ffeb4c017"
+        }
+      },
+      "native_reported_total_s": 2.345357,
+      "native_statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 630684,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 2917570,
+        "peak_live_facts": 52556,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 3735404,
+        "work": 22749620
+      },
+      "actual_Request": {
+        "claim_count": 4,
+        "point_count": 0,
+        "improvement_count": 0,
+        "separate_bijection_count": 0,
+        "Certificate_claims_exactly_equal_Request_and_harness": true,
+        "claim_read_method": "Decode complete claims from a10MBprefix only; no91MBproof tree or terminal map body decode. Full total maps and all obligations are checked by recorded native/harness verification.",
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 1,
+            "index": 0,
+            "input_variables": 154978,
+            "output_variables": 154977,
+            "observations": 154977,
+            "affine_observations": 0,
+            "unique_observation_pairs": 154977,
+            "all_observation_indices_in_directional_ranges": true,
+            "complete_retained_target_coordinate_observations": true,
+            "observation_sha256": "5290a1f2f0c4968f149c92eb57c5e0cc36ef05ee211d816b8c3a621fc413b5b7",
+            "input_restrictions": {},
+            "input_objective_lower": null,
+            "total_output_map_dimension_verified_by_native": 154977,
+            "constructive_extension_scope": "Root only; all generated-variable/lift counters are zero."
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": 0,
+            "index": 1,
+            "input_variables": 154977,
+            "output_variables": 154978,
+            "observations": 154977,
+            "affine_observations": 0,
+            "unique_observation_pairs": 154977,
+            "all_observation_indices_in_directional_ranges": true,
+            "complete_retained_target_coordinate_observations": true,
+            "observation_sha256": "5290a1f2f0c4968f149c92eb57c5e0cc36ef05ee211d816b8c3a621fc413b5b7",
+            "input_restrictions": {},
+            "input_objective_lower": null,
+            "total_output_map_dimension_verified_by_native": 154978,
+            "constructive_extension_scope": "Root only; all generated-variable/lift counters are zero."
+          },
+          {
+            "reverse": false,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": 3,
+            "index": 2,
+            "input_variables": 154978,
+            "output_variables": 154977,
+            "observations": 154977,
+            "affine_observations": 0,
+            "unique_observation_pairs": 154977,
+            "all_observation_indices_in_directional_ranges": true,
+            "complete_retained_target_coordinate_observations": true,
+            "observation_sha256": "5290a1f2f0c4968f149c92eb57c5e0cc36ef05ee211d816b8c3a621fc413b5b7",
+            "input_restrictions": {},
+            "input_objective_lower": null,
+            "total_output_map_dimension_verified_by_native": 154977,
+            "constructive_extension_scope": "Root only; all generated-variable/lift counters are zero."
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": 2,
+            "index": 3,
+            "input_variables": 154977,
+            "output_variables": 154978,
+            "observations": 154977,
+            "affine_observations": 0,
+            "unique_observation_pairs": 154977,
+            "all_observation_indices_in_directional_ranges": true,
+            "complete_retained_target_coordinate_observations": true,
+            "observation_sha256": "5290a1f2f0c4968f149c92eb57c5e0cc36ef05ee211d816b8c3a621fc413b5b7",
+            "input_restrictions": {},
+            "input_objective_lower": null,
+            "total_output_map_dimension_verified_by_native": 154978,
+            "constructive_extension_scope": "Root only; all generated-variable/lift counters are zero."
+          }
+        ],
+        "inverse_pair_observations_transposed": {
+          "(0, 1)": true,
+          "(2, 3)": true
+        },
+        "total_map_dimension_sum": 619910
+      },
+      "artifact_hash_binding": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/source.mcm",
+          "bytes": 32241762,
+          "manifest_sha256": "e0139d8fc958d4c57d6debf7b405649a504168c645c604925174692dbf694745",
+          "receipt_sha256": "e0139d8fc958d4c57d6debf7b405649a504168c645c604925174692dbf694745",
+          "harness_actual_sha256": "e0139d8fc958d4c57d6debf7b405649a504168c645c604925174692dbf694745",
+          "manifest_receipt_harness_equal": true,
+          "static_body_rehashed": false,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "bytes": 27143729,
+          "manifest_sha256": "5fee69ac9c61979e05eac81a49c9ceedd299bae27deab7e8c92cf99ffeb4c017",
+          "receipt_sha256": "5fee69ac9c61979e05eac81a49c9ceedd299bae27deab7e8c92cf99ffeb4c017",
+          "harness_actual_sha256": "5fee69ac9c61979e05eac81a49c9ceedd299bae27deab7e8c92cf99ffeb4c017",
+          "manifest_receipt_harness_equal": true,
+          "static_body_rehashed": false,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "proof": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/proof.rpx",
+          "bytes": 57125848,
+          "manifest_sha256": "8d46831be39b3ca5cb20182583df7335c596f956fafbc4086865aa97b1cfc0b6",
+          "receipt_sha256": "8d46831be39b3ca5cb20182583df7335c596f956fafbc4086865aa97b1cfc0b6",
+          "harness_actual_sha256": "8d46831be39b3ca5cb20182583df7335c596f956fafbc4086865aa97b1cfc0b6",
+          "manifest_receipt_harness_equal": true,
+          "static_body_rehashed": false
+        },
+        "request": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/request.json",
+          "bytes": 9030149,
+          "manifest_sha256": "032d7ab2cd15db9e9fb211024f009588dedf3a68250cec7590485806555a3237",
+          "receipt_sha256": "032d7ab2cd15db9e9fb211024f009588dedf3a68250cec7590485806555a3237",
+          "harness_actual_sha256": "032d7ab2cd15db9e9fb211024f009588dedf3a68250cec7590485806555a3237",
+          "manifest_receipt_harness_equal": true,
+          "static_body_rehashed": true,
+          "static_actual_sha256": "032d7ab2cd15db9e9fb211024f009588dedf3a68250cec7590485806555a3237"
+        },
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "bytes": 23813962,
+          "manifest_sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220",
+          "receipt_sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220",
+          "harness_actual_sha256": "527ade76eb667a644bb54f4a3e2a193c1fc4acb26ce445c2cbfaa6419a998220",
+          "manifest_receipt_harness_equal": true,
+          "static_body_rehashed": false
+        }
+      },
+      "map_recipe_from_complete_public_authoring_code": {
+        "forward_MI_and_LP": "Identity/name-aligned copies of all154977remaining coordinates.",
+        "reverse_MI_and_LP": "List covering all154978source variables: same named target coordinate except x154978 is the constant1.",
+        "scope": "Four directional claims carry inverse indices0↔1 and2↔3; both maps are exact affine inverses on their respective feasible domains, including all retained-coordinate observations and all objective/feasibility obligations. Separate Request.bijections count0 does not remove claim inverse identities.",
+        "static_limit": "Public recipe and native whole-map validation are recorded. This lightweight audit does not decode all terminal map arrays from the91MBcertificate."
+      },
+      "committed_hash_receipt_manifest_harness_all_equal": true,
+      "large_witness_inventory_not_reparsed": {
+        "output/analysis_audit.json": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/analysis_audit.json",
+          "bytes": 5862859
+        },
+        "output/model_diff.json": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/model_diff.json",
+          "bytes": 13009975
+        },
+        "output/edit_ledger.json": {
+          "path": "/Users/bhz/Code/reform_test/runs/test65-compiler-compiler-batch-C9-20261015/output/edit_ledger.json",
+          "bytes": 10195580
+        }
+      }
+    },
+    "nomf": {
+      "run": "/Users/bhz/Code/reform_test/runs/test65-nomf-compiler-batch-C9-20261015",
+      "wall_s": 369.783,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 154978,
+        "rows": 277594,
+        "integers": 26287,
+        "nonzeros": 788969,
+        "objective_nonzeros": 68740
+      },
+      "target_shape": {
+        "variables": 143877,
+        "rows": 266494,
+        "integers": 26286,
+        "nonzeros": 755669,
+        "objective_nonzeros": 65039
+      },
+      "committed_model_sha256": "8fcaa183cb4682187dff144cdd11968f35e1d8bad2bed25649ebcaf1fd7edc03",
+      "trusted_source_anchor": {
+        "batch_launch_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "assessment_expected_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "assessment_actual_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "execution_expected_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "all_equal": true,
+        "authority": "Actual source-byte recheck is recorded by independent harness against the immutable outside-workspace launch catalog; source body is not reread here."
+      },
+      "kernel_verification_required": false,
+      "kernel_verified": false,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 18,
+        "tool_calls": 17,
+        "tool_calls_failed": 0,
+        "turns": 18,
+        "tokens_in": 41418,
+        "tokens_out": 17487,
+        "tokens_cache_read": 240896,
+        "tokens_cache_write": 0,
+        "tokens_total": 299801,
+        "cost_usd": 0.282,
+        "llm_time_s": 352.976,
+        "llm_ttft_s": 54.346,
+        "tool_time_s": 14.794,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 265.993,
+      "post_check_s": 103.79,
+      "public_eval_cells": [
+        {
+          "seconds": 16.863,
+          "title": "Scanning MPS section boundaries",
+          "duration_ms": 253,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "c4ed9f1f6d251fe5bc1f4ed7097b7e3901e28719187ff1c3f6379bcb3554971e"
+        },
+        {
+          "seconds": 41.64,
+          "title": "Parsing exact model representation",
+          "duration_ms": 1952,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6315a39cb2c2b5f72aa0dc90e2aac314b940b70256c054982375d2fd2a964a57"
+        },
+        {
+          "seconds": 51.356,
+          "title": "Characterizing exact row structure",
+          "duration_ms": 350,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "c3e1a044b10d951d5b70275a184baea627b863f13fe20c9ed17768c60e04ff5f"
+        },
+        {
+          "seconds": 59.293,
+          "title": "Inspecting coupling and repeated families",
+          "duration_ms": 21,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "08194c9e04cc54a5ba4a5a6d9cc13dd81e1fa389d710678aa9490de347b1d6a1"
+        },
+        {
+          "seconds": 70.753,
+          "title": "Testing exact row dominance hypotheses",
+          "duration_ms": 1053,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "ccbb04e296f2391000f422122b94240b95268d19171ed02211fff3921e678fb9"
+        },
+        {
+          "seconds": 87.326,
+          "title": "Inspecting state and flow supports",
+          "duration_ms": 118,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "afcf889a60003939b2e73a636d4f007b308f40828c8f7a2bd82f42247dcd99d0"
+        },
+        {
+          "seconds": 122.727,
+          "title": "Verifying full export and capacity aggregation scope",
+          "duration_ms": 152,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "38b735ac1e7c164deb2708cc0f016c38056b93cc9191bfd1b59baade240c25cc"
+        },
+        {
+          "seconds": 152.01,
+          "title": "Proving aggregation preconditions and exercising lifting map",
+          "duration_ms": 303,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "5e7d13dcfdceb8e2559cbd2b6af2f2a9da16598e4d9cc5923553cc95793f2aa7"
+        },
+        {
+          "seconds": 194.613,
+          "title": "Exercising forward maps and boundary cases",
+          "duration_ms": 146,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "6396107f0fa45ce8f68149ce874f584afbb68afbfe03a8594ff9685b40b11e78"
+        },
+        {
+          "seconds": 208.263,
+          "title": "Writing final reformulation and exact mapping",
+          "duration_ms": 434,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "01aa3f83ce09d2dee20b433a739d3a60dd5e126657e4b60beac4cb30702d2098"
+        },
+        {
+          "seconds": 265.993,
+          "title": "Independently auditing generated MPS and recovery map",
+          "duration_ms": 9866,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "b139f29243d92273df67d6d35ce121de71f43047f264a18fd4bd52c5ec3bf96c"
+        },
+        {
+          "seconds": 278.868,
+          "title": "Summarizing exact committed edit scope",
+          "duration_ms": 20,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "1c65bbe230eac20db78e1ccd2801c005be66bd71ec9ac626bd8571d704d77129"
+        },
+        {
+          "seconds": 347.246,
+          "title": "Documenting proof and committed artifact evidence",
+          "duration_ms": 7,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "1add2e82f8e74b9af1c7bb7268a82b3f8b687201f5ef21b83facebae81268599"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 6.149,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 9.335,
+          "i": "Inspecting MPS header",
+          "path": "input/model.mps:1-65"
+        },
+        {
+          "seconds": 11.476,
+          "i": "Inspecting MPS bounds trailer",
+          "path": "input/model.mps:-45"
+        },
+        {
+          "seconds": 24.215,
+          "i": "Inspecting row and column transition",
+          "path": "input/model.mps:277575-277625"
+        }
+      ],
+      "proof_API_calls": [
+        {
+          "seconds": 278.868,
+          "title": "Summarizing exact committed edit scope",
+          "expression": "round(100 * (audit_result['original'][k] - audit_result['reformulated'][k]) / audit_result['original'][k], 3)"
+        }
+      ],
+      "standalone_author_scripts": [
+        "output/verify.py"
+      ],
+      "provenance_sha256": {
+        "workspace-manifest.json": "d65d098f30d69846d607c4a2ab6f0725819bd4f6cc38c3c73603c834aeb0f20a",
+        "execution.json": "32f50f20e84fd7f8ce83d58a0d3c8fc54470b65026d0e6c37ec54e37b8ee00b2",
+        "session.jsonl": "6b3f26f9382c8a4e6688cbc0079f92d039bfb79bc119985fb9a26ddc2380c8df",
+        "assessment.json": "db114837dd647c68f303a7e006b6c02a8a40eb43f54aba58eee0099db93dfcf2",
+        "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+        "final-answer.txt": "33dd32e782ef00b3b1f1ce3c34afda5c6e6cc37c091a5386e014620fa24401fe",
+        "output/report.md": "177b84ffbe6f549d7db7b86525d19862d343d2c73aeb23e7dcccfbe78626b44a",
+        "output/audit.json": "06aa20c6f3813df91796e6e35e297bd2dc0bda7b96a1fbed14bdfe7b1905b5a0",
+        "output/verify.py": "9ca00d1d5f4912a66c7ea0d8d151a212d72f07c0cf97d7d48fcfb06baa993d48",
+        "output/aggregation.csv": "9a4aee69419502989a0d134e222f5fca2387fdb69ebe91dea1d3a2dcbb5fd0e6"
+      },
+      "independent_handwritten_audit": {
+        "status": "PASS",
+        "arithmetic": "exact rational; independent Decimal-based MPS parse",
+        "source_sha256": "aac377c78f17e76be6d561d2671f9b1906430f13570b6f8f724342dabce0f7d7",
+        "model_sha256": "8fcaa183cb4682187dff144cdd11968f35e1d8bad2bed25649ebcaf1fd7edc03",
+        "mapping_sha256": "9a4aee69419502989a0d134e222f5fca2387fdb69ebe91dea1d3a2dcbb5fd0e6",
+        "original": {
+          "variables": 154978,
+          "integers": 26287,
+          "constraints": 277594,
+          "row_senses": {
+            "E": 26281,
+            "L": 172472,
+            "G": 78841
+          },
+          "matrix_nonzeros": 788969,
+          "objective_nonzeros": 68740,
+          "total_nonzeros": 857709
+        },
+        "reformulated": {
+          "variables": 143877,
+          "integers": 26286,
+          "constraints": 266494,
+          "row_senses": {
+            "E": 26281,
+            "L": 161372,
+            "G": 78841
+          },
+          "matrix_nonzeros": 755669,
+          "objective_nonzeros": 65039,
+          "total_nonzeros": 820708
+        },
+        "modifications": {
+          "removed_variables": 11101,
+          "removed_rows": 11100,
+          "objective_coefficients_added": 3700,
+          "objective_coefficients_replaced": 1,
+          "removed_capacity": "x128695",
+          "redefined_capacity": "x128694",
+          "new_capacity_objective": "11896653/4000",
+          "sum_tariff_alpha": "1303347/4000"
+        },
+        "audit": {
+          "all_coefficients_senses_rhs_domains_compared": true,
+          "full_scope_preconditions_verified": true,
+          "generated_artifact_lift_rows": 14800,
+          "generated_artifact_balance_contributions": 3700,
+          "exact_smoke_objective": "4391605631/200000"
+        },
+        "interpretation": "feasibility projection and exact partial objective minimization; not pointwise objective identity"
+      }
+    }
+  },
+  "mathematical_comparison": {
+    "compiler": {
+      "target": "154977vars/225037rows/631302matrix nnz,26287integers,objective constant600. Delete52554adjacent difference-limit rows,2initial-coordinate upper inequalities,1isolated fixed-coordinate equality andthat continuous coordinate.",
+      "complete_difference_witness": "Every removed difference row x_t−x_s−K N≤0 is a nonnegative combination of retained x_t−Uu_t≤0, u_t−N≤0, declared−x_s≤0 and(K−U)(−N)≤0. All52554rows across3blocks are checked individually. Twoinitial upper inequalities follow exact9/10equality/capacity combinations. No integrality is needed.",
+      "relation": "Complete MI and LP Equal affine inverse pairs,154977observations perclaim,zero input restrictions. Thetarget preserves every feasible assignment via fixed-coordinate substitution,not merely optimal values."
+    },
+    "nomf": {
+      "target": "143877vars/266494rows/755669matrix nnz,26286integers. Leave difference-limit families, net7400p/e pairs into3700net injections andcombine2integer capacities K=N1+2N2. Remove11101variables/11100rows.",
+      "conditions": "For all3700paired balances, exact profiles ratio1:2,matchingtariffs,completecolumn incidence and no extra capacity bounds/use. K≥0integer admits recovery N1=K,N2=0.",
+      "maps": "Forward g_t=p1_t+p2_t−e1_t−e2_t, K=N1+2N2. Reduced objective replaces capacity term by(3300−sum(tau alpha))K+sum(tau g), where sum(tau alpha)=1303347/4000. Source minus targetobjective is sum tau(alpha K−P_t)≥0. Reverse sets p1=alpha K,e1=alpha K−g,p2=e2=0 andrestores equalobjective. This is NIforward/Equalreverse correspondence,not full objective-valued affine bijection.",
+      "checks": "Executed standard-library verifier PASS checks all changed rows/objectives/domains andfullartifact matrix;4forwardcases,1296boundary/interior cases andK=7reverse smoke. No Kernel certificate onNomf.",
+      "rejected_math": "A local discharge-limit redundancy proposal has explicit counterexample(capacity1,previous5,next1,charge4,discharge7.6). These rows remain. This counterexample islocal,not a full feasible modelpoint."
+    },
+    "different_ambition_boundary": "Compiler finds many more redundant rows andcertifies stronger whole MI+LP inverse contracts;Nomf performs substantial non-bijective objective netting andinteger aggregation,eliminating more coordinates. These are orthogonal opportunities,not a singlequality ranking. Solver quality pending.",
+    "proof_retreat_evidence": {
+      "compiler_API_or_native_errors_observed": false,
+      "compiler_public_netting_candidate_attempt_or_rejection_observed": false,
+      "compiler_public_relevant_column_inspection": "At58.286/64.071s publicinspection includes capacity x128694 andsparse p/e family supports, but no explicit NI-netting map orfactor2capacitycandidate isconstructed.",
+      "explicit_avoidance_for_certificate_cost_observed": false,
+      "boundary": "No errors or explicitretreat does not prove absence of proof-convenience bias. Thecompiler chose a full affine-inverse simplification;thecontrol chose a different NI correspondence. We do not read private reasoning or infer that contract expressiveness forbids thecontrol transformation."
+    }
+  },
+  "phase_diagnosis": {
+    "compiler_source_load_cell": {
+      "completion_s": 17.695,
+      "duration_s": 7.457,
+      "internal_load_reported_s": 5.88
+    },
+    "complete_redundancy_math": {
+      "completion_s": 112.438,
+      "duration_s": 1.777,
+      "rows_proved": 52554
+    },
+    "target_and4claims_ready": {
+      "completion_s": 185.439,
+      "duration_s": 7.795
+    },
+    "author_proof": {
+      "completion_s": 226.673,
+      "cell_duration_s": 32.685,
+      "internal_MI_forward_s": 12.06,
+      "internal_LP_forward_s": 8.8,
+      "internal_MI_reverse_s": 5.87,
+      "internal_LP_reverse_s": 5.95,
+      "technique": "Forward suppliedfixed EQ substitution; reverse cached row/lower facts andexplicit2–4premise nonnegative Lin combinations for each given redundancy witness."
+    },
+    "first_full_committed_VERIFIED": {
+      "completion_s": 251.581,
+      "cell_duration_s": 20.44,
+      "internal_verify_s": 19.0,
+      "native_total_s": 2.345357,
+      "native_execute_s": 1.882129
+    },
+    "post_verified_s": 73.647,
+    "compiler_wall_s": 325.228,
+    "nomf_wall_s": 369.783,
+    "wall_ratio_compiler_to_nomf": 0.8795104155680493,
+    "compiler_tool_s": 73.889,
+    "compiler_llm_s": 249.322,
+    "nomf_first_complete_artifact_audit_s": 265.993,
+    "nomf_post_audit_s": 103.79,
+    "boundary": "Cell completion clocks include authoringtoolruntime. Serialization+RPXcompile+nativeverify+wholeMPSbinding are combined in the19.0sverify call;only2.345357snative verification is separatelyreported. No attributedhelpercausal orsame-mathperformanceclaim."
+  },
+  "helper_usage": {
+    "observed": [
+      "Model.load exactreader",
+      "column incidence",
+      "Model.delete_rows/substitute fixedcoordinate",
+      "Proof.bijection twice MI/LP",
+      "contract_summary(max_items=2)",
+      "substitution suppliedfixed EQ",
+      "explicit Lin ofcachedrow/lowerfacts",
+      "complete all4claims",
+      "verify committed_model binding"
+    ],
+    "not_observed": [
+      "zero_sum",
+      "rewrite_many",
+      "parity_fix",
+      "case/lift extensions",
+      "NIcorrespondence for netting"
+    ],
+    "scope_preserved": "All4claims remainwhole throughout;no narrowed input domain,observation reduction orclaim removal tofinish."
+  },
+  "public_row_proof_evidence": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test65-public-row-proof.py",
+    "sha256": "1aaa1b4405ee54260d0ef8985de1c1e657ed24ae25bc7dfe69117b9bf52facb7",
+    "session_sha256": "cae459312b0eb8f4a6ca36efe199c4af70a7680c776402a8a1ddaede8b83e0e6",
+    "status": "NOT_REEXECUTED"
+  }
+}

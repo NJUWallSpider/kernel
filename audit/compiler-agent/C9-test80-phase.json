@@ -1,0 +1,1189 @@
+{
+  "schema": "kernel-compiler-agent-case-phase-compact-v1",
+  "round": "C9",
+  "case": "test80",
+  "scope": "Static completed-pair audit after formal agent_end+assessed. Public tool calls/results only, no private reasoning or live-run math. No native command, model normalization, solver, replay, test or new Agent is executed. Certificate proof-step trees are not expanded; only complete claims and terminal maps/check arrays are statically decoded. Memory is not a gate.",
+  "batch": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015",
+  "batch_metadata_sha256": "a4c4d9f9245ec0947a074586a11fdf3f492b916a38ac5206fa5c538ad3aa7735",
+  "trusted_batch_input_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+  "quality_status": "PENDING",
+  "overall_acceptance": false,
+  "arms": {
+    "compiler": {
+      "run": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015",
+      "wall_s": 335.787,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 14387,
+        "rows": 10765,
+        "integers": 14387,
+        "nonzeros": 64073,
+        "objective_nonzeros": 3331
+      },
+      "target_shape": {
+        "variables": 1,
+        "rows": 0,
+        "integers": 1,
+        "nonzeros": 0,
+        "objective_nonzeros": 1
+      },
+      "committed_model_sha256": "1eae391378404029c963f5c0405bc10cfdc14b4cf43ba0946dbbd7089566c938",
+      "trusted_source_anchor": {
+        "actual_input_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "batch_launch_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "assessment_expected_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "assessment_actual_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "execution_expected_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "all_equal": true
+      },
+      "kernel_verification_required": true,
+      "kernel_verified": true,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 19,
+        "tool_calls": 18,
+        "tool_calls_failed": 1,
+        "turns": 19,
+        "tokens_in": 68680,
+        "tokens_out": 12849,
+        "tokens_cache_read": 310016,
+        "tokens_cache_write": 0,
+        "tokens_total": 391545,
+        "cost_usd": 0.297,
+        "llm_time_s": 304.726,
+        "llm_ttft_s": 58.051,
+        "tool_time_s": 29.611,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 261.689,
+      "post_check_s": 74.098,
+      "public_eval_cells": [
+        {
+          "seconds": 12.945,
+          "title": "Loading exact model",
+          "duration_ms": 1507,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "bf89fddd4f06f9561d74f2757bae350577a2325ea071aa127521ca5208c27dd4"
+        },
+        {
+          "seconds": 22.835,
+          "title": "Surveying complete structure",
+          "duration_ms": 69,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "907ec4d580e768a8877fc96c516f4b4bb7a75bd3a8d321b7489b80eaf0a43959"
+        },
+        {
+          "seconds": 36.119,
+          "title": "Testing structural candidates",
+          "duration_ms": 103,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "06a9cd473748792f65e7b3cfefcbf49043585fb7773a1a87e6ae1e45c9ed9987"
+        },
+        {
+          "seconds": 45.789,
+          "title": "Inspecting linking algebra",
+          "duration_ms": 44,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "d0b1418e7acfd876504f2727f8047cc59b1e9861cdb2c0ef58ceeb94389101b1"
+        },
+        {
+          "seconds": 66.537,
+          "title": "Investigating assignment propagation",
+          "duration_ms": 10,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a43e84d97b130cf53adcfed2b6d93aa11813d73b63ddad12ad82e17ea91f8e44"
+        },
+        {
+          "seconds": 136.315,
+          "title": "Checking uniform endpoint witnesses",
+          "duration_ms": 168,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "3deafa1b4e686da6a91354106a133c475d7f5c5a2f7602c4db3d44e3bb715663"
+        },
+        {
+          "seconds": 198.725,
+          "title": "Establishing exact objective image",
+          "duration_ms": 23962,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9320487da968bcd3773042636cd7d353c26eb1fe8bede0e90c61a1def7d2760f"
+        },
+        {
+          "seconds": 212.028,
+          "title": "Building exact directional proofs",
+          "duration_ms": 513,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "8192137bb6c591828c72049e12283db31128b68d3780940d84aff93c715b90df"
+        },
+        {
+          "seconds": 227.828,
+          "title": "Completing integer reconstruction",
+          "duration_ms": 499,
+          "status": [
+            "error"
+          ],
+          "exit_codes": [
+            1
+          ],
+          "public_code_sha256": "4b50bab8fad02e267dddc79e198964d6fca3380548b8a59f7150273d0452627f"
+        },
+        {
+          "seconds": 236.564,
+          "title": "Correcting reconstruction orientation",
+          "duration_ms": 182,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "258c8fa38ed9a672dc6e86ed09fe4e3b6fb53ce7eac6ec241aa9fcb6502c3f95"
+        },
+        {
+          "seconds": 261.689,
+          "title": "Verifying final committed artifact",
+          "duration_ms": 2495,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "917a77dcf04d4bd3fbe5eb7691ff0de039a13a584d21649542940803f6038ee7"
+        },
+        {
+          "seconds": 326.444,
+          "title": "Writing final mathematical report",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "1d7276c3a94e8b8d234e118253eedaa881b5306a7f16a764813cb492fbaa40b7"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 2.964,
+          "i": "Inspecting workspace entries",
+          "path": "."
+        },
+        {
+          "seconds": 6.837,
+          "i": "Reading compiler model API",
+          "path": "compiler/API.md:1-210"
+        },
+        {
+          "seconds": 16.227,
+          "i": "Inspecting MPS section syntax",
+          "path": "input/model.mps:1-55"
+        },
+        {
+          "seconds": 51.762,
+          "i": "Reading proof construction contracts",
+          "path": "compiler/API.md:214-455"
+        },
+        {
+          "seconds": 117.952,
+          "i": "Reading constructive witness builders",
+          "path": "compiler/API.md:459-702"
+        },
+        {
+          "seconds": 279.55,
+          "i": "Inspecting committed MPS surface",
+          "path": "output/reformulated.mps:1-45"
+        }
+      ],
+      "proof_API_calls": [
+        {
+          "seconds": 198.725,
+          "title": "Establishing exact objective image",
+          "expression": "proof.contract_summary()"
+        },
+        {
+          "seconds": 212.028,
+          "title": "Building exact directional proofs",
+          "expression": "r_lp.complete()"
+        },
+        {
+          "seconds": 212.028,
+          "title": "Building exact directional proofs",
+          "expression": "claim.complete()"
+        },
+        {
+          "seconds": 227.828,
+          "title": "Completing integer reconstruction",
+          "expression": "r_mi.complete(scope=mi_scope, mapping=mi_map)"
+        },
+        {
+          "seconds": 236.564,
+          "title": "Correcting reconstruction orientation",
+          "expression": "r_mi.complete(scope=mi_scope, mapping=mi_map)"
+        },
+        {
+          "seconds": 261.689,
+          "title": "Verifying final committed artifact",
+          "expression": "proof.verify('output', committed_model='output/reformulated.mps')"
+        }
+      ],
+      "standalone_author_scripts": [],
+      "provenance_sha256": {
+        "workspace-manifest.json": "84195d56754a6f2450f273f258c9ff2c0a5f5656e5a658be083ce0f665077e45",
+        "execution.json": "c6fb17bf293c41321884e8a0d2cedc737842400cd5d5107fc4f582f07e57305e",
+        "session.jsonl": "a5bf98a9508a99017f0f378849c88f5790d27449bc7bc91b9bb5cfb015c091da",
+        "assessment.json": "c3fcce2ab6d8b624af7e0c0405bf5899c23c69a4de23cbced35367d8f0e7f32e",
+        "protocol.md": "cd1e9b46b758bf2184ead47c6d172ac24fec3045edbb67f1f5f5af229cce2f06",
+        "final-answer.txt": "4b94b02e1dc6f593a585b5d814d766732da09edb901c4ea2c23e2f3807f0b3a6",
+        "output/report.md": "3e50a535685d90611c5b94e06560131a2b05fa233419b3e53ea162859d4f84b6",
+        "output/verification.json": "013c39c28ce2f67e06a38e21df26c13943350b888bcf69471a52454e5c4c3e64",
+        "output/delivery.json": "9bdd624fdb37642b53fe9c27ea3c9028849d8142f45c2b002ef9c101ba174f3d",
+        "output/request.json": "665ef68025b7509387d6277d75a695081749ae7dcad34a8b7fffc711b517c1e6",
+        "output/certificate.json": "f6d997df10fc62d74782841d08a80eae570c6cef779e63783fc6d6a716f6c528",
+        "output/maps.json": "080a02b9520de624616ae2c4db133117fece05d5d0ed268bee018b60a1e313d7",
+        "output/endpoint_witnesses.json": "50bb56965617bb6b603e110be76561f20ecf5860bd99d89fc02867d9aff54290",
+        "output/analysis_audit.json": "5f4a6eb3a63b62c0b248a839d3eaa8b177559bab26eb38bf7b1e41c28b3860d4",
+        "output/edit_audit.json": "227e712891dc1f9a29f02541874db9903b9baa7385d71e86b1de0371d650c248"
+      },
+      "compiler_sources": {
+        "package": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/python/kernel_compiler",
+          "files_sha256": {
+            "__init__.py": "ee2a24718b4e49458f8c906f157b5d3ed136dff37338dad3c81c939fc5861d1c",
+            "_mcm.py": "690625926ee4cd323b5382b034715261e4bc1d06c78e3ff6b0658c6e41492172",
+            "backend.py": "ffda98025135f37cadb39f4e563685a0dc4811944dbe1b343ca5df328e3ec7a0",
+            "bundle.py": "1d5197d9dd7eee16c6af88084a822eaabde10dcfdd9c25a01b9f04d1a9f64ee9",
+            "expr.py": "9af71babbb4b4bf84dccb11846a779373cc76a5997f90cdea80bf9a6691ae2ed",
+            "model.py": "4506bea0c4228e11be8d9b00a583984218d39233022d1374beafc3e60b16c475",
+            "mps_adapter.py": "23926ef4a8d61ffaffec573e1aa51744b48ba2ce074e68931121af19575666e3",
+            "mutations.py": "1aa7258a7485710c3bab0d9e79fb73a60229836b5a654855cca2574106037992",
+            "proof.py": "26fb294a29c34c17461c6ba08bfe5d832f039542528a86028a711e5493e69c33",
+            "request_summary.py": "af3003a3d91f7d6763f3544fc7a6699440fbafaea6bd779eb91e32f216841982",
+            "session.py": "c5b4e5dcb52197d46f6713049361d93a84ad3f94eb09ec31b45182d2be02d94a"
+          }
+        },
+        "protocol": {
+          "path": "/Users/bhz/Code/kernel/docs/COMPILER_AGENT_PROTOCOL.md",
+          "sha256": "196f2cd4061ca8aa62baa562e1115a5cb6c052823ff228d65fa0da078e1d3c90"
+        },
+        "api_doc": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-package-C9-539c146-20261015/docs/COMPILER_API.md",
+          "sha256": "41187d219ecaad11bc5c2b5fb6e21d58dc360618ed3f6d7575bf22b9186e0c9f"
+        },
+        "kernel": {
+          "path": "/Users/bhz/Code/reform_test/runs/compiler-batch-C9-20261015/kernel/rpx",
+          "sha256": "5775d6a67b78493ce30a1b6d44b76af7dd264f3cb29371081652e881776839f4"
+        }
+      },
+      "receipt_status": "VERIFIED",
+      "artifact_audit": {
+        "status": "MATCHED",
+        "method": "Kernel standard-format readback and exact named formulation comparison",
+        "scope": "Every named variable, bound, integrality declaration, row, and objective; model NAME and coordinate order may differ",
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "sha256": "1eae391378404029c963f5c0405bc10cfdc14b4cf43ba0946dbbd7089566c938"
+        },
+        "proof_target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "sha256": "e27beadf9952f91591bad8384587ffc0b446d49926364572d86cda8094e4354a"
+        }
+      },
+      "native_reported_total_s": 0.139426,
+      "native_statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 148465,
+        "menu_generated_rows": 2,
+        "menu_generated_terms": 604,
+        "menu_generated_variables": 302,
+        "menu_lifts": 1,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 93474,
+        "peak_live_facts": 451,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 169102,
+        "work": 1410261
+      },
+      "actual_Request": {
+        "claim_count": 4,
+        "point_count": 0,
+        "improvement_count": 0,
+        "separate_bijection_count": 0,
+        "Certificate_claims_exactly_equal_Request": true,
+        "claims": [
+          {
+            "reverse": false,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 0,
+            "input_variables": 14387,
+            "output_variables": 1,
+            "observations": 0,
+            "affine_observations": 0,
+            "unique_observation_pairs": 0,
+            "all_observation_indices_in_directional_ranges": true,
+            "observation_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "map_summary": {
+              "expression_count": 1,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 3331,
+              "nonzero_constant_expressions": 0,
+              "term_count_histogram": {
+                "3331": 1
+              },
+              "map_sha256": "65cc3e00855e133b1bff574782a0c35390a87e8479d55640a86a25a2241040ac"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 4,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally. No pointwise decisions are observed; total feasibility/objective maps remain complete."
+            },
+            "observed_decision_coordinates": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": true,
+            "output_integers": true,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 1,
+            "input_variables": 1,
+            "output_variables": 14387,
+            "observations": 0,
+            "affine_observations": 0,
+            "unique_observation_pairs": 0,
+            "all_observation_indices_in_directional_ranges": true,
+            "observation_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "map_summary": {
+              "expression_count": 14387,
+              "complete_output_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 40827,
+              "nonzero_constant_expressions": 699,
+              "term_count_histogram": {
+                "301": 1,
+                "0": 14158,
+                "300": 1,
+                "299": 1,
+                "298": 1,
+                "297": 1,
+                "296": 1,
+                "295": 1,
+                "294": 1,
+                "293": 1,
+                "292": 1,
+                "291": 1,
+                "290": 1,
+                "289": 1,
+                "288": 1,
+                "287": 1,
+                "286": 1,
+                "285": 1,
+                "284": 1,
+                "283": 1,
+                "282": 1,
+                "281": 1,
+                "280": 1,
+                "279": 1,
+                "278": 1,
+                "277": 1,
+                "276": 1,
+                "275": 1,
+                "274": 1,
+                "273": 1,
+                "272": 1,
+                "271": 1,
+                "270": 1,
+                "269": 1,
+                "268": 1,
+                "267": 1,
+                "266": 1,
+                "265": 1,
+                "264": 1,
+                "263": 1,
+                "262": 1,
+                "261": 1,
+                "260": 1,
+                "259": 1,
+                "258": 1,
+                "257": 1,
+                "256": 1,
+                "255": 1,
+                "254": 1,
+                "253": 1,
+                "252": 1,
+                "251": 1,
+                "250": 1,
+                "249": 1,
+                "248": 1,
+                "247": 1,
+                "246": 1,
+                "245": 1,
+                "244": 1,
+                "243": 1,
+                "242": 1,
+                "241": 1,
+                "240": 1,
+                "239": 1,
+                "238": 1,
+                "237": 1,
+                "236": 1,
+                "235": 1,
+                "234": 1,
+                "233": 1,
+                "232": 1,
+                "231": 1,
+                "230": 1,
+                "229": 1,
+                "228": 1,
+                "227": 1,
+                "226": 1,
+                "225": 1,
+                "224": 1,
+                "223": 1,
+                "222": 9,
+                "221": 1,
+                "220": 1,
+                "219": 1,
+                "218": 1,
+                "217": 1,
+                "216": 1,
+                "215": 1,
+                "214": 1,
+                "213": 1,
+                "212": 1,
+                "211": 1,
+                "210": 1,
+                "209": 1,
+                "208": 1,
+                "207": 1,
+                "206": 1,
+                "205": 1,
+                "204": 1,
+                "203": 1,
+                "202": 1,
+                "201": 1,
+                "200": 1,
+                "199": 1,
+                "198": 1,
+                "197": 1,
+                "196": 1,
+                "195": 1,
+                "194": 1,
+                "193": 1,
+                "192": 1,
+                "191": 1,
+                "190": 1,
+                "189": 1,
+                "188": 1,
+                "187": 1,
+                "186": 1,
+                "185": 1,
+                "184": 1,
+                "183": 1,
+                "182": 1,
+                "181": 1,
+                "180": 1,
+                "179": 1,
+                "178": 1,
+                "177": 1,
+                "176": 1,
+                "175": 1,
+                "174": 1,
+                "173": 1,
+                "172": 1,
+                "171": 1,
+                "170": 1,
+                "169": 1,
+                "168": 1,
+                "167": 1,
+                "166": 1,
+                "165": 1,
+                "164": 1,
+                "163": 1,
+                "162": 1,
+                "161": 1,
+                "160": 1,
+                "158": 1,
+                "156": 1,
+                "154": 1,
+                "152": 1,
+                "150": 1,
+                "148": 1,
+                "146": 1,
+                "144": 1,
+                "142": 1,
+                "140": 1,
+                "138": 1,
+                "136": 1,
+                "134": 1,
+                "132": 1,
+                "130": 1,
+                "128": 1,
+                "126": 1,
+                "124": 1,
+                "122": 1,
+                "120": 1,
+                "118": 1,
+                "116": 1,
+                "114": 1,
+                "112": 1,
+                "110": 1,
+                "108": 1,
+                "106": 1,
+                "104": 1,
+                "102": 1,
+                "100": 1,
+                "98": 1,
+                "96": 1,
+                "94": 1,
+                "92": 1,
+                "90": 1,
+                "88": 1,
+                "86": 1,
+                "84": 1,
+                "82": 1,
+                "80": 1,
+                "78": 1,
+                "76": 1,
+                "74": 1,
+                "72": 1,
+                "70": 1,
+                "68": 1,
+                "66": 1,
+                "64": 1,
+                "62": 1,
+                "60": 1,
+                "58": 1,
+                "56": 1,
+                "54": 1,
+                "52": 1,
+                "50": 1,
+                "48": 1,
+                "46": 1,
+                "44": 1,
+                "42": 1,
+                "40": 1,
+                "38": 1,
+                "36": 1,
+                "34": 1,
+                "32": 1,
+                "30": 1,
+                "28": 1,
+                "26": 1,
+                "24": 1,
+                "22": 1,
+                "20": 1,
+                "18": 1,
+                "16": 1,
+                "14": 1,
+                "12": 1,
+                "10": 1,
+                "8": 1,
+                "6": 1,
+                "4": 1,
+                "2": 1
+              },
+              "map_sha256": "7ab149977a8d026b3b2bbb8fd05a8e1d733641b6ee6146752bd3b5f2fb4efdfc",
+              "all_input_indices_in_root_input_dimension": false,
+              "all_input_indices_in_constructive_scope_dimension": true
+            },
+            "scope_summary": {
+              "claim_root_end": "MenuLift",
+              "Return_checks": 53927,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native MenuLift introduces302one-hot variables for the author-specified index z+160 and activation1. Return map is scoped over303coordinates, not the single root target coordinate; recorded Kernel and harness verify the full lift. No pointwise decisions are observed; total feasibility/objective maps remain complete.",
+              "generated_variables": 302,
+              "return_scope_input_variables": 303
+            },
+            "observed_decision_coordinates": 0
+          },
+          {
+            "reverse": false,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 2,
+            "input_variables": 14387,
+            "output_variables": 1,
+            "observations": 0,
+            "affine_observations": 0,
+            "unique_observation_pairs": 0,
+            "all_observation_indices_in_directional_ranges": true,
+            "observation_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "map_summary": {
+              "expression_count": 1,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 3331,
+              "nonzero_constant_expressions": 0,
+              "term_count_histogram": {
+                "3331": 1
+              },
+              "map_sha256": "65cc3e00855e133b1bff574782a0c35390a87e8479d55640a86a25a2241040ac"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 3,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally. No pointwise decisions are observed; total feasibility/objective maps remain complete."
+            },
+            "observed_decision_coordinates": 0
+          },
+          {
+            "reverse": true,
+            "input_integers": false,
+            "output_integers": false,
+            "objective": "Equal",
+            "inverse": null,
+            "index": 3,
+            "input_variables": 1,
+            "output_variables": 14387,
+            "observations": 0,
+            "affine_observations": 0,
+            "unique_observation_pairs": 0,
+            "all_observation_indices_in_directional_ranges": true,
+            "observation_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "map_summary": {
+              "expression_count": 14387,
+              "complete_output_dimension": true,
+              "all_input_indices_in_input_dimension": true,
+              "exact_rational_constants_and_coefficients": true,
+              "total_terms": 229,
+              "nonzero_constant_expressions": 928,
+              "term_count_histogram": {
+                "1": 229,
+                "0": 14158
+              },
+              "map_sha256": "3de1aeca1d0a456c28223c77f9a9cb99f54d8786bb0fbece386faca5c93498ea"
+            },
+            "scope_summary": {
+              "claim_root_end": "Return",
+              "Return_checks": 39540,
+              "input_restrictions": {},
+              "input_objective_lower": null,
+              "scope_authority": "Native completed-claim verification checks all root and internal case scopes; static audit does not infer that branch assumptions hold globally. No pointwise decisions are observed; total feasibility/objective maps remain complete."
+            },
+            "observed_decision_coordinates": 0
+          }
+        ],
+        "inverse_pair_observations_transposed": {},
+        "Return_checks_sum": 93474,
+        "Return_checks_match_native_obligations": true,
+        "observation_contract": "No coordinate or affine observations, inverse identities or separate bijection. Four total maps prove exact MI and LP objective images; they do not retain arbitrary assignment fibers.",
+        "MI_reverse_generated_coordinate_order_sha256": "cdc1e10a601349e6df72cfc04375b36927d0dafa19abf455154e6e57ca516508",
+        "maps_file_keys": [
+          "source_coordinate_order",
+          "target_coordinate_order",
+          "MI_forward",
+          "MI_reverse_generated_coordinate_order",
+          "MI_reverse",
+          "LP_forward",
+          "LP_reverse"
+        ]
+      },
+      "artifact_hash_binding": {
+        "source": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/source.mcm",
+          "declared_sha256": "178612387f875b85588733c9a4fe31441e22d68619290f2f9e27dbda4906661b",
+          "actual_sha256": "178612387f875b85588733c9a4fe31441e22d68619290f2f9e27dbda4906661b",
+          "match": true,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "target": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/target.mcm",
+          "declared_sha256": "e27beadf9952f91591bad8384587ffc0b446d49926364572d86cda8094e4354a",
+          "actual_sha256": "e27beadf9952f91591bad8384587ffc0b446d49926364572d86cda8094e4354a",
+          "match": true,
+          "first_four_bytes_hex": "4d434d00",
+          "reader_family": "kernel_mcm"
+        },
+        "proof": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/proof.rpx",
+          "declared_sha256": "3b5e49078e686198f71fab3e72c492da97bd8949d5bbc743d16cc6c18420120b",
+          "actual_sha256": "3b5e49078e686198f71fab3e72c492da97bd8949d5bbc743d16cc6c18420120b",
+          "match": true
+        },
+        "request": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/request.json",
+          "declared_sha256": "665ef68025b7509387d6277d75a695081749ae7dcad34a8b7fffc711b517c1e6",
+          "actual_sha256": "665ef68025b7509387d6277d75a695081749ae7dcad34a8b7fffc711b517c1e6",
+          "match": true
+        },
+        "committed_model": {
+          "path": "/Users/bhz/Code/reform_test/runs/test80-compiler-compiler-batch-C9-20261015/output/reformulated.mps",
+          "declared_sha256": "1eae391378404029c963f5c0405bc10cfdc14b4cf43ba0946dbbd7089566c938",
+          "actual_sha256": "1eae391378404029c963f5c0405bc10cfdc14b4cf43ba0946dbbd7089566c938",
+          "match": true
+        }
+      },
+      "committed_hash_receipt_delivery_assessment_actual_all_equal": true
+    },
+    "nomf": {
+      "run": "/Users/bhz/Code/reform_test/runs/test80-nomf-compiler-batch-C9-20261015",
+      "wall_s": 624.042,
+      "exit_code": 0,
+      "timed_out": false,
+      "source_shape": {
+        "variables": 14387,
+        "rows": 10765,
+        "integers": 14387,
+        "nonzeros": 64073,
+        "objective_nonzeros": 3331
+      },
+      "target_shape": {
+        "variables": 5405,
+        "rows": 7676,
+        "integers": 3773,
+        "nonzeros": 23901,
+        "objective_nonzeros": 237
+      },
+      "committed_model_sha256": "9f3df2eb29dbc3f1e43246ff55f8bc9be70d19f731ccf3506fbcd21433a65a0e",
+      "trusted_source_anchor": {
+        "actual_input_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "batch_launch_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "assessment_expected_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "assessment_actual_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "execution_expected_sha256": "53f3a9f91f1304e855792eb54e528be9c7ef9dac702fc590efdca9186611ee22",
+        "all_equal": true
+      },
+      "kernel_verification_required": false,
+      "kernel_verified": false,
+      "assessment_errors": [],
+      "metrics": {
+        "llm_calls": 23,
+        "tool_calls": 22,
+        "tool_calls_failed": 1,
+        "turns": 23,
+        "tokens_in": 47068,
+        "tokens_out": 31790,
+        "tokens_cache_read": 426112,
+        "tokens_cache_write": 0,
+        "tokens_total": 504970,
+        "cost_usd": 0.455,
+        "llm_time_s": 617.038,
+        "llm_ttft_s": 59.702,
+        "tool_time_s": 5.772,
+        "resolved_models": [
+          "openai-codex/gpt-6.1-sol"
+        ],
+        "thinking_levels": [
+          "high"
+        ],
+        "model_fallback_used": false
+      },
+      "first_complete_final_artifact_check_s": 368.1,
+      "post_check_s": 255.942,
+      "public_eval_cells": [
+        {
+          "seconds": 11.807,
+          "title": "Scanning complete MPS sections",
+          "duration_ms": 147,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "68adf2ff2c074f921ecc2587cb9203e72edaeec66de4a4242557b9124ffde4fe"
+        },
+        {
+          "seconds": 24.403,
+          "title": "Parsing exact model representation",
+          "duration_ms": 177,
+          "status": [
+            "error"
+          ],
+          "exit_codes": [
+            1
+          ],
+          "public_code_sha256": "2beb90aaff2773cd93504a353d95e1f5919397d32f20a5cbf801106ea9e6e6a1"
+        },
+        {
+          "seconds": 37.04,
+          "title": "Summarizing exact model families",
+          "duration_ms": 114,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "cd25c17abd7ad744178bc9152cf8a12d8104b8c011d1915beb199d98b9c58fc5"
+        },
+        {
+          "seconds": 48.492,
+          "title": "Inspecting linking constraint algebra",
+          "duration_ms": 20,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "13844a11e54596d3b02e20124ffbdb5627d18698a227a604e89d630565f824c4"
+        },
+        {
+          "seconds": 72.752,
+          "title": "Verifying complete algebraic templates",
+          "duration_ms": 31,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "1bc3cd468d4964e821c034cf61717f48474ba4cfc8fe940796a84c4efe04b7b8"
+        },
+        {
+          "seconds": 98.31,
+          "title": "Investigating anchored blocks and decomposition",
+          "duration_ms": 21,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "931376eb46620057ef616612c4faf29fbd19dfd648720ddafebce4cea927a5e3"
+        },
+        {
+          "seconds": 128.985,
+          "title": "Quantifying candidate exact reductions",
+          "duration_ms": 2,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "923e08bb53614b25183ed68b16d55864339bd6d11c5efe975ce5bc7dc6c7eee1"
+        },
+        {
+          "seconds": 149.926,
+          "title": "Checking candidate reduction scope",
+          "duration_ms": 96,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "52abcbc5b5ba12d5624902466dc1563d534c2987782f5db715be303643abf678"
+        },
+        {
+          "seconds": 206.154,
+          "title": "Proving local equivalence and strengthening",
+          "duration_ms": 69,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "30a73f6d1dc24cea39ea29be95833a73f99ba838ce72716b4c692fabe55139f7"
+        },
+        {
+          "seconds": 243.862,
+          "title": "Constructing intended reduced formulation",
+          "duration_ms": 51,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "ff3b1360463c6d729860fc7f1751982bed54409e443f4e48a35746fe53f84748"
+        },
+        {
+          "seconds": 270.196,
+          "title": "Writing and independently parsing final MPS",
+          "duration_ms": 85,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "231a71972cdb11cde8bfd9ae703d49c430f262a0ee0a2b627c531053866d9f58"
+        },
+        {
+          "seconds": 326.738,
+          "title": "Certifying every original row algebraically",
+          "duration_ms": 242,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "1d93ae9f9497f22721728bccb493f1060da26d03abbeac5fdbd3d6ac11c0da27"
+        },
+        {
+          "seconds": 368.1,
+          "title": "Exercising serialized formulation and maps",
+          "duration_ms": 4458,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "f5271b48fec3e0f971eeed5abcb2e03e069e2580b319b79d1eb7448145dc106c"
+        },
+        {
+          "seconds": 406.393,
+          "title": "Recording exact report witnesses",
+          "duration_ms": 20,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9383375065a3545b9373e383f2685198ba567f8210517c6cd73e3f546380bacf"
+        },
+        {
+          "seconds": 460.074,
+          "title": "Writing machine-readable mathematical audit",
+          "duration_ms": 60,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a35456fbfc8ff8d8f4d89197f1af969c91a17bd59195205e2433f59ba1a95e59"
+        },
+        {
+          "seconds": 503.728,
+          "title": "Verifying analytic global objective certificate",
+          "duration_ms": 51,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "99577c61fdb46effa39a1fbacc646c2dc31b041ac167c121b63bb35cbbb051a3"
+        },
+        {
+          "seconds": 534.65,
+          "title": "Recording exact optimality evidence",
+          "duration_ms": 40,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "9223cc27322e0a31785fba92f809e54beb141681ac80b7d4725cc3f939cff6ac"
+        },
+        {
+          "seconds": 596.882,
+          "title": "Writing final analysis report",
+          "duration_ms": 5,
+          "status": [
+            "complete"
+          ],
+          "exit_codes": [
+            0
+          ],
+          "public_code_sha256": "a09dd5ab3340989276ed4ce11472075fac53da83810f350335654a2a02cffe7f"
+        }
+      ],
+      "public_read_calls": [
+        {
+          "seconds": 2.131,
+          "i": "Inspecting evaluation workspace",
+          "path": "."
+        },
+        {
+          "seconds": 6.053,
+          "i": "Inspecting MPS header records",
+          "path": "input/model.mps:1-90"
+        },
+        {
+          "seconds": 27.877,
+          "i": "Inspecting fixed bound records",
+          "path": "input/model.mps:85404-85425"
+        },
+        {
+          "seconds": 210.296,
+          "i": "Inspecting MPS section boundaries",
+          "path": "input/model.mps:10760-10788,78168-78187,96475-96485"
+        }
+      ],
+      "proof_API_calls": [],
+      "standalone_author_scripts": [],
+      "provenance_sha256": {
+        "workspace-manifest.json": "396e636ebdd1fd806765c7bce56b364c1ab22d029ebc5cf0a5fdd2cef0e44c2e",
+        "execution.json": "58fd04dcbdc24d243f906de2260ae670195d6e1bb04f7f9dee4e759998b06ef5",
+        "session.jsonl": "618d13c76be002c71e91bf8b2f953a7249bb4c5e05176b2a5a94923ce639abf1",
+        "assessment.json": "b13f63e620d12db510abe6c817336062832dc77d601dad95c1b5565650d3f65d",
+        "protocol.md": "a4b4ef8e4dd67d77d1b7bd71e312a8b9cb5e17c90cb2f4426dcd44f288e6c23e",
+        "final-answer.txt": "3b3bd31bd5cdf85d4171f7b7cb6cda0d5dc44d574bb08551c003d47716f6b9c2",
+        "output/report.md": "838051c9d3b153631353773835437d62082f6387c1f48e4ba6c24c065611da74",
+        "output/verification.json": "874e1efe926d665769e9baa9764fdf83f735c3761fba6611e644efd33afb06d7",
+        "output/audit.json": "d256476ec972917d649ca10d961543753e52638c707e70f3a66ac7172ecda0d7"
+      },
+      "independent_handwritten_audit_status": null
+    }
+  },
+  "mathematical_comparison": {
+    "common_source": "14387integer variables (14379binary-box and8fixed1),10765rows,64073matrix nnz. Objective F=sum of3315p coordinates minus10 times16b.221disjoint p groups each sum≤1; uniform x/y group-zero assignments give explicit feasible endpoints.",
+    "compiler": {
+      "selected_target": "One integer coordinate objective_value∈[-160,141], no rows, objective equal to that coordinate. Source objective projection is exact at every integer level and continuously, not merely at its optimum.",
+      "given_math": "P∈[0,221],B∈[8,16] imply F∈[-160,141]. For k=z+160, choose(B,P)=(16,k) for k≤221 or(8,k−80) for222≤k≤301. Choose p(g,0)=1 iff g<P, all otherp zero; x/y uniformly choosegroup0. This gives302explicit integer-level points, all checked againstevery original bound/row.",
+      "proof": "Four unrestricted Equal claims: MIforward1output expression F, MIreverse14387expressions in a302entry MenuLift, LPforward1expression F, LPreverse14387affine expressions along the segment between endpoints. All93474obligations checked; no inverse/observations/points. The302check_point calls are author-side exact checks,not Request.points.",
+      "exploration": "Identical complete-column candidates, direction of AND links, singletoncoverage andco-occurrence components were investigated before the stronger fullobjective-image projection. Public report explicitly says the objective projection supersedes local aggregation candidates; no API failure is cited for this choice."
+    },
+    "nomf": {
+      "selected_target": "5405vars=3773binary+1632continuous,7676rows/23901matrix nnz,237objective terms. Preserve y,b and221paggregates;102distinct unanchored AND output blocks becomecontinuous t;57anchor equations and64directedanchorinclusions;delete170unlinkedassignment blocks andbothaggregate redundancy rows.",
+      "scope": "Many-to-one MI correspondence under retained y,b,paggregate/AND representation; public reverseLP extension certificates andstrict fractional strengthening witness. An exact point proves optimum−160 too. This retains substantial decision structure which Compiler intentionally projects away.",
+      "positive_checks": "All10765originalrows and14387bound extensions checked againstactual committed rows,168constructedinteger assignments,164nonanchor two-one alternatives andan original fractional witness excludedby16committed rows.",
+      "public_errors": "Initial parser asserted onlyUP bounds and encounteredFX b(0) at24.403s; repairedcomplete bounds interpretation thencontinues.",
+      "restriction_choice": "Nomf explicitly rejects fixingremainingfree b/allvariables toknownoptimum to preserveother objective values andassignments. Compiler also preserves everyobjective value, but doesnotpreserve allassignmentfibers; this is a different relation,not the same rejected optimum-only operation."
+    },
+    "comparison_boundary": "Compiler proves a dramatically stronger compression of the objective image with explicit full lifts; Nomf retains much more decision structure and derives local LP strengthening. Both optimize to−160 bypublic analytic evidence. Number ofvariables orshorterAgenttime doesnotestablish equivalent reformulationquality/ambition, andqualitymeasurement ispending.",
+    "retreat_or_friction": {
+      "explicit_proof_cost_retreat_observed": false,
+      "API_failure_observed": "At227.828s, eq(expect=objective residual) rejects anauthor mapusing1−A on8free bcoordinates instead ofA. At236.564s onlythosemapentries change toA; same one-variabletarget and4claims complete. This is anexact residualguard catching a sign error,not aninexpressibletransform or targetweakening.",
+      "native_failure_observed": false,
+      "nonaffine_expression_positive_evidence": "Author uses the302-way finite MenuLift to express complete arbitrary-level MI reconstruction; no affine-only retreat."
+    }
+  },
+  "phase_diagnosis": {
+    "compiler_target_and_full_objective_image_math_ready_s": 198.725,
+    "compiler_directional_forward_and_LP_proof_ready_s": 212.028,
+    "compiler_author_sign_error_s": 227.828,
+    "compiler_corrected_MI_proof_ready_s": 236.564,
+    "compiler_first_final_VERIFIED_s": 261.689,
+    "compiler_post_verified_s": 74.098,
+    "compiler_tool_time_s": 29.611,
+    "compiler_LLM_time_s": 304.726,
+    "compiler_largest_cell": {
+      "completion_s": 198.725,
+      "duration_s": 23.962,
+      "meaning": "Construct and exact-check all302suppliedinteger-level points plusinitial4claimdeclaration."
+    },
+    "compiler_native_total_s": 0.139426,
+    "compiler_native_execute_s": 0.087232,
+    "nomf_first_full_serialized_artifact_smoke_s": 368.1,
+    "nomf_analytic_optimum_completed_s": 503.728,
+    "nomf_post_smoke_s": 255.942,
+    "nomf_post_analytic_optimum_s": 120.314,
+    "wall_s": {
+      "compiler": 335.787,
+      "nomf": 624.042
+    },
+    "wall_ratio_compiler_to_nomf": 0.5380839751170594,
+    "boundary": "Public completion offsets include cell runtime. Difference in elapsed time is observational acrossdifferentmath/contracts. Thecurrent package is pinned539forboth compiler source andgeneric docs;this isnot proof of anencoder/helper causal speedeffect."
+  },
+  "helper_usage": {
+    "observed": [
+      "Model.load",
+      "Model.column_incidence",
+      "Model.check_point onall302levels",
+      "Proof.claim exactfourdomains",
+      "contract_summary",
+      "menus withone302entrymenu",
+      "menu.sum/menu.moment andscopedcomplete",
+      "box_le/Lin/Int",
+      "wholecommittedModel verify"
+    ],
+    "not_observed": [
+      "zero_sum",
+      "rewrite_many",
+      "cases",
+      "inverse/bijection",
+      "Kernel points/improvements"
+    ],
+    "provenance_boundary": "Newestsource539encoder ispartofautomaticcertificatewrite;publicprogramusesnoexplicitnewencoderAPI. Noevidence attributes speed/choice tosourceversion."
+  },
+  "public_map_correction_evidence": {
+    "path": "/Users/bhz/Code/kernel/audit/compiler-agent/C9-test80-public-map-correction.py",
+    "sha256": "40154955db155e72d06338f3ee03d0d974341cee93bd822d7532cd164bbf1822",
+    "session_sha256": "a5bf98a9508a99017f0f378849c88f5790d27449bc7bc91b9bb5cfb015c091da",
+    "status": "NOT_REEXECUTED"
+  }
+}
