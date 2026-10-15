@@ -6,6 +6,7 @@ authority. Helpers only elaborate caller-supplied derivations and trivial facts.
 from __future__ import annotations
 
 from collections import ChainMap
+from collections.abc import Mapping
 from bisect import bisect_right
 from dataclasses import dataclass
 from fractions import Fraction
@@ -325,6 +326,86 @@ class Builder:
                 equality = self.eqpair(self.upper(index), self.lower(index))
             terms.append((equality, coefficient))
         return self.eq(terms, expect=expression)
+
+    def zero_sum(self, fact, *, zeros=None, scale=1, coordinates=None):
+        """Elaborate zeros from one supplied nonnegative, zero-sided sum.
+
+        The caller selects the EQ/LE, its orientation, already proved zeros,
+        and optionally the coordinates to prove. Only the selected row's
+        coordinates are looked up in ``zeros`` (integer keys, then names).
+        This does not select rows, discover a closure, or search for premises.
+
+        After cancelling the supplied one-coordinate zero EQs, the constant
+        must be zero and all remaining coefficients positive, with declared
+        nonnegative lower bounds. A one-coordinate EQ needs no bound or sign
+        condition. The result maps new coordinate indices to EQ(x[i]) facts.
+        All steps are ordinary Lin/EqPair. For m input terms and k outputs
+        from an n-term residual, they use O(m+k*n) premises, without scanning
+        the complete zero map per row.
+        """
+        self._visible(fact)
+        scale = exact(scale)
+        if fact.kind not in ("Eq", "Le") or not scale or (fact.kind == "Le" and scale < 0):
+            raise BuildError("zero_sum needs an EQ or a positively scaled LE")
+        zeros = {} if zeros is None else zeros
+        if not isinstance(zeros, Mapping):
+            raise TypeError("zero_sum zeros must map coordinate indices or names to zero EQ facts")
+        if fact.expression.constant:
+            raise BuildError("zero_sum needs an exactly zero constant")
+
+        missing, terms, remaining = object(), [(fact, scale)], {}
+        for index, coefficient in fact.expression.terms.items():
+            equality = zeros.get(index, missing)
+            if equality is missing:
+                equality = zeros.get(self.model.vars[index].name, missing)
+            coefficient *= scale
+            if equality is missing:
+                remaining[index] = coefficient
+                continue
+            self._visible(equality)
+            if (equality.kind != "Eq" or equality.expression.constant
+                    or len(equality.expression.terms) != 1
+                    or index not in equality.expression.terms):
+                raise BuildError("zero_sum needs a one-coordinate zero EQ for each used fixing")
+            terms.append((equality, -coefficient / equality.expression.terms[index]))
+
+        selected = (list(remaining) if coordinates is None else
+                    list(dict.fromkeys(self.model._index(i) for i in coordinates)))
+        if any(index not in remaining for index in selected):
+            raise BuildError("zero_sum selected coordinate is not an unfixed term of the supplied sum")
+        if not selected:
+            return {}
+        single_eq = fact.kind == "Eq" and len(remaining) == 1
+        if not single_eq:
+            for index, coefficient in remaining.items():
+                lower = self.model.vars[index].lower
+                if coefficient <= 0 or lower is None or lower < 0:
+                    raise BuildError("zero_sum needs positive coefficients and declared nonnegative lower bounds")
+
+        # Validate all used premises and conditions before emitting any step.
+        expression = Expr(0, remaining)
+        reduced = fact if len(terms) == 1 and scale == 1 else self.lin(fact.kind, terms, expect=expression)
+        if single_eq:
+            index = selected[0]
+            x, coefficient = self.model.var(index), remaining[index]
+            return {index: reduced if coefficient == 1 else self.eq([(reduced, 1/coefficient)], expect=x)}
+
+        nonnegative = {}
+        for index in remaining:
+            x = self.model.var(index)
+            nonnegative[index] = (self.lower(index) if self.model.vars[index].lower == 0
+                                  else self.box_le(-x))
+        result = {}
+        for index in selected:
+            x, coefficient = self.model.var(index), remaining[index]
+            if len(remaining) == 1 and coefficient == 1:
+                upper = reduced
+            else:
+                upper = self.le([(reduced, 1/coefficient), *(
+                    (nonnegative[other], value/coefficient)
+                    for other, value in remaining.items() if other != index)], expect=x)
+            result[index] = self.eqpair(upper, nonnegative[index])
+        return result
 
     def round(self, le, integer):
         self._visible(le)

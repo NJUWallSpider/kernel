@@ -186,6 +186,7 @@ internals:
 
 | Authoring task | API |
 | --- | --- |
+| Derive selected coordinate zeros from one supplied nonnegative zero-sum witness | `builder.zero_sum(fact, zeros=proved_zeros, scale=1, coordinates=None)` |
 | Rewrite a batch of given facts using selected equality pivots | `builder.rewrite_many(facts, definitions)` |
 | Elaborate literal-zero equality obligations from selected definitions | `claim.substitution(definitions)` |
 | Reconstruct a given goal from its caller-proved residual | `builder.derive_substitution(goal, definitions, residual)` |
@@ -327,9 +328,51 @@ b.substitution(your_ordered_pivot_equalities, goals=your_equality_expressions)
 b.combine_rows("Le", {"packing": 1, ("ranged", "Upper"): 2}, expect=desired_expr)
 b.box_le(your_inequality_expression) # supplied goal, declared variable bounds only
 b.eq_on_fixed(desired_expr, fixes={"x": proved_x_equals_constant})
+b.zero_sum(your_zero_sided_fact, zeros=proved_zeros, scale=1)
 b.batch(instances, lambda builder, item: your_template(builder, item))
 b.drop(unneeded_local_fact)
 ```
+
+`zero_sum(fact, *, zeros=None, scale=1, coordinates=None)` elaborates one
+caller-selected zero-sum argument. Supply a visible Eq, or a Le with positive
+scale. The fact must have constant zero. The helper cancels only the supplied
+one-coordinate zero Eq facts at indices occurring in this fact; remaining
+coefficients must be positive and their declared lower bounds nonnegative.
+A single remaining coordinate in an Eq needs no bound or sign condition.
+The result maps coordinate indices to exact Eq facts `x[i]=0`. `coordinates`
+optionally selects a sequence of remaining names/indices; otherwise all remaining
+coordinates are returned. The `zeros` mapping accepts indices and names (index
+lookup first), including scaled zero equalities. It is never scanned in full.
+Only ordinary Lin/EqPair steps are emitted. For m input terms and k selected
+coordinates in an n-term residual, the generated proof contains O(m+k*n) premises.
+
+You choose the witness rows, their order and orientation; this does not discover
+a zero closure or choose a reformulation. For example:
+
+```python
+zeros = {}
+for row_name, orientation in your_ordered_zero_witnesses:
+    zeros.update(b.zero_sum(b.row(row_name), zeros=zeros, scale=orientation))
+```
+
+For your selected alias equations, cancel that same zero map in one batch,
+then check the exact pair relation as part of the ordinary Eq construction:
+
+```python
+# your_aliases is a sequence of (removed_name, retained_name, equality_row_name).
+reduced = b.rewrite_many([b.row(row) for _, _, row in your_aliases], zeros)
+aliases = {}
+for (removed, retained, _), fact in zip(your_aliases, reduced):
+    coefficient = fact.expression.coefficient(b.model.var_index[removed])
+    aliases[removed] = b.eq([(fact, 1/coefficient)],
+                           expect=b.model.var(removed)-b.model.var(retained))
+definitions = dict(zeros)
+definitions.update(aliases)
+```
+
+This checks each supplied residual exactly without rebuilding a set of every
+known zero for every alias. `rewrite_many` validates the shared pivot map once;
+it does not find aliases or choose representatives.
 
 `rewrite` performs only the explicitly supplied pivot eliminations. It combines
 the old fact with your proved equalities using exact cancellation coefficients.
