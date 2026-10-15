@@ -1,0 +1,20 @@
+{
+  "schema": "compiler-feedback-contract-choice-1",
+  "recorded_utc": "2026-10-15T05:33:46.543777+00:00",
+  "basis_sha256": {
+    "audit/compiler-agent/C9-test62-phase.json": "137160b19462a29e97dcffcf88d25d395470af12f070161e0c2e7862c96c5b4a",
+    "audit/compiler-agent/C9-test65-phase.json": "f117b0a650e025cab5f046f45ca5658a261eb0469573fbb274dd65871db87910",
+    "audit/compiler-agent/C9-test85-phase.json": "fb50cb0973d31ed69dc8efe11f41c6ac083268437dce2da19a9602b24fb53b0c"
+  },
+  "observed_feedback": "C9/65 and85 select complete MI+LP affine inverse simplifications while fresh Nomf develops distinct integer-only or canonicalizing transforms. C9/62 certifies a nonlinear clause construction while fresh Nomf selects local hulls. All final Compiler requests are valid; these are differences in chosen mathematics and formal scope.",
+  "causal_boundary": "No public proof-API rejection or explicit proof-cost retreat for those alternative transforms was observed. The record does not establish that optional scope caused the differences; this wording is a general usability response, not a causal finding or a case-specific strategy.",
+  "change": "Explain relation choice before the first affine-bijection example; in the Agent relation paragraph put optional LP/inverse contracts after consideration of integer/canonicalizing formulations, while retaining total maps, all output feasibility and every claimed preservation relation.",
+  "unchanged_correctness_requirement": "The submitted theorem must establish the intended reformulation on its declared complete domains; restricted or one-direction claims do not imply a broader relation. No Kernel check, resource limit or proof rule changes.",
+  "files_sha256": {
+    "docs/COMPILER_API.md": "3c6e6c2968326dbb883fc5d09b1f78b7c8a1e8486690801cef220c90753ecccc",
+    "docs/COMPILER_AGENT_PROTOCOL.md": "c6569e7497e7485a46f00d54a391592547b19330a81cbe9ac0dd419772fb183b"
+  },
+  "validation": "Prose-only change checked against actual correspondence/bijection semantics and C9 static evidence; no extra test/solver/replay/benchmark during quality.",
+  "fresh_Agent_evidence_for_wording": "NOT_RUN; all C9 Agents used the original frozen539/API and C8 prompt.",
+  "overall_acceptance": false
+}

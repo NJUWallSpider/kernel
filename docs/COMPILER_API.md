@@ -7,6 +7,14 @@ Choose your strongest justified reformulation first. Supply its mathematical
 maps and nontrivial derivations; the compiler handles exact arithmetic, scopes,
 model edits, obligation ordering, serialization, and verification feedback.
 
+Choose the mathematical reformulation before adding optional proof contracts.
+`Proof.correspondence` declares total directions for integer feasibility and
+objective correspondence, with maps supplied now or later. `Proof.bijection`
+additionally requests pointwise inverse identities. Full LP equivalence is
+another property: integer strengthening and canonicalization may use other
+relations. Keep every property you actually claim in the Request. See
+[contracts and complete maps](#contracts-complete-maps-and-obligations).
+
 For an affine elimination justified by your equality rows, the usual proof
 authoring pattern is:
 

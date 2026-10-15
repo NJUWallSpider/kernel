@@ -10,7 +10,7 @@ Failure of a box-only or other sufficient template leaves a goal unproved; it do
 
 Build unchanged sets and indexes once and reuse them across rows or definitions; use sparse batches for repeated work. Keep complete Requests, maps and observations on disk. Display counts and bounded summaries, then inspect selected entries as needed; display limits must not reduce claim coverage.
 
-Declare the actual relation in your Request: integer or continuous domains, objective comparison, observations, restrictions, and inverse identities when intended. Each directional map covers every output coordinate and all its feasibility obligations. Use the contract matching your mathematical argument; acceptance of a restricted or one-direction claim does not establish a broader relation.
+Declare the actual relation in your Request: integer or continuous domains, objective comparison, observations, restrictions, and inverse identities when intended. Each directional map covers every output coordinate and all its feasibility obligations. Choose optional LP/inverse contracts after considering integer-only and canonicalizing reformulations, and cover every property you claim. Stronger optional scope alone does not make a formulation better. Use the contract matching your mathematical argument; acceptance of a restricted or one-direction claim does not establish a broader relation.
 
 For the completed proof, write a separate final standard LP/MPS under `output/` and invoke the Kernel yourself:
 
