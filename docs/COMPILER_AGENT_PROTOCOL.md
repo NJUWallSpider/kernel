@@ -4,6 +4,8 @@ The supplied `kernel_compiler` Python package and RPX kernel are available. Impo
 
 Keep the mathematical objective and autonomous exploration in the shared protocol. Develop promising mathematical candidates before committing to proof builders; use the model and proof APIs throughout whenever helpful. Choose the strongest justified reformulation; express its proof using the available builders and explicit witnesses. A difficult certificate is a reason to report a concrete compiler limitation, not to weaken the target or its required correctness relation. If certification fails, preserve the intended target and failing call and state what remains unproved.
 
+Failure of a box-only or other sufficient template leaves a goal unproved; it does not refute a map on the full constrained domain. If your argument uses constraints or cases, express those witnesses before deciding whether to discard the candidate.
+
 `Model.load("input/model.mps")` uses the Kernel's exact reader. Use bounded structural inspection to understand the model and establish the representation needed for your reasoning. Build the target and proof in the same persistent session. A standalone authoring script is optional: the evaluation retains your actual Python calls. Keep useful witness/edit data as part of the ordinary analysis audit.
 
 Build unchanged sets and indexes once and reuse them across rows or definitions; use sparse batches for repeated work. Keep complete Requests, maps and observations on disk. Display counts and bounded summaries, then inspect selected entries as needed; display limits must not reduce claim coverage.

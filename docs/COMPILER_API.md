@@ -454,6 +454,13 @@ one ordinary Lin step. An unavailable bound or positive maximum raises
 `BuildError` before any step is emitted. It does not use rows, discover a cut,
 or search for stronger bounds.
 
+A failed box check leaves the inequality unproved by this sufficient template;
+it does not refute it on the model's full constrained feasible domain. Preserve
+your intended map while checking your mathematical argument. Supply your chosen
+row combination with `le`/`combine_rows`, equality substitutions with a proved
+residual via `derive_substitution`, or an explicit `cases` argument when those
+are the needed witnesses. The compiler does not discover those witnesses.
+
 Integer-valued expressions need not be declared integer variables. Prove their
 integerness from your equations and known Int facts, or export an Int conclusion
 from exhaustive cases:
