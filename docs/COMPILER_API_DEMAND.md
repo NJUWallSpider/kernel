@@ -1,5 +1,7 @@
 # Compiler API demand: what the 81 reformulation cases need
 
+> Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
+
 Status: **analysis document, not a format or ABI specification.** It records what the
 delivered corpus and the underlying agent trajectories demand from the compiler layer that
 will sit on top of the RPX kernel, and it proposes an API shape. Nothing here changes a

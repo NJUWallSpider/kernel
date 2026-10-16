@@ -262,7 +262,7 @@ class StandardMPSAdapter:
         return deepcopy(self._report)
 
     def proof(self):
-        """Generate only mechanical MI and LP Equal affine inverse claims."""
+        """Construct both complete MI maps for the standard-file adapter."""
         from .session import Proof
         proof = Proof(self.source, self.target, kernel=self._kernel)
         forward = {v.name: self.source.var(i) for i, v in enumerate(self.source.vars)}
@@ -270,30 +270,29 @@ class StandardMPSAdapter:
         if self._objective is not None:
             forward[self.target.vars[self._objective.variable].name] = self.source.objective
         try:
-            for integers in (True, False):
-                f, r = proof.bijection(forward, reverse, integers=integers, projection="retained")
-                for index, (scale, chunks) in enumerate(self._row_scales):
-                    if scale == 1:
-                        continue
-                    row = self.source.rows[index]
-                    if row.equality:
-                        _scaled_fact(f, f.row(index), chunks)
-                        _scaled_fact(r, r.row(index), chunks, reverse=True)
-                    else:
-                        for side in ("Lower", "Upper"):
-                            if getattr(row, side.lower()) is not None:
-                                _scaled_fact(f, f.row(index, side=side), chunks)
-                                _scaled_fact(r, r.row(index, side=side), chunks, reverse=True)
-                for move in self._bounds:
-                    side = move.side.capitalize()
-                    bound = f.lower(move.variable) if move.side == "lower" else f.upper(move.variable)
-                    _scaled_fact(f, bound, move.chunks)
-                    _scaled_fact(r, r.row(move.row, side=side), move.chunks, reverse=True)
-                if self._objective is not None:
-                    _scaled_fact(r, r.row(self._objective.row), self._objective.chunks,
-                                 reverse=True, negative=True)
-                f.complete()
-                r.complete()
+            f, r = proof.forward.map(forward), proof.reverse.map(reverse)
+            for index, (scale, chunks) in enumerate(self._row_scales):
+                if scale == 1:
+                    continue
+                row = self.source.rows[index]
+                if row.equality:
+                    _scaled_fact(f, f.row(index), chunks)
+                    _scaled_fact(r, r.row(index), chunks, reverse=True)
+                else:
+                    for side in ("Lower", "Upper"):
+                        if getattr(row, side.lower()) is not None:
+                            _scaled_fact(f, f.row(index, side=side), chunks)
+                            _scaled_fact(r, r.row(index, side=side), chunks, reverse=True)
+            for move in self._bounds:
+                side = move.side.capitalize()
+                bound = f.lower(move.variable) if move.side == "lower" else f.upper(move.variable)
+                _scaled_fact(f, bound, move.chunks)
+                _scaled_fact(r, r.row(move.row, side=side), move.chunks, reverse=True)
+            if self._objective is not None:
+                _scaled_fact(r, r.row(self._objective.row), self._objective.chunks,
+                             reverse=True, negative=True)
+            f.complete()
+            r.complete()
             return proof
         except BaseException:
             proof.close()

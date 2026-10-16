@@ -5,17 +5,19 @@ Python tools prepare certificates, orchestrate checks, and summarize evidence.
 
 | Task | Entry point |
 | --- | --- |
-| Complete case delivery, including multi-file requests | `check_delivery.py` |
+| Complete case delivery, one two-block RPX certificate per model pair | `check_delivery.py` |
 | Corpus acceptance replay | `run_acceptance.py` |
 | Manual examples and rejection checks | `check_rpx_manual.py` |
-| Fresh source/build/test checkpoint | `cold_checkpoint.py` |
-| Synthetic semantic generalization | `generalization.py` |
-| Per-case certificate preparation | `prepare_test*.py` and shared builders |
-| Current performance matrices | `benchmark*.py` |
+| Historical-proof migration | `migrate_mi_opt.py` |
+| Paired simplification comparison | `benchmark_mi_opt_migration.py` |
 | Saved benchmark analysis | `report*.py` |
 | Compiler API demand tables | `aggregate_api_demand.py` |
 | Fresh matched compiler/nomf Agents | `run_compiler_agents.py` |
 | Independent post-commit reformulation quality | `evaluate_compiler_quality.py` |
+
+Historical `cold_checkpoint.py`, `generalization.py`, `prepare_test*.py` and
+older `benchmark*.py` drivers (excluding the current migration comparison) retain the earlier Request interface and require their
+recorded kernel versions. Use `run_acceptance.py` for current builds and replay.
 
 Some case preparers import helpers from earlier, partial preparers. Those modules
 remain necessary even when their original command-line attempt is superseded.
@@ -47,3 +49,5 @@ and binary; running its retired generator against today's kernel is insufficient
 Current report generators that read retained evidence remain available. Some
 historical comparison drivers still require removed snapshots, as documented in
 `audit/POST_DELIVERY_CHANGES.md`.
+
+Current verification takes source MCM, target MCM and one RPX 11 file; no Request argument. `run_acceptance.py`, `check_delivery.py`, `check_rpx_manual.py` and the compiler-agent review harness use fixed MI_OPT. Historical preparation/benchmark scripts and their hash-pinned receipts describe the earlier request-based interface and require their recorded binaries.

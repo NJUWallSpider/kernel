@@ -1,11 +1,11 @@
-# Joint common-source flow extension in V4
+# Joint common-source flow extension
 
 `crates/core/src/flow.rs` prepares the graph premises and model extension used by
-the V4 `FlowLift` terminator. The proof engine must prove all of those premises
+the `FlowLift` terminator. The proof engine must prove all of those premises
 in the current input context before using the extension. The helper's result is
 deliberately named `UncheckedFlowExtension`; calling it is not verification.
 The binary/text version, terminal encoding and proof-engine integration are
-specified in [FORMAT.md](FORMAT.md#flowlift). The constructive soundness argument
+specified in [FORMAT.md](FORMAT.md#constructive-witness-payloads). The constructive soundness argument
 and current builder behavior are documented here.
 
 ## Data and exact premises
@@ -102,7 +102,7 @@ same input point. The child proof must then establish the complete actual output
 model from the extension. It may not infer additional per-commodity capacities,
 integrality or objectives from the theorem. Those remain ordinary obligations.
 In particular, heterogeneous commodity costs are acceptable only if the actual
-requested objective relation is independently proved by the child. The rule
+nonincreasing objective is independently proved by the child. The rule
 does not claim an affine inverse or a bijection of original and grouped flow
 vectors.
 
@@ -160,7 +160,7 @@ variables, work/dimension/large-intermediate limits and internal-name collisions
 These are supplementary to full proof-engine integration attacks.
 
 Reproduce the fixture with `python3 audit/generate_flow_oracle.py` and run the
-builder suite with `cargo test -p kernel-core --test flow_builder`. As elsewhere,
+builder suite with `cargo test -p kernel-core --lib test_flow_builder`. As elsewhere,
 executable tests and the mathematical rule argument do not constitute a machine
 checked proof of the Rust implementation.
 
@@ -168,9 +168,11 @@ checked proof of the Rust implementation.
 
 [test28](../cases/test28/README.md) applies this rule to 47 continuous commodities
 on a 19-node, 50-arc graph, aggregated into 14 common-source groups. Its complete
-two-direction contract preserves all 150 integer capacity coordinates and every
+historical two-direction contract preserves all 150 integer capacity coordinates and every
 attainable objective value for each assignment. It does not claim a bijection of
 the continuous flow vectors. The reverse extension adds 2,350 continuous flow
 coordinates and 1,593 equalities; the ordinary child proof checks every actual
 source bound, domain, row, objective and observation. The case record and
 [delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the replay evidence.
+
+The current migrated certificate checks only complete MI optimization equivalence; historical additional property checks are not part of RPX 11.

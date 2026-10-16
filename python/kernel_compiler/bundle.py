@@ -1,10 +1,8 @@
 """Explicit ordered proof stages.
 
-Each stage Request is accepted by Kernel; exact joins and elementary composition
-are compiler-side checks.
+Each stage certifies MI_OPT in Kernel; exact named model joins are checked here.
 
-Composition records only elementary consequences of caller-selected existing
-Requests. It neither searches for a proof nor creates a new RPX proof rule.
+MI_OPT composes along the complete ordered chain. No claim selection is needed.
 """
 from __future__ import annotations
 
@@ -15,9 +13,7 @@ from .backend import Kernel, KernelError
 from .model import Model
 from .proof import BuildError
 
-ROLES = ("source", "target", "proof", "request")
-OBJECTIVES = {"Equal": 0, "NonIncreasing": 1, "None": 2}
-MAX_OBSERVATION_PAIRS = 10_000_000
+ROLES = ("source", "target", "proof")
 
 
 def _file(value, base):
@@ -51,132 +47,15 @@ def _check_hash(record, base, *, expected=None, cache=None):
     return path
 
 
-def _request(path):
-    value = json.loads(path.read_text())
-    # Frozen Kernel also accepts the legacy directional-claim array.
-    if isinstance(value, list):
-        value = {"claims": value}
-    if not isinstance(value, dict) or not isinstance(value.get("claims", []), list):
-        raise BuildError("Invalid chain Request container")
-    return value
-
-
-def _paths(document, count):
-    composition = document.get("composition")
-    if not isinstance(composition, dict) or composition.get("ordered_chain") is not True:
-        raise BuildError("Chain requires explicit composition.ordered_chain=true")
-    paths = composition.get("claim_paths", {})
-    if not isinstance(paths, dict):
-        raise BuildError("claim_paths must map labels to one claim index per stage")
-    for label, indices in paths.items():
-        if not isinstance(label, str) or not label or not isinstance(indices, list) or len(indices) != count:
-            raise BuildError("Each named claim path must cover every stage exactly once")
-        if any(type(index) is not int or index < 0 for index in indices):
-            raise BuildError("Claim path indices must be nonnegative integers")
-    return paths
-
-
-def _relation(claim, source_names, target_names):
-    inputs, outputs = (target_names, source_names) if claim["reverse"] else (source_names, target_names)
-    result = set()
-    for pair in claim.get("projection", []):
-        if (not isinstance(pair, (list, tuple)) or len(pair) != 2
-                or any(type(i) is not int or i < 0 for i in pair)
-                or pair[0] >= len(inputs) or pair[1] >= len(outputs)):
-            raise BuildError("Invalid selected claim projection coordinates")
-        result.add((inputs[pair[0]], outputs[pair[1]]))
-    return result
-
-
-def _compose(left, right):
-    outgoing = {}
-    for middle, end in right:
-        outgoing.setdefault(middle, set()).add(end)
-    result = set()
-    for start, middle in left:
-        for end in outgoing.get(middle, ()):
-            result.add((start, end))
-            if len(result) > MAX_OBSERVATION_PAIRS:
-                raise BuildError("Chain observation composition exceeds its resource limit")
-    return result
-
-
-def _compose_paths(stages, paths):
-    summaries = []
-    for label, indices in paths.items():
-        selected = []
-        for stage, index in zip(stages, indices):
-            claims = stage["request"].get("claims", [])
-            if index >= len(claims) or not isinstance(claims[index], dict):
-                raise BuildError(f"Claim path {label!r} contains an unavailable claim index")
-            claim = claims[index]
-            if (any(type(claim.get(field)) is not bool for field in
-                    ("reverse", "input_integers", "output_integers"))
-                    or claim.get("objective") not in OBJECTIVES):
-                raise BuildError("Invalid selected chain claim flags or objective")
-            selected.append((stage, index, claim))
-        reverse = selected[0][2]["reverse"]
-        if any(claim["reverse"] is not reverse for _, _, claim in selected):
-            raise BuildError("A claim path must use one consistent stage direction")
-        if reverse:
-            selected.reverse()
-        for left, right in zip(selected, selected[1:]):
-            if left[2]["output_integers"] is not right[2]["input_integers"]:
-                raise BuildError("Claim path has incompatible integer domains at a stage handoff")
-        selection = [{"stage": stage["index"], "claim": index,
-                      "input_objective_lower": claim.get("input_objective_lower")}
-                     for stage, index, claim in selected]
-        restrictions = [{"stage": stage["index"], "claim": index,
-                         "input_objective_level": claim.get("input_objective_level"),
-                         "input_halfspace": claim.get("input_halfspace")}
-                        for stage, index, claim in selected if
-                        claim.get("input_objective_level") is not None or claim.get("input_halfspace") is not None]
-        summary = {"label": label, "direction": "reverse" if reverse else "forward",
-                   "input_integers": selected[0][2]["input_integers"],
-                   "output_integers": selected[-1][2]["output_integers"],
-                   "selected_claims": selection, "composable": not restrictions,
-                   "affine_inverse_inferred": False, "full_model_bijection_inferred": False,
-                   "uncomposed_affine_projection_count": sum(len(c.get("affine_projection", [])) for _, _, c in selected)}
-        if restrictions:
-            summary.update(stage_local_only=True, restrictions=restrictions,
-                           reason="Restricted stage claims were verified locally; no unrestricted final relation is derived")
-        else:
-            relation, objective = None, "Equal"
-            for stage, _, claim in selected:
-                edge = _relation(claim, stage["source_names"], stage["target_names"])
-                relation = edge if relation is None else _compose(relation, edge)
-                if OBJECTIVES[claim["objective"]] > OBJECTIVES[objective]:
-                    objective = claim["objective"]
-            summary.update(objective=objective, observation_relation=sorted(relation or set()),
-                           observation_count=len(relation or set()))
-        summaries.append(summary)
-    bidirectional = []
-    for forward in summaries:
-        if not forward["composable"] or forward["direction"] != "forward":
-            continue
-        for reverse in summaries:
-            if (not reverse["composable"] or reverse["direction"] != "reverse"
-                    or forward["input_integers"] is not reverse["output_integers"]
-                    or forward["output_integers"] is not reverse["input_integers"]):
-                continue
-            common = set(map(tuple, forward["observation_relation"])) & {
-                (end, start) for start, end in reverse["observation_relation"]}
-            optimal = forward["objective"] != "None" and reverse["objective"] != "None"
-            bidirectional.append({"forward_path": forward["label"], "reverse_path": reverse["label"],
-                "feasibility_correspondence": True, "equal_optimal_infima": optimal,
-                "attainment_transfers_if_optimum_exists": optimal,
-                "observation_relation": sorted(common), "observation_count": len(common)})
-    return summaries, bidirectional
-
-
 def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
     from .session import _artifact_binding_method, _model_reader_family
     if not isinstance(document, dict):
         raise BuildError("Invalid ordered chain manifest container")
+    if document.get("composition") != {"ordered_chain": True}:
+        raise BuildError("Chain requires only composition.ordered_chain=true; claim selection is unsupported")
     pieces = document.get("pieces")
     if not isinstance(pieces, list) or not pieces:
         raise BuildError("Ordered chain requires nonempty stage pieces")
-    claim_paths = _paths(document, len(pieces))
     records = document.get("artifacts")
     if not isinstance(records, dict):
         raise BuildError("Ordered chain requires complete artifact hashes")
@@ -231,14 +110,14 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
                 if source.path is None or target.path is None:
                     raise BuildError("Stage endpoints must be Kernel-readable MCM, MPS or LP artifacts")
                 stage = {"index": index, "source_names": tuple(v.name for v in source.vars),
-                         "target_names": tuple(v.name for v in target.vars), "request": _request(paths["request"])}
+                         "target_names": tuple(v.name for v in target.vars)}
                 stages.append(stage)
                 if verify:
                     def native_path(path, model):
                         with path.open("rb") as stream:
                             return path if stream.read(4)==b"MCM\0" else model.path
                     reports.append(kernel.verify(native_path(paths["source"],source), native_path(paths["target"],target),
-                                                 paths["proof"], paths["request"]))
+                                                 paths["proof"]))
                 source.close()
                 source = None
                 previous, target = target, None
@@ -253,9 +132,8 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
         del final
         previous.close()
         previous = None
-        summaries, bidirectional = _compose_paths(stages, claim_paths)
         return {"status": "VERIFIED" if verify and all(r.get("status") == "VERIFIED" for r in reports) else "INCOMPLETE",
-                "parts": reports, "verification_scope": "Every ordered stage Request and exact named model join",
+                "parts": reports, "verification_scope": "MI_OPT for every ordered stage and exact named model joins",
                 "artifacts": records,
                 "artifact_audit": {"status": "MATCHED",
                     "method": _artifact_binding_method(committed_reader),
@@ -267,17 +145,15 @@ def _inspect(document, manifest, kernel, *, verify, digest_cache=None):
                 "composition": {"ordered_chain": True, "joins": joins,
                     "original_anchor_checked": original is not None, "original_anchor_reader": original_reader,
                     "final_target_artifact_match": True,
-                    "paths": summaries if all(r.get("status") == "VERIFIED" for r in reports) else [],
-                    "bidirectional": bidirectional if all(r.get("status") == "VERIFIED" for r in reports) else [],
-                    "final_relation_derived": verify and all(r.get("status") == "VERIFIED" for r in reports)
-                        and any(s["composable"] for s in summaries)}}
+                    "guarantee": "MI_OPT" if verify and all(r.get("status") == "VERIFIED" for r in reports) else None,
+                    "final_relation_derived": verify and all(r.get("status") == "VERIFIED" for r in reports)}}
     finally:
         if previous is not None:
             previous.close()
 
 
 def verify_ordered_chain(document, manifest, *, kernel=None):
-    """Check explicit stages and report only safe caller-selected compositions."""
+    """Check MI_OPT for every stage and exact named model joins."""
     try:
         return _inspect(document, Path(manifest).resolve(), kernel or Kernel(), verify=True)
     except (BuildError, ValueError, KeyError, TypeError, OSError, KernelError) as error:
@@ -286,15 +162,15 @@ def verify_ordered_chain(document, manifest, *, kernel=None):
 
 
 def write_chain(stage_manifests, destination, *, committed_model, original_model=None,
-                claim_paths=None, relation="Ordered caller-declared stage Requests", kernel=None):
+                kernel=None):
     """Bind one piece per explicit stage without copying its large artifacts.
 
-    Claim paths map arbitrary labels to stage-ordered Request claim indices.
+    Every stage must independently certify MI_OPT.
     This writes/checks metadata; call verify_bundle for Kernel verification.
     """
     try:
         return _write_chain(stage_manifests,destination,committed_model=committed_model,
-                            original_model=original_model,claim_paths=claim_paths,relation=relation,kernel=kernel)
+                            original_model=original_model,kernel=kernel)
     except BuildError:
         raise
     except (ValueError,KeyError,TypeError,OSError,KernelError) as error:
@@ -302,7 +178,7 @@ def write_chain(stage_manifests, destination, *, committed_model, original_model
 
 
 def _write_chain(stage_manifests, destination, *, committed_model, original_model,
-                 claim_paths, relation, kernel):
+                 kernel):
     from .session import _atomic_text
     kernel = kernel or Kernel()
     if isinstance(stage_manifests,(str,bytes,Path)):
@@ -337,8 +213,8 @@ def _write_chain(stage_manifests, destination, *, committed_model, original_mode
     committed = _file(committed_model, Path.cwd())
     records["committed_model"] = _hash_record(committed, digest_cache)
     protected.append(committed)
-    document = {"format": "kernel-compiler-delivery-1", "relation": relation,
-                "composition": {"ordered_chain": True, "claim_paths": {} if claim_paths is None else claim_paths},
+    document = {"format": "kernel-compiler-delivery-1", "relation": "MI_OPT",
+                "composition": {"ordered_chain": True},
                 "pieces": pieces, "artifacts": records, "committed_model": str(committed)}
     if original_model is not None:
         original = _file(original_model, Path.cwd())

@@ -1,352 +1,53 @@
-\chapter{MCM 与 RPX 二进制格式}\label{ch:format}
+\chapter{MCM 与 RPX 二进制格式}
+\label{ch:format}
 
-本章给出当前 \code{codec.rs} 可接受并可输出的逐字段布局。MCM 只有版本 1；
-RPX 接受冻结版本 1--10；V9/V10 于 2026-10-14 冻结，沿用原有编码与接受条件。
-旧 D0 的 128 B header、section directory、ScalarPool、ExprId、对齐 tape 和隐式 FactId
-均不属于当前协议。实现者应按本章的顺序记录编码，不得把旧提案与当前记录混合。
+当前只接受 MCM 1 与 RPX 11。格式完整定义见 \code{docs/FORMAT.md}；
+本章给出与执行规则对应的结构摘要。所有 framing 整数为无符号小端整数。
 
-\section{通用记法与文件头}\label{sec:rpx-header}
+\section{公共记录}
+16 字节头依次为四字节 magic（MCM 或 RPX 加零字节）、u16 版本、u16 零保留位、
+u64 完整文件长度。不允许尾随字节。tag 为一个 u8 后接三个零字节；vector 为 u32 数量后接各项。
+名称为 u32 字节数及 UTF-8 字节，模型层再执行 ASCII、长度与唯一性检查。
 
-\code{u8/u16/u32/u64} 是固定宽度无符号整数；所有多字节整数采用 little endian。
-串接符号 \code{;} 只表示字段次序，不写入文件。记录没有隐式 padding、宿主结构体布局、
-指针、浮点数、对齐间隙或独立长度头。读取一个嵌套记录时，其子字段和计数决定记录终点。
-任何偏移、计数和长度运算必须检查溢出，读取必须先验证剩余范围。
+有理数依次为符号 tag（0 非负、1 负）、u32 分子字节数、u32 分母字节数，
+然后是无符号小端幅值。分母须正、分子分母互素，无冗余高零字节。
+零使用正号、空分子幅值和分母一。可选有理数为 u8 0，或 u8 1 后接有理数。
+仿射表达式为有理常数和 $(\mathrm{u32},q)$ 项向量；坐标严格递增且系数非零。
 
-MCM 与 RPX 的文件头均为 16 B：
-\begin{longtable}{r r l p{86mm}}
-\toprule 偏移 & 宽度 & 字段 & 要求 \\\midrule
-\endfirsthead
-\toprule 偏移 & 宽度 & 字段 & 要求 \\\midrule\endhead
-0 & 4 & magic & MCM 为 \code{4D 43 4D 00}；RPX 为 \code{52 50 58 00}。\\
-4 & 2 & version & MCM 必须为 1；RPX 必须为 1--10。\\
-6 & 2 & reserved & 必须为零；不是能力位。\\
-8 & 8 & file length & 必须等于实际提供的完整字节数组长度，包括本头。\\
+MCM payload 依次为模型名、变量向量、行向量、完整仿射目标。
+变量为名称、u8 整数标志、可选上下界；行为名称、表达式、可选上下侧。
+
+\section{唯一证书布局}
+RPX 11 头后直接是 forward Block，再是 reverse Block，没有外围数组计数或可选标志。
+Block 为 Step 向量后接一个 End。Derivation 为 Step 向量后接 DerivationEnd。
+类型 tag 为 Le=0、Eq=1、Int=2。Ref 的 tag 依第\ref{sec:fact-numbering}节顺序为 0--8；
+除 Exact 无载荷外，其余均后接 u32 索引。可选 Ref 为 u8 0 或 u8 1 后接完整 Ref。
+
+\section{操作载荷}
+\begin{longtable}{lp{0.73\textwidth}}
+\toprule Step & tag 后的字段顺序\\\midrule\endhead
+Lin & u32 id，Kind，有理常数，$(\mathrm{Ref},q)$ 向量。\\
+Round & u32 id，Le Ref，Int Ref。\\
+Drop & u32 id 向量。\\
+EqPair & u32 id，positive Ref，negative Ref。\\
+Cases & u32 id，Kind，结论 Expr，split Expr，可选 Int Ref，左右 Derivation。\\
+Plotkin & u32 id，u32 bits，u32 distance，$(\mathrm{u32},\mathrm{u64})$ 向量，clique Ref 向量。\\
 \bottomrule
 \end{longtable}
-header 不含 source/target 摘要或 contract word。两个实际模型和独立 Request
-由调用接口提供；模型绑定与请求一致性见第\ref{ch:loader}章。
-未知版本、未知记录 tag、保留字段非零、截断记录以及解析结束后的尾随字节均拒绝，
-当前接口把不支持的版本也报告为 \code{INVALID}，没有单独的 \code{UNSUPPORTED} 状态。
+Step tag 为第\ref{ch:instructions}章的 0--5。DerivationEnd 为 0 Witness(Ref) 或 1 Absurd(Ref)。
+End 0 为 Return（Expr 向量、Ref 向量）；1 为 Split（Expr、可选 Int Ref、左右 Block）；
+2 为 Absurd（Ref）；3--7 分别为 Flow、Interval、Menu、Signed、Subflow 的 witness 后接 body Block。
+旧端点 tag 8、9 拒绝。
 
-以下记法在后续所有表中具有固定意义：
-\begin{longtable}{p{33mm}p{113mm}}
-\toprule 记法 & 字节布局 \\\midrule\endfirsthead
-\toprule 记法 & 字节布局 \\\midrule\endhead
-\code{tag(t)} & \code{u8 t; u8 0; u16 0}，共 4 B。所有三个保留字节必须为零。\\
-\code{array<T>} & \code{u32 count}，然后 count 个紧密连接的 T，数组本身无结尾符。\\
-\code{option<T>} & 单个 \code{u8}：0 表示无后续值；1 表示紧接一个 T；其他值拒绝。\\
-\code{name} & \code{u32 byte_count}，随后恰好该长度的 UTF-8 字节，无 NUL 结尾。模型验证另要求 ASCII、非空、无控制字节、至多 1,024 B。\\
-\code{Q} & 下节的规范任意精度有理数。\\
-\code{Expr} & \code{Q constant; array<(u32 variable,Q coefficient)>}。\\
-\code{Steps} & \code{array<Step>}。\\
-\bottomrule
-\end{longtable}
-不同 enum 使用各自的 tag 命名空间：Step 的 0、End 的 0 和 PointClaim 的 0
-不是同一记录。\code{option} 也不使用四字节 \code{tag}。
+Flow/Subflow witness 为 u32 节点数、$(\mathrm{u32},\mathrm{u32})$ 弧向量及组向量。
+各组为 u32 源、$(\mathrm{u32},q)$ 需求向量、流 Expr 向量、非负 Ref 向量、平衡 Ref 向量。
+Interval 为 witness 向量，每项含 lower Expr 向量、upper Expr 向量、checks Ref 向量。
+Menu 为 witness 向量，每项含 u32 最大索引、activation Expr、index Expr、checks Ref 向量。
+Signed 为 witness 向量，每项含 capacity 有理数、flow Expr、activation Expr、checks Ref 向量。
+具体前提顺序、生成变量和行见第\ref{ch:instructions}章。
 
-\section{规范有理数与表达式}\label{sec:expr-pool}
-
-\subsection{Q 的布局与拒绝规则}
-一个 Q 的固定前缀为 12 B：
-\begin{longtable}{r r l p{80mm}}
-\toprule Q 内偏移 & 宽度 & 字段 & 含义 \\\midrule\endfirsthead
-\toprule Q 内偏移 & 宽度 & 字段 & 含义 \\\midrule\endhead
-0 & 4 & \code{tag(sign)} & 0 为非负；1 为负；其他值拒绝。\\
-4 & 4 & numerator length & 分子绝对值字节数，可以为零。\\
-8 & 4 & denominator length & 分母字节数，必须非零。\\
-12 & 变长 & numerator magnitude & 无符号 little-endian，长度由分子长度给出。\\
-随后 & 变长 & denominator magnitude & 无符号 little-endian，长度由分母长度给出。\\
-\bottomrule
-\end{longtable}
-非空 magnitude 的最后一个字节不得为零，故不允许冗余高位零。
-分母为严格正整数，分子与分母必须互素；decoder 先构造精确比值，再比较约分前后
-分子、分母，遇到 \code{2/4} 会拒绝，不能在 wire 层自动修复。
-零只有一种编码：sign=0、numerator length=0、denominator length=1、denominator=1。
-负零、分子用单字节零、\code{0/7}、零分母、非最短 magnitude 均拒绝。
-每个分子或分母 magnitude 当前至多 1,700 B。
-
-整数也使用 Q：非零整数的分母是单字节 1，没有内联整数或 scalar index。
-例如 $-1/2$ 的完整 Q 字节是：
-\begin{lstlisting}
-01 00 00 00  01 00 00 00  01 00 00 00  01 02
-\end{lstlisting}
-前 4 B 是负号 tag，随后两个长度均为 1，最后两个字节分别为分子、分母 magnitude。
-Q=0 占 13 B，其他最小非零 Q 占 14 B。
-
-\subsection{Expr 的布局}
-Expr 先写完整 Q 常数，再写 \code{u32 term_count}，每项先写 \code{u32 variable}
-再写完整 Q 系数。variable 必须严格递增，不能重复；每个系数必须非零。
-零表达式是 Q=0 加 term count=0，占 17 B。
-常数项不是编号为零的变量项。所有表达式直接存入使用处，没有共享 expression pool。
-
-codec 检查项顺序和非零性；在有具体模型的验证阶段还要检查 variable 的有效范围。
-模型内表达式使用本模型坐标；普通 Block 表达式使用当前输入坐标，含已准许的 lift 坐标。
-Claim 的 affine observations、halfspace 以及 point 的 map 按各自 contract 使用原始坐标。
-这些语义不能由一个合法 u32 编码取代。
-
-\section{MCM 1 模型布局}
-
-文件头之后按下列顺序直接连接：
-\begin{lstlisting}
-name model_name;
-array<Var> variables;
-array<Row> rows;
-Expr objective
-Var = name; tag(integer); option<Q> lower; option<Q> upper
-Row = name; Expr expression; option<Q> lower; option<Q> upper
-\end{lstlisting}
-Var 的 domain tag 仅允许 0（连续）和 1（整数）。binary 已表现为整数标志与实际 bounds，
-没有独立 binary tag。没有 bound 的一侧表示对应的无限方向，而不是特殊 Q。
-objective 始终是完整仿射最小化目标，包含常数。
-变量和 row 均按数组下标编号；变量名在变量集合内唯一，row 名在 row 集合内唯一。
-两集合之间允许同名。模型名称、变量名称和 row 名称都参与实际模型数据。
-
-每个模型表达式的 variable 必须小于 variable count。有限 lower 大于 upper
-允许被编码并验证为模型结构；它表示空可行集。零变量、零 row、常数 row 和常数目标均允许。
-MCM decoder 在读完且确认无尾随字节后调用完整 \code{Model::validate}。
-导入时的命名、排列、sense 与 bounds 规则见第\ref{ch:loader}章。
-
-\section{RPX 外层与 Claim}
-
-header version 决定外层字段是否存在。存在但为空的数组仍写四字节零计数；
-版本不包含的数组没有任何字节，decoder 将它补成内存中的空数组。
-\begin{longtable}{p{42mm}p{72mm}r}
-\toprule 次序 & 字段 & 最低版本 \\\midrule\endfirsthead
-\toprule 次序 & 字段 & 最低版本 \\\midrule\endhead
-1 & \code{array<Claim> claims} & 1\\
-2 & \code{array<Block> blocks} & 1\\
-3 & \code{array<PointWitness> points} & 3\\
-4 & \code{array<BijectionWitness> bijections} & 7\\
-5 & \code{array<ImprovementWitness> improvements} & 10\\
-\bottomrule
-\end{longtable}
-claims 与 blocks 计数必须相等，且第 $i$ 个 Block 证明第 $i$ 个 Claim。
-空 certificate 在语法层可以解码，但不能通过空 Request 的数学验证。
-
-每个 Claim 的固定前缀为 \code{u8 flags; u8 objective; u16 0}。
-flags 位 0 表示 reverse，位 1 表示 input integers，位 2 表示 output integers；
-V10 的位 3 表示存在 input halfspace。位 4--7 保留为零；V1--V9 也要求位 3 为零。
-objective byte 为 0 None、1 Equal、2 NonIncreasing；其他值拒绝。
-前缀之后的字段顺序如下：
-\begin{longtable}{p{42mm}p{78mm}r}
-\toprule 字段 & 布局及含义 & 最低版本 \\\midrule\endfirsthead
-\toprule 字段 & 布局及含义 & 最低版本 \\\midrule\endhead
-projection & \code{array<(u32 input,u32 output)>}；按请求顺序的坐标相等观察。 & 1\\
-inverse & \code{option<u32>}；引用 claims 中的 opposing Claim 下标。 & 1\\
-input objective lower & \code{option<Q>}；输入完整目标的请求下界。 & 3\\
-affine projection & \code{array<(Expr input,Expr output)>}；两端各在原始模型坐标中。 & 5\\
-input objective level & \code{option<Q>}；实际输入完整目标等于该值的条件域。 & 9\\
-input halfspace & 位 3 为 1 时恰好一个 Expr，紧随 objective level；没有额外 option byte。 & 10\\
-\bottomrule
-\end{longtable}
-版本低于对应行时整个字段缺席；半空间仅由 flags 位控制。
-不能为“未来字段”补零，否则它们会被解析为后续字段或者尾随字节。
-半空间表达式 $H$ 表示输入条件 $H(x)\le0$，不能把 \code{RowUpper} 自动提升成 equality。
-Claim 的完整数学意义和 return obligations 见第\ref{ch:model}章及第\ref{ch:execution}章。
-
-\section{Ref、Kind 与 Step}\label{sec:instruction-header}
-
-Ref 是独立四字节 tag 后接可选的 u32 ID；没有 packed 高位 tag。
-\begin{longtable}{r p{37mm}p{95mm}}
-\toprule tag & Ref 名称 & tag 之后的字段与约束 \\\midrule\endfirsthead
-\toprule tag & Ref 名称 & tag 之后的字段与约束 \\\midrule\endhead
-0 & VarLower & u32 variable；必须有有限 lower。\\
-1 & VarUpper & u32 variable；必须有有限 upper。\\
-2 & VarInt & u32 variable；实际 integer 且本方向启用 input integers。\\
-3 & RowLower & u32 row；必须有有限 lower。\\
-4 & RowUpper & u32 row；必须有有限 upper。\\
-5 & RowEq & u32 row；两侧必须有限且精确相等。\\
-6 & Local & u32 显式 fact ID；必须当前可见且 live。\\
-7 & Assumption & u32 假设数组下标；外层先于内层编号。\\
-8 & Exact & 无 ID，共 4 B；只可在要求检查一个确切表达式的 obligation 位置使用。\\
-\bottomrule
-\end{longtable}
-0--7 的 Ref 各占 8 B；8 以外 tag 拒绝。
-Assumption(0) 是最外层假设，后入栈假设取更大的 index；它不是“从当前向外数零层”。
-V10 improvement 的弱根假设占 index 0，随后 Split/Cases 假设从 1 开始。
-Exact 不是环境中的事实，不能作为 Lin、Round 或普通矛盾引用。
-
-Kind 也采用 \code{tag}：0 Le、1 Eq、2 Int；其他值拒绝。
-Step 的字段按表中顺序编码，表内所有 id/bits/distance/variable 均为 u32，label 为 u64。
-\begin{longtable}{r p{20mm}p{99mm}r}
-\toprule tag & 名称 & tag 之后的布局 & 最低版 \\\midrule\endfirsthead
-\toprule tag & 名称 & tag 之后的布局 & 最低版 \\\midrule\endhead
-0 & Lin & \code{id; Kind; Q constant;}\newline
-\code{array<(Ref fact,Q multiplier)> terms} & 1\\
-1 & Round & \code{id; Ref le; Ref integer} & 1\\
-2 & Drop & \code{array<u32> ids} & 1\\
-3 & EqPair & \code{id; Ref positive; Ref negative} & 2\\
-4 & Cases & \code{id; Kind; Expr expression; Expr split;}\newline
-\code{option<Ref> integer; Derivation left; Derivation right} & 2\\
-5 & Plotkin & \code{id; bits; distance;}\newline
-\code{array<(u32 variable,u64 label)> variables;}\newline
-\code{array<Ref> cliques} & 3\\
-\bottomrule
-\end{longtable}
-producer 的 id 是作者提供的显式 Local ID，没有隐式结果编号或 out ExprId。
-不能覆盖 live ID；Drop 删除当前作用域中的可见性后可以重用该 ID。
-Drop 的数组不是 Ref 数组，也不携带记录 tag。Lin terms 与 Expr terms 不同：前者项的第一字段为 Ref。
-codec 不代替语义检查：系数的符号、事实类型、scope 和未来引用等须按指令章检查。
-
-\section{Block 与 Derivation}
-
-\code{Block = Steps; End}；\code{Derivation = Steps; DerivationEnd}。
-二者都在 Steps 后恰好有一个 terminal，没有独立 byte length、pc 或 continuation。
-DerivationEnd 的 tag 0 是 \code{Witness; Ref}，tag 1 是 \code{Absurd; Ref}；
-它只结束局部 Cases 推导，不能提供输出 map。
-
-End 的 tag 与字段如下。所有子 Block 按出现次序完整编码。
-\begin{longtable}{r p{28mm}p{91mm}r}
-\toprule tag & 名称 & tag 之后的布局 & 最低版 \\\midrule\endfirsthead
-\toprule tag & 名称 & tag 之后的布局 & 最低版 \\\midrule\endhead
-0 & Return & \code{array<Expr> map; array<Ref> checks} & 1\\
-1 & Split & \code{Expr expression; option<Ref> integer;}\newline
-\code{Block left; Block right} & 1\\
-2 & Absurd & \code{Ref fact} & 1\\
-3 & FlowLift & \code{FlowWitness witness; Block body} & 4\\
-4 & IntervalLift & \code{array<IntervalWitness> intervals; Block body} & 5\\
-5 & MenuLift & \code{array<MenuWitness> menus; Block body} & 7\\
-6 & SignedLift & \code{array<SignedWitness> decompositions; Block body} & 8\\
-7 & SubflowLift & \code{SubflowWitness witness; Block body} & 10\\
-8 & ImproveReturn & \code{array<Expr> map; array<Ref> checks;}\newline
-\code{ImprovementMargin margin} & 10\\
-9 & \code{PositiveRefutation} & \code{Ref fact} & 10\\
-\bottomrule
-\end{longtable}
-Return 的 map 必须在 output coordinate 顺序中为每个变量提供一个 Expr。
-checks 的长度和顺序由实际 output model 与请求生成的全部 obligations 决定，
-不能只提供部分检查。Split 两个分支分别完成整组 obligations 或矛盾，没有不完整结果的 merge。
-ImproveReturn 只用于同一实际模型的 strict improvement，普通 Return 不能替代它；
-PositiveRefutation 也只在 improvement context 合法。能被 wire 解码不等于能在任意语义 context 使用。
-decoder 即使面对语义上不可行的分支也完整读取其所有记录并执行版本检查。
-
-\section{联合扩展 witness 的逐字段布局}
-
-所有 witness 使用调用前同一个输入 scope；其 checks 不使用刚生成的变量或 row。
-这些记录不自行证明存在性，所调用的静态数学 lemma 属于可信边界。
-\begin{longtable}{p{37mm}p{109mm}}
-\toprule 记录 & 依次编码的字段 \\\midrule\endfirsthead
-\toprule 记录 & 依次编码的字段 \\\midrule\endhead
-FlowWitness & \code{u32 nodes; array<(u32 tail,u32 head)> arcs;}\newline
-\code{array<FlowGroup> groups}\\
-FlowGroup & \code{u32 source; array<(u32 sink,Q demand)> commodities;}\newline
-\code{array<Expr> flows; array<Ref> nonnegative;}\newline
-\code{array<Ref> balances}\\
-IntervalWitness & \code{array<Expr> lower; array<Expr> upper;}\newline
-\code{array<Ref> checks}\\
-MenuWitness & \code{u32 maximum_index; Expr activation; Expr index;}\newline
-\code{array<Ref> checks}\\
-SignedWitness & \code{Q capacity; Expr flow; Expr activation;}\newline
-\code{array<Ref> checks}\\
-SubflowWitness & \code{u32 nodes; array<(u32 tail,u32 head)> arcs;}\newline
-\code{array<SubflowGroup> groups}\\
-SubflowGroup & \code{u32 source; array<(u32 sink,Q demand)> demands;}\newline
-\code{array<Expr> flows; array<Ref> nonnegative;}\newline
-\code{array<Ref> balances}\\
-\bottomrule
-\end{longtable}
-Flow 与 Subflow 的图数组元素恰好 8 B。每个 demand 元素是 u32 sink 加完整 Q。
-它们在 wire 上可以出现任意 u32 endpoint，语义 checker 再核对 nodes 范围、维数与排列。
-interval 的 lower 与 upper 数组可以为空，表示自由或单侧 real choice。
-Menu 必须按 $-A,A-1,\operatorname{INT}(A),-I,I-KA,\operatorname{INT}(I)$ 顺序提供六个 checks；
-Signed 按 $-Z,Z-1,\operatorname{INT}(Z),F-CZ,-F-CZ$ 提供五个 checks。
-Flow、Interval、Subflow 的完整生成布局和 premise order 见第\ref{ch:instructions}章，
-不能用“同样数量的任意事实”替代规定表达式。
-
-\section{Point、Bijection 与 Improvement}
-
-PointWitness 为 \code{PointClaim; array<Q> values}；V6 及以上追加
-\code{option<Block> refutation}。V3--V5 完全没有该 option byte。
-PointClaim tag 后的布局如下：
-\begin{longtable}{r p{32mm}p{87mm}r}
-\toprule tag & 名称 & 字段 & 最低版 \\\midrule\endfirsthead
-\toprule tag & 名称 & 字段 & 最低版 \\\midrule\endhead
-0 & Feasible & \code{u8 flags; u8 0; u16 0; option<Q> objective}；位 0 选 target，位 1 启用 integers，其他位为零。 & 3\\
-1 & Strictness & \code{u32 inclusion_claim} & 3\\
-2 & FiberStrictness & \code{u32 inclusion_claim} & 6\\
-3 & ImageExclusion & \code{u8 flags; u8 0; u16 0; array<Expr> map}；位 0 是 point in target，其他位为零。 & 10\\
-\bottomrule
-\end{longtable}
-Feasible 的两个四字节部分不能合并：第一个是 enum tag，第二个是它自己的 flags/reserved。
-values 要覆盖所选实际模型的全部坐标。FiberStrictness 必须带 refutation；
-Feasible、Strictness 和 ImageExclusion 必须没有 refutation，surplus block 即使格式合法也拒绝。
-ImageExclusion 的 map 是调用者指定、由所选实际模型原始坐标到另一实际模型全部坐标的仿射 tuple。
-它在 LP mode 检查实际违例，不能靠整数 fractional value 宣布排除。
-
-BijectionWitness 没有额外 tag，布局为：
-\begin{lstlisting}
-u32 forward_claim; u32 reverse_claim;
-Steps injectivity_steps; array<Ref> injectivity_checks
-\end{lstlisting}
-两个索引分别指同一 claims 数组中的相反、兼容方向。injectivity 没有 End；
-其 Steps 后直接是 equality checks 数组。完整成对输入域构造和 composition obligation
-不能被局部 menu 唯一性代替。
-
-ImprovementWitness 也没有额外 tag，布局为：
-\begin{lstlisting}
-u8 flags; u8 0; u16 0; Expr positive; Block block
-ImprovementMargin = tag(0); Q   // Constant(q)
-                  | tag(1); Q   // Predicate(q)
-\end{lstlisting}
-flags 位 0 选 target，位 1 启用 integers，其他位为零。
-margin 的 Q 在数学检查中必须严格为正；常数形式表示固定下降量 $q$，
-predicate 形式表示 $qP(x)$。该 contract 的根条件是 $P(x)>0$，没有 wire 上的 strict-LE fact kind。
-
-\section{版本选择、降版与资源预检}
-
-encoder 总是选择证书实际需要的\emph{最低}版本，而不是保留原输入 header。
-扫描遍历普通 Block、Cases 的 Derivation、point refutation、bijection injectivity
-以及全部 improvement Block；不可行子分支也必须扫描。
-\begin{longtable}{r p{127mm}}
-\toprule 最低版 & 触发条件 \\\midrule\endfirsthead
-\toprule 最低版 & 触发条件 \\\midrule\endhead
-1 & Lin/Round/Drop、普通 Return/Split/Absurd、基础 Claim。\\
-2 & 任意 EqPair 或 Cases。\\
-3 & Plotkin、非空 points、input objective lower。\\
-4 & FlowLift。\\
-5 & IntervalLift 或非空 affine projection。\\
-6 & FiberStrictness 或任何 present point refutation。\\
-7 & MenuLift 或非空 bijections。\\
-8 & SignedLift。\\
-9 & present input objective level；已冻结。\\
-10 & present input halfspace、ImageExclusion、非空 improvements、SubflowLift、ImproveReturn 或 PositiveRefutation；已冻结。\\
-\bottomrule
-\end{longtable}
-decoder 接受支持范围内高于最低需要的 version，但按该 header 读取全部版本字段。
-例如 V10 的基础证书仍须包含零计数 points、bijections 和 improvements，以及各 Claim
-的 lower/affine/level 字段。它反汇编后再汇编可能降为 V1；数学数据保持相同，
-header 和因版本而存在的空字段可以改变。因此不能承诺任意可接受高版 bytes 都逐字节 round-trip。
-把使用新 tag 的文件 header 直接改成旧版会拒绝；它不是合法的降版方法。
-
-当前 codec 限制是实现资源策略：文件至多 1 GiB；单个 counted array 至多
-10,000,000 项；所有 counted arrays 累计至多 20,000,000 项；proof depth 至多 64，
-根 Block/Derivation/Equality depth 计为 1，进入 Cases child、Split child 或 lift body 加 1。
-name 的 codec 预检上限 1 MiB 不放宽模型验证的 1,024 B 限制。
-count 先检查累计预算、可表示性和最小剩余字节，再分配；这些最小值是防御性下界，
-不是实际记录长度，后续每个字段仍需完整读取。
-
-\begin{longtable}{p{79mm}r}
-\toprule counted 元素类别 & 每项剩余字节预检下界 \\\midrule\endfirsthead
-\toprule counted 元素类别 & 每项剩余字节预检下界 \\\midrule\endhead
-Expr term 或 Lin term & 17\\
-Steps、graph arcs、coordinate projection & 8\\
-Drop ID、Ref array & 4\\
-MCM Var / MCM Row & 10 / 23\\
-Claim / Block / PointWitness & 9 / 12 / 12\\
-Expr array、sink-demand array & 17\\
-affine observation pair & 34\\
-FlowGroup 或 SubflowGroup & 20\\
-IntervalWitness / MenuWitness / SignedWitness & 12 / 42 / 51\\
-point values Q / BijectionWitness / ImprovementWitness & 13 / 16 / 33\\
-Plotkin variable-label pair & 12\\
-\bottomrule
-\end{longtable}
-codec 格式错误返回 \code{INVALID}，预算耗尽返回 \code{RESOURCE_LIMIT}。
-CLI 的文件读取上限更小，数学模型、数值运算和 theorem 也有独立限制；
-详见第\ref{ch:loader}章。全部字节必须解码完成才能执行，不能以分支不可达、
-未知 optional section 或“只供调试”为理由跳过未经解析的逻辑记录。
-
-本章的直接实现依据是 \code{crates/core/src/codec.rs} 中 Reader、Writer、
-\code{encode_model}、\code{decode_model}、\code{certificate_version}、
-\code{encode_certificate} 与 \code{decode_certificate}；类型定义在
-\code{proof.rs} 和 \code{model.rs}。V10 增量以本章已列出的 halfspace flags 与记录为准。
+\section{结构限制}
+wire 文件最多 1 GiB；每个 vector 最多 $10^7$ 项，全部计数累计最多 $2\cdot10^7$ 项；
+嵌套深度最多 64；有理幅值每个最多 1700 字节；wire 名称最多 1 MiB。
+计数还须与剩余字节相容，不能仅凭数量盲目分配。编码器施加同样结构限制。
+模型、文本导入和路径读取还有各自更窄的限制，见第\ref{ch:loader}章。

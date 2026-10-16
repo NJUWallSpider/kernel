@@ -126,9 +126,8 @@ class _PivotPlan:
 
 class Builder:
     """One proof scope. Child facts cannot escape except through Cases conclusions."""
-    def __init__(self, model, *, integers=True, parent=None, assumptions=(), counter=None):
+    def __init__(self, model, *, parent=None, assumptions=(), counter=None):
         self.model = model
-        self.integers = integers
         self.parent = parent
         self.assumptions = tuple(assumptions)
         self._counter = counter if counter is not None else count()
@@ -199,8 +198,6 @@ class Builder:
             return self.parent.ref(kind, index)
         key = kind, index
         if key not in self._base:
-            if kind == "VarInt" and not self.integers:
-                raise BuildError("VarInt is unavailable in a relaxed input domain")
             actual_kind, expression = self.model.fact(kind, index)
             self._base[key] = Fact(actual_kind, expression, {kind: index}, self)
         return self._base[key]
@@ -438,7 +435,7 @@ class Builder:
         """
         self._visible(equality)
         index = self.model._index(variable)
-        if not self.integers or not self.model.is_binary(index):
+        if not self.model.is_binary(index):
             raise BuildError("parity_fix requires an integer-mode binary coordinate in [0, 1]")
         expression = equality.expression
         selected = expression.terms.get(index, Fraction(0))
@@ -544,7 +541,7 @@ class Builder:
             for index, variable in enumerate(self.model.vars):
                 for tag, present in (("VarLower", variable.lower is not None),
                                      ("VarUpper", variable.upper is not None),
-                                     ("VarInt", self.integers and variable.integer)):
+                                     ("VarInt", variable.integer)):
                     if present:
                         yield self.ref(tag, index)
             for index, row in enumerate(self.model.rows):
@@ -596,7 +593,7 @@ class Builder:
         return Contradiction(fact)
 
     def _branch(self, expression):
-        child = Builder(self.model, integers=self.integers, parent=self,
+        child = Builder(self.model, parent=self,
                         assumptions=self.assumptions, counter=self._counter)
         assumption = Fact("Le", expression, {"Assumption": len(self.assumptions)}, child)
         child.assumptions += (assumption,)
@@ -681,7 +678,7 @@ class Builder:
             variable = self.model.vars[index]
             if variable.lower is None or variable.upper is None or not 0 <= variable.lower <= variable.upper <= 1:
                 raise BuildError("binary_cases needs declared bounds within [0,1]")
-            if index not in supplied and (not self.integers or not variable.integer):
+            if index not in supplied and (not variable.integer):
                 raise BuildError("binary_cases needs an explicit INT witness for a coordinate without active declared integrality")
             witnesses.append(supplied[index] if index in supplied else self.integer(index))
 
@@ -730,24 +727,6 @@ class Builder:
         self.absurd(fact)
         self._set_end({"Absurd": {"fact": fact.reference}})
 
-    def close_positive(self, fact):
-        """Close a strict-improvement domain by proving its positive predicate <= 0.
-
-        The immutable root improvement contract supplies strict positivity;
-        the weak root assumption alone does not prove a contradiction. This is
-        the frozen PositiveRefutation terminal, including in split branches.
-        """
-        root = self
-        while root is not None and not hasattr(root, "improvement_claim"):
-            root = root.parent
-        if root is None:
-            raise BuildError("close_positive requires a strict-improvement proof scope")
-        self._visible(fact)
-        positive = Expr.from_json(root.improvement_claim["positive"])
-        if fact.kind not in ("Le", "Eq") or fact.expression != positive:
-            raise BuildError("PositiveRefutation needs LE or EQ of the exact root positive predicate")
-        self._set_end({"PositiveRefutation": {"fact": fact.reference}})
-
     def batch(self, instances, template):
         """Ordinary Python proof templates expand to ordinary checked steps."""
         return [template(self, instance) for instance in instances]
@@ -757,8 +736,6 @@ class Builder:
                 or not isinstance(distance, int) or not 1 <= bits <= 64
                 or not 1 <= distance <= 64 or 2 * distance <= bits):
             raise BuildError("Invalid Plotkin parameters")
-        if not self.integers:
-            raise BuildError("Plotkin requires integer input mode")
         variables = [(self.model._index(i), label) for i, label in variables]
         if len({i for i, _ in variables}) != len(variables):
             raise BuildError("Plotkin variables must be distinct")
@@ -797,8 +774,6 @@ class Builder:
                 "flow": ("Flow", "FlowLift", "witness"),
                 "subflow": ("Subflow", "SubflowLift", "witness")}
         spec_tag, end_tag, end_field = tags[kind.lower()]
-        if kind.lower() in ("menu", "signed") and not self.integers:
-            raise BuildError(f"{kind} requires integer input mode")
         handles = {}
         def collect(value):
             if isinstance(value, Fact):
@@ -841,7 +816,7 @@ class Builder:
             if fact is None or fact.expression != expression or (fact.kind != premise["kind"] and fact.kind != "Eq"):
                 raise BuildError(f"{kind} premise mismatch: {premise}")
         model = Model.from_json(prepared["model"], kernel=self.model.kernel)
-        child = Builder(model, integers=self.integers, parent=self,
+        child = Builder(model, parent=self,
                         assumptions=self.assumptions, counter=self._counter)
         child.generated_variables = tuple(range(len(self.model.vars), len(model.vars)))
         child.generated_rows = tuple(range(len(self.model.rows), len(model.rows)))
@@ -952,7 +927,7 @@ class Builder:
             return
         for i, variable in enumerate(self.model.vars):
             for tag, enabled in [("VarLower", variable.lower is not None), ("VarUpper", variable.upper is not None),
-                                 ("VarInt", variable.integer and self.integers)]:
+                                 ("VarInt", variable.integer)]:
                 if enabled:
                     fact = self.ref(tag, i)
                     self._remember(fact)
@@ -970,7 +945,7 @@ class Builder:
         trivial = ((kind == "Eq" and not expression.terms and expression.constant == 0)
                    or (kind == "Le" and not expression.terms and expression.constant <= 0)
                    or (kind == "Int" and expression.constant.denominator == 1
-                       and all(q.denominator == 1 and self.integers and self.model.vars[i].integer
+                       and all(q.denominator == 1 and self.model.vars[i].integer
                                for i, q in expression.terms.items())))
         if trivial:
             return "Exact"

@@ -1,10 +1,9 @@
-use kernel_core::flow::prepare_unchecked_extension;
-use kernel_core::model::{parse_q, Expr, Model, Row, Var, MAX_Q_BITS, MAX_ROWS, Q};
-use kernel_core::point::verify_points;
-use kernel_core::proof::{
-    Certificate, FlowGroup, FlowWitness, Kind, PointClaim, PointWitness, Ref, Request,
+use crate::flow::prepare_unchecked_extension;
+use crate::model::{parse_q, Expr, Model, Row, Var, MAX_Q_BITS, MAX_ROWS, Q};
+use crate::proof::{
+    FlowGroup, FlowWitness, Kind, Ref,
 };
-use kernel_core::verify::Limits;
+use crate::verify::Limits;
 use num_bigint::BigInt;
 use serde::Deserialize;
 
@@ -44,22 +43,13 @@ fn eval(e: &Expr, values: &[Q]) -> Q {
         sum + c * &values[*i as usize]
     })
 }
-fn point(model: &Model, values: Vec<Q>) -> Result<(), String> {
-    let claim = PointClaim::Feasible {
-        target: false,
-        integers: true,
-        objective: None,
-    };
-    let request = Request { improvements:vec![], bijections:vec![],
-        claims: vec![],
-        points: vec![claim.clone()],
-    };
-    let certificate = Certificate { improvements:vec![], bijections:vec![],
-        claims: vec![],
-        blocks: vec![],
-        points: vec![PointWitness {refutation:None, claim, values }],
-    };
-    verify_points(model, model, &certificate, &request, &Limits::default()).map(|_| ())
+fn point(model:&Model,values:Vec<Q>)->Result<(),String>{
+    if values.len()!=model.vars.len(){return Err("point dimension".into());}
+    for (v,x) in model.vars.iter().zip(&values){
+        if v.integer&&!x.is_integer()||v.lower.as_ref().is_some_and(|l|x<l)||v.upper.as_ref().is_some_and(|u|x>u){return Err("point bound/integer".into());}
+    }
+    for r in &model.rows {let x=eval(&r.expr,&values);if r.lower.as_ref().is_some_and(|l|&x<l)||r.upper.as_ref().is_some_and(|u|&x>u){return Err("point row".into());}}
+    Ok(())
 }
 
 #[test]

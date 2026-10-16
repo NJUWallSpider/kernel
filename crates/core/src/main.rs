@@ -7,7 +7,7 @@
 use kernel_core::{api, verify::Limits};
 use std::env;
 
-const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile [--max-json-bytes <u64>] certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | resolve-return input.mcm output.mcm spec.json checks.json | prepare-extension input.mcm spec.json output.json | prepare-injectivity input.mcm output.mcm spec.json result.json | assemble [--models source.mcm target.mcm] input.rpa-or-rpas output.rpx | disassemble input.rpx output.rpa | disassemble-source [--models source.mcm target.mcm] input.rpx output.rpas | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx request.json (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
+const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile [--max-json-bytes <u64>] certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | resolve-return input.mcm output.mcm spec.json checks.json | prepare-extension input.mcm spec.json output.json | assemble [--models source.mcm target.mcm] input.rpa-or-rpas output.rpx | disassemble input.rpx output.rpa | disassemble-source [--models source.mcm target.mcm] input.rpx output.rpas | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
 
 fn compile_args(a: &[String]) -> Result<([&str; 2], api::CompileOptions), String> {
     let mut options = api::CompileOptions::default();
@@ -55,9 +55,9 @@ fn source_args(args: &[String]) -> Result<([&str; 2], Option<[&str; 2]>), String
     Ok((paths, models))
 }
 
-fn verify_args(a: &[String]) -> Result<([&str; 4], Limits), String> {
+fn verify_args(a: &[String]) -> Result<([&str; 3], Limits), String> {
     let mut limits = Limits::default();
-    let mut paths = [""; 4];
+    let mut paths = [""; 3];
     let mut count = 0;
     let mut args = a.iter();
     while let Some(arg) = args.next() {
@@ -73,7 +73,7 @@ fn verify_args(a: &[String]) -> Result<([&str; 4], Limits), String> {
             }
         }
     }
-    if count != paths.len() {
+    if count != 3 {
         return Err(USAGE.into());
     }
     Ok((paths, limits))
@@ -88,7 +88,6 @@ fn run(args: &[String]) -> Result<serde_json::Value, api::Error> {
         },
         Some("plan-return") if args.len() == 6 => api::plan_return_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("resolve-return") if args.len() == 6 => api::resolve_return_paths(&args[2], &args[3], &args[4], &args[5]),
-        Some("prepare-injectivity") if args.len() == 6 => api::prepare_injectivity_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("prepare-extension") if args.len() == 5 => kernel_core::authoring::prepare_extension_paths(&args[2], &args[3], &args[4]),
         Some("assemble") if args.len() == 4 && !args[2..].iter().any(|arg| arg == "--models") => api::assemble_paths(&args[2], &args[3]),
         Some("assemble") => {
@@ -109,7 +108,7 @@ fn run(args: &[String]) -> Result<serde_json::Value, api::Error> {
         },
         Some("verify") => {
             let (paths, limits) = verify_args(&args[2..]).map_err(api::Error::from_message)?;
-            api::verify_paths(paths[0], paths[1], paths[2], paths[3], &limits).map_err(|error| error.with_limits(limits))
+            api::verify_paths(paths[0], paths[1], paths[2], &limits).map_err(|error| error.with_limits(limits))
         }
         Some("inspect-model") if args.len() == 3 => api::inspect_model_path(&args[2]),
         Some("export-model") if args.len() == 4 => api::export_model_paths(&args[2], &args[3]),

@@ -221,7 +221,7 @@ def assess(run, binary, arm, *, expected_input_sha256):
     metrics, final, tool_inputs = session_metrics(run)
     (run / "final-answer.txt").write_text(final)
     result = {"arm": arm, "metrics": metrics, "kernel_verified": False,
-              "coverage_assessment_required": True, "errors": [], "pieces": []}
+              "errors": [], "pieces": []}
     # Explicit path violations are evidence, not a claim of OS sandboxing.
     outside = re.compile(r"(?:/Users/[^\s'\"]+|~/Code/[^\s'\"]+|(?:\.\./)+(?:runs|cases|tools|output)/[^\s'\"]*)")
     suspects = []
@@ -255,73 +255,50 @@ def assess(run, binary, arm, *, expected_input_sha256):
         elif not delivery or not isinstance(delivery.get("pieces"), list) or not delivery["pieces"]:
             raise ValueError("compiler arm needs a nonempty output/delivery.json pieces list")
         else:
-            result["relation"] = delivery.get("relation", "")
-            if not result["relation"]:
-                raise ValueError("delivery must state its precise relation")
             composition = delivery.get("composition")
             ordered_chain = (isinstance(composition, dict)
                              and composition.get("ordered_chain") is True)
             if ordered_chain:
                 # Explicit ordered stages are a different contract from a set
                 # of independent original-to-final proofs. Verify every stage
-                # with its own indices and compose only safe, selected claims.
+                # with its own indices; every stage must certify MI_OPT.
                 from verify_staged_agent_delivery import inspect_delivery
                 chain = inspect_delivery(run, binary, audit / "ordered-chain",
                                          expected_input_sha256=expected)
                 result.update(ordered_chain=True, staged_review_version=chain["reviewer_version"],
                               staged_review=str(audit / "ordered-chain/staged-review.json"),
                               staged_review_sha256=digest(audit / "ordered-chain/staged-review.json"),
-                              composed_claims=chain["composed_claims"], pieces=chain["pieces"],
+                              guarantee=chain.get("guarantee"), pieces=chain["pieces"],
                               kernel_verified=chain["status"] == "VERIFIED_CHAIN")
                 if chain["errors"]:
                     raise ValueError("ordered chain review failed: " + "; ".join(chain["errors"]))
+            proof_paths = []
             for index, piece in enumerate([] if ordered_chain else delivery["pieces"]):
                 paths = {key: path_inside(run, piece[key], output=True)
-                         for key in ("source", "target", "proof", "request")}
+                         for key in ("source", "target", "proof")}
                 delivered_source = canonical_model(binary, paths["source"], audit / f"source-{index}.mcm")
                 delivered_target = canonical_model(binary, paths["target"], audit / f"target-{index}.mcm")
                 if normalized_model(delivered_source) != normalized_model(source):
                     raise ValueError(f"piece {index} source readback differs from original")
                 if normalized_model(delivered_target) != normalized_model(target):
                     raise ValueError(f"piece {index} target differs from the committed standard artifact")
-                request = json.loads(paths["request"].read_text())
-                if isinstance(request, list):
-                    request = {"claims": request}
-                if not isinstance(request, dict):
-                    raise ValueError("Request must be an object or legacy claim array")
-                # Named equality allows a byte/coordinate reordered source.
-                # RPX indices still refer to the delivered canonical source,
-                # so substituting input.mcm here would verify the wrong model.
-                verification = kernel_call(binary, "verify", audit / f"source-{index}.mcm",
-                                           audit / f"target-{index}.mcm", paths["proof"], paths["request"])
+                if index:
+                    for role in ("source", "target"):
+                        if (audit / f"{role}-{index}.mcm").read_bytes() != (audit / f"{role}-0.mcm").read_bytes():
+                            raise ValueError("Parallel proof files must use identical canonical model coordinates")
+                proof_paths.append(paths["proof"])
                 result["pieces"].append({"id": index,
-                    "sha256": {key: digest(value) for key, value in paths.items()},
-                    "claims": request.get("claims", []),
-                    "points": request.get("points", []),
-                    "improvements": request.get("improvements", []),
-                    "bijections": request.get("bijections", []),
-                    "verification": verification})
+                    "sha256": {key: digest(value) for key, value in paths.items()}})
             if not ordered_chain:
-                result["kernel_verified"] = all(p["verification"]["exit_code"] == 0
-                    and p["verification"]["result"].get("status") == "VERIFIED" for p in result["pieces"])
-            claims = [claim for piece in result["pieces"] for claim in piece["claims"]]
-            if ordered_chain:
-                result["claim_coverage_signal_scope"] = "stage_local; final contracts are in composed_claims"
-            result["claim_coverage_signals"] = {
-                "directional_claims": len(claims),
-                "unrestricted_integer_forward": sum(not c.get("reverse")
-                    and c.get("input_integers") and c.get("output_integers")
-                    and c.get("input_objective_level") is None and c.get("input_halfspace") is None
-                    for c in claims),
-                "unrestricted_integer_reverse": sum(bool(c.get("reverse"))
-                    and c.get("input_integers") and c.get("output_integers")
-                    and c.get("input_objective_level") is None and c.get("input_halfspace") is None
-                    for c in claims),
-                "objective_unchecked": sum(c.get("objective") == "None" for c in claims),
-                "restricted_claims": sum(c.get("input_objective_level") is not None
-                    or c.get("input_halfspace") is not None for c in claims),
-                "affine_inverse_claims": sum(c.get("inverse") is not None for c in claims),
-            }
+                if len(proof_paths) != 1:
+                    raise ValueError("One complete certificate is required per model pair")
+                verification = kernel_call(binary, "verify", audit / "source-0.mcm", audit / "target-0.mcm", *proof_paths)
+                result["verification"] = verification
+                result["kernel_verified"] = (verification["exit_code"] == 0
+                    and verification["result"].get("status") == "VERIFIED"
+                    and verification["result"].get("guarantee") == "MI_OPT")
+                if result["kernel_verified"]:
+                    result["guarantee"] = "MI_OPT"
     except (ValueError, KeyError, OSError, json.JSONDecodeError, TypeError) as error:
         result["errors"].append(str(error))
     write_json(run / "assessment.json", result)

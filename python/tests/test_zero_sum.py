@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """Caller-supplied nonnegative-sum witnesses lower to ordinary Kernel rules."""
 from collections.abc import Mapping
 from pathlib import Path
@@ -26,7 +27,7 @@ class SparseZeros(Mapping):
 class ZeroSumTests(unittest.TestCase):
     def verify(self, proof, directory):
         result = proof.verify(directory)
-        self.assertEqual(result["status"], "VERIFIED", result)
+        assert_rules_checked(self, result)
         return result
 
     def test_complete_integer_and_continuous_zero_eliminations_and_tampering(self):
@@ -36,7 +37,7 @@ class ZeroSumTests(unittest.TestCase):
         for integers in (True, False):
             with self.subTest(integers=integers):
                 proof = Proof(source, Model("zero_target"))
-                forward, reverse = proof.bijection([], [0, 0, 0], integers=integers)
+                forward, reverse = (proof.forward.map([]), proof.reverse.map([0, 0, 0]))
                 zeros = forward.zero_sum(forward.row("given"))
                 self.assertEqual(set(zeros), {0, 1, 2})
                 self.assertTrue(all(f.kind == "Eq" and f.expression == Expr.var(i) for i, f in zeros.items()))
@@ -46,7 +47,7 @@ class ZeroSumTests(unittest.TestCase):
                 with tempfile.TemporaryDirectory() as directory:
                     self.verify(proof, directory)
                     broken = attack(proof, Path(directory)/"attack",
-                                    ["blocks", 0, "steps", 0, "Lin", "terms", 1, 1], replacement="0")
+                                    ["forward", "steps", 0, "Lin", "terms", 1, 1], replacement="0")
                     self.assertTrue(broken["rejected_as_expected"], broken)
 
     def test_explicit_ordered_closure_with_names_and_scaled_prior_zeros(self):
@@ -55,7 +56,7 @@ class ZeroSumTests(unittest.TestCase):
                        [Row("seed", -2*x, 0, 0), Row("next", x+3*y, upper=0),
                         Row("last", -y-5*z, 0, 0)], objective=x+y+z)
         proof = Proof(source, Model("zero_target"))
-        forward, reverse = proof.bijection([], [0, 0, 0], integers=False)
+        forward, reverse = (proof.forward.map([]), proof.reverse.map([0, 0, 0]))
         first = forward.zero_sum(forward.row("seed"))
         zeros = {"x": forward.eq([(first[0], -7)])}
         zeros.update(forward.zero_sum(forward.row("next"), zeros=zeros))
@@ -71,7 +72,7 @@ class ZeroSumTests(unittest.TestCase):
                        [Row("seed", z, 0, 0), Row("sum", 2*x+3*y+4*z, upper=0)])
         target = source.add_row("only_x", x, lower=0, upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         sparse = SparseZeros({2: forward.eq([(forward.row("seed"), -2)])})
         zeros = forward.zero_sum(forward.row("sum"), zeros=sparse, coordinates=["x", "x"])
         self.assertEqual(list(zeros), [0])
@@ -85,7 +86,7 @@ class ZeroSumTests(unittest.TestCase):
         x = Expr.var(0)
         source = Model("free", [Variable("x", False, None, None)], [Row("given", -3*x, 0, 0)], objective=x)
         proof = Proof(source, Model("zero_target"))
-        forward, reverse = proof.bijection([], [0], integers=False)
+        forward, reverse = (proof.forward.map([]), proof.reverse.map([0]))
         zeros = forward.zero_sum(forward.row("given"))
         self.assertEqual(zeros[0].expression, x)
         forward.substitution(zeros)
@@ -100,7 +101,7 @@ class ZeroSumTests(unittest.TestCase):
         # Both models are infeasible; no point/existence assertion is submitted.
         target = source.add_row("zero_x", x, lower=0, upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         zeros = forward.zero_sum(forward.row("sum"))
         self.assertEqual(zeros[0].expression, x)
         forward.complete(); reverse.complete()

@@ -1,6 +1,6 @@
 //! Untrusted compiler preparation over existing checked extension builders.
 //! Success prepares a candidate scope; it does not establish any premise.
-use crate::{api, codec, model::{self, Expr, Q}, proof::*, verify::Limits};
+use crate::{api, codec, model::{self}, proof::*, verify::Limits};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::path::Path;
@@ -13,12 +13,7 @@ enum Extension {
     Signed(Vec<SignedWitness>),
     Flow(FlowWitness),
     Subflow(SubflowWitness),
-    Restricted {
-        #[serde(default, with="crate::rpa::option_scalar")]
-        level: Option<Q>,
-        #[serde(default)]
-        halfspace: Option<Expr>,
-    },
+
 }
 
 /// Return the exact kernel-created scope and old-scope proof obligations.
@@ -46,12 +41,7 @@ pub fn prepare_extension_json(input: &model::Model, text: &str, limits: &Limits)
         Extension::Signed(w) => prepare!(signed, &w, signed_layout),
         Extension::Flow(w) => prepare!(flow, &w, flow_layout),
         Extension::Subflow(w) => prepare!(subflow, &w, subflow_layout),
-        Extension::Restricted {level, halfspace} => {
-            let extension = crate::level::prepare_restricted_domain(input, level.as_ref(), halfspace.as_ref(), limits)
-                .map_err(api::Error::from_message)?;
-            json!({"model":model::to_json(&extension.model),"premises":[],
-                   "equality_row":extension.equality_row,"statistics":extension.statistics})
-        }
+
     };
     Ok(result)
 }

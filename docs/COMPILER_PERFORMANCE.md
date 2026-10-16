@@ -1,5 +1,7 @@
 # Compiler API plumbing measurements
 
+> Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
+
 This document separates early identity plumbing, actual public Agent phases,
 and later fixed-witness regressions. RSS and the old benchmark's optional
 memory guard are retained as historical metadata; memory is not a current

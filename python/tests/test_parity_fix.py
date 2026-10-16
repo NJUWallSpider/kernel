@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """Caller-given parity witnesses elaborate to existing Kernel proof rules."""
 from pathlib import Path
 import tempfile
@@ -20,7 +21,7 @@ class ParityFixTests(unittest.TestCase):
                 parity = (-constant) % 2
                 target = source.with_bounds("x", lower=parity, upper=parity)
                 proof = Proof(source, target)
-                forward, reverse = proof.bijection("identity", "identity")
+                forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
                 fixed = forward.parity_fix("x", forward.row("given"))
                 self.assertEqual(fixed.kind, "Eq")
                 self.assertEqual(fixed.expression, source.var("x")-parity)
@@ -32,8 +33,8 @@ class ParityFixTests(unittest.TestCase):
                 reverse.complete()
                 with tempfile.TemporaryDirectory() as directory:
                     result = proof.verify(directory)
-                    self.assertEqual(result["status"], "VERIFIED", result)
-                    broken = attack(proof, Path(directory)/"attack", ["blocks", 0, "steps", 0, "Lin", "terms", 1, 1],
+                    assert_rules_checked(self, result)
+                    broken = attack(proof, Path(directory)/"attack", ["forward", "steps", 0, "Lin", "terms", 1, 1],
                                     replacement="0")
                     self.assertTrue(broken["rejected_as_expected"], broken)
 
@@ -47,7 +48,7 @@ class ParityFixTests(unittest.TestCase):
                 builder.parity_fix("x", builder.row("given"))
             self.assertEqual(builder.steps, [])
         model = self.model(1, 0)
-        relaxed = Builder(model, integers=False)
+        relaxed = Builder(Model("continuous", [Variable(v.name, False, v.lower, v.upper) for v in model.vars], model.rows, model.objective))
         with self.assertRaises(BuildError):
             relaxed.parity_fix("x", relaxed.row("given"))
         self.assertEqual(relaxed.steps, [])
@@ -68,13 +69,16 @@ class ParityFixTests(unittest.TestCase):
                        [Row("a", x+3*y, 1, 1), Row("b", y, 0, 0)])
         target = source.with_bounds("x", lower=1, upper=1)
         proof = Proof(source, target)
-        forward = proof.claim(mapping="identity")
+        reverse = proof.reverse.map("identity")
+        reverse.le([(reverse.lower("x"), 1)], constant="-2/3")
+        reverse.complete()
+        forward = proof.forward.map("identity")
         supplied = forward.eq([(forward.row("a"), 1), (forward.row("b"), -1)])
         fixed = forward.parity_fix("x", supplied)
         self.assertEqual(fixed.expression, x-1)
         forward.complete()
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+            assert_rules_checked(self, proof.verify(directory))
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 from collections import Counter
 from pathlib import Path
 import tempfile
@@ -11,7 +12,7 @@ class DeriveSubstitutionTests(unittest.TestCase):
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
             report = proof.verify(directory)
-            self.assertEqual(report['status'], 'VERIFIED', report)
+            assert_rules_checked(self, report)
             self.assertFalse(list(Path(directory).glob('*.rpa')))
 
     def test_le_eq_and_int_goals_restore_from_explicit_residual_facts(self):
@@ -20,7 +21,7 @@ class DeriveSubstitutionTests(unittest.TestCase):
                        [Row('definition', x-2*y, lower=0, upper=0)])
         target = source.with_bounds('x', upper=2).with_integrality(['x'], True).add_row('scaled', 3*x-6*y, equal=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection('identity', 'identity')
+        forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
         pivots = {'x': forward.row('definition')}
         upper = forward.le([(forward.upper('y'), 2)], expect=2*y-2)
         restored = forward.derive_substitution(x-2, pivots, upper)
@@ -55,7 +56,7 @@ class DeriveSubstitutionTests(unittest.TestCase):
                                   for i, (_, expression) in enumerate(definitions)), Row('given', residual, upper=0)])
                 target = source.add_row('goal', x, upper=0)
                 proof = Proof(source, target)
-                forward, reverse = proof.bijection('identity', 'identity', integers=False)
+                forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
                 pivots = {pivot: forward.row(f'd{i}') for i, (pivot, _) in enumerate(definitions)}
                 result = forward.derive_substitution(x, pivots, forward.row('given'))
                 self.assertEqual(result.expression, x)
@@ -106,7 +107,7 @@ class DeriveSubstitutionTests(unittest.TestCase):
                         Row('cap', y, upper=1)])
         target = source.add_row('fixed', x, equal=0).add_row('upper', x, upper=1)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection('identity', 'identity', integers=False)
+        forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
         items = [(x, forward.row('zero')), (x-1, forward.row('cap'))]
         result = forward.derive_substitution_many(items, {'x': forward.row('definition')})
         self.assertEqual([fact.kind for fact in result], ['Eq', 'Le'])

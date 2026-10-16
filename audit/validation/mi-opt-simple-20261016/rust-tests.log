@@ -1,0 +1,192 @@
+   Compiling kernel-core v0.1.0 (/Users/bhz/Code/kernel/crates/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.94s
+     Running unittests src/lib.rs (target/debug/deps/kernel_core-61f62920173b6df4)
+
+running 128 tests
+test api::compile_input_tests::certificate_reader_maximum_budget_does_not_wrap_or_preallocate_the_budget ... ok
+test api::compile_input_tests::certificate_reader_checks_declared_and_actual_length_independently ... ok
+test codec::tests::noncanonical_expression_rejected ... ok
+test codec::tests::scalar_vectors_and_canonical_failures ... ok
+test codec::tests::golden_two_blocks ... ok
+test codec::tests::count_unknown_tag_and_reserved_rejected ... ok
+test model::tests::constant_models_and_unknown_json_fields ... ok
+test model::tests::binary_bounds_are_intersections ... ok
+test model::tests::fixed_free_ambiguity_regressions ... ok
+test model::tests::fixed_continuation_and_repeated_coefficients ... ok
+test codec::tests::nested_unknown_tags_and_depth_budget ... ok
+test model::tests::negative_upper_default_lower_and_contradiction ... ok
+test model::tests::exact_numbers_and_budget ... ok
+test model::tests::integer_marker_defaults_and_explicit_bounds ... ok
+test model::tests::resources_keep_resource_status ... ok
+test model::tests::validates_canonical_expr_and_rational ... ok
+test model::tests::range_sign_semantics ... ok
+test model::tests::objective_offset_and_maximize ... ok
+test rpa_source::format::tests::compresses_exact_runs_without_consuming_neighboring_data ... ok
+test rpa_source::format::tests::rejects_expression_data_that_math_notation_would_normalize ... ok
+test model::tests::unsupported_and_malformed_mps_rejected ... ok
+test rpa_source::format::tests::renders_math_and_preserves_linear_proof_term_order ... ok
+test rpa_source::parse::tests::arithmetic_parentheses_are_depth_bounded ... ok
+test rpa_source::parse::tests::aliases_expressions_and_steps_lower_exactly ... ok
+test rpa_source::parse::tests::arithmetic_precedence_and_nested_contexts_are_exact ... ok
+test rpa_source::parse::tests::generic_variants_and_scalars_cover_current_schema ... ok
+test codec::tests::model_roundtrip ... ok
+test rpa_source::parse::tests::source_rejects_ambiguous_or_invalid_inputs ... ok
+test rpa_source::parse::tests::scaling_is_preflighted_before_coefficients_are_mutated ... ok
+test rpa_source::parse::tests::variant_wrappers_are_depth_bounded ... ok
+test rule_tests::test_adversarial::dead_live_duplicate_and_redefined_registers ... ok
+test rule_tests::test_adversarial::all_branch_assumptions_belong_to_one_path ... ok
+test rule_tests::test_adversarial::accumulator_constant_product_is_bounded_before_cancellation ... ok
+test rule_tests::test_adversarial::empty_domain_closure_is_directional ... ok
+test rule_tests::test_adversarial::equality_transfer_to_integer_is_sound_and_exact ... ok
+test rpa_source::parse::tests::constructor_recursion_is_depth_bounded ... ok
+test rule_tests::test_adversarial::integer_and_binary_domains_cannot_be_assumed ... ok
+test rule_tests::test_adversarial::every_leaf_needs_every_output_obligation ... ok
+test rule_tests::test_adversarial::invalid_linear_premises_are_checked_even_at_zero_weight ... ok
+test rule_tests::test_adversarial::malformed_public_values_and_resource_arithmetic_cannot_accept ... ok
+test rule_tests::test_adversarial::public_expression_addition_bounds_the_temporary_constant_product ... ok
+test rule_tests::test_adversarial::sibling_facts_do_not_leak_and_parent_drop_is_private ... ok
+test rule_tests::test_adversarial::negative_rounding_matches_mathematical_floor_and_ceil ... ok
+test rule_tests::test_flow_builder::generated_names_do_not_conflict_with_actual_model_names ... ok
+test rule_tests::test_flow_builder::extension_is_explicitly_unchecked_and_preserves_input_prefix ... ok
+test rule_tests::test_flow_builder::malformed_graph_dimensions_domains_and_premises_reject ... ok
+test rule_tests::test_flow_builder::affine_flow_constants_parallel_arcs_and_loops_are_exact ... ok
+test rule_tests::test_interval_builder::bounds_cannot_reference_any_new_coordinate_or_malformed_rational ... ok
+test rule_tests::test_flow_builder::work_dimensions_and_intermediate_demands_are_bounded ... ok
+test rule_tests::test_interval_builder::free_one_sided_and_empty_family_are_total_extensions ... ok
+test rule_tests::test_interval_builder::every_lower_major_pair_and_generated_row_sign_is_explicit ... ok
+test rule_tests::test_interval_builder::original_prefix_objective_domains_and_colliding_names_are_preserved ... ok
+test rule_tests::test_interval_builder::unchecked_preparation_does_not_claim_false_pair_is_proved ... ok
+test rule_tests::test_lp::affine_terms_constants_and_exact_maximization ... ok
+test rule_tests::test_lp::constant_models_comments_and_case_sensitive_names ... ok
+test codec::tests::all_proof_variants_roundtrip ... ok
+test rule_tests::test_lp::general_and_binary_bounds_intersections ... ok
+test rule_tests::test_lp::limits_are_resource_errors ... ok
+test rule_tests::test_lp::named_multiline_and_single_line_unnamed_rows ... ok
+test rpa_source::parse::tests::expansions_are_bounded_before_allocating ... ok
+test rule_tests::test_lp::ranges_and_zero_declarations_preserve_order ... ok
+test rule_tests::test_lp::rejects_unsupported_and_ambiguous_inputs ... ok
+test rule_tests::test_lp::signed_scientific_bounds_and_empty_semi ... ok
+test rule_tests::test_menu_builder::exact_six_premises_and_binary_rows_include_singleton ... ok
+test rule_tests::test_menu_builder::false_premises_are_not_certified_by_structural_preparation ... ok
+test model::tests::deterministic_mps_mutations_do_not_panic ... ok
+test rule_tests::test_interval_builder::pair_product_work_and_scalar_intermediates_are_bounded ... ok
+test rule_tests::test_menu_builder::original_prefix_empty_family_and_generated_names_are_exact ... ok
+test rule_tests::test_model_export::export_is_pure_and_does_not_require_validation ... ok
+test rule_tests::test_model_export::exported_shape_is_exactly_canonical ... ok
+test rule_tests::test_lp::deterministic_lp_mutations_are_total ... ok
+test rule_tests::test_model_export::non_ascii_names_survive_the_export ... ok
+test rule_tests::test_model_export::round_trip_rebuilds_identical_model_and_encoding ... ok
+test rule_tests::test_model_export::scalars_use_parse_q_vocabulary_families ... ok
+test rule_tests::test_model_export::terms_are_index_scalar_pairs_and_empty_expression_is_empty ... ok
+test rule_tests::test_model_export::unbounded_sides_are_json_null ... ok
+test rule_tests::test_plotkin::checked_local_cliques_are_allowed_and_dead_references_reject ... ok
+test rule_tests::test_plotkin::every_close_pair_and_every_clique_term_is_checked ... ok
+test rule_tests::test_plotkin::plotkin_all_domain_label_and_parameter_premises_are_binding ... ok
+test rule_tests::test_plotkin::plotkin_inside_cases_exports_only_its_common_fact ... ok
+test codec::tests::deterministic_byte_mutations_are_total_and_canonical ... ok
+test rule_tests::test_semantics::actual_binary_identity_roundtrip ... ok
+test rule_tests::test_semantics::budget_exhaustion_is_distinct ... ok
+test rule_tests::test_semantics::contradiction_is_checked_and_handles_infeasible_model ... ok
+test rule_tests::test_semantics::dead_fact_and_overwrite_rejected ... ok
+test rule_tests::test_semantics::exact_negative_rounding ... ok
+test rule_tests::test_semantics::fractional_integer_multiplier_rejected ... ok
+test rule_tests::test_semantics::full_model_binding ... ok
+test rule_tests::test_semantics::integer_facts_require_actual_integer_variables ... ok
+test rule_tests::test_semantics::invalid_middle_linear_reference ... ok
+test rule_tests::test_semantics::missing_extra_and_wrong_mapping ... ok
+test rule_tests::test_semantics::real_piecewise_common_map_and_sibling_isolation ... ok
+test rule_tests::test_semantics::rpa_strict_fields_version_and_numbers ... ok
+test rule_tests::test_signed_builder::exact_five_premises_and_four_joint_rows_with_affine_constants ... ok
+test rule_tests::test_signed_builder::generated_names_cannot_collide_and_empty_extension_preserves_input ... ok
+test rule_tests::test_plotkin::plotkin_matches_independent_exhaustive_binary_sets_and_permutations ... ok
+test rule_tests::test_signed_builder::structural_middle_witness_dimensions_and_canonical_arithmetic_are_checked ... ok
+test rule_tests::test_signed_builder::zero_capacity_active_zero_and_false_premises_are_distinct ... ok
+test rule_tests::test_subflow_builder::all_scalar_intermediate_bit_limits_survive_cancellation ... ok
+test rule_tests::test_subflow_builder::empty_demand_zero_demand_no_arcs_and_source_equal_sink_policy ... ok
+test rule_tests::test_subflow_builder::every_node_premise_detects_extra_supply_wrong_orientation_or_negative_flow ... ok
+test rule_tests::test_signed_builder::independent_fraction_construction_boundaries_and_simultaneous_batches ... ok
+test rule_tests::test_subflow_builder::independently_clipping_arcs_and_violating_each_joint_obligation_fail ... ok
+test rule_tests::test_subflow_builder::malformed_middle_group_and_old_scope_expressions_are_rejected ... ok
+test rule_tests::test_subflow_builder::simultaneous_groups_affine_constants_duplicate_sinks_and_prefix_are_exact ... ok
+test rule_tests::test_subflow_builder::unchecked_builder_does_not_certify_false_or_missing_reference_premises ... ok
+test rule_tests::test_subflow_builder::work_and_dimension_limits_are_preflighted_and_exact_work_is_reusable ... ok
+test rule_tests::test_lp::python_fraction_generated_models_match ... ok
+test rule_tests::test_menu_builder::independent_fraction_oracle_241_menu_families ... ok
+test rule_tests::test_flow_builder::independent_fraction_joint_construction_97_vectors ... ok
+test verify::rational_shortcuts_audit::shortcuts_cannot_bypass_public_malformed_expression_validation ... ok
+test verify::rational_shortcuts_audit::vacant_zero_and_exact_cancellation_leave_no_sparse_entry ... ok
+test rule_tests::test_menu_builder::malformed_parent_coordinates_counts_scalars_and_budget_reject ... ok
+test verify::scope_state_audit::every_ancestor_lookup_probe_is_reported ... ok
+test verify::scope_state_audit::inherited_drop_reuse_and_second_drop_never_resurrect_ancestors ... ok
+test verify::scope_state_audit::logical_limit_and_duplicate_insert_guards_match_copied_maps ... ok
+test verify::scope_state_audit::nested_mask_then_local_definition_drop_remains_hidden ... ok
+test verify::scope_state_audit::sixty_four_ancestor_scopes_keep_counts_masks_and_probe_costs ... ok
+test verify::scope_state_audit::whole_split_right_can_consume_unchanged_parent_after_left_fork ... ok
+test rule_tests::test_adversarial::rounding_and_integer_split_bound_every_intermediate ... ok
+test rule_tests::test_interval_builder::independent_fraction_interval_oracle_241_vectors ... ok
+test verify::rational_shortcuts_audit::independent_raw_canonicality_and_bit_boundaries ... ok
+test rule_tests::test_subflow_builder::fraction_oracle_983_joint_constructions_and_every_symbolic_field ... ok
+test rule_tests::test_oracle::independent_fraction_oracle_4000_vectors ... ok
+test rule_tests::test_menu_builder::inactive_and_index_zero_are_distinct_and_all_valid_indices_exist ... ok
+test verify::scope_state_audit::copied_map_oracle_128_seeded_state_trees ... ok
+test verify::rational_shortcuts_audit::fraction_scaled_vectors ... ok
+test verify::rational_shortcuts_audit::fraction_accumulator_vectors ... ok
+
+test result: ok. 128 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 58.78s
+
+     Running unittests src/main.rs (target/debug/deps/rpx-d163ae7036aae704)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli_limits.rs (target/debug/deps/cli_limits-ec93a16886570751)
+
+running 3 tests
+test missing_direction_never_returns_verified ... ok
+test fixed_goal_and_limits_match_cli_and_library ... ok
+test malformed_flags_and_legacy_request_are_rejected ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+
+     Running tests/compiler_limits.rs (target/debug/deps/compiler_limits-614b93226ddea75d)
+
+running 4 tests
+test typed_json_budget_has_an_exact_boundary_and_default_delegation ... ok
+test file_budget_reports_effective_limit_and_preserves_output_on_failure ... ok
+test larger_json_budget_cannot_widen_wire_scalar_or_depth_limits ... ok
+test cli_budget_is_explicit_order_independent_and_overflow_safe ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/mi_opt.rs (target/debug/deps/mi_opt-a6f654d66310ede1)
+
+running 10 tests
+test infeasibility_requires_a_real_contradiction_in_both_directions ... ok
+test reverse_is_independently_checked_and_located ... ok
+test no_cross_direction_fact_leak ... ok
+test inequalities_can_use_equality_witnesses ... ok
+test dominated_solutions_may_be_deleted ... ok
+test unboundedness_cannot_be_lost ... ok
+test fixed_identity_and_shared_budget ... ok
+test every_actual_bound_row_integer_and_objective_is_required ... ok
+test bytes_api_reports_only_fixed_guarantee ... ok
+test no_goal_fields_or_missing_directions_in_json ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/source.rs (target/debug/deps/source-959695ed26f7125d)
+
+running 3 tests
+test planning_has_no_domain_or_objective_switch ... ok
+test new_source_rejects_legacy_headers_and_extra_terminal_checks ... ok
+test documented_sources_bind_roundtrip_and_certify_both_directions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests kernel_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

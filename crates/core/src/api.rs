@@ -7,14 +7,14 @@
 //! files and text.
 //!
 //! Invariants of this module:
-//! - No verification semantics, wire format or resource-accounting change. The
-//!   façade only names and structures what the CLI already exposed as text.
-//! - The JSON reports are exactly the historical CLI reports, field for field,
-//!   so an existing stdout consumer keeps working.
+//! - Verification delegates to the kernel's fixed MI optimization-equivalence
+//!   check; this module cannot select a weaker acceptance target.
+//! - CLI and library callers receive the same JSON report schema, including
+//!   `guarantee: "MI_OPT"` on successful verification.
 //! - Failures carry an explicit [`Status`] instead of relying on every caller
 //!   re-deriving it from message prefixes.
 
-use crate::{codec, compiler, lp, model, proof::Request, rpa, rpa_source, verify::{self, Limits}};
+use crate::{codec, compiler, lp, model, rpa, rpa_source, verify::{self, Limits}};
 use serde_json::{json, Value};
 use std::{fmt, fs, io::Read, path::Path, time::Instant};
 
@@ -317,7 +317,7 @@ pub fn canonicalize_path(input: &str, output: &str) -> Result<Value, Error> {
     }))
 }
 
-/// Assemble frozen JSON RPA or readable RPA-S source into an RPX file.
+/// Assemble JSON RPA 11 or readable RPA-S source into an RPX file.
 pub fn assemble_paths(input: &str, output: &str) -> Result<Value, Error> {
     assemble_paths_context(input, output, None)
 }
@@ -334,7 +334,7 @@ pub fn compile_certificate_json_with_options(text: &str, options: &CompileOption
 }
 
 // Keep Certificate reads separate: changing a compile budget must not widen
-// canonical/model/Request/RPX reads through the general MAX_INPUT_BYTES policy.
+// canonical/model/RPX reads through the general MAX_INPUT_BYTES policy.
 fn read_certificate_json_from(reader: impl Read, reported_len: u64, options: &CompileOptions) -> Result<String, Error> {
     options.validate()?;
     let limit = options.max_json_bytes;
@@ -382,7 +382,7 @@ pub fn compile_certificate_paths_with_options(input: &str, output: &str, options
 }
 
 /// Plan a Return with already-oriented current input/output MCM models. Write
-/// the ordered proposition array; each item includes its model/contract origin.
+/// the ordered proposition array; each item includes its model/objective origin.
 pub fn plan_return_paths(input: &str, output: &str, plan: &str, obligations: &str) -> Result<Value, Error> {
     let start = Instant::now();
     let input = codec::decode_model(&read_input(input)?)?;
@@ -410,20 +410,6 @@ pub fn resolve_return_paths(input: &str, output: &str, spec: &str, result: &str)
         "json_bytes":text.len(),"total_us":start.elapsed().as_micros()}))
 }
 
-/// Prepare the Kernel-owned paired domain and equality goals for an affine
-/// map's injectivity proof. Every goal still requires fresh-scope evidence.
-pub fn prepare_injectivity_paths(input: &str, output: &str, plan: &str, result: &str) -> Result<Value, Error> {
-    let start = Instant::now();
-    let input = codec::decode_model(&read_input(input)?)?;
-    let output = codec::decode_model(&read_input(output)?)?;
-    let prepared = compiler::prepare_injectivity_json(&input, &output, &read_text(plan)?, &Limits::default())?;
-    let mut text = serde_json::to_string_pretty(&prepared)
-        .map_err(|error| Error::from_message(format!("INVALID injectivity plan output: {error}")))?;
-    text.push('\n');
-    write_output(result, text.as_bytes())?;
-    Ok(json!({"status": Status::Prepared.as_str(), "equalities": prepared["equalities"].as_array().map(Vec::len),
-        "statistics": prepared["statistics"], "json_bytes": text.len(), "total_us": start.elapsed().as_micros()}))
-}
 
 /// Assemble readable source using explicitly supplied actual models.
 pub fn assemble_paths_with_models(input: &str, output: &str, source: &str, target: &str) -> Result<Value, Error> {
@@ -531,70 +517,41 @@ pub fn export_model_paths(input: &str, output: &str) -> Result<Value, Error> {
     }))
 }
 
-/// Verify a proof from files: two complete MCM models, one RPX proof and the
-/// independently supplied caller request.
-pub fn verify_paths(source: &str, target: &str, proof: &str, request: &str, limits: &Limits) -> Result<Value, Error> {
+/// Verify MI optimization equivalence using one RPX file on a complete MCM
+/// model pair. Both directions share one verification work budget.
+pub fn verify_paths(source: &str, target: &str, proof: &str, limits: &Limits) -> Result<Value, Error> {
     let start = Instant::now();
     let source_bytes = read_input(source)?;
     let target_bytes = read_input(target)?;
-    let proof_bytes = read_input(proof)?;
-    let request_text = read_text(request)?;
-    let read_us = start.elapsed().as_micros();
-    verify_bytes_at(&source_bytes, &target_bytes, &proof_bytes, &request_text, limits, Some(read_us), start)
+    let proof_bytes=read_input(proof)?;
+    verify_bytes_at(&source_bytes,&target_bytes,&proof_bytes,limits,Some(start.elapsed().as_micros()),start)
 }
 
-/// Verify a proof already held in memory, without touching the filesystem.
-///
-/// Same reports and semantics as [`verify_paths`]; `read_us` is omitted because
-/// there was no read phase.
-pub fn verify_bytes(
-    source: &[u8],
-    target: &[u8],
-    proof: &[u8],
-    request: &str,
-    limits: &Limits,
-) -> Result<Value, Error> {
-    verify_bytes_at(source, target, proof, request, limits, None, Instant::now())
+/// Filesystem-free counterpart of `verify_paths` with identical MI_OPT semantics.
+pub fn verify_bytes(source: &[u8], target: &[u8], proof: &[u8], limits: &Limits) -> Result<Value, Error> {
+    verify_bytes_at(source, target, proof, limits, None, Instant::now())
 }
 
-fn verify_bytes_at(
-    source: &[u8],
-    target: &[u8],
-    proof: &[u8],
-    request: &str,
-    limits: &Limits,
-    read_us: Option<u128>,
-    start: Instant,
-) -> Result<Value, Error> {
+fn verify_bytes_at(source: &[u8], target: &[u8], proof: &[u8], limits: &Limits, read_us: Option<u128>, start: Instant) -> Result<Value, Error> {
     let decoded_since_read = Instant::now();
     let source_model = codec::decode_model(source)?;
     let target_model = codec::decode_model(target)?;
     let model_decode_us = decoded_since_read.elapsed().as_micros();
-    let certificate = codec::decode_certificate(proof)?;
-    let requested = rpa::parse_request(request)?;
+    let certificate=codec::decode_certificate(proof)?;
     let proof_decode_us = decoded_since_read.elapsed().as_micros() - model_decode_us;
     let mut diagnostics = Diagnostics::default();
-    let statistics = verify::verify_request_with_diagnostics(
-        &source_model,
-        &target_model,
-        &certificate,
-        &requested,
-        limits,
-        &mut diagnostics,
-    )
-    .map_err(|message| Error::from_message(message).with_location(diagnostics.location))?;
+    let statistics = verify::verify_with_diagnostics(&source_model,&target_model,&certificate,limits,&mut diagnostics)
+        .map_err(|message| Error::from_message(message).with_location(diagnostics.location))?;
     let execute_us = decoded_since_read.elapsed().as_micros() - model_decode_us - proof_decode_us;
-    Ok(verify_report(&statistics, &requested, limits, &Timings { read_us, model_decode_us, proof_decode_us, execute_us }, start))
+    Ok(verify_report(&statistics, limits, &Timings { read_us, model_decode_us, proof_decode_us, execute_us }, start))
 }
 
-/// The verification report: requested-contract counts, verification statistics,
+/// The verification report: fixed guarantee, verification statistics,
 /// effective limits and phase timings.
-pub fn verify_report(statistics: &verify::Statistics, requested: &Request, limits: &Limits, timings: &Timings, start: Instant) -> Value {
+fn verify_report(statistics: &verify::Statistics, limits: &Limits, timings: &Timings, start: Instant) -> Value {
     let mut result = json!({
         "status": Status::Verified.as_str(),
-        "claims": requested.claims.len(),
-        "points": requested.points.len(),
-        "bijections": requested.bijections.len(),
+        "guarantee": "MI_OPT",
         "statistics": statistics,
         "limits": limits_json(limits),
         "model_decode_us": timings.model_decode_us,
@@ -604,9 +561,6 @@ pub fn verify_report(statistics: &verify::Statistics, requested: &Request, limit
     });
     if let Some(read_us) = timings.read_us {
         result["read_us"] = json!(read_us);
-    }
-    if !requested.improvements.is_empty() {
-        result["improvements"] = json!(requested.improvements.len());
     }
     result
 }

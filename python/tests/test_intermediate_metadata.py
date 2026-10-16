@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 from decimal import localcontext
 from fractions import Fraction
 import sys
@@ -39,7 +40,8 @@ class IntermediateMetadataTests(unittest.TestCase):
         target = Model("dst", [Variable("y", lower=0, upper=0)],
                        [Row("large", scale*Expr.var(0), upper=0)])
         proof = Proof(source, target)
-        claim = proof.claim(integers=False, objective="None", mapping={"y": scale*source.var("x")})
+        proof.reverse.map({"x": 0}).complete()
+        claim = proof.forward.map({"y": scale*source.var("x")})
         claim.le([(claim.lower("x"), scale)])
         first = claim.le([(claim.upper("x"), scale)])
         wide = claim.le([(first, scale)])
@@ -48,14 +50,14 @@ class IntermediateMetadataTests(unittest.TestCase):
         self.assertEqual(claim.missing(), [])
         claim.complete()
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+            assert_rules_checked(self, proof.verify(directory))
         claim.complete(witnesses={2: wide})
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+            assert_rules_checked(self, proof.verify(directory))
         certificate = proof.certificate()
-        forged = mutate(certificate, ["blocks", 0, "steps"], replacement=certificate["blocks"][0]["steps"][:-1])
+        forged = mutate(certificate, ["forward", "steps"], replacement=certificate["forward"]["steps"][:-1])
         with tempfile.TemporaryDirectory() as directory:
-            artifacts = compile_certificate(source, target, forged, proof.request(), directory)
+            artifacts = compile_certificate(source, target, forged, directory)
             self.assertEqual(proof.kernel.verify(**artifacts)["status"], "INVALID")
         if limit is not None:
             self.assertEqual(sys.get_int_max_str_digits(), limit)

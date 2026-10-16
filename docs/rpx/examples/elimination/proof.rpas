@@ -1,58 +1,29 @@
 RPA-S 1
 models { source: "source.lp", target: "target.lp" }
-// Source: x0 + x1 = 1，目标 x0；Target: 目标 1 - y。
-// Forward 输入坐标是 Source x0/x1，Reverse 输入坐标 x0 是 Target y。
 certificate {
-  claims: [
-    {
-      reverse: false,
-      input_integers: false,
-      output_integers: false,
-      objective: Equal,
-      projection: [[1, 0]],
-      inverse: 1,
-    },
-    {
-      reverse: true,
-      input_integers: false,
-      output_integers: false,
-      objective: Equal,
-      projection: [[0, 1]],
-      inverse: 0,
-    },
-  ],
-  blocks: [
-    {
-      steps: [
-        lin.eq(f0, -row_eq(0)), // EQ(1 - x0 - x1)
-      ],
-      end: Return {
-        map: [expr(x1)],
-        checks {
-          variable["y"].lower: lower(x1), // Target y >= 0
-          variable["y"].upper: upper(x1), // Target y <= 1
-          objective.equal: f0,        // 目标差 (1 - x1) - x0 = 0
-          projection[0]: exact,     // 投影 y = x1
-          inverse.coordinate["x0"]: f0,        // 逆映射恢复 x0：1 - x1 - x0 = 0
-          inverse.coordinate["x1"]: exact,     // 逆映射恢复 x1
-        },
+  forward: {
+    steps: [lin.eq(f0, -row_eq(0))],
+    end: Return {
+      map: [expr(x1)],
+      checks {
+        variable["y"].lower: lower(x1),
+        variable["y"].upper: upper(x1),
+        objective.non_increasing: f0,
       },
     },
-    {
-      steps: [],
-      end: Return {
-        map: [expr(1 - x0), expr(x0)],
-        checks {
-          variable["x0"].lower: upper(x0), // Source x0 >= 0：y - 1 <= 0
-          variable["x0"].upper: lower(x0), // Source x0 <= 1：-y <= 0
-          variable["x1"].lower: lower(x0), // Source x1 >= 0
-          variable["x1"].upper: upper(x0), // Source x1 <= 1
-          row["balance"].equal: exact,     // Source balance: (1 - y) + y = 1
-          objective.equal: exact,     // 目标差恒为零
-          projection[0]: exact,     // 投影 x1 = y
-          inverse.coordinate["y"]: exact,     // 逆映射恢复 y
-        },
+  },
+  reverse: {
+    steps: [],
+    end: Return {
+      map: [expr(1 - x0), expr(x0)],
+      checks {
+        variable["x0"].lower: upper(x0),
+        variable["x0"].upper: lower(x0),
+        variable["x1"].lower: lower(x0),
+        variable["x1"].upper: upper(x0),
+        row["balance"].equal: exact,
+        objective.non_increasing: exact,
       },
     },
-  ],
+  },
 }

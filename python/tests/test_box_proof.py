@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 import tempfile
 import unittest
 
@@ -9,13 +10,13 @@ class BoxProofTests(unittest.TestCase):
         model = Model("src", [Variable("x", lower=2), Variable("y", lower=None, upper=5)])
         target = model.add_row("box", -2*model.var("x")+model.var("y"), upper=5)
         proof = Proof(model, target)
-        f, r = proof.bijection("identity", "identity", integers=False)
+        f, r = (proof.forward.map("identity"), proof.reverse.map("identity"))
         fact = f.box_le(-2*model.var("x")+model.var("y")-5)
         self.assertEqual(f.steps[-1]["Lin"]["constant"], "-4")
         f.check("row.upper[box]", fact)
         f.complete(); r.complete()
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+            assert_rules_checked(self, proof.verify(directory))
 
     def test_inconclusive_bounds_do_not_emit_a_proof_step(self):
         model = Model("src", [Variable("x", lower=0, upper=1), Variable("y", lower=None)])

@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """JSON compile budgets do not change the proof or its verification policy."""
 import json
 from pathlib import Path
@@ -38,7 +39,7 @@ class CompileBudgetConstructorTests(unittest.TestCase):
         certificate = {"claims": [], "blocks": [], "points": [],
                        "improvements": [], "bijections": []}
         with tempfile.TemporaryDirectory() as directory:
-            paths = compile_certificate(model, model, certificate, request, directory,
+            paths = compile_certificate(model, model, certificate, directory,
                                         kernel=kernel)
             self.assertEqual(kernel.arguments[0], "compile")
             self.assertEqual(len(kernel.arguments), 3)
@@ -62,8 +63,7 @@ class CompileBudgetConstructorTests(unittest.TestCase):
         model = Model("reporting", [Variable("x", lower=0, upper=1)])
         request = {"claims": [], "points": [], "improvements": [], "bijections": []}
         with tempfile.TemporaryDirectory() as directory:
-            paths = compile_certificate(model, model, {"claims": [], "blocks": []},
-                                        request, directory, kernel=kernel)
+            paths = compile_certificate(model, model, {"claims": [], "blocks": []}, directory, kernel=kernel)
             self.assertEqual(kernel.arguments[:3], ("compile", "--max-json-bytes", 4096))
             manifest = json.loads((paths["proof"].parent / "delivery.json").read_text())
             self.assertEqual(manifest["compile_limits"], {"certificate_json_bytes": 4096})
@@ -76,10 +76,11 @@ class NativeCompileBudgetTests(unittest.TestCase):
         kernel = Kernel(compile_json_bytes=None)
         model = Model("budget", [Variable("x", True, 0, 1)], objective=1)
         proof = Proof(model, model, kernel=kernel)
+        proof.reverse.map("identity").complete()
         self.addCleanup(proof.close)
-        claim = proof.claim(mapping="identity", projection="retained")
+        claim = proof.forward.map("identity")
         claim.complete()
-        certificate, request = proof.certificate(), proof.request()
+        certificate, request = proof.certificate(), proof.certificate()
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
             with patch.object(kernel, "call", wraps=kernel.call) as recorded:
@@ -94,7 +95,7 @@ class NativeCompileBudgetTests(unittest.TestCase):
             size = (directory / "certificate.json").stat().st_size
             too_small = Kernel(kernel.binary, compile_json_bytes=size - 1)
             with self.assertRaises(KernelError) as rejected:
-                compile_certificate(model, model, certificate, request, directory,
+                compile_certificate(model, model, certificate, directory,
                                     kernel=too_small)
             self.assertEqual(rejected.exception.report["status"], "RESOURCE_LIMIT")
             self.assertIn("input file bytes", str(rejected.exception))
@@ -106,7 +107,7 @@ class NativeCompileBudgetTests(unittest.TestCase):
             # change RPX bytes, the Request, or verification limits.
             for budget in (size, size + 100):
                 sufficient = Kernel(kernel.binary, compile_json_bytes=budget)
-                actual = compile_certificate(model, model, certificate, request, directory,
+                actual = compile_certificate(model, model, certificate, directory,
                                              kernel=sufficient)
                 self.assertEqual(actual["proof"].read_bytes(), old_rpx)
                 manifest = json.loads((directory / "delivery.json").read_text())
@@ -114,8 +115,8 @@ class NativeCompileBudgetTests(unittest.TestCase):
                                  {"certificate_json_bytes": budget})
                 self.assertNotIn(".proof.rpx.", json.dumps(manifest))
                 report = sufficient.verify(actual["source"], actual["target"],
-                                           actual["proof"], actual["request"])
-                self.assertEqual(report["status"], "VERIFIED", report)
+                                           actual["proof"])
+                assert_rules_checked(self, report)
                 self.assertEqual(list(directory.glob(".*.tmp")), [])
 
 

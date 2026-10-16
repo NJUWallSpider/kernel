@@ -1,4 +1,4 @@
-use kernel_core::{model::{parse_q,Expr,Model,Q,Var,MAX_Q_BITS},proof::{Kind,Ref,SignedWitness},signed::prepare_unchecked_extension,verify::Limits};
+use crate::{model::{parse_q,Expr,Model,Q,Var,MAX_Q_BITS},proof::{Kind,Ref,SignedWitness},signed::prepare_unchecked_extension,verify::Limits};
 use num_bigint::BigInt;
 use serde::Deserialize;
 fn q(s:&str)->Q{parse_q(s).unwrap()}

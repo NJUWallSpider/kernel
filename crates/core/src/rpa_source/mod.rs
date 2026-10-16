@@ -55,7 +55,7 @@ impl ParsedSource {
         check_expanded_bytes(&self.value)?;
         let certificate: Certificate = serde_json::from_value(self.value)
             .map_err(|error| classify_schema_error(error.to_string()))?;
-        crate::codec::certificate_version(&certificate)?;
+
         Ok(certificate)
     }
 }
@@ -112,7 +112,7 @@ pub fn disassemble_with_models(
 }
 
 fn render(certificate: &Certificate, models: Option<(&Model, &Model)>) -> Result<String, String> {
-    crate::codec::certificate_version(certificate)?;
+
     let mut value = serde_json::to_value(certificate)
         .map_err(|error| format!("INVALID RPA source output: {error}"))?;
     check_expanded_bytes(&value)?;

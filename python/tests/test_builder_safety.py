@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """Builder scope, lookup, and explicit proof-template regression checks."""
 import tempfile
 import unittest
@@ -87,11 +88,11 @@ class BuilderSafetyTests(unittest.TestCase):
             with self.assertRaises(BuildError):
                 builder.plotkin(bits=2, distance=2, variables=variables, cliques=cliques)
         with self.assertRaises(BuildError):
-            Builder(model, integers=False).plotkin(bits=2, distance=2, variables=[(0, 0)], cliques=[])
+            Builder(Model("continuous", [Variable(v.name, False, v.lower, v.upper) for v in model.vars], model.rows, model.objective)).plotkin(bits=2, distance=2, variables=[(0, 0)], cliques=[])
 
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+            assert_rules_checked(self, proof.verify(directory))
 
     def test_explicit_fixed_equality_template_verifies(self):
         x, y = Expr.var(0), Expr.var(1)
@@ -100,12 +101,12 @@ class BuilderSafetyTests(unittest.TestCase):
         goal = 3*x + 2*y - 5
         target = source.add_row("derived", goal, equal=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         forward.eq_on_fixed(goal, {"x": forward.row("xfix")})
         forward.complete()
         reverse.complete()
         self.verify(proof)
-        invalid = Builder(source, integers=False)
+        invalid = Builder(source)
         with self.assertRaisesRegex(BuildError, "nonzero exact residual"):
             invalid.eq_on_fixed(goal+1, {"x": invalid.row("xfix")})
         self.assertEqual(invalid.steps, [])
@@ -116,7 +117,7 @@ class BuilderSafetyTests(unittest.TestCase):
                        [Row("a", x+y, lower=1), Row("b", y, upper=3)])
         target = source.add_row("derived", x, lower=-2)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         forward.combine_rows("Le", {"a": 1, ("b", "Upper"): 1}, expect=-x-2)
         forward.complete()
         reverse.complete()
@@ -128,7 +129,7 @@ class BuilderSafetyTests(unittest.TestCase):
                        [Row("clique", x+y, upper=1)])
         target = source.add_row("cut", x+y, upper=2)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity")
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         forward.plotkin(bits=2, distance=2, variables=((i, 0) for i in (0, 1)),
                         cliques=(forward.row("clique") for _ in range(1)))
         forward.complete()

@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 import json
 from pathlib import Path
 import tempfile
@@ -10,16 +11,16 @@ class ProofTests(unittest.TestCase):
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
             result = proof.verify(directory)
-            self.assertEqual(result["status"], "VERIFIED", result)
+            assert_rules_checked(self, result)
             self.assertFalse(list(Path(directory).glob("*.rpa")))
             # Corrupt the complete requested output map, leaving the Request fixed.
             cert = json.loads((Path(directory) / "certificate.json").read_text())
-            if cert["blocks"] and "Return" in cert["blocks"][0]["end"]:
-                cert["blocks"][0]["end"]["Return"]["map"][0]["constant"] = "999"
+            if "Return" in cert["forward"]["end"]:
+                cert["forward"]["end"]["Return"]["map"][0]["constant"] = "999"
                 (Path(directory) / "bad.json").write_text(json.dumps(cert))
                 proof.kernel.call("compile", Path(directory) / "bad.json", Path(directory) / "bad.rpx")
                 rejected = proof.kernel.verify(Path(directory) / "source.mcm", Path(directory) / "target.mcm",
-                                                Path(directory) / "bad.rpx", Path(directory) / "request.json")
+                                                Path(directory) / "bad.rpx")
                 self.assertEqual(rejected["status"], "INVALID", rejected)
 
     def test_affine_elimination_and_inverse(self):
@@ -28,7 +29,7 @@ class ProofTests(unittest.TestCase):
                        [Row("define", y-2*x, lower=0, upper=0)], objective=y)
         target = source.substitute({"y": 2*x}, drop_rows=["define"])
         proof = Proof(source, target)
-        f, r = proof.bijection({"x": x}, {"x": target.var("x"), "y": 2*target.var("x")}, integers=False)
+        f, r = (proof.forward.map({"x": x}), proof.reverse.map({"x": target.var("x"), "y": 2*target.var("x")}))
         f.rewrite(f.lower("y"), {"y": f.row("define")})
         f.rewrite(f.upper("y"), {"y": f.row("define")})
         f.eq([(f.row("define"), -1)])
@@ -37,20 +38,6 @@ class ProofTests(unittest.TestCase):
         r.complete()
         self.verify(proof)
 
-    def test_rounding_requires_integer_mode(self):
-        x = Expr.var(0)
-        source = Model("src", [Variable("x", integer=True, lower=0, upper=1)], [Row("cap", 2*x, upper=1)])
-        target = source.replace_row("cap", expr=x, upper=0)
-        proof = Proof(source, target)
-        f, r = proof.bijection("identity", "identity")
-        f.round(f.le([(f.row("cap"), "1/2")]), f.integer("x"))
-        f.complete()
-        r.le([(r.row("cap"), 2)], constant=-1)
-        r.complete()
-        self.verify(proof)
-        relaxed = Builder(source, integers=False)
-        with self.assertRaises(BuildError):
-            relaxed.integer("x")
 
     def test_case_strengthening_and_reverse_lp(self):
         x, y, a = (Expr.var(i) for i in range(3))
@@ -58,7 +45,7 @@ class ProofTests(unittest.TestCase):
         source = Model("src", variables, [Row("group", x+y, upper=1), Row("gate", x+y-2*a, upper=0)])
         target = source.replace_row("gate", expr=x+y-a)
         proof = Proof(source, target)
-        f, r = proof.bijection("identity", "identity")
+        f, r = (proof.forward.map("identity"), proof.reverse.map("identity"))
         goal = x+y-a
         f.cases(a, kind="Le", expect=goal,
                 left=lambda b, s: b.le([(b.row("gate"), 1), (s, 1)], expect=goal),
@@ -66,10 +53,9 @@ class ProofTests(unittest.TestCase):
         f.complete()
         r.le([(r.row("gate"), 1), (r.lower("a"), 1)])
         r.complete()
-        lp = proof.claim(reverse=True, integers=False, mapping="identity", projection="retained")
+        lp = proof.reverse.map("identity")
         lp.le([(lp.row("gate"), 1), (lp.lower("a"), 1)])
         lp.complete()
-        proof.add_point({"ImageExclusion": {"point_in_target": False, "map": [x, y, a]}}, [1, 0, "1/2"])
         self.verify(proof)
 
     def test_interval_projection_lift(self):
@@ -78,9 +64,9 @@ class ProofTests(unittest.TestCase):
                        [Row("cap", y-x, upper=0)])
         target = Model("tgt", [Variable("x", lower=0, upper=1)])
         proof = Proof(source, target)
-        f = proof.claim(mapping={"x": x}, objective="None", projection="retained")
+        f = proof.forward.map({"x": x})
         f.complete()
-        r = proof.claim(reverse=True, objective="None", projection="retained")
+        r = proof.reverse
         scope = r.intervals([{"lower": [Expr(0)], "upper": [target.var("x")], "checks": [r.lower("x")]}])
         z = scope.model.var(scope.generated_variables[0])
         r.complete(scope=scope, mapping={"x": scope.model.var("x"), "y": z})
@@ -108,7 +94,7 @@ class ProofTests(unittest.TestCase):
         source = Model("src", [Variable("x", lower=0, upper=1)])
         target = source.with_bounds("x", upper=0)
         proof = Proof(source, target)
-        forward = proof.claim(mapping="identity")
+        forward = proof.forward.map("identity")
         missing = forward.missing()
         self.assertEqual([o.origin["kind"] for o in missing], ["variable.upper"])
         with self.assertRaises(BuildError):

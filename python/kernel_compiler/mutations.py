@@ -31,14 +31,14 @@ def mutate(certificate, path, *, replacement=None, delete=False):
 
 
 def attack(proof, directory, path, *, replacement=None, delete=False, expected="INVALID"):
-    """Keep the caller's Request fixed while mutating a supplied proof site."""
+    """Mutate a proof site; the Kernel always requires MI_OPT."""
     certificate = mutate(proof.certificate(), path, replacement=replacement, delete=delete)
     try:
-        artifacts = compile_certificate(proof.source, proof.target, certificate, proof.request(), directory,
+        artifacts = compile_certificate(proof.source, proof.target, certificate, directory,
                                         kernel=proof.kernel)
     except KernelError as error:
         return {"expected": expected, "rejected_as_expected": error.report["status"] == expected,
                 "stage": "compile", "result": error.report}
-    report = proof.kernel.verify(artifacts["source"], artifacts["target"], artifacts["proof"], artifacts["request"])
+    report = proof.kernel.verify(artifacts["source"], artifacts["target"], artifacts["proof"])
     return {"expected": expected, "rejected_as_expected": report["status"] == expected,
             "stage": "verify", "result": report}

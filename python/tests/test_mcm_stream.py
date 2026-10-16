@@ -199,7 +199,8 @@ class MCMStreamTests(unittest.TestCase):
             with Model.load(source_path) as source:
                 owned = source.path
                 proof = Proof(source, source)
-                forward, reverse = proof.bijection('identity', 'identity')
+                proof.reverse.map("identity").complete()
+                forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
                 forward.complete(); reverse.complete()
                 committed = original.write_mps(directory/'committed.mps')
                 report = proof.verify(directory/'proof', committed_model=committed)

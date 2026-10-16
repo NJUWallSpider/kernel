@@ -1,25 +1,117 @@
-RPA 1
+RPA 11
 {
- "claims":[
-  {"reverse":false,"input_integers":false,"output_integers":false,"objective":"Equal","projection":[],"inverse":null},
-  {"reverse":true,"input_integers":false,"output_integers":false,"objective":"Equal","projection":[],"inverse":null}
- ],
- "blocks":[
-  {"steps":[],"end":{"Split":{
-   "expression":{"constant":"0","terms":[[0,"1"]]},"integer":null,
-   "left":{"steps":[],"end":{"Return":{
-    "map":[{"constant":"0","terms":[[0,"-1"]]}],
-    "checks":[{"Assumption":0},{"VarLower":0},"Exact"]
-   }}},
-   "right":{"steps":[],"end":{"Return":{
-    "map":[{"constant":"0","terms":[[0,"1"]]}],
-    "checks":[{"Assumption":0},{"VarUpper":0},"Exact"]
-   }}}
-  }}},
-  {"steps":[{"Lin":{"id":0,"kind":"Le","constant":"-1","terms":[[{"VarLower":0},"1"]]}}],
-   "end":{"Return":{
-    "map":[{"constant":"0","terms":[[0,"1"]]}],
-    "checks":[{"Local":0},{"VarUpper":0},"Exact"]
-   }}}
- ]
+  "forward": {
+    "steps": [],
+    "end": {
+      "Split": {
+        "expression": {
+          "constant": "0",
+          "terms": [
+            [
+              0,
+              "1"
+            ]
+          ]
+        },
+        "integer": null,
+        "left": {
+          "steps": [],
+          "end": {
+            "Return": {
+              "map": [
+                {
+                  "constant": "0",
+                  "terms": [
+                    [
+                      0,
+                      "-1"
+                    ]
+                  ]
+                }
+              ],
+              "checks": [
+                {
+                  "Assumption": 0
+                },
+                {
+                  "VarLower": 0
+                },
+                "Exact"
+              ]
+            }
+          }
+        },
+        "right": {
+          "steps": [],
+          "end": {
+            "Return": {
+              "map": [
+                {
+                  "constant": "0",
+                  "terms": [
+                    [
+                      0,
+                      "1"
+                    ]
+                  ]
+                }
+              ],
+              "checks": [
+                {
+                  "Assumption": 0
+                },
+                {
+                  "VarUpper": 0
+                },
+                "Exact"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "reverse": {
+    "steps": [
+      {
+        "Lin": {
+          "id": 0,
+          "kind": "Le",
+          "constant": "-1",
+          "terms": [
+            [
+              {
+                "VarLower": 0
+              },
+              "1"
+            ]
+          ]
+        }
+      }
+    ],
+    "end": {
+      "Return": {
+        "map": [
+          {
+            "constant": "0",
+            "terms": [
+              [
+                0,
+                "1"
+              ]
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "Local": 0
+          },
+          {
+            "VarUpper": 0
+          },
+          "Exact"
+        ]
+      }
+    }
+  }
 }

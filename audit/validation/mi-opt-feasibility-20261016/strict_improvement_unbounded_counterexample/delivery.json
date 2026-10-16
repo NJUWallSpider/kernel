@@ -1,0 +1,138 @@
+{
+  "format": "kernel-compiler-delivery-1",
+  "relation": "caller-declared Kernel request",
+  "request_summary": {
+    "counts": {
+      "claims": 2,
+      "points": 0,
+      "improvements": 1,
+      "bijections": 0
+    },
+    "models": {
+      "source": {
+        "variables": 1,
+        "rows": 0,
+        "integers": 1,
+        "nonzeros": 0,
+        "objective_nonzeros": 1,
+        "equalities": 0,
+        "ranged_rows": 0
+      },
+      "target": {
+        "variables": 1,
+        "rows": 0,
+        "integers": 1,
+        "nonzeros": 0,
+        "objective_nonzeros": 1,
+        "equalities": 0,
+        "ranged_rows": 0
+      }
+    },
+    "note": "Caller-declared scope only; Kernel verifies the complete Request. Each directional claim requires a total map and all output feasibility obligations.",
+    "claims": [
+      {
+        "index": 0,
+        "direction": "source_to_target",
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse_claim": null,
+        "input_restrictions": {
+          "halfspace": {
+            "constant": "0",
+            "term_count": 1,
+            "terms": [
+              [
+                0,
+                "1"
+              ]
+            ],
+            "omitted_terms": 0
+          }
+        },
+        "input_objective_lower": null,
+        "input_objective_lower_scope": null,
+        "observations": {
+          "coordinate_count": 0,
+          "coordinates": [],
+          "omitted_coordinates": 0,
+          "affine_count": 0,
+          "affine": [],
+          "omitted_affine": 0
+        }
+      },
+      {
+        "index": 1,
+        "direction": "target_to_source",
+        "input_integers": true,
+        "output_integers": true,
+        "objective": "Equal",
+        "inverse_claim": null,
+        "input_restrictions": {},
+        "input_objective_lower": null,
+        "input_objective_lower_scope": null,
+        "observations": {
+          "coordinate_count": 0,
+          "coordinates": [],
+          "omitted_coordinates": 0,
+          "affine_count": 0,
+          "affine": [],
+          "omitted_affine": 0
+        }
+      }
+    ],
+    "omitted_claims": 0,
+    "points": [],
+    "improvements": [
+      {
+        "index": 0,
+        "target": false,
+        "integers": true,
+        "positive": {
+          "constant": "0",
+          "term_count": 1,
+          "terms": [
+            [
+              0,
+              "1"
+            ]
+          ],
+          "omitted_terms": 0
+        }
+      }
+    ],
+    "bijections": [],
+    "omitted_points": 0,
+    "omitted_improvements": 0,
+    "omitted_bijections": 0
+  },
+  "pieces": [
+    {
+      "source": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/source.mcm",
+      "target": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/target.mcm",
+      "proof": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/proof.rpx",
+      "request": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/request.json"
+    }
+  ],
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/source.mcm",
+      "sha256": "5b8329753899f4cd6fd944529e3dfa26b99d230e85b4b7e03e45f4d8ea4c8d98"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/target.mcm",
+      "sha256": "584ee162bbd5050216410802983a77ed1787a6b6ba32a0c33c387bb677e84712"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/proof.rpx",
+      "sha256": "2d852e69d65485b835a4856446ebba7cba69e21fcfc62578680e33615be128c5"
+    },
+    "request": {
+      "path": "/Users/bhz/Code/kernel/audit/validation/mi-opt-feasibility-20261016/strict_improvement_unbounded_counterexample/request.json",
+      "sha256": "da82c49834a4a79c201702f138db2f3c6b6f92d6fea9020c0458be17ed905fd8"
+    }
+  },
+  "compile_limits": {
+    "certificate_json_bytes": 1073741824
+  }
+}

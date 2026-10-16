@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """Caller-selected subset inequalities share ordinary, scope-safe Lin proofs."""
 from pathlib import Path
 import tempfile
@@ -10,7 +11,7 @@ class SubsetBoundsTests(unittest.TestCase):
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
             result = proof.verify(directory)
-            self.assertEqual(result["status"], "VERIFIED", result)
+            assert_rules_checked(self, result)
             self.assertFalse(list(Path(directory).glob("*.rpa")))
             return result
 
@@ -28,7 +29,7 @@ class SubsetBoundsTests(unittest.TestCase):
             target = target.add_row(f"derived{index}", expression, upper=0)
         for integers in (True, False):
             proof = Proof(source, target)
-            forward, reverse = proof.bijection("identity", "identity", integers=integers)
+            forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
             facts = forward.subset_bounds(forward.row("given"), iter(subsets))
             self.assertEqual([fact.expression for fact in facts], expected)
             self.assertTrue(all(fact.kind == "Le" for fact in facts))
@@ -36,9 +37,9 @@ class SubsetBoundsTests(unittest.TestCase):
             self.assertEqual({next(iter(step)) for step in forward.steps}, {"Lin"})
             forward.complete(); reverse.complete()
             with tempfile.TemporaryDirectory() as directory:
-                self.assertEqual(proof.verify(directory)["status"], "VERIFIED")
+                assert_rules_checked(self, proof.verify(directory))
                 broken = attack(proof, Path(directory)/"attack",
-                                ["blocks", 0, "steps", 0, "Lin", "terms", 1, 1],
+                                ["forward", "steps", 0, "Lin", "terms", 1, 1],
                                 replacement="0")
                 self.assertTrue(broken["rejected_as_expected"], broken)
 
@@ -74,7 +75,7 @@ class SubsetBoundsTests(unittest.TestCase):
                        [Row("given", x+2*y, 0, 0)])
         target = source.add_row("impossible", Expr(1), upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         full, empty = forward.subset_bounds(forward.row("given"), [[0, 1], []])
         self.assertEqual((full.kind, full.expression), ("Le", x+2*y))
         self.assertEqual((empty.kind, empty.expression), ("Le", Expr(1)))
@@ -88,7 +89,7 @@ class SubsetBoundsTests(unittest.TestCase):
                        [Row("given", total, upper=1)])
         target = source.add_row("subset", Expr(-1, {i: 1 for i in range(8)}), upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         first, = forward.subset_bounds(forward.row("given"), [range(16)])
         before = len(forward.steps)
         again, = forward.subset_bounds(forward.row("given"), [range(16)])
@@ -128,7 +129,7 @@ class SubsetBoundsTests(unittest.TestCase):
         selected = Expr(-2, {6: 1, 8: 1})
         target = source.add_row("selected", selected, upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         first, empty = forward.subset_bounds(forward.row("given"), [[6, 8], []])
         self.assertEqual(first.expression, selected)
         self.assertEqual(empty.expression, Expr(-2))
@@ -140,8 +141,7 @@ class SubsetBoundsTests(unittest.TestCase):
                        Variable("y", lower=None, upper=2)], objective=Expr.var(0))
         target = Model("projected", [Variable("x", lower=0, upper=1)], objective=Expr.var(0))
         proof = Proof(source, target)
-        forward, reverse = proof.correspondence({"x": source.var("x")}, integers=False,
-                                                projection="retained", forward_objective="Equal")
+        forward, reverse = proof.forward.map({"x": source.var("x")}), proof.reverse
         forward.complete()
         scope = reverse.intervals([{"lower": [Expr(0)], "upper": [reverse.model.var("x")],
                                     "checks": [reverse.lower("x")]}])
@@ -178,7 +178,7 @@ class SubsetBoundsTests(unittest.TestCase):
         for k in range(1, 257):
             target = target.add_row(f"prefix{k}", Expr(-1, {i: 1 for i in range(k)}), upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection("identity", "identity", integers=False)
+        forward, reverse = (proof.forward.map("identity"), proof.reverse.map("identity"))
         facts = forward.subset_bounds(forward.row("given"), (range(k) for k in range(1, 257)))
         self.assertEqual(facts[0].expression, Expr.var(0)-1)
         self.assertEqual(facts[-1].expression, Expr(-1, {i: 1 for i in range(256)}))

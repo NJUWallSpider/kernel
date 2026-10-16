@@ -6,7 +6,7 @@ Does not substitute replay success for completeness of the corpus ledger.
 import argparse,hashlib,json,os,subprocess,time
 from datetime import datetime,timezone
 from pathlib import Path
-from case_delivery import load_delivery
+from case_delivery import load_optimization
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--skip-build',action='store_true');p.add_argument('--source-root',default=str(ROOT));a=p.parse_args()
 source_root=Path(a.source_root).resolve()
@@ -14,7 +14,7 @@ prepared_cases=[]
 for directory in sorted((ROOT/'cases').iterdir()):
  if directory.is_dir() and (directory/'preparation.json').exists():
   receipt=json.loads((directory/'preparation.json').read_text())
-  if receipt.get('status')=='VERIFIED':prepared_cases.append((directory,load_delivery(directory,receipt)))
+  if receipt.get('status')=='VERIFIED':prepared_cases.append((directory,load_optimization(directory)))
 out=ROOT/'audit/validation'/a.label;out.mkdir(parents=True,exist_ok=True)
 if (out/'run.json').exists():raise SystemExit('Result exists; choose a fresh label.')
 target=ROOT/'target'/('validation-'+a.label);kernel=target/'release/rpx';records=[]
@@ -28,19 +28,14 @@ if not a.skip_build:
 if not kernel.exists():raise SystemExit('Missing requested validation binary.')
 case_results=[]
 for d,delivery in prepared_cases:
- pieces=[]
- for piece in delivery['pieces']:
-  result=invoke([kernel,'verify',delivery['source'],delivery['target'],piece['rpx'],piece['request']])
-  try:reply=json.loads(result['stdout'])
-  except json.JSONDecodeError:reply={'status':'IO_ERROR','message':result['stderr']}
-  pieces.append({'piece':piece['id'],'exit_code':result['exit_code'],'result':reply})
- if delivery['kind']=='single':
-  entry={'case':d.name,'exit_code':pieces[0]['exit_code'],'result':pieces[0]['result'],'artifacts':{name:value['sha256'] for name,value in delivery['artifacts'].items()}}
- else:
-  complete=all(x['exit_code']==0 and x['result']['status']=='VERIFIED' for x in pieces)
-  entry={'case':d.name,'exit_code':0 if complete else 1,'result':{'status':'VERIFIED' if complete else 'BUNDLE_INCOMPLETE','kind':'independent-complete-request-conjunction','not_a_single_kernel_invocation':True},'pieces':pieces,'artifacts':{name:value['sha256'] for name,value in delivery['artifacts'].items()}}
+ result=invoke([kernel,'verify',delivery['source'],delivery['target'],delivery['proof']])
+ try:reply=json.loads(result['stdout'])
+ except json.JSONDecodeError:reply={'status':'IO_ERROR','message':result['stderr']}
+ entry={'case':d.name,'exit_code':result['exit_code'],'result':reply,
+        'proof_files':[str(delivery['proof'])],
+        'artifacts':{name:value['sha256'] for name,value in delivery['artifacts'].items()}}
  case_results.append(entry)
  print(d.name,entry['result']['status'],flush=True)
-report={'recorded_utc':datetime.now(timezone.utc).isoformat(),'source_root':str(source_root),'source_sha256':{str(p.relative_to(source_root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((source_root/'crates').rglob('*.rs')) if 'target' not in p.parts},'kernel_sha256':hashlib.sha256(kernel.read_bytes()).hexdigest(),'lock_sha256':hashlib.sha256((source_root/'Cargo.lock').read_bytes()).hexdigest(),'commands':records,'replayed':case_results,'all_replayed_verified':all(c['exit_code']==0 and c['result']['status']=='VERIFIED' for c in case_results),'functional_delivery_complete':False,'note':'Replay verifies prepared certificates enumerated at start only; unprepared corpus targets remain outstanding. See audit/acceptance.json for denominator.'}
+report={'recorded_utc':datetime.now(timezone.utc).isoformat(),'source_root':str(source_root),'source_sha256':{str(p.relative_to(source_root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((source_root/'crates').rglob('*.rs')) if 'target' not in p.parts},'kernel_sha256':hashlib.sha256(kernel.read_bytes()).hexdigest(),'lock_sha256':hashlib.sha256((source_root/'Cargo.lock').read_bytes()).hexdigest(),'commands':records,'replayed':case_results,'all_replayed_verified':all(c['exit_code']==0 and c['result']['status']=='VERIFIED' and c['result'].get('guarantee')=='MI_OPT' for c in case_results),'guarantee':'MI_OPT','note':'Each complete case is certified as MI_OPT; one RPX 11 certificate contains both directions under one work budget. Historical receipt hashes remain provenance only.'}
 (out/'run.json').write_text(json.dumps(report,indent=2)+'\n');print(out/'run.json')
 raise SystemExit(0 if report['all_replayed_verified'] else 1)

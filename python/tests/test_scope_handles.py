@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 """Native semantic extension handles: no author-side coordinate/row offsets."""
 from fractions import Fraction
 import tempfile
@@ -10,13 +11,14 @@ class ScopeHandleTests(unittest.TestCase):
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
             result = proof.verify(directory)
-            self.assertEqual(result["status"], "VERIFIED", result)
+            assert_rules_checked(self, result)
 
     def test_heterogeneous_intervals_and_branch_visibility(self):
         x = Expr.var(0)
         model = Model("intervals", [Variable("x", lower=0, upper=1)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping="identity", integers=False)
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map("identity")
         upper_slack = claim.le([(claim.lower("x"), 1)], constant=-1)
         scope = claim.intervals([
             {"lower": [0, x-1], "upper": [x, x+1],
@@ -48,9 +50,8 @@ class ScopeHandleTests(unittest.TestCase):
                        [Row("z_sum", z0+z1, 1, 1), Row("w_sum", w0+w1+w2, 1, 1)],
                        objective=z1+w1+2*w2)
         proof = Proof(source, target)
-        forward = proof.claim(affine_projection=[(i, z1), (j, w1+2*w2)])
-        reverse = proof.claim(reverse=True, mapping={"i": z1, "j": w1+2*w2},
-                              affine_projection=[(z1, i), (w1+2*w2, j)])
+        forward = proof.forward
+        reverse = proof.reverse.map({"i": z1, "j": w1+2*w2})
         scope = forward.menus([
             {"maximum_index": maximum, "activation": 1, "index": source.var(name),
              "checks": ["Exact", "Exact", "Exact", forward.lower(name), forward.upper(name), forward.integer(name)]}
@@ -73,7 +74,8 @@ class ScopeHandleTests(unittest.TestCase):
         model = Model("signed", [Variable("f", False, -2, 2), Variable("z", True, 0, 1)],
                       [Row("positive", flow-2*active, upper=0), Row("negative", -flow-2*active, upper=0)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping="identity")
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map("identity")
         scope = claim.signed([
             {"capacity": 2, "flow": flow, "activation": active,
              "checks": [claim.lower("z"), claim.upper("z"), claim.integer("z"),
@@ -93,7 +95,8 @@ class ScopeHandleTests(unittest.TestCase):
         f, g = Expr.var(0), Expr.var(1)
         model = Model("flow", [Variable("f", False, 2, 2), Variable("g", False, 1, 1)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping="identity", integers=False)
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map("identity")
         groups = []
         for name, demand, commodities in (("f", 2, [(1, 1), (1, 1)]), ("g", 1, [(1, 1)])):
             expression = model.var(name)
@@ -120,7 +123,8 @@ class ScopeHandleTests(unittest.TestCase):
         f, g = Expr.var(0), Expr.var(1)
         model = Model("subflow", [Variable("f", False, 2, 2), Variable("g", False, 1, 1)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping="identity", integers=False)
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map("identity")
         balance = claim.eq_on_fixed(f-g-1)
         scope = claim.subflow({"nodes": 2, "arcs": [(0, 1), (1, 0)], "groups": [
             {"source": 0, "demands": [(1, 1)], "flows": [f, g],

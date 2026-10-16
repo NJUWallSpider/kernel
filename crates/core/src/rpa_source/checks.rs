@@ -1,9 +1,6 @@
 //! Bind source-level obligation names to the frozen verifier's check order.
 //! Names select obligations, never create evidence or authorize acceptance.
-use crate::{
-    model::Model,
-    proof::{BijectionClaim, Claim, Objective},
-};
+use crate::model::Model;
 use serde_json::{Map, Value};
 use std::collections::HashMap;
 
@@ -67,36 +64,6 @@ impl Layout {
     }
 }
 
-struct Contracts {
-    claims: Vec<Claim>,
-    pairs: Vec<BijectionClaim>,
-}
-fn contracts(value: &Value) -> Result<Contracts, String> {
-    let claims = serde_json::from_value(
-        value
-            .get("claims")
-            .cloned()
-            .ok_or_else(|| invalid("missing claims"))?,
-    )
-    .map_err(|e| super::classify_schema_error(e.to_string()))?;
-    let mut pairs = Vec::new();
-    if let Some(values) = value.get("bijections") {
-        for witness in values
-            .as_array()
-            .ok_or_else(|| invalid("bijections must be an array"))?
-        {
-            let claim = witness
-                .get("claim")
-                .ok_or_else(|| invalid("missing bijection claim"))?;
-            pairs
-                .try_reserve(1)
-                .map_err(|_| "RESOURCE_LIMIT RPA source bijection allocation")?;
-            pairs.push(serde_json::from_value(claim.clone()).map_err(|e| invalid(e))?);
-        }
-    }
-    Ok(Contracts { claims, pairs })
-}
-
 fn feasibility(layout: &mut Layout, output: &Model, integers: bool) -> Result<(), String> {
     for (index, variable) in output.vars.iter().enumerate() {
         if variable.lower.is_some() {
@@ -124,66 +91,6 @@ fn feasibility(layout: &mut Layout, output: &Model, integers: bool) -> Result<()
     Ok(())
 }
 
-fn directional(
-    meta: &Contracts,
-    index: usize,
-    source: &Model,
-    target: &Model,
-) -> Result<Layout, String> {
-    let claim = &meta.claims[index];
-    let (input, output) = if claim.reverse {
-        (target, source)
-    } else {
-        (source, target)
-    };
-    let mut layout = Layout::default();
-    feasibility(&mut layout, output, claim.output_integers)?;
-    match claim.objective {
-        Objective::None => {}
-        Objective::Equal => layout.plain("objective.equal")?,
-        Objective::NonIncreasing => layout.plain("objective.non_increasing")?,
-    }
-    for i in 0..claim.projection.len() {
-        layout.plain(format!("projection[{i}]"))?;
-    }
-    for i in 0..claim.affine_projection.len() {
-        layout.plain(format!("affine_projection[{i}]"))?;
-    }
-    if let Some(other) = claim.inverse {
-        let inverse = meta
-            .claims
-            .get(other as usize)
-            .ok_or_else(|| invalid("inverse claim index out of range"))?;
-        for (i, variable) in input.vars.iter().enumerate() {
-            layout.indexed("inverse.coordinate", i, &variable.name, "")?;
-        }
-        if inverse.input_objective_level.is_some() {
-            layout.plain("inverse.objective_level")?;
-        }
-    }
-    if claim.input_objective_lower.is_some() {
-        layout.plain("input.objective_lower")?;
-    }
-    for (pair_index, pair) in meta.pairs.iter().enumerate() {
-        if pair.reverse_claim as usize != index {
-            continue;
-        }
-        let forward = meta
-            .claims
-            .get(pair.forward_claim as usize)
-            .ok_or_else(|| invalid("bijection forward index out of range"))?;
-        let output = if forward.reverse { source } else { target };
-        for (i, variable) in output.vars.iter().enumerate() {
-            layout.indexed(
-                &format!("bijection[{pair_index}].coordinate"),
-                i,
-                &variable.name,
-                "",
-            )?;
-        }
-    }
-    Ok(layout)
-}
 
 #[derive(Clone, Copy)]
 pub(super) enum Mode {
@@ -310,7 +217,7 @@ fn visit_block(
     }
     let (variant, payload) = end.iter_mut().next().unwrap();
     match variant.as_str() {
-        "Return" | "ImproveReturn" => {
+        "Return" => {
             let checks = payload
                 .get_mut("checks")
                 .ok_or_else(|| invalid(format!("{location}: missing checks")))?;
@@ -374,74 +281,12 @@ pub(super) fn transform(
             invalid(e)
         }
     })?;
-    let meta = contracts(value)?;
-    let blocks = value
-        .get_mut("blocks")
-        .and_then(Value::as_array_mut)
-        .ok_or_else(|| invalid("missing blocks"))?;
-    if blocks.len() != meta.claims.len() {
-        return Err(invalid("claim/block count mismatch"));
-    }
-    for (index, block) in blocks.iter_mut().enumerate() {
-        let layout = directional(&meta, index, source, target)?;
-        visit_block(
-            block,
-            &layout,
-            mode,
-            &format!("claim[{index}]"),
-            1,
-            &mut name_bytes,
-        )?;
-    }
-    if let Some(witnesses) = value.get_mut("bijections").and_then(Value::as_array_mut) {
-        for (index, (witness, pair)) in witnesses.iter_mut().zip(&meta.pairs).enumerate() {
-            let forward = meta
-                .claims
-                .get(pair.forward_claim as usize)
-                .ok_or_else(|| invalid("bijection forward index out of range"))?;
-            let input = if forward.reverse { target } else { source };
-            let mut layout = Layout::default();
-            for (i, variable) in input.vars.iter().enumerate() {
-                layout.indexed("injectivity.coordinate", i, &variable.name, "")?;
-            }
-            let checks = witness
-                .get_mut("injectivity")
-                .and_then(|p| p.get_mut("checks"))
-                .ok_or_else(|| invalid("missing injectivity checks"))?;
-            bind(
-                checks,
-                &layout,
-                mode,
-                &format!("bijection[{index}].injectivity"),
-                &mut name_bytes,
-            )?;
-        }
-    }
-    if let Some(witnesses) = value.get_mut("improvements").and_then(Value::as_array_mut) {
-        for (index, witness) in witnesses.iter_mut().enumerate() {
-            let claim: crate::proof::ImprovementClaim = serde_json::from_value(
-                witness
-                    .get("claim")
-                    .cloned()
-                    .ok_or_else(|| invalid("missing improvement claim"))?,
-            )
-            .map_err(|e| super::classify_schema_error(e.to_string()))?;
-            let output = if claim.target { target } else { source };
-            let mut layout = Layout::default();
-            feasibility(&mut layout, output, claim.integers)?;
-            layout.plain("objective.improve")?;
-            let block = witness
-                .get_mut("block")
-                .ok_or_else(|| invalid("missing improvement block"))?;
-            visit_block(
-                block,
-                &layout,
-                mode,
-                &format!("improvement[{index}]"),
-                1,
-                &mut name_bytes,
-            )?;
-        }
+    for (direction,output) in [("forward",target),("reverse",source)] {
+        let block=value.get_mut(direction).ok_or_else(||invalid(format!("missing {direction} block")))?;
+        let mut layout=Layout::default();
+        feasibility(&mut layout,output,true)?;
+        layout.plain("objective.non_increasing")?;
+        visit_block(block,&layout,mode,direction,1,&mut name_bytes)?;
     }
     Ok(())
 }

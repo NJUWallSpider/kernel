@@ -1,0 +1,540 @@
+{
+  "kernel_sha256": "042226b88c4e8e15f14ba3b05a5976323ff8a987b06ff0002cb73728df99bfef",
+  "examples": [
+    {
+      "example": "redundant",
+      "files": {
+        "source.lp": "0c69c283557fdf4f286f24822a8e07875e6ca5befe511d518700a56638bacb4c",
+        "target.lp": "0aa22c0cb98af13cd1fb428e502342f0c2c855392f5dc5cdde28a7483022f331",
+        "proof.rpa": "b129837d440150f52501b7e97d6f086396ead828dd90d6e32556da586dba69dc",
+        "proof.rpas": "02d5c96f7915b535628160be3b56049fbb80deb2817632644166990350ebae11"
+      },
+      "rpx_sha256": "5aae49e03760c0138d85c016080fd4dcdd14491156c18f310d5867ab3c1e1eff",
+      "rpx_bytes": 300,
+      "claims": 2,
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 1,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 13,
+        "peak_live_facts": 1,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 5,
+        "work": 56
+      },
+      "roundtrip": "byte-identical and VERIFIED",
+      "negative_results": {
+        "missing_obligation": {
+          "code": "missing_obligation",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "obligation": 4
+          },
+          "message": "INVALID missing obligation",
+          "status": "INVALID"
+        },
+        "lp_only": {
+          "code": "mi_opt_requires_unrestricted_mi_nonincreasing_maps_in_both_directions",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "message": "INVALID MI_OPT requires unrestricted MI nonincreasing maps in both directions",
+          "status": "INVALID"
+        },
+        "wrong_recovery": {
+          "code": "non_tautological_exact_obligation",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "obligation": 5
+          },
+          "message": "INVALID non-tautological exact obligation; obligation 5",
+          "status": "INVALID"
+        },
+        "zero_work": {
+          "code": "proof_work_budget",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 0
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0
+          },
+          "message": "RESOURCE_LIMIT proof work budget",
+          "status": "RESOURCE_LIMIT"
+        }
+      }
+    },
+    {
+      "example": "elimination",
+      "files": {
+        "source.lp": "7af59f19551a44a279feaa7a9b9d1bbdd7ecc6964fdc0e5e99460f97ec4e56d8",
+        "target.lp": "7036af3020f6e2883e42b8cbff8b7764fb34f8830f2e978bd285ba9b4aab82da",
+        "proof.rpa": "e041c1896077eecfa42d25960e3259930d92ccc3f7b60d71444b4bd63d0afee2",
+        "proof.rpas": "268faad950eb3eb6e23c52e9e7dbef83f3fe7207a82fe57f1771fab866586c2b"
+      },
+      "rpx_sha256": "d95568f69e02d8b61ea3ec99fd5df175006856697a13c26454795c9dbcc1b797",
+      "rpx_bytes": 343,
+      "claims": 2,
+      "statistics": {
+        "bijections": 0,
+        "branches": 0,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 2,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 14,
+        "peak_live_facts": 1,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 7,
+        "work": 73
+      },
+      "roundtrip": "byte-identical and VERIFIED",
+      "negative_results": {
+        "missing_obligation": {
+          "code": "missing_obligation",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "obligation": 4
+          },
+          "message": "INVALID missing obligation",
+          "status": "INVALID"
+        },
+        "lp_only": {
+          "code": "mi_opt_requires_unrestricted_mi_nonincreasing_maps_in_both_directions",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "message": "INVALID MI_OPT requires unrestricted MI nonincreasing maps in both directions",
+          "status": "INVALID"
+        },
+        "wrong_recovery": {
+          "code": "obligation_mismatch",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "obligation": 4
+          },
+          "message": "INVALID obligation mismatch: expected Eq; obligation 4",
+          "status": "INVALID"
+        },
+        "zero_work": {
+          "code": "proof_work_budget",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 0
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "step": 0
+          },
+          "message": "RESOURCE_LIMIT proof work budget",
+          "status": "RESOURCE_LIMIT"
+        }
+      }
+    },
+    {
+      "example": "piecewise",
+      "files": {
+        "source.lp": "6e2d11b85adadcc2d734833a8f0b6e3eaa2968405870dda4b4eca46a00547b44",
+        "target.lp": "538ba1d8b1dba89a50d05e4822694ce061c5ce06f2896057cf7bad186ab5f0fa",
+        "proof.rpa": "0be87c128e880e565bc7e4a4687404cefb80284f5f3f3f7d609b0764414d3b40",
+        "proof.rpas": "fb20e4de4ad32eee07061c9d3677f39e5bf0d275735ea46e98a01a7cd49611d9"
+      },
+      "rpx_sha256": "de0978cb76fb6a84cca0403b61c811e901183ec9cd3a402d6b2b4954ac8aa6bd",
+      "rpx_bytes": 351,
+      "claims": 2,
+      "statistics": {
+        "bijections": 0,
+        "branches": 1,
+        "flow_generated_rows": 0,
+        "flow_generated_terms": 0,
+        "flow_generated_variables": 0,
+        "flow_lifts": 0,
+        "injectivity_coordinates": 0,
+        "injectivity_generated_rows": 0,
+        "injectivity_generated_terms": 0,
+        "injectivity_generated_variables": 0,
+        "interval_generated_rows": 0,
+        "interval_generated_terms": 0,
+        "interval_generated_variables": 0,
+        "interval_lifts": 0,
+        "linear_terms": 1,
+        "menu_generated_rows": 0,
+        "menu_generated_terms": 0,
+        "menu_generated_variables": 0,
+        "menu_lifts": 0,
+        "objective_level_domains": 0,
+        "objective_level_generated_rows": 0,
+        "objective_level_generated_terms": 0,
+        "obligations": 9,
+        "peak_live_facts": 1,
+        "plotkin_pairs": 0,
+        "point_coefficient_terms": 0,
+        "points": 0,
+        "signed_generated_rows": 0,
+        "signed_generated_terms": 0,
+        "signed_generated_variables": 0,
+        "signed_lifts": 0,
+        "substitution_terms": 0,
+        "work": 42
+      },
+      "roundtrip": "byte-identical and VERIFIED",
+      "negative_results": {
+        "missing_obligation": {
+          "code": "missing_obligation",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0,
+            "obligation": 1
+          },
+          "message": "INVALID missing obligation",
+          "status": "INVALID"
+        },
+        "lp_only": {
+          "code": "mi_opt_requires_unrestricted_mi_nonincreasing_maps_in_both_directions",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "message": "INVALID MI_OPT requires unrestricted MI nonincreasing maps in both directions",
+          "status": "INVALID"
+        },
+        "wrong_recovery": {
+          "code": "obligation_mismatch",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "location": {
+            "block": 1,
+            "certificate": 0,
+            "claim": 1,
+            "obligation": 0
+          },
+          "message": "INVALID obligation mismatch: expected Le; obligation 0",
+          "status": "INVALID"
+        },
+        "zero_work": {
+          "code": "proof_work_budget",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 0
+          },
+          "location": {
+            "block": 0,
+            "certificate": 0,
+            "claim": 0
+          },
+          "message": "RESOURCE_LIMIT proof work budget",
+          "status": "RESOURCE_LIMIT"
+        }
+      }
+    }
+  ],
+  "commands": [
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "disassemble",
+      "status": "DISASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "verify",
+      "status": "RESOURCE_LIMIT",
+      "exit": 3
+    },
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "disassemble",
+      "status": "DISASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "verify",
+      "status": "RESOURCE_LIMIT",
+      "exit": 3
+    },
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "canonical",
+      "status": "CANONICALIZED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "disassemble",
+      "status": "DISASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "VERIFIED",
+      "exit": 0
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "assemble",
+      "status": "ASSEMBLED",
+      "exit": 0
+    },
+    {
+      "operation": "verify",
+      "status": "INVALID",
+      "exit": 2
+    },
+    {
+      "operation": "verify",
+      "status": "RESOURCE_LIMIT",
+      "exit": 3
+    }
+  ],
+  "result": "PASS"
+}

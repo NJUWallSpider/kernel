@@ -1,12 +1,10 @@
-\chapter{数学模型与合约}
+\chapter{完整模型与优化等价}
 \label{ch:model}
 
 本章规定当前 kernel 的数学对象与成功验证所证明的命题。
 RPA（Reformulation Proof Assembly）是证明汇编文本，RPX（Reformulation
 Proof eXecutable）是相应的二进制证书；两者描述相同的证明对象。
-模型由冻结的 MCM 1 表示，证明格式 V1--V10 均已冻结。
-V9 目标层与 V10 条件域、严格改进、完整像排除及子流扩展
-沿用 2026-10-14 冻结时的字节与数学接受条件。
+模型格式为 MCM 1，当前证明格式为 RPX 11。
 
 \section{完整模型与精确数域}
 \label{sec:canonical-model}
@@ -49,7 +47,7 @@ $a_j$ 可以带常数，可以为空支持；缺失的一侧不产生条件。
 \[
  f_M(x)=c_M+\sum_i d_{Mi}x_i.
 \]
-导入最大化模型时，整个目标连同常数取负。目标常数进入目标比较、目标层和点检查。
+导入最大化模型时，整个目标连同常数取负。目标常数进入完整目标比较。
 MPS 与 LP 导入属于可信转换边界；不支持的原始文件构造应在导入时拒绝，
 不能在证明中赋予其未定义的含义。
 
@@ -69,7 +67,7 @@ MPS 与 LP 导入属于可信转换边界；不支持的原始文件构造应在
 序列必须已经严格有序、无重复、无零系数；二进制解码与证明验证不会隐式修复输入表达式。
 内部算术可合并同坐标并消去零项，所得结果仍须规范且满足资源界。
 表达式直接作为记录出现，没有 ExprId 池、隐式变量名或映射寄存器。
-原始 claim 的表达式只能使用原始模型坐标；局部证明表达式可使用当前扩展模型坐标。
+局部证明表达式可使用当前扩展模型坐标。
 
 两个表达式相等是常数与全部坐标系数的精确相等。
 逻辑上等价的 $e\le0$ 与 $2e\le0$ 不自动成为同一 proposition。
@@ -94,7 +92,7 @@ MPS 与 LP 导入属于可信转换边界；不支持的原始文件构造应在
 一个经过检查的 $\mathrm{EQ}(e)$ 可以在\emph{目标命题检查}处证明同表达式的
 $\mathrm{LE}(e)$ 或 $\mathrm{INT}(e)$，因为零是不正整数。
 这不改变各条指令的原始前提种类要求；例如 Round 仍须一个 Le 和一个 Int。
-证明语言不含一般严格不等式事实；V10 的严格域由独立改进合约保存。
+证明语言不含一般严格不等式事实。
 
 \subsection{模型事实}
 \label{sec:static-model-facts}
@@ -111,192 +109,40 @@ $\mathrm{LE}(e)$ 或 $\mathrm{INT}(e)$，因为零是不正整数。
 \end{array}
 \]
 界引用要求相应有限界存在；RowEq 要求两侧有限且相等。
-VarInt 要求变量声明整数并且当前 input integer mode 开启。
+VarInt 要求变量声明整数。
 引用无效编号、缺失界或不满足这些条件时拒绝。
-当前模型包括已合法加入的条件行和 lift 子体中的扩展行；新行的权威来自相应可信规则，
+当前模型包括lift 子体中的扩展行；新行的权威来自相应可信规则，
 不能在规则自己的前提证明中使用。
 
-\section{方向 claim 与调用者绑定}
+
+\section{唯一验收目标}
 \label{sec:directions}
 \label{sec:contracts}
-
-令 $S$、$T$ 为完整 source、target 模型。
-每个 Claim 各自选择方向、输入/输出整数模式和附加关系：
-\code{reverse=false} 表示 $S\to T$，为 true 表示 $T\to S$。
-记该方向的实际输入输出模型为 $I,O$。
-整数模式开启时保留模型全部整数声明；LP 模式只去掉整数条件，保留全部界和行。
-定义相应可行域
+令 $P_M^{MI}$ 表示完整模型 $M$ 的混合整数可行域。证书恰有两棵证明树：
 \[
- \mathcal F_b(M)=\{x\in\mathbb R^{n_M}:\text{全部界和行成立，若 }b
- \text{ 则全部声明整数坐标属于 }\mathbb Z\}.
+ \mathrm{forward}:\ \forall x\in P_S^{MI}\ \exists y\in P_T^{MI}: f_T(y)\le f_S(x),
 \]
-
-调用者独立提供 Request；其中有序 claim、点合约、双射合约和改进合约，
-必须逐项、逐字段等于证书中相应声明，不能由证书削弱。
-每个方向恰有一个同序根 Block。空 Request 拒绝；只有双射数组而没有其方向也不能形成有效请求。
-旧式 Claim 数组请求不包含点、双射或改进。
-
-\subsection{总构造与目标关系}
-
-一个方向证明
 \[
- \forall x\in D_I\quad\exists y\in\mathcal F_{b_O}(O):\quad
- \text{请求的全部附加关系成立},
+ \mathrm{reverse}:\ \forall y\in P_T^{MI}\ \exists x\in P_S^{MI}: f_S(x)\le f_T(y).
 \]
-$D_I$ 默认是 $\mathcal F_{b_I}(I)$，条件域见下节。
-Return 给出一个完整仿射输出向量；Split 可以让不同分支使用不同向量，
-lift 可以先共同选取辅助坐标，再由子体构造输出。
-任何情况下，每个叶子的全部输出条件必须由\textbf{同一个}输出向量满足。
-观察集合为空也不允许省略输出变量、输出行或整数条件。
+两个方向都没有根域限制，始终使用全部实际整数声明。
+每个叶子必须由同一个完整输出向量满足全部输出条件。
+Return 给出仿射向量；Split 允许分支采用不同向量；lift 先共同选择辅助坐标。
 
-目标关系为以下三种：
-\begin{center}
-\begin{tabularx}{\textwidth}{lY}
-\toprule
-\code{None} & 不请求目标关系。\\
-\code{Equal} & $f_O(y)-f_I(x)=0$。\\
-\code{NonIncreasing} & $f_O(y)-f_I(x)\le0$。\\
-\bottomrule
-\end{tabularx}
-\end{center}
-\code{input_objective_lower}=L 另请求 $L-f_I(x)\le0$。
-它在默认域上是全局下界，在受限域上仅是条件下界。
-方向不可行时命题可以为空真；这些字段本身不保证非空或最优值达到。
+两个总构造首先给出同时可行或不可行。对非空域，正向给出
+$\inf f_T\le\inf f_S$，反向给出反向不等式，故扩展最优值相同。
+约定空域下确界为 $+\infty$，目标向下无界时为 $-\infty$。
+如果 $y^*$ 是目标模型的最优解，则恢复的可行 $x$ 满足
+$f_S(x)\le f_T(y^*)=\inf f_S$，因而也是最优解。
 
-定义 $\operatorname{val}_b(M)=\inf_{x\in\mathcal F_b(M)}f_M(x)$，
-$\inf\varnothing=+\infty$，允许 $-\infty$ 和不达到的下确界。
-无条件 NonIncreasing 方向给出
-$\operatorname{val}_{b_O}(O)\le\operatorname{val}_{b_I}(I)$；
-两个模式兼容的相反方向若均不增，则给出扩展最优值相等。
-两个相反的总可行构造给出可行性等价。
-以上推论不适用于随意把受限域称为整个模型。
+此证明方式是优化等价的充分条件，不是证书语言完备性的声明。
+它不要求双射、LP 等价、每个可行点的目标值相等或指定坐标保持。
+例如 $\min\{x:x\in\{0,1\}\}$ 可变为单点 $x=0$，正向取常数零，反向取恒等。
+不存在可配置 Contract、LP 模式、projection、inverse、点性质或 improvement 字段。
+事实 Eq 仍可证明相同表达式的 Le，因此目标恰好相等的构造也满足唯一目标。
 
-\subsection{坐标与仿射观察}
-
-\code{projection} 为有序 $(i,o)$ 对，要求 $y_o=x_i$。
-每个编号在对应原始模型中有效，同一对不得重复；不同对可共享输入或输出坐标。
-\code{affine_projection} 为有序 $(p,q)$ 对，要求 $q(y)=p(x)$。
-其两侧分别在原始输入/输出维度验证。
-这些关系表达调用者选择的观察值保留；不要求观察覆盖整个模型，也不自行声明集合相等。
-
-\subsection{仿射 inverse}
-
-\code{inverse}=j 选择另一条相反且输入输出模式互换兼容的 claim。
-当前和第 $j$ 条根端点均须为普通 Return，完整根映射分别记为 $F,G$。
-当前方向要额外证明每个原始输入坐标的
-\[
- G_i(F(x))-x_i=0.
-\]
-它不自动证明另一侧组合 $F(G(y))=y$；该方向须另有请求。
-如果第 $j$ 条输入域限定目标层 $L$，当前 Return 还必须证明
-$f_O(F(x))=L$，以保证组合进入 $G$ 的已证域。
-V10 暂不支持当前或被引用 claim 带 halfspace 的 legacy inverse；遇到即拒绝。
-
-\subsection{目标层与仿射半空间：V9/V10}
-
-\code{input_objective_level}=L 将该方向域改为
-$f_I(x)=L$ 的截面；\code{input_halfspace}=H 再要求 $H(x)\le0$。
-两者可同时存在：
-\[
- D_I=\mathcal F_{b_I}(I)\cap\{f_I=L\text{，若请求}\}
-       \cap\{H\le0\text{，若请求}\}.
-\]
-$H$ 只能使用原始输入坐标。这些限制由调用者声明并逐字段绑定，
-不证明 $H$ 在全域有效、$L$ 为最优值或该截面非空。
-构造保留完整原始模型，在原始 $r$ 行后先加入目标等式（若有），再加入半空间上界行（若有）。
-因此目标等式为 RowEq($r$)，半空间为 RowUpper($r$) 或 RowUpper($r+1$)；
-半空间没有下界，不能直接用 RowEq 把 $H\le0$ 变成 $H=0$。
-每条 claim 从自己的原始模型重新建立限制，不向其他方向或改进块传播。
-
-\section{点合约：存在性与分离}
-\label{sec:point-contracts}
-
-PointWitness 提供所选完整模型的全部有理坐标；每个数值和表达式均精确检查。
-点是补充合约，不替代方向证明。所有方向先验完毕，再处理点。
-
-\paragraph{Feasible。}选择 source 或 target、LP 或整数模式，以及可选目标值 $v$。
-验收证明该完整点属于所选实际模型，若请求 $v$ 则其完整目标恰为 $v$。
-它不继承任何方向的条件域。全局下界与同值可行点可一起证明最优值达到，
-但仅有 Feasible 不证明最优性。
-
-\paragraph{Strictness。}引用一条已证明的无条件 LP-to-LP 包含方向。
-两侧维度必须相同，其坐标 projection 恰为完整坐标置换。
-提供的点 $y$ 必须输出 LP 可行；按该置换反构的 $x$ 必须违反输入的实际界或行。
-这在置换识别的坐标空间中证明真包含；整数性违反不能作 LP 分离。
-附加 refutation 拒绝。
-
-\paragraph{FiberStrictness。}引用一条无条件 LP-to-LP 方向，可用部分坐标和仿射观察。
-完整输出可行点 $y$ 固定全部观察，输入 fiber 为
-\[
- \{x\in\mathcal F_0(I): x_i=y_o\ ((i,o)\in\mathrm{projection}),\quad
- p(x)=q(y)\ ((p,q)\in\mathrm{affine\_projection})\}.
-\]
-证书必须在这个完整 fiber 模型上提供独立的 LP 矛盾证明。
-原始输入行后先加坐标等式，再加仿射等式，顺序均与请求一致；
-不得只检查选定输入坐标或猜选一个补全。
-反证从新局部状态开始，只允许 Split/Absurd 端点；整数声明不激活，lift 不可用。
-因此证明观察像的真包含。
-观察为空时仍须反证整个输入 LP，不能把空观察当成免费分离。
-Strictness 与 FiberStrictness 均拒绝目标层或半空间受限的包含 claim。
-
-\paragraph{ImageExclusion：V10。}调用者提供完整仿射 map 和点所在一侧。
-map 恰有对侧每个坐标的表达式，且只用点所在原始模型坐标。
-验收证明一个完整 LP 可行点的\emph{这个指定完整像}不属于对侧 LP。
-先完整验证 map，再精确计算所有像坐标，最终要求实际界或行违反。
-两侧均松弛整数性，分数坐标本身不足以排除。
-它不请求包含索引，不证明全局包含、真包含或部分映射的所有补全都不可行。
-Feasible 与 ImageExclusion 也不允许附加 refutation。
-
-\section{完整域双射合约}
-\label{sec:bijection-contracts}
-
-V7 的 BijectionClaim 绑定两个有序方向索引 $(a,b)$，称为 forward 和 reverse。
-这里名称只表示角色，forward 的实际 \code{reverse} 位仍可为 true。
-索引须有效、彼此不同，同一有序对不得重复；方向必须相反且模式互换兼容。
-两条 claim 均须无目标层和半空间限制。
-forward 根端点须为普通 Return，其实际完整仿射映射记为 $F:A\to B$。
-reverse 可分支或扩展，但每个 Return 必须证明全部
-\[
- F_j(G(y))-y_j=0\qquad(j=0,\ldots,n_B-1).
-\]
-这给出 $F$ 的满射性。它们与 reverse 本身完整输出义务同时检查，
-不能以菜单局部唯一性或少量观察代替。
-
-另有独立 EqualityProof 证明 $F$ 的单射性。
-kernel 建立两份完整 $A$，坐标依次为 $x,x'$，保留各自全部界、行和原整数声明，
-以原 forward input mode 检查两份 domain，再加每个 $F_j(x)-F_j(x')=0$。
-合成模型目标为零；同一映射的常数在差中抵消。
-证明从新状态开始，必须依原坐标顺序证明全部 $x_i-x'_i=0$。
-无观察到的连续辅助坐标也不得省略。两个总方向、上述满射组合与单射证明一起
-建立该\emph{实际完整域映射}的双射，空域也遵循同一定义。
-这与单条 legacy inverse 的单侧组合是不同合约。
-
-\section{严格改进合约：V10}
-\label{sec:improvement-contracts}
-
-ImprovementClaim 选择一个完整实际模型 $M$、整数模式 $b$ 及原始坐标表达式 $P$。
-验收命题为
-\[
- \forall x\in\mathcal F_b(M),\ P(x)>0\quad
- \exists y\in\mathcal F_b(M): f_M(y)<f_M(x).
-\]
-没有隐含目标层限制。各 ImprovementWitness 与 Request 同序同值，使用新局部状态；
-根假设 0 为弱事实 $\mathrm{LE}(-P)$，严格部分由不可变根合约另行保存。
-
-ImproveReturn 必须给出\emph{同一个实际模型}的完整输出向量，并证明其全部可行性义务及
-\[
- \mathrm{LE}\bigl(f_M(y)-f_M(x)+h(x)\bigr).
-\]
-\code{Constant}(q) 给出 $h=q$，\code{Predicate}(q) 给出 $h=qP$；两者都要求精确 $q>0$。
-后者适用于 $P>0$ 没有统一正下界的情形。严格域保证 $h>0$，从而得到严格下降。
-普通 Return 在改进块中拒绝；PositiveRefutation 只在改进块中可用，
-其精确义务为 $\mathrm{LE}(P)$，与根的 $P>0$ 矛盾。
-它不证明弱闭包 $P\ge0$ 不可行，也不能在局部 Cases 中代替普通事实证明。
-
-该命题允许空域、无界目标和不达到的下确界。
-它推出每个\emph{已达到}的最小点满足 $P\le0$，不推出最小点存在或最优值。
-条件方向 $P\le0$ 与严格改进可以共同覆盖所有已达到最小点；
-欲得 source/target 的最优关系仍需另行完整证明目标和恢复方向，不能把某一请求独自改名为复合结论。
+数学构造可恢复最优解，并不表示当前工具已经提供 solver 可调用的数值恢复程序。
+目前 kernel 检查构造的合法性，不执行输入解上的 lift 选择与恢复。
 
 \section{共同扩展的逻辑边界}
 \label{sec:joint-extension-contract}
@@ -308,7 +154,7 @@ ImproveReturn 必须给出\emph{同一个实际模型}的完整输出向量，�
 \]
 它保留旧模型与目标，仅向当前子体加入新坐标、界和行。
 每项前提都在\emph{同一个扩展前作用域}证明，所有项目的选择同时存在。
-子体必须再对一个共同输出向量证明整个实际输出模型与合约；
+子体必须再对一个共同输出向量证明整个实际输出模型与目标不增义务；
 不能用每条行各自不同的存在选择拼出可行性。
 具体数学前提、生成顺序与构造论证见第\ref{ch:instructions}章。
 

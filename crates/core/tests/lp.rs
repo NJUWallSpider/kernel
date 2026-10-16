@@ -1,5 +1,5 @@
-use kernel_core::lp::parse_lp;
-use kernel_core::model::{parse_q, Expr, Model, Row, Var, Q};
+use crate::lp::parse_lp;
+use crate::model::{parse_q, Expr, Model, Row, Var, Q};
 use num_bigint::BigInt;
 use num_traits::{One, Zero};
 

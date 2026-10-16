@@ -1,5 +1,7 @@
 # Kernel 与 Compiler 项目成果：论文准备报告
 
+> Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
+
 本文整理整个项目截至 2026-10-15 的正面成果及其可引用证据，覆盖早期 Kernel 工作、历史完整验收、性能优化、Python Compiler 和真实 Agent 实验。最后一轮 C10 的十个 Agent 与提交后质量测量均已结束，五个 Compiler 交付全部通过独立正式验证。按用户要求，本项目在本轮与文档整理后停工；历史资料保持各自截止版本。
 
 最扎实的结果包括：完整原始合同下的 81 个真实算例和 83 次验证；带精确有理数、完整模型义务和联合构造见证的 Kernel；不经过 RPA 的 Python 证明 API；跨全部冻结版本的 83 份证书兼容性回放；以及连续成熟阶段 C5–C10 的 37 次自主正式交付、涉及 16 个不同输入。这些是不同实验单位，不能相加为独立算例数。

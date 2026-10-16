@@ -1,5 +1,7 @@
 # Independent agent acceptance runs
 
+> Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
+
 Final cutoff: C10 formal and bounded solver reviews are complete. C6 solver
 quality remains unmeasured. C5–C10 contains 37 formally accepted Compiler runs,
 37 fresh nomf controls and 16 distinct previously tested inputs; early failures

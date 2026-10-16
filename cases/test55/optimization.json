@@ -1,0 +1,56 @@
+{
+  "case": "test55",
+  "source": "/Users/bhz/Code/kernel/cases/test55/source.mcm",
+  "target": "/Users/bhz/Code/kernel/cases/test55/target.mcm",
+  "source_sha256": "80fb1e939089ef781cc2ea73fcabe2f07fe271093c4517b35e84c63659b908e4",
+  "target_sha256": "b9e4168c8b90326f7e7a782f1cd5bfcfcd4d7693c0194b77e212c816fbb00a96",
+  "legacy_proofs": [
+    {
+      "path": "/Users/bhz/Code/kernel/cases/test55/proof.rpx",
+      "sha256": "5d6f50cd55e2f2506994571d7dabd15bfc47e7d15144090775866c6fff200a31"
+    }
+  ],
+  "certificate_json": "/Users/bhz/Code/kernel/target/mi-opt-migration/test55/certificate.json",
+  "certificate_sha256": "9c3fe9da0cdbeccc0b658d5fae2fa73333f8fcc679ff74837ad7c5390769decb",
+  "proof": "/Users/bhz/Code/kernel/cases/test55/optimization.rpx",
+  "proof_sha256": "fd24413032ae48db9640dc07fc7130bc837c8509d5985c9a787b9f94d0a18289",
+  "verification": {
+    "execute_us": 30356,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 5619,
+    "proof_decode_us": 10198,
+    "read_us": 317,
+    "statistics": {
+      "branches": 2560,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 76800,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 14658,
+      "peak_live_facts": 2560,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 23904,
+      "work": 560258
+    },
+    "status": "VERIFIED",
+    "total_us": 46502
+  }
+}

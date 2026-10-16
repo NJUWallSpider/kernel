@@ -1,4 +1,4 @@
-use kernel_core::{model::{Expr,Model,Var,Row,parse_q},proof::*,verify::{verify,Limits}};
+use crate::{model::{Expr,Model,Var,Row,parse_q},proof::*,verify::{verify,Limits}};
 use serde::Deserialize;
 #[derive(Deserialize)]struct Oracle{numbers:Vec<[String;3]>,linear:Vec<[String;5]>,rounds:Vec<[String;2]>}
 #[test]fn independent_fraction_oracle_4000_vectors(){
@@ -8,9 +8,8 @@ use serde::Deserialize;
  for [d,ceil] in data.rounds {
    let q=parse_q(&d).unwrap();let expected=parse_q(&ceil).unwrap();
    let s=Model{name:"oracle".into(),vars:vec![Var{name:"x".into(),integer:true,lower:None,upper:None}],rows:vec![Row{name:"r".into(),expr:Expr::var(0),lower:None,upper:Some(-q)}],objective:Expr::zero()};let mut t=s.clone();t.rows[0].upper=Some(-expected);
-   let claim=Claim{input_halfspace:None,input_objective_level:None, affine_projection:vec![], input_objective_lower:None,reverse:false,input_integers:true,output_integers:true,objective:Objective::Equal,projection:vec![],inverse:None};
-   let cert=Certificate { improvements:vec![], bijections:vec![], points:vec![],claims:vec![claim],blocks:vec![Block{steps:vec![Step::Round{id:0,le:Ref::RowUpper(0),integer:Ref::VarInt(0)}],end:End::Return{map:vec![Expr::var(0)],checks:vec![Ref::Exact,Ref::Local(0),Ref::Exact]}}]};
-   assert!(verify(&s,&t,&cert,&cert.claims,&Limits::default()).is_ok());
-   t.rows[0].upper.as_mut().map(|v|*v-=parse_q("1").unwrap());assert!(verify(&s,&t,&cert,&cert.claims,&Limits::default()).is_err());
+   let cert=Certificate{forward:Block{steps:vec![Step::Round{id:0,le:Ref::RowUpper(0),integer:Ref::VarInt(0)}],end:End::Return{map:vec![Expr::var(0)],checks:vec![Ref::Exact,Ref::Local(0),Ref::Exact]}},reverse:Block{steps:vec![Step::Lin{id:0,kind:Kind::Le,constant:parse_q(&d).unwrap()-parse_q(&ceil).unwrap(),terms:vec![(Ref::RowUpper(0),parse_q("1").unwrap())]}],end:End::Return{map:vec![Expr::var(0)],checks:vec![Ref::Exact,Ref::Local(0),Ref::Exact]}}};
+   assert!(verify(&s,&t,&cert,&Limits::default()).is_ok());
+   t.rows[0].upper.as_mut().map(|v|*v-=parse_q("1").unwrap());assert!(verify(&s,&t,&cert,&Limits::default()).is_err());
  }
 }

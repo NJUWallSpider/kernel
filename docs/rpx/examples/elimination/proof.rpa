@@ -1,18 +1,91 @@
-RPA 1
+RPA 11
 {
- "claims":[
-  {"reverse":false,"input_integers":false,"output_integers":false,"objective":"Equal","projection":[[1,0]],"inverse":1},
-  {"reverse":true,"input_integers":false,"output_integers":false,"objective":"Equal","projection":[[0,1]],"inverse":0}
- ],
- "blocks":[
-  {"steps":[{"Lin":{"id":0,"kind":"Eq","constant":"0","terms":[[{"RowEq":0},"-1"]]}}],
-   "end":{"Return":{
-    "map":[{"constant":"0","terms":[[1,"1"]]}],
-    "checks":[{"VarLower":1},{"VarUpper":1},{"Local":0},"Exact",{"Local":0},"Exact"]
-   }}},
-  {"steps":[],"end":{"Return":{
-   "map":[{"constant":"1","terms":[[0,"-1"]]},{"constant":"0","terms":[[0,"1"]]}],
-   "checks":[{"VarUpper":0},{"VarLower":0},{"VarLower":0},{"VarUpper":0},"Exact","Exact","Exact","Exact"]
-  }}}
- ]
+  "forward": {
+    "steps": [
+      {
+        "Lin": {
+          "id": 0,
+          "kind": "Eq",
+          "constant": "0",
+          "terms": [
+            [
+              {
+                "RowEq": 0
+              },
+              "-1"
+            ]
+          ]
+        }
+      }
+    ],
+    "end": {
+      "Return": {
+        "map": [
+          {
+            "constant": "0",
+            "terms": [
+              [
+                1,
+                "1"
+              ]
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "VarLower": 1
+          },
+          {
+            "VarUpper": 1
+          },
+          {
+            "Local": 0
+          }
+        ]
+      }
+    }
+  },
+  "reverse": {
+    "steps": [],
+    "end": {
+      "Return": {
+        "map": [
+          {
+            "constant": "1",
+            "terms": [
+              [
+                0,
+                "-1"
+              ]
+            ]
+          },
+          {
+            "constant": "0",
+            "terms": [
+              [
+                0,
+                "1"
+              ]
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "VarUpper": 0
+          },
+          {
+            "VarLower": 0
+          },
+          {
+            "VarLower": 0
+          },
+          {
+            "VarUpper": 0
+          },
+          "Exact",
+          "Exact"
+        ]
+      }
+    }
+  }
 }

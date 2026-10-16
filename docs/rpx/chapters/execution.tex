@@ -1,39 +1,10 @@
 \chapter{执行语义与验收}
 \label{ch:execution}
 
-kernel 执行的是一棵有限证明树。节点先执行有序 Steps，再执行恰好一个 End。
-每个 Return 一次提交完整输出向量及完整检查引用序列；没有逐条写入映射、
-单独 CHECK 指令、义务完成位图或分支后的映射汇合。
-局部 Cases 与终结 Split 的区别是前者输出一条共同事实，后者输出两棵完整方向证明。
-
-\section{证明对象与上下文}
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lY}
-\toprule
-对象 & 内容及用途 \\
-\midrule
-Block & 有序 Steps 和一个 End；证明完整构造、共同扩展或矛盾。\\
-Derivation & 有序 Steps 和 Witness/Absurd；只证明 Cases 指定的一条 proposition。\\
-EqualityProof & 有序 Steps 和有序 EQ 检查引用；用于双射的完整域单射性。\\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-普通方向的抽象上下文记为
-\[
- \mathcal C=(I,O,C,\Gamma,\Delta,\mathcal B),
-\]
-$I$ 是当前输入模型，$O$ 是实际完整输出模型，$C$ 是不可削弱的调用者 claim，
-$\Gamma$ 是有序路径假设，$\Delta$ 是活跃局部事实，$\mathcal B$ 是共享资源预算。
-另有请求绑定的 inverse、双射组合以及改进根条件等不可变信息。
-进入目标层/半空间域时 $I$ 加入精确限制行；进入 lift 子体时 $I$ 保留其全部前缀并扩展。
-$O$、原始请求表达式和附加关系的含义不随扩展改变。
-
-每个根方向从空 $\Gamma,\Delta$ 开始。
-单射性 EqualityProof、fiber 反证和各改进块也各用新状态，不能借用方向中得出的局部事实。
-改进块唯一预置假设为 $\Gamma_0=\mathrm{LE}(-P)$；严格根条件 $P>0$ 另存。
-在同一次 Request 内，各阶段共享工作预算，进入新状态并不重置预算。
+Certificate 恰含 forward 与 reverse。每个 Block 先执行有序 Steps，再执行一个 End。
+两个根均从各自完整模型、空局部事实和空路径假设开始，共享同一个工作预算。
+第一方向成功不会给第二方向增加事实，任一方向失败均不接受整个证书。
+Block 证明完整输出构造；Derivation 只为 Cases 证明一条共同事实。
 
 \section{引用解析与局部定义}
 \label{sec:fact-numbering}
@@ -46,7 +17,7 @@ $O$、原始请求表达式和附加关系的含义不随扩展改变。
 \endhead
 \code{VarLower}(i) & 当前 $I$ 的 $\mathrm{LE}(l_i-x_i)$；须存在有限下界。\\
 \code{VarUpper}(i) & 当前 $I$ 的 $\mathrm{LE}(x_i-u_i)$；须存在有限上界。\\
-\code{VarInt}(i) & 当前 $I$ 的 $\mathrm{INT}(x_i)$；须声明整数且 input integer mode 开启。\\
+\code{VarInt}(i) & 当前 $I$ 的 $\mathrm{INT}(x_i)$；须声明整数。\\
 \code{RowLower}(j) & $\mathrm{LE}(L_j-a_j)$；须有有限下侧。\\
 \code{RowUpper}(j) & $\mathrm{LE}(a_j-U_j)$；须有有限上侧。\\
 \code{RowEq}(j) & $\mathrm{EQ}(a_j-L_j)$；须有相等的两有限侧。\\
@@ -88,15 +59,14 @@ Exact 不从证书读入命题；checker 先构造 $e$，再检查：
 \begin{enumerate}
  \item EQ：$e$ 无变量项且常数为零。
  \item LE：$e$ 无变量项且常数不正。
- \item INT：常数为整数，每项系数为整数，且每个出现坐标声明整数、输入整数模式开启。
+ \item INT：常数为整数，每项系数为整数，且每个出现坐标声明整数。
 \end{enumerate}
-常数整数没有坐标前提，在 LP 模式也可接受。
-非恒真的仿射不等式不能通过 Exact；无模型整数性的非恒定 LP 表达式也不能通过 Exact。
-生成的菜单或 signed 二元坐标可在相应整数子域满足 INT 的窄规则，
+常数整数没有坐标前提。
+非恒真的仿射不等式不能通过 Exact；无模型整数性支持的非恒定表达式也不能通过 Exact。
+生成的菜单或 signed 二元坐标可满足 INT 的窄规则，
 生成的 flow、interval 和 subflow 连续坐标不能。
 
-Exact 可出现在 Return/ImproveReturn 检查、单射 EQ 检查、lift 前提和
-DerivationEnd Witness，以及改进的 PositiveRefutation 目标检查。
+Exact 可出现在 Return 检查、lift 前提和 DerivationEnd Witness。
 它不能作为 Lin（即使乘子为零）、Round、EqPair、Plotkin、整数 Split/Cases
 或任何 Absurd 的原始事实操作数。
 一个已有 Eq 可做目标检查的种类弱化，但不赋予原始操作数自动种类转换。
@@ -105,7 +75,7 @@ DerivationEnd Witness，以及改进的 PositiveRefutation 目标检查。
 
 步骤顺序执行；后一步仅能引用当前有效的模型事实、假设与前面活跃定义。
 各条推理规则见第\ref{ch:instructions}章。
-六种 Step 的命名空间与十种 End、两种 DerivationEnd 的命名空间独立。
+六种 Step 的命名空间与八种 End、两种 DerivationEnd 的命名空间独立。
 同一个数字 tag 在不同位置不表示同一操作。
 
 Split 与 Cases 都先验证规范表达式 $e$。
@@ -128,7 +98,7 @@ Cases 在父作用域指定 ID、Kind 和 expression；两 Derivation
 分别在穷尽分支上证明这同一 proposition，或用普通 Absurd 证明该支为空。
 Witness 使用目标命题检查规则，因此允许 Exact 以及同表达式的 Eq 种类弱化。
 两支不能各自选择不同 expression，再要求 checker 猜测共同结论。
-Derivation 没有 map、Return、lift、PositiveRefutation 或严格改进端点。
+Derivation 没有 map、Return、lift。
 内部 Steps 仍可递归 Cases；成功后父得到唯一指定事实。
 
 \subsection{Split 的完整子证明}
@@ -138,157 +108,44 @@ Derivation 没有 map、Return、lift、PositiveRefutation 或严格改进端点
 不能把一个分支只验了变量界、另一分支只验了行的证明合成一个 Return。
 判为不可能的支仍须先证明合法矛盾；kernel 不按猜测的可达性跳过证明。
 
+
 \section{完整 Return 与义务生成}
 \label{sec:mapping-state}
 \label{sec:obligation-generation}
-
-Return 的 \code{map} 为当前输入坐标上的规范仿射表达式序列
-$Y=(Y_0,\ldots,Y_{n_O-1})$，长度必须\emph{恰等于}实际输出变量数。
-定义一次完整代换
-\[
- e[Y]=e_0+\sum_j e_jY_j.
-\]
-所有义务都使用这个共同 $Y$。
-map 的全部表达式先验维度和规范性，checks 再按下列确定顺序逐一消耗。
-该序列没有由证书提供的对象 ID，也没有可选的输出义务子集。
-
-\begin{longtable}{p{0.07\textwidth}p{0.22\textwidth}p{0.61\textwidth}}
-\toprule
-序 & 对象 & 构造的精确命题 \\
-\midrule
-\endhead
-1 & 输出变量，坐标序 & 每个变量先有限下界 $\mathrm{LE}(l_j-Y_j)$，再有限上界
-$\mathrm{LE}(Y_j-u_j)$，最后若声明整数且 output integer mode 开启则 $\mathrm{INT}(Y_j)$。\\
-2 & 输出行，行序 & 两有限侧相等时只有 $\mathrm{EQ}(a_j[Y]-L_j)$；否则先有限下侧
-$\mathrm{LE}(L_j-a_j[Y])$，再有限上侧 $\mathrm{LE}(a_j[Y]-U_j)$。\\
-3 & 请求目标 & None 不产生；Equal 为 $\mathrm{EQ}(f_O[Y]-f_I)$；
-NonIncreasing 为 $\mathrm{LE}(f_O[Y]-f_I)$。\\
-4 & 坐标观察，然后仿射观察 & 各自依请求序：$\mathrm{EQ}(Y_o-x_i)$，
-然后 $\mathrm{EQ}(q[Y]-p)$。\\
-5 & legacy inverse & 每个原始输入坐标：$\mathrm{EQ}(G_i[Y]-x_i)$。\\
-6 & 对侧 inverse 目标层 & 若被引用 opposing claim 请求层 $L$，证明 $\mathrm{EQ}(f_O[Y]-L)$，
-即使当前 objective 为 None 也不能省略。\\
-7 & 输入目标下界 & 若请求 $L$，证明 $\mathrm{LE}(L-f_I)$；受限域上的结论是条件下界。\\
-8 & V7 双射组合 & 所有 reverse 索引选中当前方向的 pair，按 Request 双射数组序，
-每 pair 按 forward 完整输出坐标序证明 $\mathrm{EQ}(F_j[Y]-x_j)$。\\
-\bottomrule
-\end{longtable}
-
-未存在的界不生成义务，但存在的矛盾界不予省略。
-等式行不是两条 LE，恒等或冗余行也仍有相应检查位置。
-变量上下界即使相等仍分别产生两条 LE。
-每项 checks 引用须证明该位置的准确表达式与种类；缺失与多余引用均拒绝。
-因此引用序列不能重排，也不能靠重复数量来代替表达式核对。
-
-双射组合中的 $x_j$ 是当前方向\emph{原始输入}坐标，扩展后仍为旧坐标前缀。
-forward 使用所绑定 claim 的实际根 Return 映射，不能换用证书另行提交的观察 map。
-legacy inverse 的维度与模式在执行前核对，且要求两侧根 Return。
-
-\subsection{改进 Return 的差异}
-
-改进上下文输出模型就是输入原始完整模型，输入输出整数模式相同。
-ImproveReturn 先按上表 1、2 验完全部可行性，再只有一项目标义务
-\[
- \mathrm{LE}\bigl(f_M[Y]-f_M(x)+h(x)\bigr),
-\]
-$h=q$ 或 $qP$，精确 $q>0$。
-此合约没有 projection、inverse、目标层、输入下界或双射组合字段。
-当前 Y 可以使用合法 lift 坐标；$P$ 始终保持原始坐标含义。
-普通 Return 与 ImproveReturn 的上下文不得互换。
+map 长度恰等于输出变量数，表达式使用当前输入坐标并须规范。
+对同一个完整向量 $Y$，checks 依次证明：
+\begin{enumerate}
+\item 输出变量按坐标序：先有限下界 $l_j-Y_j\le0$，再有限上界 $Y_j-u_j\le0$，
+然后对每个实际整数变量证明 $Y_j\in\mathbb Z$。
+\item 输出行按行序：两有限侧相等时证明 $a_j[Y]-L_j=0$；否则先证明有限下侧，
+再证明有限上侧。不存在的界不产生义务，矛盾界仍须检查。
+\item 最后一项永远为 $f_O[Y]-f_I\le0$，包含两个完整目标的常数。
+\end{enumerate}
+每项引用必须证明准确表达式与种类，缺失、多余或错误顺序均拒绝。
+等式事实可以证明同表达式的不增目标；没有 Equal/None 模式。
+每个叶子的一套义务始终使用一个共同 $Y$。
 
 \section{lift 的执行协议}
 \label{sec:lift-execution}
+五种 lift 均先检查 witness、尺寸与资源，再在\emph{扩展前}作用域核验全部前提，
+最后进入生成模型上的唯一 body。旧模型的变量、行和目标保持完整前缀，新变量目标系数为零。
+新事实只在 body 可用，不能循环证明本次 lift 的前提。嵌套 lift 可用上层已经建立的坐标。
+存在引理保证一个共同扩展点满足全部新条件；内核构造公式，不运行数值选择或路径搜索。
 
-FlowLift、IntervalLift、MenuLift、SignedLift、SubflowLift 均采用同一顺序：
-\begin{enumerate}
- \item 检查允许的上下文、深度、witness 维度、原作用域表达式与标量。
- \item 在剩余共享预算内构造显式未验前提和候选扩展模型；完成尺寸、算术和名称检查。
- \item 用\emph{扩展前}的 $I,\Gamma,\Delta$ 逐项验证全部前提，包括冗余或零命题。
- \item 只有全部成功，才以候选模型进入唯一 body；保留旧局部事实、假设和请求。
-\end{enumerate}
-在准备阶段生成的前提记录携带 Ref，不为 Ref 授予权威。
-任何组不能借用本次同时添加的另一组坐标或新行证明自己的前提。
-嵌套 lift 的下一层则可合法使用已经建立的上一层坐标。
+\section{完成、资源和拒绝}
+完整解码先于执行，所有分支字节均须合法。普通 Absurd 只接受正的恒定 Le 或非零恒定 Eq。
+每个 Block 可以 Return、Split、Absurd 或五种 lift 完成；Cases 的 Derivation 只能 Witness 或 Absurd。
+没有附加性质阶段，没有可跳过的方向，也不以猜测不可达为由略过失败分支。
 
-MenuLift 与 SignedLift 要求 input integer mode；Flow、Interval、Subflow 可用于 LP 或整数模式。
-普通映射和改进块可用 lift；独立 LP/fiber 反证只允许 Split/Absurd 端点，故拒绝 lift。
-legacy inverse 的根仿射 Return 要求排除所有 lift 根。
-V7 双射 reverse 可使用 lift，但仍须每叶完整组合和独立完整域单射证明。
-
-扩展保留原输入名称、全部变量/行前缀与完整目标；新坐标目标系数为零。
-所有生成名称避开已有名称，编号由追加顺序决定。
-扩展的存在引理及生成方程属于可信规则本身；上述步骤不运行路径搜索，
-也没有通用运行时存在性证明器。
-
-\section{矛盾端点与上下文许可}
-
-普通 Absurd 解析一条当前有效原始事实，只接受无变量项的
-$\mathrm{LE}(c)$ 且 $c>0$，或 $\mathrm{EQ}(c)$ 且 $c\ne0$。
-非恒定矛盾猜测、Int 事实和 Exact 都不能关闭一个叶。
-Absurd 成功表示\emph{该当前域}为空，不产生局部结论，不修改输出模型。
-
-PositiveRefutation 仅在改进块中检查 $\mathrm{LE}(P)$，与保存的严格根条件矛盾。
-它没有放宽普通 Absurd，也不赋予局部 Cases 严格事实。
-边界 $P=0$ 的 Split 支仍执行；其可由 PositiveRefutation 关闭严格域中的空支。
-
-\begin{center}
-\begin{tabularx}{\textwidth}{lY}
-\toprule
-执行对象 & 允许的完成形式 \\
-\midrule
-普通方向 Block & Return、Split、Absurd、五种 lift。\\
-改进 Block & ImproveReturn、PositiveRefutation、Split、Absurd、五种 lift。\\
-独立 LP/fiber 反证 Block & 仅 Split 或 Absurd；Steps 仍可含普通 Cases。\\
-Cases Derivation & Witness 或普通 Absurd。\\
-双射 EqualityProof & 全部步骤后，精确数量的有序原坐标 EQ 检查。\\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-\section{请求级执行顺序与拒绝}
-
-完整请求验证先匹配改进、点及双射合约数组，拒绝空请求和不适用的受限 strictness；
-验证完整 source/target、全部方向声明与对应根 Block。
-双射索引、方向、模式、重复 pair、无条件域和 forward 根 map 必须先满足结构条件。
-每个方向独立验证原始坐标观察、inverse 及限制域，随后执行其完整证明树。
-全部方向成功后，依序执行各双射的单射 EqualityProof，再验全部点，最后验改进块。
-任一阶段失败，全请求不被验证；早先成功的子阶段不能被当作整体 VERIFIED。
-
-二进制证书在执行前完整解码，含每个 Split/Cases 的两支和所有附加证明。
-未知 tag、版本不许可的记录、非法保留位、截断和尾随字节不能隐藏在所谓不可达分支。
-执行也不因该支看似不可行而跳过其步骤；它必须给出允许的终结证明。
-
-拒绝涵盖：错误合约、错误维度/坐标、非法规范数值、无效/失活引用、错误前提种类、
-非法线性乘子、覆盖活跃 ID、错误整数分类前提、缺失/多余义务、精确表达式不匹配、
-错误端点上下文以及任何未完成子证明。
-资源拒绝另外包括工作、活跃事实、嵌套深度、扩展尺寸、项数、分配和有理数位数超限。
-资源拒绝不能解释为数学命题为假，也不能升级为验证成功。
-
-默认工作预算为 $10^9$，默认活跃事实 $10^6$，组合证明深度 64，根深度为 1。
-Split、Cases 和 lift body 均增加一层；它们共享同一个深度边界。
-精确中间结果也受标量位数限制，即使后续可消去超大项仍不能绕过。
-工作计量是确定性的资源策略，不能当作物理内存、CPU 指令数或位复杂度保证。
-更完整的 codec、文本和模型限制见第\ref{ch:loader}章。
-
-CLI 的结果为 VERIFIED、INVALID、RESOURCE\_LIMIT、IO\_ERROR，分别退出 0、2、3、4。
-ASSEMBLED 等辅助操作成功仅表示相应转换成功，不证明模型关系。
-诊断位置是尽力报告的 claim、point、根 block、最内层 step 和 obligation 索引；
-未知位置可缺省，诊断不参与数学判断或控制流，统计量也不授予接受权威。
+默认工作预算为 $10^9$、活跃事实预算为 $10^6$、组合嵌套深度为 64。
+两个方向共享工作预算，局部事实分别重建。Split、Cases 和 lift body 增加深度。
+超出工作、深度、位数、项数或分配限制均不接受；资源不足不是数学反例。
+诊断只报告 direction、step、obligation 等已知位置，不参与决定接受。
 
 \section{正确性不变式}
 \label{sec:soundness-invariants}
-
-对当前完整输入域与路径假设作归纳，保持以下性质：
-\begin{enumerate}
- \item 所有可见局部事实对该域中的每一点成立，且引用解析不越过有效作用域。
- \item Lin、Round、EqPair、Plotkin 的规则保持事实有效；Cases 由两穷尽子域推出共同事实。
- \item Split 覆盖当前域，Absurd 排除的域确无可行点。
- \item 每个 lift 的\emph{可信引理}保证每个父点都有一个满足全部生成条件的共同扩展点。
- \item 每个 Return 对一个共同 Y 证明全部实际输出条件与调用者附加关系。
- \item 改进叶在严格根域上要么矛盾，要么输出一个可行且严格下降的共同 Y。
-\end{enumerate}
-由此每个已验方向建立第\ref{ch:model}章规定的总存在关系；
-双射和点合约再依其独立域构造与检查建立各自命题。
-这是一份规则层面的正确性论证，其可信前提包括精确算术、模型导入与结构验证、
-codec、作用域实现以及各静态 lift/Plotkin 规则的 Rust 实现。
-它没有声称源程序已经由证明助手形式化验证。
+对完整输入域与路径假设归纳：可见事实有效；每个分类穷尽；矛盾叶没有可行点；
+每个 lift 对每个父点给出共同可行扩展；每个 Return 证明完整输出可行且目标不增。
+因此每个成功方向给出一个总构造，两个方向共同推出优化等价。
+这依赖精确算术、模型导入、作用域、义务生成与可信构造规则的实现正确性，
+不声称 Rust 程序已由证明助手形式化验证。

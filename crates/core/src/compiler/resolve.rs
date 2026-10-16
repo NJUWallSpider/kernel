@@ -168,7 +168,7 @@ fn label(obligation:&ReturnObligation)->String{
     let origin=&obligation.origin;let mut label=origin.kind.clone();
     if let Some(name)=&origin.name{label.push('[');label.push_str(name);label.push(']');}
     else if let Some(index)=origin.index{label.push_str(&format!("[{index}]"));}
-    if let Some(group)=origin.group{label.push_str(&format!("#{group}"));}label
+    label
 }
 fn validate_fact(input:&Model,integers:bool,fact:&AuthoringFact,local_only:bool)->Result<(),String>{
     fact.expression.validate(input.vars.len())?;
@@ -190,7 +190,7 @@ pub fn resolve_return_json(input:&Model,output:&Model,text:&str,limits:&Limits)-
 /// untrusted metadata; this function does not execute or validate proof steps.
 pub fn resolve_return(input:&Model,output:&Model,spec:ResolveReturn,limits:&Limits)->Result<ResolveResult,String>{
     input.validate()?;output.validate()?;
-    let integers=spec.plan.claim.input_integers;
+    let integers=true;
     let mut facts=if spec.auto{source_index(input,integers)?}else{HashMap::new()};
     for fact in spec.facts{
         validate_fact(input,integers,&fact,true)?;if spec.auto{insert(&mut facts,fact)?;}

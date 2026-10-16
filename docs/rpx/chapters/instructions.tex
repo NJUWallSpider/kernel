@@ -1,24 +1,24 @@
 \chapter{操作与推理规则参考}
 \label{ch:instructions}
 
-本章逐条定义当前六种 Step、两种 DerivationEnd 与十种 End 的前置条件、
+本章逐条定义当前六种 Step、两种 DerivationEnd 与八种 End 的前置条件、
 精确语义、状态变化及拒绝条件。Kind 为 Le/Eq/Int，Ref 的九种形式与 Exact
 规则见第\ref{ch:execution}章。载荷是逻辑字段，不是本章另定义的 opcode 布局；
-逐字节记录、保留位与版本门见第\ref{ch:format}章。
+逐字节记录、保留位见第\ref{ch:format}章。
 
 \section{操作总表与共同条件}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{llY}
 \toprule
-Step tag & 名称 & 最低版本及作用 \\
+Step tag & 名称 & 作用 \\
 \midrule
-0 & Lin & V1；产生一种精确线性组合事实。\\
-1 & Round & V1；结合 LE 和 INT 得到精确舍入不等式。\\
-2 & Drop & V1；删除显式 ID 列表。\\
-3 & EqPair & V2；由相反 LE 得到 EQ。\\
-4 & Cases & V2；两穷尽局部证明产生一条共同事实。\\
-5 & Plotkin & V3；静态二元码距离上界。\\
+0 & Lin & 产生一种精确线性组合事实。\\
+1 & Round & 结合 LE 和 INT 得到精确舍入不等式。\\
+2 & Drop & 删除显式 ID 列表。\\
+3 & EqPair & 由相反 LE 得到 EQ。\\
+4 & Cases & 两穷尽局部证明产生一条共同事实。\\
+5 & Plotkin & 静态二元码距离上界。\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -26,18 +26,16 @@ Step tag & 名称 & 最低版本及作用 \\
 \begin{center}
 \begin{tabularx}{\textwidth}{llY}
 \toprule
-End tag & 名称 & 最低版本及作用 \\
+End tag & 名称 & 作用 \\
 \midrule
-0 & Return & V1；完整共同输出向量和全部义务。\\
-1 & Split & V1；两穷尽完整子 Block。\\
-2 & Absurd & V1；恒定矛盾关闭当前域。\\
-3 & FlowLift & V4；共同源商品流分解。\\
-4 & IntervalLift & V5；同时选择实区间坐标。\\
-5 & MenuLift & V7；可选整数菜单的二元展开。\\
-6 & SignedLift & V8；有激活的有界实数正负分解。\\
-7 & SubflowLift & V10；同时保留有需求的有界子流。\\
-8 & ImproveReturn & V10；同模型完整严格改进向量。\\
-9 & PositiveRefutation & V10；与严格根条件矛盾。\\
+0 & Return & 完整共同输出向量和全部义务。\\
+1 & Split & 两穷尽完整子 Block。\\
+2 & Absurd & 恒定矛盾关闭当前域。\\
+3 & FlowLift & 共同源商品流分解。\\
+4 & IntervalLift & 同时选择实区间坐标。\\
+5 & MenuLift & 可选整数菜单的二元展开。\\
+6 & SignedLift & 有激活的有界实数正负分解。\\
+7 & SubflowLift & 同时保留有需求的有界子流。\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -152,7 +150,7 @@ tag & 端点 & 条件 \\
 
 字段为 \code{id}、\code{bits} $b$、\code{distance} $d$、
 \code{variables} $(i,\ell_i)$ 和 \code{cliques}。
-要求 $1\le b,d\le64$ 且 $2d>b$，input integer mode 开启。
+要求 $1\le b,d\le64$ 且 $2d>b$。
 选中坐标不得重复，实际变量须声明整数、具有有限下界 $\ge0$ 与有限上界 $\le1$。
 每个 u64 label 只能使用低 $b$ 位；$b=64$ 时全部位可用。
 label 不要求互异，但相同 label 的选中变量必须由近对前提约束。
@@ -186,11 +184,11 @@ clique 错种类、错误常数/系数、负下界、Exact 或任何未覆盖近
 \label{ins:return}
 \label{ins:ret}
 
-字段为 \code{map} 和 \code{checks}。仅普通方向上下文可用。
+字段为 \code{map} 和 \code{checks}。
 map 长度恰为实际输出维度，所有表达式使用当前输入坐标并规范。
 checks 恰按第\ref{sec:obligation-generation}节完整义务顺序逐项证明。
 成功即完成该叶的完整存在构造，不产生继续执行的位置。
-缺失/多余 map、错误维度、缺失/多余 checks、任一义务不匹配或错误上下文均拒绝。
+缺失/多余 map、错误维度、缺失/多余 checks、任一义务不匹配均拒绝。
 输出条件不得用不同的 map 元组分别证明。
 
 \subsection{Split：穷尽完整子 Block}
@@ -213,7 +211,7 @@ checks 恰按第\ref{sec:obligation-generation}节完整义务顺序逐项证明
 字段为 \code{fact}。解析为当前事实后，要求表达式变量项为空，
 且为 $\mathrm{LE}(c)$、$c>0$ 或 $\mathrm{EQ}(c)$、$c\ne0$。
 成功关闭当前域的空支，不生成输出向量。Int、非恒定式、非矛盾常数、失活引用和 Exact 均拒绝。
-此操作可在普通方向、改进和 LP 反证中使用，DerivationEnd Absurd 使用同一矛盾谓词。
+DerivationEnd Absurd 使用同一矛盾谓词。
 
 \section{共同扩展的公共约定}
 \label{ins:lift-common}
@@ -225,10 +223,9 @@ checks 恰按第\ref{sec:obligation-generation}节完整义务顺序逐项证明
 对生成行的引用遵守普通 RowLower/RowUpper/RowEq 条件。
 
 各 builder 检查 count 加乘、端点编号、规范表达式、有理数中间值、扩展维度与项数，
-并在剩余请求预算内执行 fallible allocation 与名称生成。
+并在剩余共享预算内执行 fallible allocation 与名称生成。
 witness 预备成功只得到候选模型与待证前提；不表示前提已经有效。
-任何前提错误或作用域错误、legacy inverse 根约束、禁止 lift 的反证上下文、
-模式/深度/资源超限均拒绝。
+任何前提错误、作用域错误、深度或资源超限均拒绝。
 一旦进入 body，全部新变量和全部新行可同时使用，原事实和路径假设继续有效。
 
 以下存在论证覆盖实数输入点，不只覆盖可枚举的有理样本。
@@ -305,7 +302,7 @@ checks 长度须等于两列表长度的精确乘积，依 lower-major 次序证
 \section{MenuLift：可选二元菜单}
 \label{ins:menu-lift}
 
-字段为 \code{menus}、\code{body}，须 input integer mode。
+字段为 \code{menus}、\code{body}。
 每 MenuWitness 含 u32 \code{maximum_index} $K$、\code{activation} $A$、
 \code{index} $I$，以及恰六个 checks，依序证明
 \[
@@ -326,12 +323,12 @@ $K=0$ 仍有两行，第二行是 $-I=0$，不保存 $z_0$ 的零系数。
 $A=0$ 时 $I=0$，取全零；$A=1$ 时 $I\in\{0,\ldots,K\}$，只取 $z_I=1$。
 所有菜单独立依父点构造，共同可行且各自菜单向量唯一。
 此局部唯一性不建立完整模型双射；仍须独立完整域单射证明与全输出组合。
-关闭 input integer mode、缺失六前提、不可证明 A/I 整数、尺寸或 $KA$ 中间值超限均拒绝。
+缺失六前提、不可证明 A/I 整数、尺寸或 $KA$ 中间值超限均拒绝。
 
 \section{SignedLift：有激活的有界实数正负分解}
 \label{ins:signed-lift}
 
-字段为 \code{decompositions}、\code{body}，须 input integer mode。
+字段为 \code{decompositions}、\code{body}。
 每 SignedWitness 含精确非负 \code{capacity} $C$、旧式 \code{flow} $F$、
 \code{activation} $Z$，以及恰五个 checks，依序证明
 \[
@@ -357,7 +354,7 @@ $Z=1,F\ge0$ 时取 $(F,0,1,0)$，否则取 $(0,-F,0,1)$。
 \section{SubflowLift：有需求部分的共同有界子流}
 \label{ins:subflow-lift}
 
-V10。字段为 \code{witness}、\code{body}。
+字段为 \code{witness}、\code{body}。
 SubflowWitness 的 \code{nodes}、\code{arcs}、非空 \code{groups} 与 Flow 的图条件相同。
 每组含 \code{source} $s$、有序 \code{demands} $(t_i,d_i)$、每弧 \code{flows} $F_e$、
 \code{nonnegative} 和 \code{balances}。
@@ -389,31 +386,3 @@ $G$ 组共加 $Gm$ 变量、$G(n+m)$ 行。
 它不授权对每弧独立截断：独立 clip 可能破坏流守恒。
 非法终点、源等于需求终点、负需求、缺失前提、旧维度攻击及预算超限均拒绝。
 额外 side constraints 与目标关系必须由 body 完整证明，不能从子流引理猜得。
-
-\section{ImproveReturn 与 PositiveRefutation}
-
-\subsection{ImproveReturn：同模型严格下降}
-\label{ins:improve-return}
-
-V10。字段为 \code{map}、\code{checks} 和 \code{margin}，只在改进上下文可用。
-map 给出同一实际完整模型的全部输出坐标。
-margin 为 \code{Constant}(q) 或 \code{Predicate}(q)，要求精确规范 $q>0$。
-依普通变量/行顺序证明全部可行性，随后证明唯一目标不等式
-\[
- f_M[Y]-f_M(x)+q\le0\quad\text{或}\quad
- f_M[Y]-f_M(x)+qP(x)\le0.
-\]
-根域 $P>0$ 保证严格下降。checks 必须恰好，无 projection/inverse 等附加项。
-普通方向使用、零/负 margin、不完整共同 Y、漏验某行或义务不匹配均拒绝。
-其成功不证明最优值存在，不为改进树以外的事实库输出严格不等式。
-
-\subsection{PositiveRefutation：与严格根条件矛盾}
-\label{ins:positive-refutation}
-
-V10。字段为 \code{fact}，只在 Improvement Block 中可用。
-按目标命题检查精确证明 $\mathrm{LE}(P)$；允许已有同式 Eq 或合法 Exact。
-与不可变根条件 $P>0$ 矛盾，因而关闭此严格子域。
-$P$ 使用原始坐标，其含义不受 lift 改变。
-普通方向、LP/fiber 反证、Cases Derivation 或错误表达式/种类均拒绝。
-它不需要证明变量项为空，但这个例外只适用于所绑定的 P，
-不能借此任意关闭非恒定不等式，也不声明弱域 $P\ge0$ 为空。

@@ -34,9 +34,8 @@ class ChainBundleTests(unittest.TestCase):
         final_source = self.model('reordered_again', ['x', 'z'])
         final = self.model('final', ['z', 'x', 't'], fixed={'t': 1})
         proofs = [Proof(source, middle), Proof(reordered, renamed), Proof(final_source, final)][:count]
-        for mode in domains:
-            f, r = proofs[0].bijection({'x': source.var('x'), 'y': source.var('y')},
-                                      {'x': middle.var('x'), 'y': middle.var('y'), 's': 0}, integers=mode)
+        for mode in (True,):
+            f, r = (proofs[0].forward.map({'x': source.var('x'), 'y': source.var('y')}), proofs[0].reverse.map({'x': middle.var('x'), 'y': middle.var('y'), 's': 0}))
             f.substitution({'s': f.eqpair(f.upper('s'), f.lower('s'))})
             f.complete(); r.complete()
             if count > 1:
@@ -44,20 +43,15 @@ class ChainBundleTests(unittest.TestCase):
                 forward_map = {'x': reordered.var('x'), 'z': reordered.var('y')}
                 reverse_map = {'x': renamed.var('x'), 'y': renamed.var('z')}
                 if restricted:
-                    f = proofs[1].claim(mapping=forward_map, objective=objective,
-                        input_objective_level=0, **arguments)
-                    r = proofs[1].claim(reverse=True, mapping=reverse_map, integers=mode,
-                        objective='Equal', projection=[('x', 'x'), ('z', 'y')])
+                    f = proofs[1].forward.map(forward_map)
+                    r = proofs[1].reverse.map(reverse_map)
                 else:
-                    f, r = proofs[1].bijection(forward_map, reverse_map, **arguments)
-                    f.claim['objective'] = objective
+                    f, r = (proofs[1].forward.map(forward_map), proofs[1].reverse.map(reverse_map))
                 if lower:
-                    f.claim['input_objective_lower'] = '0'
                     f.le([(f.lower('x'), 1), (f.lower('y'), 1)])
                 f.complete(); r.complete()
             if count > 2:
-                f, r = proofs[2].bijection({'x': final_source.var('x'), 'z': final_source.var('z'), 't': 1},
-                                          {'x': final.var('x'), 'z': final.var('z')}, integers=mode)
+                f, r = (proofs[2].forward.map({'x': final_source.var('x'), 'z': final_source.var('z'), 't': 1}), proofs[2].reverse.map({'x': final.var('x'), 'z': final.var('z')}))
                 r.substitution({'t': r.eqpair(r.upper('t'), r.lower('t'))})
                 f.complete(); r.complete()
         manifests = []
@@ -78,7 +72,7 @@ class ChainBundleTests(unittest.TestCase):
             paths = {'mi_forward': [0]*count, 'mi_reverse': [1]*count,
                      'lp_forward': [2]*count, 'lp_reverse': [3]*count}
         output = write_chain(stages, Path(directory)/'chain.json', original_model=original,
-                             committed_model=committed, claim_paths=paths)
+                             committed_model=committed)
         return output, stages, original, committed
 
     def change(self, path, mutate):
@@ -92,7 +86,9 @@ class ChainBundleTests(unittest.TestCase):
         stages = []
         for index in range(2):
             proof = Proof(model, model)
-            proof.claim(integers=False, mapping='identity', projection='retained').complete()
+            proof.reverse.map("identity").complete()
+            f, r = (proof.forward.map('identity'), proof.reverse.map('identity'))
+            f.complete(); r.complete()
             proof.compile(directory/f'stage{index}')
             stages.append(directory/f'stage{index}/delivery.json')
         committed = directory/'committed.mps'
@@ -110,7 +106,7 @@ class ChainBundleTests(unittest.TestCase):
             for index, manifest in enumerate(stages):
                 stage = json.loads(manifest.read_text())
                 document['pieces'][index] = stage['pieces'][0]
-                for role in ('source', 'target', 'proof', 'request'):
+                for role in ('source', 'target', 'proof'):
                     document['artifacts'][f'stages.{index}.{role}'] = stage['artifacts'][role]
                 document['artifacts'][f'stages.{index}.manifest'] = {'path': str(manifest), 'sha256': digest(manifest)}
         self.change(chain, update)
@@ -131,31 +127,20 @@ class ChainBundleTests(unittest.TestCase):
             composition = result['composition']
             self.assertTrue(composition['final_relation_derived'])
             self.assertEqual(len(composition['joins']), 2)
-            summaries = {p['label']: p for p in composition['paths']}
-            self.assertEqual(summaries['mi_forward']['objective'], 'NonIncreasing')
-            self.assertEqual(summaries['mi_reverse']['objective'], 'Equal')
-            self.assertEqual(summaries['mi_forward']['observation_relation'], [('x', 'x'), ('y', 'z')])
-            self.assertEqual(summaries['mi_reverse']['observation_relation'], [('x', 'x'), ('z', 'y')])
-            self.assertEqual([c['stage'] for c in summaries['mi_reverse']['selected_claims']], [2, 1, 0])
-            self.assertEqual(summaries['mi_forward']['selected_claims'][1]['input_objective_lower'], '0')
-            self.assertTrue(all(p['equal_optimal_infima'] for p in composition['bidirectional']))
-            self.assertTrue(all(p['observation_count'] == 2 for p in composition['bidirectional']))
-            self.assertFalse(any(p['affine_inverse_inferred'] or p['full_model_bijection_inferred'] for p in composition['paths']))
+            self.assertEqual(composition['guarantee'], 'MI_OPT')
 
     def test_real_two_stages_and_explicit_empty_paths_only_verify_locally(self):
         with tempfile.TemporaryDirectory() as directory:
             chain, _, _, _ = self.chain(directory, count=2, paths={})
             result = verify_bundle(chain)
             self.assertEqual(result['status'], 'VERIFIED', result)
-            self.assertFalse(result['composition']['final_relation_derived'])
-            self.assertEqual(result['composition']['paths'], [])
+            self.assertTrue(result['composition']['final_relation_derived'])
 
     def test_same_mps_bytes_with_lp_suffix_cannot_reuse_a_different_reader(self):
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
             model, stages, committed = self.reader_fixture(directory)
-            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
-                                claim_paths={'forward': [0, 0]})
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed)
             target = directory/'intermediate.mps'; model.write_mps(target)
             source = directory/'mislabelled.LP'; source.write_bytes(target.read_bytes())
             self.assertEqual(digest(target), digest(source))
@@ -164,8 +149,7 @@ class ChainBundleTests(unittest.TestCase):
             self.rebind_stage_role(stages[0], 'target', target)
             self.rebind_stage_role(stages[1], 'source', source)
             with self.assertRaises(BuildError):
-                write_chain(stages, directory/'cannot-publish.json', committed_model=committed,
-                            claim_paths={'forward': [0, 0]})
+                write_chain(stages, directory/'cannot-publish.json', committed_model=committed)
             self.rebind_top_from_stages(chain, stages)
             result = verify_bundle(chain)
             self.assertEqual(result['status'], 'INCOMPLETE', result)
@@ -181,8 +165,7 @@ class ChainBundleTests(unittest.TestCase):
             target.write_bytes(mcm); source.write_bytes(mcm)
             self.rebind_stage_role(stages[0], 'target', target)
             self.rebind_stage_role(stages[1], 'source', source)
-            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
-                                claim_paths={'forward': [0, 0]})
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed)
             result = verify_bundle(chain)
             self.assertEqual(result['status'], 'VERIFIED', result)
             self.assertTrue(result['composition']['final_relation_derived'])
@@ -201,8 +184,7 @@ class ChainBundleTests(unittest.TestCase):
                 source.write_bytes(target.read_bytes())
                 self.rebind_stage_role(stages[0], 'target', target)
                 self.rebind_stage_role(stages[1], 'source', source)
-                chain = write_chain(stages, directory/'chain.json', committed_model=committed,
-                                    claim_paths={'forward': [0, 0]})
+                chain = write_chain(stages, directory/'chain.json', committed_model=committed)
                 result = verify_bundle(chain)
                 self.assertEqual(result['status'], 'VERIFIED', result)
                 self.assertTrue(result['composition']['final_relation_derived'])
@@ -211,8 +193,7 @@ class ChainBundleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
             _, stages, committed = self.reader_fixture(directory)
-            chain = write_chain(stages, directory/'chain.json', committed_model=committed,
-                                claim_paths={'forward': [0, 0]})
+            chain = write_chain(stages, directory/'chain.json', committed_model=committed)
             source = directory/'source.JSON'
             source.write_bytes(Path(json.loads(stages[0].read_text())['pieces'][0]['target']).read_bytes())
             with self.assertRaises(ValueError):
@@ -232,7 +213,7 @@ class ChainBundleTests(unittest.TestCase):
             original_json, committed_json = directory/'original.JSON', directory/'final.json'
             model.write_json(original_json); model.write_json(committed_json)
             chain = write_chain(stages, directory/'chain.json', committed_model=committed_json,
-                                original_model=original_json, claim_paths={'forward': [0, 0]})
+                                original_model=original_json)
             result = verify_bundle(chain)
             self.assertEqual(result['status'], 'VERIFIED', result)
             self.assertEqual(result['artifact_audit']['method'], 'Python canonical JSON readback and exact named formulation comparison')
@@ -246,84 +227,15 @@ class ChainBundleTests(unittest.TestCase):
             self.assertEqual(result['artifact_audit']['method'], 'Kernel standard-format readback and exact named formulation comparison')
             self.assertEqual(result['composition']['original_anchor_reader'], 'python_canonical_json')
 
-    def test_none_objective_stays_none_and_does_not_infer_equal_optima(self):
-        with tempfile.TemporaryDirectory() as directory:
-            chain, _, _, _ = self.chain(directory, count=2, objective='None')
-            result = verify_bundle(chain)
-            self.assertEqual(result['status'], 'VERIFIED', result)
-            self.assertEqual(result['composition']['paths'][0]['objective'], 'None')
-            self.assertFalse(any(p['equal_optimal_infima'] for p in result['composition']['bidirectional']))
 
-    def test_restricted_claim_is_verified_but_cannot_supply_global_path(self):
+    def test_chain_needs_no_request_or_claim_selection(self):
         with tempfile.TemporaryDirectory() as directory:
-            chain, _, _, _ = self.chain(directory, count=2, restricted=True, paths={'only_restricted': [0, 0]})
-            result = verify_bundle(chain)
-            self.assertEqual(result['status'], 'VERIFIED', result)
-            self.assertFalse(result['composition']['final_relation_derived'])
-            summary = result['composition']['paths'][0]
-            self.assertFalse(summary['composable'])
-            self.assertTrue(summary['stage_local_only'])
-            self.assertNotIn('objective', summary)
-            self.assertNotIn('observation_relation', summary)
-
-    def test_invalid_selected_paths_fail_without_selecting_a_different_claim(self):
-        with tempfile.TemporaryDirectory() as directory:
-            stages, original, committed = self.fixture(directory, count=2)
-            for indices in ([0], [True, 0], [-1, 0], [7, 0], [0, 1], [2, 0]):
-                with self.subTest(indices=indices), self.assertRaises(BuildError):
-                    write_chain(stages, Path(directory)/'bad.json', original_model=original,
-                                committed_model=committed, claim_paths={'label_does_not_choose_direction': indices})
-            valid = write_chain(stages, Path(directory)/'good.json', original_model=original,
-                                committed_model=committed, claim_paths={'anything': [0, 0]})
-            self.change(valid, lambda d: d['composition']['claim_paths'].update(anything=[0, 1]))
-            result = verify_bundle(valid)
-            self.assertEqual(result['status'], 'INCOMPLETE', result)
-            self.assertFalse(result['composition']['final_relation_derived'])
-
-    def test_exact_domain_handoff_allows_only_matching_integer_modes(self):
-        with tempfile.TemporaryDirectory() as directory:
-            model = self.model('box', ['x'])
-            manifests = []
-            for stage, mode in enumerate((False, True)):
-                proof = Proof(model, model)
-                proof.claim(mapping='identity', integers=mode).complete()
-                proof.compile(Path(directory)/f'stage{stage}')
-                manifests.append(Path(directory)/f'stage{stage}/delivery.json')
-            committed = Path(directory)/'final.mps'; model.write_mps(committed)
-            with self.assertRaisesRegex(BuildError, 'integer domains'):
-                write_chain(manifests, Path(directory)/'chain.json', committed_model=committed,
-                            claim_paths={'selected': [0, 0]})
-            chain = write_chain(manifests, Path(directory)/'chain.json', committed_model=committed)
-            self.assertEqual(verify_bundle(chain)['status'], 'VERIFIED')
-
-    def test_projection_relations_are_never_unioned_across_selected_maps(self):
-        with tempfile.TemporaryDirectory() as directory:
-            model = Model('box', [Variable('x', lower=0, upper=1), Variable('y', lower=0, upper=1)])
-            proof = Proof(model, model)
-            proof.claim(integers=False, objective='None', mapping={'x': model.var('x'), 'y': 0},
-                        projection=[('x', 'x')]).complete()
-            proof.claim(integers=False, objective='None', mapping={'x': 0, 'y': model.var('y')},
-                        projection=[('y', 'y')]).complete()
-            proof.compile(Path(directory)/'stage')
-            committed = Path(directory)/'final.mps'; model.write_mps(committed)
-            chain = write_chain([Path(directory)/'stage/delivery.json'], Path(directory)/'chain.json',
-                                committed_model=committed, claim_paths={'one_map': [0], 'other_map': [1]})
-            result = verify_bundle(chain)
-            self.assertEqual(result['status'], 'VERIFIED', result)
-            self.assertEqual([p['observation_count'] for p in result['composition']['paths']], [1, 1])
-            self.assertEqual(result['composition']['bidirectional'], [])
-
-    def test_legacy_request_arrays_are_verified_and_composed(self):
-        with tempfile.TemporaryDirectory() as directory:
-            stages, original, committed = self.fixture(directory, count=2)
+            chain, stages, _, _ = self.chain(directory, count=2)
             for manifest in stages:
                 stage = json.loads(manifest.read_text())
-                request = Path(stage['pieces'][0]['request'])
-                request.write_text(json.dumps(json.loads(request.read_text())['claims']))
-                stage['artifacts']['request']['sha256'] = digest(request)
-                manifest.write_text(json.dumps(stage))
-            chain = write_chain(stages, Path(directory)/'chain.json', original_model=original,
-                                committed_model=committed, claim_paths={'forward': [0, 0], 'reverse': [1, 1]})
+                self.assertNotIn('request', stage['pieces'][0])
+                self.assertFalse((manifest.parent/'request.json').exists())
+            self.assertEqual(json.loads(chain.read_text())['composition'], {'ordered_chain': True})
             self.assertEqual(verify_bundle(chain)['status'], 'VERIFIED')
 
     def test_broken_named_join_and_final_target_mismatch_rejected_before_publishing(self):
@@ -370,7 +282,6 @@ class ChainBundleTests(unittest.TestCase):
             self.assertEqual(len(result['parts']), 2)
             self.assertNotEqual(result['parts'][0]['status'], 'VERIFIED')
             self.assertEqual(result['artifact_audit']['status'], 'MATCHED')
-            self.assertEqual(result['composition']['paths'], [])
             self.assertFalse(result['composition']['final_relation_derived'])
 
     def test_pristine_mutation_and_rehashed_semantic_mismatch_are_rejected(self):

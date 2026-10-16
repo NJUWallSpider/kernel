@@ -22,14 +22,14 @@ pub mod rpa;
 pub mod rpa_source;
 
 pub mod lp;
-pub mod point;
 pub mod flow;
 pub mod subflow;
 pub mod interval;
 pub mod menu;
-pub mod injectivity;
 
 pub mod signed;
-pub mod level;
 
 mod build_support;
+
+#[cfg(test)]
+mod rule_tests;

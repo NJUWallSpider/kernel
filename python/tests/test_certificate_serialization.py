@@ -40,21 +40,17 @@ class CertificateSerializationTests(unittest.TestCase):
         source = Model("exact", [Variable("x", True, 0, 1)],
                        [Row("twice", 2*x, upper=2)], objective=x/4)
         proof = Proof(source, source)
+        proof.reverse.map("identity").complete()
         self.addCleanup(proof.close)
-        claim = proof.claim(mapping="identity", projection="retained",
-                            affine_projection=[(x, x)], input_objective_lower=0)
+        claim = proof.forward.map("identity")
         objective_lower = claim.le([(claim.lower("x"), Fraction(1, 4))], expect=-x/4)
         # Large but within the existing 13600-bit scalar wire budget.
         scale = Fraction(2**13000+1, 2**13000+3)
         claim.le([(claim.upper("x"), scale)])
         claim.complete()
-        certificate, request = proof.certificate(), proof.request()
-        for contract in (certificate["claims"][0], request["claims"][0]):
-            contract["input_objective_lower"] = Fraction(0)
-            contract["affine_projection"] = ((x, x),)
-        certificate["claims"] = tuple(certificate["claims"])
-        request["claims"] = tuple(request["claims"])
-        block = certificate["blocks"][0]
+        proof.reverse.map("identity").complete()
+        certificate, request = proof.certificate(), proof.certificate()
+        block = certificate["forward"]
         for step, fact, multiplier in zip(block["steps"],
                                           (claim.lower("x"), claim.upper("x")),
                                           (Fraction(1, 4), scale)):
@@ -67,7 +63,6 @@ class CertificateSerializationTests(unittest.TestCase):
                    claim.row("twice"), objective_lower)
         terminal["checks"] = tuple(next((fact for fact in handles if fact.reference == reference), reference)
                                     for reference in terminal["checks"])
-        certificate["blocks"] = tuple(certificate["blocks"])
         return proof, certificate, request
 
     def test_typed_raw_compile_keeps_exact_json_rpx_and_whole_mps_binding(self):
@@ -84,11 +79,11 @@ class CertificateSerializationTests(unittest.TestCase):
             committed = proof.target.write_mps(directory/"committed.mps")
             with patch.object(session, "wire", side_effect=reject_full_wire):
                 artifacts = compile_certificate(
-                    proof.source, proof.target, certificate, request, directory/"delivery",
+                    proof.source, proof.target, certificate, directory/"delivery",
                     kernel=proof.kernel, committed_model=committed)
             self.assertEqual((artifacts["proof"].parent/"certificate.json").read_bytes(),
                              expected_certificate.encode())
-            self.assertEqual(artifacts["request"].read_bytes(), expected_request.encode())
+            self.assertNotIn("request", artifacts)
             legacy_json, legacy_rpx = directory/"legacy.json", directory/"legacy.rpx"
             legacy_json.write_text(expected_certificate)
             proof.kernel.call("compile", legacy_json, legacy_rpx)
@@ -104,12 +99,12 @@ class CertificateSerializationTests(unittest.TestCase):
         circular.append(circular)
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
-            artifacts = compile_certificate(proof.source, proof.target, certificate, request,
+            artifacts = compile_certificate(proof.source, proof.target, certificate,
                                             directory, kernel=proof.kernel)
             original = artifacts["proof"].read_bytes()
             for bad, error in (({"opaque": object()}, TypeError), (circular, ValueError)):
                 with self.subTest(error=error.__name__), self.assertRaises(error):
-                    compile_certificate(proof.source, proof.target, bad, request, directory,
+                    compile_certificate(proof.source, proof.target, bad, directory,
                                         kernel=proof.kernel)
                 self.assertEqual(artifacts["proof"].read_bytes(), original)
                 self.assertEqual(list(directory.glob(".*.tmp")), [])
@@ -118,13 +113,13 @@ class CertificateSerializationTests(unittest.TestCase):
         proof, certificate, request = self.typed_proof()
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
-            artifacts = compile_certificate(proof.source, proof.target, certificate, request,
+            artifacts = compile_certificate(proof.source, proof.target, certificate,
                                             directory, kernel=proof.kernel)
             original = artifacts["proof"].read_bytes()
             malformed = wire(certificate)
-            malformed["blocks"][0]["steps"][0]["Lin"]["constant"] = 0.0
+            malformed["forward"]["steps"][0]["Lin"]["constant"] = 0.0
             with self.assertRaises(KernelError) as rejected:
-                compile_certificate(proof.source, proof.target, malformed, request, directory,
+                compile_certificate(proof.source, proof.target, malformed, directory,
                                     kernel=proof.kernel)
             self.assertEqual(rejected.exception.report["status"], "INVALID")
             self.assertEqual(artifacts["proof"].read_bytes(), original)

@@ -2,7 +2,7 @@
 use kernel_core::{api, codec, compiler, model::Q, proof::{Block, Certificate, End}};
 use num_bigint::BigInt;
 use serde_json::{json, Value};
-use std::{fs, path::{Path, PathBuf}, process::Command, sync::atomic::{AtomicUsize, Ordering}};
+use std::{fs, path::PathBuf, process::Command, sync::atomic::{AtomicUsize, Ordering}};
 
 static SEQUENCE: AtomicUsize = AtomicUsize::new(0);
 struct Temp(PathBuf);
@@ -16,10 +16,8 @@ impl Temp {
 }
 impl Drop for Temp { fn drop(&mut self) { let _ = fs::remove_dir_all(&self.0); } }
 
-fn vector() -> Vec<u8> {
-    fs::read(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../tests/vectors/identity-ordinary.rpx")).unwrap()
-}
-fn certificate() -> Certificate { codec::decode_certificate(&vector()).unwrap() }
+fn certificate()->Certificate{let b=Block{steps:vec![],end:End::Return{map:vec![kernel_core::model::Expr::zero()],checks:vec![kernel_core::proof::Ref::Exact]}};Certificate{forward:b.clone(),reverse:b}}
+fn vector()->Vec<u8>{codec::encode_certificate(&certificate()).unwrap()}
 
 #[test]
 fn typed_json_budget_has_an_exact_boundary_and_default_delegation() {
@@ -128,20 +126,20 @@ fn cli_budget_is_explicit_order_independent_and_overflow_safe() {
 fn larger_json_budget_cannot_widen_wire_scalar_or_depth_limits() {
     let options = compiler::CompileOptions::new(u64::MAX).unwrap();
     let mut cert = certificate();
-    let End::Return { map, .. } = &mut cert.blocks[0].end else { panic!() };
+    let End::Return { map, .. } = &mut cert.forward.end else { panic!() };
     map[0].constant = Q::from_integer(BigInt::from(1_u8) << (codec::MAX_INTEGER_BYTES * 8));
     let error = api::compile_certificate_json_with_options(&serde_json::to_string(&cert).unwrap(), &options).unwrap_err();
     assert_eq!(error.status(), api::Status::ResourceLimit);
     assert!(error.message().contains("rational magnitude limit"));
 
     let mut cert = certificate();
-    let mut block = cert.blocks[0].clone();
+    let mut block = cert.forward.clone();
     for _ in 0..codec::MAX_DEPTH {
         block = Block { steps: vec![], end: End::Split {
             expression: kernel_core::model::Expr::zero(), integer: None,
-            left: Box::new(block), right: Box::new(cert.blocks[0].clone()) } };
+            left: Box::new(block), right: Box::new(cert.forward.clone()) } };
     }
-    cert.blocks[0] = block;
+    cert.forward = block;
     let error = api::compile_certificate_json_with_options(&serde_json::to_string(&cert).unwrap(), &options).unwrap_err();
     assert_eq!(error.status(), api::Status::ResourceLimit);
     assert!(error.message().contains("block depth limit"));

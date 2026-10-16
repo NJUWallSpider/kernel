@@ -51,10 +51,10 @@ class Kernel:
             self.call(command, *models, spec, output)
             return json.loads(output.read_text())
 
-    def verify(self, source, target, proof, request, *, work=None, live_facts=None):
+    def verify(self, source, target, proof, *, work=None, live_facts=None):
         args = ["verify"]
         if work is not None:
             args += ["--work", str(work)]
         if live_facts is not None:
             args += ["--live-facts", str(live_facts)]
-        return self.call(*args, source, target, proof, request, check=False)
+        return self.call(*args, source, target, proof, check=False)

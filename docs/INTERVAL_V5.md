@@ -1,4 +1,4 @@
-# Independent interval extension in V5
+# Independent interval extension
 
 The `IntervalLift` terminator checks a simultaneous extension by real interval
 coordinates. Its bounded preparation helper is `crates/core/src/interval.rs`.
@@ -7,7 +7,7 @@ proved in the parent input/fact/assumption scope. Preparation alone does not
 establish those premises. The helper's premise formulas and generated model are
 trusted implementations of the joint-existence lemma below; no independent
 runtime checker proves that lemma. The ordinary child proof checks the complete
-actual output model and caller-requested contract conditional on this extension.
+actual output model and nonincreasing objective conditional on this extension.
 
 ## Witness, premises and generated layout
 
@@ -57,8 +57,8 @@ sample points; it uses no solver, search or approximation.
 
 The parent may be infeasible; in that case the extension property is vacuous.
 Otherwise all generated rows and bounds hold for the same extended point. The
-child must prove every actual output variable bound, row, requested integrality,
-objective relation and observation using those facts. Extra constraints coupling
+child must prove every actual output variable bound, row, actual integrality
+and nonincreasing objective using those facts. Extra constraints coupling
 new coordinates are not granted by this rule; if they cannot be derived, the
 certificate is rejected. Likewise no integer fact is inferred for a newly
 introduced interval coordinate.
@@ -66,24 +66,7 @@ introduced interval coordinate.
 The rule is child-local. Its laws cannot be used while proving its own premises
 and cannot leak into siblings. Facts and assumptions about old coordinates remain
 valid because those coordinates and their model prefix are unchanged. Nested
-extensions are bounded by the existing block-depth limit. A non-affine extension
-cannot be used as an affine inverse map.
-
-V5 also permits caller-requested affine observations through
-`Claim.affine_projection`, an ordered list of `(input Expr, output Expr)`.
-Both sides are validated against the actual original directional model dimensions
-before entering any extension. Every returned map must prove
-`EQ(output Expr(map)-input Expr)` using the ordinary proof rules. This is an
-additional explicit obligation; it does not relax complete model checking or
-change the interval theorem. It expresses, for example, preservation of a signed
-quantity t=v-w in actual test23. The legacy V3 `Strictness` variant retains its
-complete-coordinate-bijection requirement. V6 `FiberStrictness` supports partial
-coordinate/affine observation images through a complete LP fiber refutation;
-see [FIBER_POINT_V6.md](FIBER_POINT_V6.md). Both indexed strictness variants
-require an unrestricted LP inclusion, with neither an objective-level nor a
-halfspace restriction.
-
-## Exact arithmetic and resources
+extensions are bounded by the existing block-depth limit. ## Exact arithmetic and resources
 
 All model and witness expressions and scalars are validated. Pair subtraction is
 one linear merge of two canonical sparse expressions. Every difference of
@@ -103,7 +86,7 @@ bound scans, pair visits and expanded storage/arithmetic. Storage charges are
 32 units per generated variable or row, four per generated/unmerged premise
 coefficient and four per premise, with name-collision checks charged separately.
 Statistics expose total preparation work and generated variable, row and model
-coefficient counts. The caller charges this work to the shared remaining request
+coefficient counts. The caller charges this work to the shared remaining verification
 budget before checking premises and entering the child. These deterministic units
 bound work and allocation; they are not a bit-complexity or machine-instruction
 claim. Arbitrary-precision arithmetic still has its bounded operand-size cost.
@@ -126,17 +109,14 @@ missing/surplus checks, malformed rational values, large intermediate scalar
 differences, pair-product and work budgets, and generated-name collisions.
 
 Reproduce with `python3 audit/generate_interval_oracle.py` and
-`cargo test -p kernel-core --test interval_builder`. Full proof-engine integration
-tests additionally check scope isolation, complete output obligations, affine
-observation binding and versioned wire behavior. These executable checks support
-the rule argument; they do not constitute a machine-checked proof of Rust code.
+`cargo test -p kernel-core --lib test_interval_builder --locked`. Current
+proof-engine and Python tests check old-scope premises, complete output
+obligations and shared resource limits. These checks support the rule argument;
+they do not constitute a machine-checked proof of Rust code.
 
 ## Actual signed-coordinate recovery
 
 [test23](../cases/test23/README.md) recovers 2,467 continuous variables through
-independent interval intersections. Its complete contract preserves retained
-coordinates, signed affine observations `t=v-w` and the pointwise objective
-in both integer and relaxed directions. The affine observations express that
-contract; interval existence alone does not prove those relations. The case
-record and [delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the full
-replay evidence.
+independent interval intersections. Its migrated two-tree certificate proves
+complete MI optimization equivalence. The historical case report additionally
+describes observation and LP properties; those checks are absent from RPX 11.

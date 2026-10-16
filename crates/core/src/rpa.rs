@@ -28,7 +28,7 @@ pub mod ref_terms {
     pub fn serialize<S:Serializer>(terms:&[(Ref,Q)],s:S)->Result<S::Ok,S::Error>{terms.iter().map(|(r,q)|(r,q.to_string())).collect::<Vec<_>>().serialize(s)}
     pub fn deserialize<'de,D:Deserializer<'de>>(d:D)->Result<Vec<(Ref,Q)>,D::Error>{Vec::<(Ref,String)>::deserialize(d)?.into_iter().map(|(r,s)|parse_q(&s).map(|q|(r,q)).map_err(serde::de::Error::custom)).collect()}
 }
-fn json_error(context:&str,error:serde_json::Error)->String {
+pub(crate) fn json_error(context:&str,error:serde_json::Error)->String {
     let message=error.to_string();
     // Keep serde's bounded parser. Exhausting its nesting capacity is not a
     // mathematical rejection and must retain the resource-limit outcome.
@@ -37,18 +37,8 @@ fn json_error(context:&str,error:serde_json::Error)->String {
 }
 pub fn assemble(text:&str)->Result<Certificate,String>{
     if text.len()>256*1024*1024{return Err("RESOURCE_LIMIT RPA bytes".into());}
-    let (version,body)=if let Some(body)=text.strip_prefix("RPA 1\n"){(1,body)}else if let Some(body)=text.strip_prefix("RPA 2\n"){(2,body)}else if let Some(body)=text.strip_prefix("RPA 3\n"){(3,body)}else if let Some(body)=text.strip_prefix("RPA 4\n"){(4,body)}else if let Some(body)=text.strip_prefix("RPA 5\n"){(5,body)}else if let Some(body)=text.strip_prefix("RPA 6\n"){(6,body)}else if let Some(body)=text.strip_prefix("RPA 7\n"){(7,body)}else if let Some(body)=text.strip_prefix("RPA 8\n"){(8,body)}else if let Some(body)=text.strip_prefix("RPA 9\n"){(9,body)}else if let Some(body)=text.strip_prefix("RPA 10\n"){(10,body)}else{return Err("INVALID RPA version/header".into())};
+    let body=text.strip_prefix("RPA 11\n").ok_or("INVALID RPA version/header")?;
     let c:Certificate=serde_json::from_str(body).map_err(|e|json_error("RPA",e))?;
-    if crate::codec::certificate_version(&c)?>version{return Err("INVALID RPA version does not allow requested extension".into());}
     Ok(c)
 }
-pub fn disassemble(c:&Certificate)->Result<String,String>{let version=crate::codec::certificate_version(c)?;serde_json::to_string_pretty(c).map(|s|format!("RPA {version}\n{s}\n")).map_err(|e|format!("INVALID RPA output: {e}"))}
-
-/// Caller-owned contracts may use the legacy claim array or a V3 request object.
-pub fn parse_request(text:&str)->Result<crate::proof::Request,String>{
-    if text.len()>256*1024*1024{return Err("RESOURCE_LIMIT request bytes".into());}
-    let parsed=if text.trim_start().starts_with('['){
-        serde_json::from_str::<Vec<crate::proof::Claim>>(text).map(|claims|crate::proof::Request { improvements:vec![], bijections:vec![],claims,points:vec![]})
-    }else{serde_json::from_str::<crate::proof::Request>(text)};
-    parsed.map_err(|e|json_error("request",e))
-}
+pub fn disassemble(c:&Certificate)->Result<String,String>{let version=crate::codec::RPX_VERSION;serde_json::to_string_pretty(c).map(|s|format!("RPA {version}\n{s}\n")).map_err(|e|format!("INVALID RPA output: {e}"))}

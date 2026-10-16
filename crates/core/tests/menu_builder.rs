@@ -1,7 +1,7 @@
-use kernel_core::menu::prepare_unchecked_extension;
-use kernel_core::model::{parse_q, Expr, Model, Row, Var, MAX_Q_BITS, Q};
-use kernel_core::proof::{Kind, MenuWitness, Ref};
-use kernel_core::verify::Limits;
+use crate::menu::prepare_unchecked_extension;
+use crate::model::{parse_q, Expr, Model, Row, Var, MAX_Q_BITS, Q};
+use crate::proof::{Kind, MenuWitness, Ref};
+use crate::verify::Limits;
 use num_bigint::BigInt;
 use serde::Deserialize;
 

@@ -302,33 +302,8 @@ fn atom(value: &Value) -> Result<Option<String>, String> {
 // order. Unknown future fields retain a deterministic lexical order afterward.
 fn ordered_fields(object: &Map<String, Value>) -> Vec<(&str, &Value)> {
     const ORDER: &[&str] = &[
-        "claims",
-        "blocks",
-        "improvements",
-        "bijections",
-        "points",
-        "claim",
-        "block",
-        "injectivity",
-        "values",
-        "refutation",
+        "forward",
         "reverse",
-        "input_integers",
-        "output_integers",
-        "objective",
-        "projection",
-        "affine_projection",
-        "inverse",
-        "input_objective_lower",
-        "input_objective_level",
-        "input_halfspace",
-        "target",
-        "integers",
-        "positive",
-        "point_in_target",
-        "inclusion_claim",
-        "forward_claim",
-        "reverse_claim",
         "steps",
         "end",
         "id",
@@ -387,13 +362,6 @@ fn ordered_fields(object: &Map<String, Value>) -> Vec<(&str, &Value)> {
                 "variable[",
                 "row[",
                 "objective.",
-                "projection[",
-                "affine_projection[",
-                "inverse.coordinate[",
-                "inverse.objective_level",
-                "input.objective_lower",
-                "bijection[",
-                "injectivity.coordinate[",
             ]
             .iter()
             .position(|prefix| name.starts_with(prefix))
@@ -748,7 +716,7 @@ mod tests {
             {"Drop": {"ids": [7, 8]}}
         ], "end": {"Return": {"map": [{"constant": "1", "terms": [[0, "-2"]]}], "checks": ["Exact"]}}}]});
         let source = format_value(&certificate).unwrap();
-        assert!(source.starts_with("certificate {\n  claims: []"));
+        assert!(source.starts_with("certificate {"));
         assert!(source.contains("lin.eq(f7, -row_eq(0) + 2*lower(x0) + 0*row_eq(0) + 1/3)"));
         assert!(source.contains("round(f8, f7, integer(x0))"));
         assert!(source.contains("drop(f7, f8)"));

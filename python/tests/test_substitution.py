@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 from collections import Counter
 from fractions import Fraction
 from pathlib import Path
@@ -54,7 +55,7 @@ class OrderedSubstitutionTests(unittest.TestCase):
         model = Model('claim_aliases', [Variable(n) for n in ('x', 'y', 'z')],
                       [Row('first', x-y, lower=0, upper=0), Row('last', x-z, lower=0, upper=0),
                        Row('goal', x, upper=0)])
-        claim = Proof(model, model).claim(mapping='identity', objective='None')
+        claim = Proof(model, model).forward.map('identity')
         generated = claim.substitution({'x': claim.row('first'), 0: claim.row('last')})
         self.assertEqual(generated[-1].expression, z)
 
@@ -121,7 +122,8 @@ class OrderedSubstitutionTests(unittest.TestCase):
         x = Expr.var(0)
         model = Model('scope', [Variable('x', integer=True, lower=0, upper=1)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping='identity')
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map('identity')
         scope = claim.intervals([{'lower': [x], 'upper': [x], 'checks': ['Exact']}])
         interval = scope.interval(0)
         z = interval.variable
@@ -135,7 +137,7 @@ class OrderedSubstitutionTests(unittest.TestCase):
         scope.cases(x, kind='Eq', expect=goal, left=branch, right=branch)
         claim.complete(scope=scope, mapping='identity')
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)['status'], 'VERIFIED')
+            assert_rules_checked(self, proof.verify(directory))
             self.assertFalse(list(Path(directory).glob('*.rpa')))
 
     def test_wide_objective_and_row_substitution_verify_in_both_directions(self):
@@ -147,21 +149,22 @@ class OrderedSubstitutionTests(unittest.TestCase):
                          for i in range(count)), Row('wide', original, upper=0)], objective=original)
         target = model.replace_row('wide', expr=rewritten).with_objective(rewritten)
         proof = Proof(model, target)
-        forward = proof.claim(integers=False, mapping='identity')
-        reverse = proof.claim(reverse=True, integers=False, mapping='identity')
+        forward = proof.forward.map('identity')
+        reverse = proof.reverse.map('identity')
         with patch.object(forward, 'plan', side_effect=AssertionError('full goal materialization')), \
              patch.object(reverse, 'plan', side_effect=AssertionError('full goal materialization')):
             forward.substitution({i: forward.row(f'd{i}') for i in range(count)})
             reverse.substitution({count+i: reverse.row(f'd{i}') for i in range(count)})
         forward.complete(); reverse.complete()
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)['status'], 'VERIFIED')
+            assert_rules_checked(self, proof.verify(directory))
 
     def test_unit_expression_variable_refs_in_a_generated_scope(self):
         x = Expr.var(0)
         model = Model('units', [Variable('x', integer=True, lower=0, upper=1)])
         proof = Proof(model, model)
-        claim = proof.claim(mapping='identity')
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map('identity')
         scope = claim.menus([{'maximum_index': 1, 'activation': 1, 'index': x,
                              'checks': ['Exact', 'Exact', 'Exact', claim.lower(x), claim.upper(x), claim.integer(x)]}])
         option = scope.menu(0).options[1]
@@ -180,7 +183,7 @@ class OrderedSubstitutionTests(unittest.TestCase):
             scope.ref('RowEq', option)
         claim.complete(scope=scope, mapping='identity')
         with tempfile.TemporaryDirectory() as directory:
-            self.assertEqual(proof.verify(directory)['status'], 'VERIFIED')
+            assert_rules_checked(self, proof.verify(directory))
 
 
 if __name__ == '__main__':

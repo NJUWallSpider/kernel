@@ -34,7 +34,7 @@ class PiecewiseCorrespondenceTests(unittest.TestCase):
         proof = Proof(source, target)
         self.addCleanup(proof.close)
         # Neither direction needs a single affine map at declaration time.
-        forward, reverse = proof.correspondence(projection="retained")
+        forward, reverse = (proof.forward, proof.reverse)
         self.assertIsNone(forward.mapping)
         self.assertIsNone(reverse.mapping)
 
@@ -84,19 +84,8 @@ class PiecewiseCorrespondenceTests(unittest.TestCase):
             "Flow": original_flow, "p": item.positive, "n": item.negative,
             "u": item.positive_activation, "v": item.negative_activation})
 
-        request = proof.request()
-        self.assertEqual(len(request["claims"]), 2)
-        self.assertEqual([c["reverse"] for c in request["claims"]], [False, True])
-        self.assertEqual([c["objective"] for c in request["claims"]],
-                         ["NonIncreasing", "Equal"])
-        for claim in request["claims"]:
-            self.assertTrue(claim["input_integers"])
-            self.assertTrue(claim["output_integers"])
-            self.assertIsNone(claim["inverse"])
-            self.assertEqual(claim["projection"], [[0, 0]])
-            self.assertNotIn("input_objective_level", claim)
-            self.assertNotIn("input_halfspace", claim)
-        self.assertEqual(request["bijections"], [])
+        request = proof.certificate()
+        self.assertEqual(set(request), {"forward", "reverse"})
         # Both source activations may be one. The right branch sends this
         # feasible point from cost 2 to cost 1, so pointwise Equal/inverse or
         # a full LP equality is deliberately not part of this theorem.
@@ -116,7 +105,7 @@ class PiecewiseCorrespondenceTests(unittest.TestCase):
             # z=0 on the u=1 branch cannot satisfy both target capacity rows.
             broken = attack(
                 proof, directory/"wrong_branch",
-                ["blocks", 0, "end", "Split", "right", "end", "Return", "map", 1],
+                ["forward", "end", "Split", "right", "end", "Return", "map", 1],
                 replacement=Expr(0).to_json())
             self.assertTrue(broken["rejected_as_expected"], broken)
 

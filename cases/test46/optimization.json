@@ -1,0 +1,64 @@
+{
+  "case": "test46",
+  "source": "/Users/bhz/Code/kernel/cases/test46/source.mcm",
+  "target": "/Users/bhz/Code/kernel/cases/test46/target.mcm",
+  "source_sha256": "2f07c2090f0ec98f1042a40e321cde175642f2e04653c009fc3a0aa900f17ec5",
+  "target_sha256": "a99509a4ecf58aedfeb2f8f061ed3e7994a59f5a2d8156d787f7a55f966c2dee",
+  "legacy_proofs": [
+    {
+      "path": "/Users/bhz/Code/kernel/cases/test46/mi-forward/proof.rpx",
+      "sha256": "30365859dbac6c6cf8d3f641bdb1b2f08d71336e93eab98288211a4ad070be21"
+    },
+    {
+      "path": "/Users/bhz/Code/kernel/cases/test46/mi-reverse/proof.rpx",
+      "sha256": "87952e15f550907b7253310a1bddf7c3fdefac356bbff5b9cd2f3e03d8ee6f88"
+    },
+    {
+      "path": "/Users/bhz/Code/kernel/cases/test46/lp-only/proof.rpx",
+      "sha256": "68ad8fb26e1c5b9d6c6cca5855d0256307dbdd4de7c0a29391c839c10e08eeb0"
+    }
+  ],
+  "certificate_json": "/Users/bhz/Code/kernel/target/mi-opt-migration/test46/certificate.json",
+  "certificate_sha256": "1266c845a4038e065a8f34db67797b50a269fae898520e54a0920661c7bf84f0",
+  "proof": "/Users/bhz/Code/kernel/cases/test46/optimization.rpx",
+  "proof_sha256": "1bbe88a406bf5ec0685278c3c324733013ff873f76ae6e49b28c0908d28ac491",
+  "verification": {
+    "execute_us": 33766986,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 122755,
+    "proof_decode_us": 1192296,
+    "read_us": 57301,
+    "statistics": {
+      "branches": 96947,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 68936,
+      "interval_generated_terms": 137872,
+      "interval_generated_variables": 17234,
+      "interval_lifts": 1,
+      "linear_terms": 223401192,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 603851,
+      "peak_live_facts": 344878,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 621320,
+      "work": 543531560
+    },
+    "status": "VERIFIED",
+    "total_us": 35139373
+  }
+}

@@ -15,7 +15,7 @@ class AtomicDeliveryTests(unittest.TestCase):
                                  [Row('fixed', x, lower=0, upper=0)], objective=x)
         target = source.with_bounds('x', upper=0)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection('identity', 'identity', integers=False)
+        forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
         forward.le([(forward.row('fixed'), 1)], expect=x)
         forward.complete()
         reverse.le([(reverse.upper('x'), 1)], constant=-1)
@@ -50,7 +50,7 @@ class AtomicDeliveryTests(unittest.TestCase):
                 self.assert_no_temporaries(directory)
 
     def test_all_generated_outputs_linked_to_pristine_input_preserve_its_bytes(self):
-        names = ('source.mcm', 'target.mcm', 'certificate.json', 'request.json',
+        names = ('source.mcm', 'target.mcm', 'certificate.json',
                  'proof.rpx', 'delivery.json', 'verification.json')
         for link in ('hardlink', 'symlink'):
             with self.subTest(link=link), tempfile.TemporaryDirectory() as directory:
@@ -92,9 +92,9 @@ class AtomicDeliveryTests(unittest.TestCase):
             proof.verify(directory)
             old_rpx = (directory / 'proof.rpx').read_bytes()
             certificate = deepcopy(proof.certificate())
-            certificate['blocks'][0]['end']['Return']['checks'][0] = {'UnknownProofReference': 0}
+            certificate['forward']['end']['Return']['checks'][0] = {'UnknownProofReference': 0}
             with self.assertRaises(KernelError):
-                compile_certificate(proof.source, proof.target, certificate, proof.request(), directory,
+                compile_certificate(proof.source, proof.target, certificate, directory,
                                     kernel=proof.kernel)
             self.assertEqual((directory / 'proof.rpx').read_bytes(), old_rpx)
             self.assert_no_temporaries(directory)

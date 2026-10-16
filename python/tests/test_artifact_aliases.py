@@ -11,7 +11,7 @@ class ArtifactAliasTests(unittest.TestCase):
         source = Model("src", [Variable("x", lower=0, upper=1)])
         target = source.with_bounds("x", upper=0)
         proof = Proof(source, target)
-        f, r = proof.correspondence({"x": 0}, "identity", integers=False)
+        f, r = (proof.forward.map({"x": 0}), proof.reverse.map("identity"))
         f.complete()
         r.box_le(target.var("x")-1)
         r.complete()

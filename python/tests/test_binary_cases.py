@@ -1,3 +1,4 @@
+from rule_checks import assert_rules_checked
 import tempfile
 import unittest
 
@@ -8,7 +9,7 @@ class BinaryCasesTests(unittest.TestCase):
     def verify(self, proof):
         with tempfile.TemporaryDirectory() as directory:
             report = proof.verify(directory)
-            self.assertEqual(report['status'], 'VERIFIED', report)
+            assert_rules_checked(self, report)
 
     def test_explicit_product_leaves_prove_integrality_of_continuous_auxiliary(self):
         x, y, t = (Expr.var(i) for i in range(3))
@@ -18,7 +19,7 @@ class BinaryCasesTests(unittest.TestCase):
                         Row('both', x+y-t-1, upper=0)])
         target = source.with_integrality(['t'], True)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection('identity', 'identity')
+        forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
         leaves, leaf_facts = [], []
         def prove(scope, fixes):
             values = {name: -fact.expression.constant for name, fact in fixes.items()}
@@ -48,7 +49,7 @@ class BinaryCasesTests(unittest.TestCase):
                        [Row('definition', x-b, lower=0, upper=0)])
         target = source.with_integrality(['x'], True)
         proof = Proof(source, target)
-        forward, reverse = proof.bijection('identity', 'identity')
+        forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
         integer = forward.int([(forward.row('definition'), 1), (forward.integer('b'), 1)], expect=x)
         leaves = []
         def prove(scope, fixes):
@@ -68,7 +69,7 @@ class BinaryCasesTests(unittest.TestCase):
                 goal = x-value
                 target = source.add_row('fixed', goal, equal=0)
                 proof = Proof(source, target)
-                forward, reverse = proof.bijection('identity', 'identity')
+                forward, reverse = (proof.forward.map('identity'), proof.reverse.map('identity'))
                 leaves = []
                 def prove(scope, fixes):
                     bit = -fixes['x'].expression.constant
@@ -87,7 +88,8 @@ class BinaryCasesTests(unittest.TestCase):
         x = Expr.var(0)
         model = Model('fixed_continuous', [Variable('x', False, 1, 1)])
         proof = Proof(model, model)
-        claim = proof.claim(integers=False, mapping='identity')
+        proof.reverse.map("identity").complete()
+        claim = proof.forward.map('identity')
         equality = claim.eqpair(claim.upper('x'), claim.lower('x'))
         integer = claim.int([(equality, 1)], constant=1, expect=x)
         def prove(scope, fixes):
@@ -113,7 +115,7 @@ class BinaryCasesTests(unittest.TestCase):
                     builder.binary_cases(variables, kind='Eq', expect=0, prove=callback, **options)
                 self.assertEqual(builder.steps, [])
         with self.assertRaises(BuildError):
-            Builder(model, integers=False).binary_cases(['x'], kind='Eq', expect=0, prove=callback)
+            Builder(Model("continuous", [Variable(v.name, False, v.lower, v.upper) for v in model.vars], model.rows, model.objective)).binary_cases(['x'], kind='Eq', expect=0, prove=callback)
         wide = Builder(Model('wide', [Variable('x', True, 0, 2)]))
         with self.assertRaises(BuildError):
             wide.binary_cases(['x'], kind='Eq', expect=0, prove=callback)

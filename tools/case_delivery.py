@@ -103,3 +103,14 @@ def load_delivery(case, receipt=None):
     assert stats == d['statistics']
     verification = {'status': 'VERIFIED', 'kind': 'conjunction-of-independent-complete-requests', 'not_a_single_kernel_invocation': True, 'claims': len(combined), 'direction_results': [p['result'] for p in pieces], 'statistics_sum_and_peak_max': stats}
     return {'kind': 'bundle', 'source': source, 'target': target, 'pieces': pieces, 'request': combined, 'artifacts': artifacts, 'verification': verification}
+
+
+def load_optimization(case):
+    """Bind one migrated two-block proof to its unchanged complete models."""
+    case = absolute(case)
+    record = json.loads((case/'optimization.json').read_text())
+    artifacts = {}
+    for role in ('source', 'target', 'proof'):
+        path = absolute(record[role])
+        artifacts[role] = check_identity(path, {'sha256': record[role+'_sha256']})
+    return {role: absolute(record[role]) for role in ('source','target','proof')} | {'artifacts': artifacts}

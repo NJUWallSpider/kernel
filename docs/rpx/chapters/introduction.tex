@@ -1,90 +1,30 @@
 \chapter*{阅读约定与文档状态}
 \addcontentsline{toc}{chapter}{阅读约定与文档状态}
 
-RPA 是 \emph{Reformulation Proof Assembly}；RPX 是 \emph{Reformulation Proof eXecutable}。
-\code{.rpa} 是带版本头的严格 JSON 证书，\code{.rpx} 是同一证明对象的顺序二进制编码。
-MCM 保存完整的精确有理系数模型。
-调用者另行提供源模型、目标模型和所要求的 contract；证书不能自行降低这个要求。
-本手册说明当前安全 Rust kernel 如何核验普通有理系数 MILP 的重构关系，
-包括完整可行向量、目标关系、投影、双射、精确点见证及严格改进。
+RPX 的唯一用途是证明两个完整 MILP 的优化等价。调用者提供源模型、目标模型与一份证书。
+证书恰含 forward、reverse 两个 Block，不含可选择的正确性要求。
+RPA 是带版本头的精确 JSON 汇编；RPA-S 是支持名称和数学表达式的可读源语言；
+两者都编译为同一个 RPX 11 证明对象。MCM 1 保存完整精确模型。
 
-\section*{实现基线与协议状态}
-\addcontentsline{toc}{section}{实现基线与协议状态}
-本手册于 2026 年 10 月 13 日按实现重写，并于 10 月 14 日同步 V9/V10 冻结与统一 FORMAT 规范，取代 10 月 9 日的 D0 设计手册。
-实现基线为 \code{crates/core/src/}：数学对象见 \code{model.rs} 与 \code{proof.rs}，
-执行器见 \code{verify.rs}，文件编解码见 \code{codec.rs} 与 \code{rpa.rs}，
-公开接口见 \code{api.rs}，命令行见 \code{main.rs}。
-静态联合扩展分别由 flow、interval、menu、signed、subflow 模块实现；
-point、injectivity、level 模块提供对应的精确 contract 检查。
+本手册于 2026 年 10 月 16 日同步底层简化。当前内核只接受 RPX/RPA 11，
+不接受旧版证明。历史 V1--V10 文件及验收记录保留原义；迁移工具使用独立旧内核提取
+双向完整 MI 构造，然后必须由当前内核重新验证。升级版本号本身不构成迁移。
 
-\begin{longtable}{l p{104mm}}
-\toprule 对象 & 当前状态 \\\midrule\endfirsthead
-\toprule 对象 & 当前状态 \\\midrule\endhead
-MCM & 只接受版本 1；与 RPX 的增量版本独立。\\
-RPA / RPX 1--8 & 已实现、已冻结；后续版本沿用既有字段与数学意义。\\
-RPA / RPX 9 & 已实现、已冻结的目标水平域；2026-10-14 冻结。\\
-RPA / RPX 10 & 已实现、已冻结的严格改进、完整像排除、联合 subflow 与显式半空间域；2026-10-14 冻结。\\
-D0 / v0.1 & 历史设计来源，既不是可接受的文本版本，也不是当前文件 ABI。\\
-\bottomrule
-\end{longtable}
+\section*{规范与实现}
+“必须”“拒绝”描述当前格式、数学接受条件和公开行为；测试与测量是证据而非形式化证明。
+完整字节规范为 \code{docs/FORMAT.md}，数学语义为 \code{docs/SEMANTICS.md}。
+Rust 数据结构在 \code{proof.rs}，执行器在 \code{verify.rs}，编解码在 \code{codec.rs}，
+五类构造在 flow、interval、menu、signed、subflow 模块。
 
-实现完成与协议冻结分别登记。项目于 2026-10-14 明确冻结 V9/V10，
-沿用既有字段、字节与数学接受条件；不兼容变更须使用新版本。
-原 D0 的 section directory、表达式池、隐式 SSA 编号、逐项 mapping/check、
-yield/merge 和可执行 theorem plugin 均不属于当前接口。
-附录\ref{app:revisions}保留其设计决定与当前实现的对应关系。
+可信边界包括精确模型导入、算术、作用域、义务生成、推理规则和联合存在引理的实现。
+作者程序、编译器、求解器结果、文件名和哈希不能授予数学事实。
+成功汇编只说明可编码；只有对实际完整模型的验证成功才表示优化等价。
 
-\section*{规范性用语与证据}
-\addcontentsline{toc}{section}{规范性用语与证据}
-“必须”“不得”“拒绝”描述本版 kernel 的格式约束、数学接受条件和公开行为；
-“建议”描述证书作者或集成方的工程选择；“可以”描述规则允许的情况。
-数学语义、字段顺序、引用可见性和完整义务是规范性内容。
-数据结构示意、性能解释、有限测试、历史测量和审阅记录是说明性证据。
-一个文件通过汇编只说明能够编码，不等于证明通过验证。
+\section*{阅读顺序}
+先读第\ref{ch:model}章的唯一目标和第\ref{ch:execution}章的执行语义，
+再查第\ref{ch:instructions}章的推理规则。第\ref{ch:format}章与第\ref{ch:loader}章
+说明格式、资源和文件边界；第\ref{ch:assembly}章及第\ref{ch:examples}章给出编写与运行方式。
+第\ref{ch:performance}章记录简化后的测量，附录\ref{app:revisions}说明迁移。
 
-\code{docs/FORMAT.md} 是 MCM 1 与 RPA/RPX 1--10 的唯一完整格式规范；
-\code{audit/PROTOCOL_V9_V10_FREEZE.md} 登记冻结决定与验证身份。
-各联合扩展的独立数学论证及审阅来源在相关章节和附录列出。
-交付 manifest 固定的旧规范原字节保存在 \code{audit/specification-history/}；
-历史验收记录保持交付时点的草案状态，不倒填冻结结论。
-若发现手册与源代码不同，应将其作为需要修复的文档或实现问题，
-不能让证书通过含糊解释、未定义行为或自动放宽检查取得接受结果。
-
-\section*{可信边界}
-\addcontentsline{toc}{section}{可信边界}
-验证依赖实际完整模型、精确算术、静态推导规则和受审阅的联合存在引理。
-可信实现包含 MPS/LP 导入器、MCM/RPX decoder、有理数库、表达式代数、
-执行器及构造扩展模型的 builder。builder 的旧 scope 前提检查和模型合法性检查
-并不能独立证明其生成的所有新坐标同时可行；该同时存在性质来自各自的可信引理。
-
-RPA 作者、Python 生成器、求解器输出、审计 JSON、文件名和摘要都不能授予数学事实。
-哈希用于记录输入来源；kernel 的接受条件仍然检查实际传入模型上的每一个前提和义务。
-库的纯验证路径不读取文件系统、环境或时钟；文件操作与计时由 API 外层承担。
-测试与独立有限 oracle 是实现证据，不能替代对 Rust 实现及依赖的形式化证明。
-
-\section*{阅读顺序与符合性范围}
-\addcontentsline{toc}{section}{阅读顺序与符合性范围}
-数学审阅从第\ref{ch:model}章和第\ref{ch:execution}章开始：先确定所要求的命题，
-再检查每个完整输出向量及分支、扩展、反证的语义。
-第\ref{ch:instructions}章逐项列出推导与终结点的前置条件及拒绝条件；
-第\ref{ch:format}章给出全部二进制记录，
-第\ref{ch:loader}章说明真实输入方言、资源上限、API 和诊断，
-第\ref{ch:assembly}章定义文本语法。
-第\ref{ch:examples}章提供可重复运行的完整实例，
-第\ref{ch:performance}章区分逻辑工作量、生成成本和进程测量。
-
-\begin{description}
-\item[Verifier] 接受所支持版本时，检查完整文件、独立 request、全部前提与实际模型义务；
-不得把跳过的分支、失败的规则或资源耗尽报告为 \code{VERIFIED}。
-\item[Assembler / disassembler] 负责严格文本与二进制的转换；
-不承担独立数学认证，重新编码可以选择最低所需版本。
-\item[证书作者] 安排已完成的推导与完整 mapping，保证每个可达叶使用同一个联合输出向量；
-不能借用另一方向、兄弟分支或另一文件的局部事实。
-\item[集成方] 明确传入完整模型、contract 和资源策略，依据 status 判断结果，
-依据具体 contract 解释其数学结论。
-\end{description}
-
-本 kernel 不提供 proof search、一般 MILP 求解器、任意跳转、动态 theorem registry、
-通用共享表达式 DAG、专用 batch 编码或数值解重建命令。
-当前语料的完整验收不意味着任意重构都有紧凑证书；
-\code{INVALID} 或 \code{RESOURCE_LIMIT} 也不意味着相应重构关系在数学上不成立。
+内核不进行证明搜索或 MILP 求解，也没有 solver 数值解恢复命令。
+验证失败或资源不足不代表重构在数学上不成立；证明语言可能无法紧凑表达所需构造。

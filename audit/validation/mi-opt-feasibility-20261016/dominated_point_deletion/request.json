@@ -1,0 +1,1 @@
+{"claims":[{"reverse":false,"input_integers":true,"output_integers":true,"objective":"NonIncreasing","projection":[],"inverse":null},{"reverse":true,"input_integers":true,"output_integers":true,"objective":"NonIncreasing","projection":[],"inverse":null}],"points":[],"improvements":[],"bijections":[]}

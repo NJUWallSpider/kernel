@@ -1,5 +1,7 @@
 # Compiler design and demand coverage
 
+> Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
+
 This describes the implementation at source checkpoint `9822358` (2026-10-15),
 against [the 81-case demand catalogue](COMPILER_API_DEMAND.md). The catalogue is
 an analysis of observed needs, not a mandatory ABI or a case-completion score.

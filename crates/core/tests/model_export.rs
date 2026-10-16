@@ -3,8 +3,8 @@
 //! `cases/`, and the reader here is local to the test on purpose: it re-reads
 //! the export with `parse_q` instead of trusting any production deserializer.
 
-use kernel_core::codec::encode_model;
-use kernel_core::model::{parse_q, to_json, Expr, Model, Row, Var, Q};
+use crate::codec::encode_model;
+use crate::model::{parse_q, to_json, Expr, Model, Row, Var, Q};
 use num_bigint::BigInt;
 use num_traits::One;
 use serde_json::Value;

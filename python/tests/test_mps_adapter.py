@@ -20,12 +20,7 @@ class StandardMPSAdapterTests(unittest.TestCase):
             result = proof.verify(directory / "proof", committed_model=mps)
             self.assertEqual(result["status"], "VERIFIED", result)
             self.assertEqual(result["artifact_audit"]["status"], "MATCHED")
-            self.assertEqual(len(proof.claims), 4)
-            self.assertEqual([(c.claim["reverse"], c.claim["input_integers"],
-                               c.claim["output_integers"], c.claim["objective"], c.claim["inverse"])
-                              for c in proof.claims],
-                             [(False, True, True, "Equal", 1), (True, True, True, "Equal", 0),
-                              (False, False, False, "Equal", 3), (True, False, False, "Equal", 2)])
+            self.assertEqual(set(proof.certificate()), {"forward", "reverse"})
             return proof.certificate()
         finally:
             proof.close()
@@ -71,7 +66,7 @@ class StandardMPSAdapterTests(unittest.TestCase):
             adapter.target = source
         with tempfile.TemporaryDirectory() as directory:
             certificate = self.verify(adapter, directory)
-        self.assertTrue(all(set(step) == {"Lin"} for block in certificate["blocks"] for step in block["steps"]))
+        self.assertTrue(all(set(step) == {"Lin"} for block in [certificate["forward"],certificate["reverse"]] for step in block["steps"]))
 
     def test_objective_only_and_constant_only_use_exact_free_continuous_value(self):
         models = [Model("objective", [Variable("x", True, 0, 1)], objective=Expr.var(0)/3),
@@ -99,7 +94,7 @@ class StandardMPSAdapterTests(unittest.TestCase):
                 self.assertEqual(adapter.report["added"], {"variables": 0, "rows": 0, "nonzeros": 0})
                 self.assertTrue(source.same_formulation(adapter.target))
                 certificate = self.verify(adapter, directory)
-                self.assertEqual([block["steps"] for block in certificate["blocks"]], [[], [], [], []])
+                self.assertEqual([block["steps"] for block in [certificate["forward"],certificate["reverse"]]], [[], []])
 
     def test_disabled_objective_and_generated_name_collisions(self):
         source = Model("names", [Variable("__mps_objective", False, "1/3", 1),
@@ -166,7 +161,7 @@ class StandardMPSAdapterTests(unittest.TestCase):
             self.assertEqual([Fraction(c) for c in scale["proof_chunks"]], [p, q])
             with self.subTest(kind=row.name), tempfile.TemporaryDirectory() as directory:
                 certificate = self.verify(adapter, directory)
-                for block, reverse in zip(certificate["blocks"], (False, True, False, True)):
+                for block, reverse in zip([certificate["forward"],certificate["reverse"]], (False, True, False, True)):
                     multipliers = [Fraction(step["Lin"]["terms"][0][1]) for step in block["steps"]]
                     self.assertEqual(multipliers, [1/Fraction(q), 1/Fraction(p)] if reverse else [p, q])
                     self.assertTrue(all(max(abs(c.numerator).bit_length(), c.denominator.bit_length())<=13600
@@ -188,9 +183,7 @@ class StandardMPSAdapterTests(unittest.TestCase):
                          objective=Expr.var(1)/3)
         original_proof = Proof(source, authored)
         for integers in (True, False):
-            f, r = original_proof.bijection({"b": source.var("b"), "y": 3*source.var("x")},
-                                            {"b": authored.var("b"), "x": authored.var("y")/3},
-                                            integers=integers)
+            f, r = (original_proof.forward.map({"b": source.var("b"), "y": 3*source.var("x")}), original_proof.reverse.map({"b": authored.var("b"), "x": authored.var("y")/3}))
             f.le([(f.lower("x"), 3)]); f.le([(f.upper("x"), 3)])
             r.le([(r.lower("y"), Fraction(1, 3))]); r.le([(r.upper("y"), Fraction(1, 3))])
             f.complete(); r.complete()
@@ -204,17 +197,15 @@ class StandardMPSAdapterTests(unittest.TestCase):
                 committed = adapter.target.write_mps(d/"committed.mps")
                 original_proof.compile(d/"stage0"); adapted_proof.compile(d/"stage1")
                 chain = write_chain([d/"stage0/delivery.json", d/"stage1/delivery.json"], d/"delivery.json",
-                                    original_model=original, committed_model=committed,
-                                    claim_paths={"mi_forward": [0, 0], "mi_reverse": [1, 1],
-                                                 "lp_forward": [2, 2], "lp_reverse": [3, 3]})
+                                    original_model=original, committed_model=committed)
                 result = verify_bundle(chain)
                 self.assertEqual(result["status"], "VERIFIED", result)
                 self.assertTrue(result["composition"]["original_anchor_checked"])
                 self.assertTrue(result["composition"]["final_relation_derived"])
                 self.assertEqual(result["artifact_audit"]["status"], "MATCHED")
-                self.assertTrue(all(path["objective"] == "Equal" for path in result["composition"]["paths"]))
-                self.assertEqual(len(result["composition"]["bidirectional"]), 2)
-                self.assertTrue(all(pair["equal_optimal_infima"] for pair in result["composition"]["bidirectional"]))
+                self.assertEqual(result["composition"]["guarantee"], "MI_OPT")
+                self.assertEqual(len(result["parts"]), 2)
+                self.assertTrue(result["composition"]["final_relation_derived"])
                 self.assertEqual(original_proof.certificate(), before)
                 self.assertIs(original_proof.target, authored)
         finally:

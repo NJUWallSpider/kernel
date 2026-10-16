@@ -1,388 +1,43 @@
-\chapter{RPA 文本汇编与工具链}\label{ch:assembly}
+\chapter{文本汇编与编写}
+\label{ch:assembly}
 
-RPA 是 RPX certificate 的 strict JSON 文本表示。当前 assembler 解析结构和精确 scalars、
-核对最低 feature version 并调用 binary encoder；它不执行 proof search，不生成缺失 obligations，
-也不拥有独立于 verifier 的证明权力。成功的 \code{ASSEMBLED} 只说明证书可编码。
-本章给出可直接编写生成器的 schema；二进制逐字段布局见第\ref{ch:format}章。
-
-\section{精确 header 与 JSON 词法}
-
-文件采用 UTF-8，必须以精确 ASCII bytes \code{RPA N} 后接一个 LF 开始，
-其中 N 为十进制的 1、2、3、4、5、6、7、8、9、10 之一。
-header 前不能有 BOM、空行或 whitespace；N 不能有前导零，
-header 不能使用 CRLF、额外空格、注释或 minor version。
-header 后的 body 是一个完整 JSON Certificate object；JSON 自身允许正常空白与换行，
-包括 CRLF。body 后可以有 JSON whitespace，不能有第二个顶层值。
-
-body 不接受 comments、trailing commas、unknown fields、unknown enum variants
-或重复已声明 record fields。名称和 variant 拼写区分大小写。
-没有旧 D0 的 \code{.source}、\code{.contract}、\code{.expr}、\code{\%fact}、
-mnemonic instructions、symbol labels、includes、macro、ScalarPool 或 ExprId。
-
-所有数学数值写成 JSON string，例如 \code{"1/3"}，不能写成 JSON number 0.3333。
-coordinate IDs、Local IDs、claim indices、node IDs、bits、distance 和 maximum index
-都是无符号 JSON integers，在 u32 范围；Plotkin label 是 u64。
-不能加引号，不能用负数或浮点形式表示 ID。boolean 必须为 \code{true} 或 \code{false}，
-不是 0/1 字节。
+\section{严格 JSON：RPA 11}
+文本以 \code{RPA 11} 和换行开头，后接 Certificate JSON：
+\begin{lstlisting}
+RPA 11
+{
+  "forward": {"steps": [], "end": {"Return": {
+    "map": [], "checks": ["Exact"]
+  }}},
+  "reverse": {"steps": [], "end": {"Return": {
+    "map": [], "checks": ["Exact"]
+  }}}
+}
+\end{lstlisting}
+该证书适用于两个可行零维模型且常数目标相等的情形，仍各检查一次目标不增。
+有理数字面量为字符串；枚举使用单键外部标签，例如 \code{VarLower}、\code{Return}。
+缺失方向、未知字段、旧性质声明和多余字段拒绝。
+直接编译 Certificate JSON 时仅省去 RPA 头，不改变证明结构。
 
 \begin{lstlisting}
-RPA 10
-{"claims":[],"blocks":[],"points":[],"bijections":[],
- "improvements":[]}
+rpx assemble proof.rpa proof.rpx
+rpx disassemble proof.rpx proof.rpa
+rpx compile certificate.json proof.rpx
 \end{lstlisting}
-这是可解析的空 certificate 示例，不是可通过空 Request 的数学证明。
-RPA header 只给出允许的能力上限；实际使用功能不能超过 N。
-例如 RPA 1 body 内出现 Cases，即使该 branch 不可行也拒绝；
-RPA 10 body 只有 V1 records，装配时会输出 RPX 1。
-V1--V10 均为冻结协议；header 10 允许全部已实现的版本功能，实际编码仍选最低必要版本。
+以上成功只表明格式转换成功。完整数值和引用义务仍须 verify。
 
-\section{精确 scalar 字符串}
-
-\begin{longtable}{p{39mm}p{108mm}}
-\toprule 字符串形式 & 例子与数学解释 \\\midrule\endfirsthead
-\toprule 字符串形式 & 例子与数学解释 \\\midrule\endhead
-signed integer & \code{"17"}、\code{"-3"}、\code{"+0003"}。\\
-integer fraction & \code{"4/7"}、\code{"-22/13"}、\code{"1/-2"}；分子分母为 signed integers，分母不得为零。\\
-finite decimal & \code{"0.125"}、\code{".125"}、\code{"1."}，用整数十进制换算。\\
-scientific decimal & \code{"1e-6"}、\code{"-2.5E+3"}、\code{"2D+3"}，接受 e/E/d/D。\\
-\bottomrule
-\end{longtable}
-拼接 mantissa 数字为整数 $d$、小数位数为 $k$、指数为 $t$、符号为 $s$，
-值为 $s\,d\,10^{t-k}$。所有步骤精确；例如 \code{"0.125"} 得 $1/8$，
-\code{"1/-2"} 得 $-1/2$，\code{"0/7"}、\code{"-0"} 得零。
-text parser 接受未约分 fraction 并规范化；binary decoder 独立拒绝未规范 wire Q，
-不能因证书来自 RPA 就省略该检查。
-
-NaN、Inf/infinity、hex floats、循环小数、digit separators 和 scalar 内 whitespace 拒绝。
-资源预算限制文本长度、digits、exponent 与精确 arithmetic 位数，见第\ref{ch:loader}章。
-反汇编只输出 canonical integers 或 coprime \code{p/q}，分母为正；
-整数无 \code{/1}，正数无加号，零为 \code{"0"}。
-原 decimal、exponent、前导零和 negative-denominator 拼写不会保留。
-
-\section{顶层 Certificate 与独立 Request}
-
-下表使用 schema 记法：\code{T[]} 是完整 T values 的 JSON array；
-\code{[A,B][]} 是 pair arrays，不能替换为 object。
-所有实际 JSON keys 都带双引号；表中的省略 default 表示该 field 可以缺席，
-并不允许任意遗漏 required fields。
-
-\begin{longtable}{p{28mm}p{32mm}p{63mm}p{20mm}}
-\toprule record & key & value 类型 & 缺省 \\\midrule\endfirsthead
-\toprule record & key & value 类型 & 缺省 \\\midrule\endhead
-Certificate & claims & Claim[] & 必需\\
- & blocks & Block[] & 必需\\
- & points & PointWitness[] & []\\
- & bijections & BijectionWitness[] & []\\
- & improvements & ImprovementWitness[] & []\\
-Request & claims & Claim[] & 必需\\
- & points & PointClaim[] & []\\
- & bijections & BijectionClaim[] & []\\
- & improvements & ImprovementClaim[] & []\\
-Expr & constant & scalar string & 必需\\
- & terms & [u32, scalar string][] & 必需\\
-Block & steps / end & Step[] / End & 必需\\
-Derivation & steps / end & Step[] / DerivationEnd & 必需\\
-PointWitness & claim / values & PointClaim / scalar string[] & 必需\\
- & refutation & Block 或 null & null\\
-\code{BijectionClaim} & \code{forward_claim / reverse_claim} & u32 / u32 & 必需\\
-\code{BijectionWitness} & claim / injectivity & BijectionClaim / EqualityProof & 必需\\
-\code{EqualityProof} & steps / checks & Step[] / Ref[] & 必需\\
-\code{ImprovementClaim} & target / integers / positive & bool / bool / Expr & 必需\\
-\code{ImprovementWitness} & claim / block & ImprovementClaim / Block & 必需\\
-\bottomrule
-\end{longtable}
-
-Request 没有 RPA header，是独立普通 JSON。它也可以是 legacy Claim array，
-此时 points、bijections、improvements 都为空：
-\begin{lstlisting}
-[{"reverse":false,"input_integers":false,
-  "output_integers":false,"objective":"Equal",
-  "projection":[],"inverse":null}]
-\end{lstlisting}
-object Request 的四个 arrays 按各自顺序匹配 certificate；point/bijection/improvement
-只匹配其 claim，没有 proof witness。certificate claims 和 blocks 数量必须一致。
-空 claims 可以用于 point-only 或 improvement-only Request，
-但 claims、points、improvements 全为空的 Request 拒绝。
-bijections 本身不能替代必要的 directional claims。
-调用者应从自己意图构造 Request，不能在读取 certificate 后盲目复制它并声称完成独立授权。
-
-\subsection{Claim 的所有 keys}
-\begin{longtable}{p{43mm}p{78mm}p{20mm}}
-\toprule key & value 类型与含义 & 缺省 \\\midrule\endfirsthead
-\toprule key & value 类型与含义 & 缺省 \\\midrule\endhead
-reverse & bool；false 为 source 到 target，true 为 target 到 source。 & 必需\\
-\code{input_integers} & bool；是否采用 actual input 的 integer predicates。 & 必需\\
-\code{output_integers} & bool；是否要求 actual output 的 integer predicates。 & 必需\\
-objective & \code{"None"}、\code{"Equal"} 或 \code{"NonIncreasing"}。 & 必需\\
-projection & [u32 input, u32 output][]；原始坐标观察相等。 & 必需\\
-inverse & opposing Claim index 或 null。 & null\\
-\code{input_objective_lower} & scalar string 或 null；V3 输入完整目标下界。 & null\\
-\code{affine_projection} & [Expr input, Expr output][]；V5 原始 affine observations。 & []\\
-\code{input_objective_level} & scalar string 或 null；V9 objective-level 条件输入域。 & null\\
-\code{input_halfspace} & Expr 或 null；V10 $H(x)\le0$ 条件输入域。 & null\\
-\bottomrule
-\end{longtable}
-没有字符串 profile 或总体 optimum-equivalence flag；需要的关系由独立 ordered Claims 表达。
-input/output integer modes 可以不同，每个方向必须按实际 Request 执行。
-present objective level 不是 lower bound、attainment 或 optimum 的声明；
-present halfspace 不是证明该表达式在全模型上有效。
-有限 lower request 在 restricted domain 上是条件结论；global bound 必须单独请求。
-
-\section{Expr、Ref 与显式事实 IDs}
-
-一个 affine expression 用 \code{constant} 加有序非零 coefficients：
-\begin{lstlisting}
-{"constant":"-1/2","terms":[[0,"2"],[3,"-5/7"]]}
-\end{lstlisting}
-terms 的 IDs 严格递增、没有 duplicate、不含精确零。
-assembler 不负责 symbolic expansion，也不自动 sort、merge 或删除 Expr 的零项；
-生成器必须先构造规范表达式。文本中系数约分后若为零仍非法。
-Lin terms 是另一种 pair array，其第一项为 Ref，不受 Expr 的 coordinate-order 规则代替。
-
-Ref 的完整文本形式：
-\begin{lstlisting}
-{"VarLower":0}  {"VarUpper":0}  {"VarInt":0}
-{"RowLower":2}  {"RowUpper":2}  {"RowEq":2}
-{"Local":17}    {"Assumption":0}
-"Exact"
-\end{lstlisting}
-每个非 Exact Ref object 恰好一个 variant key。
-静态 Ref 必须对应实际有限 side、equality 或可用 input integer；
-不是仅因 ID 可写而拥有事实。\code{"Exact"} 是 unit variant string，
-不是 \code{["Exact"]}、\code{\{"Exact":0\}} 或可自由借用的事实。
-
-Local ID 是显式 u32，作者可以选 17 为第一条 producer ID；
-不会被 assembler 重排为 0。definition 必须在使用前通过检查，不能覆盖 live ID；
-Drop 后可以在当前 scope 重用。child 删除/重定义不泄漏到 parent 或 sibling。
-Assumption 使用活动假设的外层先、内层后数组顺序；
-最外层为 0，不能套用旧 \code{@case[0]} 的“最近一层”含义。
-各方向、point refutation、injectivity proof、improvement Block 从各自 fresh scope 开始。
-
-\section{Step 与局部 Derivation 的 JSON variants}
-
-Enum 使用 externally tagged form，record payload 写为
-\code{\{"Variant":\{fields\}\}}。Kind 的值恰为
-\code{"Le"}、\code{"Eq"}、\code{"Int"}，不能全大写或写 numeric tags。
-
-\begin{longtable}{p{23mm}p{112mm}r}
-\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
-\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endhead
-Lin & \code{id:u32, kind:Kind, constant:scalar,}\newline
-\code{terms:[Ref,scalar][]} & 1\\
-Round & \code{id:u32, le:Ref, integer:Ref} & 1\\
-Drop & \code{ids:u32[]} & 1\\
-EqPair & \code{id:u32, positive:Ref, negative:Ref} & 2\\
-Cases & \code{id:u32, kind:Kind, expression:Expr, split:Expr,}\newline
-\code{integer:Ref|null, left:Derivation, right:Derivation} & 2\\
-Plotkin & \code{id:u32, bits:u32, distance:u32,}\newline
-\code{variables:[u32,u64][], cliques:Ref[]} & 3\\
-\bottomrule
-\end{longtable}
-这些 listed keys 除 Cases 的 integer 可省略为 null 外都必需。
-Round 的 integer 为一个 Ref，不能省略或写 null。
-Lin 没有 out Expr：checker 根据已检查 facts 精确计算输出 expression。
-Cases 的 expression 是要输出的同一 parent proposition，split 是两支划分表达式；
-左右 Derivation 必须证明该 expression/kind 或 contradiction。
+\section{可读源语言：RPA-S 1}
+RPA-S 的 1 是源语言语法版本，不选择旧 RPX 语义。
+文件声明模型后给出 certificate，字段仍只有 forward 与 reverse。
+命名 checks 依实际完整模型的义务绑定，例如 \code{variable["x"].lower}、
+\code{row["balance"].equal} 和 \code{objective.non_increasing}。
+命名项必须恰好覆盖该 Return 的义务；未知、重复或缺失项拒绝。
+引用也可使用局部名称、行名称和表达式语法，确定性降低为相同底层对象。
 
 \begin{lstlisting}
-{"Lin":{"id":17,"kind":"Le","constant":"-1/3",
-        "terms":[[{"VarUpper":0},"2/3"]]}}
-{"EqPair":{"id":18,"positive":{"Local":17},
-           "negative":{"RowLower":4}}}
-{"Drop":{"ids":[17,18]}}
+rpx assemble proof.rpas proof.rpx
+rpx disassemble-source --models source.mcm target.mcm \
+  proof.rpx proof.rpas
 \end{lstlisting}
-以上是独立语法片段，不声称组合成有效数学证明。
-
-Derivation 的 end 为下列二者之一：
-\begin{lstlisting}
-{"Witness":{"Local":17}}
-{"Absurd":{"Local":18}}
-\end{lstlisting}
-这里直接 payload 是 Ref，没有 \code{fact} key。
-DerivationEnd 不含 map/checks；它不是 complete Return，也不能用 lift 或 improvement endpoints。
-Cases 的左右 end 不要和下一节的 Block Absurd 混用。
-
-\section{Block End 与 witness records}
-
-\begin{longtable}{p{32mm}p{102mm}r}
-\toprule End variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
-\toprule End variant & payload keys 和类型 & 最低版 \\\midrule\endhead
-Return & \code{map:Expr[], checks:Ref[]} & 1\\
-Split & \code{expression:Expr, integer:Ref|null,}\newline
-\code{left:Block, right:Block} & 1\\
-Absurd & \code{fact:Ref} & 1\\
-FlowLift & \code{witness:FlowWitness, body:Block} & 4\\
-IntervalLift & \code{intervals:IntervalWitness[], body:Block} & 5\\
-MenuLift & \code{menus:MenuWitness[], body:Block} & 7\\
-SignedLift & \code{decompositions:SignedWitness[], body:Block} & 8\\
-SubflowLift & \code{witness:SubflowWitness, body:Block} & 10\\
-ImproveReturn & \code{map:Expr[], checks:Ref[],}\newline
-\code{margin:ImprovementMargin} & 10\\
-\code{PositiveRefutation} & \code{fact:Ref} & 10\\
-\bottomrule
-\end{longtable}
-Split.integer 可省略为 null，其他 keys 必需。
-Block Absurd 必须写 \code{\{"Absurd":\{"fact":Ref\}\}}，
-它与 DerivationEnd 的 \code{\{"Absurd":Ref\}} 形状不同。
-
-Return.map 为 output 所有坐标的完整 tuple；checks 按 kernel 规定顺序覆盖
-bounds、rows、integer requirements 和全部请求项。assembler 不加载实际模型，
-所以即使遗漏 checks 可编码，最终 verify 仍拒绝。
-每个 Split child 有自己的 complete terminal；不能用空分支或 parent 的 partial map
-省略 obligations。所有 lift witness entries 的前提先在旧 scope 一起核对，
-之后 body 才使用生成的坐标/rows。
-
-所有 witness 是普通 record objects，不带同名 enum wrapper：
-\begin{longtable}{p{36mm}p{110mm}}
-\toprule witness record & required keys 与类型 \\\midrule\endfirsthead
-\toprule witness record & required keys 与类型 \\\midrule\endhead
-FlowWitness & \code{nodes:u32, arcs:[u32,u32][], groups:FlowGroup[]}\\
-FlowGroup & \code{source:u32, commodities:[u32,scalar][],}\newline
-\code{flows:Expr[], nonnegative:Ref[], balances:Ref[]}\\
-IntervalWitness & \code{lower:Expr[], upper:Expr[], checks:Ref[]}\\
-MenuWitness & \code{maximum_index:u32, activation:Expr, index:Expr,}\newline
-\code{checks:Ref[]}\\
-SignedWitness & \code{capacity:scalar, flow:Expr, activation:Expr,}\newline
-\code{checks:Ref[]}\\
-SubflowWitness & \code{nodes:u32, arcs:[u32,u32][], groups:SubflowGroup[]}\\
-SubflowGroup & \code{source:u32, demands:[u32,scalar][],}\newline
-\code{flows:Expr[], nonnegative:Ref[], balances:Ref[]}\\
-\bottomrule
-\end{longtable}
-空数组仍显式写为 []；这里没有 omitted defaults。
-Flow 使用 commodities，Subflow 使用 demands，不能互换 key。
-arcs 的 pair 是 tail/head；commodities/demands 的 pair 是 sink/demand。
-维数、premise order、joint extension row/variable order 和数学规则见第\ref{ch:instructions}章。
-
-ImprovementMargin 是 scalar newtype enum：
-\begin{lstlisting}
-{"Constant":"1/2"}
-{"Predicate":"1"}
-\end{lstlisting}
-q 必须严格正；Predicate(q) 表示 $qP(x)$。
-普通方向、fiber-refutation 和 Cases 不能借用 strict improvement root context；
-正文 End table 的最低版是编码能力要求，不是任意 context 的执行许可。
-
-\section{Point、Bijection 与 Improvement contracts}
-
-PointClaim 共有四个 externally tagged record variants：
-\begin{longtable}{p{34mm}p{100mm}r}
-\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endfirsthead
-\toprule variant & payload keys 和类型 & 最低版 \\\midrule\endhead
-Feasible & \code{target:bool, integers:bool, objective:scalar|null} & 3\\
-Strictness & \code{inclusion_claim:u32} & 3\\
-\code{FiberStrictness} & \code{inclusion_claim:u32} & 6\\
-ImageExclusion & \code{point_in_target:bool, map:Expr[]} & 10\\
-\bottomrule
-\end{longtable}
-Feasible.objective 可省略为 null；其他 keys 必需。
-PointWitness.values 为所选 actual model 所有坐标的 scalar strings。
-FiberStrictness 必须提供 refutation Block；其余三个 variants 必须 refutation=null 或缺席。
-提供格式合法但不需要的 refutation 也会被 verifier 拒绝。
-
-\begin{lstlisting}
-{"claim":{"Feasible":{"target":false,"integers":true,
-                      "objective":"0"}},
- "values":["0","1/2"],"refutation":null}
-{"claim":{"ImageExclusion":{"point_in_target":false,
-   "map":[{"constant":"0","terms":[[0,"1"]]}]}},
- "values":["2"],"refutation":null}
-\end{lstlisting}
-这是两种 witness 的语法示意，是否可行取决于实际完整模型。
-Strictness 和 FiberStrictness 的 inclusion index 要指向已请求、实际通过且未 restricted
-的 LP inclusion；不能把任选 point 宣称为 strictness。
-ImageExclusion 由调用者绑定完整 affine map，所选 point 及其 image 都按 actual LP 检查，
-不声明整体包含或 partial-map 的所有 completions 都被排除。
-
-BijectionClaim 为 \code{forward_claim} 与 \code{reverse_claim} 两个 u32 keys。
-BijectionWitness 的 \code{claim} 是该 record，
-\code{injectivity} 是仅含 steps/checks 的 EqualityProof。
-它没有 end，没有内嵌 \code{"Bijection"} variant，也没有选择少量 observations 的 shortcut。
-两 opposing Claims 的 directions/modes 必须兼容，forward 要有 root affine Return；
-reverse 每个 Return 及独立成对完整输入域 injectivity 都须通过。
-V9/V10 restricted domains 不适用于既有 V7 bijection contract。
-
-ImprovementClaim 恰为 target、integers、positive 三个 keys；
-ImprovementWitness 恰为 claim、block。
-\begin{lstlisting}
-{"claim":{"target":false,"integers":false,
-          "positive":{"constant":"0","terms":[[0,"1"]]}},
- "block":{"steps":[],
-          "end":{"PositiveRefutation":{"fact":{"RowUpper":0}}}}}
-\end{lstlisting}
-它请求 $P(x)>0$ 的每个实际输入存在同一实际模型中的严格改善点；
-不是源到目标映射。这个示意 endpoint 是否成立取决于实际 row 是否精确证明 $P\le0$。
-完整 witness 必须使用 ImproveReturn、PositiveRefutation 或适当的 Absurd/Split/lifts；
-普通 Return 在 improvement context 拒绝。
-
-\section{一套可直接执行的最小程序}
-
-取一个连续变量 $x\in[0,1]$、无 rows、目标 $x$ 的模型。
-将下列内容保存为 \code{identity.lp}：
-\begin{lstlisting}
-Minimize
-  obj: x
-Subject To
-Bounds
-  0 <= x <= 1
-End
-\end{lstlisting}
-请求一条 source 到 target 的 objective equality，source/target 选同一个实际 MCM。
-独立 \code{request.json} 使用前文的 Claim array。
-保存下列完整 certificate 为 \code{identity.rpa}：
-\begin{lstlisting}
-RPA 1
-{"claims":[{"reverse":false,"input_integers":false,
- "output_integers":false,"objective":"Equal",
- "projection":[],"inverse":null}],
- "blocks":[{"steps":[],"end":{"Return":{
- "map":[{"constant":"0","terms":[[0,"1"]]}],
- "checks":[{"VarLower":0},{"VarUpper":0},"Exact"]
- }}}]}
-\end{lstlisting}
-同一 map $y=x$ 生成三个 obligations：$-x\le0$、$x-1\le0$、$x-x=0$，
-分别由两个 actual bounds 和 Exact 证明。没有 row 或 integrality obligation；
-projection=[] 也不生成观察 equality。
-
-\begin{lstlisting}
-rpx canonical identity.lp identity.mcm
-rpx assemble identity.rpa identity.rpx
-rpx verify identity.mcm identity.mcm identity.rpx request.json
-rpx disassemble identity.rpx recovered.rpa
-\end{lstlisting}
-最后 verify 为 \code{VERIFIED}；前两个命令成功只代表导入、装配。
-这一条方向不会自动请求 reverse、inverse 或 bijection。
-需要它们时应在 Request 与 certificate 中同时增加相应完整数据。
-
-\section{规范反汇编、失败与实现依据}
-
-反汇编读取 complete RPX certificate 后调用 \code{certificate_version}，
-输出最低所需 \code{RPA N} header 和 pretty JSON，末尾带 LF。
-scalar strings 规范化；空 optional certificate arrays、空 \code{affine_projection}、
-缺席 optional scalar fields 和缺席 point refutation 可能省略，
-inverse 则由当前 serializer 输出为 null。JSON key 次序不能用来确定数学身份；
-array 次序、显式 IDs、每个 field 的实际值保留。
-不存在源行、comment、标签或原 scalar 拼写的 round-trip 保证。
-高于最低版的 binary 反汇编再装配可能降版，详见第\ref{ch:format}章。
-
-RPA parser 本身至多接受 256 MiB 和 serde JSON recursion capacity 128；
-proof version discovery/encoding 另检查 depth、count、file、Q 与 canonical Expr budgets。
-JSON 的 object/array wrappers 也占 nesting，
-一个尚未达到 kernel proof depth=64 的文本可能先耗尽 JSON capacity。
-该情况返回 \code{RESOURCE_LIMIT}，不是 INVALID mathematics。
-header/syntax/unknown fields/variants 等错误为 \code{INVALID}。
-某些 proof 结构在 text parsing 阶段可构造，后续 encoder 或 verifier 才拒绝；
-生成器不能把任意一个较早阶段的成功当成 acceptance。
-
-真实工具链只有第\ref{ch:loader}章列出的 commands。
-当前没有 symbol macro compiler、automatic obligation filler、通用 theorem registry、
-host plugin opcode 或 solver certificate conversion command。
-生成器、Python construction scripts 与 coordinate index files 都处于不可信准备层；
-它们可以帮助构造上述明确数据，最后仍须由 complete actual models、
-独立 Request 和 verifier 决定。
-
-文本 grammar 的实现依据为 \code{crates/core/src/rpa.rs}、\code{proof.rs}
-与 \code{model.rs} 的 serde definitions；
-wire feature minimum 来自 \code{codec::certificate_version}。
-V10 的 image、improvement、subflow 和 halfspace 均包含在上述 schema；
-当前教程见 \code{docs/RPA.md}，完整格式规范见 \code{docs/FORMAT.md}。
+完整语法与 CLI 顺序以 \code{docs/RPA_SOURCE.md} 为准。
+下一章提供实际可运行文件；Python 编写接口详见 \code{docs/COMPILER_API.md}。

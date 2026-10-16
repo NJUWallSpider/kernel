@@ -1,7 +1,7 @@
-# Trusted demand-bounded real subflow lemma (frozen V10)
+# Trusted demand-bounded real subflow lemma
 
-Status: V10 frozen on 2026-10-14. This document corresponds to `crates/core/src/subflow.rs` and
-the SubflowLift endpoint in [FORMAT.md](FORMAT.md#subflowlift).
+Introduced in historical V10; the same construction is retained in RPX 11. This document corresponds to `crates/core/src/subflow.rs` and
+the SubflowLift endpoint in [FORMAT.md](FORMAT.md#constructive-witness-payloads).
 
 Let a finite directed multigraph have n>=1 nodes and m>=0 arcs, with loops and
 parallel arcs allowed. Fix source s and a finite demand list (t_i,d_i), where
@@ -65,7 +65,7 @@ prefixes and objective are copied unchanged. New coordinates have zero objective
 coefficient. Fresh names avoid collisions and confer no proof authority.
 
 The child can use all groups' appended bounds/rows simultaneously. Its complete
-actual output tuple must satisfy every actual domain, row and requested relation.
+actual output tuple must satisfy every actual domain, row and nonincreasing objective.
 The logical inference is old model AND checked premises implies EXISTS one
 extension; arbitrary new coordinates are not assumed feasible. An incorrect
 builder could still break soundness. Model validation and old-scope premise checks
@@ -79,7 +79,7 @@ is 2*m0+m+T_g; pre-canonical premise support is at most 3*T_g. Each divergence i
 assembled sparsely then sorted/merged. Prefix validation/copying, sparse work,
 demand sums, generated fields, allocations and name probes are bounded/charged
 before use via shared `build_support`. Combined old/generated/premise support,
-dimensions, all intermediate rational scalars and remaining request work are
+dimensions, all intermediate rational scalars and remaining shared work are
 checked. Controlled vector reservations are fallible; the existing standard
 library/bigint allocation limitation remains.
 
@@ -88,13 +88,14 @@ list construction takes at most m+k+ searches, each O(n+m+k+) graph operations;
 exact rational bit cost is additional. This describes the oracle, not a runtime
 claim for production construction or the complete proof.
 
-The production builder and integration tests are in `crates/core/tests/subflow.rs`;
-run `cargo test -p kernel-core --test subflow --locked`. They check the 983 exact
-Fraction fixtures, all old-scope premises, complete target obligations, V10
-wire roundtrips, branch isolation, inverse rejection and shared work/depth budgets.
-Actual test36 use and complete replay evidence are recorded in
-[test36](../cases/test36/README.md) and the
-[delivery report](../audit/FINAL_DELIVERY_REPORT.md).
+The current builder tests are in `crates/core/tests/subflow_builder.rs`;
+run `cargo test -p kernel-core --lib test_subflow_builder --locked`. They retain
+983 independent exact Fraction construction fixtures and arithmetic/resource
+checks. Current proof-engine and Python tests check premises and complete
+output obligations; the migrated 81-case replay also exercises this rule.
+Historical [test36](../cases/test36/README.md) and
+[delivery](../audit/FINAL_DELIVERY_REPORT.md) records describe the earlier format
+and its additional properties, not the current proof interface.
 
 The earlier isolated candidate's identity and nine builder tests are preserved
 in `audit/subflow-next/receipt.json` as historical development evidence.
