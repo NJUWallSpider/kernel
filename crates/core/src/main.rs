@@ -7,7 +7,7 @@
 use kernel_core::{api, verify::Limits};
 use std::env;
 
-const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile [--max-json-bytes <u64>] certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | resolve-return input.mcm output.mcm spec.json checks.json | prepare-extension input.mcm spec.json output.json | assemble [--models source.mcm target.mcm] input.rpa-or-rpas output.rpx | disassemble input.rpx output.rpa | disassemble-source [--models source.mcm target.mcm] input.rpx output.rpas | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
+const USAGE: &str = "INVALID usage: rpx canonical input.mps output.mcm | compile [--max-json-bytes <u64>] certificate.json proof.rpx | plan-return input.mcm output.mcm plan.json obligations.json | resolve-return input.mcm output.mcm spec.json checks.json | prepare-extension input.mcm spec.json output.json | assemble input.rpa output.rpx | disassemble input.rpx output.rpa | verify [--work <u64>] [--live-facts <usize>] source.mcm target.mcm proof.rpx (options may appear anywhere after verify) | inspect-model model.mcm | export-model model.mcm output.json";
 
 fn compile_args(a: &[String]) -> Result<([&str; 2], api::CompileOptions), String> {
     let mut options = api::CompileOptions::default();
@@ -33,26 +33,6 @@ fn compile_args(a: &[String]) -> Result<([&str; 2], api::CompileOptions), String
     }
     if count != paths.len() { return Err(USAGE.into()); }
     Ok((paths, options))
-}
-
-fn source_args(args: &[String]) -> Result<([&str; 2], Option<[&str; 2]>), String> {
-    let mut models = None;
-    let mut paths = [""; 2];
-    let mut count = 0;
-    let mut args = args.iter();
-    while let Some(arg) = args.next() {
-        if arg == "--models" {
-            if models.is_some() { return Err(USAGE.into()); }
-            models = Some([args.next().ok_or(USAGE)?.as_str(), args.next().ok_or(USAGE)?.as_str()]);
-            if models.unwrap().iter().any(|path| path.starts_with("--")) { return Err(USAGE.into()); }
-        } else {
-            if arg.starts_with("--") || count == paths.len() { return Err(USAGE.into()); }
-            paths[count] = arg;
-            count += 1;
-        }
-    }
-    if count != paths.len() { return Err(USAGE.into()); }
-    Ok((paths, models))
 }
 
 fn verify_args(a: &[String]) -> Result<([&str; 3], Limits), String> {
@@ -89,23 +69,8 @@ fn run(args: &[String]) -> Result<serde_json::Value, api::Error> {
         Some("plan-return") if args.len() == 6 => api::plan_return_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("resolve-return") if args.len() == 6 => api::resolve_return_paths(&args[2], &args[3], &args[4], &args[5]),
         Some("prepare-extension") if args.len() == 5 => kernel_core::authoring::prepare_extension_paths(&args[2], &args[3], &args[4]),
-        Some("assemble") if args.len() == 4 && !args[2..].iter().any(|arg| arg == "--models") => api::assemble_paths(&args[2], &args[3]),
-        Some("assemble") => {
-            let (paths, models) = source_args(&args[2..]).map_err(api::Error::from_message)?;
-            match models {
-                Some([source, target]) => api::assemble_paths_with_models(paths[0], paths[1], source, target),
-                None => api::assemble_paths(paths[0], paths[1]),
-            }
-        },
+        Some("assemble") if args.len() == 4 => api::assemble_paths(&args[2], &args[3]),
         Some("disassemble") if args.len() == 4 => api::disassemble_paths(&args[2], &args[3]),
-        Some("disassemble-source") if args.len() == 4 && !args[2..].iter().any(|arg| arg == "--models") => api::disassemble_source_paths(&args[2], &args[3]),
-        Some("disassemble-source") => {
-            let (paths, models) = source_args(&args[2..]).map_err(api::Error::from_message)?;
-            match models {
-                Some([source, target]) => api::disassemble_source_paths_with_models(paths[0], paths[1], source, target),
-                None => api::disassemble_source_paths(paths[0], paths[1]),
-            }
-        },
         Some("verify") => {
             let (paths, limits) = verify_args(&args[2..]).map_err(api::Error::from_message)?;
             api::verify_paths(paths[0], paths[1], paths[2], &limits).map_err(|error| error.with_limits(limits))

@@ -1,43 +1,236 @@
 \chapter{文本汇编与编写}
 \label{ch:assembly}
 
-\section{严格 JSON：RPA 11}
-文本以 \code{RPA 11} 和换行开头，后接 Certificate JSON：
-\begin{lstlisting}
-RPA 11
-{
-  "forward": {"steps": [], "end": {"Return": {
-    "map": [], "checks": ["Exact"]
-  }}},
-  "reverse": {"steps": [], "end": {"Return": {
-    "map": [], "checks": ["Exact"]
-  }}}
-}
-\end{lstlisting}
-该证书适用于两个可行零维模型且常数目标相等的情形，仍各检查一次目标不增。
-有理数字面量为字符串；枚举使用单键外部标签，例如 \code{VarLower}、\code{Return}。
-缺失方向、未知字段、旧性质声明和多余字段拒绝。
-直接编译 Certificate JSON 时仅省去 RPA 头，不改变证明结构。
+RPA 12 是 RPX 11 的行式证明汇编：文本直接降低为同一 Certificate，再编码为
+RPX 11 字节，不经过 JSON 中间对象。文本版本与 wire 版本彼此独立；RPA 12
+不改变第\ref{ch:execution}章的执行语义或第\ref{ch:format}章的二进制布局。
+本章给出语法与命令摘要，完整参考见 \code{docs/RPA.md}，
+推理前提见第\ref{ch:instructions}章。
+
+\section{文件、词法与逻辑指令}
+\label{sec:rpa-lexical}
+
+文件以 \code{RPA 12} 加换行开头，随后恰为 \code{.forward} 节与 \code{.reverse} 节，
+两节各含一个 Block。Block 由若干 Step 和恰好一个终结指令组成；终结指令之后
+不得再有 Step，也不得缺少终结指令。
 
 \begin{lstlisting}
-rpx assemble proof.rpa proof.rpx
-rpx disassemble proof.rpx proof.rpa
+RPA 12
+.forward
+  lin.le f0, r0.hi - 1
+  ret (x0) (v0.lo, v0.hi, r0.hi, f0, exact)
+
+.reverse
+  ret (x0) (v0.lo, v0.hi, r0.hi, exact)
+\end{lstlisting}
+
+词法规则如下：
+\begin{itemize}
+\item 注释以 \code{;} 开始并延续到物理行末；空行忽略。物理行可为 LF 或 CRLF，
+      CRLF 的行尾回车符被剥离；文件末尾换行可选。
+\item 一条逻辑指令恰好对应一个 Step、End 或 DerivationEnd。逻辑指令可在括号
+      平衡前跨多个物理行，续行不引入新指令；输入缩进不参与语法。
+\item \code{left}、\code{right}、\code{body}、\code{end} 是结构行，不对应 wire 节点；
+      每个 Block 恰有一个终结指令。
+\item 规范反汇编使用两空格缩进、每条逻辑指令一行，并且不输出注释。
+\item 资源限制：文本最多 256 MiB，指令、表达式项与列表项合计最多
+      20,000,000 个节点，嵌套深度最多 128。
+\end{itemize}
+
+\section{引用、坐标与精确表达式}
+\label{sec:rpa-scalars}
+
+仿射表达式与线性组合的标量都是精确有理数：整数或 \code{p/q}，分母非零，
+不得使用十进制或科学计数法。前导 \code{+}/\code{-} 只作用于首项；后续正负号
+是二元分隔符，因此写 \code{1 - 2*x0}，不写 \code{1 + -2*x0}。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{lY}
+\toprule
+引用 & 含义 \\
+\midrule
+\code{vN.lo}、\code{vN.hi}、\code{vN.int} & 当前模型的变量下界、上界、整数性事实。\\
+\code{rN.lo}、\code{rN.hi}、\code{rN.eq} & 当前模型的行下侧、上侧、等式事实。\\
+\code{fN} & 本 Block 已发布的局部事实。\\
+\code{aN} & 当前分支作用域假设，\code{N} 为绝对假设深度。\\
+\code{exact} & 精确重言式，不引用任何事实。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+坐标写作 \code{xN}，只允许出现在表达式中；\code{lin} 只接受引用与有理常数。
+表达式文法为常数加若干前缀有理系数的项：
+\[
+ \code{expr} ::= [\code{+}|\code{-}]\ \code{term}\
+ \{\,(\code{+}|\code{-})\ \code{term}\,\},\qquad
+ \code{term} ::= [\code{rational} \code{*}]\ \code{factor},
+\]
+其中 \code{factor} 为有理数、坐标或括号表达式。乘法只允许“有理数乘因子”，
+所以 \code{x0*x1} 与 \code{x0/7} 被拒绝；应写 \code{1/7*x0}。
+表达式在汇编时经 \code{Expr::canonicalize} 规范化：常数在前，坐标递增，
+无零系数。\code{lin} 的项则保留文本顺序、重复引用与零乘子，常数项求和。
+空列表写作 \code{()}；空 \code{drop} 写作单个词 \code{drop}。
+
+\section{Step 指令}
+\label{sec:rpa-steps}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\hsize=1.40\hsize\raggedright\arraybackslash}X >{\hsize=0.33\hsize\raggedright\arraybackslash}X >{\hsize=1.27\hsize\raggedright\arraybackslash}X}
+\toprule
+助记符 & wire & 载荷 \\
+\midrule
+\code{lin.le fN, linear} & Lin & 输出 Le 事实；前提为 Eq，或乘子非负的 Le。\\
+\code{lin.eq fN, linear} & Lin & 输出 Eq 事实；全部前提须为 Eq。\\
+\code{lin.int fN, linear} & Lin & 输出 Int 事实；前提为 Eq，或整数乘子的 Int。\\
+\code{round fN, ref, ref} & Round & 第二引用为 Le，第三引用为同一线性项的 Int。\\
+\code{drop [fN, ...]} & Drop & 删除显式 ID 列表；列表可为空。\\
+\code{eqpair fN, ref, ref} & EqPair & 两个相反 Le 产生 Eq。\\
+\code{cases.le fN, expr, split expr [, int ref]} & Cases & 两分支 Derivation 共同证明结论。\\
+\code{cases.eq fN, expr, split expr [, int ref]} & Cases & 同上，结论种类为 Eq。\\
+\code{cases.int fN, expr, split expr [, int ref]} & Cases & 同上，结论种类为 Int。\\
+\code{plotkin fN, bits=u32, dist=u32, vars=(xN:label,...), cliques=(...)} & Plotkin & 静态二元码距离上界。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\code{cases.*} 的指令行后紧接 left derivation、right derivation 与 \code{end}。
+Derivation 由若干 Step 和一个收尾组成：\code{wit ref} 引用结论事实，
+\code{absurd ref} 关闭矛盾分支。\code{wit} 只允许出现在 \code{cases.*} 分支；
+Block 中的 \code{absurd ref} 是 End 而非 DerivationEnd。
+\code{plotkin} 的 \code{label} 为 u64，\code{cliques} 引用若干 Le 事实，
+具体条件见第\ref{ins:plotkin}节。
+
+\section{分支头与终结指令}
+\label{sec:rpa-terminals}
+
+\code{split}、\code{cases.*} 的两支以 \code{left aN} 与 \code{right aN} 开头，
+\code{N} 是当前绝对假设深度，等于包围该分支的已开启分支作用域数。
+同一分割的两支共享同一 \code{N}，嵌套分支递增；汇编器核对头部并拒绝错配。
+左支假设为分割表达式 $e\le0$，右支为 $-e\le0$；带 \code{int ref} 时
+右支改为 $1-e\le0$，即整数情形 $e\ge1$。分支假设以 \code{aN} 引用。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l l Y}
+\toprule
+终结指令 & wire & 结构 \\
+\midrule
+\code{ret (expr, ...) (ref, ...)} & Return & 输出向量与位置义务引用。\\
+\code{split expr [, int ref]} & Split & 后接 \code{left aN} Block、\code{right aN} Block、\code{end}。\\
+\code{absurd ref} & Absurd & 关闭当前域。\\
+\code{interval} & IntervalLift & witness 行、\code{body}、子 Block、\code{end}。\\
+\code{menu} & MenuLift & witness 行、\code{body}、子 Block、\code{end}。\\
+\code{signed} & SignedLift & witness 行、\code{body}、子 Block、\code{end}。\\
+\code{flow nodes=u32} & FlowLift & 弧、组、\code{body}、子 Block、\code{end}。\\
+\code{subflow nodes=u32} & SubflowLift & 弧、组、\code{body}、子 Block、\code{end}。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\code{ret} 的两个列表按位置解释。检查顺序由 kernel 生成：先按输出变量顺序给出
+每个有限下界、有限上界、整数性义务；再按输出行顺序给出相等边（两侧有限且相等）
+或有限下界、有限上界；最后是目标不增不等式。汇编器不读取任何模型，不校验列表长度
+或表达式是否与义务匹配，也没有命名检查、别名或宏；匹配与数值条件由 verify 阶段
+的内核判定。因此同一份 RPA 12 可对不同模型汇编，但只有对实际完整模型的验证成功
+才表示优化等价。
+
+lift 的 witness 行格式固定如下；空 witness 向量允许，\code{flow}/\code{subflow}
+恰有一个 witness，且所有 \code{arc} 行先于所有 \code{group} 行：
+\begin{lstlisting}
+interval
+  lower (expr, ...) upper (expr, ...) checks (ref, ...)
+  body
+    ...
+  end
+
+menu
+  K=u32 act=(expr) idx=(expr) checks=(ref, ...)
+  body
+    ...
+  end
+
+signed
+  C=signed_q flow=(expr) act=(expr) checks=(ref, ...)
+  body
+    ...
+  end
+\end{lstlisting}
+流与子流 payload 各自恰有一个 witness；下面先列弧、再列组：
+\begin{lstlisting}
+flow nodes=3
+  arc 0, 1
+  arc 1, 2
+  group source=0 commodities=(0:1, 1:2) flows=(
+    x0,
+    x1,
+  ) nonneg=(f0, f1) balance=(f2)
+  body
+    ...
+  end
+\end{lstlisting}
+子流把商品列表换成需求列表，其余分组字段相同：
+\begin{lstlisting}
+subflow nodes=3
+  arc 0, 1
+  group source=0 demands=(0:1) flows=(x0) nonneg=(f0) balance=(f1)
+  body
+    ...
+  end
+\end{lstlisting}
+\code{menu} 的 \code{K=} 为最大索引；\code{signed} 的 \code{C=} 为有符号容量；
+\code{commodities}/\code{demands} 为 \code{u32:signed_q} 对列表。
+
+\section{编写示例}
+\label{sec:rpa-examples}
+
+下面的 forward 片段使用穷尽分支；两个右端 \code{a0} 分别引用各支假设：
+\begin{lstlisting}
+split x0
+left a0
+  ret (-x0) (a0, v0.lo, exact)
+right a0
+  ret (x0) (a0, v0.hi, exact)
+end
+\end{lstlisting}
+
+\code{cases} 分支以 derivation 收尾；该片段在含变量 $x_0$ 的任意模型上可验证，
+并发布常量事实 $0\le0$：
+\begin{lstlisting}
+cases.le f0, 0, split x0
+left a0
+  wit exact
+right a0
+  wit exact
+end
+\end{lstlisting}
+
+\code{interval} lift 先选择区间坐标，再在扩展模型中完成子 Block：
+\begin{lstlisting}
+interval
+  lower (x0 - 1) upper (x0 + 1) checks (exact)
+  body
+    ret (x0) (v0.lo, v0.hi, exact)
+  end
+\end{lstlisting}
+实际完整文件见第\ref{ch:examples}章与 \code{docs/rpx/examples/}。
+
+\section{规范反汇编与命令行}
+\label{sec:rpa-cli}
+
+\begin{lstlisting}
+rpx assemble input.rpa output.rpx
+rpx disassemble input.rpx output.rpa
 rpx compile certificate.json proof.rpx
 \end{lstlisting}
-以上成功只表明格式转换成功。完整数值和引用义务仍须 verify。
+前两条命令是 RPA 12 文本与 RPX 11 字节之间的双向转换；\code{compile} 保留为
+Python 编译器使用的独立结构化 JSON 桥，它不是 RPA 文本，也不参与行式汇编路径。
+汇编只做语法与编码，不绑定模型、不接受模型路径参数，也不执行数学检查。
+反汇编只以一个 RPX 文件和一个输出文本为参数。
 
-\section{可读源语言：RPA-S 1}
-RPA-S 的 1 是源语言语法版本，不选择旧 RPX 语义。
-文件声明模型后给出 certificate，字段仍只有 forward 与 reverse。
-命名 checks 依实际完整模型的义务绑定，例如 \code{variable["x"].lower}、
-\code{row["balance"].equal} 和 \code{objective.non_increasing}。
-命名项必须恰好覆盖该 Return 的义务；未知、重复或缺失项拒绝。
-引用也可使用局部名称、行名称和表达式语法，确定性降低为相同底层对象。
-
-\begin{lstlisting}
-rpx assemble proof.rpas proof.rpx
-rpx disassemble-source --models source.mcm target.mcm \
-  proof.rpx proof.rpas
-\end{lstlisting}
-完整语法与 CLI 顺序以 \code{docs/RPA_SOURCE.md} 为准。
-下一章提供实际可运行文件；Python 编写接口详见 \code{docs/COMPILER_API.md}。
+规范反汇编是确定性的：首行 \code{RPA 12}，随后 \code{.forward}；两空格缩进；
+每条逻辑指令一行。\code{ret} 在含缩进不超过 100 列时写成一行，否则两个列表
+各自多行、每项一行并带尾随逗号；空列表保持 \code{()}。注释不输出，
+\code{Lin} 的项顺序、重复引用与零乘子原样保留。表达式按常数在前、坐标递增输出。
+因此 \code{assemble(disassemble(c))} 恢复同一 Certificate。
+旧版本文本头一律以 \code{INVALID} 拒绝，不提供就地迁移；带旧版本文本头的 JSON 不再被解析。
+违反资源限制时返回 \code{RESOURCE_LIMIT RPA bytes}、\code{RESOURCE_LIMIT RPA nodes}、
+\code{RESOURCE_LIMIT RPA depth} 或 \code{RESOURCE_LIMIT RPA output bytes}。

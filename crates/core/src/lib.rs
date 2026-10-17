@@ -17,9 +17,8 @@ pub mod model;
 pub mod proof;
 pub mod verify;
 pub mod codec;
+/// Line-oriented RPA 12 proof assembly and disassembly.
 pub mod rpa;
-/// Readable proof source, lowered to the existing frozen Certificate/RPX types.
-pub mod rpa_source;
 
 pub mod lp;
 pub mod flow;
@@ -29,6 +28,7 @@ pub mod menu;
 
 pub mod signed;
 
+mod json;
 mod build_support;
 
 #[cfg(test)]

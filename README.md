@@ -18,11 +18,11 @@ cargo test -p kernel-core --locked
 
 target/release/rpx canonical source.mps source.mcm
 target/release/rpx canonical target.lp target.mcm
-target/release/rpx assemble proof.rpas proof.rpx
+target/release/rpx assemble proof.rpa proof.rpx
 target/release/rpx verify source.mcm target.mcm proof.rpx
 ```
 
-The current formats are **MCM 1 and RPX/RPA 11**. Readable **RPA-S 1** lowers to the same two-block proof. Old RPX versions are rejected. `compile certificate.json proof.rpx` also encodes typed JSON directly without assembly.
+The current formats are **MCM 1, RPX 11, and RPA 12**. **RPA 12** is a line-oriented assembly that lowers directly to RPX; old `RPA 11` JSON and `RPA-S 1` text are rejected. `compile certificate.json proof.rpx` remains a separate structured JSON bridge used by the Python compiler, not an RPA text path.
 
 `VERIFIED` certifies MI optimization equivalence. `INVALID`, `RESOURCE_LIMIT` and `IO_ERROR` establish no such result. Model import, compilation and proof planning are not certification.
 
@@ -49,6 +49,6 @@ PYTHONPATH=python KERNEL_RPX=target/release/rpx python3 -m unittest discover -s 
 ## Documentation
 
 - [Semantics](docs/SEMANTICS.md), [format](docs/FORMAT.md), [Rust/CLI API](docs/API.md), [Python API](docs/COMPILER_API.md).
-- [RPA-S tutorial](docs/RPA_SOURCE.md), [JSON assembly](docs/RPA.md), [manual and examples](docs/README.md).
+- [RPA assembly](docs/RPA.md), [manual and examples](docs/README.md).
 - Exact [MPS](docs/MPS_V1.md) and [LP](docs/LP_V1.md) import.
 - [Current tools and historical drivers](tools/README.md).

@@ -21,7 +21,7 @@ pub enum Ref {
 #[serde(deny_unknown_fields)]
 pub enum Step {
     /// Constant + sum multiplier*fact. Rules depend on the resulting kind.
-    Lin { id: u32, kind: Kind, #[serde(with="crate::rpa::scalar")] constant: Q, #[serde(with="crate::rpa::ref_terms")] terms: Vec<(Ref, Q)> },
+    Lin { id: u32, kind: Kind, #[serde(with="crate::json::scalar")] constant: Q, #[serde(with="crate::json::ref_terms")] terms: Vec<(Ref, Q)> },
     /// Integer-valued expression and LE expression must differ only by a constant.
     Round { id: u32, le: Ref, integer: Ref },
     Drop { ids: Vec<u32> },
@@ -57,7 +57,7 @@ pub struct FlowWitness{pub nodes:u32,pub arcs:Vec<(u32,u32)>,pub groups:Vec<Flow
 #[serde(deny_unknown_fields)]
 pub struct FlowGroup{
     pub source:u32,
-    #[serde(with="crate::rpa::expr_terms")]
+    #[serde(with="crate::json::expr_terms")]
     pub commodities:Vec<(u32,Q)>,
     pub flows:Vec<Expr>,
     pub nonnegative:Vec<Ref>,
@@ -71,7 +71,7 @@ pub struct SubflowWitness{pub nodes:u32,pub arcs:Vec<(u32,u32)>,pub groups:Vec<S
 #[serde(deny_unknown_fields)]
 pub struct SubflowGroup{
     pub source:u32,
-    #[serde(with="crate::rpa::expr_terms")]
+    #[serde(with="crate::json::expr_terms")]
     pub demands:Vec<(u32,Q)>,
     pub flows:Vec<Expr>,pub nonnegative:Vec<Ref>,pub balances:Vec<Ref>,
 }
@@ -105,6 +105,6 @@ pub struct MenuWitness {pub maximum_index:u32,pub activation:Expr,pub index:Expr
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SignedWitness {
-    #[serde(with="crate::rpa::scalar")] pub capacity:Q,
+    #[serde(with="crate::json::scalar")] pub capacity:Q,
     pub flow:Expr,pub activation:Expr,pub checks:Vec<Ref>,
 }

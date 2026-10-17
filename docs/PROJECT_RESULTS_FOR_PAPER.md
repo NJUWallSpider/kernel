@@ -32,7 +32,7 @@ flowchart LR
 
 Python Compiler 与作者脚本提供证明，不是数学接受权威。Kernel 的 TCB 包含可信格式入口、精确算术、推导执行和 native 联合存在引理的实例化器。交付审计另外检查原始输入、完整标准模型和多段交付的连接。每项 VERIFIED 只确立实际 Request 中的性质，不能升级为未声明的完整逆、LP 等价或自然语言报告。
 
-Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel**，没有 RPA 中间步骤，也不寻找变换或非平凡证明。项目另有独立的 RPA / 可读 RPA-S 显式作者工具，它们不参与此 Python 编译路径。MCM v1 和 RPX v1–v10 已冻结。
+Python 主路径为 **Python 对象 → existing Certificate → RPX → Kernel**，没有 RPA 中间步骤，也不寻找变换或非平凡证明。项目另有独立的 RPA 12 行式证明汇编（旧 RPA-S 已移除），它不参与此 Python 编译路径。MCM v1 和 RPX v1–v10 已冻结。
 
 ## Kernel 的项目级正面结果
 

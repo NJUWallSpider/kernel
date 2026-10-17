@@ -5,10 +5,10 @@ This is an untrusted documentation replay, not an additional acceptance authorit
 All MCM/RPX and mutation files are created in a temporary directory.
 """
 import argparse
-import copy
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 
@@ -16,10 +16,66 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "docs/rpx/examples"
 EXPECTED = {"redundant": 9, "elimination": 9, "piecewise": 9}
+REVERSE_MAPS = {
+    "redundant": ("ret (x0)", "ret (1 + x0)"),
+    "elimination": ("ret (1 - x0, x0)", "ret (-x0, x0)"),
+    "piecewise": ("ret (x0)", "ret (1 + x0)"),
+}
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def matching_paren(text, start):
+    depth = 0
+    index = start
+    while index < len(text):
+        char = text[index]
+        if char == ";":
+            newline = text.find("\n", index)
+            index = len(text) if newline < 0 else newline
+            continue
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                return index
+        index += 1
+    raise RuntimeError("unterminated parenthesized list")
+
+
+def remove_last_forward_check(text):
+    """Remove the last check from the first ret's second list in .forward."""
+    forward = text.index(".forward")
+    match = re.search(r"(?m)^\s*ret\b", text[forward:])
+    if match is None:
+        raise RuntimeError("missing forward ret")
+    ret = forward + match.start()
+    first_open = text.index("(", ret)
+    first_close = matching_paren(text, first_open)
+    second_open = text.index("(", first_close + 1)
+    second_close = matching_paren(text, second_open)
+
+    position = text.rfind("\n", 0, second_close) + 1
+    while position > second_open:
+        previous_end = position - 1
+        previous_start = text.rfind("\n", 0, previous_end) + 1
+        content = text[previous_start:previous_end].split(";", 1)[0].strip()
+        if content and content != ")":
+            return text[:previous_start] + text[position:]
+        position = previous_start
+    raise RuntimeError("checks list has no removable check line")
+
+
+def replace_reverse_map(text, name):
+    old, new = REVERSE_MAPS[name]
+    reverse = text.index(".reverse")
+    head, tail = text[:reverse], text[reverse:]
+    if old not in tail:
+        raise RuntimeError(f"{name}: reverse map not found")
+    return head + tail.replace(old, new, 1)
 
 
 def main():
@@ -42,9 +98,6 @@ def main():
         commands.append({"operation": arguments[0], "status": status, "exit": proc.returncode})
         return report
 
-    def write_rpa(path, certificate):
-        path.write_text("RPA 11\n" + json.dumps(certificate, indent=1) + "\n", encoding="utf-8")
-
     results = []
     with tempfile.TemporaryDirectory(prefix="rpx-manual-") as tmp:
         temporary = Path(tmp)
@@ -57,10 +110,6 @@ def main():
             for model, output in (("source", source), ("target", target)):
                 run(["canonical", fixture / f"{model}.lp", output], "CANONICALIZED")
             run(["assemble", fixture / "proof.rpa", proof], "ASSEMBLED")
-            readable = work / "readable.rpx"
-            run(["assemble", fixture / "proof.rpas", readable], "ASSEMBLED")
-            if readable.read_bytes() != proof.read_bytes():
-                raise RuntimeError(f"{name}: readable source differs from exact JSON proof")
             success = run(["verify", source, target, proof], "VERIFIED")
             if success["statistics"]["obligations"] != obligations:
                 raise RuntimeError(f"{name}: obligation count changed: {success}")
@@ -72,30 +121,20 @@ def main():
                 raise RuntimeError(f"{name}: disassembly/reassembly changed RPX bytes")
             run(["verify", source, target, encoded], "VERIFIED")
 
-            certificate = json.loads((fixture / "proof.rpa").read_text().split("\n", 1)[1])
-            missing = copy.deepcopy(certificate)
-            terminal = missing["forward"]["end"]
-            if "Split" in terminal:
-                terminal = terminal["Split"]["left"]["end"]
-            terminal["Return"]["checks"].pop()
+            canonical = (fixture / "proof.rpa").read_text(encoding="utf-8")
             missing_text, missing_binary = work / "missing.rpa", work / "missing.rpx"
-            write_rpa(missing_text, missing)
+            missing_text.write_text(remove_last_forward_check(canonical), encoding="utf-8")
             run(["assemble", missing_text, missing_binary], "ASSEMBLED")
             missing_result = run(["verify", source, target, missing_binary], "INVALID", 2)
             if "missing obligation" not in missing_result["message"]:
                 raise RuntimeError(f"{name}: unexpected missing-obligation failure: {missing_result}")
 
-            changed = copy.deepcopy(certificate)
-            changed["input_integers"] = False
-            changed_text, changed_binary = work/"weaker.rpa", work/"weaker.rpx"
-            write_rpa(changed_text, changed)
-            request_result = run(["assemble", changed_text, changed_binary], "INVALID", 2)
+            legacy_text, legacy_binary = work / "legacy.rpa", work / "legacy.rpx"
+            legacy_text.write_text("RPA 11\n{}\n", encoding="utf-8")
+            legacy_result = run(["assemble", legacy_text, legacy_binary], "INVALID", 2)
 
-            wrong = copy.deepcopy(certificate)
-            recovery = wrong["reverse"]["end"]["Return"]["map"][0]
-            recovery["constant"] = "0" if name == "elimination" else "1"
             wrong_text, wrong_binary = work / "wrong.rpa", work / "wrong.rpx"
-            write_rpa(wrong_text, wrong)
+            wrong_text.write_text(replace_reverse_map(canonical, name), encoding="utf-8")
             run(["assemble", wrong_text, wrong_binary], "ASSEMBLED")
             wrong_result = run(["verify", source, target, wrong_binary], "INVALID", 2)
             if not any(message in wrong_result["message"] for message in
@@ -106,12 +145,12 @@ def main():
             results.append({
                 "example": name,
                 "files": {file: digest(fixture / file)
-                          for file in ("source.lp", "target.lp", "proof.rpa", "proof.rpas")},
+                          for file in ("source.lp", "target.lp", "proof.rpa")},
                 "rpx_sha256": digest(proof), "rpx_bytes": proof.stat().st_size,
                 "guarantee": success["guarantee"], "statistics": success["statistics"],
                 "roundtrip": "byte-identical and VERIFIED",
                 "negative_results": {"missing_obligation": missing_result,
-                                     "forbidden_goal_field": request_result,
+                                     "legacy_header": legacy_result,
                                      "wrong_recovery": wrong_result,
                                      "zero_work": budget},
             })

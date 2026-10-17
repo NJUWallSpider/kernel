@@ -1,91 +1,18 @@
-RPA 11
-{
-  "forward": {
-    "steps": [
-      {
-        "Lin": {
-          "id": 0,
-          "kind": "Eq",
-          "constant": "0",
-          "terms": [
-            [
-              {
-                "RowEq": 0
-              },
-              "-1"
-            ]
-          ]
-        }
-      }
-    ],
-    "end": {
-      "Return": {
-        "map": [
-          {
-            "constant": "0",
-            "terms": [
-              [
-                1,
-                "1"
-              ]
-            ]
-          }
-        ],
-        "checks": [
-          {
-            "VarLower": 1
-          },
-          {
-            "VarUpper": 1
-          },
-          {
-            "Local": 0
-          }
-        ]
-      }
-    }
-  },
-  "reverse": {
-    "steps": [],
-    "end": {
-      "Return": {
-        "map": [
-          {
-            "constant": "1",
-            "terms": [
-              [
-                0,
-                "-1"
-              ]
-            ]
-          },
-          {
-            "constant": "0",
-            "terms": [
-              [
-                0,
-                "1"
-              ]
-            ]
-          }
-        ],
-        "checks": [
-          {
-            "VarUpper": 0
-          },
-          {
-            "VarLower": 0
-          },
-          {
-            "VarLower": 0
-          },
-          {
-            "VarUpper": 0
-          },
-          "Exact",
-          "Exact"
-        ]
-      }
-    }
-  }
-}
+RPA 12
+.forward
+  lin.eq f0, -r0.eq
+  ret (x1) (
+    v1.lo,   ; y lower
+    v1.hi,   ; y upper
+    f0,      ; objective nonincreasing
+  )
+
+.reverse
+  ret (1 - x0, x0) (
+    v0.hi,   ; x0 lower
+    v0.lo,   ; x0 upper
+    v0.lo,   ; x1 lower
+    v0.hi,   ; x1 upper
+    exact,   ; balance equal
+    exact,   ; objective nonincreasing
+  )

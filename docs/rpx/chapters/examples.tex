@@ -1,14 +1,14 @@
 \chapter{完整可复现实例}
 \label{ch:examples}
 
-三个例子位于本手册的 \code{examples/} 子目录。每个目录包含完整 source.lp、target.lp、
-严格 JSON 汇编 proof.rpa 与可读 proof.rpas，两个文本编码得到相同 RPX 11 字节。
+三个例子位于本手册的 \code{examples/} 子目录。每个目录包含完整 source.lp、target.lp
+与 RPA 12 行式汇编 proof.rpa；汇编得到 RPX 11 字节，反汇编再汇编后与原文件逐字节相同。
 
 \section{等式消元}
 源模型保留等式 $x_0+x_1=1$，目标只使用 $y=x_1$；反向恢复 $x_0=1-y$。
 \rpxlisting[caption={完整源模型}]{examples/elimination/source.lp}
 \rpxlisting[caption={完整目标模型}]{examples/elimination/target.lp}
-\rpxlisting[basicstyle=\footnotesize\ttfamily,caption={两个方向及全部命名义务}]{examples/elimination/proof.rpas}
+\rpxlisting[basicstyle=\footnotesize\ttfamily,caption={两个方向及全部位置义务}]{examples/elimination/proof.rpa}
 
 \section{冗余行与分段恢复}
 \code{examples/redundant/} 通过已有界证明冗余行，同时两个方向保留完整目标。
@@ -20,7 +20,7 @@
 \begin{lstlisting}
 python3 tools/check_rpx_manual.py --kernel target/release/rpx
 \end{lstlisting}
-当前检查执行 42 个 CLI 命令：验证三个完整例子、两种文本汇编与字节往返，
-并运行 12 个负例检查，覆盖错误恢复、缺失目标、非法性质字段和资源耗尽。
+当前检查执行 39 个 CLI 命令：验证三个完整例子、汇编以及反汇编/再汇编字节往返，
+并运行 12 个负例检查，覆盖缺失义务、旧版本头、错误反向映射和资源耗尽。
 三个例子均各有 9 项总 Return 义务。记录保存在 \code{examples/verification.json}。
-汇编阶段拒绝非法字段与执行阶段拒绝数学错误属于不同检查边界。
+汇编阶段拒绝旧版本头/语法错误与执行阶段拒绝数学错误属于不同检查边界。

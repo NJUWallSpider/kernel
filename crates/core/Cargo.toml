@@ -29,5 +29,5 @@ name = "mi_opt"
 path = "tests/mi_opt.rs"
 
 [[test]]
-name = "source"
-path = "tests/source.rs"
+name = "rpa"
+path = "tests/rpa.rs"

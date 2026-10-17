@@ -1,82 +1,18 @@
-RPA 11
-{
-  "forward": {
-    "steps": [],
-    "end": {
-      "Return": {
-        "map": [
-          {
-            "constant": "0",
-            "terms": [
-              [
-                0,
-                "1"
-              ]
-            ]
-          }
-        ],
-        "checks": [
-          {
-            "VarLower": 0
-          },
-          {
-            "VarUpper": 0
-          },
-          {
-            "RowUpper": 0
-          },
-          "Exact"
-        ]
-      }
-    }
-  },
-  "reverse": {
-    "steps": [
-      {
-        "Lin": {
-          "id": 0,
-          "kind": "Le",
-          "constant": "-1",
-          "terms": [
-            [
-              {
-                "RowUpper": 0
-              },
-              "1"
-            ]
-          ]
-        }
-      }
-    ],
-    "end": {
-      "Return": {
-        "map": [
-          {
-            "constant": "0",
-            "terms": [
-              [
-                0,
-                "1"
-              ]
-            ]
-          }
-        ],
-        "checks": [
-          {
-            "VarLower": 0
-          },
-          {
-            "VarUpper": 0
-          },
-          {
-            "RowUpper": 0
-          },
-          {
-            "Local": 0
-          },
-          "Exact"
-        ]
-      }
-    }
-  }
-}
+RPA 12
+.forward
+  ret (x0) (
+    v0.lo,   ; variable y lower
+    v0.hi,   ; variable y upper
+    r0.hi,   ; row cap upper
+    exact,   ; objective nonincreasing
+  )
+
+.reverse
+  lin.le f0, r0.hi - 1
+  ret (x0) (
+    v0.lo,   ; variable x lower
+    v0.hi,   ; variable x upper
+    r0.hi,   ; row cap upper
+    f0,      ; row loose upper
+    exact,   ; objective nonincreasing
+  )

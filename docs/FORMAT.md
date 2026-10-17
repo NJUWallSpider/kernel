@@ -100,12 +100,18 @@ Signed: rational capacity C, flow Expr, activation Expr, Ref vector of five prem
 
 All lift premises must be valid in the parent scope. Layout preparation is available to authors but does not certify premises. The precise generated expressions are defined by the checked instantiators in [flow.rs](../crates/core/src/flow.rs), [subflow.rs](../crates/core/src/subflow.rs), [interval.rs](../crates/core/src/interval.rs), [menu.rs](../crates/core/src/menu.rs), and [signed.rs](../crates/core/src/signed.rs).
 
-## RPA text schema
+## RPA 12 text assembly
 
-Exact JSON assembly begins with `RPA 11` followed by LF and the Certificate object. Rational literals are strings. Enum payloads use the Rust serde external-tag representation, for example `{"Return":{"map":[],"checks":["Exact"]}}`. JSON objects reject unknown fields. Compilation of raw Certificate JSON omits only the RPA header.
+RPA 12 is a line-oriented text assembly, not a JSON schema. The first line is exactly `RPA 12`; `.forward` and `.reverse` follow in that order. A file lowers directly to `Certificate` and then to the RPX 11 payload above. The text version is independent of the wire version.
 
-Readable `RPA-S 1` is a separate source grammar that lowers to this same two-block schema. Its source-language version does not select older RPX semantics. See [the tutorial](RPA_SOURCE.md).
+Each logical instruction maps to exactly one `Step`, `End`, or `DerivationEnd`. Branch headers (`left`/`right`), block closers (`body`/`end`), lift witness lines, comments, and blank lines are structure or payload, not additional wire nodes. A block has zero or more steps and exactly one terminal.
+
+Instructions may continue over physical lines while parentheses are unbalanced. Indentation is insignificant. Comments start with `;` and run to end of line. Rational literals are exact integers or `p/q`; decimals and exponents are rejected. References use `vN.lo/hi/int`, `rN.lo/hi/eq`, `fN`, `aN`, and `exact`; coordinates use `xN`. `lin` accepts only facts and rational constants. Affine expressions use prefix `rational*factor` multiplication only.
+
+The complete mnemonic and payload tables, positional Return check order, and examples are in [the RPA 12 reference](RPA.md). The old `RPA 11` JSON header and `RPA-S 1` source header are rejected rather than accepted as another assembly dialect.
+
+RPA 12 text is capped at 256 MiB, 20,000,000 instruction/expression nodes, and nesting depth 128. Parser resource failures use the same `RESOURCE_LIMIT` status as verification budgets, but assembly itself never establishes a mathematical result. Structured Certificate JSON remains available through `compile certificate.json proof.rpx`; it is a separate JSON bridge, not RPA text.
 
 ## Compatibility and migration
 
-No legacy decoder, property selector or weaker verification API remains in the production kernel. MCM 1 remains byte-compatible. RPX proofs must be migrated and verified; changing only their version bytes is invalid. The [migration script](../tools/migrate_mi_opt.py) requires a separately supplied old binary and never overwrites historical proofs or receipts.
+RPA 12 replaced RPA 11 JSON and RPA-S 1 as the text frontend; RPX 11 binary and mathematical semantics are unchanged. No legacy RPX decoder, property selector or weaker verification API remains in the production kernel. MCM 1 remains byte-compatible. RPX proofs must be migrated and verified; changing only their version bytes is invalid. The [migration script](../tools/migrate_mi_opt.py) requires a separately supplied old binary and never overwrites historical proofs or receipts.

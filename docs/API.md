@@ -8,7 +8,7 @@
 rpx canonical source.mps source.mcm
 rpx canonical target.lp target.mcm
 rpx compile certificate.json proof.rpx
-rpx assemble proof.rpas proof.rpx
+rpx assemble proof.rpa proof.rpx
 rpx verify source.mcm target.mcm proof.rpx
 rpx verify --work 1000000000 --live-facts 1000000 source.mcm target.mcm proof.rpx
 ```
@@ -21,13 +21,12 @@ Other commands:
 rpx inspect-model source.mcm
 rpx export-model source.mcm source.json
 rpx disassemble proof.rpx proof.rpa
-rpx disassemble-source proof.rpx proof.rpas
-rpx disassemble-source --models source.mcm target.mcm proof.rpx named.rpas
-rpx assemble --models source.mcm target.mcm proof.rpas proof.rpx
 rpx plan-return input.mcm output.mcm plan.json obligations.json
 rpx resolve-return input.mcm output.mcm spec.json result.json
 rpx prepare-extension input.mcm spec.json prepared.json
 ```
+
+`assemble` performs RPA 12 syntax and RPX encoding only; `disassemble` emits canonical RPA 12. The old `RPA 11` JSON and `RPA-S 1` headers, `--models`, and `disassemble-source` are rejected. `compile certificate.json proof.rpx` remains the separate structured JSON bridge.
 
 Planning and extension preparation are authoring operations, never certification. `prepare-injectivity` is removed.
 

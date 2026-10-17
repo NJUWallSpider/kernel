@@ -1,117 +1,24 @@
-RPA 11
-{
-  "forward": {
-    "steps": [],
-    "end": {
-      "Split": {
-        "expression": {
-          "constant": "0",
-          "terms": [
-            [
-              0,
-              "1"
-            ]
-          ]
-        },
-        "integer": null,
-        "left": {
-          "steps": [],
-          "end": {
-            "Return": {
-              "map": [
-                {
-                  "constant": "0",
-                  "terms": [
-                    [
-                      0,
-                      "-1"
-                    ]
-                  ]
-                }
-              ],
-              "checks": [
-                {
-                  "Assumption": 0
-                },
-                {
-                  "VarLower": 0
-                },
-                "Exact"
-              ]
-            }
-          }
-        },
-        "right": {
-          "steps": [],
-          "end": {
-            "Return": {
-              "map": [
-                {
-                  "constant": "0",
-                  "terms": [
-                    [
-                      0,
-                      "1"
-                    ]
-                  ]
-                }
-              ],
-              "checks": [
-                {
-                  "Assumption": 0
-                },
-                {
-                  "VarUpper": 0
-                },
-                "Exact"
-              ]
-            }
-          }
-        }
-      }
-    }
-  },
-  "reverse": {
-    "steps": [
-      {
-        "Lin": {
-          "id": 0,
-          "kind": "Le",
-          "constant": "-1",
-          "terms": [
-            [
-              {
-                "VarLower": 0
-              },
-              "1"
-            ]
-          ]
-        }
-      }
-    ],
-    "end": {
-      "Return": {
-        "map": [
-          {
-            "constant": "0",
-            "terms": [
-              [
-                0,
-                "1"
-              ]
-            ]
-          }
-        ],
-        "checks": [
-          {
-            "Local": 0
-          },
-          {
-            "VarUpper": 0
-          },
-          "Exact"
-        ]
-      }
-    }
-  }
-}
+RPA 12
+.forward
+  split x0
+  left a0
+    ret (-x0) (
+      a0,      ; y lower
+      v0.lo,   ; y upper
+      exact,   ; objective nonincreasing
+    )
+  right a0
+    ret (x0) (
+      a0,      ; y lower
+      v0.hi,   ; y upper
+      exact,   ; objective nonincreasing
+    )
+  end
+
+.reverse
+  lin.le f0, v0.lo - 1
+  ret (x0) (
+    f0,      ; x lower
+    v0.hi,   ; x upper
+    exact,   ; objective nonincreasing
+  )

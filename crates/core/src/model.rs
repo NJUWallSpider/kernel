@@ -140,9 +140,9 @@ pub fn parse_q(text: &str) -> Result<Q, String> {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Expr {
-    #[serde(with = "crate::rpa::scalar")]
+    #[serde(with = "crate::json::scalar")]
     pub constant: Q,
-    #[serde(with = "crate::rpa::expr_terms")]
+    #[serde(with = "crate::json::expr_terms")]
     pub terms: Vec<(u32, Q)>,
 }
 
@@ -342,9 +342,9 @@ impl Model {
 /// `objective`, in that order. Vector order is the model's own canonical order,
 /// so no emitted key depends on hash iteration.
 ///
-/// Scalars reuse the RPA textual vocabulary (`crate::rpa::scalar`, i.e. the
-/// `rat::Display` / `parse_q` round trip): integers as `"-3"`, fractions as
-/// `"-3/2"`, unbounded sides as JSON `null`. The exported value is exactly the
+/// Scalars use the shared exact JSON vocabulary (`crate::json::scalar`, i.e.
+/// the `rat::Display` / `parse_q` round trip): integers as `"-3"`, fractions
+/// as `"-3/2"`, unbounded sides as JSON `null`. The exported value is exactly the
 /// model, so nothing here consults `Model::validate`; a model that has not been
 /// validated (or one validation would reject) still exports faithfully.
 pub fn to_json(model: &Model) -> serde_json::Value {
@@ -352,18 +352,18 @@ pub fn to_json(model: &Model) -> serde_json::Value {
     struct JsonVar<'a> {
         name: &'a str,
         integer: bool,
-        #[serde(with = "crate::rpa::option_scalar")]
+        #[serde(with = "crate::json::option_scalar")]
         lower: &'a Option<Q>,
-        #[serde(with = "crate::rpa::option_scalar")]
+        #[serde(with = "crate::json::option_scalar")]
         upper: &'a Option<Q>,
     }
     #[derive(Serialize)]
     struct JsonRow<'a> {
         name: &'a str,
         expr: &'a Expr,
-        #[serde(with = "crate::rpa::option_scalar")]
+        #[serde(with = "crate::json::option_scalar")]
         lower: &'a Option<Q>,
-        #[serde(with = "crate::rpa::option_scalar")]
+        #[serde(with = "crate::json::option_scalar")]
         upper: &'a Option<Q>,
     }
     #[derive(Serialize)]

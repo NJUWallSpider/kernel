@@ -3,6 +3,10 @@
 
 MCM 1 维持原编码。RPX 11 是有意不兼容的简化：证书仅含 forward、reverse，
 所有根均为完整 MI 域，所有 Return 都检查目标不增。
+RPA 12 取代 RPA 11 JSON 与 RPA-S 1：文本改为每行一条逻辑指令，直接降低为同一
+RPX 11 Certificate，不再有名称检查、模型绑定或模型路径选项。旧 RPA 11 与
+RPA-S 1 文本头一律拒绝，不提供就地迁移；RPX 11 的二进制布局与数学语义保持不变。
+
 生产内核没有旧版本解码分支，也没有 Contract、projection、inverse、LP、点、双射、
 目标层、半空间根限制、ImproveReturn 或 PositiveRefutation 接口。
 
