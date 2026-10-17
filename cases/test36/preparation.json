@@ -1,269 +1,75 @@
 {
   "case_id": "test36",
   "status": "VERIFIED",
-  "contract": "Complete source-MI to target-MI nonincreasing map; equal-objective target-MI to source-MI recovery preserving all 37616 retained coordinates; caller-bound source-MI input halfspace P<=0 to target-MI equal-objective identity projection on all 37616 retained coordinates; and caller-bound strict source improvement whenever P, the sum of all 200 original nonnegative continuous terminals, is positive. Together these certify minimum preservation and retained-coordinate projection/recovery of every optimizer. No numerical optimum or LP relation asserted.",
-  "protocol_status": "Working draft RPA/RPX 10 improvement and generic input-halfspace contracts; not a new freeze or release.",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/input/model.mps",
-    "sha256": "de0946af79c5b38c09874e753018d2a1986b12a61741454afe8a29dba843a481"
+    "path": "/Users/bhz/Code/kernel/cases/test36/source.mcm",
+    "sha256": "89baea991f8e7cfc6c41bd615792b2f7583689fa5fa22c02f4093ab661c91635"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test36-nomf-B1/output/reformulated.mps",
-    "sha256": "12e3b1da5b6573e765127f63e82e894d9d228c27699f8a1f101b676722cc6c1e"
-  },
-  "kernel_binary": {
-    "path": "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
-    "sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
-  },
-  "kernel_binary_sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
-        "assemble",
-        "cases/test36/proof.rpa",
-        "cases/test36/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":177165284,\"status\":\"ASSEMBLED\",\"total_us\":2177759}\n",
-      "stderr": "",
-      "wall_seconds": 3.3571053330000002,
-      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
-      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
-        "verify",
-        "cases/test36/source.mcm",
-        "cases/test36/target.mcm",
-        "cases/test36/proof.rpx",
-        "cases/test36/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":3310650,\"improvements\":1,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":42752,\"points\":0,\"proof_decode_us\":560799,\"read_us\":17923,\"statistics\":{\"bijections\":0,\"branches\":157666,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"halfspace_domains\":1,\"halfspace_generated_rows\":1,\"halfspace_generated_terms\":200,\"improvements\":1,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":11418684,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":529636,\"peak_live_facts\":276367,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":300928,\"signed_generated_terms\":1087916,\"signed_generated_variables\":300928,\"signed_lifts\":38,\"substitution_terms\":602256,\"work\":448596660},\"status\":\"VERIFIED\",\"total_us\":3932124}\n",
-      "stderr": "",
-      "wall_seconds": 4.092187125000001,
-      "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
-      "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
-    }
-  ],
-  "negative_checks": [
-    {
-      "mutation": "zero_strict_margin",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/zero_strict_margin.json"
-    },
-    {
-      "mutation": "gap_too_large",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/gap_too_large.json"
-    },
-    {
-      "mutation": "wrong_positive_predicate",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/wrong_positive_predicate.json"
-    },
-    {
-      "mutation": "continuous_terminal_integer",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/continuous_terminal_integer.json"
-    },
-    {
-      "mutation": "missing_actual_chain_row",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/missing_actual_chain_row.json"
-    },
-    {
-      "mutation": "new_scope_premise",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/new_scope_premise.json"
-    },
-    {
-      "mutation": "infeasible_constant_return",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/infeasible_constant_return.json"
-    },
-    {
-      "mutation": "weak_assumption_refutation",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/weak_assumption_refutation.json"
-    },
-    {
-      "mutation": "missing_halfspace",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/missing_halfspace.json"
-    },
-    {
-      "mutation": "reversed_halfspace",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/reversed_halfspace.json"
-    },
-    {
-      "mutation": "incomplete_terminal_halfspace",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/incomplete_terminal_halfspace.json"
-    },
-    {
-      "mutation": "missing_projection_obligation",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/missing_projection_obligation.json"
-    },
-    {
-      "mutation": "borrow_old_row_as_halfspace",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/borrow_old_row_as_halfspace.json"
-    },
-    {
-      "mutation": "wrong_reverse_projection",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/wrong_reverse_projection.json"
-    },
-    {
-      "mutation": "full_request_binding",
-      "status": "INVALID",
-      "receipt": "cases/test36/attacks/full_request_binding.json"
-    }
-  ],
-  "work_policy": 1000000000,
-  "timing_context": "Functional verification; not an isolated performance benchmark.",
-  "statistics": {
-    "bijections": 0,
-    "branches": 157666,
-    "flow_generated_rows": 0,
-    "flow_generated_terms": 0,
-    "flow_generated_variables": 0,
-    "flow_lifts": 0,
-    "halfspace_domains": 1,
-    "halfspace_generated_rows": 1,
-    "halfspace_generated_terms": 200,
-    "improvements": 1,
-    "injectivity_coordinates": 0,
-    "injectivity_generated_rows": 0,
-    "injectivity_generated_terms": 0,
-    "injectivity_generated_variables": 0,
-    "interval_generated_rows": 0,
-    "interval_generated_terms": 0,
-    "interval_generated_variables": 0,
-    "interval_lifts": 0,
-    "linear_terms": 11418684,
-    "menu_generated_rows": 0,
-    "menu_generated_terms": 0,
-    "menu_generated_variables": 0,
-    "menu_lifts": 0,
-    "objective_level_domains": 0,
-    "objective_level_generated_rows": 0,
-    "objective_level_generated_terms": 0,
-    "obligations": 529636,
-    "peak_live_facts": 276367,
-    "plotkin_pairs": 0,
-    "point_coefficient_terms": 0,
-    "points": 0,
-    "signed_generated_rows": 300928,
-    "signed_generated_terms": 1087916,
-    "signed_generated_variables": 300928,
-    "signed_lifts": 38,
-    "substitution_terms": 602256,
-    "work": 448596660
-  },
-  "former_100m_run": {
-    "command": [
-      "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
-      "verify",
-      "--work",
-      "100000000",
-      "cases/test36/source.mcm",
-      "cases/test36/target.mcm",
-      "cases/test36/proof.rpx",
-      "cases/test36/request.json"
-    ],
-    "exit_code": 3,
-    "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT signed: preparation work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
-    "stderr": "",
-    "wall_seconds": 1.3829045420000003,
-    "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
-    "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
-  },
-  "positive_noninteger_terminal_control": {
-    "command": [
-      "/Users/bhz/Code/kernel/target/conditional-domain-production/release/rpx",
-      "verify",
-      "cases/test36/source.mcm",
-      "cases/test36/target.mcm",
-      "cases/test36/attempts/positive_terminal.rpx",
-      "cases/test36/attempts/positive_terminal_request.json"
-    ],
-    "exit_code": 0,
-    "stdout": "{\"bijections\":0,\"claims\":0,\"execute_us\":25335,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":42839,\"points\":1,\"proof_decode_us\":1553,\"read_us\":1747,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":0,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":0,\"peak_live_facts\":0,\"plotkin_pairs\":0,\"point_coefficient_terms\":150864,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":0,\"work\":452596},\"status\":\"VERIFIED\",\"total_us\":71474}\n",
-    "stderr": "",
-    "wall_seconds": 0.0776253330000003,
-    "binary_sha256_before": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8",
-    "binary_sha256_after": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
+    "path": "/Users/bhz/Code/kernel/cases/test36/target.mcm",
+    "sha256": "3753da3029c78878b8b9c93f171663a131e1509c8ff7c78a270c631ca8c64810"
   },
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test36/source.mcm",
       "bytes": 5485835,
       "sha256": "89baea991f8e7cfc6c41bd615792b2f7583689fa5fa22c02f4093ab661c91635"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test36/target.mcm",
       "bytes": 5472635,
       "sha256": "3753da3029c78878b8b9c93f171663a131e1509c8ff7c78a270c631ca8c64810"
     },
     "proof.rpa": {
-      "bytes": 267140625,
-      "sha256": "62a1faf3ef3c275c52e4e0cbc8e1862ea16c0aa8b69bb4422dec35e38728ef59"
+      "path": "/Users/bhz/Code/kernel/cases/test36/proof.rpa",
+      "bytes": 90416536,
+      "sha256": "4336c24ae34471971488901e270a5aca00cd92feda79456925dd69813bea4615"
     },
     "proof.rpx": {
-      "bytes": 177165284,
-      "sha256": "b18816f163849610d30d3269331a5b7b384ab6c8c21ed7716b9531819eb44f77"
-    },
-    "request.json": {
-      "bytes": 1014101,
-      "sha256": "49b598940e7a2877e03b84fa04fc63cb06df5cb000065de640f790efe622dd82"
-    },
-    "oracle.json": {
-      "bytes": 569,
-      "sha256": "59966873836a928000cb699c497330acd6492cb346c3904b821a07b18747f2e3"
+      "path": "/Users/bhz/Code/kernel/cases/test36/proof.rpx",
+      "bytes": 88539115,
+      "sha256": "d9cf2e359dd6ed94b25ec2a1f2577eca730863f5d0c59664174cf952baea8ec1"
     }
   },
-  "rpa_sha256": "62a1faf3ef3c275c52e4e0cbc8e1862ea16c0aa8b69bb4422dec35e38728ef59",
-  "preparers": {
-    "tools/prepare_test36_full.py": "aea37a60303efc10b5cf4191d821dc7ab5980f2ca6721774b8ee1f9bc76747b1",
-    "tools/finalize_test36.py": "e7c8b8f63b842a4d7a38b54664c09e26f33bf9c1bdb2b4ed19ba5cfff58d6784",
-    "tools/oracle_test36.py": "318e081fea47a9674a574cc9f4ce24facdc07a2b18838f0a9b41c91bdf69ce2b",
-    "tools/check_test36_request_binding.py": "9570fea436fb1abb12f7f29dac1fe5d67533bb5b41896bb0a8f9ab44d39af9f4"
+  "verification": {
+    "execute_us": 1823910,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 50540,
+    "proof_decode_us": 364728,
+    "read_us": 7551,
+    "statistics": {
+      "branches": 78833,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 5765634,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 227102,
+      "peak_live_facts": 276367,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 150464,
+      "signed_generated_terms": 543958,
+      "signed_generated_variables": 150464,
+      "signed_lifts": 19,
+      "substitution_terms": 300928,
+      "work": 223028322
+    },
+    "status": "VERIFIED",
+    "total_us": 2246739
   },
-  "completion_kind": "single-certificate-with-improvement-and-optimizer-projection",
-  "attack_status": "ALL_15_INVALID",
-  "full_scope_status": "KERNEL_VERIFIED_PENDING_INDEPENDENT_REPORT_REVIEW",
-  "counts": {
-    "source_variables": 37816,
-    "target_variables": 37616,
-    "source_rows": 37617,
-    "target_rows": 37617,
-    "original_binary_coordinates": 200,
-    "original_continuous_terminals": 200,
-    "signed_stages_per_canonical_root": 19,
-    "maximum_original_prefix_length": 191,
-    "directional_claims": 3,
-    "strict_improvement_claims": 1,
-    "unconditional_reverse_projection": 37616,
-    "zero_terminal_face_forward_projection": 37616
-  },
-  "preserved_attempts": [
-    "cases/test36/attempts",
-    "cases/test36/first-verbose-forward",
-    "cases/test36/pre-projection-completion"
-  ],
-  "exceeds_former_100m_work": true,
-  "independent_read_review": "audit/test36_read_review.md",
-  "fixed_identity_validation": {
-    "status": "PASS",
-    "commands": 33,
-    "binary_sha256": "96a6d3048d1deb6681733ab8b7356875f5e76bd1991c26337fe6820726b9c8f8"
-  },
-  "projection_read_review": "cases/test36/PROJECTION_REVIEW.md",
-  "projection_mechanical_check": "cases/test36/projection_preparation.json",
-  "text_limit_bytes": 268435456,
-  "no_resource_limits_raised_for_certificate": true
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

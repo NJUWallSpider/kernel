@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Exact complete test57 bounded-sum elimination proof, with all auxiliary bounds."""
+"""Native exact complete test57 bounded-sum elimination proof."""
 from fractions import Fraction as F
 from pathlib import Path
-import argparse,copy,json,subprocess,time
+import argparse,json,time
 from prepare_affine import parse_mps,row_ref
-from prepare_test40 import expression,plus,expr_json,row_fact,sha
-from prepare_test88 import Builder
+from prepare_test40 import expression,plus,row_fact,sha
+from prepare_native import compile_case,make_proof
 
 
 def substitute(e,mapping):
@@ -13,9 +13,19 @@ def substitute(e,mapping):
     # a growing Python dictionary once per term; arithmetic remains Fraction.
     constant=e[0];terms={}
     for i,c in e[1].items():
-        constant+=c*mapping[i][0]
-        for j,q in mapping[i][1].items():terms[j]=terms.get(j,F(0))+c*q
-    return expression(constant,{j:q for j,q in terms.items() if q})
+        base,replacement=mapping[i]
+        constant+=c*base
+        if len(replacement)==1:
+            j,q=next(iter(replacement.items()))
+            value=terms.get(j,0)+c*q
+            if value:terms[j]=value
+            else:terms.pop(j,None)
+        else:
+            for j,q in replacement.items():
+                value=terms.get(j,0)+c*q
+                if value:terms[j]=value
+                else:terms.pop(j,None)
+    return expression(constant,terms)
 
 
 def prepare(a,b,h):
@@ -34,70 +44,70 @@ def prepare(a,b,h):
         definitions[i]=(ri,pivot);reverse.append(expression(0,{b['var_index'][a['vars'][j]['name']]:c for j,c in terms.items()}))
     assert set(a['row_index'])-set(b['row_index'])=={x['definition_row'] for x in removed.values()}
     assert not (set(a['objective'][1])&set(removed)) and substitute(a['objective'],reverse)==b['objective']
-    projection=[[j,i] for i,e in enumerate(forward) for j in e[1]];claims=[];blocks=[]
-    for integer in [True,False]:
-        for back in [False,True]:
-            inp,out=(b,a) if back else (a,b);mapping=reverse if back else forward;other=forward if back else reverse;builder=Builder(inp);checks=[]
-            claim={'reverse':back,'input_integers':integer,'output_integers':integer,'objective':'Equal','projection':[[j,i] for i,j in projection] if back else projection,'inverse':[1,0,3,2][len(claims)]};claims.append(claim)
-            def prove(kind,e,terms):
-                if not e[1] and ((kind=='Eq' and e[0]==0) or (kind=='Le' and e[0]<=0) or (kind=='Int' and e[0].denominator==1)):checks.append('Exact');return
-                if len(terms)==1 and terms[0][1]==1 and builder.kind(terms[0][0])==kind and builder.refexpr(terms[0][0])==e:checks.append(terms[0][0]);return
-                checks.append(builder.lin(kind,terms,e))
-            for i,v in enumerate(out['vars']):
-                e=mapping[i]
-                if back and i in removed:
-                    hint=removed[i];gate=b['row_index'][hint['gate_row']];g=b['var_index'][hint['gate_variable']];row=b['rows'][gate]
-                    assert row['sense']=='L' and row['rhs']==0 and row['terms'][g]==-1 and all(q==1 for j,q in row['terms'].items() if j!=g)
-                    assert set(e[1])<=set(row['terms'])-{g}
-                    prove('Le',plus(expression(v['lower']),e,-1),[[{'VarLower':j},c] for j,c in e[1].items()])
-                    terms=[[{'RowUpper':gate},F(1)],[{'VarUpper':g},F(1)]]+[[{'VarLower':j},F(1)] for j in row['terms'] if j!=g and j not in e[1]]
-                    prove('Le',plus(e,expression(-v['upper'])),terms)
-                    if integer:prove('Int',e,[[{'VarInt':j},c] for j,c in e[1].items()])
-                else:
-                    j=next(iter(e[1]));assert e==expression(0,{j:1}) and v==inp['vars'][j]
-                    checks.extend([{'VarLower':j},{'VarUpper':j}])
-                    if integer:checks.append({'VarInt':j})
-            for row in out['rows']:
-                typ=next(iter(row_ref(out,row['name'])));e=substitute(row_fact(row,typ),mapping)
-                if back:
-                    terms=[] if row['name'] not in b['row_index'] else [[row_ref(b,row['name']),F(1)]]
-                else:
-                    original=a['rows'][a['row_index'][row['name']]];terms=[[row_ref(a,row['name']),F(1)]]
-                    for i,c in row_fact(original,typ)[1].items():
-                        if i in definitions:
-                            ri,pivot=definitions[i];terms.append([{'RowEq':ri},-c/pivot])
-                prove('Eq' if typ=='RowEq' else 'Le',e,terms)
-            prove('Eq',plus(substitute(out['objective'],mapping),inp['objective'],-1),[])
-            for i,j in claim['projection']:assert mapping[j]==expression(0,{i:1});checks.append('Exact')
-            for i,e in enumerate(other):
-                residual=plus(substitute(e,mapping),expression(0,{i:1}),-1)
-                prove('Eq',residual,[[{'RowEq':definitions[i][0]},-1/definitions[i][1]]] if not back and i in definitions else [])
-            blocks.append({'steps':builder.steps,'end':{'Return':{'map':[expr_json(e) for e in mapping],'checks':checks}}})
-    return {'claims':claims,'blocks':blocks},{'source_variables':len(a['vars']),'target_variables':len(b['vars']),'source_rows':len(a['rows']),'target_rows':len(b['rows']),'eliminated_bounded_binary_sums':len(removed),'claims':4,'obligations_by_claim':[len(x['end']['Return']['checks']) for x in blocks],'steps_by_claim':[len(x['steps']) for x in blocks]}
+    projection=[[j,i] for i,e in enumerate(forward) for j in e[1]]
+    proof,f,r=make_proof(a,b)
+
+    def prove(builder,kind,e,terms):
+        if not e[1] and ((kind=='Eq' and e[0]==0) or (kind=='Le' and e[0]<=0) or (kind=='Int' and e[0].denominator==1)):return 'Exact'
+        if len(terms)==1 and terms[0][1]==1 and builder.kind(terms[0][0])==kind and builder.refexpr(terms[0][0])==e:return terms[0][0]
+        return builder.lin(kind,terms,e)
+
+    fchecks=[]
+    for i,v in enumerate(b['vars']):
+        e=forward[i];j=next(iter(e[1]));assert e==expression(0,{j:1}) and v==a['vars'][j]
+        if v['lower'] is not None:fchecks.append({'VarLower':j})
+        if v['upper'] is not None:fchecks.append({'VarUpper':j})
+        if v['integer']:fchecks.append({'VarInt':j})
+    for row in b['rows']:
+        typ=next(iter(row_ref(b,row['name'])));e=substitute(row_fact(row,typ),forward)
+        original=a['rows'][a['row_index'][row['name']]];terms=[[row_ref(a,row['name']),F(1)]]
+        for i,c in row_fact(original,typ)[1].items():
+            if i in definitions:
+                ri,pivot=definitions[i];terms.append([{'RowEq':ri},-c/pivot])
+        fchecks.append(prove(f,'Eq' if typ=='RowEq' else 'Le',e,terms))
+    residual=plus(substitute(b['objective'],forward),a['objective'],-1)
+    fchecks.append(prove(f,'Le',residual,[]))
+    for i,j in projection:assert forward[j]==expression(0,{i:1})
+
+    rchecks=[]
+    for i,v in enumerate(a['vars']):
+        e=reverse[i]
+        if i in removed:
+            hint=removed[i];gate=b['row_index'][hint['gate_row']];g=b['var_index'][hint['gate_variable']];row=b['rows'][gate]
+            assert row['sense']=='L' and row['rhs']==0 and row['terms'][g]==-1 and all(q==1 for j,q in row['terms'].items() if j!=g)
+            assert set(e[1])<=set(row['terms'])-{g}
+            rchecks.append(prove(r,'Le',plus(expression(v['lower']),e,-1),[[{'VarLower':j},c] for j,c in e[1].items()]))
+            terms=[[{'RowUpper':gate},F(1)],[{'VarUpper':g},F(1)]]+[[{'VarLower':j},F(1)] for j in row['terms'] if j!=g and j not in e[1]]
+            rchecks.append(prove(r,'Le',plus(e,expression(-v['upper'])),terms))
+            if v['integer']:rchecks.append(prove(r,'Int',e,[[{'VarInt':j},c] for j,c in e[1].items()]))
+        else:
+            j=next(iter(e[1]));assert e==expression(0,{j:1}) and v==b['vars'][j]
+            if v['lower'] is not None:rchecks.append({'VarLower':j})
+            if v['upper'] is not None:rchecks.append({'VarUpper':j})
+            if v['integer']:rchecks.append({'VarInt':j})
+    for row in a['rows']:
+        typ=next(iter(row_ref(a,row['name'])));e=substitute(row_fact(row,typ),reverse)
+        terms=[] if row['name'] not in b['row_index'] else [[row_ref(b,row['name']),F(1)]]
+        rchecks.append(prove(r,'Eq' if typ=='RowEq' else 'Le',e,terms))
+    residual=plus(substitute(a['objective'],reverse),b['objective'],-1)
+    rchecks.append(prove(r,'Le',residual,[]))
+    for i,j in projection:assert reverse[j]==expression(0,{i:1})
+
+    f.finish(forward,fchecks)
+    r.finish(reverse,rchecks)
+    return proof,{'source_variables':len(a['vars']),'target_variables':len(b['vars']),'source_rows':len(a['rows']),'target_rows':len(b['rows']),'eliminated_bounded_binary_sums':len(removed),'claims':2,'obligations_by_direction':[len(fchecks),len(rchecks)],'steps_by_direction':[len(f.steps),len(r.steps)]}
 
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--run',type=Path,default=Path('/Users/bhz/Code/reform_test/runs/test57-nomf-B1'));ap.add_argument('--out',type=Path,default=Path('cases/test57'));ap.add_argument('--kernel',type=Path);args=ap.parse_args();start=time.perf_counter();run=args.run.resolve();out=args.out.resolve();out.mkdir(parents=True,exist_ok=True);source=run/'input/model.mps';target=run/'output/reformulated.mps';audit=run/'output/audit.json'
-    cert,counts=prepare(parse_mps(source),parse_mps(target),json.loads(audit.read_text()));rpa=out/'proof.rpa';request=out/'request.json';rpa.write_text('RPA 1\n'+json.dumps(cert,separators=(',',':'))+'\n');request.write_text(json.dumps(cert['claims'],separators=(',',':'))+'\n')
-    d={'case_id':'test57','status':'PROOF_NOT_COMPLETED','source':{'path':str(source),'sha256':sha(source)},'target':{'path':str(target),'sha256':sha(target)},'audit':{'path':str(audit),'sha256':sha(audit)},'proof_preparer':{'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))},'claims':'Complete objective-preserving integer and continuous-relaxation affine bijections; all retained coordinates preserved, all reconstructed binary-sum domains and bounds proved from actual target gate rows, and both compositions equal the identity.','counts':counts,'preparation_seconds':time.perf_counter()-start,'rpa_sha256':sha(rpa),'rpa_bytes':rpa.stat().st_size,'kernel_runs':[]}
-    if args.kernel:
-        k=args.kernel.resolve();d['kernel_binary_sha256']=sha(k)
-        for cmd in [['canonical',str(source),str(out/'source.mcm')],['canonical',str(target),str(out/'target.mcm')],['assemble',str(rpa),str(out/'proof.rpx')],['verify',str(out/'source.mcm'),str(out/'target.mcm'),str(out/'proof.rpx'),str(request)]]:
-            p=subprocess.run([str(k)]+cmd,capture_output=True,text=True);d['kernel_runs'].append({'command':[str(k)]+cmd,'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr})
-            if p.returncode:
-                d['status']=json.loads(p.stdout).get('status','EXECUTION_FAILED') if p.stdout else 'EXECUTION_FAILED';(out/'preparation.json').write_text(json.dumps(d,indent=2)+'\n');raise SystemExit(p.stdout+p.stderr)
-        d['status']='VERIFIED';d['artifacts']={n:{'bytes':(out/n).stat().st_size,'sha256':sha(out/n)} for n in ['source.mcm','target.mcm','proof.rpx','request.json']};d['negative_checks']=[]
-        for name,reason in [('missing_gate_upper','Omits the gate variable upper bound required to prove a reconstructed auxiliary is at most one.'),('wrong_sum_recovery','Adds one to an eliminated binary sum, violating the actual auxiliary bounds and defining equality.'),('missing_inverse','Omits a full composition obligation from an explicitly requested affine bijection.')]:
-            bad=copy.deepcopy(cert)
-            if name=='missing_gate_upper':
-                step=next(s['Lin'] for s in bad['blocks'][1]['steps'] if 'Lin' in s and s['Lin']['kind']=='Le' and any('VarUpper' in r for r,c in s['Lin']['terms']));step['terms']=[t for t in step['terms'] if 'VarUpper' not in t[0]]
-            elif name=='wrong_sum_recovery':next(e for e in bad['blocks'][1]['end']['Return']['map'] if len(e['terms'])>1)['constant']='1'
-            else:bad['blocks'][0]['end']['Return']['checks'].pop()
-            path=out/(name+'.rpa');path.write_text('RPA 1\n'+json.dumps(bad,separators=(',',':'))+'\n');encoded=out/(name+'.rpx')
-            p=subprocess.run([str(k),'assemble',str(path),str(encoded)],capture_output=True,text=True);assert p.returncode==0,p.stdout
-            p=subprocess.run([str(k),'verify',str(out/'source.mcm'),str(out/'target.mcm'),str(encoded),str(request)],capture_output=True,text=True);result=json.loads(p.stdout);assert p.returncode!=0 and result['status']=='INVALID',(name,result)
-            d['negative_checks'].append({'mutation':name,'rule_broken':reason,'exit_code':p.returncode,'result':result,'rpa_sha256':sha(path),'rpx_sha256':sha(encoded)})
-    (out/'preparation.json').write_text(json.dumps(d,indent=2)+'\n');print(json.dumps({k:d[k] for k in ['case_id','status','counts','preparation_seconds','rpa_bytes']},indent=2))
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--run',type=Path,default=Path('/Users/bhz/Code/reform_test/runs/test57-nomf-B1'));ap.add_argument('--out',type=Path,default=Path('cases/test57'));ap.add_argument('--kernel',type=Path,help='accepted for old invocations; native compilation is in-process');args=ap.parse_args();started=time.perf_counter();run=args.run.resolve();out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
+    source=run/'input/model.mps';target=run/'output/reformulated.mps';audit=run/'output/audit.json'
+    proof,counts=prepare(parse_mps(source),parse_mps(target),json.loads(audit.read_text()))
+    record=compile_case(proof,out,case_id='test57',source=source,target=target,
+                        metadata={'audit':{'path':str(audit),'sha256':sha(audit)},
+                                  'claims':'Native MI-OPT directions: all retained coordinates preserved and every reconstructed bounded binary sum proved from actual target gate rows; both directions preserve the objective.',
+                                  'counts':counts,
+                                  'preparation_seconds':time.perf_counter()-started})
+    (out/'preparation.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps({'case_id':'test57','status':record['status'],'guarantee':record['verification'].get('guarantee'),'counts':counts,'obligations':record['verification']['statistics']['obligations'],'preparation_seconds':record['preparation_seconds']},indent=2))
 
 
 if __name__=='__main__':main()

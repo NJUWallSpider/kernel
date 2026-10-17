@@ -1,9 +1,0 @@
-{
-  "rust_tests": 349,
-  "python_tests": 157,
-  "tool_tests": 13,
-  "manual_cli_commands": 42,
-  "manual_examples": 3,
-  "manual_negative_checks": 12,
-  "docs_local_links": 314
-}

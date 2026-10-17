@@ -2,336 +2,74 @@
   "case_id": "test74",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/input/model.mps",
-    "sha256": "43d5fe5c5f806dc4616b809a87d19c2cf342206ca5fed138ddd2c0ea7ee179ae"
+    "path": "/Users/bhz/Code/kernel/cases/test74/source.mcm",
+    "sha256": "0eba6ee43301831ff3fd37afb09f9979e789d820e4dff7c880d90f649a44db48"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/output/reformulated.mps",
-    "sha256": "a0087aa9ec82d4f8ad32596eb13a96d7a6905847ceddf3b0dcc5e99b34159863"
+    "path": "/Users/bhz/Code/kernel/cases/test74/target.mcm",
+    "sha256": "30f61d8603f0d0ee4d28ad279ea488548a51da547acae2c2b734790b680df7ff"
   },
-  "audit": {
-    "path": "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/output/audit.json",
-    "sha256": "163f3168fa0ebc7773e2645ff5b41724c1f1a71b7aab9b78fc83664cc29a2e60"
-  },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test74.py",
-    "sha256": "b8adeeda5383061924e535771d1a69551f71ace9b58bbf92d5aa8ecadda5ccc2"
-  },
-  "claims": "Equality of retained INTEGER feasible projections and pointwise equality of the identically zero objective, with both directions preserving every one of the 31482 retained coordinates. All 16140 private binary witnesses are reconstructed jointly by bounded Boolean conjunctions, complemented conjunctions, literals or constants; every actual two-row local pair is checked by bounded Cases over at most seven retained bits, never by the product of all local branch trees. Restore all 1328 fixed coordinates and every original row/domain, including 10486 bound-certified rows and 26544 exact-duplicate recoveries. Auxiliary reconstruction is not claimed globally unique. No LP equality/inclusion or optimal-point claim.",
-  "counts": {
-    "source_variables": 48950,
-    "target_variables": 31482,
-    "source_rows": 98021,
-    "target_rows": 71479,
-    "private_binary_completions": 16140,
-    "fixed_restorations": 1328,
-    "retained_observations": 31482,
-    "joint_AND_intervals": 4532,
-    "audited_assignments": 123344,
-    "claims": 2,
-    "block_depths": [
-      9,
-      9
-    ],
-    "lift_wave_schedule_by_claim": [
-      [],
-      [
-        {
-          "kind": "IntervalLift",
-          "witnesses": 4532
-        }
-      ]
-    ]
-  },
-  "preparation_seconds": 38.68358299997635,
-  "peak_preparer_rss_bytes": 2115338240,
-  "rpa_sha256": "8f338346c055f1b232ebd7d2e0aa7685ac4840a97911a38f5972424842f2f8ce",
-  "rpa_bytes": 196090550,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/input/model.mps",
-        "cases/test74/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":12870525,\"parse_us\":137071,\"read_us\":3308,\"rows\":98021,\"status\":\"CANONICALIZED\",\"total_us\":182621,\"variables\":48950}\n",
-      "stderr": "",
-      "seconds": 0.2031240831129253
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test74-nomf-B1/output/reformulated.mps",
-        "cases/test74/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":8866589,\"parse_us\":102886,\"read_us\":1968,\"rows\":71479,\"status\":\"CANONICALIZED\",\"total_us\":133315,\"variables\":31482}\n",
-      "stderr": "",
-      "seconds": 0.14341616700403392
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "cases/test74/proof.rpa",
-        "cases/test74/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":109356997,\"status\":\"ASSEMBLED\",\"total_us\":1303058}\n",
-      "stderr": "",
-      "seconds": 1.410956332925707
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/proof.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":665694,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":95864,\"points\":0,\"proof_decode_us\":390122,\"read_us\":12102,\"statistics\":{\"bijections\":0,\"branches\":257120,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":18264,\"interval_generated_terms\":36664,\"interval_generated_variables\":4532,\"interval_lifts\":1,\"linear_terms\":1825236,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":473762,\"peak_live_facts\":65622,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":485454,\"work\":37545628},\"status\":\"VERIFIED\",\"total_us\":1163782}\n",
-      "stderr": "",
-      "seconds": 1.245178084122017
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "cases/test74/lost_primary_observation.rpa",
-        "cases/test74/lost_primary_observation.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":109356979,\"status\":\"ASSEMBLED\",\"total_us\":1428985}\n",
-      "stderr": "",
-      "seconds": 1.557251791935414
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/lost_primary_observation.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID obligation mismatch: expected Le; obligation 0\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 0.716392292175442
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "cases/test74/caller_objective_mismatch.rpa",
-        "cases/test74/caller_objective_mismatch.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":109356997,\"status\":\"ASSEMBLED\",\"total_us\":1390580}\n",
-      "stderr": "",
-      "seconds": 1.4974113749340177
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/caller_objective_mismatch.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID requested contract mismatch\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 0.5850779579486698
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "cases/test74/lost_source_premise.rpa",
-        "cases/test74/lost_source_premise.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":109356996,\"status\":\"ASSEMBLED\",\"total_us\":1260852}\n",
-      "stderr": "",
-      "seconds": 1.3593258331529796
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/lost_source_premise.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"message\":\"INVALID contradiction witness\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 0.6248698751442134
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "cases/test74/proof.rpa",
-        "cases/test74/determinism.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":109356997,\"status\":\"ASSEMBLED\",\"total_us\":1176570}\n",
-      "stderr": "",
-      "seconds": 1.2686181250028312
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/proof.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":806845,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":96243,\"points\":0,\"proof_decode_us\":393425,\"read_us\":11778,\"statistics\":{\"bijections\":0,\"branches\":257120,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":18264,\"interval_generated_terms\":36664,\"interval_generated_variables\":4532,\"interval_lifts\":1,\"linear_terms\":1825236,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":473762,\"peak_live_facts\":65622,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":485454,\"work\":37545628},\"status\":\"VERIFIED\",\"total_us\":1308291}\n",
-      "stderr": "",
-      "seconds": 1.4185745001304895
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "cases/test74/source.mcm",
-        "cases/test74/target.mcm",
-        "cases/test74/proof.rpx",
-        "cases/test74/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":660588,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":98862,\"points\":0,\"proof_decode_us\":396467,\"read_us\":11650,\"statistics\":{\"bijections\":0,\"branches\":257120,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":18264,\"interval_generated_terms\":36664,\"interval_generated_variables\":4532,\"interval_lifts\":1,\"linear_terms\":1825236,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":473762,\"peak_live_facts\":65622,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":485454,\"work\":37545628},\"status\":\"VERIFIED\",\"total_us\":1167567}\n",
-      "stderr": "",
-      "seconds": 1.2259947501588613
-    }
-  ],
-  "negative_checks": [
-    {
-      "mutation": "lost_primary_observation",
-      "rule_broken": "Change a mapped retained primary while retaining its observation obligations.",
-      "exit_code": 2,
-      "result": {
-        "limits": {
-          "depth": 64,
-          "live_facts": 1000000,
-          "work": 1000000000
-        },
-        "message": "INVALID obligation mismatch: expected Le; obligation 0",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "8d8d6adfd9cb2ba10c240dad7df2b17cc02af9154608920343f7fdd2773e7f72",
-      "rpx_sha256": "3a7c19b4f82b3dc4e9358f5e16cc35229f21851ba43aea8efe260f5b6e7ea64e",
-      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
-    },
-    {
-      "mutation": "caller_objective_mismatch",
-      "rule_broken": "Weaken objective relation in certificate without changing the caller request.",
-      "exit_code": 2,
-      "result": {
-        "limits": {
-          "depth": 64,
-          "live_facts": 1000000,
-          "work": 1000000000
-        },
-        "message": "INVALID requested contract mismatch",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "67dd28f9df672aac0ba6fd25c6bd12a010f5b6a2e618b9c26f1918c5909b130b",
-      "rpx_sha256": "5095a392cb155e6969f57e62af3385d863800e2aaca91c02cf353b8ce91e94c6",
-      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
-    },
-    {
-      "mutation": "lost_source_premise",
-      "rule_broken": "Drop a substantive source row premise from a forward derivation.",
-      "exit_code": 2,
-      "result": {
-        "limits": {
-          "depth": 64,
-          "live_facts": 1000000,
-          "work": 1000000000
-        },
-        "message": "INVALID contradiction witness",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "1ec15a0a41e79ccea791c4aff3a529830d975ed793a053b0008447aa34c8047d",
-      "rpx_sha256": "4754b3cf16fb497520ce4a6a8b220d4663e7bdbc703200f0b3cb7aa0527c4b09",
-      "storage": "Mutated files deleted; deterministic recipe retained in preparer."
-    }
-  ],
-  "kernel_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-  "kernel_limits_note": "Default work limit 1000000000; this run uses the default limits.",
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test74/source.mcm",
       "bytes": 12870525,
       "sha256": "0eba6ee43301831ff3fd37afb09f9979e789d820e4dff7c880d90f649a44db48"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test74/target.mcm",
       "bytes": 8866589,
       "sha256": "30f61d8603f0d0ee4d28ad279ea488548a51da547acae2c2b734790b680df7ff"
     },
-    "proof.rpx": {
-      "bytes": 109356997,
-      "sha256": "70a6f6861b16752bcaadb88414e9f99b17e71eded5296b3944c9685ab5fbe63e"
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test74/proof.rpa",
+      "bytes": 96798997,
+      "sha256": "4e481371c31493fa855743cf7b743ead4ee3b636060f52db3f80bd7c7c54cead"
     },
-    "request.json": {
-      "bytes": 854051,
-      "sha256": "107fdda57cd07c5f9f3813f66de78a047b9f5ac58679d237b331d8a4c00dd2a2"
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test74/proof.rpx",
+      "bytes": 108601389,
+      "sha256": "b30dfa6990e7485f22d5eae65f23cee4d204317dbc1b11399b93b6e06c2ba675"
     }
   },
-  "limits": {
-    "depth": 64,
-    "live_facts": 1000000,
-    "work": 1000000000
+  "verification": {
+    "execute_us": 756423,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 112237,
+    "proof_decode_us": 446645,
+    "read_us": 12400,
+    "statistics": {
+      "branches": 257120,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 18264,
+      "interval_generated_terms": 36664,
+      "interval_generated_variables": 4532,
+      "interval_lifts": 1,
+      "linear_terms": 1825236,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 410798,
+      "peak_live_facts": 65622,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 485454,
+      "work": 37482664
+    },
+    "status": "VERIFIED",
+    "total_us": 1327716
   },
-  "verify_statistics": {
-    "bijections": 0,
-    "branches": 257120,
-    "flow_generated_rows": 0,
-    "flow_generated_terms": 0,
-    "flow_generated_variables": 0,
-    "flow_lifts": 0,
-    "injectivity_coordinates": 0,
-    "injectivity_generated_rows": 0,
-    "injectivity_generated_terms": 0,
-    "injectivity_generated_variables": 0,
-    "interval_generated_rows": 18264,
-    "interval_generated_terms": 36664,
-    "interval_generated_variables": 4532,
-    "interval_lifts": 1,
-    "linear_terms": 1825236,
-    "menu_generated_rows": 0,
-    "menu_generated_terms": 0,
-    "menu_generated_variables": 0,
-    "menu_lifts": 0,
-    "objective_level_domains": 0,
-    "objective_level_generated_rows": 0,
-    "objective_level_generated_terms": 0,
-    "obligations": 473762,
-    "peak_live_facts": 65622,
-    "plotkin_pairs": 0,
-    "point_coefficient_terms": 0,
-    "points": 0,
-    "signed_generated_rows": 0,
-    "signed_generated_terms": 0,
-    "signed_generated_variables": 0,
-    "signed_lifts": 0,
-    "substitution_terms": 485454,
-    "work": 37545628
-  },
-  "rpx_bytes": 109356997,
-  "assemble_byte_deterministic": true,
-  "deterministic_reverify_count": 2,
-  "artifact_hashes_stable_after_receipt": true
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

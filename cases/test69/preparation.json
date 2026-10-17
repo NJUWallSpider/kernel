@@ -9,15 +9,73 @@
     "path": "/Users/bhz/Code/reform_test/runs/test69-nomf-B1/output/reformulated.mps",
     "sha256": "f4a4b4ec7ac40190dba3e00eb5906b23c42d0d9fb228ce82f8533fdf97855c21"
   },
-  "audit": {
-    "path": "/Users/bhz/Code/reform_test/runs/test69-nomf-B1/output/audit.json",
-    "sha256": "d9159c57d15bd69a558f25b06bc1cd819677d1bee987c9d3947bcdbfc37add79"
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test69/source.mcm",
+      "bytes": 2011066,
+      "sha256": "e17d642ebcb90ee2262ba94b67a7795c63d635811abd13ef9cac2392671095b4"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test69/target.mcm",
+      "bytes": 1237216,
+      "sha256": "2499bcd22c032966435b9784a329d9b4da5be508c870e2f7eb13de9abd213a93"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test69/proof.rpa",
+      "bytes": 4287002,
+      "sha256": "e63459ae8177ddc0b876f2421a19df0a7471680f811ec0dd2f796ac42b9414b3"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test69/proof.rpx",
+      "bytes": 6018838,
+      "sha256": "0fe80c0df28a85cb717175173a146487dd03fc0c3612885354a71ffc9c228839"
+    }
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test69.py",
-    "sha256": "54db04a35122aa641cbf02a7ea0869f9bff0091c6d9dbce53085e1ad5b4db83c"
+  "verification": {
+    "execute_us": 85376,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 22406,
+    "proof_decode_us": 28922,
+    "read_us": 548,
+    "statistics": {
+      "branches": 6446,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 6000,
+      "interval_generated_terms": 12000,
+      "interval_generated_variables": 1500,
+      "interval_lifts": 1,
+      "linear_terms": 154060,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 80446,
+      "peak_live_facts": 24579,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 61324,
+      "work": 2463584
+    },
+    "status": "VERIFIED",
+    "total_us": 137258
   },
-  "claims": "Complete original-binary projection and all attainable objective values in both integer directions, plus complete target LP to source LP objective-preserving recovery. Interval shortening and translations do not assert a continuous bijection; global strict LP strengthening is not claimed.",
+  "preparation_seconds": 14.417350875010015,
+  "timings": {
+    "compile_seconds": 0.17854312498820946,
+    "verify_seconds": 0.14448020799318328,
+    "compile_verify_seconds": 0.32302333298139274
+  },
   "counts": {
     "source_variables": 11697,
     "target_variables": 8697,
@@ -27,127 +85,10 @@
     "affine_component_variables": 1500,
     "tightened_gates": 6446,
     "preserved_original_binaries": 7196,
-    "claims": 3,
+    "claims": 2,
     "obligations_by_claim": [
-      40672,
-      54168,
-      46972
+      33475,
+      46971
     ]
-  },
-  "preparation_seconds": 4.563672250000001,
-  "rpa_sha256": "4da4e8190988bd4a45dd2d0f7d02381fa03a44e728f63e953d9a9b5d7ef53f61",
-  "rpa_bytes": 10881679,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test69-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test69/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":2011066,\"parse_us\":26213,\"read_us\":350,\"rows\":16381,\"status\":\"CANONICALIZED\",\"total_us\":36613,\"variables\":11697}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test69-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test69/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1237216,\"parse_us\":15223,\"read_us\":200,\"rows\":8885,\"status\":\"CANONICALIZED\",\"total_us\":22152,\"variables\":8697}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test69/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test69/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":7013878,\"status\":\"ASSEMBLED\",\"total_us\":76225}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test69/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test69/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test69/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test69/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":302066,\"model_decode_us\":20960,\"points\":0,\"proof_decode_us\":25026,\"read_us\":864,\"statistics\":{\"bijections\":0,\"branches\":6446,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":6000,\"interval_generated_terms\":12000,\"interval_generated_variables\":1500,\"interval_lifts\":1,\"linear_terms\":168450,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":141812,\"peak_live_facts\":17383,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":94986,\"work\":2789030},\"status\":\"VERIFIED\",\"total_us\":348916}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 2011066,
-      "sha256": "e17d642ebcb90ee2262ba94b67a7795c63d635811abd13ef9cac2392671095b4"
-    },
-    "target.mcm": {
-      "bytes": 1237216,
-      "sha256": "2499bcd22c032966435b9784a329d9b4da5be508c870e2f7eb13de9abd213a93"
-    },
-    "proof.rpx": {
-      "bytes": 7013878,
-      "sha256": "d1cc63e076673350ef646f204b50aef17886d49a7ba709e54cd1c534901cc638"
-    },
-    "request.json": {
-      "bytes": 252842,
-      "sha256": "30fd43736374c91bfea05952cc8a014eae84c707406828125ba8a64a19e7567b"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "missing_interval_pair",
-      "rule_broken": "Omits one compatibility obligation from a middle simultaneous interval.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID interval: missing or surplus lower-upper pair checks",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "f38fcb0cdf0da9d7d3941b92a883f87ea75369aebec31974e1e65bad020e3746",
-      "rpx_sha256": "00918ceed66db82b6bf1d075d9414e228289ccaa1798a8798f641996f877345e"
-    },
-    {
-      "mutation": "wrong_gate_integrality",
-      "rule_broken": "Uses a continuous variable as the integer gate split premise.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "ded978e640928777e6ac5031edd221b4f12fd3bee110956c81aab5a2951f8418",
-      "rpx_sha256": "2c746fe6d05240a26967fc4f2e2fd57d719058d61d995ba89f7d7ced9dc70010"
-    },
-    {
-      "mutation": "wrong_recovery",
-      "rule_broken": "Changes an expanded continuous endpoint constant without corresponding complete-model evidence.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 21589",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "5b3eeea9fd8e67d05b38e5d58d0f81aa1e104a47d79131160fa787961c35924a",
-      "rpx_sha256": "06782c9a1cd8335eec1626dde0066a312e78c88109af8fdca1e4ebbf54ea60a1"
-    },
-    {
-      "mutation": "missing_binary_observation",
-      "rule_broken": "Omits a required original binary coordinate observation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "ca44e49a59b084a11c3352bd72f29e8a558bd34330982b0188014c28a05e9db4",
-      "rpx_sha256": "e1919621d308b33e8405dbd2a569781cb4fa4143f75fdc6e41031238ca11988a"
-    }
-  ]
+  }
 }

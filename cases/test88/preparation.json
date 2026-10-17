@@ -9,15 +9,73 @@
     "path": "/Users/bhz/Code/reform_test/runs/test88-nomf-B1/output/model_reformulated.mps",
     "sha256": "02ca991dc82b9004ec3a170407b94ec10e2e5a275b266078c7f57edbdd4bfa21"
   },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test88/source.mcm",
+      "bytes": 647130,
+      "sha256": "b513f1e4bd103095b69262d31196ca19d45ec13dfa348696f341b53f51f6242f"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test88/target.mcm",
+      "bytes": 260726,
+      "sha256": "7a0ffc25d040f9607f4bbcbb01c70c5538f84682146337785525cb526769addd"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test88/proof.rpa",
+      "bytes": 3895319,
+      "sha256": "224e147d0b28638ce70636e468e0b2bc56e8fcbaacb0c23d50fae3f74247cc93"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test88/proof.rpx",
+      "bytes": 5360431,
+      "sha256": "f3b4de5d3a118153911b3515a772a20afef62d8c5a59840281a4c3088058e8e0"
+    }
+  },
+  "verification": {
+    "execute_us": 35880,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 5191,
+    "proof_decode_us": 17686,
+    "read_us": 409,
+    "statistics": {
+      "branches": 5376,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 208580,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 10826,
+      "peak_live_facts": 2221,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 27440,
+      "work": 2115409
+    },
+    "status": "VERIFIED",
+    "total_us": 59172
+  },
+  "preparation_seconds": 3.108193583000684,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test88-nomf-B1/output/audit.json",
     "sha256": "9fe3ded1bc07d30d1c0bae1a77bd8aa53642b5d9987b793d1c4ecc7d2d555fdc"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test88.py",
-    "sha256": "5de455f167c94ddce9665b219890da1af6f764907c6648aab673d919503250bd"
-  },
-  "claims": "Objective-preserving bijection of mixed-integer feasible sets, all retained coordinates and both inverse identities. Product aliases use exact local binary cases; LP equivalence is not requested.",
+  "claims": "Native MI-OPT directions: objective-preserving mixed-integer correspondence with all retained coordinates and exact local binary cases for product aliases.",
   "counts": {
     "source_variables": 784,
     "target_variables": 432,
@@ -25,104 +83,10 @@
     "target_rows": 2298,
     "claims": 2,
     "global_alias_equalities": 352,
-    "all_allocated_fact_ids": 64771,
-    "obligations_by_claim": [
-      4427,
-      8479
+    "all_allocated_fact_ids": 2221,
+    "obligations_by_direction": [
+      3211,
+      7615
     ]
-  },
-  "preparation_seconds": 2.344113916,
-  "rpa_sha256": "d0c728a95e484cc8af5c58b83a86cddf922a0127cc90737940dd3caf1da73a17",
-  "rpa_bytes": 8313616,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test88-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test88/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":647130,\"parse_us\":159577,\"read_us\":453,\"rows\":5998,\"status\":\"CANONICALIZED\",\"total_us\":200865,\"variables\":784}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test88-nomf-B1/output/model_reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test88/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":260726,\"parse_us\":41066,\"read_us\":72,\"rows\":2298,\"status\":\"CANONICALIZED\",\"total_us\":62201,\"variables\":432}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test88/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test88/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":5395057,\"status\":\"ASSEMBLED\",\"total_us\":638492}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test88/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test88/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test88/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test88/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":2,\"execute_us\":1952555,\"model_decode_us\":59244,\"proof_decode_us\":177329,\"read_us\":593,\"statistics\":{\"branches\":5376,\"linear_terms\":209284,\"obligations\":12906,\"peak_live_facts\":2573,\"substitution_terms\":28656,\"work\":8324541},\"status\":\"VERIFIED\",\"total_us\":2189721}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "68229d6349fc51269830664bf42d0e44b0f5c741d04351bc5cf371cc2d6870fc",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 647130,
-      "sha256": "b513f1e4bd103095b69262d31196ca19d45ec13dfa348696f341b53f51f6242f"
-    },
-    "target.mcm": {
-      "bytes": 260726,
-      "sha256": "7a0ffc25d040f9607f4bbcbb01c70c5538f84682146337785525cb526769addd"
-    },
-    "proof.rpx": {
-      "bytes": 5395057,
-      "sha256": "25328c1abcfce20ffbfe43bb08101685b476f29159ca65d85c3d6c54a8f4838c"
-    },
-    "request.json": {
-      "bytes": 36164,
-      "sha256": "f63d453373e69720c74678be5fff87e07863e61547ff193bd65bad87c66e48b6"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "continuous_split",
-      "rule_broken": "Integer case splitting cites a continuous variable as its INT witness.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "b1ba10640e6e06f555c83da1968f54eb4daaf5f11a213c0a2851048df5626000",
-      "rpx_sha256": "ad2e9c7d90346cb4a4a317fa84d04f38cb40c6127f62d0d2f39a903a6835d9e9"
-    },
-    {
-      "mutation": "changed_conclusion",
-      "rule_broken": "A Cases conclusion differs from its checked child witnesses.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "513fa52bcbecdb72e356067e4264915ee5d96d7faeb6cec4ae1ffd2348413784",
-      "rpx_sha256": "4814e483197030a6f587d0820050c690e1d2c177cb8cf543dc110d355d602d85"
-    }
-  ]
+  }
 }

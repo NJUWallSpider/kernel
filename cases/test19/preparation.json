@@ -9,156 +9,88 @@
     "path": "/Users/bhz/Code/reform_test/runs/test19-nomf-B1/output/reformulated.mps",
     "sha256": "483b1f09b5c0e59d166afe59c761a5b10e39eefa4e2769920aa5247718cdf27e"
   },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test19/source.mcm",
+      "bytes": 218809,
+      "sha256": "9d224951aafde75bfb9bb6043a6f7cb946e446f9a536c1c222e75c32b6089fe6"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test19/target.mcm",
+      "bytes": 227516,
+      "sha256": "b57e26ba1a58bb58be7f0db459149674be9203d0b4f238d905d8530d4d426808"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test19/proof.rpa",
+      "bytes": 242308,
+      "sha256": "739a4a9c990e945627959ea834a1de2c2025ec78ae40024564ba2badab89659b"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test19/proof.rpx",
+      "bytes": 343591,
+      "sha256": "f1f722d7e650dcd54bfa96079a17852ff1793f28112a92fdf43f2b4e5b31173a"
+    }
+  },
+  "verification": {
+    "execute_us": 6445,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 2525,
+    "proof_decode_us": 1313,
+    "read_us": 58,
+    "statistics": {
+      "branches": 210,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 8392,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 8383,
+      "peak_live_facts": 737,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 12766,
+      "work": 114536
+    },
+    "status": "VERIFIED",
+    "total_us": 10346
+  },
+  "preparation_seconds": 0.4316115840047132,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test19-nomf-B1/output/audit.json",
     "sha256": "6442dc1714b25446ded98d748b3bc3cfe6d6eaa22ba1c7d1495509443ab03a8a"
   },
   "proof_preparer": {
     "path": "/Users/bhz/Code/kernel/tools/prepare_test19.py",
-    "sha256": "4369200a7e49a6cb6018106d5cce48ab22e7b3bff88e0b51952be94c9bfcc3f2"
+    "sha256": "e6319ec7984e16384303fa72a1cf2d9a73269048eec1a4a5741088f09aed52bf"
   },
-  "claims": "Complete objective-preserving integer affine bijection, with all retained coordinates observed; target LP contained in projected source LP, with strictness proved by a complete source point and exact target fiber refutation. No optimum or LP objective-bound claim.",
   "counts": {
-    "claims": 3,
-    "points": 1,
+    "source_variables": 1462,
+    "target_variables": 1459,
+    "source_rows": 1655,
+    "target_rows": 1668,
+    "directions": 2,
     "cases": 210,
     "rounds": 16,
-    "root_steps_by_claim": [
-      740,
-      210,
-      210
-    ],
+    "cycle_certificates": 16,
     "obligations_by_claim": [
-      7119,
-      7103,
-      5109
+      4198,
+      4185
     ]
-  },
-  "preparation_seconds": 0.5569822910000001,
-  "rpa_sha256": "f0124e9b598f40676c6e373470489439bf0abf887d5fc2a0dfee8c49e42166e7",
-  "rpa_bytes": 749360,
-  "kernel_runs": [
-    {
-      "command": [
-        "/private/tmp/rpx-v6-original-scope-corpus-audit",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test19-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test19/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":218809,\"parse_us\":113561,\"read_us\":257,\"rows\":1655,\"status\":\"CANONICALIZED\",\"total_us\":153846,\"variables\":1462}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/private/tmp/rpx-v6-original-scope-corpus-audit",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test19-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test19/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":227516,\"parse_us\":59601,\"read_us\":93,\"rows\":1668,\"status\":\"CANONICALIZED\",\"total_us\":80561,\"variables\":1459}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/private/tmp/rpx-v6-original-scope-corpus-audit",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test19/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test19/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":543175,\"status\":\"ASSEMBLED\",\"total_us\":82423}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/private/tmp/rpx-v6-original-scope-corpus-audit",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test19/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test19/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test19/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test19/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":3,\"execute_us\":603718,\"model_decode_us\":53239,\"points\":1,\"proof_decode_us\":29632,\"read_us\":185,\"statistics\":{\"branches\":210,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":10162,\"obligations\":19331,\"peak_live_facts\":740,\"plotkin_pairs\":0,\"point_coefficient_terms\":5158,\"points\":1,\"substitution_terms\":23830,\"work\":1093258},\"status\":\"VERIFIED\",\"total_us\":686774}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "863dfc652e6ad30fb869895b9c1606370056caeb059b6a76f1cc9d5bc2d12899",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 218809,
-      "sha256": "9d224951aafde75bfb9bb6043a6f7cb946e446f9a536c1c222e75c32b6089fe6"
-    },
-    "target.mcm": {
-      "bytes": 227516,
-      "sha256": "b57e26ba1a58bb58be7f0db459149674be9203d0b4f238d905d8530d4d426808"
-    },
-    "proof.rpx": {
-      "bytes": 543175,
-      "sha256": "2fd9bb06c494e9daf0b8f7804aa2dd81dfa71ee783a8cc7ad6e7c8a31ec011e8"
-    },
-    "request.json": {
-      "bytes": 46272,
-      "sha256": "3e058c1b3b5f40f6a48a668c52e2850d6786cabcdee75677c4250df325f2422f"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "continuous_split",
-      "rule_broken": "Substitutes a continuous production variable for the integer branch premise.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "774cf7e32f931135d0b0208c4bf01cbb02aabf5da665ff95b600483ac845ddc6",
-      "rpx_sha256": "35428bb9841115c4730835a6941b24db267b72959360c2c6bde1f45d8485996a"
-    },
-    {
-      "mutation": "missing_round",
-      "rule_broken": "Uses the unrounded continuous lower bound to justify an integer cycle cut.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID rounding premises",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "81e07f1e859bbb566deb327297ed5545ae4eaacfd1c91f527480b09e49436ed3",
-      "rpx_sha256": "9e69508721f1b059e8ed18686415e86ec2dec0227a616aa1907e271d9f9af9bd"
-    },
-    {
-      "mutation": "wrong_inverse",
-      "rule_broken": "Changes a reconstructed free auxiliary, violating its original defining equation and inverse.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq; obligation 6581",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "f44f19acff0b9b88769c4424be6878803ae6dd1e08fd2a7b56baab9981163d4e",
-      "rpx_sha256": "6cfdcbeb3e4abf58987c016f91b0c14958dfd17992a6e0ceec8439476a3159a9"
-    },
-    {
-      "mutation": "infeasible_separator",
-      "rule_broken": "Changes source witness production without the coupled inventory balance.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID point: fiber strictness witness is not feasible in the inclusion output LP (witness 0)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "47e0a077cda83b277c7e71a5abd989617e99612864769bc4e312c3f4ea317840",
-      "rpx_sha256": "6fd3963056de0a2f93c7b3f371fce92671f84dee9b30197fc42bc0dc83052f57"
-    },
-    {
-      "mutation": "empty_fiber_proof",
-      "rule_broken": "Cancels the positive fiber contradiction to a nonpositive constant.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID contradiction witness (witness 0)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "9c2333eb137bb1484c46482583a29598d2dd90c77a4e22853cd02918d222ab5d",
-      "rpx_sha256": "c1e807e43de9ecce12bde5a267605aba22340560f1b0e4c0429bc0eca3981345"
-    }
-  ]
+  }
 }

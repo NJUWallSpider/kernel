@@ -14,7 +14,8 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from prepare_test40 import expression,plus,mul,expr_json,row_fact,substitute,sha
+from prepare_test40 import expression,plus,mul,row_fact,substitute,sha
+from prepare_native import compile_case,make_proof
 
 
 def parse_mps(path):
@@ -119,115 +120,64 @@ def derivation(case,row,reverse,inp,hints,rowchecks):
     raise AssertionError(case)
 
 
-def block(case,inp,out,integer,reverse,hints):
-    steps=[];checks=[];locals={};rowchecks={}
-    mapping=[expression(0,{inp['var_index'][v['name']]:1}) for v in out['vars']]
-    for v in out['vars']:
-        i=inp['var_index'][v['name']];w=inp['vars'][i];assert v==w
+def native_block(case,inp,output,reverse,hints,builder):
+    """Replay the case's exact row derivations on a native MI direction."""
+    checks=[];rowchecks={}
+    mapping=[expression(0,{inp['var_index'][v['name']]:1}) for v in output['vars']]
+    for v in output['vars']:
+        i=inp['var_index'][v['name']]
+        assert v==inp['vars'][i]
         if v['lower'] is not None:checks.append({'VarLower':i})
         if v['upper'] is not None:checks.append({'VarUpper':i})
-        if v['integer'] and integer:checks.append('Exact')
-    for row in out['rows']:
-        n=row['name'];typ={'E':'RowEq','L':'RowUpper','G':'RowLower'}[row['sense']]
+        if v['integer']:checks.append({'VarInt':i})
+    for row in output['rows']:
+        name=row['name'];typ={'E':'RowEq','L':'RowUpper','G':'RowLower'}[row['sense']]
         expected=substitute(row_fact(row,typ),mapping)
-        direct=row_ref(inp,n) if n in inp['row_index'] else None
-        if direct is not None and get_fact(inp,direct,locals)==expected:ref=direct
+        direct=row_ref(inp,name) if name in inp['row_index'] else None
+        if direct is not None and builder.refexpr(direct)==expected:
+            ref=direct
         else:
             terms=derivation(case,row,reverse,inp,hints,rowchecks)
-            computed=expression()
-            for r,m in terms:computed=plus(computed,get_fact(inp,r,locals),m)
-            assert computed==expected,(case,reverse,n,'bad exact identity')
-            idx=len(steps);locals[idx]=computed
-            steps.append({'Lin':{'id':idx,'kind':'Eq' if typ=='RowEq' else 'Le','constant':'0','terms':[[r,str(m)] for r,m in terms]}})
-            ref={'Local':idx}
-        checks.append(ref);rowchecks[n]=ref
-    assert substitute(out['objective'],mapping)==inp['objective'],'objective changed'
+            ref=builder.lin('Eq' if typ=='RowEq' else 'Le',terms,expected)
+        rowchecks[name]=ref
+        checks.append(ref)
+    assert substitute(output['objective'],mapping)==inp['objective'],'objective changed'
     checks.append('Exact')
-    checks+=['Exact']*len(inp['vars']) # identity projections
-    checks+=['Exact']*len(inp['vars']) # full affine inverse identities
-    return {'steps':steps,'end':{'Return':{'map':[expr_json(e) for e in mapping],'checks':checks}}}
+    builder.finish(mapping,checks)
+    return len(checks)
 
 
 def run(case):
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--runs',type=Path,default=Path('/Users/bhz/Code/reform_test/runs'));ap.add_argument('--out',type=Path,default=Path(f'cases/test{case}'));ap.add_argument('--kernel',type=Path);args=ap.parse_args()
-    start=time.perf_counter();run=next(args.runs.resolve().glob(f'test{case}-*'));out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
-    source=run/'input/model.mps';targets=list((run/'output').glob('*.mps'));assert len(targets)==1;target=targets[0]
-    a=parse_mps(source);b=parse_mps(target);parse_secs=time.perf_counter()-start;hints=load_hints(case,run)
+    ap=argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--runs',type=Path,default=Path('/Users/bhz/Code/reform_test/runs'))
+    ap.add_argument('--out',type=Path,default=Path(f'cases/test{case}'))
+    ap.add_argument('--kernel',type=Path,help='accepted for old invocations; native compilation is in-process')
+    args=ap.parse_args()
+    started=time.perf_counter()
+    candidates=[item for item in args.runs.resolve().glob(f'test{case}-*')
+                if (item/'input/model.mps').is_file() and (item/'output/audit.json').is_file()]
+    if case==65:
+        candidates=[item for item in candidates if (item/'output/redundancy_certificates.tsv').is_file()]
+    if not candidates:
+        raise SystemExit(f'No audited run for test{case}')
+    run=max(candidates,key=lambda item:item.stat().st_mtime)
+    out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
+    source=run/'input/model.mps'
+    targets=list((run/'output').glob('*.mps'));assert len(targets)==1;target=targets[0]
+    a=parse_mps(source);b=parse_mps(target);hints=load_hints(case,run)
     assert set(a['var_index'])==set(b['var_index'])
-    claims=[];blocks=[]
-    for integer in (True,False):
-        for reverse in (False,True):
-            inp,output=(b,a) if reverse else (a,b)
-            projection=[[i,output['var_index'][v['name']]] for i,v in enumerate(inp['vars'])]
-            claim={'reverse':reverse,'input_integers':integer,'output_integers':integer,'objective':'Equal','projection':projection,'inverse':[1,0,3,2][len(claims)]}
-            claims.append(claim);blocks.append(block(case,inp,output,integer,reverse,hints))
-    cert={'claims':claims,'blocks':blocks};rpa=out/'proof.rpa';request=out/'request.json'
-    rpa.write_text('RPA 1\n'+json.dumps(cert,separators=(',',':'))+'\n');request.write_text(json.dumps(claims,separators=(',',':'))+'\n')
-    metadata={'case_id':f'test{case}','status':'PROOF_NOT_COMPLETED','source':{'path':str(source),'sha256':sha(source)},'target':{'path':str(target),'sha256':sha(target)},'audit':{'path':str(run/'output/audit.json'),'sha256':sha(run/'output/audit.json')},'proof_preparer':{'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))},'claims':'Original-coordinate feasible-set equality, including integer and LP domains, pointwise objective equality, every coordinate preserved, both affine inverse identities.','counts':{'source_variables':len(a['vars']),'target_variables':len(b['vars']),'source_rows':len(a['rows']),'target_rows':len(b['rows']),'claims':4,'obligations_by_claim':[len(x['end']['Return']['checks']) for x in blocks],'linear_steps_by_claim':[len(x['steps']) for x in blocks]},'independent_parse_seconds':parse_secs,'preparation_seconds':time.perf_counter()-start,'rpa_sha256':sha(rpa),'rpa_bytes':rpa.stat().st_size,'kernel_runs':[]}
-    if args.kernel:
-        kernel=args.kernel.resolve();metadata['kernel_binary_sha256']=sha(kernel)
-        commands=[['canonical',str(source),str(out/'source.mcm')],['canonical',str(target),str(out/'target.mcm')],['assemble',str(rpa),str(out/'proof.rpx')],['verify',str(out/'source.mcm'),str(out/'target.mcm'),str(out/'proof.rpx'),str(request)]]
-        for command in commands:
-            proc=subprocess.run([str(kernel)]+command,capture_output=True,text=True)
-            metadata['kernel_runs'].append({'command':[str(kernel)]+command,'exit_code':proc.returncode,'stdout':proc.stdout,'stderr':proc.stderr})
-            if proc.returncode:
-                result=json.loads(proc.stdout) if proc.stdout else {'status':'EXECUTION_FAILED'};metadata['status']=result['status']
-                (out/'preparation.json').write_text(json.dumps(metadata,indent=2)+'\n');raise SystemExit(proc.stdout+proc.stderr)
-        result=json.loads(metadata['kernel_runs'][-1]['stdout']);assert result['status']=='VERIFIED';metadata['status']='VERIFIED'
-        metadata['artifacts']={n:{'bytes':(out/n).stat().st_size,'sha256':sha(out/n)} for n in ['source.mcm','target.mcm','proof.rpx','request.json']}
-    (out/'preparation.json').write_text(json.dumps(metadata,indent=2)+'\n')
-    print(json.dumps({k:metadata[k] for k in ['case_id','status','counts','independent_parse_seconds','preparation_seconds','rpa_bytes']},indent=2),flush=True)
+    proof,forward,reverse=make_proof(a,b)
+    native_block(case,a,b,False,hints,forward)
+    native_block(case,b,a,True,hints,reverse)
+    audit=run/'output/audit.json'
+    record=compile_case(proof,out,case_id=f'test{case}',source=source,target=target,
+                        metadata={'audit':{'path':str(audit),'sha256':sha(audit)},
+                                  'claims':'Native MI-OPT directions: original-coordinate feasible-set equality and pointwise objective equality.',
+                                  'counts':{'source_variables':len(a['vars']),'target_variables':len(b['vars']),
+                                            'source_rows':len(a['rows']),'target_rows':len(b['rows']),'directions':2},
+                                  'preparation_seconds':time.perf_counter()-started})
+    (out/'preparation.json').write_text(json.dumps(record,indent=2)+'\n')
+    print(json.dumps({'case_id':f'test{case}','status':record['status'],
+                      'guarantee':record['verification'].get('guarantee'),
+                      'obligations':record['verification']['statistics']['obligations']}))
 
-def refresh_acceptance():
-    """Merge actual successful execution receipts with the unchanged inventory.
-
-    A status string alone is insufficient: require a successful verifier command,
-    matching source/final byte identities, and every current proof/model/request
-    artifact hash recorded at that execution. This is a bookkeeping tool, not TCB.
-    """
-    from collections import Counter
-    root=Path(__file__).resolve().parents[1]
-    inventory_path=root/'audit/corpus_inventory.json'
-    inv=json.loads(inventory_path.read_text())
-    scope_path=root/'audit/contract_scope_gates.json'
-    scope=json.loads(scope_path.read_text())
-    assert scope['schema']=='rpx-original-contract-scope-gates-v1'
-    entries=[];families=set()
-    for c in inv['cases']:
-        entry={'case_id':c['case_id'],'run_name':c['run_name'],'families':c['families'],'status':c['status'],'reason':c['status_reason']}
-        case=root/'cases'/c['case_id'];receipt_path=case/'preparation.json'
-        if receipt_path.exists():
-            d=json.loads(receipt_path.read_text())
-            entry['latest_kernel_outcome']=d['status']
-            if 'protocol_status' in d:entry['protocol_status']=d['protocol_status']
-            entry['execution_receipt']={'path':str(receipt_path),'sha256':sha(receipt_path)}
-            if d['status']=='VERIFIED':
-                from case_delivery import load_delivery
-                delivery=load_delivery(case,d)
-                for role,key in [('source','source_models'),('target','final_target_models')]:
-                    assert sha(Path(d[role]['path']))==d[role]['sha256']==c[key][0]['sha256']
-                kernel_hash=d.get('kernel_binary_sha256',d.get('kernel_binary',{}).get('sha256'))
-                assert isinstance(kernel_hash,str) and len(kernel_hash)==64
-                entry.update(status='VERIFIED',reason='Actual source/target canonicalization and every complete requested RPX piece verified; original-contract scope is reviewed separately.',source=d['source'],target=d['target'],required_contract=d.get('claims',d.get('contract')),claims=delivery['request'],artifacts=delivery['artifacts'],kernel_binary_sha256=kernel_hash,verification=delivery['verification'],delivery_kind=delivery['kind'])
-                gate=scope['cases'].get(c['case_id'])
-                if gate:
-                    entry['original_contract_scope']={'gate_file':str(scope_path),'gate_sha256':sha(scope_path),'review':gate}
-                    expected_requests={str(piece['request']) for piece in delivery['pieces']}
-                    if delivery['kind']=='bundle':expected_requests.add(str(case/'combined-request.json'))
-                    complete=gate['status']=='REVIEWED_COMPLETE_REQUEST' and {x['path'] for x in gate.get('requests',[])}==expected_requests and all(Path(x['path']).exists() and sha(Path(x['path']))==x['sha256'] for x in gate.get('requests',[]))
-                    if not complete:
-                        entry['status']='PROOF_NOT_COMPLETED'
-                        entry['reason']='Requested certificates verified, but the identified complete original-report contract awaits a matching scope review.'
-                if entry['status']=='VERIFIED':families.update(c['families'])
-            elif d['status']=='RESOURCE_LIMIT':entry.update(status='CAPABILITY_OR_RESOURCE_GAP',reason='Actual verification returned RESOURCE_LIMIT; this is not a refutation of the transformation.')
-            else:entry['reason']='Certificate preparation/verification is incomplete; a failed certificate does not refute the model relation.'
-        entries.append(entry)
-    counts=dict(Counter(e['status'] for e in entries))
-    ledger={'schema':'rpx-corpus-acceptance-v1','inventory':{'path':str(inventory_path),'sha256':sha(inventory_path)},'scope':'All supplied final committed targets; original inventory retained as immutable baseline. Exact requested contracts are recorded per accepted case.','summary':{'total_runs':len(entries),'model_pairs_present':inv['summary']['model_pair_present_count'],'statuses':counts,'verified_cases':[e['case_id'] for e in entries if e['status']=='VERIFIED'],'families_with_certified_example':sorted(families),'all_families':sorted(inv['family_definitions']),'functional_delivery_complete':all(e['status']=='VERIFIED' for e in entries)},'cases':entries}
-    path=root/'audit/acceptance.json';path.write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n')
-    print(json.dumps(ledger['summary'],indent=2))
-
-if __name__=='__main__':
-    import sys
-    if sys.argv[1:]==['--acceptance']:refresh_acceptance()
-    else:raise SystemExit('Invoke prepare_test79.py, prepare_test68.py, prepare_test33.py, prepare_test65.py, or prepare_affine.py --acceptance')

@@ -9,117 +9,78 @@
     "path": "/Users/bhz/Code/reform_test/runs/test79-nomf-B1/output/reformulated.mps",
     "sha256": "d47ff11d77a2cee0414128575d6c0d52a25b1642a1525fd92d0ccea3040454d1"
   },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test79/source.mcm",
+      "bytes": 1968520,
+      "sha256": "e8c09a5926c2dadcf4feba147b05dc0fac97f6e272d065a5989c8fdf0a3ac525"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test79/target.mcm",
+      "bytes": 1793666,
+      "sha256": "502c7469be5345f256c5a1ad673807685a22ead74c43dab5e9513ff74ce1d53d"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test79/proof.rpa",
+      "bytes": 825518,
+      "sha256": "86182da851322b4ef92850aa5711e47b4f0475db715d253232d2a8800969b5e3"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test79/proof.rpx",
+      "bytes": 1290457,
+      "sha256": "7477d2a968b61a08f1d1600061448b656b6d30e3d09e759b79aa2bd5fc1dfcc0"
+    }
+  },
+  "verification": {
+    "execute_us": 27116,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 20466,
+    "proof_decode_us": 4759,
+    "read_us": 523,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 36954,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 35519,
+      "peak_live_facts": 196,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 149622,
+      "work": 860886
+    },
+    "status": "VERIFIED",
+    "total_us": 52870
+  },
+  "preparation_seconds": 1.3850229169765953,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test79-nomf-B1/output/audit.json",
     "sha256": "f49c4b90b9102e41b163fe97547692d7413df08ca0a8bf9886da34fa3d6f1efc"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_affine.py",
-    "sha256": "54f89df9cc66ccc2fa7fb2992771ef9ca9b42ed9098c2f86e8491b3c0fea5858"
-  },
-  "claims": "Original-coordinate feasible-set equality, including integer and LP domains, pointwise objective equality, every coordinate preserved, both affine inverse identities.",
+  "claims": "Native MI-OPT directions: original-coordinate feasible-set equality and pointwise objective equality.",
   "counts": {
     "source_variables": 13873,
     "target_variables": 13873,
     "source_rows": 3202,
     "target_rows": 3187,
-    "claims": 4,
-    "obligations_by_claim": [
-      45498,
-      45513,
-      45383,
-      45398
-    ],
-    "linear_steps_by_claim": [
-      181,
-      196,
-      181,
-      196
-    ]
-  },
-  "independent_parse_seconds": 0.397859792,
-  "preparation_seconds": 2.281714125,
-  "rpa_sha256": "5c5a4b7d54ffe28d1a52945c18a621d0d558ede17aa0290cf1761fc33f71125a",
-  "rpa_bytes": 5044716,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test79-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test79/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1968520,\"parse_us\":25586,\"read_us\":390,\"rows\":3202,\"status\":\"CANONICALIZED\",\"total_us\":36472,\"variables\":13873}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test79-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test79/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1793666,\"parse_us\":22522,\"read_us\":277,\"rows\":3187,\"status\":\"CANONICALIZED\",\"total_us\":31696,\"variables\":13873}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test79/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test79/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":3466070,\"status\":\"ASSEMBLED\",\"total_us\":32829}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test79/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test79/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test79/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test79/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":4,\"execute_us\":952209,\"model_decode_us\":23308,\"proof_decode_us\":10289,\"read_us\":882,\"statistics\":{\"branches\":0,\"linear_terms\":73908,\"obligations\":181792,\"peak_live_facts\":196,\"substitution_terms\":354736,\"work\":19580432},\"status\":\"VERIFIED\",\"total_us\":986688}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test79/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test79/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test79/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test79/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":4,\"execute_us\":256773,\"model_decode_us\":23350,\"proof_decode_us\":10410,\"read_us\":3229,\"statistics\":{\"branches\":0,\"linear_terms\":73908,\"obligations\":181792,\"peak_live_facts\":196,\"substitution_terms\":354736,\"work\":1940098},\"status\":\"VERIFIED\",\"total_us\":293762}\n",
-      "stderr": "",
-      "note": "Verification rerun after sparse accumulator optimization."
-    }
-  ],
-  "kernel_binary_sha256": "c699e384668b14aab4c38b3cb9545f7142d77d2f2d742bd0bbd167570a5d9fe5",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 1968520,
-      "sha256": "e8c09a5926c2dadcf4feba147b05dc0fac97f6e272d065a5989c8fdf0a3ac525"
-    },
-    "target.mcm": {
-      "bytes": 1793666,
-      "sha256": "502c7469be5345f256c5a1ad673807685a22ead74c43dab5e9513ff74ce1d53d"
-    },
-    "proof.rpx": {
-      "bytes": 3466070,
-      "sha256": "17c8e2f144b1d5896a54399f96410dc69d2124aa96e1220466c2590b12ffd273"
-    },
-    "request.json": {
-      "bytes": 688452,
-      "sha256": "4071f8be76725f378a4011a7489bc00f0649c11499ec542b597efa858bafad67"
-    }
+    "directions": 2
   }
 }

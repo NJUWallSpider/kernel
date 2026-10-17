@@ -2,149 +2,94 @@
   "case_id": "test40",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test40-nomf-B1/input/model.mps",
-    "sha256": "d8bfe7f051fdf60fdd27c0c5e7e6286729561275f13d87e2f71b1e78b19ccaf5"
+    "path": "/Users/bhz/Code/kernel/cases/test40/source.mcm",
+    "sha256": "0d564951761b3c79e57a742fa4f556401405221b18658dbbccc737fd0d2f70ef"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test40-nomf-B1/output/reformulated.mps",
-    "sha256": "582f05a596ca2b40e808ecd78c754e737ccc7a8af5e8d6906654b8db49e03df8"
+    "path": "/Users/bhz/Code/kernel/cases/test40/target.mcm",
+    "sha256": "e33fdc3ff6dc18bf71adb90bf624f2abe66d08499a19875647c606416b7adba0"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test40/source.mcm",
+      "bytes": 58423,
+      "sha256": "0d564951761b3c79e57a742fa4f556401405221b18658dbbccc737fd0d2f70ef"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test40/target.mcm",
+      "bytes": 31423,
+      "sha256": "e33fdc3ff6dc18bf71adb90bf624f2abe66d08499a19875647c606416b7adba0"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test40/proof.rpa",
+      "bytes": 31796,
+      "sha256": "2dd79076f78121830a8ef04e52aa74cf7389cfcf7f4346af570bc1d45526befd"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test40/proof.rpx",
+      "bytes": 36964,
+      "sha256": "c86c1897b6473b7765c0323f6a354c30125d6ef517942705b1414bfd73ac5d3f"
+    }
+  },
+  "verification": {
+    "execute_us": 835,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 490,
+    "proof_decode_us": 117,
+    "read_us": 26,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 600,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 1934,
+      "peak_live_facts": 120,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 2056,
+      "work": 15466
+    },
+    "status": "VERIFIED",
+    "total_us": 1474
+  },
+  "preparation_seconds": 0.10240125001291744,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test40-nomf-B1/output/audit.json",
     "sha256": "8893f425e9ef26107ea3b757125d025369d66c70775421e60c1663759f3e1232"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test40.py",
-    "sha256": "6fc9174d6c9211c74d2fd19722484e14463ab623c40382c1821dc9c040236baa"
-  },
-  "claims": "Both integer and LP directions, pointwise objective equality and identity on every retained coordinate. Reverse affine map restores every removed y as 1-x. Source complement equalities force uniqueness, so these maps are inverse on feasible sets.",
+  "claims": "Native MI-OPT directions: retained-coordinate identity and reverse complement recovery y = 1 - x, with pointwise objective equality in both directions.",
   "counts": {
     "source_variables": 274,
     "target_variables": 154,
     "source_rows": 498,
     "target_rows": 258,
-    "claims": 4,
-    "obligations_by_claim": [
-      1095,
-      1575,
-      959,
-      1319
+    "claims": 2,
+    "complement_removed": 120,
+    "obligations_by_direction": [
+      667,
+      1267
     ],
-    "linear_steps_by_claim": [
-      240,
-      0,
-      240,
+    "steps_by_direction": [
+      120,
       0
     ]
-  },
-  "preparation_seconds": 0.15316800000000003,
-  "rpa_sha256": "9c4b1bfe92822ec4bb7cff51b96fd5c8f0e9475faf6c15eb48e22e6ed3743ff2",
-  "rpa_bytes": 563857,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test40-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test40/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":58423,\"parse_us\":1428,\"read_us\":37,\"rows\":498,\"status\":\"CANONICALIZED\",\"total_us\":2126,\"variables\":274}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test40-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test40/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":31423,\"parse_us\":475,\"read_us\":29,\"rows\":258,\"status\":\"CANONICALIZED\",\"total_us\":770,\"variables\":154}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test40/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test40/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":96420,\"status\":\"ASSEMBLED\",\"total_us\":1509}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test40/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test40/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test40/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test40/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":4,\"execute_us\":6790,\"model_decode_us\":704,\"proof_decode_us\":336,\"read_us\":75,\"statistics\":{\"branches\":0,\"linear_terms\":1680,\"obligations\":4948,\"peak_live_facts\":240,\"substitution_terms\":4968,\"work\":40728},\"status\":\"VERIFIED\",\"total_us\":7905}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test40/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test40/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test40/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test40/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":4,\"execute_us\":6501,\"model_decode_us\":2245,\"proof_decode_us\":461,\"read_us\":1121,\"statistics\":{\"branches\":0,\"linear_terms\":1680,\"obligations\":4948,\"peak_live_facts\":240,\"substitution_terms\":4968,\"work\":35492},\"status\":\"VERIFIED\",\"total_us\":10328}\n",
-      "stderr": "",
-      "note": "Verification rerun after sparse accumulator optimization."
-    }
-  ],
-  "rpx_sha256": "494397535d621a093d8bcb8c4ce46ad74872dd7a5059aaf10782d6bbd33256b1",
-  "rpx_bytes": 96420,
-  "negative_checks": [
-    {
-      "mutation": "bad_complement",
-      "rule_broken": "Changes y=1-x to y=-x, violating its bound/row obligations.",
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq; obligation 854",
-        "status": "INVALID"
-      },
-      "exit_code": 2,
-      "rpa_sha256": "dfc34e237ec422dd395b72d2986232a95d624d0c9bca8810c813894be4cd31d5",
-      "rpx_sha256": "21fff44b79551b081e5583c6ae534bb74e09622f300d8e29914a89776937b589"
-    },
-    {
-      "mutation": "missing_obligation",
-      "rule_broken": "Omits a required affine inverse identity obligation.",
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "exit_code": 2,
-      "rpa_sha256": "ea9713fc2f30ec19a151246e868e79cc18fd153e74c26b433b38fe6fcba4bcca",
-      "rpx_sha256": "b171742d90a5d418be194ce7b5643424c4ee2b599ca46de2ff9d8a9b9a3fdf8b"
-    }
-  ],
-  "kernel_binary_sha256": "c699e384668b14aab4c38b3cb9545f7142d77d2f2d742bd0bbd167570a5d9fe5",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 58423,
-      "sha256": "0d564951761b3c79e57a742fa4f556401405221b18658dbbccc737fd0d2f70ef"
-    },
-    "target.mcm": {
-      "bytes": 31423,
-      "sha256": "e33fdc3ff6dc18bf71adb90bf624f2abe66d08499a19875647c606416b7adba0"
-    },
-    "proof.rpx": {
-      "bytes": 96420,
-      "sha256": "494397535d621a093d8bcb8c4ce46ad74872dd7a5059aaf10782d6bbd33256b1"
-    },
-    "request.json": {
-      "bytes": 25685,
-      "sha256": "a484c4abeb158154cff475dad0ebb2c9108dcb53a076d2af712a462f28157b01"
-    }
   }
 }

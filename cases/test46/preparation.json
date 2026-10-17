@@ -1,484 +1,75 @@
 {
   "case_id": "test46",
   "status": "VERIFIED",
-  "contract": "Complete actual MI retained-coordinate projection equality with equal objective in both directions; complete actual LP target-to-source inclusion with equal objective. No strict LP or optimum claim.",
-  "protocol_status": "Existing RPA/RPX 5 interval semantics; no new production rule or version.",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/input/model.mps",
-    "sha256": "01746b7ff40de0d898f927d4cf16a94dbd37d9a4c8982e4d01377e4a6d12513e"
+    "path": "/Users/bhz/Code/kernel/cases/test46/source.mcm",
+    "sha256": "2f07c2090f0ec98f1042a40e321cde175642f2e04653c009fc3a0aa900f17ec5"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test46-nomf-B1/output/reformulated.mps",
-    "sha256": "f8108bda731f4f246df069f5850193472a6db66f1096a82017e903c670a079bf"
+    "path": "/Users/bhz/Code/kernel/cases/test46/target.mcm",
+    "sha256": "a99509a4ecf58aedfeb2f8f061ed3e7994a59f5a2d8156d787f7a55f966c2dee"
   },
-  "kernel_binary": {
-    "path": "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-    "sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-  },
-  "work_policy": 1000000000,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "assemble",
-        "cases/test46/proof.rpa",
-        "cases/test46/proof.rpx"
-      ],
-      "exit_code": 3,
-      "stdout": "{\"message\":\"RESOURCE_LIMIT RPA bytes\",\"status\":\"RESOURCE_LIMIT\"}\n",
-      "stderr": "",
-      "wall_seconds": 0.4908293750000001,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/mi-forward/proof.rpx",
-        "cases/test46/mi-forward/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":39947369,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":416818,\"points\":0,\"proof_decode_us\":2476328,\"read_us\":96443,\"statistics\":{\"bijections\":0,\"branches\":18010,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":163271657,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":187150,\"peak_live_facts\":344878,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":186282,\"work\":391209842},\"status\":\"VERIFIED\",\"total_us\":42936958}\n",
-      "stderr": "",
-      "wall_seconds": 43.107654416,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/mi-reverse/proof.rpx",
-        "cases/test46/mi-reverse/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4974403,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":185255,\"points\":0,\"proof_decode_us\":792004,\"read_us\":26690,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5978352}\n",
-      "stderr": "",
-      "wall_seconds": 6.091341709000005,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/lp-only/proof.rpx",
-        "cases/test46/lp-only/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":418198,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":174337,\"points\":0,\"proof_decode_us\":61552,\"read_us\":5295,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":659382}\n",
-      "stderr": "",
-      "wall_seconds": 0.678164417000005,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    }
-  ],
-  "partial_receipts": [
-    "cases/test46/mi-forward/preparation.json",
-    "cases/test46/mi-reverse/preparation.json",
-    "cases/test46/lp-only/preparation.json"
-  ],
-  "attacks": [
-    {
-      "name": "wrong_round_integrality",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/wrong_round_integrality.json"
-    },
-    {
-      "name": "missing_target_row",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/missing_target_row.json"
-    },
-    {
-      "name": "lp_borrow_integer",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/lp_borrow_integer.json"
-    },
-    {
-      "name": "missing_interval_premise",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/missing_interval_premise.json"
-    },
-    {
-      "name": "wrong_constant_helper",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/wrong_constant_helper.json"
-    },
-    {
-      "name": "wrong_lp_corner",
-      "status": "INVALID",
-      "receipt": "cases/test46/attacks/wrong_lp_corner.json"
-    }
-  ],
-  "timing_context": "Functional replay while author work may run concurrently; not an isolated benchmark.",
-  "delivery": "Three complete directional certificates bound to one actual source/target pair; combined RPA exceeds the unchanged 256 MiB assembler text limit.",
-  "combined_attempt": {
-    "path": "cases/test46/combined-attempt.rpa",
-    "bytes": 432885912,
-    "sha256": "7b6784cdcdbcf61636031c8703b322f95ef7d0236e8fecb875b8d5578aa979cb",
-    "assembly": {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "assemble",
-        "cases/test46/proof.rpa",
-        "cases/test46/proof.rpx"
-      ],
-      "exit_code": 3,
-      "stdout": "{\"message\":\"RESOURCE_LIMIT RPA bytes\",\"status\":\"RESOURCE_LIMIT\"}\n",
-      "stderr": "",
-      "wall_seconds": 0.4908293750000001,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    }
-  },
-  "bundle": "cases/test46/bundle.json",
-  "directional_replays": [
-    {
-      "direction": 0,
-      "claim_summary": {
-        "reverse": false,
-        "input_integers": true,
-        "output_integers": true,
-        "objective": "Equal",
-        "inverse": null,
-        "projection_count": 61036
-      },
-      "rpa": "cases/test46/mi-forward/proof.rpa",
-      "rpx": "cases/test46/mi-forward/proof.rpx",
-      "request": "cases/test46/mi-forward/request.json",
-      "artifacts": {
-        "proof.rpa": {
-          "bytes": 183934850,
-          "sha256": "ed1c630e32d926145e95c996a10ddf0cedb839878719db1201881b3f043e43ed"
-        },
-        "proof.rpx": {
-          "bytes": 184634642,
-          "sha256": "30365859dbac6c6cf8d3f641bdb1b2f08d71336e93eab98288211a4ad070be21"
-        },
-        "request.json": {
-          "bytes": 861798,
-          "sha256": "5287e10c11120bf5e070985b4d7cc83d2256916de0e63beddb1b3d6651b4412d"
-        }
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/mi-forward/proof.rpx",
-          "cases/test46/mi-forward/request.json"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":39947369,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":416818,\"points\":0,\"proof_decode_us\":2476328,\"read_us\":96443,\"statistics\":{\"bijections\":0,\"branches\":18010,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":163271657,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":187150,\"peak_live_facts\":344878,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":186282,\"work\":391209842},\"status\":\"VERIFIED\",\"total_us\":42936958}\n",
-        "stderr": "",
-        "wall_seconds": 43.107654416,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      },
-      "former_100m_run": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "--work",
-          "100000000",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/mi-forward/proof.rpx",
-          "cases/test46/mi-forward/request.json"
-        ],
-        "exit_code": 3,
-        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
-        "stderr": "",
-        "wall_seconds": 8.931349166000004,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      }
-    },
-    {
-      "direction": 1,
-      "claim_summary": {
-        "reverse": true,
-        "input_integers": true,
-        "output_integers": true,
-        "objective": "Equal",
-        "inverse": null,
-        "projection_count": 61036
-      },
-      "rpa": "cases/test46/mi-reverse/proof.rpa",
-      "rpx": "cases/test46/mi-reverse/proof.rpx",
-      "request": "cases/test46/mi-reverse/request.json",
-      "artifacts": {
-        "proof.rpa": {
-          "bytes": 234499424,
-          "sha256": "8d8a31df133e713689399b67ca286abb131186be508813fbd08f5df4f43f2f17"
-        },
-        "proof.rpx": {
-          "bytes": 156755175,
-          "sha256": "87952e15f550907b7253310a1bddf7c3fdefac356bbff5b9cd2f3e03d8ee6f88"
-        },
-        "request.json": {
-          "bytes": 861797,
-          "sha256": "8b23727aa9deda3f5ba3578496ddf4da1324f5d9af292ee326ee040a1dc22db1"
-        }
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/mi-reverse/proof.rpx",
-          "cases/test46/mi-reverse/request.json"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":4974403,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":185255,\"points\":0,\"proof_decode_us\":792004,\"read_us\":26690,\"statistics\":{\"bijections\":0,\"branches\":78937,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68936,\"interval_generated_terms\":137872,\"interval_generated_variables\":17234,\"interval_lifts\":1,\"linear_terms\":60129535,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":538773,\"peak_live_facts\":96644,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":435038,\"work\":152443790},\"status\":\"VERIFIED\",\"total_us\":5978352}\n",
-        "stderr": "",
-        "wall_seconds": 6.091341709000005,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      },
-      "former_100m_run": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "--work",
-          "100000000",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/mi-reverse/proof.rpx",
-          "cases/test46/mi-reverse/request.json"
-        ],
-        "exit_code": 3,
-        "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
-        "stderr": "",
-        "wall_seconds": 4.2272642499999975,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      }
-    },
-    {
-      "direction": 2,
-      "claim_summary": {
-        "reverse": true,
-        "input_integers": false,
-        "output_integers": false,
-        "objective": "Equal",
-        "inverse": null,
-        "projection_count": 61036
-      },
-      "rpa": "cases/test46/lp-only/proof.rpa",
-      "rpx": "cases/test46/lp-only/proof.rpx",
-      "request": "cases/test46/lp-only/request.json",
-      "artifacts": {
-        "proof.rpa": {
-          "bytes": 14451698,
-          "sha256": "e091d55817aebe0653217b116f35ed27fb88237c9bc21460511b73eab0ef9c7e"
-        },
-        "proof.rpx": {
-          "bytes": 10275133,
-          "sha256": "68ad8fb26e1c5b9d6c6cca5855d0256307dbdd4de7c0a29391c839c10e08eeb0"
-        },
-        "request.json": {
-          "bytes": 861799,
-          "sha256": "e03a7cf75040860b96e629dc04bd18e4e569c34200aff450705cfce390c628d4"
-        }
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/lp-only/proof.rpx",
-          "cases/test46/lp-only/request.json"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":418198,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":1000000000},\"model_decode_us\":174337,\"points\":0,\"proof_decode_us\":61552,\"read_us\":5295,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":659382}\n",
-        "stderr": "",
-        "wall_seconds": 0.678164417000005,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      },
-      "former_100m_run": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-          "verify",
-          "--work",
-          "100000000",
-          "cases/test46/source.mcm",
-          "cases/test46/target.mcm",
-          "cases/test46/lp-only/proof.rpx",
-          "cases/test46/lp-only/request.json"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":412708,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"model_decode_us\":186333,\"points\":0,\"proof_decode_us\":60985,\"read_us\":4324,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":664350}\n",
-        "stderr": "",
-        "wall_seconds": 0.6794180830000016,
-        "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-        "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-      }
-    }
-  ],
-  "former_100m_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "--work",
-        "100000000",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/mi-forward/proof.rpx",
-        "cases/test46/mi-forward/request.json"
-      ],
-      "exit_code": 3,
-      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
-      "stderr": "",
-      "wall_seconds": 8.931349166000004,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "--work",
-        "100000000",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/mi-reverse/proof.rpx",
-        "cases/test46/mi-reverse/request.json"
-      ],
-      "exit_code": 3,
-      "stdout": "{\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"message\":\"RESOURCE_LIMIT proof work budget\",\"status\":\"RESOURCE_LIMIT\"}\n",
-      "stderr": "",
-      "wall_seconds": 4.2272642499999975,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-wave-rpx-2026-10-11/release/rpx",
-        "verify",
-        "--work",
-        "100000000",
-        "cases/test46/source.mcm",
-        "cases/test46/target.mcm",
-        "cases/test46/lp-only/proof.rpx",
-        "cases/test46/lp-only/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":1,\"execute_us\":412708,\"limits\":{\"depth\":64,\"live_facts\":1000000,\"work\":100000000},\"model_decode_us\":186333,\"points\":0,\"proof_decode_us\":60985,\"read_us\":4324,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":68,\"interval_generated_terms\":2190,\"interval_generated_variables\":17,\"interval_lifts\":1,\"linear_terms\":556925,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":379628,\"peak_live_facts\":491,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":372706,\"work\":7424119},\"status\":\"VERIFIED\",\"total_us\":664350}\n",
-      "stderr": "",
-      "wall_seconds": 0.6794180830000016,
-      "binary_sha256_before": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-      "binary_sha256_after": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-    }
-  ],
-  "statistics": {
-    "bijections": 0,
-    "branches": 96947,
-    "flow_generated_rows": 0,
-    "flow_generated_terms": 0,
-    "flow_generated_variables": 0,
-    "flow_lifts": 0,
-    "injectivity_coordinates": 0,
-    "injectivity_generated_rows": 0,
-    "injectivity_generated_terms": 0,
-    "injectivity_generated_variables": 0,
-    "interval_generated_rows": 69004,
-    "interval_generated_terms": 140062,
-    "interval_generated_variables": 17251,
-    "interval_lifts": 2,
-    "linear_terms": 223958117,
-    "menu_generated_rows": 0,
-    "menu_generated_terms": 0,
-    "menu_generated_variables": 0,
-    "menu_lifts": 0,
-    "objective_level_domains": 0,
-    "objective_level_generated_rows": 0,
-    "objective_level_generated_terms": 0,
-    "obligations": 1105551,
-    "peak_live_facts": 344878,
-    "plotkin_pairs": 0,
-    "point_coefficient_terms": 0,
-    "points": 0,
-    "signed_generated_rows": 0,
-    "signed_generated_terms": 0,
-    "signed_generated_variables": 0,
-    "signed_lifts": 0,
-    "substitution_terms": 994026,
-    "work": 551077751
-  },
-  "exceeds_former_100m_work": true,
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test46/source.mcm",
       "bytes": 20470080,
       "sha256": "2f07c2090f0ec98f1042a40e321cde175642f2e04653c009fc3a0aa900f17ec5"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test46/target.mcm",
       "bytes": 7031334,
       "sha256": "a99509a4ecf58aedfeb2f8f061ed3e7994a59f5a2d8156d787f7a55f966c2dee"
     },
-    "oracle.json": {
-      "bytes": 548,
-      "sha256": "f3f42dd72952c72616b1c3e4eedacc3606de4b2df2abbbdbb259214446349274"
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test46/proof.rpa",
+      "bytes": 207121703,
+      "sha256": "cdb4c0c02dc86994ac24da5e2715fce85cb9162cbbf05085d08d9476ee36548f"
     },
-    "structure.json": {
-      "bytes": 494,
-      "sha256": "8947329e44a67a3ba3d58848966e5b54d45d354aa3f4556db2ea6d89d7eaf6f0"
-    },
-    "bundle.json": {
-      "bytes": 12132,
-      "sha256": "3cfab80330f023c8ed6e443ac8e536764b97582d19bf80b7271ebe85141eeb17"
-    },
-    "combined-attempt.rpa": {
-      "bytes": 432885912,
-      "sha256": "7b6784cdcdbcf61636031c8703b322f95ef7d0236e8fecb875b8d5578aa979cb"
-    },
-    "combined-request.json": {
-      "bytes": 2585390,
-      "sha256": "8632326aa5874f97b0c5c873708d2d3e6968e80d4709b0bde31aa14cce06a2f7"
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test46/proof.rpx",
+      "bytes": 339924894,
+      "sha256": "1bbe88a406bf5ec0685278c3c324733013ff873f76ae6e49b28c0908d28ac491"
     }
   },
-  "kernel_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-  "preparers": {
-    "tools/prepare_test46.py": "56e9dc22dfcebabd4c3123d663d20d43a52a3a6799a3666ed555e21fc5096480",
-    "tools/prepare_test46_full.py": "e753e1030954ec0d2a96776bb1afd0fdf64e5b83c718ec9d097a441d2d3ce0a2",
-    "/Users/bhz/Code/kernel/tools/finalize_test46.py": "214736a22e426a7331c838382eb4840f357a3751215a23309f9f79ebeecfba0a",
-    "tools/oracle_test46.py": "6f4074f16367e30bab77b9d9ee5950d1e4b6a34b44fd99cdfb46ace2a9dd4a0e",
-    "tools/finalize_test46.py": "f9e57162c9808adb3041fc1a002368311f93febeb581398fcd4383cde530af88"
+  "verification": {
+    "execute_us": 28897433,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 144882,
+    "proof_decode_us": 1380925,
+    "read_us": 27723,
+    "statistics": {
+      "branches": 96947,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 68936,
+      "interval_generated_terms": 137872,
+      "interval_generated_variables": 17234,
+      "interval_lifts": 1,
+      "linear_terms": 223401192,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 603851,
+      "peak_live_facts": 344878,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 621320,
+      "work": 543531560
+    },
+    "status": "VERIFIED",
+    "total_us": 30450975
   },
-  "attack_status": "ALL_6_INVALID",
-  "fixed_identity_validation": {
-    "status": "PASS",
-    "commands": 19,
-    "binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655"
-  },
-  "preserved_author_attempt": {
-    "path": "cases/test46/forward-initial-sign-error.log",
-    "bytes": 6105884,
-    "sha256": "e1bd634dea4c19c46f57b303cc58028e48d81db73885b1936f9db265813d13d2",
-    "status": "AUTHOR_ASSERTION_REJECTED",
-    "meaning": "Wrong cost-row sign in untrusted author code was rejected by Fraction expression equality before RPA emission; does not invalidate the actual transformation."
-  },
-  "independent_read_review": "audit/test46_read_review.md",
-  "non_authoritative_identity_attempt": "cases/test46/unpinned-finalizer-attempt/IDENTITY_NOTICE.json",
-  "completion_kind": "same-model-pair-directional-bundle",
-  "complete_claim_count": 3,
-  "verification_results": {
-    "kind": "three-independent-complete-request-replays",
-    "manifest": "cases/test46/bundle.json",
-    "all_directions_verified": true,
-    "all_actual_models_identical": true,
-    "not_a_single_kernel_invocation": true
-  }
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

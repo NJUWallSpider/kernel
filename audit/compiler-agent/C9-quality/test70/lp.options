@@ -1,5 +1,0 @@
-parallel = off
-threads = 1
-random_seed = 0
-time_limit = 120.0
-solve_relaxation = true

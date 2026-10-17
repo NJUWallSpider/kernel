@@ -2,22 +2,79 @@
   "case_id": "test9",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-20261004-004349/input/model.mps",
-    "sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442"
+    "path": "/Users/bhz/Code/kernel/cases/test9/source.mcm",
+    "sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-20261004-004349/output/reformulated.mps",
-    "sha256": "09d720d4f1e23d369a6af4f1b49c96663130aa0babc62611bbd9c5b10e977632"
+    "path": "/Users/bhz/Code/kernel/cases/test9/target.mcm",
+    "sha256": "ebb3ed75a511d4b67dbef1db7ba0e178102d67ef7cb9b55ef1d578f1f8e6ce32"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test9/source.mcm",
+      "bytes": 240105,
+      "sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test9/target.mcm",
+      "bytes": 180389,
+      "sha256": "ebb3ed75a511d4b67dbef1db7ba0e178102d67ef7cb9b55ef1d578f1f8e6ce32"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test9/proof.rpa",
+      "bytes": 168082,
+      "sha256": "2b6dacba073d420f91c9755878637525adb8d05696da1980fafea4e12c8be239"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test9/proof.rpx",
+      "bytes": 271836,
+      "sha256": "6d1278b4500ecd1ac68b3f4307165e2e6f973729434d67c16e6f329377a7c47b"
+    }
+  },
+  "verification": {
+    "execute_us": 15887,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 3791,
+    "proof_decode_us": 1202,
+    "read_us": 53,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 6486,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 6389,
+      "peak_live_facts": 584,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 14536,
+      "work": 92692
+    },
+    "status": "VERIFIED",
+    "total_us": 20940
+  },
+  "preparation_seconds": 0.25014358301996253,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test9-nomf-20261004-004349/output/audit.json",
     "sha256": "0d3b01b856db7eb441a0412c1a257c9e2e6fead90c316e3c8a2fbcaf997fe945"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test9.py",
-    "sha256": "e38d4d0fd4e5255432144e2151e6e79d4ce4cc9fb9488758594a1033c4931c82"
-  },
-  "claims": "Complete integer and LP affine bijections, preserving all retained original coordinates and the exact objective including the actual fixed offset column. Both complete inverse compositions, all removed bounds and all original rows are proved.",
   "counts": {
     "source_variables": 2298,
     "target_variables": 1536,
@@ -26,128 +83,6 @@
     "eliminated_nonnegative_exits": 763,
     "removed_bound_rows": 180,
     "explicit_fixed_offset": "-77180001/1000000",
-    "claims": 4,
-    "obligations_by_claim": [
-      6557,
-      6736,
-      6387,
-      6566
-    ]
-  },
-  "preparation_seconds": 0.43035483399999996,
-  "rpa_sha256": "b9cefe6f82bda568131dff0078e3b0993bc71604f2f586368c0bd8dd88fe5c0f",
-  "rpa_bytes": 861862,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test9-nomf-20261004-004349/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test9/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":240105,\"parse_us\":4154,\"read_us\":66,\"rows\":1026,\"status\":\"CANONICALIZED\",\"total_us\":6117,\"variables\":2298}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test9-nomf-20261004-004349/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test9/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":180389,\"parse_us\":3069,\"read_us\":29,\"rows\":846,\"status\":\"CANONICALIZED\",\"total_us\":4392,\"variables\":1536}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test9/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test9/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":651562,\"status\":\"ASSEMBLED\",\"total_us\":8121}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test9/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test9/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test9/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test9/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":61936,\"model_decode_us\":3432,\"points\":0,\"proof_decode_us\":2599,\"read_us\":128,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":12974,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":26246,\"peak_live_facts\":584,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":39948,\"work\":233658},\"status\":\"VERIFIED\",\"total_us\":68095}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 240105,
-      "sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378"
-    },
-    "target.mcm": {
-      "bytes": 180389,
-      "sha256": "ebb3ed75a511d4b67dbef1db7ba0e178102d67ef7cb9b55ef1d578f1f8e6ce32"
-    },
-    "proof.rpx": {
-      "bytes": 651562,
-      "sha256": "4a06c63d0a99a4b8ef0958b709fc1967dc381dce3bcc6a47b93bcaa20b43b3af"
-    },
-    "request.json": {
-      "bytes": 66300,
-      "sha256": "2e0018eaffeb522c5bf31d2f318ac8e99fd615376eac5831036b39cd0da922ac"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "wrong_offset",
-      "rule_broken": "Maps the actual fixed objective-offset column to zero.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID non-tautological exact obligation; obligation 1365",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "fddeea49b1c0f19a9d06dcd480f0767cf862e906665ecbf64efa25298df9b928",
-      "rpx_sha256": "39f73423539c158d2f48ff38320591c8491baf85e712ec7a643ee692f80dffaa"
-    },
-    {
-      "mutation": "missing_nonnegative_premise",
-      "rule_broken": "Drops the eliminated nonnegative variable bound needed for a projected inequality.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 1996",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "34e07676eb14514e2d0358616d3429cc0495acf27fa693f4ade727c82be410a0",
-      "rpx_sha256": "4b37969b3e7f3afd0fd1279627c8242c660d46adb22967bc0b6241c0217fb395"
-    },
-    {
-      "mutation": "wrong_recovery",
-      "rule_broken": "Changes an eliminated exit recovery constant.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq; obligation 4995",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "09a64044440dc33287c77246daf20b2840158627628f0d38b36c39418576f2d7",
-      "rpx_sha256": "5780359d84278b7801c1e43a41020695ef9a4b6beb431c8965f638a3d972e0e6"
-    },
-    {
-      "mutation": "missing_inverse",
-      "rule_broken": "Omits a requested complete affine composition coordinate.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "54819c3f016c59087133a27f09388cd534388cbb13af7a994ddd41ce2339a2db",
-      "rpx_sha256": "2e7e04f53d3c712b87904dbca0d993810e33f3d828d9e5fc7c81bad0afe157a7"
-    }
-  ]
+    "directions": 2
+  }
 }

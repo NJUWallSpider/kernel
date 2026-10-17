@@ -1,1 +1,0 @@
-[{"reverse":false,"input_integers":false,"output_integers":false,"objective":"Equal","projection":[[0,0]],"inverse":null,"input_halfspace":{"constant":"0","terms":[[0,"1"]]},"input_objective_level":"7"}]

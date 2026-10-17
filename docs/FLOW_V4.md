@@ -166,13 +166,12 @@ checked proof of the Rust implementation.
 
 ## Actual common-source aggregation
 
-[test28](../cases/test28/README.md) applies this rule to 47 continuous commodities
+[test28](../cases/test28/preparation.json) applies this rule to 47 continuous commodities
 on a 19-node, 50-arc graph, aggregated into 14 common-source groups. Its complete
 historical two-direction contract preserves all 150 integer capacity coordinates and every
 attainable objective value for each assignment. It does not claim a bijection of
 the continuous flow vectors. The reverse extension adds 2,350 continuous flow
 coordinates and 1,593 equalities; the ordinary child proof checks every actual
-source bound, domain, row, objective and observation. The case record and
-[delivery report](../audit/FINAL_DELIVERY_REPORT.md) locate the replay evidence.
+source bound, domain, row, objective and observation. The current case receipt locates the retained MI-OPT delivery.
 
 The current migrated certificate checks only complete MI optimization equivalence; historical additional property checks are not part of RPX 11.

@@ -9,154 +9,89 @@
     "path": "/Users/bhz/Code/reform_test/runs/test48-nomf-B1/output/reformulated.mps",
     "sha256": "3cb37a96f05f07216690f337770cf2e07e278a27b86dc1910b9f76c33675cd08"
   },
-  "audit": {
-    "path": "/Users/bhz/Code/reform_test/runs/test48-nomf-B1/output/audit.json",
-    "sha256": "d6366c5da427d0b8e69dfb9c82db64ad08615bf6f1e409ee175501fb0903f06b"
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test48/source.mcm",
+      "bytes": 320080,
+      "sha256": "216ab28eb28d84d81aa668c08c659a1f9ed9d0528edae6a65e4548c737148bb6"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test48/target.mcm",
+      "bytes": 260150,
+      "sha256": "8c616e6445ca760a5c6908dec801536b3f2559b0f8f0a5db856f77d3686c9dd2"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test48/proof.rpa",
+      "bytes": 13494908,
+      "sha256": "a8861ec4140391c82d5f17328eba782cf6f2bd2de62bdb54086b02b3d272ef4e"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test48/proof.rpx",
+      "bytes": 14900238,
+      "sha256": "10a343975af5b406f5e219f6398c3f565c1fcf148e94559b4393abc59659f730"
+    }
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test48.py",
-    "sha256": "52b5a1014128d4a0bc14d71dc984239dbe46b2ceed659a317e0d1ec36c2ee707"
+  "verification": {
+    "execute_us": 129238,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 2696,
+    "proof_decode_us": 58326,
+    "read_us": 1677,
+    "statistics": {
+      "branches": 20325,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 6729,
+      "interval_generated_terms": 12997,
+      "interval_generated_variables": 1357,
+      "interval_lifts": 1,
+      "linear_terms": 359790,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 12350,
+      "peak_live_facts": 6424,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 19459,
+      "work": 5709895
+    },
+    "status": "VERIFIED",
+    "total_us": 191944
   },
-  "claims": "Complete MI forward objective equality, MI reverse objective nonincrease, all150 selector observations both directions; complete LP objective-preserving affine bijection with both inverse identities. No equality of nonoptimal MI child tuples or objective values claimed.",
+  "preparation_seconds": 17.399745041999267,
+  "timings": {
+    "compile_seconds": 1.3739900000218768,
+    "verify_seconds": 0.19941487497999333,
+    "compile_verify_seconds": 1.57340487500187
+  },
   "counts": {
     "source_variables": 1747,
     "target_variables": 1502,
     "source_rows": 2107,
     "target_rows": 1860,
-    "claims": 4,
+    "claims": 2,
     "retained_selector_projections": 144,
     "fixed_selector_affine_observations": 6,
     "local_blocks": 475,
+    "obligations_by_claim": [
+      5007,
+      7343
+    ],
     "intervals": 1357,
     "interval_rows": 6729,
-    "body_obligations": 7493,
-    "allocated_ids": 242643
-  },
-  "preparation_seconds": 5.464351666000001,
-  "rpa_sha256": "d5dbef8d212ffa0adc709e78eeea2f7f10c6c1fe23c79e0b6e04656b93be6a0e",
-  "rpa_bytes": 28513126,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test48-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test48/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":320080,\"parse_us\":5134,\"read_us\":113,\"rows\":2107,\"status\":\"CANONICALIZED\",\"total_us\":6888,\"variables\":1747}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test48-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test48/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":260150,\"parse_us\":3525,\"read_us\":66,\"rows\":1860,\"status\":\"CANONICALIZED\",\"total_us\":5020,\"variables\":1502}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test48/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test48/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":15369641,\"status\":\"ASSEMBLED\",\"total_us\":206842}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test48/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test48/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test48/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test48/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":376424,\"model_decode_us\":3267,\"points\":0,\"proof_decode_us\":55196,\"read_us\":1638,\"statistics\":{\"bijections\":0,\"branches\":20325,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":6729,\"interval_generated_terms\":12997,\"interval_generated_variables\":1357,\"interval_lifts\":1,\"linear_terms\":375918,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":26660,\"peak_live_facts\":6674,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":40445,\"work\":5865336},\"status\":\"VERIFIED\",\"total_us\":436525}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 320080,
-      "sha256": "216ab28eb28d84d81aa668c08c659a1f9ed9d0528edae6a65e4548c737148bb6"
-    },
-    "target.mcm": {
-      "bytes": 260150,
-      "sha256": "8c616e6445ca760a5c6908dec801536b3f2559b0f8f0a5db856f77d3686c9dd2"
-    },
-    "proof.rpx": {
-      "bytes": 15369641,
-      "sha256": "f7c96bbf35a1c7422da228f3dab39573198c072fb9824c33700c381c09850339"
-    },
-    "request.json": {
-      "bytes": 9090,
-      "sha256": "a27947d164cdc9a9fc89d1e8278002a50e9a2fcf20d1debec499b69490cddc01"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "missing_interval_pair",
-      "rule_broken": "One middle priority interval omits a lower/upper compatibility reference.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID interval: missing or surplus lower-upper pair checks",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "6011d0bbbc2d5c02eb31cfea9b4006b3dae80b7b2bc9e4f86fcacb8791b7d7ae",
-      "rpx_sha256": "25f9b31c504e3a18cbd70b88929d15fa32c5536d3b44e5bc355b78ab1f49d518"
-    },
-    {
-      "mutation": "continuous_integer_witness",
-      "rule_broken": "An integer Cases split cites an actually continuous target child as its integrality witness.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "d9632896ab37eef0c4966cc4a766fbdc8a93c4f67c5e72afa20eee934da68270",
-      "rpx_sha256": "57022f14959690f90d71f733cd5ebc745ce161f6633b404cb578d89a8c11cebc"
-    },
-    {
-      "mutation": "fractional_child_mapping",
-      "rule_broken": "One original binary child is mapped back to an unrounded continuous target child.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 0",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "0a6526021938fcd6c1a5becc12669db562f9b37f104128f656c3d618136606a2",
-      "rpx_sha256": "2d7446478b9e9bb9f1b40f0085a394d40b0f393fdccd204b9c3593e40bc1373b"
-    },
-    {
-      "mutation": "wrong_objective_combination",
-      "rule_broken": "The actual objective-definition equality receives the opposite multiplier in the final cost bound.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 7342",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "14c000ee76d814996afea58de238b77098757281c8c37c437e55dcf4203e3c17",
-      "rpx_sha256": "2b8c6c25299ecf572cebffad99ddb4c145ae988a649f72726b108896a161e3b0"
-    },
-    {
-      "mutation": "lost_fixed_selector",
-      "rule_broken": "An explicitly preserved deleted selector is reconstructed as one rather than zero.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID non-tautological exact obligation; obligation 4960",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "3273c6630caa16cc6270926720746205c160cb0dad58974528bafa9f7f6d4982",
-      "rpx_sha256": "045c3663fbbf9abf0ab2ab73c459e1a8fba9ad3983eb3b94883a56f5bf88cbb0"
-    }
-  ]
+    "body_obligations": 7343,
+    "allocated_ids": 7160
+  }
 }

@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Complete exact affine slack/difference proof for immutable actual test63."""
+"""Complete exact affine slack/difference proof for immutable actual test63.
+
+Only the two native MI-OPT directions are emitted.  The legacy LP duplicate
+claims, affine-projection pairs and inverse obligations described a four-claim
+RPA request and are not part of the native certificate.
+"""
 from fractions import Fraction as F
 from pathlib import Path
-import argparse,copy,json,subprocess,time
+import argparse,json,time
 from prepare_affine import parse_mps,row_ref
-from prepare_test40 import expression,plus,mul,expr_json,row_fact,substitute,sha
-from prepare_test48 import Proof,emit_checks
+from prepare_test40 import expression,plus,mul,row_fact,substitute,sha
+from prepare_test48 import emit_checks
+from prepare_native import compile_case,make_proof
 
 
 def inspect(a,b,h):
@@ -48,64 +54,33 @@ def inspect(a,b,h):
 
 
 def prepare(a,b,h):
-    forward,reverse,loads,evidence=inspect(a,b,h);pairs=[[i,b['var_index'][v['name']]] for i,v in enumerate(a['vars']) if v['name'] in b['var_index']];fixed=a['var_index']['x2']
-    claims=[]
-    for integer in [True,False]:
-        base=len(claims)
-        claims.extend([
-            {'reverse':False,'input_integers':integer,'output_integers':integer,'objective':'Equal','projection':pairs,'affine_projection':[[expr_json(expression(0,{fixed:1})),expr_json(expression())]],'inverse':base+1},
-            {'reverse':True,'input_integers':integer,'output_integers':integer,'objective':'Equal','projection':[[j,i] for i,j in pairs],'affine_projection':[[expr_json(expression()),expr_json(expression(0,{fixed:1}))]],'inverse':base},
-        ])
-    blocks=[]
-    for integer in [True,False]:
-        p=Proof(a);zero=p.eqpair({'VarUpper':fixed},{'VarLower':fixed});p.add('Eq',zero)
-        f=emit_checks(p,b,forward,claims[len(blocks)],inverse=reverse);blocks.append(f)
-        p=Proof(b);prefix=None;rows={}
-        for row_name,slack,row in loads:
-            ref=row_ref(b,row_name);terms=[[ref,F(1)]]+([[prefix,F(1)]] if prefix else [])
-            prefix=p.lin('Eq',terms,plus(substitute(row_fact(row,'RowUpper'),reverse),expression(0,{b['var_index'][slack]:1})));p.add('Eq',prefix)
-            rows[a['row_index'][row_name]]=p.lin('Le',[[prefix,F(1)],[{'VarLower':b['var_index'][slack]},F(1)]],substitute(row_fact(row,'RowUpper'),reverse))
-        r=emit_checks(p,a,reverse,claims[len(blocks)],rows=rows,inverse=forward);blocks.append(r)
-    return {'claims':claims,'blocks':blocks},evidence
-
-
-def attacks(cert,out,kernel,request,b):
-    checks=[]
-    for name,reason in [
-        ('negative_slack_map','A forward slack has its sign reversed, violating its actual lower bound.'),
-        ('broken_prefix','A middle reverse prefix equality omits its predecessor, so a complete original load row no longer follows.'),
-        ('wrong_fixed_zero','The eliminated original fixed-zero coordinate is reconstructed as one.'),
-        ('missing_last_inverse','The LP reverse Return omits the last complete affine inverse coordinate check.'),
-        ('wrong_original_objective','The source objective-preservation check cites a nonzero constant equality.'),
-    ]:
-        bad=copy.deepcopy(cert)
-        if name=='negative_slack_map':
-            e=bad['blocks'][0]['end']['Return']['map'][b['var_index']['S045']];e['constant']=str(-F(e['constant']));e['terms']=[[i,str(-F(c))] for i,c in e['terms']]
-        elif name=='broken_prefix':
-            eqs=[x['Lin'] for x in bad['blocks'][1]['steps'] if 'Lin' in x and x['Lin']['kind']=='Eq'];step=eqs[45];assert len(step['terms'])==2;step['terms'].pop()
-        elif name=='wrong_fixed_zero':
-            source_fixed=cert['claims'][1]['affine_projection'][0][1]['terms'][0][0];bad['blocks'][1]['end']['Return']['map'][source_fixed]=expr_json(expression(1))
-        elif name=='missing_last_inverse':bad['blocks'][3]['end']['Return']['checks'].pop()
-        elif name=='wrong_original_objective':
-            block=bad['blocks'][0];objective_index=sum((v['lower'] is not None)+(v['upper'] is not None)+v['integer'] for v in b['vars'])+len(b['rows']);ref=block['end']['Return']['checks'][objective_index];step=next(s['Lin'] for s in block['steps'] if 'Lin' in s and s['Lin']['id']==ref['Local']);step['constant']='1'
-        directory=out/'attacks';directory.mkdir(exist_ok=True);rpa=directory/(name+'.rpa');rpx=directory/(name+'.rpx');rpa.write_text('RPA 5\n'+json.dumps(bad,separators=(',',':'))+'\n')
-        assembled=subprocess.run([str(kernel),'assemble',str(rpa),str(rpx)],capture_output=True,text=True);assert assembled.returncode==0,(assembled.stdout,assembled.stderr)
-        result=subprocess.run([str(kernel),'verify',str(out/'source.mcm'),str(out/'target.mcm'),str(rpx),str(request)],capture_output=True,text=True);value=json.loads(result.stdout);assert result.returncode==2 and value['status']=='INVALID',(name,result.stdout,result.stderr)
-        checks.append({'mutation':name,'rule_broken':reason,'exit_code':result.returncode,'result':value,'rpa_sha256':sha(rpa),'rpx_sha256':sha(rpx)})
-    return checks
+    forward,reverse,loads,evidence=inspect(a,b,h);fixed=a['var_index']['x2']
+    proof,f,r=make_proof(a,b)
+    zero=f.eqpair({'VarUpper':fixed},{'VarLower':fixed})
+    f.add('Eq',zero)
+    f.finish(forward,emit_checks(f,b,forward))
+    prefix=None;rows={}
+    for row_name,slack,row in loads:
+        ref=row_ref(b,row_name);terms=[[ref,F(1)]]+([[prefix,F(1)]] if prefix else [])
+        prefix=r.lin('Eq',terms,plus(substitute(row_fact(row,'RowUpper'),reverse),expression(0,{b['var_index'][slack]:1})));r.add('Eq',prefix)
+        rows[a['row_index'][row_name]]=r.lin('Le',[[prefix,F(1)],[{'VarLower':b['var_index'][slack]},F(1)]],substitute(row_fact(row,'RowUpper'),reverse))
+    r.finish(reverse,emit_checks(r,a,reverse,rows=rows))
+    counts={'source_variables':len(a['vars']),'target_variables':len(b['vars']),'rows':len(a['rows']),
+            'slack_variables':len(loads),'fixed_coordinates':1,'directions':2}
+    return proof,evidence,counts
 
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--run',type=Path,default=Path('/Users/bhz/Code/reform_test/runs/test63-nomf-B1'));ap.add_argument('--out',type=Path,default=Path('cases/test63'));ap.add_argument('--kernel',type=Path);args=ap.parse_args()
-    start=time.perf_counter();run=args.run.resolve();out=args.out.resolve();out.mkdir(parents=True,exist_ok=True);source=run/'input/model.mps';target=run/'output/reformulated.mps';hint=run/'output/audit.json';a,b=parse_mps(source),parse_mps(target);cert,evidence=prepare(a,b,json.loads(hint.read_text()))
-    rpa=out/'proof.rpa';request=out/'request.json';rpa.write_text('RPA 5\n'+json.dumps(cert,separators=(',',':'))+'\n');request.write_text(json.dumps(cert['claims'],separators=(',',':'))+'\n');(out/'independent_structure.json').write_text(json.dumps(evidence,indent=2)+'\n')
-    receipt={'case_id':'test63','status':'PROOF_NOT_COMPLETED','source':{'path':str(source),'sha256':sha(source)},'target':{'path':str(target),'sha256':sha(target)},'proof_preparer':{'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))},'claims':'Complete objective-preserving affine bijection in both mixed-integer and LP modes, with every retained named coordinate and fixed-zero observation explicit.','preparation_seconds':time.perf_counter()-start,'rpa_bytes':rpa.stat().st_size,'rpa_sha256':sha(rpa),'kernel_runs':[]}
-    if args.kernel:
-        kernel=args.kernel.resolve();receipt['kernel_binary_sha256']=sha(kernel)
-        for command in [['canonical',str(source),str(out/'source.mcm')],['canonical',str(target),str(out/'target.mcm')],['assemble',str(rpa),str(out/'proof.rpx')],['verify',str(out/'source.mcm'),str(out/'target.mcm'),str(out/'proof.rpx'),str(request)]]:
-            p=subprocess.run([str(kernel)]+command,capture_output=True,text=True);receipt['kernel_runs'].append({'command':[str(kernel)]+command,'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr})
-            if p.returncode:
-                receipt['status']=json.loads(p.stdout).get('status','EXECUTION_FAILED') if p.stdout else 'EXECUTION_FAILED';(out/'preparation.json').write_text(json.dumps(receipt,indent=2)+'\n');raise SystemExit(p.stdout+p.stderr)
-        receipt['negative_checks']=attacks(cert,out,kernel,request,b);receipt['status']='VERIFIED';receipt['artifacts']={name:{'bytes':(out/name).stat().st_size,'sha256':sha(out/name)} for name in ['source.mcm','target.mcm','proof.rpx','request.json']}
-    (out/'preparation.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:receipt[k] for k in ['case_id','status','preparation_seconds','rpa_bytes']},indent=2))
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--run',type=Path,default=Path('/Users/bhz/Code/reform_test/runs/test63-nomf-B1'));ap.add_argument('--out',type=Path,default=Path('cases/test63'));args=ap.parse_args()
+    start=time.perf_counter();run=args.run.resolve();out=args.out.resolve();source=run/'input/model.mps';target=run/'output/reformulated.mps';hint=run/'output/audit.json';a,b=parse_mps(source),parse_mps(target)
+    proof,evidence,counts=prepare(a,b,json.loads(hint.read_text()))
+    record=compile_case(proof,out,case_id='test63',source=source,target=target,
+                        metadata={'audit':{'path':str(hint),'sha256':sha(hint)},
+                                  'proof_preparer':{'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))},
+                                  'claims':'Two native MI-OPT directions proving objective-preserving affine equivalence of the actual slack extended formulation; the legacy LP duplicate and separate projection/inverse claims are not emitted.',
+                                  'counts':counts,'preparation_seconds':time.perf_counter()-start})
+    (out/'independent_structure.json').write_text(json.dumps(evidence,indent=2)+'\n')
+    (out/'preparation.json').write_text(json.dumps(record,indent=2)+'\n')
+    print(json.dumps({'case_id':record['case_id'],'status':record['status'],'guarantee':record['verification'].get('guarantee'),'counts':counts,'obligations':record['verification']['statistics']['obligations'],'seconds':record['preparation_seconds']},indent=2))
+
 if __name__=='__main__':main()

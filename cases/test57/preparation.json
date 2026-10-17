@@ -2,145 +2,94 @@
   "case_id": "test57",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test57-nomf-B1/input/model.mps",
-    "sha256": "f8adf452843a88485d9f1d2257d0ce88058b876cc0a42d0fa4ce6262a33ad398"
+    "path": "/Users/bhz/Code/kernel/cases/test57/source.mcm",
+    "sha256": "dba136910f98281f756b78bcde9f42ee2b4835885bf80efd1b111d91e8a6b9d1"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test57-nomf-B1/output/reformulated.mps",
-    "sha256": "a723b78165a29d0a148bc9d93d6b309e2d8f7aef9b507165d55c82734e4b1189"
+    "path": "/Users/bhz/Code/kernel/cases/test57/target.mcm",
+    "sha256": "38eb6387f38125d3d7530f7f16d43efa8f6d5fefe9713044361e1a849e5e782e"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test57/source.mcm",
+      "bytes": 30901796,
+      "sha256": "dba136910f98281f756b78bcde9f42ee2b4835885bf80efd1b111d91e8a6b9d1"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test57/target.mcm",
+      "bytes": 28363119,
+      "sha256": "38eb6387f38125d3d7530f7f16d43efa8f6d5fefe9713044361e1a849e5e782e"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test57/proof.rpa",
+      "bytes": 20766388,
+      "sha256": "9f1ecff4e30bef6f4675b1ce18fa964e3645c3ec54c34eeabe4bcf8cd29790a5"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test57/proof.rpx",
+      "bytes": 27914912,
+      "sha256": "29dc808d32abf8988dcdb3fb5b28ff0de5d2d6543b3615a3a246e6c966ede07c"
+    }
+  },
+  "verification": {
+    "execute_us": 1017779,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 362570,
+    "proof_decode_us": 84639,
+    "read_us": 7347,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 1124516,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 677762,
+      "peak_live_facts": 49944,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 2710482,
+      "work": 17206834
+    },
+    "status": "VERIFIED",
+    "total_us": 1472341
+  },
+  "preparation_seconds": 34.293391042010626,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test57-nomf-B1/output/audit.json",
     "sha256": "6023ff070d73370c9d73a569102de6e677a41f2b4a603a755d5f81ffcccc6d62"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test57.py",
-    "sha256": "eabd74487f1a7ec6b31afcdd781c52030059342782ac884f5f2ab963759e872e"
-  },
-  "claims": "Complete objective-preserving integer and continuous-relaxation affine bijections; all retained coordinates preserved, all reconstructed binary-sum domains and bounds proved from actual target gate rows, and both compositions equal the identity.",
+  "claims": "Native MI-OPT directions: all retained coordinates preserved and every reconstructed bounded binary sum proved from actual target gate rows; both directions preserve the objective.",
   "counts": {
     "source_variables": 114240,
     "target_variables": 97368,
     "source_rows": 29904,
     "target_rows": 13032,
     "eliminated_bounded_binary_sums": 16872,
-    "claims": 4,
-    "obligations_by_claim": [
-      516745,
-      567361,
-      419377,
-      453121
+    "claims": 2,
+    "obligations_by_direction": [
+      305137,
+      372625
     ],
-    "steps_by_claim": [
-      12804,
-      49944,
-      12804,
-      33408
+    "steps_by_direction": [
+      4368,
+      49944
     ]
-  },
-  "preparation_seconds": 61.629414167,
-  "rpa_sha256": "d969623839112480f9b17299f4ac1687ef96601f14e10ec3fff08a6df88d0609",
-  "rpa_bytes": 84716208,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test57-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test57/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":30901796,\"parse_us\":558916,\"read_us\":13857,\"rows\":29904,\"status\":\"CANONICALIZED\",\"total_us\":745976,\"variables\":114240}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test57-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test57/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":28363119,\"parse_us\":498023,\"read_us\":4588,\"rows\":13032,\"status\":\"CANONICALIZED\",\"total_us\":670250,\"variables\":97368}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test57/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test57/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":59995996,\"status\":\"ASSEMBLED\",\"total_us\":587074}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test57/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test57/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test57/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test57/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":4,\"execute_us\":5033191,\"model_decode_us\":378109,\"points\":0,\"proof_decode_us\":166161,\"read_us\":11617,\"statistics\":{\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":2266240,\"obligations\":1956604,\"peak_live_facts\":49944,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":5904148,\"work\":35551444},\"status\":\"VERIFIED\",\"total_us\":5589078}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "425a40c6b259bb9db45d9e1a2fac56dece8ad60c2226a314c783595e0a19e608",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 30901796,
-      "sha256": "dba136910f98281f756b78bcde9f42ee2b4835885bf80efd1b111d91e8a6b9d1"
-    },
-    "target.mcm": {
-      "bytes": 28363119,
-      "sha256": "38eb6387f38125d3d7530f7f16d43efa8f6d5fefe9713044361e1a849e5e782e"
-    },
-    "proof.rpx": {
-      "bytes": 59995996,
-      "sha256": "943ad3c59a8c01a242a42ec6361478d4c5a516474c258e7ace29c145463fb9f2"
-    },
-    "request.json": {
-      "bytes": 5364172,
-      "sha256": "50d895167d9127afe021f119c06fcf97164e8f433604fa98801bfd6f4ace31b4"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "missing_gate_upper",
-      "rule_broken": "Omits the gate variable upper bound required to prove a reconstructed auxiliary is at most one.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 292105",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "21eab37dc6a9012c245ca3cdc5684c90364390ef928fef139a0fab1b39e6502e",
-      "rpx_sha256": "4cc6d91ff8d56d87d4c2636d1614151d33062e1246c0ae3cc9f814182f6017f6"
-    },
-    {
-      "mutation": "wrong_sum_recovery",
-      "rule_broken": "Adds one to an eliminated binary sum, violating the actual auxiliary bounds and defining equality.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq; obligation 499873",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "09d27bd3e055a37ee69ade5b93e676c9f74c2d783c424b7ba778b5200517b98c",
-      "rpx_sha256": "09d5d5b78d34c0a10d94b1491a73686581dd6d77cf67a2c3086d4a84a6dd4481"
-    },
-    {
-      "mutation": "missing_inverse",
-      "rule_broken": "Omits a full composition obligation from an explicitly requested affine bijection.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "3eb18a88adccd819ef5619a3400eb10582bf4373c631fa59c991f93993a46b45",
-      "rpx_sha256": "b43796091fb823a4d72b9d86483d5077f34dff814fdbeabecb01fc708de7c0df"
-    }
-  ]
+  }
 }

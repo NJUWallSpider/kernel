@@ -216,7 +216,7 @@ def main():
     a,b=parse_mps(source),parse_mps(target);evidence=inspect(a,b,json.loads(hint.read_text()))
     evidence.update(case_id='test80',source={'path':str(source),'sha256':sha(source)},target={'path':str(target),'sha256':sha(target)},hint={'path':str(hint),'sha256':sha(hint)},auditor={'path':str(Path(__file__).resolve()),'sha256':sha(Path(__file__))})
     if args.kernel:
-        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'audit'));from lp_parse_sweep import Reader
+        from lp_parse_sweep import Reader
         kernel=args.kernel.resolve();runs=[]
         for role,model,path in [('source',a,source),('target',b,target)]:
             output=out/f'{role}.mcm';command=[str(kernel),'canonical',str(path),str(output)];p=subprocess.run(command,capture_output=True,text=True)

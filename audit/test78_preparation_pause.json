@@ -1,8 +1,0 @@
-{
-  "case_id": "test78",
-  "process_id": 11231,
-  "reason": "Parent requested an isolated V8 benchmark window. Owned preparation process was stopped explicitly and will be resumed.",
-  "pause_start_observed_utc": "2026-10-11 08:22:55 UTC",
-  "timing_note": "The preparer wall-clock interval includes this interruption; it is not an uninterrupted preparation benchmark.",
-  "resume_observed_utc": "2026-10-11 08:24:33 UTC"
-}

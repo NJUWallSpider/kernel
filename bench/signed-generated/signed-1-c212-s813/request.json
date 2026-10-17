@@ -1,1 +1,0 @@
-[{"reverse":false,"input_integers":true,"output_integers":true,"objective":"Equal","projection":[],"affine_projection":[[{"constant":"-3/11","terms":[[1,"-2/3"]]},{"constant":"0","terms":[[1,"-1"],[3,"1"]]}],[{"constant":"0","terms":[[0,"1"]]},{"constant":"0","terms":[[0,"1"],[2,"1"]]}]],"inverse":null}]

@@ -2,22 +2,79 @@
   "case_id": "test22",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/input/model.mps",
-    "sha256": "2750beca58335f18453023ea382c147ac1e5c3fde81c40f831c945047dbfc068"
+    "path": "/Users/bhz/Code/kernel/cases/test22/source.mcm",
+    "sha256": "68e7944a2182fe6d74d0176d33dee20ecb707cfe34f885a34ee3188d5bea84c4"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/output/reformulated.mps",
-    "sha256": "9099beb67f0efffcb3e3ca6b5b238127083fb58e9c7a3b93fee674cebaf446ab"
+    "path": "/Users/bhz/Code/kernel/cases/test22/target.mcm",
+    "sha256": "9a617bca63cab61d43d5477951289c979edf1c59d6245ea5ab5e99d5191f2d32"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test22/source.mcm",
+      "bytes": 42899,
+      "sha256": "68e7944a2182fe6d74d0176d33dee20ecb707cfe34f885a34ee3188d5bea84c4"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test22/target.mcm",
+      "bytes": 32372,
+      "sha256": "9a617bca63cab61d43d5477951289c979edf1c59d6245ea5ab5e99d5191f2d32"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test22/proof.rpa",
+      "bytes": 73225,
+      "sha256": "947a2b52aad584d13f3e7ae6b50b6941dc5d3f90c687500d48789385c62ee69a"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test22/proof.rpx",
+      "bytes": 133454,
+      "sha256": "d25c6ee9cf3d4ac9efb19ad47a26ab5c5a4077ce1777ff43b32aac73ac38551e"
+    }
+  },
+  "verification": {
+    "execute_us": 2398,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 504,
+    "proof_decode_us": 427,
+    "read_us": 28,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 3697,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 2064,
+      "peak_live_facts": 938,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 2493,
+      "work": 35329
+    },
+    "status": "VERIFIED",
+    "total_us": 3361
+  },
+  "preparation_seconds": 0.08155095900292508,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/output/audit.json",
     "sha256": "07bffeebeda1c6a0dbe755cf884ff7faddde5cf10e0b1d2d178e4eafe9b734d8"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test22.py",
-    "sha256": "264eae698565dd2a44593df8b281dfceb75fac5a151416ef08befc616ea2b9e4"
-  },
-  "claims": "Four complete integer and LP projection directions with all retained coordinates and the aggregate sum observation, exact objective equality including the encoded fixed offset, every original domain/equality and both bounds of every actual target ranged row. The aggregate pair is split equally; no bijection is claimed.",
   "counts": {
     "source_variables": 397,
     "target_variables": 213,
@@ -27,130 +84,14 @@
     "fixed_zero_integers": 13,
     "aggregate_pair": 2,
     "retained_coordinate_observations": 211,
-    "sum_observations": 1,
-    "claims": 4,
+    "directions": 2,
+    "legacy_claims_collapsed": 4,
+    "legacy_continuous_directions_omitted": 2,
+    "legacy_projection_observations_omitted": 212,
     "exact_objective_offset": "-3397586999999310018947800000094739/1000000000000000000000000000",
-    "obligations_by_claim": [
-      1139,
-      1349,
-      981,
-      1178
+    "obligations_by_direction": [
+      1137,
+      1137
     ]
-  },
-  "preparation_seconds": 0.123509292,
-  "rpa_sha256": "c57117d954b08fb8289f3a2f610e2f6cb3ff3f2a4c6354863a0a62a39e4c88b8",
-  "rpa_bytes": 203733,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test22/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":42899,\"parse_us\":713,\"read_us\":41,\"rows\":171,\"status\":\"CANONICALIZED\",\"total_us\":1039,\"variables\":397}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test22-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test22/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":32372,\"parse_us\":439,\"read_us\":33,\"rows\":171,\"status\":\"CANONICALIZED\",\"total_us\":691,\"variables\":213}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test22/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test22/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":156556,\"status\":\"ASSEMBLED\",\"total_us\":1930}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test22/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test22/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test22/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test22/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":4895,\"model_decode_us\":589,\"points\":0,\"proof_decode_us\":692,\"read_us\":64,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":5074,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":4647,\"peak_live_facts\":358,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":4994,\"work\":51683},\"status\":\"VERIFIED\",\"total_us\":6240}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 42899,
-      "sha256": "68e7944a2182fe6d74d0176d33dee20ecb707cfe34f885a34ee3188d5bea84c4"
-    },
-    "target.mcm": {
-      "bytes": 32372,
-      "sha256": "9a617bca63cab61d43d5477951289c979edf1c59d6245ea5ab5e99d5191f2d32"
-    },
-    "proof.rpx": {
-      "bytes": 156556,
-      "sha256": "2571a3d13b13c9cafa85811f99cd0fb0e6cfc9410dde8afe1d4af5dadc0c865c"
-    },
-    "request.json": {
-      "bytes": 8764,
-      "sha256": "74b0afb36ef60cdc9ae4a627ee05a58ea4e6178bfcc3330824b70429581fd73f"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "wrong_offset",
-      "rule_broken": "Maps the actual fixed objective-offset column to zero.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID non-tautological exact obligation; obligation 108",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "a4b866252e3d28ace0217e5c9ccd8fde7731a7124d925907ff35f21f39a45cea",
-      "rpx_sha256": "edab338af5e228989f8f52bb298cc26f4fecb0db0f4313605314c848a7c9ccba"
-    },
-    {
-      "mutation": "missing_pivot_bound",
-      "rule_broken": "Drops a pivot bound needed for a target ranged-row endpoint.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 584",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "91e5eb2da418a66fe74cae9ad55b5886e27464f2e0610947fa4b02180b8bd406",
-      "rpx_sha256": "46ba8ca25b3c20f6ffb05657a45c11d0bcef28cccc06db497682840b64ed5849"
-    },
-    {
-      "mutation": "wrong_recovery",
-      "rule_broken": "Changes a removed pivot recovery constant.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 0",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "2b5f1156a2218836babe1131dcbb4997eb04280ac11850cad8fc74ce76940fa9",
-      "rpx_sha256": "5d8399a57ed23b0080800b8b739c295f6ba1d8aff14804a63a44b308bfb2aabf"
-    },
-    {
-      "mutation": "missing_sum_observation",
-      "rule_broken": "Omits the aggregate-sum observation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "1f4739191bd743aaa261d059788c6805d8fc89703a69f25c7f3e8284f3358638",
-      "rpx_sha256": "04d96af57ff4096d184b70aa94e8365a63ea7d8974221dfa0a49b8edf3621943"
-    }
-  ]
+  }
 }

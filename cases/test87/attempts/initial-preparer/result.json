@@ -1,9 +1,0 @@
-{
-  "status": "UNTRUSTED_PREPARATION_FAILURE",
-  "kernel_run": false,
-  "complete_rpa_emitted": false,
-  "completed_forward_stages": 3,
-  "allocated_forward_ids": 447782,
-  "error": "Reverse row builder tried to pass the Exact sentinel as a Lin premise when a redundant-row remainder was identically zero. This is a preparer typing error; no kernel acceptance was attempted.",
-  "fix": "Reuse the witness when the remainder is zero; otherwise use the constant remainder as a Lin constant. Also replace repeated whole-expression copies in preparer arithmetic with exact sparse accumulation."
-}

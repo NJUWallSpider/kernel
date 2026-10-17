@@ -196,6 +196,19 @@ class DirectionBuilder(Builder):
 
     return_ = complete
 
+    def complete_ordered(self, mapping, checks, *, scope=None, auto=True):
+        scope = self._scope(scope)
+        values = _mapping(self.input, self.output, mapping)
+        raw_scope = scope._native if hasattr(scope, "_native") else scope
+        try:
+            self._native.complete_ordered(values, list(checks), raw_scope, auto)
+        except (ValueError, TypeError) as error:
+            raise BuildError(str(error)) from None
+        if scope is self:
+            self.mapping = values
+            self._children = None
+        return scope
+
     def substitution(self, definitions, *, goals=()):
         normalized = {self.model._index(pivot): fact for pivot, fact in definitions.items()}
         equality_goals = list(goals)

@@ -32,11 +32,14 @@ The [Python API](docs/COMPILER_API.md) supplies exact models, scoped facts, expl
 
 Scalar derivations, exhaustive branches and Interval, Menu, Signed, Flow and Subflow constructions remain available. Their role is to complete the fixed optimization-equivalence proof. A generic solver-facing recovery executor is not yet exposed.
 
-## Validation and migration
+## Validation
 
-All **81 complete cases across 11 families** have been migrated from 83 historical proof files into **81 two-block certificates**, each independently checked by the new kernel. Original models, proofs and historical receipts remain unchanged. Each case's `optimization.json` binds its current proof and models by SHA-256.
-
-[Current validation evidence](audit/validation/mi-opt-simple-20261016/) includes test, example, migration and paired performance results. Historical [delivery](audit/FINAL_DELIVERY_REPORT.md) and [freeze](audit/PROTOCOL_V9_V10_FREEZE.md) reports retain their original property-based meanings and timings.
+All **81 complete cases across 11 families** are delivered as **MI_OPT-only**
+two-block certificates. Each `cases/<case>/` directory contains the canonical
+`source.mcm`, `target.mcm`, `proof.rpa` (RPA 12), `proof.rpx` (RPX 11),
+`delivery.json`, and `preparation.json`. Historical receipts and old proof
+versions have been removed; the current receipts bind the retained artifacts by
+SHA-256.
 
 ```sh
 python3 tools/check_rpx_manual.py --kernel target/release/rpx

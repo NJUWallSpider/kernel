@@ -2,162 +2,74 @@
   "case_id": "test71",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test71-nomf-B1/input/model.mps",
-    "sha256": "fa4084e6627814ae30627986647561fbe545d9d236c24b12b8c471b4ff850a60"
+    "path": "/Users/bhz/Code/kernel/cases/test71/source.mcm",
+    "sha256": "13b4f5c00b78654a589b272d36099de8af28f04b924120de72fc738a8581b306"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test71-nomf-B1/output/reformulated.mps",
-    "sha256": "9b9726a3e27046d05c04d7cedfeadc150f04a2d7c29517540957d48c83c12198"
+    "path": "/Users/bhz/Code/kernel/cases/test71/target.mcm",
+    "sha256": "cd2e408f36e445052c03effd973940a9bc4bcff0e3fe946a680c4f9df03f60be"
   },
-  "geometry": {
-    "path": "/Users/bhz/Code/reform_test/runs/test71-nomf-B1/output/geometry_certificate.json",
-    "sha256": "346e9dae3c8a0cb8d219c924019698dcb9f3f0782511c72dbfdc79d240a674f4"
-  },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test71.py",
-    "sha256": "a35a93c590de47f557869ef4fb6aa4d05cac03d10adcdc7d61af1aaaf366be60"
-  },
-  "claims": "Same complete binary feasible set and objective, identity bijection both directions; strictly stronger LP relaxation via full target-to-source LP containment and exact separating point; original and target integer optimum -12 and target LP optimum -12 via universal lower bounds and feasible objective witnesses.",
-  "counts": {
-    "source_variables": 1024,
-    "target_variables": 1024,
-    "source_rows": 1024,
-    "target_rows": 1025,
-    "all_label_pairs": 523776,
-    "low_distance_pairs": 197120,
-    "claims": 3,
-    "point_claims": 3,
-    "obligations_by_claim": [
-      6147,
-      6145,
-      4098
-    ]
-  },
-  "preparation_seconds": 1.029933625,
-  "rpa_sha256": "8fa52af5e715453d8dbfbdee079ea645a3e8129afb6a1908cf50492461d2a5bc",
-  "rpa_bytes": 1666672,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test71-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test71/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1134477,\"parse_us\":345108,\"read_us\":1376,\"rows\":1024,\"status\":\"CANONICALIZED\",\"total_us\":426554,\"variables\":1024}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test71-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test71/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1152951,\"parse_us\":323624,\"read_us\":408,\"rows\":1025,\"status\":\"CANONICALIZED\",\"total_us\":405806,\"variables\":1024}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test71/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test71/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":304420,\"status\":\"ASSEMBLED\",\"total_us\":35218}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/debug/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test71/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test71/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test71/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test71/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"claims\":3,\"execute_us\":1878346,\"model_decode_us\":127799,\"points\":3,\"proof_decode_us\":10083,\"read_us\":312,\"statistics\":{\"branches\":0,\"linear_terms\":0,\"obligations\":16390,\"peak_live_facts\":1,\"plotkin_pairs\":523776,\"point_coefficient_terms\":233472,\"points\":3,\"substitution_terms\":178176,\"work\":2829481},\"status\":\"VERIFIED\",\"total_us\":2016540}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "e71dc6090f82aa87309e183052d35374164de0aa201a974f27e6d9b4b61fc34f",
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test71/source.mcm",
       "bytes": 1134477,
       "sha256": "13b4f5c00b78654a589b272d36099de8af28f04b924120de72fc738a8581b306"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test71/target.mcm",
       "bytes": 1152951,
       "sha256": "cd2e408f36e445052c03effd973940a9bc4bcff0e3fe946a680c4f9df03f60be"
     },
-    "proof.rpx": {
-      "bytes": 304420,
-      "sha256": "475f73983822529aee4b44cf811b8cd7b39d1e8d66130bda626154a48dbdf2a9"
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test71/proof.rpa",
+      "bytes": 148056,
+      "sha256": "8e32eefa06b2655c81413447dd45b078adbd951bf008c0d1a341f8c403b9597d"
     },
-    "request.json": {
-      "bytes": 154037,
-      "sha256": "3f0f42fa9fa4ca08bd071ae9c1300874bb0e5c346e22d81222ef1a46fa65c2bd"
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test71/proof.rpx",
+      "bytes": 157784,
+      "sha256": "0082acee45d6ac30126dd8d01ae3670032cd6917f59bc4fe2ba8c55856f2f405"
     }
   },
-  "negative_checks": [
-    {
-      "mutation": "missing_cliques",
-      "rule_broken": "Removes all actual close-pair at-most-one premises from the universal Plotkin proof.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID Plotkin close pair lacks checked clique",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "75b9471d4a49380d52cf257552da905353a1228b3f53895a2973dd231f2ced95",
-      "rpx_sha256": "98ad8b6f26c6248c54043e7a157068c685e55a12545d8e22feb2febe0b3e4ec6"
+  "verification": {
+    "execute_us": 16962,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
     },
-    {
-      "mutation": "duplicate_label",
-      "rule_broken": "Changes pair distances so an actual close pair lacks a checked at-most-one premise.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID Plotkin close pair lacks checked clique",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "c5be094a778f16a988468645d8c8807b5a543d180e3350a94f7fab9385661b57",
-      "rpx_sha256": "754862801cdaf8b4e9cae0e55b7750b531eca337a76f9ea93623a93d19ab879a"
+    "model_decode_us": 10335,
+    "proof_decode_us": 445,
+    "read_us": 281,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 0,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 8195,
+      "peak_live_facts": 1,
+      "plotkin_pairs": 523776,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 117760,
+      "work": 2089118
     },
-    {
-      "mutation": "false_strictness",
-      "rule_broken": "Uses a point feasible in both LP models as the strict-separation witness.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID point: strictness witness violates no actual inclusion input bound or row (witness 2)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "5ec3d7036d14dea5f3b94f801b10450a1058476aeb498b83b2a08e3a7aba9377",
-      "rpx_sha256": "be82af90be99e99724fdc3d9ccd2a5df6d629719e379e980cdad698bc4c14f13"
-    },
-    {
-      "mutation": "wrong_optimum_point",
-      "rule_broken": "Deletes one selected coordinate from a feasible point, changing its exact objective from -12 to -11.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID point: objective value mismatch (witness 0)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "936c008a3092a455f172c1d1e027e76c1ea61bf8d561366a26d93a66e0712980",
-      "rpx_sha256": "66e8b6ad8b9f776d613285910779867c35fee6b6cfd3a7de16d9d8cdad8f274d"
-    },
-    {
-      "mutation": "missing_objective_bound",
-      "rule_broken": "Omits the final universally quantified source objective-bound obligation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "460a202eb1c93762ab64f82d45df100ba99d0528c201f9e77ea02737093d4413",
-      "rpx_sha256": "3d6a51b4eee62c543e687ab8a94235396b37a40ad8dacf40cb007f65281526dc"
-    }
-  ]
+    "status": "VERIFIED",
+    "total_us": 28033
+  },
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

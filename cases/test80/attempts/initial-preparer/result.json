@@ -1,8 +1,0 @@
-{
-  "status": "UNTRUSTED_PREPARATION_FAILURE",
-  "kernel_run": false,
-  "full_rpa_emitted": false,
-  "completed": "Unrestricted bound and entire restricted forward proof (79429 allocated IDs).",
-  "failure": "Reverse objective EQ 160*obj_constant-160 needed an explicit scaling of the already proved obj_constant-1 equality; preparer lookup does not implicitly scale equalities.",
-  "fix": "Emit the existing Lin(Eq) scaling by 160; no kernel or mathematical rule change."
-}

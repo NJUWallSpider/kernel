@@ -2,20 +2,78 @@
   "case_id": "test10",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/input/model.mps",
-    "sha256": "7de49fa93c12ca12479d782406e9d4b1ae844b2fd93b810be7146efb5f8ac961"
+    "path": "/Users/bhz/Code/kernel/cases/test10/source.mcm",
+    "sha256": "53cf00689792ed9aeacbc8dde0e72c9214e4573ac4f0dad625303e2ea2922b38"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/reformulated.mps",
-    "sha256": "2b303ef650fff92aebff3fe2405c912e19f39ada3e84c32748f891be67acc9f8"
+    "path": "/Users/bhz/Code/kernel/cases/test10/target.mcm",
+    "sha256": "432ac441af78ce4e1ddd07ef1742313b7927fe9f193c64a0804bbd0e7b4a64b1"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test10/source.mcm",
+      "bytes": 24337297,
+      "sha256": "53cf00689792ed9aeacbc8dde0e72c9214e4573ac4f0dad625303e2ea2922b38"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test10/target.mcm",
+      "bytes": 25554017,
+      "sha256": "432ac441af78ce4e1ddd07ef1742313b7927fe9f193c64a0804bbd0e7b4a64b1"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test10/proof.rpa",
+      "bytes": 47531222,
+      "sha256": "2ece1ae7b6f7d85910db1bf4f568c518da052795df76e3d01ff376e215f8875a"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test10/proof.rpx",
+      "bytes": 45664221,
+      "sha256": "26be2f7fc1450f4658781fa69e22f66a100533305e9ded92692d6ba6e4d75759"
+    }
+  },
+  "verification": {
+    "execute_us": 22343223,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 2620656,
+    "proof_decode_us": 1418818,
+    "read_us": 29434,
+    "statistics": {
+      "branches": 181,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 5,
+      "interval_generated_terms": 11,
+      "interval_generated_variables": 1,
+      "interval_lifts": 1,
+      "linear_terms": 2190348,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 1145813,
+      "peak_live_facts": 693,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 1902716,
+      "work": 24214525
+    },
+    "status": "VERIFIED",
+    "total_us": 26412146
+  },
+  "preparation_seconds": 359.18743770901347,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/changes.json",
     "sha256": "1690ea84de47b48bdc1d04533cdddeff5e8b24df0389e339c3536070b5d6139f"
-  },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test10.py",
-    "sha256": "d3ebc984225cc4ad37c8cd13d2f7f2a8dd135c251473d2f69198932fb93a5062"
   },
   "counts": {
     "source_variables": 190402,
@@ -26,8 +84,7 @@
     "tightened_activations": 170,
     "selector_intervals_per_reverse": 1,
     "retained_coordinates_per_claim": 190201,
-    "claims": 3,
-    "fiber_contradiction": "159/25",
+    "claims": 2,
     "thresholds": [
       {
         "row": "R1901",
@@ -1220,81 +1277,5 @@
         "conditional_fixed_charge": "335348901987/5000000"
       }
     ]
-  },
-  "preparation_seconds": 46.785452291999995,
-  "rpa_sha256": "c560fdd4ef616f664daee6dfe40d6f00c90098afecddd9d06fd61b2f7060cca8",
-  "rpa_bytes": 109887225,
-  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test10/source.mcm"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 0.955240707999998,
-      "stdout": "{\"mcm_bytes\":24337297,\"parse_us\":670421,\"read_us\":4430,\"rows\":2303,\"status\":\"CANONICALIZED\",\"total_us\":922402,\"variables\":190402}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test10-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test10/target.mcm"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 1.3823209590000047,
-      "stdout": "{\"mcm_bytes\":25554017,\"parse_us\":971765,\"read_us\":3201,\"rows\":2105,\"status\":\"CANONICALIZED\",\"total_us\":1363034,\"variables\":190201}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test10/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test10/proof.rpx"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 1.5546903330000035,
-      "stdout": "{\"rpx_bytes\":74866770,\"status\":\"ASSEMBLED\",\"total_us\":1517258}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/builder-support-extracted/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test10/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test10/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test10/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test10/request.json"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 11.804422416999998,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":10582711,\"model_decode_us\":665322,\"points\":1,\"proof_decode_us\":504691,\"read_us\":12309,\"statistics\":{\"bijections\":0,\"branches\":181,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":10,\"interval_generated_terms\":22,\"interval_generated_variables\":2,\"interval_lifts\":2,\"linear_terms\":2542206,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":2099322,\"peak_live_facts\":693,\"plotkin_pairs\":0,\"point_coefficient_terms\":761756,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":3044073,\"work\":56913507},\"status\":\"VERIFIED\",\"total_us\":11765033}\n",
-      "stderr": ""
-    }
-  ],
-  "negative_checks": [],
-  "claims": "Full retained-coordinate MI projection and every objective value in both directions; target LP inclusion with full load and selector reconstruction; a complete source LP point and target observation-fiber refutation prove strict projected LP strengthening. No feasible-point bijection is requested.",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 24337297,
-      "sha256": "53cf00689792ed9aeacbc8dde0e72c9214e4573ac4f0dad625303e2ea2922b38"
-    },
-    "target.mcm": {
-      "bytes": 25554017,
-      "sha256": "432ac441af78ce4e1ddd07ef1742313b7927fe9f193c64a0804bbd0e7b4a64b1"
-    },
-    "proof.rpx": {
-      "bytes": 74866770,
-      "sha256": "13cbaf1ed0729f42bbaec5719df8634dd3796f6dcbcca0137db7e1045b3af9d0"
-    },
-    "request.json": {
-      "bytes": 8465517,
-      "sha256": "c162db8266fe4e64f304e9006fc8422f9460ca03d4e7c78329f6d94418ddc05d"
-    }
   }
 }

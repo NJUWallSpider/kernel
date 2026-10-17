@@ -1,6 +1,0 @@
-{
-  "status": "PRESERVED_NONAUTHORITATIVE_ATTEMPT",
-  "reason": "target/release/rpx was replaced by another authorized build during this finalizer. Its recorded initial hash cannot be attributed to every later subprocess. Interrupted after first negative result; do not use these receipts as fixed-binary acceptance. All acceptance replays rerun using fixed validation-wave-rpx-2026-10-11 path.",
-  "initial_binary_sha256": "694b1083e2f960aa6e9002c0ce20e796b3bcf091a3397810f30aa43f0ec9f655",
-  "later_binary_sha256": "a0875d7e7f7577bf328c2a6a7cb8db4b7bd8e0aaa6c3dc673dc067ceebaba875"
-}

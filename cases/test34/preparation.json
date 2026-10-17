@@ -9,6 +9,68 @@
     "path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/reformulated.mps",
     "sha256": "43624a949aec1ac21c22c531ea82ac862eb66e7fe6ef47d588b6cd32fb09ce71"
   },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test34/source.mcm",
+      "bytes": 13892166,
+      "sha256": "7da245b7510312004a119b248b9d6ede4c0bc9f30b19dccfcdc8824e57702d9e"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test34/target.mcm",
+      "bytes": 10707360,
+      "sha256": "28ba30fc65cb47d6614abec7a46433d3cb70293d26ab601946c8835d66cd6b40"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test34/proof.rpa",
+      "bytes": 91540943,
+      "sha256": "9de843f1029e0c3384e76ebab32c7006bbd05dfc7cc05ceccc303245463288e4"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test34/proof.rpx",
+      "bytes": 94420229,
+      "sha256": "03c06af365aa73940d7fcf8a5613c66d55636cc97c039862768addef637515a3"
+    }
+  },
+  "verification": {
+    "execute_us": 7916196,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 278612,
+    "proof_decode_us": 698637,
+    "read_us": 11159,
+    "statistics": {
+      "branches": 53130,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 6614604,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 482334,
+      "peak_live_facts": 212751,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 586742,
+      "work": 37751853
+    },
+    "status": "VERIFIED",
+    "total_us": 8904615
+  },
+  "preparation_seconds": 178.80031366599724,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/audit.json",
     "sha256": "e99bde9bf69afad70a8a81208cfd8e11e26c222a4378f22fcb03d7b456ce7066"
@@ -17,11 +79,6 @@
     "path": "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/row_changes.csv",
     "sha256": "8e2178c10cc13f15f976ac5ef480b2f96e4601129224d51cd634c510e159d33c"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test34.py",
-    "sha256": "e34419240a4112d1c055e06e03e9a547aec57f5d5cc524a3cdb8fb1f06326b86"
-  },
-  "claims": "Complete original-coordinate mixed-integer feasible-set equality, exact objective and reciprocal full identity inverse; target LP inclusion and a complete source LP point outside target LP certify strict strengthening. All 231 weighted one-hot aggregations use balanced local integer Cases over all53361 choices, checked zero-sibling contributions, and actual individual rows. Every original row, variable domain and observation is checked; no optimum restriction or objective monotonicity is assumed.",
   "counts": {
     "source_variables": 53593,
     "target_variables": 53593,
@@ -32,149 +89,6 @@
     "local_integer_cases": 53130,
     "maximum_case_depth": 8,
     "deleted_zero_distance_rows": 231,
-    "claims": 3,
-    "points": 1,
-    "obligations_by_claim": [
-      321788,
-      374918,
-      267733
-    ],
-    "root_steps_by_claim": [
-      159621,
-      212751,
-      212751
-    ]
-  },
-  "preparation_seconds": 35.60556283299999,
-  "rpa_sha256": "1d18f5022ca8e04be6e65eb231b2742bb240430f438f822bfeb42a8a4d927142",
-  "rpa_bytes": 185396387,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test34/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":13892166,\"parse_us\":326624,\"read_us\":2338,\"rows\":106954,\"status\":\"CANONICALIZED\",\"total_us\":459528,\"variables\":53593}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test34-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test34/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":10707360,\"parse_us\":298174,\"read_us\":1167,\"rows\":53824,\"status\":\"CANONICALIZED\",\"total_us\":413311,\"variables\":53593}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test34/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test34/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":116032429,\"status\":\"ASSEMBLED\",\"total_us\":2579021}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test34/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test34/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test34/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test34/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":11176599,\"model_decode_us\":392958,\"points\":1,\"proof_decode_us\":967916,\"read_us\":14955,\"statistics\":{\"bijections\":0,\"branches\":53130,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":8451847,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":964439,\"peak_live_facts\":212751,\"plotkin_pairs\":0,\"point_coefficient_terms\":427350,\"points\":1,\"substitution_terms\":1013864,\"work\":46977300},\"status\":\"VERIFIED\",\"total_us\":12552428}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 13892166,
-      "sha256": "7da245b7510312004a119b248b9d6ede4c0bc9f30b19dccfcdc8824e57702d9e"
-    },
-    "target.mcm": {
-      "bytes": 10707360,
-      "sha256": "28ba30fc65cb47d6614abec7a46433d3cb70293d26ab601946c8835d66cd6b40"
-    },
-    "proof.rpx": {
-      "bytes": 116032429,
-      "sha256": "b14ae1f25187d1828b494cca96fec0754b932fcefc621743279ddb09d88efbf9"
-    },
-    "request.json": {
-      "bytes": 2184640,
-      "sha256": "d1f07acaa962002393ed96cb03867062a1fe00b0805625f6af5fca70c73d8fde"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "missing_subset_integrality",
-      "rule_broken": "Weakens an integer subset split to a sign split.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID equality pair",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "b6df69df5738318f7187cfabd31ce0eeb47ce99f8627008905688dd7a5390abe",
-      "rpx_sha256": "2a27f5be3ad96384b102ed762054a71805df75ae609185cac0a62c8445bd2c22",
-      "storage": "Temporary large mutated files removed after hash and outcome recording; deterministic recipe retained."
-    },
-    {
-      "mutation": "missing_zero_weight_premise",
-      "rule_broken": "Omits a checked nonnegative weighted sibling contribution.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "c6338334b39eb8490c23ba8a4b0f7047f48ed42c1cca07b9f7c153cc72305fa8",
-      "rpx_sha256": "bc61ac7dca2fd5ae69a4a254dfe20f6117861da64a350ed170d2cb2281fc9235",
-      "storage": "Temporary large mutated files removed after hash and outcome recording; deterministic recipe retained."
-    },
-    {
-      "mutation": "missing_reverse_nonnegativity",
-      "rule_broken": "Omits a nonnegative weighted contribution needed to recover an individual bound.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 160785",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "f4ea0bb3632f1a2c68993ec11e5c897b744b627d39d845acf8afb265ed3da000",
-      "rpx_sha256": "6903ab9936a46ca66a4c1fa81c6cc84de72c2b76b9b2201a92255503abff5e03",
-      "storage": "Temporary large mutated files removed after hash and outcome recording; deterministic recipe retained."
-    },
-    {
-      "mutation": "infeasible_strictness_point",
-      "rule_broken": "Makes the complete source LP witness violate the z lower bound.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID point: strictness witness is not feasible in the inclusion output LP (witness 0)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "514bfe461687b058c5b8ca752e13b02bdf035db2aaf5ae875e8997db2897ad7b",
-      "rpx_sha256": "3ad970458b8e2203aab99358aa102aeddfe8cfe3684b022798a8d84de91ca506",
-      "storage": "Temporary large mutated files removed after hash and outcome recording; deterministic recipe retained."
-    },
-    {
-      "mutation": "missing_inverse",
-      "rule_broken": "Omits a full original-coordinate inverse obligation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "dc08b994037dfe82d4e8fcc787991f1af44521f81276105599c0c82ea0a4b8ba",
-      "rpx_sha256": "e8454da338b3406994ad453ebfc90b5aabc5eac0294ee42d79a76fe7fbeae06b",
-      "storage": "Temporary large mutated files removed after hash and outcome recording; deterministic recipe retained."
-    }
-  ]
+    "directions": 2
+  }
 }

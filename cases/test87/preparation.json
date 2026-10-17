@@ -2,171 +2,74 @@
   "case_id": "test87",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test87-nomf-B1/input/model.mps",
-    "sha256": "b5ed69d1a8c620eb054a1d85cb0236db6aae03fde24611f7f88d4454b2eb6581"
+    "path": "/Users/bhz/Code/kernel/cases/test87/source.mcm",
+    "sha256": "dc2628d507274e7803ccdd46656770e9a23b54dc11f87755dda38bd9b82b3df4"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test87-nomf-B1/output/reformulated.mps",
-    "sha256": "a51fd0328e94fb8561630a0029dd09b70dc5bd07dec81bcb4981ffe43ee3ee3f"
+    "path": "/Users/bhz/Code/kernel/cases/test87/target.mcm",
+    "sha256": "1b56d9cb8b33d2c9860ec777a3bf769655ef497a31b285b28bd6bff51d1ace65"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test87.py",
-    "sha256": "de7e43164e70175fa285cdd2f7d39be70ecebe672980539ec38151f5fcb82a89"
-  },
-  "claims": "Integer forward NonIncreasing and reverse Equal, complete actual models. Feasibility and infimum preservation, not all source choices or nonoptimal objective values.",
-  "counts": {
-    "allocated_ids": 447782,
-    "intervals": 16355,
-    "generated_rows": 91729
-  },
-  "preparation_seconds": 116.624586416,
-  "rpa_bytes": 101461019,
-  "rpa_sha256": "240cf69401906dc0926ac1ab7c420c840ac87be669a2b72575b2e72c8861d9f9",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test87-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test87/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":11221455,\"parse_us\":212118,\"read_us\":5158,\"rows\":507,\"status\":\"CANONICALIZED\",\"total_us\":288748,\"variables\":63009}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test87-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test87/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":3435753,\"parse_us\":70172,\"read_us\":885,\"rows\":440,\"status\":\"CANONICALIZED\",\"total_us\":92789,\"variables\":20342}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test87/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test87/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":70526292,\"status\":\"ASSEMBLED\",\"total_us\":1656884}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test87/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test87/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test87/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test87/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":1643851,\"model_decode_us\":94909,\"points\":0,\"proof_decode_us\":434985,\"read_us\":11023,\"statistics\":{\"bijections\":0,\"branches\":59019,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":91729,\"interval_generated_terms\":209767,\"interval_generated_variables\":16355,\"interval_lifts\":3,\"linear_terms\":3818862,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":251002,\"peak_live_facts\":93668,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":289516,\"work\":46145966},\"status\":\"VERIFIED\",\"total_us\":2184768}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test87/source.mcm",
       "bytes": 11221455,
       "sha256": "dc2628d507274e7803ccdd46656770e9a23b54dc11f87755dda38bd9b82b3df4"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test87/target.mcm",
       "bytes": 3435753,
       "sha256": "1b56d9cb8b33d2c9860ec777a3bf769655ef497a31b285b28bd6bff51d1ace65"
     },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test87/proof.rpa",
+      "bytes": 49692837,
+      "sha256": "420753b2f16bb3346875ba8cff40f3adefb9371fa1b95380acc815ab8e3ce80f"
+    },
     "proof.rpx": {
-      "bytes": 70526292,
-      "sha256": "ef6e502038c4c32241ad0133caafd53f35067b5b889ec802cf71432a6bdc9c83"
-    },
-    "request.json": {
-      "bytes": 237,
-      "sha256": "b1432b5af0571149538f1c82a81d9941653a1024f56075d22d78c0e166266c2c"
+      "path": "/Users/bhz/Code/kernel/cases/test87/proof.rpx",
+      "bytes": 70526252,
+      "sha256": "8e8c166fd820a05d76a34b4e8cddca46767beed4746b8edda0174fdf93be1a31"
     }
   },
-  "negative_checks": [
-    {
-      "mutation": "missing_interval_pair",
-      "rule_broken": "One actual OR lift omits a lower-upper compatibility check.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID interval: missing or surplus lower-upper pair checks",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "71a112bc2711e4aa8cc1a39b82e4429d6ec3798cb6356cd83ab5963473aaf986",
-      "rpx_sha256": "4eda31cd848cf26849c2ee1b8c22d932e2fb46d40f894b87c406670e3513d2ed",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
+  "verification": {
+    "execute_us": 1056178,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
     },
-    {
-      "mutation": "continuous_integrality_witness",
-      "rule_broken": "An integer split cites a new continuous lift coordinate as its integrality witness.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "d05dc979b85938e25c38e39117b61fd015870bfe7cb5203cb192c4945ef49854",
-      "rpx_sha256": "a1c39cfa52934d98da11c0272c9cced093b958c4fcd0c39f4e219f91fb429cb6",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
+    "model_decode_us": 63417,
+    "proof_decode_us": 288246,
+    "read_us": 14371,
+    "statistics": {
+      "branches": 59019,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 91729,
+      "interval_generated_terms": 209767,
+      "interval_generated_variables": 16355,
+      "interval_lifts": 3,
+      "linear_terms": 3818862,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 251002,
+      "peak_live_facts": 93668,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 289516,
+      "work": 46145966
     },
-    {
-      "mutation": "wrong_round_integer",
-      "rule_broken": "A covering-row rounding step is supplied an integer expression with one coefficient sign reversed.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID rounding premises",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "c74a023481f278ec121f1b0f44191225f2ce42be5f031fbf9e426f534951b6bc",
-      "rpx_sha256": "6c1cf0ac2c8242eea049879b1ef7c0fb4ac72f7caecd2e7be05971a2c2a03931",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
-    },
-    {
-      "mutation": "negative_cost_multiplier",
-      "rule_broken": "The global cost combination negates a genuine OR upper inequality multiplier.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID linear premise kind or multiplier",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "11c08a263cd33fa13f698980514a4fc715adf1a3a791113233c8274a1ddada8c",
-      "rpx_sha256": "848175eddae49fe420aacda3b8f69902b127d7a2b17e463855443fd300b2e78f",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
-    },
-    {
-      "mutation": "nonzero_removed_reconstruction",
-      "rule_broken": "The reverse map restores one removed original variable as one instead of zero.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 189068",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "617190243421a973e56598a0dba0d44fd25b37061c4304e0f24111a5995da419",
-      "rpx_sha256": "57019e373043d69b0f8c0cec6f5c69525fa25b921300b61b888c14fffd27f8cc",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
-    },
-    {
-      "mutation": "missing_original_row_check",
-      "rule_broken": "The reverse Return omits a middle original-row obligation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 189280",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "8bbe21faac238d856fe13eab65eca1a604ff8b0f05ef019d185a2533bbfd659d",
-      "rpx_sha256": "18ff852e2f1964a7c5a574dd33c33c179806e49b7aedadf54198dbd54a27fcf2",
-      "storage": "Temporary full artifacts removed after rejection; this deterministic script reproduces exact bytes from the bound positive RPA."
-    }
-  ],
-  "attack_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/attack_test87.py",
-    "sha256": "cfb664f1bd9b4449bcf51bdbef0159dd92e3b4f04de63eb120eaf24d09c93f6d"
+    "status": "VERIFIED",
+    "total_us": 1422223
   },
-  "attack_kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
-  "attack_seconds": 28.683330625000004
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

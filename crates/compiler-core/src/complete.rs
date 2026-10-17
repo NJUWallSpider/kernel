@@ -136,6 +136,64 @@ impl ProofCore {
         Ok(())
     }
 
+    /// Complete a Return using caller witnesses in obligation order.
+    ///
+    /// This avoids materializing the same obligation list in Python and then
+    /// resolving it a second time.  Every non-Exact witness is checked against
+    /// the planned obligation before it is installed.
+    pub fn complete_ordered(
+        &mut self,
+        scope: ScopeId,
+        mapping: &[Expr],
+        values: &[AssignmentValue],
+        auto: bool,
+        limits: &Limits,
+    ) -> Result<(), String> {
+        let planned = self.plan(scope, mapping, limits)?;
+        if planned.len() != values.len() {
+            return Err(format!(
+                "INVALID expected {} Return witnesses, got {}",
+                planned.len(),
+                values.len()
+            ));
+        }
+        let mut checks = Vec::with_capacity(values.len());
+        let mut witnesses = Vec::with_capacity(values.len());
+        for (index, (obligation, value)) in planned.iter().zip(values).enumerate() {
+            let reference = match value {
+                AssignmentValue::Exact => Ref::Exact,
+                AssignmentValue::Fact(id) => {
+                    self.visible(scope, *id)?;
+                    let data = self.fact(*id)?;
+                    if data.expression != obligation.expression
+                        || (data.kind != obligation.kind && data.kind != Kind::Eq)
+                    {
+                        return Err(format!(
+                            "INVALID witness does not discharge {}",
+                            format!("{} {:?}", kind_name(obligation.kind), obligation.expression)
+                        ));
+                    }
+                    data.reference.clone()
+                }
+            };
+            witnesses.push((Selector::Index(index), value.clone()));
+            checks.push(reference);
+        }
+        self.set_return(scope, mapping.to_vec(), checks)?;
+        if self.revision(scope) == 0 {
+            self.scope_mut(scope)?.revision = 1;
+        }
+        self.scope_mut(scope)?.mapping = None;
+        self.scope_mut(scope)?.completion = Some(CompletionRequest {
+            scope,
+            mapping: mapping.to_vec(),
+            witnesses,
+            auto,
+        });
+        self.scope_mut(scope)?.completed_revisions = Some(self.ancestor_revisions(scope));
+        Ok(())
+    }
+
     pub fn refresh_completions(&mut self, limits: &Limits) -> Result<(), String> {
         let ids: Vec<ScopeId> = (0..self.scopes.len())
             .filter(|id| self.scopes[*id].completion.is_some())

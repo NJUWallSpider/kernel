@@ -2322,6 +2322,33 @@ impl PyBuilder {
             .map_err(PyValueError::new_err)
     }
 
+    #[pyo3(signature = (mapping, checks, scope=None, auto=true))]
+    fn complete_ordered(
+        &self,
+        py: Python<'_>,
+        mapping: &Bound<'_, PyAny>,
+        checks: &Bound<'_, PyAny>,
+        scope: Option<&Bound<'_, PyAny>>,
+        auto: bool,
+    ) -> PyResult<()> {
+        let scope = scope
+            .map(|value| {
+                value
+                    .extract::<PyRef<'_, PyBuilder>>()
+                    .map(|item| item.scope)
+            })
+            .transpose()?
+            .unwrap_or(self.scope);
+        let mapping = expr_vec(py, mapping)?;
+        let mut values = Vec::new();
+        for item in checks.try_iter()? {
+            values.push(assignment_from(&item?)?);
+        }
+        lock_core(&self.core)?
+            .complete_ordered(scope, &mapping, &values, auto, &Limits::default())
+            .map_err(PyValueError::new_err)
+    }
+
     fn to_json(&self, py: Python<'_>) -> PyResult<PyObject> {
         let core = lock_core(&self.core)?;
         let block = core.to_block(self.scope).map_err(PyValueError::new_err)?;

@@ -2,189 +2,74 @@
   "case_id": "test78",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test78-nomf-B1/input/model.mps",
-    "sha256": "adbf507a92ab25d9d6368a38e674148a4f17ff0f9a9d4667787fd3ff084108f3"
+    "path": "/Users/bhz/Code/kernel/cases/test78/source.mcm",
+    "sha256": "f1836eb14ef2aa74648122f2a13931b9389aecd6a5d467831c2ae011da822501"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test78-nomf-B1/output/reformulated.mps",
-    "sha256": "59b221a3a3dddaeb62b859e0eb7c68292acf1e3edcadf86f454481e4713e1ead"
+    "path": "/Users/bhz/Code/kernel/cases/test78/target.mcm",
+    "sha256": "832e1d8f06a5aabc59d8d6ba48764d82cb12d2a8fce93e7d94d1fcfe4ba7f922"
   },
-  "audit": {
-    "path": "/Users/bhz/Code/reform_test/runs/test78-nomf-B1/output/audit.json",
-    "sha256": "e1d1fd042279ad973ce24925a135f957cdf555c1fbfd7c3a4ab783b79ea0d4a5"
-  },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test78.py",
-    "sha256": "115f1b4b6e1c989002fcdb5d0126ffce90282057576cbf710533f4e68e3d6522"
-  },
-  "preparer_dependencies": {
-    "prepare_affine.py": "b82180f53250cc1277e127a28abf02474fc1d8f038af0580b5fd2c89e1ee6df1",
-    "prepare_test40.py": "6fc9174d6c9211c74d2fd19722484e14463ab623c40382c1821dc9c040236baa",
-    "prepare_test21.py": "779e8205b4b02ef2a899f23691508eb630aad62a52aa89e7092406549c08a0ac",
-    "prepare_test48.py": "52b5a1014128d4a0bc14d71dc984239dbe46b2ceed659a317e0d1ec36c2ee707",
-    "prepare_test23.py": "43c0a4b9a480e5cc3acf9a73e3b4933faa3b4d23c5659a97e926754fc30be40c",
-    "prepare_test88.py": "5de455f167c94ddce9665b219890da1af6f764907c6648aab673d919503250bd"
-  },
-  "claims": "Complete mixed-integer maps: source-to-target objective equality; target-to-source objective nonincrease; preserve all 1424 auxiliary decisions in both directions. No LP equivalence, bijection or numerical optimum claimed.",
-  "counts": {
-    "source_variables": 3472,
-    "target_variables": 2720,
-    "source_rows": 4633,
-    "target_rows": 3881,
-    "claims": 2,
-    "auxiliary_projection": 1424,
-    "availability_intervals": 1280,
-    "prefix_menus": 1904,
-    "generated_menu_variables": 133280,
-    "allocated_ids": 177921,
-    "reverse_obligations": 16474,
-    "forward_obligations": 12170
-  },
-  "preparation_seconds": 201.17179804199998,
-  "rpa_sha256": "c3d7569c7b0e3d728e9f07da42969ee76d82621dbbe8a57c38b65f33f2e14cea",
-  "rpa_bytes": 105561392,
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test78-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test78/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":596081,\"parse_us\":5630,\"read_us\":250,\"rows\":4633,\"status\":\"CANONICALIZED\",\"total_us\":8029,\"variables\":3472}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test78-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test78/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":491837,\"parse_us\":4519,\"read_us\":149,\"rows\":3881,\"status\":\"CANONICALIZED\",\"total_us\":6349,\"variables\":2720}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test78/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test78/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":92054445,\"status\":\"ASSEMBLED\",\"total_us\":1391417}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7-rational/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test78/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test78/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test78/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test78/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":3071705,\"model_decode_us\":4842,\"points\":0,\"proof_decode_us\":535851,\"read_us\":8634,\"statistics\":{\"bijections\":0,\"branches\":11344,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":6320,\"interval_generated_terms\":13840,\"interval_generated_variables\":1280,\"interval_lifts\":1,\"linear_terms\":13641664,\"menu_generated_rows\":3808,\"menu_generated_terms\":392192,\"menu_generated_variables\":133280,\"menu_lifts\":1,\"obligations\":28644,\"peak_live_facts\":28711,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":1109184,\"work\":55606781},\"status\":\"VERIFIED\",\"total_us\":3621032}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "de58aded8f26a600576a87ac16bdf7e4328397cd469959146bb3271c231a53b0",
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test78/source.mcm",
       "bytes": 596081,
       "sha256": "f1836eb14ef2aa74648122f2a13931b9389aecd6a5d467831c2ae011da822501"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test78/target.mcm",
       "bytes": 491837,
       "sha256": "832e1d8f06a5aabc59d8d6ba48764d82cb12d2a8fce93e7d94d1fcfe4ba7f922"
     },
-    "proof.rpx": {
-      "bytes": 92054445,
-      "sha256": "fd4de784083a6f4c93489d781106787a69cbda08b496277ec448004ef4b4d9e2"
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test78/proof.rpa",
+      "bytes": 63305597,
+      "sha256": "353d86ebf690f40ad97f5de7f420ec1185305335f8b29de5f5213709689eac5a"
     },
-    "request.json": {
-      "bytes": 34411,
-      "sha256": "24e8964b2aee10deee46f0b08e71c6e3711b674dbad5a29fcbac7fca5858f1c9"
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test78/proof.rpx",
+      "bytes": 92020225,
+      "sha256": "f382405db284f1c52dbbb22391892437e1c98c8e2f935dfbb2dcfb64f1100fa3"
     }
   },
-  "negative_checks": [
-    {
-      "mutation": "lost_pool_member",
-      "rule_broken": "Omit an actual original contributor from the forward count.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 2560",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "7128f22b61bf38767a022844564a070f4460e9041bb796bed1ac6184eb9fdd29",
-      "rpx_sha256": "2c173c3753ccad9203ff8350747bb2b9860296f4bbc894c8cbbd908ebb04ce54"
+  "verification": {
+    "execute_us": 3876595,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
     },
-    {
-      "mutation": "continuous_as_integer",
-      "rule_broken": "Use the relaxed continuous choice as the old-scope integer witness for a menu index.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "0bd86a02819327f32c92975d7cf25db875ecb2907e784f51fbbb0c549661fe33",
-      "rpx_sha256": "33ec190e9fd503ea8d121a85155bb27c9cb7cc11059e3bb8d274d71431734837"
+    "model_decode_us": 5818,
+    "proof_decode_us": 623000,
+    "read_us": 13510,
+    "statistics": {
+      "branches": 11344,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 6320,
+      "interval_generated_terms": 13840,
+      "interval_generated_variables": 1280,
+      "interval_lifts": 1,
+      "linear_terms": 13641664,
+      "menu_generated_rows": 3808,
+      "menu_generated_terms": 392192,
+      "menu_generated_variables": 133280,
+      "menu_lifts": 1,
+      "obligations": 25796,
+      "peak_live_facts": 28711,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 1109184,
+      "work": 55603933
     },
-    {
-      "mutation": "missing_interval_pair",
-      "rule_broken": "Omit a middle lower/upper compatibility premise.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID interval: missing or surplus lower-upper pair checks",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "77365a3adcd9495bf165266ee1f0093a174e54d1f5c614844ac5a5299df42705",
-      "rpx_sha256": "0b75351c446994b47b2ed804ed13e5a804f3e9877757c45b46db367ebd12feb3"
-    },
-    {
-      "mutation": "wrong_prefix_menu",
-      "rule_broken": "Change the prefix menu capacity without changing its checked witness.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "e3a73546ab97764bf878c8bddf0aa63199353c97708c7d306a31e4ad52c102cd",
-      "rpx_sha256": "33965bd7e54da28952b68fb2c5c4aba0006d987f132597376b6216720ee33856"
-    },
-    {
-      "mutation": "lost_choice_reconstruction",
-      "rule_broken": "Set one reconstructed original choice to zero while retaining its mandatory full output checks.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 30",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "69c8f8583ec7d9a85f66678a16d9168fb98183146bfe42c563a555143ae4d3d3",
-      "rpx_sha256": "64fa17a4ba439a8b85cf9f7e89b5dbd9afe33deaea15733b7d1ac90a18a509fa"
-    },
-    {
-      "mutation": "caller_objective_mismatch",
-      "rule_broken": "Weaken the certificate objective while preserving the caller request.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID requested contract mismatch",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "e13061e4b37668abebb2cd94f1d909f41af055a519b81b17676540e32b5a9560",
-      "rpx_sha256": "a0c3ee2cd805d172deae30d2bfba2777343be0ae4a3065abf961237a25f8d10c"
-    }
-  ],
-  "preparation_timing_note": "Wall-clock preparation_seconds includes an intentional approximately 98-second SIGSTOP interval for an unrelated isolated benchmark. See audit/test78_preparation_pause.json; this is not an uninterrupted preparation benchmark.",
-  "preparation_interruption": {
-    "case_id": "test78",
-    "process_id": 11231,
-    "reason": "Parent requested an isolated V8 benchmark window. Owned preparation process was stopped explicitly and will be resumed.",
-    "pause_start_observed_utc": "2026-10-11 08:22:55 UTC",
-    "timing_note": "The preparer wall-clock interval includes this interruption; it is not an uninterrupted preparation benchmark.",
-    "resume_observed_utc": "2026-10-11 08:24:33 UTC"
-  }
+    "status": "VERIFIED",
+    "total_us": 4518934
+  },
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

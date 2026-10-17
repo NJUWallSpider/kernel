@@ -116,7 +116,7 @@ they do not constitute a machine-checked proof of Rust code.
 
 ## Actual signed-coordinate recovery
 
-[test23](../cases/test23/README.md) recovers 2,467 continuous variables through
+[test23](../cases/test23/preparation.json) recovers 2,467 continuous variables through
 independent interval intersections. Its migrated two-tree certificate proves
 complete MI optimization equivalence. The historical case report additionally
 describes observation and LP properties; those checks are absent from RPX 11.

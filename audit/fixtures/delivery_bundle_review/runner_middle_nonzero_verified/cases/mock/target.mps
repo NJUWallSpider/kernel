@@ -1,1 +1,0 @@
-MOCK BOOKKEEPING BYTES target.mps

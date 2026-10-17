@@ -9,136 +9,83 @@
     "path": "/Users/bhz/Code/reform_test/runs/test63-nomf-B1/output/reformulated.mps",
     "sha256": "da9a863f642b3bac5ceee5bfeacc3eef3256cb4854f6d876b70d72dcdfba8cde"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test63.py",
-    "sha256": "2ce066780b87a973c5dd0ad4ed88fa064658d5cd0372d7f4c4d70a7d4b456bf3"
-  },
-  "claims": "Complete objective-preserving affine bijection in both mixed-integer and LP modes, with every retained named coordinate and fixed-zero observation explicit.",
-  "preparation_seconds": 1.906264875,
-  "rpa_bytes": 1188224,
-  "rpa_sha256": "2c373f91f27a5c117e715e2573e0cc42bbabc6c679a062b700e531a5c6cfd101",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test63-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test63/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":497888,\"parse_us\":10237,\"read_us\":151,\"rows\":111,\"status\":\"CANONICALIZED\",\"total_us\":13919,\"variables\":1456}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test63-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test63/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":151554,\"parse_us\":2126,\"read_us\":54,\"rows\":111,\"status\":\"CANONICALIZED\",\"total_us\":3049,\"variables\":1546}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test63/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test63/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":1257380,\"status\":\"ASSEMBLED\",\"total_us\":15390}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test63/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test63/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test63/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test63/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":171304,\"model_decode_us\":4854,\"points\":0,\"proof_decode_us\":6597,\"read_us\":186,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":141890,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":27006,\"peak_live_facts\":273,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"substitution_terms\":197456,\"work\":997904},\"status\":\"VERIFIED\",\"total_us\":182941}\n",
-      "stderr": ""
-    }
-  ],
-  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
-  "negative_checks": [
-    {
-      "mutation": "negative_slack_map",
-      "rule_broken": "A forward slack has its sign reversed, violating its actual lower bound.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 46",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "55eaa7a11448cfccf03d60936279fd47dba0b10bb504710a3e0fdf70396334e6",
-      "rpx_sha256": "a1fe10110dd27d52d7c9fe76d58a6544edd886b39714946246ff3a28412c86d5"
-    },
-    {
-      "mutation": "broken_prefix",
-      "rule_broken": "A middle reverse prefix equality omits its predecessor, so a complete original load row no longer follows.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 4430",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "6f2151d1d9c8b8299c03a8dd17f35dbd32001af643fdb999efd75987759293f0",
-      "rpx_sha256": "10bbef1c777e4ad5f0091f4346590681f1aa1a24205586afcda8478409911fdd"
-    },
-    {
-      "mutation": "wrong_fixed_zero",
-      "rule_broken": "The eliminated original fixed-zero coordinate is reconstructed as one.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Eq; obligation 6023",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "d0d5c7da95bdc0dc7d15c26424f6f1bba6f78e54e924d846218aa2d51bde1e1e",
-      "rpx_sha256": "c756faacc4c0a0d18bbd9f365bb438104c1b7f2a4ebabbd89db54d4f6db2241c"
-    },
-    {
-      "mutation": "missing_last_inverse",
-      "rule_broken": "The LP reverse Return omits the last complete affine inverse coordinate check.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "5f1ed03114094dcbff01ac4d7beb87b9e4576a439e1f1355bba4efcefebe8753",
-      "rpx_sha256": "7d30b1505342e30d82e56e588fce319ddfc62ae644e34a0f81ddb14da91f6f2b"
-    },
-    {
-      "mutation": "wrong_original_objective",
-      "rule_broken": "The source objective-preservation check cites a nonzero constant equality.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID linear constant",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "b8e5f094d2c221012ecb9c0e8d090d279e2b83788290b58fc898938bdda02232",
-      "rpx_sha256": "a4abc31362522f33a4e8ee60dfdbeaf051a9ce664f2a0cdea5a92cfe977822a1"
-    }
-  ],
   "artifacts": {
-    "source.mcm": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test63/source.mcm",
       "bytes": 497888,
       "sha256": "0d8f08c226ccb6b2d2c5fcb3dcac3f789e270b5da2f3a9a19f7d96659830503a"
     },
-    "target.mcm": {
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test63/target.mcm",
       "bytes": 151554,
       "sha256": "e0b9ffb756ebe12a0b7eb8c7f6f69c795db2c6d7959a42cf834b5e495deaee79"
     },
-    "proof.rpx": {
-      "bytes": 1257380,
-      "sha256": "25347b4272bbf5d7589c1181eaef6997696cbd124c2369c8a8b7c612bdbb0489"
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test63/proof.rpa",
+      "bytes": 441163,
+      "sha256": "fd84bb1977cc027f4e366bfde636ba848240dcae931e9685655c19e91c61589a"
     },
-    "request.json": {
-      "bytes": 62528,
-      "sha256": "e80b22f0ee87431103e77f4372536740b386f125c19f4d38e5b668769d6d78ca"
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test63/proof.rpx",
+      "bytes": 742206,
+      "sha256": "408d3d0f2c959bc9235bf243c7a8846ca9f72207fb74fa156fb4a4a36cfa88b1"
     }
+  },
+  "verification": {
+    "execute_us": 14029,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 4035,
+    "proof_decode_us": 3821,
+    "read_us": 123,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 51249,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 9043,
+      "peak_live_facts": 1636,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 73308,
+      "work": 383020
+    },
+    "status": "VERIFIED",
+    "total_us": 22014
+  },
+  "preparation_seconds": 1.0360585829766933,
+  "audit": {
+    "path": "/Users/bhz/Code/reform_test/runs/test63-nomf-B1/output/audit.json",
+    "sha256": "6fc09e501c19638fefc464e100d8acae9df9382e2897c05f8a223abd9a0fd8de"
+  },
+  "proof_preparer": {
+    "path": "/Users/bhz/Code/kernel/tools/prepare_test63.py",
+    "sha256": "12d2f5c588f72459825da4abdc2d3d026af415e3fe990ffa8eab3a5b735dd90d"
+  },
+  "claims": "Two native MI-OPT directions proving objective-preserving affine equivalence of the actual slack extended formulation; the legacy LP duplicate and separate projection/inverse claims are not emitted.",
+  "counts": {
+    "source_variables": 1456,
+    "target_variables": 1546,
+    "rows": 111,
+    "slack_variables": 91,
+    "fixed_coordinates": 1,
+    "directions": 2
   }
 }

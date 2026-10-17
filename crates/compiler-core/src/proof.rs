@@ -824,20 +824,26 @@ impl ProofCore {
         scope: ScopeId,
         expression: Expr,
     ) -> Result<(ScopeId, FactId), String> {
-        let parent = self.scope(scope)?.clone();
-        let index = parent.assumptions.len() as u32;
-        let child = self.new_scope(
-            Arc::clone(&parent.model),
-            Arc::clone(&parent.output_model),
-            Some(scope),
-            parent.assumptions.clone(),
-        );
+        let (model, output_model, assumptions, layout, layout_kind, generated_variables, generated_rows) = {
+            let parent = self.scope(scope)?;
+            (
+                Arc::clone(&parent.model),
+                Arc::clone(&parent.output_model),
+                parent.assumptions.clone(),
+                parent.layout.clone(),
+                parent.layout_kind,
+                parent.generated_variables.clone(),
+                parent.generated_rows.clone(),
+            )
+        };
+        let index = assumptions.len() as u32;
+        let child = self.new_scope(model, output_model, Some(scope), assumptions);
         {
             let item = self.scope_mut(child)?;
-            item.layout = parent.layout.clone();
-            item.layout_kind = parent.layout_kind;
-            item.generated_variables = parent.generated_variables.clone();
-            item.generated_rows = parent.generated_rows.clone();
+            item.layout = layout;
+            item.layout_kind = layout_kind;
+            item.generated_variables = generated_variables;
+            item.generated_rows = generated_rows;
         }
         let fact = self.push_fact(Kind::Le, expression, Ref::Assumption(index), child);
         self.scope_mut(child)?.assumptions.push(fact);

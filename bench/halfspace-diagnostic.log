@@ -1,6 +1,0 @@
-halfspace-n1 True {'min': 2.097416, 'median': 2.097416, 'max': 2.097416}
-halfspace-n64 True {'min': 2.470416, 'median': 2.470416, 'max': 2.470416}
-halfspace-n4096 True {'min': 9.9055, 'median': 9.9055, 'max': 9.9055}
-level-halfspace-n1 True {'min': 3.398416, 'median': 3.398416, 'max': 3.398416}
-level-halfspace-n64 True {'min': 2.367084, 'median': 2.367084, 'max': 2.367084}
-level-halfspace-n4096 True {'min': 10.887583, 'median': 10.887583, 'max': 10.887583}

@@ -2,22 +2,83 @@
   "case_id": "test45",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/input/model.mps",
-    "sha256": "c3d0897fc7b75b0335a43da0fd2919f8d1fa04b0360947d70897ab114b9ca382"
+    "path": "/Users/bhz/Code/kernel/cases/test45/source.mcm",
+    "sha256": "bce4ae615cffeec748d1cb24872a7e020746a94d99b84a1c73371598062aee72"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/output/reformulated.mps",
-    "sha256": "f65f0aeeb0ae6fb2d1cdc37843f038477e04911edcb403402b06cf601b828e17"
+    "path": "/Users/bhz/Code/kernel/cases/test45/target.mcm",
+    "sha256": "c732a486b3222046a67cfac7f2b475e8e095b49f2af183194a9db49b223f5e41"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test45/source.mcm",
+      "bytes": 285543,
+      "sha256": "bce4ae615cffeec748d1cb24872a7e020746a94d99b84a1c73371598062aee72"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test45/target.mcm",
+      "bytes": 86352,
+      "sha256": "c732a486b3222046a67cfac7f2b475e8e095b49f2af183194a9db49b223f5e41"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test45/proof.rpa",
+      "bytes": 149624,
+      "sha256": "bfbba8fff1d412ff44805d5ba3524f10da0e7cb8d94ec7b8314ca5ba499ac174"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test45/proof.rpx",
+      "bytes": 225428,
+      "sha256": "9a1ef8eca89d120d760cfd7e86efc78ed28ec37f9607e353ae9a37a5f3ad7980"
+    }
+  },
+  "verification": {
+    "execute_us": 11993,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 3907,
+    "proof_decode_us": 2098,
+    "read_us": 141,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 6360,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 6029,
+      "peak_live_facts": 882,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 10338,
+      "work": 85763
+    },
+    "status": "VERIFIED",
+    "total_us": 18149
+  },
+  "preparation_seconds": 0.4816225829999894,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/output/audit.json",
     "sha256": "84dd8a5d1f90afae1295c5be5d379b59b582f7565658de752b201417947ca50a"
   },
   "proof_preparer": {
     "path": "/Users/bhz/Code/kernel/tools/prepare_test45.py",
-    "sha256": "46dce4df807587ff4e34445987e056bbba9070dc99114f12e3a05ce4c14321ff"
+    "sha256": "680f1505debd93faa60ae994b13e0cc79bb9f9ad1af7b0afebac3b47c282aae7"
   },
-  "claims": "Both directions of exact retained-coordinate integer and LP feasible-set projection, with pointwise objective equality and every retained coordinate observed. All 378 continuous slacks have nonnegative affine reconstruction; all 462 single-use zero-cost binaries are completed canonically to one (not claimed unique); 651 duplicates, 21 equality implications, 441 dominated capacities and 21 projected capacities are checked. The 42 coupled binaries remain unchanged. No full inverse or LP strengthening claim.",
   "counts": {
     "source_variables": 1533,
     "target_variables": 693,
@@ -29,313 +90,6 @@
     "equality_implications": 21,
     "dominated_capacities": 441,
     "changed_projected_rows": 21,
-    "claims": 4,
-    "steps_by_claim": [
-      189,
-      882,
-      21,
-      714
-    ],
-    "obligations_by_claim": [
-      2080,
-      5335,
-      1912,
-      4705
-    ]
-  },
-  "rpa_sha256": "22f6263297e57f79bcd2a55df4cf2670feeb3bc8216c83f8e57a188fbd090a91",
-  "rpa_bytes": 625934,
-  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":285543,\"parse_us\":6346,\"read_us\":164,\"rows\":1848,\"status\":\"CANONICALIZED\",\"total_us\":8216,\"variables\":1533}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test45-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":86352,\"parse_us\":2209,\"read_us\":97,\"rows\":357,\"status\":\"CANONICALIZED\",\"total_us\":3191,\"variables\":693}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":462476,\"status\":\"ASSEMBLED\",\"total_us\":8219}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":22461,\"model_decode_us\":4700,\"points\":0,\"proof_decode_us\":3367,\"read_us\":223,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":12384,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":14032,\"peak_live_facts\":882,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":20676,\"work\":169804},\"status\":\"VERIFIED\",\"total_us\":30751}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test45/deterministic.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":462476,\"status\":\"ASSEMBLED\",\"total_us\":8540}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpa",
-        "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":462453,\"status\":\"ASSEMBLED\",\"total_us\":10859}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 1196\",\"status\":\"INVALID\"}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpa",
-        "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":462454,\"status\":\"ASSEMBLED\",\"total_us\":9874}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 504\",\"status\":\"INVALID\"}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpa",
-        "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":462475,\"status\":\"ASSEMBLED\",\"total_us\":8950}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 3339\",\"status\":\"INVALID\"}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":21987,\"model_decode_us\":4867,\"points\":0,\"proof_decode_us\":3313,\"read_us\":228,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":12384,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":14032,\"peak_live_facts\":882,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":20676,\"work\":169804},\"status\":\"VERIFIED\",\"total_us\":30395}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test45/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test45/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":4,\"execute_us\":23598,\"model_decode_us\":4718,\"points\":0,\"proof_decode_us\":3451,\"read_us\":208,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":12384,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":14032,\"peak_live_facts\":882,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":20676,\"work\":169804},\"status\":\"VERIFIED\",\"total_us\":31975}\n",
-      "stderr": ""
-    }
-  ],
-  "negative_checks": [
-    {
-      "mutation": "missing_binary_upper",
-      "rule_broken": "Drops z<=1 from a forward projected capacity.",
-      "rpa_sha256": "b26f76262e7c80f5af169cdde1dfb8da20a7e01e1560e878198e529f50e4f38d",
-      "rpx_sha256": "bb283da41b244b01a606a1be712fd47e392596390acf0b96212a479344da8811",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 1196",
-        "status": "INVALID"
-      },
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpa",
-          "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":462453,\"status\":\"ASSEMBLED\",\"total_us\":10859}\n",
-        "stderr": ""
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/missing_binary_upper.rpx",
-          "/Users/bhz/Code/kernel/cases/test45/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 1196\",\"status\":\"INVALID\"}\n",
-        "stderr": ""
-      },
-      "storage": "Mutated files deleted; deterministic recipe in proof preparer."
-    },
-    {
-      "mutation": "missing_capacity_bound",
-      "rule_broken": "Drops a nonnegativity premise from a reconstructed slack lower bound.",
-      "rpa_sha256": "9344f815964af69c73373715cdf728384feb20025c8a13493570c81e96bcd84b",
-      "rpx_sha256": "1ffbbcec3456ac03af9a8dd622822e56508e86ac020aa41f5c4dbdc7f7896383",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 504",
-        "status": "INVALID"
-      },
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpa",
-          "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":462454,\"status\":\"ASSEMBLED\",\"total_us\":9874}\n",
-        "stderr": ""
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/missing_capacity_bound.rpx",
-          "/Users/bhz/Code/kernel/cases/test45/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 504\",\"status\":\"INVALID\"}\n",
-        "stderr": ""
-      },
-      "storage": "Mutated files deleted; deterministic recipe in proof preparer."
-    },
-    {
-      "mutation": "wrong_completion",
-      "rule_broken": "Sets a removed capacity binary to zero instead of one.",
-      "rpa_sha256": "a87f81b9745b08e8d53d4f57fea4dbe76bbde5f92f00456ced5d87766f0473e2",
-      "rpx_sha256": "4b123ceb8063b5ff646b516e541e263a4e3e15f8a838ff04c7b1607bca7a5043",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 3339",
-        "status": "INVALID"
-      },
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpa",
-          "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":462475,\"status\":\"ASSEMBLED\",\"total_us\":8950}\n",
-        "stderr": ""
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test45/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test45/wrong_completion.rpx",
-          "/Users/bhz/Code/kernel/cases/test45/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le; obligation 3339\",\"status\":\"INVALID\"}\n",
-        "stderr": ""
-      },
-      "storage": "Mutated files deleted; deterministic recipe in proof preparer."
-    }
-  ],
-  "determinism": {
-    "assemble_byte_identical": true,
-    "additional_verify_runs": 2,
-    "verify_result_and_statistics_identical": true,
-    "excluded_nondeterministic_fields": "Top-level *_us timing measurements"
-  },
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 285543,
-      "sha256": "bce4ae615cffeec748d1cb24872a7e020746a94d99b84a1c73371598062aee72"
-    },
-    "target.mcm": {
-      "bytes": 86352,
-      "sha256": "c732a486b3222046a67cfac7f2b475e8e095b49f2af183194a9db49b223f5e41"
-    },
-    "proof.rpx": {
-      "bytes": 462476,
-      "sha256": "c9a54be472bda39e74e3e45a5a7fc2b7f0735f4c12dae040b180c72d051a827e"
-    },
-    "request.json": {
-      "bytes": 27968,
-      "sha256": "0d7f8824141343ebaaa988036d31cf271998f3e138202e0588d16b5d218e64db"
-    }
-  },
-  "preparation_seconds": 0.6564858329948038
+    "directions": 2
+  }
 }

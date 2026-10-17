@@ -1,7 +1,0 @@
-wrong_round_integrality INVALID
-missing_target_row INVALID
-lp_borrow_integer INVALID
-missing_interval_premise INVALID
-wrong_constant_helper INVALID
-wrong_lp_corner INVALID
-{"status": "VERIFIED", "statistics": {"bijections": 0, "branches": 96947, "flow_generated_rows": 0, "flow_generated_terms": 0, "flow_generated_variables": 0, "flow_lifts": 0, "injectivity_coordinates": 0, "injectivity_generated_rows": 0, "injectivity_generated_terms": 0, "injectivity_generated_variables": 0, "interval_generated_rows": 69004, "interval_generated_terms": 140062, "interval_generated_variables": 17251, "interval_lifts": 2, "linear_terms": 223958117, "menu_generated_rows": 0, "menu_generated_terms": 0, "menu_generated_variables": 0, "menu_lifts": 0, "objective_level_domains": 0, "objective_level_generated_rows": 0, "objective_level_generated_terms": 0, "obligations": 1105551, "peak_live_facts": 344878, "plotkin_pairs": 0, "point_coefficient_terms": 0, "points": 0, "signed_generated_rows": 0, "signed_generated_terms": 0, "signed_generated_variables": 0, "signed_lifts": 0, "substitution_terms": 994026, "work": 551077751}, "attacks": 6}

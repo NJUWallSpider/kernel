@@ -89,6 +89,7 @@ class Builder:
     def _from_native(cls, native):
         obj = object.__new__(cls)
         obj._native = native
+        obj._model_cache = None
         obj._children = None
         obj._indexed = False
         obj._facts = ChainMap({})
@@ -101,7 +102,12 @@ class Builder:
 
     @property
     def model(self):
-        return _wrap_model(self._native.model, self.model_source) if hasattr(self, "model_source") else Model._from_native(self._native.model)
+        cached = getattr(self, "_model_cache", None)
+        if cached is None:
+            cached = (_wrap_model(self._native.model, self.model_source)
+                      if hasattr(self, "model_source") else Model._from_native(self._native.model))
+            self._model_cache = cached
+        return cached
 
     @property
     def _native_model(self):

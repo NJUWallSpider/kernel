@@ -9,158 +9,87 @@
     "path": "/Users/bhz/Code/reform_test/runs/test44-nomf-B1/output/reformulated.mps",
     "sha256": "7475230963a0da0ac1f5d68c4b70d866fa003208cb1ce2c9abd168ac159f280c"
   },
+  "artifacts": {
+    "source": {
+      "path": "/Users/bhz/Code/kernel/cases/test44/source.mcm",
+      "bytes": 640114,
+      "sha256": "0c92331a758b8671161f4dde53c5c577eb593a8d22a25e8fbc6743786526c60e"
+    },
+    "target": {
+      "path": "/Users/bhz/Code/kernel/cases/test44/target.mcm",
+      "bytes": 638309,
+      "sha256": "ed826a5550f501d74dd268c459c449d5b2f9248573b6bb52c9d66fa7bda68881"
+    },
+    "rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test44/proof.rpa",
+      "bytes": 1430412,
+      "sha256": "cc9d04bdd9c9a006963a3838f048c19e7afa3d9c33291df86e7668931bcf65f2"
+    },
+    "proof": {
+      "path": "/Users/bhz/Code/kernel/cases/test44/proof.rpx",
+      "bytes": 1960877,
+      "sha256": "6429c72b7b742c3ffe6f0498a8c9dae802ba0e57ee7073f4b762e873e818ea51"
+    }
+  },
+  "verification": {
+    "execute_us": 40361,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 6627,
+    "proof_decode_us": 9828,
+    "read_us": 199,
+    "statistics": {
+      "branches": 1746,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 65489,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 11901,
+      "peak_live_facts": 89,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 32920,
+      "work": 862629
+    },
+    "status": "VERIFIED",
+    "total_us": 57021
+  },
+  "preparation_seconds": 0.8828448330168612,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test44-nomf-B1/output/audit.json",
     "sha256": "53ee18a8f463606c7fca44f4f913baca8cc348b389b8229fcdbe3819a01497f2"
   },
-  "witness_input": {
-    "path": "/Users/bhz/Code/reform_test/runs/test44-nomf-B1/output/witness.json",
-    "sha256": "256f83ad02126cd3ea345763018e8835b61ebe9cfd94a9d66576c2596db4919a"
-  },
   "proof_preparer": {
     "path": "/Users/bhz/Code/kernel/tools/prepare_test44.py",
-    "sha256": "4ead501f8a7610cc01298da3fc69b2718044d96fefbc16637f153d944e8fb02a"
+    "sha256": "bb339139c0e3e09715e4199c8854299ea9d36d510da113294569bb9bb094c208"
   },
-  "claims": "Complete named-coordinate integer feasible-set and objective equality with both affine inverse identities. Target LP strictly contained in source LP, proved by complete reverse inclusion and full source rational separating point. Full integer point checked on both actual models; no optimality or LP bound improvement claimed.",
   "counts": {
     "source_variables": 4161,
     "target_variables": 4161,
     "source_rows": 1446,
     "target_rows": 1447,
-    "claims": 3,
-    "point_claims": 3,
-    "local_design_cuts": 37,
+    "removed_rows": 36,
+    "added_rows": 37,
+    "directions": 2,
     "obligations_by_claim": [
-      14273,
-      14272,
-      9940
+      5951,
+      5950
     ]
-  },
-  "preparation_seconds": 1.1819335839999998,
-  "rpa_bytes": 3300668,
-  "rpa_sha256": "3e9373d4cf335c90c0f2892659fc4366ae16d1148e73ee7019ab9076eccb9097",
-  "kernel_binary_sha256": "07e952e89163f1ddd0a1dd4ce40c13bcf8521951c230552a9a2f5e1f75f4b2f5",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test44-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test44/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":640114,\"parse_us\":9539,\"read_us\":260,\"rows\":1446,\"status\":\"CANONICALIZED\",\"total_us\":12950,\"variables\":4161}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test44-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test44/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":638309,\"parse_us\":9596,\"read_us\":150,\"rows\":1447,\"status\":\"CANONICALIZED\",\"total_us\":13069,\"variables\":4161}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test44/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test44/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":2553187,\"status\":\"ASSEMBLED\",\"total_us\":35224}\n",
-      "stderr": ""
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/validation-checkpoint-v7/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test44/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test44/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test44/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test44/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":165112,\"model_decode_us\":7068,\"points\":3,\"proof_decode_us\":12666,\"read_us\":425,\"statistics\":{\"bijections\":0,\"branches\":1746,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":73109,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"obligations\":38485,\"peak_live_facts\":89,\"plotkin_pairs\":0,\"point_coefficient_terms\":48883,\"points\":3,\"substitution_terms\":57715,\"work\":1146726},\"status\":\"VERIFIED\",\"total_us\":185271}\n",
-      "stderr": ""
-    }
-  ],
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 640114,
-      "sha256": "0c92331a758b8671161f4dde53c5c577eb593a8d22a25e8fbc6743786526c60e"
-    },
-    "target.mcm": {
-      "bytes": 638309,
-      "sha256": "ed826a5550f501d74dd268c459c449d5b2f9248573b6bb52c9d66fa7bda68881"
-    },
-    "proof.rpx": {
-      "bytes": 2553187,
-      "sha256": "92ed444f88ff59424bdbff999ae9f2227f6206d15e107f1c930b5e42d93c6e59"
-    },
-    "request.json": {
-      "bytes": 643330,
-      "sha256": "ee9f4c942ec14ce89f9568197dfce3a1094fab1c24beba2fd4ba510f11969bc5"
-    }
-  },
-  "negative_checks": [
-    {
-      "mutation": "wrong_capacity",
-      "rule_broken": "Corrupts an actual aggregate-capacity multiplier.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID contradiction witness",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "48a251b6439e125ee54718b7f33f94f8b64047a163041054c5a6e9c54156c56c",
-      "rpx_sha256": "e02f014849448eb4535aaac0de16fc29bdfc70e537284b75f90c80cbce10d652"
-    },
-    {
-      "mutation": "continuous_split",
-      "rule_broken": "Replaces a binary Case integrality premise with a continuous coordinate.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID fact reference or type",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "42afe994e2ece195fdea7d0f9e7e2d976accc9f87febb1b6aa13b3a609d401c5",
-      "rpx_sha256": "3502ec7567094d7fe11b038b76371576c47f9c44ebdddf4696207182d0208f32"
-    },
-    {
-      "mutation": "false_strictness",
-      "rule_broken": "Uses the complete point feasible in both integer models as a separating point.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID point: strictness witness violates no actual inclusion input bound or row (witness 0)",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "a23df5ece050ecdfdd85077e10b287665541c2705680fc09092d9efebb991789",
-      "rpx_sha256": "4168b6ae7fc969c21d6616f7e52e0e3b713d1cd27204f12526aa99ab3c2a7faf"
-    },
-    {
-      "mutation": "missing_middle",
-      "rule_broken": "Deletes a middle output-model obligation.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 2100",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "3b3c042a7150a9a647b4624fbaf0acb433e4e7a61ca479056407abb628138023",
-      "rpx_sha256": "ccd4b6038279572112f4af81e70704206e283de329b91a9904e662a28d7f349a"
-    },
-    {
-      "mutation": "wrong_inverse",
-      "rule_broken": "Changes a mapped coordinate with both original inverse contracts retained.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le; obligation 642",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "e6dcad3ed31c69ef13220a336c6e20adc8deffc4499cb5d64bbba13d631cd4d6",
-      "rpx_sha256": "e289aebb7ff7d97ac4e7c0c83bbcae9df2fd7fc45a5d9705b9fab9efc90ff589"
-    }
-  ]
+  }
 }

@@ -93,9 +93,8 @@ run `cargo test -p kernel-core --lib test_subflow_builder --locked`. They retain
 983 independent exact Fraction construction fixtures and arithmetic/resource
 checks. Current proof-engine and Python tests check premises and complete
 output obligations; the migrated 81-case replay also exercises this rule.
-Historical [test36](../cases/test36/README.md) and
-[delivery](../audit/FINAL_DELIVERY_REPORT.md) records describe the earlier format
-and its additional properties, not the current proof interface.
+Historical delivery records describe the earlier format and its additional
+properties, not the current proof interface.
 
 The earlier isolated candidate's identity and nine builder tests are preserved
 in `audit/subflow-next/receipt.json` as historical development evidence.

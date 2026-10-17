@@ -1,9 +1,0 @@
-{
-  "schema": "rpx-original-contract-scope-gates-v1",
-  "cases": {
-    "mock": {
-      "status": "REVIEWED_COMPLETE_REQUEST",
-      "requests": []
-    }
-  }
-}

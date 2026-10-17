@@ -1,1 +1,0 @@
-Exploratory baseline overlapped the model-parse sweep. Retained for transparency; do not use as isolated before/after comparison. baseline-v1-isolated is the planned replacement with identical workloads and repetitions.

@@ -1,5 +1,0 @@
-{
-  "status": "AUDIT_HARNESS_ERROR",
-  "reason": "The audit JSON supplied readable rational strings for Model Var/Row bounds, while direct derived Model serde expects BigRational tuple encoding. Baseline probe failed before any builder call. The fixture also used a non-ASCII model name although supported names are ASCII; both harness issues are repaired in a separate run.",
-  "production_changed_for_repair": false
-}

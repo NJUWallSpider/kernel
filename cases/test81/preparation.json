@@ -2,22 +2,79 @@
   "case_id": "test81",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/input/model.mps",
-    "sha256": "f531b8726878563590ba725efebeaea521448645fe99c5411547b90d9327901b"
+    "path": "/Users/bhz/Code/kernel/cases/test81/source.mcm",
+    "sha256": "306c14f8b9e7420f655395fe9c789aee975d5d622e2cdea61853575cd82b1fa1"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/output/reformulated.mps",
-    "sha256": "46a9bc42296fcd402a1c9d879c1a59a046820a096e0af5c77c0b43fb05e6d60c"
+    "path": "/Users/bhz/Code/kernel/cases/test81/target.mcm",
+    "sha256": "e58300061f56deb138881093fa3d24f8cddeb672c9a3f942cdad8b41c49bc213"
   },
+  "artifacts": {
+    "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test81/source.mcm",
+      "bytes": 1721514,
+      "sha256": "306c14f8b9e7420f655395fe9c789aee975d5d622e2cdea61853575cd82b1fa1"
+    },
+    "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test81/target.mcm",
+      "bytes": 847852,
+      "sha256": "e58300061f56deb138881093fa3d24f8cddeb672c9a3f942cdad8b41c49bc213"
+    },
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test81/proof.rpa",
+      "bytes": 8551163,
+      "sha256": "2dace0f53c745ba4afa8d43743477d6f0572a5ed229b0d0994484091dfea46bb"
+    },
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test81/proof.rpx",
+      "bytes": 14766826,
+      "sha256": "522058f1e2a42ebb9e1c0fa598e328edc80d33fc839111c99e1cf074ea396986"
+    }
+  },
+  "verification": {
+    "execute_us": 1183436,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 104794,
+    "proof_decode_us": 264611,
+    "read_us": 7387,
+    "statistics": {
+      "branches": 4103,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 976188,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 61926,
+      "peak_live_facts": 27938,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 60585,
+      "work": 3827950
+    },
+    "status": "VERIFIED",
+    "total_us": 1560468
+  },
+  "preparation_seconds": 147.2161802079936,
   "audit": {
     "path": "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/output/audit.json",
     "sha256": "7fc03dea041b4d761c3bc30ef45d88dea597572e6a66d995fd075c36e895adbd"
   },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test81.py",
-    "sha256": "0fe2235e7656fc57f2ca1f9f42da79bd7d48e9b4f800ab2b2ec24d8c591b4030"
-  },
-  "claims": "Complete zero-extension integer feasible-set bijection, full original-coordinate observations, both affine inverse identities, and exact objective including constants; full target-to-source LP inclusion. Strict projected LP inclusion established by the complete original 2x2-switch fractional point and an impossible deleted-arc observation fiber.",
   "counts": {
     "source_variables": 11090,
     "target_variables": 7749,
@@ -29,325 +86,6 @@
     "window_bound_pairs": 65,
     "domain_implied_rows": 130,
     "dependent_equality_deletions": 0,
-    "claims": 3,
-    "full_original_observations": 11090,
-    "steps_by_claim": [
-      34620,
-      23194,
-      23194
-    ],
-    "obligations_by_claim": [
-      46335,
-      56610,
-      37836
-    ],
-    "fiber_points": 1
-  },
-  "preparation_seconds": 9.185390874976292,
-  "rpa_sha256": "b1fdcd9d09b5f09f611de8d59ac1415dff85d8ab6195c015b178292b23074132",
-  "rpa_bytes": 24116589,
-  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":1721514,\"parse_us\":107279,\"read_us\":805,\"rows\":4630,\"status\":\"CANONICALIZED\",\"total_us\":149110,\"variables\":11090}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.16328999982215464
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test81-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":847852,\"parse_us\":44699,\"read_us\":275,\"rows\":972,\"status\":\"CANONICALIZED\",\"total_us\":62850,\"variables\":7749}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.06867316598072648
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":18180103,\"status\":\"ASSEMBLED\",\"total_us\":534389}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.5645729159004986
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":1379046,\"model_decode_us\":74534,\"points\":1,\"proof_decode_us\":198777,\"read_us\":3568,\"statistics\":{\"bijections\":0,\"branches\":4103,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":1015224,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":140781,\"peak_live_facts\":34620,\"plotkin_pairs\":0,\"point_coefficient_terms\":44891,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":113312,\"work\":5525003},\"status\":\"VERIFIED\",\"total_us\":1655925}\n",
-      "stderr": "",
-      "elapsed_seconds": 1.7298867090139538
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test81/deterministic.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":18180103,\"status\":\"ASSEMBLED\",\"total_us\":898582}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.950805707834661
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpa",
-        "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":18180081,\"status\":\"ASSEMBLED\",\"total_us\":788435}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.8460890001151711
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID contradiction witness\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.48147287499159575
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpa",
-        "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":18180080,\"status\":\"ASSEMBLED\",\"total_us\":747741}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.7986002499237657
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.39879020815715194
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpa",
-        "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":18180099,\"status\":\"ASSEMBLED\",\"total_us\":703121}\n",
-      "stderr": "",
-      "elapsed_seconds": 0.7541056249756366
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "elapsed_seconds": 1.413919375045225
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":1600493,\"model_decode_us\":95328,\"points\":1,\"proof_decode_us\":298986,\"read_us\":10743,\"statistics\":{\"bijections\":0,\"branches\":4103,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":1015224,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":140781,\"peak_live_facts\":34620,\"plotkin_pairs\":0,\"point_coefficient_terms\":44891,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":113312,\"work\":5525003},\"status\":\"VERIFIED\",\"total_us\":2005550}\n",
-      "stderr": "",
-      "elapsed_seconds": 2.0695949578657746
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test81/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test81/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":3,\"execute_us\":1348607,\"model_decode_us\":79992,\"points\":1,\"proof_decode_us\":205088,\"read_us\":3782,\"statistics\":{\"bijections\":0,\"branches\":4103,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":1015224,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":140781,\"peak_live_facts\":34620,\"plotkin_pairs\":0,\"point_coefficient_terms\":44891,\"points\":1,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":113312,\"work\":5525003},\"status\":\"VERIFIED\",\"total_us\":1637469}\n",
-      "stderr": "",
-      "elapsed_seconds": 1.6815033338498324
-    }
-  ],
-  "negative_checks": [
-    {
-      "mutation": "missing_zero_packing_premise",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID contradiction witness",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "c8f0f06b514768b9917b38875528709247431869b3b11eae57eb8ccd1ec9372e",
-      "rpx_sha256": "be5961e4c308d998c5e014bb54f05588263c60215b1a72c41547375bb75dffe4",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpa",
-          "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":18180081,\"status\":\"ASSEMBLED\",\"total_us\":788435}\n",
-        "stderr": "",
-        "elapsed_seconds": 0.8460890001151711
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/missing_zero_packing_premise.rpx",
-          "/Users/bhz/Code/kernel/cases/test81/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID contradiction witness\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "elapsed_seconds": 0.48147287499159575
-      },
-      "storage": "Mutated files removed; deterministic semantic recipe retained in preparer."
-    },
-    {
-      "mutation": "missing_active_branch_assumption",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Le",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "a9719e29c98cd92d1f493cb4c7d37dbdcf6a4fc48ce09c304eb64b3750b32bf3",
-      "rpx_sha256": "1d6f20e10b4a695cafecb868e31a6155b5d2cb9042b3a0f3256422171643388e",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpa",
-          "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":18180080,\"status\":\"ASSEMBLED\",\"total_us\":747741}\n",
-        "stderr": "",
-        "elapsed_seconds": 0.7986002499237657
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/missing_active_branch_assumption.rpx",
-          "/Users/bhz/Code/kernel/cases/test81/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Le\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "elapsed_seconds": 0.39879020815715194
-      },
-      "storage": "Mutated files removed; deterministic semantic recipe retained in preparer."
-    },
-    {
-      "mutation": "missing_inverse",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "55cd386ea48cd7673e6cc21c5c9988a5a780d57e38fd46dab3c9cd9d24501264",
-      "rpx_sha256": "65d1f4b72e71625c07c123614c92b752402cd61d2a15f82aa26a741003f6c1e1",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpa",
-          "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":18180099,\"status\":\"ASSEMBLED\",\"total_us\":703121}\n",
-        "stderr": "",
-        "elapsed_seconds": 0.7541056249756366
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test81/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test81/missing_inverse.rpx",
-          "/Users/bhz/Code/kernel/cases/test81/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "elapsed_seconds": 1.413919375045225
-      },
-      "storage": "Mutated files removed; deterministic semantic recipe retained in preparer."
-    }
-  ],
-  "assemble_byte_deterministic": true,
-  "verify_replay_deterministic": true,
-  "artifacts": {
-    "source.mcm": {
-      "bytes": 1721514,
-      "sha256": "306c14f8b9e7420f655395fe9c789aee975d5d622e2cdea61853575cd82b1fa1"
-    },
-    "target.mcm": {
-      "bytes": 847852,
-      "sha256": "e58300061f56deb138881093fa3d24f8cddeb672c9a3f942cdad8b41c49bc213"
-    },
-    "proof.rpx": {
-      "bytes": 18180103,
-      "sha256": "693826ab70b4aa46f3c0c33a781f84c1d2f45b7b61a78bf5e02dabbbef5ae57d"
-    },
-    "request.json": {
-      "bytes": 957603,
-      "sha256": "930a4a8bb5c7a2199342506e03d13743cb47b48664880cbc9de49573d4c1db6f"
-    }
+    "directions": 2
   }
 }

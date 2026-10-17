@@ -2,350 +2,74 @@
   "case_id": "test31",
   "status": "VERIFIED",
   "source": {
-    "path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/input/model.mps",
-    "sha256": "5df2a750b9fe2ef2957094c83e4f1eb1e227cea1a7df67fda6112eeb2622a7ed"
+    "path": "/Users/bhz/Code/kernel/cases/test31/source.mcm",
+    "sha256": "f102c26a419f656641da81d019ee8adfba319360ce5a832e99319d5ae5c1187d"
   },
   "target": {
-    "path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/output/reformulated.mps",
-    "sha256": "694deb5db476d2be8134164fa6e48218ad88b6ee0e6b08237f6c9c252f0746c0"
+    "path": "/Users/bhz/Code/kernel/cases/test31/target.mcm",
+    "sha256": "987154483b83c37d1aec7e8fadb15cd93e3fa336f2469f54fb305302a89da76b"
   },
-  "audit": {
-    "path": "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/output/changes.json",
-    "sha256": "2cf5147bf21b866ff8b0013712bd6893897191a6f0fd581331b1e389dd955d1b"
-  },
-  "proof_preparer": {
-    "path": "/Users/bhz/Code/kernel/tools/prepare_test31.py",
-    "sha256": "afa7c6a81e277eda1cb1eb4e3bfa93d14378c3fdb5caf2e9a0116c44f6f5cb34"
-  },
-  "claims": "Exact equality of the retained integer feasible projection and every objective value, in both directions. All 13,984 relaxed tree-flow coordinates reconstructed integer by shared leaf cut facts; 29,541 forced zeros and 18 forced ones restored. The 141 zero-cost projected auxiliaries have a canonical zero lift; their original values are not claimed uniquely forced. No LP equivalence or full auxiliary bijection asserted.",
-  "counts": {
-    "source_variables": 364417,
-    "target_variables": 334717,
-    "source_rows": 14733,
-    "target_rows": 14026,
-    "capacity_zero_arcs": 20320,
-    "all_fixed_arcs": 29559,
-    "tree_integer_facts": 13984,
-    "claims": 2,
-    "steps_by_claim": [
-      125079,
-      14036
-    ],
-    "obligations_by_claim": [
-      1338911,
-      1442702
-    ]
-  },
-  "rpa_sha256": "f5542389df55e9cf7f6802e5328af5327bb0d5c9d5d4512f5083a091b7abcbf6",
-  "rpa_bytes": 124773155,
-  "kernel_binary_sha256": "4acaf2484f7444975bdcc792d7a9a8ff6532f8848ab7070150ceabb4f2d6ae8d",
-  "kernel_runs": [
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/input/model.mps",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":65300910,\"parse_us\":5131151,\"read_us\":105208,\"rows\":14733,\"status\":\"CANONICALIZED\",\"total_us\":6478299,\"variables\":364417}\n",
-      "stderr": "",
-      "seconds": 6.617850207956508
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "canonical",
-        "/Users/bhz/Code/reform_test/runs/test31-nomf-B1/output/reformulated.mps",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"mcm_bytes\":52212604,\"parse_us\":2777776,\"read_us\":19086,\"rows\":14026,\"status\":\"CANONICALIZED\",\"total_us\":3844595,\"variables\":334717}\n",
-      "stderr": "",
-      "seconds": 3.9868861669674516
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":82712662,\"status\":\"ASSEMBLED\",\"total_us\":2202893}\n",
-      "stderr": "",
-      "seconds": 2.3280803749803454
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":17170110,\"model_decode_us\":2823676,\"points\":0,\"proof_decode_us\":833291,\"read_us\":46468,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4960273,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":2781613,\"peak_live_facts\":125079,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":3481038,\"work\":36590838},\"status\":\"VERIFIED\",\"total_us\":20873545}\n",
-      "stderr": "",
-      "seconds": 22.0789632499218
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpa",
-        "/Users/bhz/Code/kernel/cases/test31/determinism.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":82712662,\"status\":\"ASSEMBLED\",\"total_us\":2538486}\n",
-      "stderr": "",
-      "seconds": 2.8386835001874715
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpa",
-        "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":82712640,\"status\":\"ASSEMBLED\",\"total_us\":1862076}\n",
-      "stderr": "",
-      "seconds": 1.9477094581816345
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID rounding premises\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 2.798415625002235
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpa",
-        "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":82712640,\"status\":\"ASSEMBLED\",\"total_us\":1235944}\n",
-      "stderr": "",
-      "seconds": 1.304480249993503
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID obligation mismatch: expected Int; obligation 1049873\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 6.607025500154123
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "assemble",
-        "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpa",
-        "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpx"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"rpx_bytes\":82712658,\"status\":\"ASSEMBLED\",\"total_us\":1152478}\n",
-      "stderr": "",
-      "seconds": 1.2218068330548704
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 2,
-      "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
-      "stderr": "",
-      "seconds": 6.977126916870475
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":10900725,\"model_decode_us\":2110110,\"points\":0,\"proof_decode_us\":583407,\"read_us\":38164,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4960273,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":2781613,\"peak_live_facts\":125079,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":3481038,\"work\":36590838},\"status\":\"VERIFIED\",\"total_us\":13632406}\n",
-      "stderr": "",
-      "seconds": 14.11804520804435
-    },
-    {
-      "command": [
-        "/Users/bhz/Code/kernel/target/release/rpx",
-        "verify",
-        "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-        "/Users/bhz/Code/kernel/cases/test31/proof.rpx",
-        "/Users/bhz/Code/kernel/cases/test31/request.json"
-      ],
-      "exit_code": 0,
-      "stdout": "{\"bijections\":0,\"claims\":2,\"execute_us\":12503713,\"model_decode_us\":2110867,\"points\":0,\"proof_decode_us\":669108,\"read_us\":40799,\"statistics\":{\"bijections\":0,\"branches\":0,\"flow_generated_rows\":0,\"flow_generated_terms\":0,\"flow_generated_variables\":0,\"flow_lifts\":0,\"injectivity_coordinates\":0,\"injectivity_generated_rows\":0,\"injectivity_generated_terms\":0,\"injectivity_generated_variables\":0,\"interval_generated_rows\":0,\"interval_generated_terms\":0,\"interval_generated_variables\":0,\"interval_lifts\":0,\"linear_terms\":4960273,\"menu_generated_rows\":0,\"menu_generated_terms\":0,\"menu_generated_variables\":0,\"menu_lifts\":0,\"objective_level_domains\":0,\"objective_level_generated_rows\":0,\"objective_level_generated_terms\":0,\"obligations\":2781613,\"peak_live_facts\":125079,\"plotkin_pairs\":0,\"point_coefficient_terms\":0,\"points\":0,\"signed_generated_rows\":0,\"signed_generated_terms\":0,\"signed_generated_variables\":0,\"signed_lifts\":0,\"substitution_terms\":3481038,\"work\":36590838},\"status\":\"VERIFIED\",\"total_us\":15324487}\n",
-      "stderr": "",
-      "seconds": 15.7173412500415
-    }
-  ],
-  "negative_checks": [
-    {
-      "mutation": "missing_capacity_nonnegativity",
-      "rule_broken": "Drops a cancellation needed for the oversize sum capacity bound.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID rounding premises",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "ac73a1b69f4bba7c17966af51a34b5e02a488fea1aeadc1ff7eeee8e2da2f13f",
-      "rpx_sha256": "f04ed69057117df3ec4ef93834aec4f45c9f8ecefd7d0a779dd5da3a633c87f6",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpa",
-          "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":82712640,\"status\":\"ASSEMBLED\",\"total_us\":1862076}\n",
-        "stderr": "",
-        "seconds": 1.9477094581816345
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/missing_capacity_nonnegativity.rpx",
-          "/Users/bhz/Code/kernel/cases/test31/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID rounding premises\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "seconds": 2.798415625002235
-      },
-      "storage": "Temporary mutation files removed; deterministic recipe in proof preparer."
-    },
-    {
-      "mutation": "missing_tree_integer_term",
-      "rule_broken": "Drops an integer premise of a relaxed tree-flow reconstruction.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID obligation mismatch: expected Int; obligation 1049873",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "464236164d798337d5bd58067e1524d88202a379c7fe5964b153443de05592cb",
-      "rpx_sha256": "da46135707182879f8112dabb8579b2fb76be56663917d4635762d16f99a511b",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpa",
-          "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":82712640,\"status\":\"ASSEMBLED\",\"total_us\":1235944}\n",
-        "stderr": "",
-        "seconds": 1.304480249993503
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/missing_tree_integer_term.rpx",
-          "/Users/bhz/Code/kernel/cases/test31/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID obligation mismatch: expected Int; obligation 1049873\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "seconds": 6.607025500154123
-      },
-      "storage": "Temporary mutation files removed; deterministic recipe in proof preparer."
-    },
-    {
-      "mutation": "missing_projection_coordinate",
-      "rule_broken": "Drops a requested retained-coordinate equality.",
-      "exit_code": 2,
-      "result": {
-        "message": "INVALID missing obligation",
-        "status": "INVALID"
-      },
-      "rpa_sha256": "725b58bafd420d24936525a941ca853a8820ad8579992719bee020e219539dac",
-      "rpx_sha256": "4da682b10b14604dc03919e67e08e5fd830b87d3bef1ce383190cb8f7422e658",
-      "assemble": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "assemble",
-          "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpa",
-          "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpx"
-        ],
-        "exit_code": 0,
-        "stdout": "{\"rpx_bytes\":82712658,\"status\":\"ASSEMBLED\",\"total_us\":1152478}\n",
-        "stderr": "",
-        "seconds": 1.2218068330548704
-      },
-      "verify": {
-        "command": [
-          "/Users/bhz/Code/kernel/target/release/rpx",
-          "verify",
-          "/Users/bhz/Code/kernel/cases/test31/source.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/target.mcm",
-          "/Users/bhz/Code/kernel/cases/test31/missing_projection_coordinate.rpx",
-          "/Users/bhz/Code/kernel/cases/test31/request.json"
-        ],
-        "exit_code": 2,
-        "stdout": "{\"message\":\"INVALID missing obligation\",\"status\":\"INVALID\"}\n",
-        "stderr": "",
-        "seconds": 6.977126916870475
-      },
-      "storage": "Temporary mutation files removed; deterministic recipe in proof preparer."
-    }
-  ],
-  "assemble_byte_deterministic": true,
-  "verify_deterministic_semantics_and_work": true,
-  "preparation_seconds": 282.4198150001466,
-  "peak_children_rss_bytes": 1416445952,
-  "peak_preparer_rss_bytes": 1962459136,
   "artifacts": {
     "source.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test31/source.mcm",
       "bytes": 65300910,
       "sha256": "f102c26a419f656641da81d019ee8adfba319360ce5a832e99319d5ae5c1187d"
     },
     "target.mcm": {
+      "path": "/Users/bhz/Code/kernel/cases/test31/target.mcm",
       "bytes": 52212604,
       "sha256": "987154483b83c37d1aec7e8fadb15cd93e3fa336f2469f54fb305302a89da76b"
     },
-    "proof.rpx": {
-      "bytes": 82712662,
-      "sha256": "11da4304e11264229ca97e577160c380b7ab0a5b6ee263d8d9eabbd2c219936a"
+    "proof.rpa": {
+      "path": "/Users/bhz/Code/kernel/cases/test31/proof.rpa",
+      "bytes": 62695528,
+      "sha256": "44245171e99c344e815f86623e9bacfefd35fc953f71c90baf6fd422d02bba97"
     },
-    "request.json": {
-      "bytes": 10284395,
-      "sha256": "89d065b8cc33e2313708d6b59f7db68175f2abbdf9f77395314ffc88b4c51153"
+    "proof.rpx": {
+      "path": "/Users/bhz/Code/kernel/cases/test31/proof.rpx",
+      "bytes": 74679428,
+      "sha256": "0a6fb4df1c97bd8ee86c69fc4cf8ef1d4bdb4b35f3324630c7ad12ea754c1847"
     }
-  }
+  },
+  "verification": {
+    "execute_us": 5656240,
+    "guarantee": "MI_OPT",
+    "limits": {
+      "depth": 64,
+      "live_facts": 1000000,
+      "work": 1000000000
+    },
+    "model_decode_us": 1125698,
+    "proof_decode_us": 264507,
+    "read_us": 37688,
+    "statistics": {
+      "branches": 0,
+      "flow_generated_rows": 0,
+      "flow_generated_terms": 0,
+      "flow_generated_variables": 0,
+      "flow_lifts": 0,
+      "interval_generated_rows": 0,
+      "interval_generated_terms": 0,
+      "interval_generated_variables": 0,
+      "interval_lifts": 0,
+      "linear_terms": 4960273,
+      "menu_generated_rows": 0,
+      "menu_generated_terms": 0,
+      "menu_generated_variables": 0,
+      "menu_lifts": 0,
+      "obligations": 2112179,
+      "peak_live_facts": 125079,
+      "plotkin_pairs": 0,
+      "signed_generated_rows": 0,
+      "signed_generated_terms": 0,
+      "signed_generated_variables": 0,
+      "signed_lifts": 0,
+      "substitution_terms": 3481038,
+      "work": 35921404
+    },
+    "status": "VERIFIED",
+    "total_us": 7084150
+  },
+  "proof_origin": "migrated MI_OPT certificate; RPA 12 disassembled from the preserved optimization proof",
+  "contract": "MI_OPT only"
 }

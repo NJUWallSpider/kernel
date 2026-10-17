@@ -1,8 +1,0 @@
-{
-  "packing_input_terms": 42216009,
-  "naive_cancellation_refs": 18244585,
-  "same_weight_contiguous_runs": 8528969,
-  "distinct_weighted_runs": 448823,
-  "maximum_cancel_refs": 42850,
-  "variables": 48417
-}

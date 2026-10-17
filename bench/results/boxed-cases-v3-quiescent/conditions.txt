@@ -1,1 +1,0 @@
-All collaborating workers confirmed no running computations and held tests/builds/heavy scripts during this run; root only edited source/reports. Candidate has identical numerical semantics, codec, RPA shapes and all23artifact hashes/statistics to V3 baseline. All207verification samples and69RSS runs VERIFIED. External OS/user activity remains uncontrolled; warm filesystem.

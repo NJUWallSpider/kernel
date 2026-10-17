@@ -1,6 +1,0 @@
-strict-n1 True {'min': 1.825, 'median': 1.998625, 'max': 2.219708}
-strict-n64 True {'min': 1.821584, 'median': 2.01175, 'max': 2.199625}
-strict-n4096 True {'min': 6.783417, 'median': 6.897084, 'max': 7.796125}
-image-n1 True {'min': 1.90725, 'median': 1.964541, 'max': 2.160083}
-image-n64 True {'min': 1.991166, 'median': 2.118375, 'max': 2.225125}
-image-n4096 True {'min': 8.335958, 'median': 8.525875, 'max': 8.776417}
