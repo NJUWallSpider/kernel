@@ -1,9 +1,7 @@
 """Sparse structural mutations for adversarial checks of an existing proof."""
 from __future__ import annotations
 
-from .backend import KernelError
 from .proof import BuildError
-from .session import compile_certificate
 
 
 def mutate(certificate, path, *, replacement=None, delete=False):
@@ -21,8 +19,6 @@ def mutate(certificate, path, *, replacement=None, delete=False):
         if delete:
             del result[key]
         else:
-            # A replacement must select an existing site rather than accidentally
-            # append an unrequested property under a misspelled key.
             certificate[key]
             result[key] = replacement
     else:
@@ -31,14 +27,19 @@ def mutate(certificate, path, *, replacement=None, delete=False):
 
 
 def attack(proof, directory, path, *, replacement=None, delete=False, expected="INVALID"):
-    """Mutate a proof site; the Kernel always requires MI_OPT."""
-    certificate = mutate(proof.certificate(), path, replacement=replacement, delete=delete)
+    """Mutate a native proof site; the Kernel always requires MI_OPT."""
     try:
-        artifacts = compile_certificate(proof.source, proof.target, certificate, directory,
-                                        kernel=proof.kernel)
-    except KernelError as error:
-        return {"expected": expected, "rejected_as_expected": error.report["status"] == expected,
-                "stage": "compile", "result": error.report}
-    report = proof.kernel.verify(artifacts["source"], artifacts["target"], artifacts["proof"])
+        compiled = proof._native.attack([str(item) for item in path], replacement, delete)
+    except (ValueError, TypeError) as error:
+        return {"expected": expected, "rejected_as_expected": expected == "INVALID",
+                "stage": "compile", "result": {"status": "INVALID", "message": str(error)}}
+    directory = __import__("pathlib").Path(directory).resolve()
+    directory.mkdir(parents=True, exist_ok=True)
+    source, target = directory / "source.mcm", directory / "target.mcm"
+    proof_path = directory / "proof.rpx"
+    proof.source.write_mcm(source)
+    proof.target.write_mcm(target)
+    proof_path.write_bytes(compiled.rpx)
+    report = proof.kernel.verify(source, target, proof_path)
     return {"expected": expected, "rejected_as_expected": report["status"] == expected,
             "stage": "verify", "result": report}

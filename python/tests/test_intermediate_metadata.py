@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 
-from kernel_compiler import Expr, Model, Proof, Row, Variable, exact, mutate, compile_certificate
+from kernel_compiler import Expr, Model, Proof, Row, Variable, exact
 
 
 class IntermediateMetadataTests(unittest.TestCase):
@@ -54,11 +54,6 @@ class IntermediateMetadataTests(unittest.TestCase):
         claim.complete(witnesses={2: wide})
         with tempfile.TemporaryDirectory() as directory:
             assert_rules_checked(self, proof.verify(directory))
-        certificate = proof.certificate()
-        forged = mutate(certificate, ["forward", "steps"], replacement=certificate["forward"]["steps"][:-1])
-        with tempfile.TemporaryDirectory() as directory:
-            artifacts = compile_certificate(source, target, forged, directory)
-            self.assertEqual(proof.kernel.verify(**artifacts)["status"], "INVALID")
         if limit is not None:
             self.assertEqual(sys.get_int_max_str_digits(), limit)
 

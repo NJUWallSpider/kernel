@@ -1,12 +1,9 @@
-"""Small process boundary to the exact Rust kernel; no assembly-language frontend."""
+"""Native command boundary to the exact Rust kernel."""
 from __future__ import annotations
 
-import json
-import os
 from pathlib import Path
-import shutil
-import subprocess
-import tempfile
+
+from . import _native
 
 
 class KernelError(RuntimeError):
@@ -15,46 +12,21 @@ class KernelError(RuntimeError):
         super().__init__(report.get("error", report.get("message", str(report))))
 
 
+_ERRORS = frozenset(("INVALID", "RESOURCE_LIMIT", "IO_ERROR", "EXECUTION_FAILED"))
+
+
 class Kernel:
-    """Use a built rpx binary (explicit argument, KERNEL_RPX, checkout, or PATH)."""
-    def __init__(self, binary=None, *, compile_json_bytes=None):
-        if compile_json_bytes is not None:
-            if isinstance(compile_json_bytes, bool) or not isinstance(compile_json_bytes, int):
-                raise TypeError("compile_json_bytes must be a positive integer or None")
-            if not 0 < compile_json_bytes <= (1 << 64) - 1:
-                raise ValueError("compile_json_bytes must fit a positive unsigned 64-bit integer")
-        self.compile_json_bytes = compile_json_bytes
-        root = Path(__file__).resolve().parents[2]
-        candidates = [binary, os.environ.get("KERNEL_RPX"),
-                      root / "bin/rpx", root / "target/release/rpx", root / "target/debug/rpx", shutil.which("rpx")]
-        self.binary = next((Path(p).resolve() for p in candidates if p and Path(p).is_file()), None)
-        if self.binary is None:
-            raise FileNotFoundError("Build rpx with cargo build --release, or set KERNEL_RPX")
+    """Native exact kernel facade; no subprocess and no binary discovery."""
+
+    def __init__(self, binary=None):
+        self._native = _native.Kernel()
+        self.binary = None if binary is None else Path(binary)
 
     def call(self, *args, check=True):
-        result = subprocess.run([str(self.binary), *map(str, args)], capture_output=True, text=True)
-        try:
-            report = json.loads(result.stdout)
-        except json.JSONDecodeError:
-            raise KernelError({"status": "EXECUTION_FAILED", "error": result.stderr or result.stdout,
-                               "exit_code": result.returncode}) from None
-        if check and result.returncode:
+        report = self._native.call([str(arg) for arg in args])
+        if check and report.get("status") in _ERRORS:
             raise KernelError(report)
         return report
 
-    def json_command(self, command, models, specification):
-        """Read machine output through a temporary file, with paths passed without a shell."""
-        with tempfile.TemporaryDirectory(prefix="kernel-compiler-") as directory:
-            directory = Path(directory)
-            spec, output = directory / "spec.json", directory / "result.json"
-            spec.write_text(json.dumps(specification, separators=(",", ":")) + "\n")
-            self.call(command, *models, spec, output)
-            return json.loads(output.read_text())
-
     def verify(self, source, target, proof, *, work=None, live_facts=None):
-        args = ["verify"]
-        if work is not None:
-            args += ["--work", str(work)]
-        if live_facts is not None:
-            args += ["--live-facts", str(live_facts)]
-        return self.call(*args, source, target, proof, check=False)
+        return self._native.verify(str(source), str(target), str(proof), work, live_facts)

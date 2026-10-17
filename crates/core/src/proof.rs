@@ -1,27 +1,24 @@
 //! Two-tree proof data for fixed MILP optimization equivalence.
 use crate::model::{Expr, Q};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 /// Two complete proof trees. Their domains and objective obligations are fixed.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Certificate { pub forward: Block, pub reverse: Block }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Block { pub steps: Vec<Step>, pub end: End }
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize)]
 pub enum Kind { Le, Eq, Int }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub enum Ref {
     VarLower(u32), VarUpper(u32), VarInt(u32),
     RowLower(u32), RowUpper(u32), RowEq(u32),
     Local(u32), Assumption(u32), Exact,
 }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Step {
     /// Constant + sum multiplier*fact. Rules depend on the resulting kind.
-    Lin { id: u32, kind: Kind, #[serde(with="crate::json::scalar")] constant: Q, #[serde(with="crate::json::ref_terms")] terms: Vec<(Ref, Q)> },
+    Lin { id: u32, kind: Kind, constant: Q, terms: Vec<(Ref, Q)> },
     /// Integer-valued expression and LE expression must differ only by a constant.
     Round { id: u32, le: Ref, integer: Ref },
     Drop { ids: Vec<u32> },
@@ -34,49 +31,39 @@ pub enum Step {
 }
 /// Rare large payload is indirect so ordinary proof steps keep compact slots.
 /// The external Cases JSON object and RPX fields remain unchanged.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CasesStep {
     pub id:u32,pub kind:Kind,pub expression:Expr,pub split:Expr,
     pub integer:Option<Ref>,pub left:Box<Derivation>,pub right:Box<Derivation>,
 }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Derivation { pub steps: Vec<Step>, pub end: DerivationEnd }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum DerivationEnd { Witness(Ref), Absurd(Ref) }
 /// independent real interval choices; all expressions use the parent scope.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct IntervalWitness{pub lower:Vec<Expr>,pub upper:Vec<Expr>,pub checks:Vec<Ref>}
 /// graph and simultaneous common-source flow extension witness.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FlowWitness{pub nodes:u32,pub arcs:Vec<(u32,u32)>,pub groups:Vec<FlowGroup>}
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FlowGroup{
     pub source:u32,
-    #[serde(with="crate::json::expr_terms")]
     pub commodities:Vec<(u32,Q)>,
     pub flows:Vec<Expr>,
     pub nonnegative:Vec<Ref>,
     pub balances:Vec<Ref>,
 }
 /// jointly retain the demanded part of a nonnegative real flow.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SubflowWitness{pub nodes:u32,pub arcs:Vec<(u32,u32)>,pub groups:Vec<SubflowGroup>}
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SubflowGroup{
     pub source:u32,
-    #[serde(with="crate::json::expr_terms")]
     pub demands:Vec<(u32,Q)>,
     pub flows:Vec<Expr>,pub nonnegative:Vec<Ref>,pub balances:Vec<Ref>,
 }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum End {
     /// simultaneous demand-bounded subflows, with old-scope premises.
     SubflowLift{witness:SubflowWitness,body:Box<Block>},
@@ -97,14 +84,12 @@ pub enum End {
 }
 
 /// a bounded optional menu represented by an integer activation and index.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MenuWitness {pub maximum_index:u32,pub activation:Expr,pub index:Expr,pub checks:Vec<Ref>}
 
 /// old-scope binary activation, real flow, nonnegative exact capacity.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SignedWitness {
-    #[serde(with="crate::json::scalar")] pub capacity:Q,
+    pub capacity:Q,
     pub flow:Expr,pub activation:Expr,pub checks:Vec<Ref>,
 }

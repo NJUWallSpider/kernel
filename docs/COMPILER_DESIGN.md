@@ -84,21 +84,14 @@ The catalogue's sharpest cases explain why a general builder alone is insufficie
 - **Parity and bounded refutations** (test67, test84): an author can supply explicit case trees and exact existing-rule derivations. `parity_fix` now elaborates one supplied equality with an odd binary coefficient and even other integer coefficients into ordinary checked steps. It does not find parity equations, perform elimination modulo two, or enumerate a refutation. Larger modular and bounded proofs still require author-provided witnesses and templates.
 - **Fixed-coordinate equality closure** (test23): `eq_on_fixed` covers explicitly supplied one-coordinate equality facts and variables fixed by their model bounds. More general affine definitions can be combined with `rewrite` / `combine_rows`; the compiler does not discover a closure.
 
-`compile_certificate` exposes every frozen Certificate variant as a structured Python object fallback. This prevents a convenience wrapper from excluding an existing wire feature. It does **not** establish natural proof authoring, comparable time, or unrestricted mathematical expressivity: all supplied proofs must still fit the frozen Kernel rules and limits.
+`Proof.compile` is the only public compilation entry point. The native compiler core builds the Certificate from the authoring arena, renders canonical RPA 12, parses that text back into a Certificate, and encodes RPX 11. Raw Certificate dictionaries are not accepted. This does **not** establish natural proof authoring, comparable time, or unrestricted mathematical expressivity: all supplied proofs must still fit the frozen Kernel rules and limits.
 
 ## Resource and delivery boundaries
 
-Direct compilation removes the RPA intermediate and its separate text policy.
-The current native Certificate JSON default is **1 GiB**, independently
-configurable through `Kernel(compile_json_bytes=N)` or the native
-`rpx compile --max-json-bytes N certificate.json proof.rpx` command.
-The native success report and delivery manifest record
-`compile_limits.certificate_json_bytes`. Both metadata size and actual reads are
-bounded. This compile-only policy changes no proof rule or RPX encoding and
-does not raise model/Request input, RPX byte/item/depth, scalar, verification
-work or live-fact limits. A larger JSON budget is not a guarantee that the
-original large C9 proof clears every subsequent limit. No such success is
-claimed by the small budget-boundary tests.
+The sole proof path is `Python authoring -> Rust compiler core -> RPA 12 -> RPX 11`.
+RPA text is capped at 512 MiB; RPX encoding and verification retain their
+independent byte, item, depth, scalar, work and live-fact limits. There is no
+Certificate JSON compiler budget or second structured proof path.
 
 Non-JSON `Model.load` keeps native format parsing/validation authoritative and
 uses bounded MCM reads to populate exact Python objects, without a complete
@@ -144,7 +137,7 @@ The measurements have separate scopes:
   statistics. Measured totals are 140.772 s handwritten versus 144.158 s helper.
   This validates replacement of manual derivation code, **not a runtime speedup**.
 
-`compile_certificate(..., committed_model=...)` reads the actual submitted
+`Proof.compile(..., committed_model=...)` reads the actual submitted
 artifact and requires complete `Model.same_formulation` with the proof target,
 recording both hashes. MPS/LP/MCM readback uses the Kernel; canonical JSON uses
 the Python exact reader and has a distinct audit method. The comparison retains

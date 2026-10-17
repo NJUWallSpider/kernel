@@ -69,4 +69,4 @@ Exact import, rational arithmetic, scalar rules, scope handling and the construc
 
 ## Historical formats
 
-RPX 11 replaces the earlier configurable directional-claim format. Old RPX versions and their benchmark receipts retain their historical meaning; the current decoder rejects them. [Migration](../tools/migrate_mi_opt.py) runs a separately supplied legacy decoder, selects complete MI proofs, removes extra terminal obligations and submits the resulting two-block certificate to the new kernel. Migration is untrusted and cannot bypass verification.
+RPX 11 replaces the earlier configurable directional-claim format. Old RPX versions and their benchmark receipts retain their historical meaning; the current decoder rejects them. Historical migration is pinned to a pre-change commit and is not part of the current pipeline. Migration remains untrusted and cannot bypass verification.

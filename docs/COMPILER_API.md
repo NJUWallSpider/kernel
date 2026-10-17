@@ -1,6 +1,6 @@
 # Python Compiler API
 
-Python authors exact models and explicit proofs, compiles directly to RPX 11, and calls the kernel. The certificate contains two required proof trees. There are no selectable correctness properties, LP mode, inverse declarations, or standalone improvement proofs.
+Python authors exact models and explicit proofs, compiles through RPA 12 to RPX 11, and calls the kernel. The certificate contains two required proof trees. There are no selectable correctness properties, LP mode, inverse declarations, or standalone improvement proofs.
 
 ## Complete maps and obligations
 
@@ -71,11 +71,11 @@ proof.target.write_mps("output/reformulated.mps")
 result = proof.verify("output/proof", committed_model="output/reformulated.mps")
 ```
 
-Compilation saves `source.mcm`, `target.mcm`, `certificate.json`, `proof.rpx`, and `delivery.json`. Verification additionally saves `verification.json`. It does not generate a Request or property-summary sidecar. `preflight()` reports structural size, steps, checks and map counts; verification reports actual work.
+Compilation saves `source.mcm`, `target.mcm`, `proof.rpa`, `proof.rpx`, and `delivery.json`. Verification additionally saves `verification.json`. It does not generate a Request, property-summary or Certificate JSON sidecar. `preflight()` reports steps, checks, maps, linear premises and exact RPA/RPX sizes; verification reports actual work.
 
-`compile_certificate(source, target, certificate, directory, ...)` accepts a raw two-block object. Exact typed expression/fact leaves are serialized without copying the entire container tree. The kernel rejects unknown certificate fields. Compilation alone is not certification.
+`Proof.compile(directory, committed_model=None)` is the only compilation entry point; raw Certificate dictionaries are not accepted. The native core builds the certificate, renders canonical RPA 12, parses that text back into the certificate, and encodes RPX 11. Compilation alone is not certification.
 
-`Kernel.verify(source, target, proof, work=None, live_facts=None)` accepts one proof. Use `Kernel(compile_json_bytes=...)` to set the independent certificate-compilation budget. File publication is atomic in the Python authoring layer; failed writes retain existing artifacts. Output paths must not alias committed solver artifacts.
+`Kernel.verify(source, target, proof, work=None, live_facts=None)` accepts one proof. File publication is atomic in the Python authoring layer; failed writes retain existing artifacts. Output paths must not alias committed solver artifacts.
 
 A successful artifact audit compares every named variable, bound, integrality declaration, row and objective against the committed model. The final verification status and artifact audit are separate checks; do not infer certification from file creation or a digest alone.
 

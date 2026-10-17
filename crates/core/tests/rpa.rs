@@ -199,17 +199,12 @@ fn planning_has_no_domain_or_objective_switch() {
     let model =
         lp::parse_lp("Minimize\n obj: x\nSubject To\nBounds\n 0 <= x <= 1\nGeneral\n x\nEnd\n")
             .unwrap();
-    let plan = compiler::parse_return_plan_json(r#"{"map":[{"constant":"0","terms":[[0,"1"]]}]}"#)
-        .unwrap();
+    let plan = compiler::ReturnPlan { map: vec![Expr::var(0)] };
     let goals = compiler::plan_return(&model, &model, &plan, &Limits::default()).unwrap();
     assert_eq!(goals.len(), 4);
     assert_eq!(goals[2].kind, Kind::Int);
     assert_eq!(goals[3].kind, Kind::Le);
-    for field in ["claim", "inverse_map", "improvement", "compositions"] {
-        let mut value = serde_json::json!({"map": []});
-        value[field] = serde_json::json!({});
-        assert!(compiler::parse_return_plan_json(&value.to_string()).is_err());
-    }
+
 }
 
 fn count_block(block: &Block) -> usize {

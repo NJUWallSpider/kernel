@@ -6,7 +6,7 @@ RPA 12 is the text assembly for an RPX 11 certificate. One logical instruction m
 RPA 12 text -> Certificate -> codec::encode_certificate -> RPX 11
 ```
 
-RPA 12 replaces the former `RPA 11` JSON serialization and `RPA-S 1` source language. Both old text headers are rejected. `compile certificate.json proof.rpx` remains a separate structured JSON bridge used by the Python compiler; it is not RPA text.
+RPA 12 replaces the former `RPA 11` JSON serialization and `RPA-S 1` source language. Both old text headers are rejected. Certificate JSON is not a production proof path.
 
 ## File structure
 
@@ -182,13 +182,12 @@ All `arc` lines precede all `group` lines, matching the wire's two vectors. `sub
 rpx assemble proof.rpa proof.rpx
 rpx disassemble proof.rpx recovered.rpa
 rpx verify source.mcm target.mcm proof.rpx
-rpx compile certificate.json proof.rpx
 ```
 
 `assemble` is syntax and encoding only. `disassemble` is canonical text only. Neither establishes mathematics. The manual's complete examples are [redundant](rpx/examples/redundant/proof.rpa), [elimination](rpx/examples/elimination/proof.rpa) and [piecewise](rpx/examples/piecewise/proof.rpa).
 
 ## Limits and rejection
 
-RPA 12 text is limited to 256 MiB, 20,000,000 instruction/expression nodes, and nesting depth 128. Failure to parse is `INVALID`; exceeding a documented limit is `RESOURCE_LIMIT`.
+RPA 12 text is limited to 512 MiB, 20,000,000 instruction/expression nodes, and nesting depth 128. Failure to parse is `INVALID`; exceeding a documented limit is `RESOURCE_LIMIT`.
 
 `RPA 11`, `RPA-S 1`, old property fields, `--models`, `disassemble-source`, macros and named checks do not exist in RPA 12. Historical files keep their old bytes and require an explicitly supplied old decoder and migration; changing only the header is invalid.

@@ -10,7 +10,7 @@ mod parse;
 use crate::proof::Certificate;
 
 pub const HEADER: &str = "RPA 12\n";
-pub const MAX_SOURCE_BYTES: usize = 256 * 1024 * 1024;
+pub const MAX_SOURCE_BYTES: usize = 512 * 1024 * 1024;
 pub const MAX_NODES: usize = 20_000_000;
 pub const MAX_DEPTH: usize = 128;
 

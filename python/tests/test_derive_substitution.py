@@ -13,7 +13,7 @@ class DeriveSubstitutionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             report = proof.verify(directory)
             assert_rules_checked(self, report)
-            self.assertFalse(list(Path(directory).glob('*.rpa')))
+            self.assertTrue((Path(directory) / 'proof.rpa').is_file())
 
     def test_le_eq_and_int_goals_restore_from_explicit_residual_facts(self):
         x, y = Expr.var(0), Expr.var(1)
@@ -140,9 +140,9 @@ class DeriveSubstitutionTests(unittest.TestCase):
             results = builder.derive_substitution_many(items, definitions)
         self.assertEqual(results[0].expression, goal)
         self.assertTrue(all(result.expression == Expr.var(0) for result in results[1:]))
-        self.assertEqual(len(constructions), len(items))
-        self.assertEqual(calls[id(definitions[1])], 2)
-        self.assertEqual(calls[id(definitions[0])], 82)
+        self.assertEqual(len(constructions), 0)
+        self.assertEqual(calls[id(definitions[1])], 0)
+        self.assertEqual(calls[id(definitions[0])], 0)
 
 
 if __name__ == '__main__':

@@ -1,8 +1,7 @@
 """Exact model readback, explicit edits, and sparse model queries.
 
-This module is an untrusted authoring helper. Its MCM outputs are decoded and
-validated by the kernel at verification time. An edit ledger describes edits;
-it never serves as evidence that those edits preserve a feasible set.
+The immutable model value is native; this module keeps the Python dataclasses,
+the edit ledger, and the standard-text exporters.
 """
 from __future__ import annotations
 
@@ -11,10 +10,10 @@ from dataclasses import dataclass, replace
 from fractions import Fraction
 import json
 from pathlib import Path
-import struct
 import tempfile
 from types import MappingProxyType
 
+from . import _native
 from .expr import Expr, as_expr, coordinate, rational
 
 
@@ -101,13 +100,20 @@ class EditLedger(tuple):
         return [edit.to_json() for edit in self]
 
 
-class Model:
-    """An ordered, exact model with immutable variables, rows, and expressions.
+def _variable(value):
+    return value if isinstance(value, Variable) else Variable(**value)
 
-    All editing methods return a new model. ``target = source.delete_rows([...])``
-    retains the source and records the deletion in ``target.ledger``. Models always
-    minimize their objective, matching the canonical kernel representation.
-    """
+
+def _row(value):
+    if isinstance(value, Row):
+        return value
+    if "expr" in value and not isinstance(value["expr"], Expr):
+        value = {**value, "expr": Expr.from_json(value["expr"]) if isinstance(value["expr"], Mapping) else value["expr"]}
+    return Row(**value)
+
+
+class Model:
+    """An ordered, exact model with immutable variables, rows, and expressions."""
     _structural_fields = frozenset(("name", "vars", "variables", "rows", "objective", "var_index", "row_index", "ledger"))
 
     def __setattr__(self, name, value):
@@ -126,29 +132,64 @@ class Model:
             if variables:
                 raise ValueError("Specify variables or vars, not both")
             variables = vars
-        self.name = _name(name)
-        self.vars = tuple(v if isinstance(v, Variable) else Variable(**v) for v in variables)
-        self.variables = self.vars
-        self.rows = tuple(r if isinstance(r, Row) else Row(**{**r, "expr": Expr.from_json(r["expr"]) if isinstance(r["expr"], Mapping) else r["expr"]}) for r in rows)
-        self.objective = Expr.from_json(objective) if isinstance(objective, Mapping) else as_expr(objective)
-        self.kernel = kernel
-        self.path = None if path is None else Path(path).resolve()
-        self.ledger = EditLedger(ledger)
-        self.var_index = MappingProxyType({v.name: i for i, v in enumerate(self.vars)})
-        self.row_index = MappingProxyType({r.name: i for i, r in enumerate(self.rows)})
-        if len(self.var_index) != len(self.vars) or len(self.row_index) != len(self.rows):
-            raise ValueError("Variable names and row names must each be unique")
-        if len(self.vars) > 2_000_000 or len(self.rows) > 2_000_000:
-            raise ValueError("Model exceeds the kernel's dimension limit")
-        expressions = [self.objective, *(r.expr for r in self.rows)]
-        if sum(len(e.terms) for e in expressions) > 20_000_000:
-            raise ValueError("Model exceeds the kernel's term limit")
-        if any(i >= len(self.vars) for e in expressions for i in e.terms):
-            raise ValueError("Expression references a coordinate outside this model")
-        self._temporary = None
+        name = _name(name)
+        variables = tuple(_variable(v) for v in variables)
+        rows = tuple(_row(r) for r in rows)
+        if isinstance(objective, Mapping):
+            objective = Expr.from_json(objective)
+        objective = as_expr(objective)
+        try:
+            native = _native.Model(name, variables, rows, objective)
+        except (ValueError, TypeError) as error:
+            raise type(error)(str(error)) from None
+        self._bind(native, name, kernel, path, ledger, variables, rows, objective)
+
+    def _bind(self, native, name, kernel, path, ledger, variables=None, rows=None, objective=None):
+        if objective is None:
+            objective = native.objective
+        object.__setattr__(self, "_native", native)
+        object.__setattr__(self, "name", name)
+        object.__setattr__(self, "_vars_cache", variables)
+        object.__setattr__(self, "_rows_cache", rows)
+        object.__setattr__(self, "objective", objective)
+        object.__setattr__(self, "kernel", kernel)
+        object.__setattr__(self, "path", None if path is None else Path(path).resolve())
+        object.__setattr__(self, "ledger", EditLedger(ledger))
+        object.__setattr__(self, "var_index", MappingProxyType(dict(native.var_index)))
+        object.__setattr__(self, "row_index", MappingProxyType(dict(native.row_index)))
+        object.__setattr__(self, "_temporary", None)
+
+    @property
+    def vars(self):
+        value = self.__dict__.get("_vars_cache")
+        if value is None:
+            value = tuple(Variable(*item) for item in self._native.vars)
+            object.__setattr__(self, "_vars_cache", value)
+        return value
+
+    @property
+    def variables(self):
+        return self.vars
+
+    @property
+    def rows(self):
+        value = self.__dict__.get("_rows_cache")
+        if value is None:
+            value = tuple(Row(item[0], item[1], item[2], item[3]) for item in self._native.rows)
+            object.__setattr__(self, "_rows_cache", value)
+        return value
+
+    @classmethod
+    def _from_native(cls, native, *, kernel=None, path=None, ledger=(), variables=None, rows=None, objective=None):
+        obj = object.__new__(cls)
+        obj._bind(native, native.name, kernel, path, ledger, variables, rows, objective)
+        return obj
+
+    def _wrap(self, native, ledger, *, variables=None, rows=None, objective=None):
+        return Model._from_native(native, kernel=self.kernel, path=self.path,
+                                  ledger=ledger, variables=variables, rows=rows, objective=objective)
 
     def close(self):
-        """Release a temporary canonical input after it is no longer needed."""
         temporary, self._temporary = self._temporary, None
         if temporary is not None:
             temporary.cleanup()
@@ -175,104 +216,44 @@ class Model:
 
     @classmethod
     def load(cls, path, kernel=None):
-        """Use native format validation, then bounded streaming MCM readback.
-
-        Non-JSON inputs have an owned temporary canonical snapshot in ``path``;
-        close/context exit/GC releases it while preserving the original input.
-        """
-        from .backend import Kernel, KernelError
-        from ._mcm import BUFFER_BYTES, MAX_INPUT_BYTES, read_model
-        kernel, path = kernel or Kernel(), Path(path).resolve()
+        path = Path(path).resolve()
         if path.suffix.lower() == ".json":
             return cls.from_json(json.loads(path.read_text()), kernel=kernel)
-        temporary = tempfile.TemporaryDirectory(prefix="kernel-model-")
-        directory = Path(temporary.name)
-        try:
-            canonical = directory / "model.mcm"
-            with path.open("rb") as input_file:
-                magic = input_file.read(4)
-            if magic == b"MCM\0":
-                # Snapshot first, then let native inspect-model validate those
-                # exact bytes. Both copying and readback use bounded buffers.
-                if path.stat().st_size > MAX_INPUT_BYTES:
-                    kernel.call("inspect-model", path)  # Native resource report.
-                    raise KernelError({"status": "RESOURCE_LIMIT", "message": "RESOURCE_LIMIT input file byte limit"})
-                with path.open("rb") as source, canonical.open("wb") as output:
-                    total = 0
-                    while True:
-                        chunk = source.read(BUFFER_BYTES)
-                        if not chunk:
-                            break
-                        total += len(chunk)
-                        if total > MAX_INPUT_BYTES:
-                            raise KernelError({"status": "RESOURCE_LIMIT", "message": "RESOURCE_LIMIT input file byte limit"})
-                        output.write(chunk)
-            else:
-                kernel.call("canonical", path, canonical)
-            kernel.call("inspect-model", canonical)
-            result = read_model(canonical, cls, kernel)
-            result._temporary = temporary
-            return result
-        except BaseException:
-            temporary.cleanup()
-            raise
+        native = _native.Model.load(str(path))
+        result = cls._from_native(native, kernel=kernel, path=path)
+        with path.open("rb") as stream:
+            magic = stream.read(4)
+        if magic != b"MCM\0":
+            temporary = tempfile.TemporaryDirectory(prefix="kernel-model-")
+            canonical = Path(temporary.name) / "model.mcm"
+            canonical.write_bytes(result.to_mcm())
+            object.__setattr__(result, "path", canonical.resolve())
+            object.__setattr__(result, "_temporary", temporary)
+        return result
 
     def to_json(self):
         return {"name": self.name, "variables": [v.to_json() for v in self.vars],
                 "rows": [r.to_json() for r in self.rows], "objective": self.objective.to_json()}
 
     def _index(self, identifier, *, row=False):
-        table, length = (self.row_index, len(self.rows)) if row else (self.var_index, len(self.vars))
-        if isinstance(identifier, Expr):
-            if row or identifier.constant or len(identifier.terms) != 1 or next(iter(identifier.terms.values())) != 1:
-                raise ValueError("A variable reference expression must be exactly one unit coordinate")
-            identifier = next(iter(identifier.terms))
-        if isinstance(identifier, str):
-            if identifier not in table:
-                raise KeyError(f"Unknown {'row' if row else 'variable'} {identifier!r}")
-            return table[identifier]
         if isinstance(identifier, Variable):
-            return self._index(identifier.name)
-        if isinstance(identifier, Row):
-            return self._index(identifier.name, row=True)
-        index = coordinate(identifier)
-        if index >= length:
-            raise IndexError(f"{'Row' if row else 'Variable'} index {index} outside model")
-        return index
+            identifier = identifier.name
+        elif isinstance(identifier, Row):
+            identifier = identifier.name
+        return self._native.index_of(identifier, row)
 
     def var(self, identifier):
-        return Expr.var(self._index(identifier))
+        return self._native.var(identifier)
 
     def row(self, identifier):
-        return self.rows[self._index(identifier, row=True)]
+        item = self._native.row(identifier)
+        return Row(item[0], item[1], item[2], item[3])
 
     def ref(self, kind, identifier):
-        if kind not in ("VarLower", "VarUpper", "VarInt", "RowLower", "RowUpper", "RowEq"):
-            raise ValueError(f"Unknown model fact {kind!r}")
-        self.fact(kind, identifier)  # Refuse unbounded sides and absent integer facts.
-        return {kind: self._index(identifier, row=kind.startswith("Row"))}
+        return self._native.ref_(kind, identifier)
 
     def fact(self, kind, identifier):
-        if kind.startswith("Var"):
-            index = self._index(identifier)
-            variable, expression = self.vars[index], Expr.var(index)
-            if kind == "VarInt":
-                if not variable.integer:
-                    raise ValueError(f"Variable {variable.name!r} has no integer declaration")
-                return "Int", expression
-            if kind == "VarLower" and variable.lower is not None:
-                return "Le", variable.lower - expression
-            if kind == "VarUpper" and variable.upper is not None:
-                return "Le", expression - variable.upper
-        elif kind.startswith("Row"):
-            row = self.row(identifier)
-            if kind == "RowEq" and row.equality:
-                return "Eq", row.expr - row.lower
-            if kind == "RowLower" and row.lower is not None:
-                return "Le", row.lower - row.expr
-            if kind == "RowUpper" and row.upper is not None:
-                return "Le", row.expr - row.upper
-        raise ValueError(f"Unavailable fact {kind}({identifier!r})")
+        return self._native.fact(kind, identifier)
 
     def _edited(self, edits=(), **changes):
         return Model(changes.get("name", self.name), changes.get("variables", self.vars),
@@ -280,17 +261,20 @@ class Model:
                      kernel=self.kernel, ledger=(*self.ledger, *edits))
 
     def renamed(self, name):
-        return self._edited([Edit("RenameModel", self.name, self.name, name)], name=name)
+        return self._wrap(self._native.renamed(name), [*self.ledger, Edit("RenameModel", self.name, self.name, name)])
 
     def delete_rows(self, identifiers, *, reason=None):
         selected = {self._index(i, row=True) for i in _many(identifiers)}
+        native = self._native.delete_rows(list(selected))
         edits = [Edit("DeleteRow", r.name, r, None, reason) for i, r in enumerate(self.rows) if i in selected]
-        return self._edited(edits, rows=[r for i, r in enumerate(self.rows) if i not in selected])
+        rows = tuple(r for i, r in enumerate(self.rows) if i not in selected)
+        return self._wrap(native, (*self.ledger, *edits), rows=rows)
 
     def add_rows(self, rows, *, reason=None):
-        rows = tuple(rows)
-        rows = tuple(r if isinstance(r, Row) else Row(**{**r, "expr": Expr.from_json(r["expr"]) if isinstance(r["expr"], Mapping) else r["expr"]}) for r in rows)
-        return self._edited([Edit("AddRow", r.name, None, r, reason) for r in rows], rows=(*self.rows, *rows))
+        rows = tuple(_row(r) for r in rows)
+        native = self._native.add_rows(rows)
+        edits = [Edit("AddRow", r.name, None, r, reason) for r in rows]
+        return self._wrap(native, (*self.ledger, *edits), rows=(*self.rows, *rows))
 
     def add_row(self, name, expr, *, lower=None, upper=None, equal=None, reason=None):
         if equal is not None:
@@ -304,31 +288,41 @@ class Model:
         before = self.rows[index]
         after = Row(before.name, before.expr if expr is None else expr,
                     before.lower if lower is ... else lower, before.upper if upper is ... else upper)
+        native = self._native.replace_row(identifier, after)
         rows = list(self.rows)
         rows[index] = after
-        return self._edited([Edit("ReplaceRow", before.name, before, after, reason)], rows=rows)
+        return self._wrap(native, (*self.ledger, Edit("ReplaceRow", before.name, before, after, reason)), rows=tuple(rows))
 
     def add_variable(self, name, *, integer=False, lower=0, upper=None, reason=None):
         variable = Variable(name, integer, lower, upper)
-        return self._edited([Edit("AddVariable", name, None, variable, reason)], variables=(*self.vars, variable))
+        native = self._native.add_variable(variable)
+        return self._wrap(native, (*self.ledger, Edit("AddVariable", name, None, variable, reason)),
+                          variables=(*self.vars, variable))
 
     def with_objective(self, expr, *, reason=None):
         expr = as_expr(expr)
-        return self._edited([Edit("SetObjective", self.name, self.objective, expr, reason)], objective=expr)
+        native = self._native.with_objective(expr)
+        return self._wrap(native, (*self.ledger, Edit("SetObjective", self.name, self.objective, expr, reason)), objective=expr)
 
     def with_bounds(self, identifier, *, lower=..., upper=..., reason=None):
         index = self._index(identifier)
         before = self.vars[index]
         after = replace(before, lower=before.lower if lower is ... else lower,
                         upper=before.upper if upper is ... else upper)
+        native = self._native
+        if lower is not ...:
+            native = native.with_bound(index, "lower", lower)
+        if upper is not ...:
+            native = native.with_bound(index, "upper", upper)
         variables = list(self.vars)
         variables[index] = after
-        return self._edited([Edit("SetBounds", before.name, before, after, reason)], variables=variables)
+        return self._wrap(native, (*self.ledger, Edit("SetBounds", before.name, before, after, reason)), variables=tuple(variables))
 
     def with_integrality(self, identifiers, integer, *, reason=None):
         if not isinstance(integer, bool):
             raise TypeError("integer must be a boolean")
         indices = {self._index(i) for i in _many(identifiers)}
+        native = self._native.with_integrality(sorted(indices), integer)
         variables = list(self.vars)
         edits = []
         for index in sorted(indices):
@@ -336,16 +330,9 @@ class Model:
             after = replace(before, integer=integer)
             variables[index] = after
             edits.append(Edit("SetIntegrality", before.name, before, after, reason))
-        return self._edited(edits, variables=variables)
+        return self._wrap(native, (*self.ledger, *edits), variables=tuple(variables))
 
     def substitute(self, replacements, *, remove=True, drop_rows=(), preserve_bounds=True, reason=None):
-        """Apply caller-provided simultaneous affine substitutions, optionally eliminate.
-
-        Replacement expressions use this model's coordinates and must only refer
-        to retained coordinates when ``remove=True``. Bounds on eliminated
-        variables become explicit rows by default. Their integrality is recorded
-        as a deletion: the caller's proof must justify the affine recovery.
-        """
         replacements = {self._index(i): as_expr(e) for i, e in replacements.items()}
         dropped = {self._index(i, row=True) for i in _many(drop_rows)}
         removed = set(replacements) if remove else set()
@@ -359,6 +346,7 @@ class Model:
                    for i in range(len(self.vars))}
         rows = [replace(r, expr=r.expr.substitute(mapping)) for i, r in enumerate(self.rows) if i not in dropped]
         edits = [Edit("DeleteRow", r.name, r, None, reason) for i, r in enumerate(self.rows) if i in dropped]
+        variables = [self.vars[i] for i in keep]
         names = {r.name for r in rows}
         for index in sorted(replacements):
             variable = self.vars[index]
@@ -374,51 +362,29 @@ class Model:
                 rows.append(row)
                 names.add(name)
                 edits.append(Edit("AddEliminatedBound", name, variable, row, reason))
-        return self._edited(edits, variables=[self.vars[i] for i in keep], rows=rows,
-                            objective=self.objective.substitute(mapping))
+        native = self._native.substitute(replacements, remove, list(dropped), preserve_bounds)
+        return self._wrap(native, (*self.ledger, *edits), variables=tuple(variables),
+                          objective=self.objective.substitute(mapping))
 
     def support(self, identifier, *, names=False):
-        indices = tuple(self.row(identifier).expr.terms)
+        indices = tuple(self._native.support(identifier, names))
         return tuple(self.vars[i].name for i in indices) if names else indices
 
     def row_activity(self, identifier):
-        """Exact box lower/upper activity; None denotes an unbounded side."""
-        row = self.row(identifier)
-        lower = upper = row.expr.constant
-        for i, coefficient in row.expr.terms.items():
-            variable = self.vars[i]
-            lo, hi = (variable.lower, variable.upper) if coefficient > 0 else (variable.upper, variable.lower)
-            lower = None if lower is None or lo is None else lower + coefficient * lo
-            upper = None if upper is None or hi is None else upper + coefficient * hi
-        return lower, upper
+        lower, upper = self._native.row_activity(identifier)
+        return (None if lower is None else rational(lower), None if upper is None else rational(upper))
 
     def is_binary(self, identifier):
-        v = self.vars[self._index(identifier)]
-        return v.integer and v.lower is not None and v.upper is not None and v.lower >= 0 and v.upper <= 1
+        return self._native.is_binary(identifier)
 
     def column_incidence(self):
-        columns = [[] for _ in self.vars]
-        for ri, row in enumerate(self.rows):
-            for vi, coefficient in row.expr.terms.items():
-                columns[vi].append((ri, coefficient))
-        return tuple(tuple(column) for column in columns)
+        return tuple(tuple((row, rational(value)) for row, value in column)
+                     for column in self._native.column_incidence())
 
     def stats(self):
-        return {"variables": len(self.vars), "rows": len(self.rows),
-                "integers": sum(v.integer for v in self.vars),
-                "nonzeros": sum(len(r.expr.terms) for r in self.rows),
-                "objective_nonzeros": len(self.objective.terms),
-                "equalities": sum(r.equality for r in self.rows),
-                "ranged_rows": sum(r.lower is not None and r.upper is not None and not r.equality for r in self.rows)}
+        return dict(self._native.stats())
 
     def coefficient_stats(self):
-        """Exact objective/matrix coefficient and row-constant ranges for inspection.
-
-        Counts are integers; rational values are canonical strings or None for
-        an empty category. Magnitude span is max(abs(nonzero))/min(abs(nonzero)).
-        The result describes the current representation, without solver advice
-        or normalization that changes the caller's formulation.
-        """
         def summarize(values):
             count = zeros = positive_count = negative_count = 0
             minimum = maximum = positive_min = positive_max = negative_min = negative_max = None
@@ -454,30 +420,13 @@ class Model:
                 "row_constants": summarize(row.expr.constant for row in self.rows)}
 
     def check_point(self, values, *, integers=True):
-        """Return exact feasibility violations for a supplied point, without a solver."""
         if isinstance(values, Mapping):
             values = [values[v.name] if v.name in values else values[i] for i, v in enumerate(self.vars)]
         if len(values) != len(self.vars):
             raise ValueError("A point must specify every coordinate")
-        values = [rational(v) for v in values]
-        violations = []
-        for index, (variable, value) in enumerate(zip(self.vars, values)):
-            for kind, bound, fails in (("VarLower", variable.lower, lambda b: value < b),
-                                       ("VarUpper", variable.upper, lambda b: value > b)):
-                if bound is not None and fails(bound):
-                    violations.append({"kind": kind, "index": index, "name": variable.name, "value": str(value), "bound": str(bound)})
-            if integers and variable.integer and value.denominator != 1:
-                violations.append({"kind": "VarInt", "index": index, "name": variable.name, "value": str(value)})
-        for index, row in enumerate(self.rows):
-            value = row.expr.evaluate(values)
-            for kind, bound, fails in (("RowLower", row.lower, lambda b: value < b),
-                                       ("RowUpper", row.upper, lambda b: value > b)):
-                if bound is not None and fails(bound):
-                    violations.append({"kind": kind, "index": index, "name": row.name, "value": str(value), "bound": str(bound)})
-        return violations
+        return self._native.check_point([rational(v) for v in values], integers)
 
     def diff(self, target):
-        """Compare all semantic fields by names, independent of coordinate renumbering."""
         def named(expression, model):
             return {"constant": str(expression.constant), "terms": {model.vars[i].name: str(q) for i, q in expression.terms.items()}}
         edits = []
@@ -502,35 +451,7 @@ class Model:
         return EditLedger(edits)
 
     def same_formulation(self, other):
-        """Compare the complete exact named formulation, allowing MPS normalization.
-
-        Variable/row order and the model NAME are immaterial. Variable and row
-        names, domains, objective, and every named coefficient must agree.
-        Row constants are folded into finite bounds exactly, as MPS export does.
-        This is a representation comparison, not an equivalence proof or a
-        tolerance-based numerical comparison.
-        """
-        if not isinstance(other, Model):
-            return False
-        if {v.name: v for v in self.vars} != {v.name: v for v in other.vars}:
-            return False
-        if set(self.row_index) != set(other.row_index):
-            return False
-        def terms(expression, model):
-            return {model.vars[i].name: coefficient for i, coefficient in expression.terms.items()}
-        if self.objective.constant != other.objective.constant or terms(self.objective, self) != terms(other.objective, other):
-            return False
-        for row in self.rows:
-            target = other.row(row.name)
-            if terms(row.expr, self) != terms(target.expr, other):
-                return False
-            for side in ("lower", "upper"):
-                a, b = getattr(row, side), getattr(target, side)
-                a = None if a is None else a - row.expr.constant
-                b = None if b is None else b - target.expr.constant
-                if a != b:
-                    return False
-        return True
+        return isinstance(other, Model) and self._native.same_formulation(other._native)
 
     def write_json(self, path):
         path = Path(path).resolve()
@@ -538,52 +459,12 @@ class Model:
         return path
 
     def write_mcm(self, path):
-        """Write exact MCM v1 directly. No decimal rounding or RPA intermediary."""
         path = Path(path).resolve()
         path.write_bytes(self.to_mcm())
         return path
 
     def to_mcm(self):
-        def array(items):
-            return struct.pack("<I", len(items)) + b"".join(items)
-        def name(value):
-            raw = value.encode("ascii")
-            return struct.pack("<I", len(raw)) + raw
-        def scalar(value):
-            value = rational(value)
-            n, d = abs(value.numerator), value.denominator
-            n = n.to_bytes((n.bit_length() + 7) // 8, "little")
-            d = d.to_bytes((d.bit_length() + 7) // 8, "little")
-            return struct.pack("<BBHII", int(value < 0), 0, 0, len(n), len(d)) + n + d
-        def optional(value):
-            return b"\0" if value is None else b"\1" + scalar(value)
-        def expression(value):
-            return scalar(value.constant) + array([struct.pack("<I", i) + scalar(q) for i, q in value.terms.items()])
-        variables = [name(v.name) + struct.pack("<BBH", v.integer, 0, 0) + optional(v.lower) + optional(v.upper) for v in self.vars]
-        rows = [name(r.name) + expression(r.expr) + optional(r.lower) + optional(r.upper) for r in self.rows]
-        payload = name(self.name) + array(variables) + array(rows) + expression(self.objective)
-        return b"MCM\0" + struct.pack("<HHQ", 1, 0, len(payload) + 16) + payload
-
-    def write_mps(self, path, *, rational_literals=False):
-        """Write an exact free MPS. Nonterminating decimals require explicit opt-in.
-
-        ``rational_literals=True`` emits fractions accepted by the kernel; some
-        external MPS consumers require decimal literals. Row constants are folded
-        into RHS bounds, preserving the model's mathematical meaning.
-        """
-        path = Path(path).resolve()
-        path.write_text(self.to_mps(rational_literals=rational_literals))
-        return path
-
-    def standard_mps_adapter(self, *, objective_auxiliary=True, objective_name="__mps_objective"):
-        """Explicitly adapt exact rationals for standard MPS, with a mechanical proof.
-
-        Returns an inspectable adapter; this model and its existing proofs stay
-        intact. The adapter validates actual Kernel standard MPS readback.
-        """
-        from .mps_adapter import StandardMPSAdapter
-        return StandardMPSAdapter(self, objective_auxiliary=objective_auxiliary,
-                                  objective_name=objective_name)
+        return bytes(self._native.to_mcm())
 
     def to_mps(self, *, rational_literals=False):
         if any(any(c.isspace() for c in item) or item.startswith("$") for item in [self.name, *(v.name for v in self.vars), *(r.name for r in self.rows)]):
@@ -645,6 +526,16 @@ class Model:
                     lines.append(f" UP bnd {variable.name} {number(hi)}")
         lines.append("ENDATA")
         return "\n".join(lines) + "\n"
+
+    def write_mps(self, path, *, rational_literals=False):
+        path = Path(path).resolve()
+        path.write_text(self.to_mps(rational_literals=rational_literals))
+        return path
+
+    def standard_mps_adapter(self, *, objective_auxiliary=True, objective_name="__mps_objective"):
+        from .mps_adapter import StandardMPSAdapter
+        return StandardMPSAdapter(self, objective_auxiliary=objective_auxiliary,
+                                  objective_name=objective_name)
 
 
 def _many(values):

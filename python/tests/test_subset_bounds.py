@@ -12,7 +12,7 @@ class SubsetBoundsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             result = proof.verify(directory)
             assert_rules_checked(self, result)
-            self.assertFalse(list(Path(directory).glob("*.rpa")))
+            self.assertTrue((Path(directory) / "proof.rpa").is_file())
             return result
 
     def test_weighted_signed_rational_bounds_and_native_tampering(self):

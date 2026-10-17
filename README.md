@@ -2,7 +2,7 @@
 
 RPX checks one claim: two complete MILPs preserve feasibility, extended optimal value and constructive optimal-solution recovery. Its safe Rust kernel uses exact rational arithmetic and all actual bounds, rows, integer declarations and objective constants.
 
-A certificate contains exactly two proof trees:
+The native compiler core produces a certificate with exactly two proof trees:
 
 ```text
 Certificate { forward: Block, reverse: Block }
@@ -22,7 +22,7 @@ target/release/rpx assemble proof.rpa proof.rpx
 target/release/rpx verify source.mcm target.mcm proof.rpx
 ```
 
-The current formats are **MCM 1, RPX 11, and RPA 12**. **RPA 12** is a line-oriented assembly that lowers directly to RPX; old `RPA 11` JSON and `RPA-S 1` text are rejected. `compile certificate.json proof.rpx` remains a separate structured JSON bridge used by the Python compiler, not an RPA text path.
+The current formats are **MCM 1, RPX 11, and RPA 12**. **RPA 12** is a line-oriented assembly that lowers directly to RPX; old `RPA 11` JSON and `RPA-S 1` text are rejected. The Python API compiles through the native Rust core to RPA 12 and then RPX 11; Certificate JSON is not a production proof path.
 
 `VERIFIED` certifies MI optimization equivalence. `INVALID`, `RESOURCE_LIMIT` and `IO_ERROR` establish no such result. Model import, compilation and proof planning are not certification.
 
@@ -44,7 +44,7 @@ python3 tools/run_acceptance.py --label your-fresh-validation-label
 PYTHONPATH=python KERNEL_RPX=target/release/rpx python3 -m unittest discover -s python/tests
 ```
 
-[The explicit migration tool](tools/migrate_mi_opt.py) uses an external legacy binary to extract suitable whole-domain proofs, then recompiles and rechecks them. Legacy decoding never enters the current kernel.
+Historical migration is pinned to commits before the native compiler change and is not part of the current pipeline.
 
 ## Documentation
 

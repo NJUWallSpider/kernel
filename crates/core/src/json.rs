@@ -1,6 +1,5 @@
 //! Exact scalar and term helpers shared by the structured JSON schema.
 use crate::model::{Q, parse_q};
-use crate::proof::Ref;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 pub mod scalar {
@@ -42,27 +41,6 @@ pub mod expr_terms {
             .map(|(i, s)| {
                 parse_q(&s)
                     .map(|q| (i, q))
-                    .map_err(serde::de::Error::custom)
-            })
-            .collect()
-    }
-}
-
-pub mod ref_terms {
-    use super::*;
-    pub fn serialize<S: Serializer>(terms: &[(Ref, Q)], s: S) -> Result<S::Ok, S::Error> {
-        terms
-            .iter()
-            .map(|(r, q)| (r, q.to_string()))
-            .collect::<Vec<_>>()
-            .serialize(s)
-    }
-    pub fn deserialize<'de, D: Deserializer<'de>>(d: D) -> Result<Vec<(Ref, Q)>, D::Error> {
-        Vec::<(Ref, String)>::deserialize(d)?
-            .into_iter()
-            .map(|(r, s)| {
-                parse_q(&s)
-                    .map(|q| (r, q))
                     .map_err(serde::de::Error::custom)
             })
             .collect()

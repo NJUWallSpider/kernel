@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from kernel_compiler import Expr, KernelError, Model, Proof, Row, Variable, compile_certificate, verify_bundle
+from kernel_compiler import Expr, KernelError, Model, Proof, Row, Variable, verify_bundle
 
 
 class AtomicDeliveryTests(unittest.TestCase):
@@ -50,7 +50,7 @@ class AtomicDeliveryTests(unittest.TestCase):
                 self.assert_no_temporaries(directory)
 
     def test_all_generated_outputs_linked_to_pristine_input_preserve_its_bytes(self):
-        names = ('source.mcm', 'target.mcm', 'certificate.json',
+        names = ('source.mcm', 'target.mcm', 'proof.rpa',
                  'proof.rpx', 'delivery.json', 'verification.json')
         for link in ('hardlink', 'symlink'):
             with self.subTest(link=link), tempfile.TemporaryDirectory() as directory:
@@ -85,44 +85,6 @@ class AtomicDeliveryTests(unittest.TestCase):
                 proof.source.close()
                 proof.close()
 
-    def test_native_compile_failure_cleans_up_and_preserves_old_rpx(self):
-        proof = self.proof()
-        with tempfile.TemporaryDirectory() as directory:
-            directory = Path(directory)
-            proof.verify(directory)
-            old_rpx = (directory / 'proof.rpx').read_bytes()
-            certificate = deepcopy(proof.certificate())
-            certificate['forward']['end']['Return']['checks'][0] = {'UnknownProofReference': 0}
-            with self.assertRaises(KernelError):
-                compile_certificate(proof.source, proof.target, certificate, directory,
-                                    kernel=proof.kernel)
-            self.assertEqual((directory / 'proof.rpx').read_bytes(), old_rpx)
-            self.assert_no_temporaries(directory)
-
-    def test_failed_partial_native_write_cannot_touch_an_external_link_target(self):
-        proof = self.proof()
-        with tempfile.TemporaryDirectory() as directory:
-            directory = Path(directory)
-            output = directory / 'output'
-            proof.verify(output)
-            original = directory / 'original.rpx'
-            original.write_bytes((output / 'proof.rpx').read_bytes())
-            original_bytes = original.read_bytes()
-            (output / 'proof.rpx').unlink()
-            (output / 'proof.rpx').symlink_to(original)
-            def fail(*arguments, **kwargs):
-                self.assertEqual(arguments[0], 'compile')
-                temporary = Path(arguments[-1])
-                self.assertNotEqual(temporary.resolve(), original.resolve())
-                temporary.write_bytes(b'partial invalid RPX')
-                raise KernelError({'status': 'EXECUTION_FAILED', 'error': 'test partial writer failure'})
-            with patch.object(proof.kernel, 'call', side_effect=fail):
-                with self.assertRaises(KernelError):
-                    proof.compile(output)
-            self.assertEqual(original.read_bytes(), original_bytes)
-            self.assertEqual((output / 'proof.rpx').read_bytes(), original_bytes)
-            self.assertTrue((output / 'proof.rpx').is_symlink())
-            self.assert_no_temporaries(output)
 
 
 if __name__ == '__main__':

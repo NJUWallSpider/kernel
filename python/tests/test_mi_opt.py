@@ -30,7 +30,7 @@ class MiOptTests(unittest.TestCase):
             self.assertEqual(verify_bundle(directory/"delivery.json")["status"], "VERIFIED")
 
     def test_two_required_blocks_and_no_property_selection(self):
-        from kernel_compiler import BuildError, KernelError, compile_certificate
+        from kernel_compiler import BuildError
         model = Model("m", [Variable("x", True, 0, 1)])
         proof = Proof(model, model)
         self.addCleanup(proof.close)
@@ -42,11 +42,6 @@ class MiOptTests(unittest.TestCase):
         self.assertEqual(set(certificate), {"forward", "reverse"})
         for name in ("claim", "bijection", "improvement", "injectivity", "feasible_point"):
             self.assertFalse(hasattr(proof, name))
-        with tempfile.TemporaryDirectory() as directory:
-            for field in ("claims", "points", "improvements", "bijections"):
-                malformed = dict(certificate, **{field: []})
-                with self.assertRaises(KernelError):
-                    compile_certificate(model, model, malformed, directory)
 
     def test_one_certificate_and_shared_budget(self):
         model = Model("m", [Variable("x", True, 0, 1)])

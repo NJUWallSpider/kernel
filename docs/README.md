@@ -19,4 +19,4 @@ make -C docs/rpx pdf
 
 The manual uses XeLaTeX, ctex, Fandol fonts and latexmk. Intermediate files stay under `docs/rpx/.build/`.
 
-Historical compiler/agent/performance documents and case receipts preserve their original version and scope. They are not current API specifications. Old property-based certificates require the explicit [migration tool](../tools/migrate_mi_opt.py) with a separately supplied old decoder; RPX 11 does not retain a compatibility path.
+Historical compiler/agent/performance documents and case receipts preserve their original version and scope. They are not current API specifications. Old property-based certificates require a separately supplied pre-change migration; RPX 11 retains no compatibility path.

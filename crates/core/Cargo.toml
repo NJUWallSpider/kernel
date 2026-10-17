@@ -21,10 +21,6 @@ name = "cli_limits"
 path = "tests/cli_limits.rs"
 
 [[test]]
-name = "compiler_limits"
-path = "tests/compiler_limits.rs"
-
-[[test]]
 name = "mi_opt"
 path = "tests/mi_opt.rs"
 

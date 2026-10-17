@@ -1,5 +1,27 @@
 # Compiler API plumbing measurements
 
+## Current native compiler core (2026-10-17)
+
+The compiler core now runs in-process in Rust through the PyO3 extension. The
+current benchmark is `tools/benchmark_compiler_api.py`; it measures native model
+load, proof construction, two identity completions, RPA/RPX compilation and
+kernel verification. It has no Certificate JSON or subprocess path.
+
+| Workload | Load s | Complete forward / reverse s | Compile s | Verify s | Python peak RSS |
+|---|---:|---:|---:|---:|---:|
+| pristine test16 | 0.732 | 1.043 / 1.042 | 0.888 | 1.533 | 1.41 GiB |
+
+The old Python core measured 34.6 s total and 2.07 GiB on test16; the native
+path removes the Python proof arena and the subprocess boundary. The 1 GiB RSS
+target in the original plan was not met: RPA 12 and the parsed Certificate are
+both live during the mandated text round-trip. The measured peak is recorded
+rather than hidden. Compile time is below the 5 s target; completion runs below
+1 GiB (853 MiB measured), while the mandated RPA round-trip raises the compile phase peak.
+
+The sections below are the earlier claim-based interface's historical record
+and are not current API specifications.
+
+
 > Historical design/experiment record for the earlier claim-based interface. For current RPX 11 semantics and authoring, use [SEMANTICS](SEMANTICS.md) and [COMPILER_API](COMPILER_API.md). Removed properties described below are not supported by the current kernel.
 
 This document separates early identity plumbing, actual public Agent phases,

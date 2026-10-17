@@ -110,8 +110,8 @@ Instructions may continue over physical lines while parentheses are unbalanced. 
 
 The complete mnemonic and payload tables, positional Return check order, and examples are in [the RPA 12 reference](RPA.md). The old `RPA 11` JSON header and `RPA-S 1` source header are rejected rather than accepted as another assembly dialect.
 
-RPA 12 text is capped at 256 MiB, 20,000,000 instruction/expression nodes, and nesting depth 128. Parser resource failures use the same `RESOURCE_LIMIT` status as verification budgets, but assembly itself never establishes a mathematical result. Structured Certificate JSON remains available through `compile certificate.json proof.rpx`; it is a separate JSON bridge, not RPA text.
+RPA 12 text is capped at 512 MiB, 20,000,000 instruction/expression nodes, and nesting depth 128. Parser resource failures use the same `RESOURCE_LIMIT` status as verification budgets, but assembly itself never establishes a mathematical result. Certificate JSON is not a production proof path.
 
 ## Compatibility and migration
 
-RPA 12 replaced RPA 11 JSON and RPA-S 1 as the text frontend; RPX 11 binary and mathematical semantics are unchanged. No legacy RPX decoder, property selector or weaker verification API remains in the production kernel. MCM 1 remains byte-compatible. RPX proofs must be migrated and verified; changing only their version bytes is invalid. The [migration script](../tools/migrate_mi_opt.py) requires a separately supplied old binary and never overwrites historical proofs or receipts.
+RPA 12 replaced RPA 11 JSON and RPA-S 1 as the text frontend; RPX 11 binary and mathematical semantics are unchanged. No legacy RPX decoder, property selector or weaker verification API remains in the production kernel. MCM 1 remains byte-compatible. RPX proofs must be migrated and verified; changing only their version bytes is invalid. Historical migration is reproducible only at a pre-change commit; the current pipeline has no legacy decoder.
