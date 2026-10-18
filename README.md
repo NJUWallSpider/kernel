@@ -42,16 +42,18 @@ versions have been removed; the current receipts bind the retained artifacts by
 SHA-256.
 
 ```sh
+python3 tools/cases.py check --jobs 4
 python3 tools/check_rpx_manual.py --kernel target/release/rpx
-python3 tools/run_acceptance.py --label your-fresh-validation-label
-PYTHONPATH=python KERNEL_RPX=target/release/rpx python3 -m unittest discover -s python/tests
+PYTHONPATH=python python3 -m unittest discover -s python/tests
 ```
 
-Historical migration is pinned to commits before the native compiler change and is not part of the current pipeline.
+`tools/cases.py` verifies every MCM/RPX pair, audits `delivery.json`, and
+requires byte-identical `RPA 12 -> RPX 11 -> RPA 12` conversion. Historical
+migration and the LP-to-proof generators are not part of the current pipeline.
 
 ## Documentation
 
 - [Semantics](docs/SEMANTICS.md), [format](docs/FORMAT.md), [Rust/CLI API](docs/API.md), [Python API](docs/COMPILER_API.md).
 - [RPA assembly](docs/RPA.md), [manual and examples](docs/README.md).
 - Exact [MPS](docs/MPS_V1.md) and [LP](docs/LP_V1.md) import.
-- [Current tools and historical drivers](tools/README.md).
+- [Current tools and the native case pipeline](tools/README.md).
