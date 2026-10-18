@@ -93,6 +93,18 @@ impl PyScope {
 #[pymethods]
 impl PyScope {
     #[pyo3(signature=(*,lower,upper,because=None))]
+    /// Create one variable between lower and upper in an extended child. because proves lower-upper <= 0; None requests literal truth only. Return LiftResult; success fixes the parent, failure leaves it editable.
+    ///
+    /// ## Parameters
+    /// lower: Affine
+    /// upper: Affine
+    /// because: Fact | None
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_interval(
         &self,
         lower: &Bound<'_, PyAny>,
@@ -111,6 +123,16 @@ impl PyScope {
             checks: vec![reference],
         }]))
     }
+    /// Apply ordered IntervalSpec inputs atomically and return LiftResult. See IntervalSpec for lower-major premise ordering and Generated for fields.
+    ///
+    /// ## Parameters
+    /// specs: Iterable[Any]
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_intervals(&self, specs: &Bound<'_, PyAny>) -> PyResult<LiftResult> {
         let mut values = vec![];
         for s in specs.try_iter()? {
@@ -123,6 +145,16 @@ impl PyScope {
         }
         self.extension(Extension::Interval(values))
     }
+    /// Apply ordered MenuSpec inputs atomically and return LiftResult. Six ordered premises are required per item; see MenuSpec.
+    ///
+    /// ## Parameters
+    /// specs: Iterable[Any]
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_menus(&self, specs: &Bound<'_, PyAny>) -> PyResult<LiftResult> {
         let mut values = vec![];
         for s in specs.try_iter()? {
@@ -136,6 +168,16 @@ impl PyScope {
         }
         self.extension(Extension::Menu(values))
     }
+    /// Apply ordered SignedSpec inputs atomically and return LiftResult. Five ordered premises are required per item; see SignedSpec.
+    ///
+    /// ## Parameters
+    /// specs: Iterable[Any]
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_signed(&self, specs: &Bound<'_, PyAny>) -> PyResult<LiftResult> {
         let mut values = vec![];
         for s in specs.try_iter()? {
@@ -149,6 +191,16 @@ impl PyScope {
         }
         self.extension(Extension::Signed(values))
     }
+    /// Apply FlowSpec with explicit graph and group witnesses; return LiftResult. See FlowGroup for arc/node ordering and Generated for commodity fields.
+    ///
+    /// ## Parameters
+    /// spec: Any
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_flow(&self, spec: &Bound<'_, PyAny>) -> PyResult<LiftResult> {
         let nodes = spec.getattr("nodes")?.extract()?;
         let arcs = spec.getattr("arcs")?.extract::<Vec<(u32, u32)>>()?;
@@ -169,6 +221,16 @@ impl PyScope {
             groups,
         }))
     }
+    /// Apply SubflowSpec with explicit graph and group witnesses; return LiftResult. See SubflowGroup for arc/node ordering and Generated for remainder fields.
+    ///
+    /// ## Parameters
+    /// spec: Any
+    ///
+    /// ## Returns
+    /// LiftResult
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
     fn lift_subflow(&self, spec: &Bound<'_, PyAny>) -> PyResult<LiftResult> {
         let nodes = spec.getattr("nodes")?.extract()?;
         let arcs = spec.getattr("arcs")?.extract::<Vec<(u32, u32)>>()?;
@@ -198,6 +260,11 @@ fn pairs(v: &Bound<'_, PyAny>) -> PyResult<Vec<(u32, Q)>> {
         })
         .collect()
 }
+/// A successful constructive extension. scope is the editable extended child; parent is fixed. Indexing yields family-specific Generated records. variable is a convenience only for a single Interval item; otherwise it raises TypeError. Example: lift = scope.lift_interval(lower=0, upper=1); lift.scope.map(default="same_name").finish().
+///
+/// ## Operators
+/// __getitem__: Return family-specific Generated record at a nonnegative index; out-of-range raises IndexError.
+/// __len__: Return generated item/group count.
 #[pyclass(name = "LiftResult", module = "rpx", frozen)]
 pub struct LiftResult {
     pub scope: PyScope,
@@ -205,10 +272,18 @@ pub struct LiftResult {
 #[pymethods]
 impl LiftResult {
     #[getter]
+    /// The editable child Scope created by this lift.
+    ///
+    /// ## Example
+    /// lift.scope
     fn scope(&self) -> PyScope {
         self.scope.clone()
     }
     #[getter]
+    /// The generated VarRef for a single Interval lift; other layouts raise TypeError.
+    ///
+    /// ## Example
+    /// lift.variable
     fn variable(&self, py: Python<'_>) -> PyResult<Py<PyAny>> {
         if self.__len__()? != 1 {
             return Err(PyTypeError::new_err(
@@ -217,6 +292,7 @@ impl LiftResult {
         }
         self.__getitem__(0)?.__getattr__(py, "variable")
     }
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> PyResult<usize> {
         Ok(lock(&self.scope.core)?
             .scope(self.scope.id)
@@ -226,6 +302,7 @@ impl LiftResult {
             .unwrap()
             .len())
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, index: usize) -> PyResult<Generated> {
         let c = lock(&self.scope.core)?;
         let data = c
@@ -243,6 +320,31 @@ impl LiftResult {
         })
     }
 }
+/// A native layout record returned by lift[index]. Available fields depend on the construction; unavailable fields raise AttributeError. Variables belong to the child coordinate space and cannot escape to parents or sibling extensions. Fact fields belong to the same Proof. See Fields for the exact per-family layout.
+///
+/// ## Fields
+/// variable: Interval only: generated VarRef.
+/// lower_rows: Interval only: Le facts L[i]-variable in lower input order.
+/// upper_rows: Interval only: Le facts variable-U[j] in upper input order.
+/// options: Menu only: K+1 binary VarRef values in option-index order.
+/// sum: Menu only: Eq(sum(options)-activation).
+/// moment: Menu only: Eq(sum(j*options[j])-index).
+/// positive: Signed only: nonnegative positive-flow VarRef.
+/// negative: Signed only: nonnegative negative-flow VarRef.
+/// positive_activation: Signed only: binary positive activation VarRef.
+/// negative_activation: Signed only: binary negative activation VarRef.
+/// flow: Signed only: Eq(positive-negative-input_flow).
+/// activation: Signed only: Eq(positive_activation+negative_activation-input_activation).
+/// positive_capacity: Signed only: Le(positive-capacity*positive_activation).
+/// negative_capacity: Signed only: Le(negative-capacity*negative_activation).
+/// source: Flow/Subflow group only: source node index.
+/// sink: Flow commodity only: sink node index.
+/// demand: Flow commodity only: exact demand Q.
+/// flows: Flow commodity or Subflow group: generated VarRef sequence in arc order.
+/// commodities: Flow group only: Generated records in input commodity order.
+/// balances: Flow commodity or Subflow group: Eq conservation facts in node order.
+/// recovery: Flow group only: Eq(sum(commodity flows)-input flow) per arc.
+/// remainder_nonnegative: Subflow group only: Le(generated flow-input flow) per arc.
 #[pyclass(name = "Generated", module = "rpx", frozen)]
 pub struct Generated {
     scope: PyScope,

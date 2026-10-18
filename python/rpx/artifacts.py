@@ -155,22 +155,44 @@ def _publish(destination, prepare):
 
 @dataclass(frozen=True)
 class VerificationReport:
+    """Typed result of a fresh Kernel verification plus artifact audit. status must be VERIFIED for overall success; finish or compile alone is not certification. Read kernel and artifact_audit separately. Example: bundle.verify().raise_for_status()."""
+
     _data: dict
 
     @property
     def status(self):
+        """Overall verification status; only VERIFIED is success.
+
+        ## Example
+        report.status
+        """
         return self._data["status"]
 
     @property
     def guarantee(self):
+        """The Kernel guarantee on success, otherwise None.
+
+        ## Example
+        report.guarantee
+        """
         return self._data.get("guarantee")
 
     @property
     def statistics(self):
+        """A copy of Kernel resource and proof statistics.
+
+        ## Example
+        report.statistics
+        """
         return deepcopy(self._data.get("statistics", {}))
 
     @property
     def kernel(self):
+        """A copy of the Kernel result, separate from artifact auditing.
+
+        ## Example
+        report.kernel
+        """
         return deepcopy(
             {
                 k: v
@@ -181,12 +203,33 @@ class VerificationReport:
 
     @property
     def artifact_audit(self):
+        """A copy of artifact audit details; inspect status independently.
+
+        ## Example
+        report.artifact_audit
+        """
         return deepcopy(self._data.get("artifact_audit", {"status": "NOT_REQUESTED"}))
 
     def to_dict(self):
+        """Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+
+        ## Returns
+        dict[str, Any]
+
+        ## Example
+        report.to_dict()
+        """
         return deepcopy(self._data)
 
     def raise_for_status(self):
+        """Return this report if status is VERIFIED. Raise ResourceLimitError for RESOURCE_LIMIT and KernelRejectedError for other non-success statuses.
+
+        ## Returns
+        VerificationReport
+
+        ## Example
+        report.raise_for_status()
+        """
         if self.status == "RESOURCE_LIMIT":
             raise ResourceLimitError(
                 self._data.get("message", self._data.get("error", self.status))
@@ -213,10 +256,27 @@ class VerificationReport:
 
 @dataclass(frozen=True)
 class Bundle:
+    """A self-contained published proof directory. Use Proof.compile or Bundle.open(directory). Source, target, RPA, RPX and optional original target artifact are addressed by relative paths and hashes. open audits contents; verify runs the Kernel afresh.
+
+    ## Fields
+    directory: Path to the published bundle directory; moving the whole directory preserves internal references.
+    """
+
     directory: Path
 
     @classmethod
     def open(cls, directory):
+        """Read a new-schema bundle at directory and audit relative paths and content hashes; return Bundle. Mismatches raise ArtifactMismatchError. Does not substitute for fresh Kernel verification.
+
+        ## Parameters
+        directory: FilePath
+
+        ## Returns
+        Bundle
+
+        ## Example
+        Bundle.open("build/bundle")
+        """
         root, document = _inspect(directory, BUNDLE_SCHEMA)
         required = set(ROLES)
         if "target_artifact" in document and document["target_artifact"] is not True:
@@ -236,25 +296,64 @@ class Bundle:
 
     @property
     def source(self):
+        """The package-local Path to the source MCM model.
+
+        ## Example
+        bundle.source
+        """
         return self.directory / ROLES["source"]
 
     @property
     def target(self):
+        """The package-local Path to the target MCM model.
+
+        ## Example
+        bundle.target
+        """
         return self.directory / ROLES["target"]
 
     @property
     def rpa(self):
+        """The package-local Path to the RPA certificate.
+
+        ## Example
+        bundle.rpa
+        """
         return self.directory / ROLES["rpa"]
 
     @property
     def proof(self):
+        """The package-local Path to the RPX certificate.
+
+        ## Example
+        bundle.proof
+        """
         return self.directory / ROLES["proof"]
 
     @property
     def manifest(self):
+        """The package-local Path to the manifest.
+
+        ## Example
+        bundle.manifest
+        """
         return self.directory / "delivery.json"
 
     def verify(self, *, target_artifact=None, work=None, live_facts=None, depth=None):
+        """Audit bundle bytes and optional target_artifact, then run the frozen Kernel with this call's work/live_facts/depth limits. Return VerificationReport; successful reports are never reused. Artifact mismatches raise ArtifactMismatchError.
+
+        ## Parameters
+        target_artifact: FilePath | None
+        work: int | None
+        live_facts: int | None
+        depth: int | None
+
+        ## Returns
+        VerificationReport
+
+        ## Example
+        bundle.verify(work=1000000).raise_for_status()
+        """
         Bundle.open(self.directory)
         _, document = _inspect(self.directory, BUNDLE_SCHEMA)
         audit = {"status": "NOT_REQUESTED"}
@@ -333,6 +432,13 @@ def publish_proof(proof, directory, *, target_artifact=None):
 
 
 class Chain:
+    """An ordered sequence of Bundle stages with matching endpoint formulations. Construction checks joins; compile copies stages and optional endpoint artifacts into a portable directory. Verify every stage with current limits before claiming success. Example: Chain([first, second]).
+
+    ## Fields
+    stages: Ordered tuple of Bundle objects; adjacent models must match.
+    directory: Published directory, available after compile/open; an unpublished chain has no directory.
+    """
+
     def __init__(self, stages):
         self.stages = tuple(stages)
         if not self.stages or not all(
@@ -351,6 +457,19 @@ class Chain:
                 raise ArtifactMismatchError("adjacent chain models differ")
 
     def compile(self, directory, *, target_artifact=None, source_artifact=None):
+        """Publish stage copies and optional source_artifact/target_artifact as a portable Chain at directory. Check joins and artifact formulations; refuse different existing contents. Return the published Chain.
+
+        ## Parameters
+        directory: FilePath
+        target_artifact: FilePath | None
+        source_artifact: FilePath | None
+
+        ## Returns
+        Chain
+
+        ## Example
+        chain.compile("build/chain")
+        """
         self._check_joins()
         target_artifact = (
             self.stages[-1].target if target_artifact is None else target_artifact
@@ -413,6 +532,17 @@ class Chain:
 
     @classmethod
     def open(cls, directory):
+        """Read a published new-schema chain directory and validate stage hashes, artifacts and joins; return Chain. Audit errors raise ArtifactMismatchError.
+
+        ## Parameters
+        directory: FilePath
+
+        ## Returns
+        Chain
+
+        ## Example
+        Chain.open("build/chain")
+        """
         root, document = _inspect(directory, CHAIN_SCHEMA)
         stages = document.get("stages")
         if not isinstance(stages, list) or not stages:
@@ -446,6 +576,19 @@ class Chain:
         return chain
 
     def verify(self, **limits):
+        """Recheck chain contents and verify every stage with this call's work/live_facts/depth budgets. Return a combined VerificationReport; no cached success is trusted.
+
+        ## Parameters
+        work: int | None
+        live_facts: int | None
+        depth: int | None
+
+        ## Returns
+        VerificationReport
+
+        ## Example
+        chain.verify().raise_for_status()
+        """
         if hasattr(self, "directory"):
             Chain.open(self.directory)
             _, document = _inspect(self.directory, CHAIN_SCHEMA)

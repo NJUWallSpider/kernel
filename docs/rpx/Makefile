@@ -6,7 +6,7 @@ CHAPTERS := $(wildcard chapters/*.tex)
 SPECS := $(wildcard ../*.md)
 EXAMPLES := $(wildcard examples/*/*.lp examples/*/*.rpa examples/*/*.json examples/*/*.py examples/*/*.ipynb)
 
-.PHONY: all pdf check check-links check-examples check-compiler-api clean
+.PHONY: all pdf check check-links check-examples check-compiler-api check-help clean
 all: pdf
 
 pdf: check-links $(MANUAL).pdf
@@ -33,3 +33,8 @@ check-compiler-api:
 
 clean:
 	$(LATEXMK) -C -outdir=.build $(MANUAL).tex
+
+# Rebuild the native extension before checking definition-backed help.
+check-help:
+	PYTHONPATH=../../python $(PYTHON) ../../tools/check_rpx_help.py --check
+	PYTHONPATH=../../python $(PYTHON) -m unittest discover -s ../../python/tests -p 'test_rpx_help.py'

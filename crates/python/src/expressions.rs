@@ -15,6 +15,20 @@ use pyo3::{
     types::{PyDict, PyList},
 };
 use std::sync::Arc;
+/// An immutable affine expression with coordinate ownership. Scalars are space-free; variables from independent models cannot be mixed. Parent expressions embed in lift children, never the reverse or across siblings. Arithmetic returns Expr, not a proof. Example: 2 * model.vars["x"] - 1. Use Expr(0) for a constant; use from_terms for indexed construction.
+///
+/// ## Operators
+/// __add__: Add an exact scalar or compatible affine expression; return Expr.
+/// __radd__: Reversed addition; return Expr.
+/// __sub__: Subtract a compatible operand; return Expr.
+/// __rsub__: Subtract self from the left operand; return Expr.
+/// __mul__: Scale by an exact scalar; return Expr. Nonlinear products are not accepted.
+/// __rmul__: Reversed exact scalar multiplication; return Expr.
+/// __truediv__: Divide by a nonzero exact scalar; return Expr. ZeroDivisionError on zero.
+/// __neg__: Negate without deriving a fact; return Expr.
+/// __eq__: Compare exact coefficients and identical space identity; return bool, not a constraint.
+/// __ne__: Negate exact expression equality; return bool, not a constraint.
+/// __hash__: Return a hash consistent with equality.
 #[pyclass(name = "Expr", module = "rpx", frozen, subclass, from_py_object)]
 #[derive(Clone)]
 pub struct PyExpr {
@@ -58,12 +72,20 @@ impl PyExpr {
         })
     }
     #[getter]
+    /// The exact constant term as Q.
+    ///
+    /// ## Example
+    /// expr.constant
     fn constant(&self) -> PyQ {
         PyQ {
             value: self.inner.value.constant.clone(),
         }
     }
     #[getter]
+    /// The native-backed sparse coefficient view.
+    ///
+    /// ## Example
+    /// expr.terms
     fn terms(&self) -> TermsView {
         TermsView {
             expr: self.inner.clone(),
@@ -75,6 +97,7 @@ impl PyExpr {
     fn __repr__(&self) -> String {
         self.__str__()
     }
+    /// Negate the operand; return Expr.
     fn __neg__(&self) -> PyResult<Self> {
         Ok(Self {
             inner: BoundExpr::new(
@@ -83,6 +106,7 @@ impl PyExpr {
             ),
         })
     }
+    /// Add the operand; return Expr.
     fn __add__(&self, other: &Bound<'_, PyAny>) -> PyResult<Self> {
         let e = expression(other)?;
         let space = self.inner.combined_space(&e).map_err(err)?;
@@ -90,9 +114,11 @@ impl PyExpr {
             inner: BoundExpr::new(expr::add(&self.inner.value, &e.value).map_err(err)?, space),
         })
     }
+    /// Add in reversed operand order the operand; return Expr.
     fn __radd__(&self, other: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.__add__(other)
     }
+    /// Subtract the operand; return Expr.
     fn __sub__(&self, other: &Bound<'_, PyAny>) -> PyResult<Self> {
         let e = expression(other)?;
         let space = self.inner.combined_space(&e).map_err(err)?;
@@ -103,6 +129,7 @@ impl PyExpr {
             ),
         })
     }
+    /// Subtract in reversed operand order the operand; return Expr.
     fn __rsub__(&self, other: &Bound<'_, PyAny>) -> PyResult<Self> {
         let e = expression(other)?;
         let space = self.inner.combined_space(&e).map_err(err)?;
@@ -113,6 +140,7 @@ impl PyExpr {
             ),
         })
     }
+    /// Multiply by an exact scalar the operand; return Expr.
     fn __mul__(&self, factor: &Bound<'_, PyAny>) -> PyResult<Self> {
         Ok(Self {
             inner: BoundExpr::new(
@@ -121,9 +149,11 @@ impl PyExpr {
             ),
         })
     }
+    /// Multiply by an exact scalar in reversed order the operand; return Expr.
     fn __rmul__(&self, factor: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.__mul__(factor)
     }
+    /// Divide by a nonzero exact scalar the operand; return Expr. Zero denominators raise ZeroDivisionError.
     fn __truediv__(&self, divisor: &Bound<'_, PyAny>) -> PyResult<Self> {
         let q = scalar(divisor)?;
         if q.is_zero() {
@@ -136,6 +166,7 @@ impl PyExpr {
             ),
         })
     }
+    /// Return a hash consistent with expression equality.
     fn __hash__(&self) -> isize {
         if self.inner.value.terms.is_empty() {
             return crate::numbers::rational_hash(&self.inner.value.constant);
@@ -148,6 +179,7 @@ impl PyExpr {
         let hash = h.finish() as isize;
         if hash == -1 { -2 } else { hash }
     }
+    /// Compare exact space identity and affine coefficients for equality. Ordering raises TypeError.
     fn __richcmp__(&self, other: &Bound<'_, PyAny>, op: pyo3::basic::CompareOp) -> PyResult<bool> {
         let equal = !other.is_instance_of::<pyo3::types::PyString>()
             && expression(other)
@@ -166,6 +198,19 @@ impl PyExpr {
     }
     #[staticmethod]
     #[pyo3(signature=(space,indices,coefficients,constant=None))]
+    /// Accumulate sparse indices and coefficients once in native code, with explicit model space and optional constant. Lengths must match; invalid coordinates fail. Integer buffers use a batch path.
+    ///
+    /// ## Parameters
+    /// space: Model
+    /// indices: Iterable[int]
+    /// coefficients: Iterable[Scalar]
+    /// constant: Scalar | None; None uses zero.
+    ///
+    /// ## Returns
+    /// Expr
+    ///
+    /// ## Example
+    /// Expr.from_terms(model, [0], [2], constant=1)
     fn from_terms(
         space: &PyModel,
         indices: &Bound<'_, PyAny>,
@@ -223,9 +268,27 @@ impl PyExpr {
         ))
     }
     #[staticmethod]
+    /// Return the exact affine dot product of equally sized coefficients and variables. Native variable views and integer buffers use batch paths. Cross-space variables raise CoordinateSpaceError.
+    ///
+    /// ## Parameters
+    /// coefficients: Iterable[Scalar]
+    /// variables: Iterable[Affine]
+    ///
+    /// ## Returns
+    /// Expr
+    ///
+    /// ## Example
+    /// Expr.dot([2, 3], model.vars)
     fn dot(coefficients: &Bound<'_, PyAny>, variables: &Bound<'_, PyAny>) -> PyResult<Self> {
         sum_native(variables, Some(coefficients))
     }
+    /// Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+    ///
+    /// ## Returns
+    /// dict[str, Any]
+    ///
+    /// ## Example
+    /// expr.to_dict()
     fn to_dict(&self, py: Python<'_>) -> PyResult<Py<PyAny>> {
         let d = PyDict::new(py);
         d.set_item("constant", self.inner.value.constant.to_string())?;
@@ -237,15 +300,23 @@ impl PyExpr {
         Ok(d.into_any().unbind())
     }
 }
+/// A sparse native coefficient view keyed by coordinate index. Missing coefficients raise KeyError on indexing; get accepts a default. Iteration yields indices; items and values are lazy. Example: expr.terms.get(0, 0).
+///
+/// ## Operators
+/// __getitem__: Return Q coefficient at a stored coordinate; absent indices raise KeyError.
+/// __len__: Return stored nonzero term count.
+/// __iter__: Iterate coordinate indices lazily.
 #[pyclass(name = "TermsView", module = "rpx", frozen)]
 pub struct TermsView {
     expr: BoundExpr,
 }
 #[pymethods]
 impl TermsView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> usize {
         self.expr.value.terms.len()
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, index: u32) -> PyResult<PyQ> {
         self.expr
             .value
@@ -256,6 +327,7 @@ impl TermsView {
             })
             .map_err(|_| pyo3::exceptions::PyKeyError::new_err(index))
     }
+    /// Return a lazy iterator over this view. Use bounded inspection for large models.
     fn __iter__(&self) -> TermIterator {
         TermIterator {
             expr: self.expr.clone(),
@@ -263,9 +335,23 @@ impl TermsView {
             mode: 0,
         }
     }
+    /// Iterate stored coordinate indices lazily.
+    ///
+    /// ## Returns
+    /// Iterator[int]
+    ///
+    /// ## Example
+    /// expr.terms.keys()
     fn keys(&self) -> TermIterator {
         self.__iter__()
     }
+    /// Iterate stored (coordinate index, Q coefficient) pairs lazily.
+    ///
+    /// ## Returns
+    /// Iterator[tuple[int, Q]]
+    ///
+    /// ## Example
+    /// expr.terms.items()
     fn items(&self) -> TermIterator {
         TermIterator {
             expr: self.expr.clone(),
@@ -273,6 +359,13 @@ impl TermsView {
             mode: 1,
         }
     }
+    /// Iterate stored Q coefficients lazily.
+    ///
+    /// ## Returns
+    /// Iterator[Q]
+    ///
+    /// ## Example
+    /// expr.terms.values()
     fn values(&self) -> TermIterator {
         TermIterator {
             expr: self.expr.clone(),
@@ -281,6 +374,17 @@ impl TermsView {
         }
     }
     #[pyo3(signature=(index,default=None))]
+    /// Return the coefficient at index, or default when absent.
+    ///
+    /// ## Parameters
+    /// index: int
+    /// default: Any
+    ///
+    /// ## Returns
+    /// Any
+    ///
+    /// ## Example
+    /// expr.terms.get(0, 0)
     fn get(
         &self,
         index: u32,
@@ -297,6 +401,13 @@ impl TermsView {
     fn __repr__(&self) -> String {
         format!("TermsView({} terms)", self.expr.value.terms.len())
     }
+    /// Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+    ///
+    /// ## Returns
+    /// dict[int, Q]
+    ///
+    /// ## Example
+    /// expr.terms.to_dict()
     fn to_dict(&self, py: Python<'_>) -> PyResult<Py<PyAny>> {
         let d = PyDict::new(py);
         for (i, q) in &self.expr.value.terms {
@@ -398,6 +509,7 @@ fn sum_native(
     })
 }
 #[pyfunction]
+/// Return the affine sum of items with one native accumulator. The empty sum is Expr(0). Inputs must have compatible coordinate spaces; native views avoid per-coordinate Python construction. Example: quicksum(model.vars).
 fn quicksum(items: &Bound<'_, PyAny>) -> PyResult<PyExpr> {
     sum_native(items, None)
 }
@@ -410,6 +522,16 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
 
 #[pymethods]
 impl PyExpr {
+    /// Return an expression after explicit coordinate replacement. Use a MappingView or complete sequence for mapping; a mapping of indices selects replacements. Replacement expressions must have compatible spaces.
+    ///
+    /// ## Parameters
+    /// replacements: Mapping[int, Affine] | Sequence[Affine] | MappingView
+    ///
+    /// ## Returns
+    /// Expr
+    ///
+    /// ## Example
+    /// expr.substitute(scope.mapping)
     fn substitute(&self, replacements: &Bound<'_, PyAny>) -> PyResult<Self> {
         if let Ok(view) = replacements.extract::<PyRef<'_, crate::proofs::MappingView>>() {
             return view.substitute(&self.inner);
@@ -442,6 +564,16 @@ impl PyExpr {
 
 #[pymethods]
 impl PyExpr {
+    /// Return Q at an exact coordinate sequence or variable-name mapping; missing coordinates fail.
+    ///
+    /// ## Parameters
+    /// values: Mapping[str, Scalar] | Sequence[Scalar]
+    ///
+    /// ## Returns
+    /// Q
+    ///
+    /// ## Example
+    /// expr.evaluate({"x": 1})
     fn evaluate(&self, values: &Bound<'_, PyAny>) -> PyResult<PyQ> {
         let mut result = self.inner.value.constant.clone();
         for (i, q) in &self.inner.value.terms {

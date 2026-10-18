@@ -22,3 +22,9 @@ to retain the self-contained delivery. Pass `target_artifact=...` to retain and
 audit the exact external target file as well.
 
 See [Compiler API](../../../COMPILER_API.md) for the lifecycle and typed specs.
+
+## Offline help
+
+Start with `python -m rpx help quickstart` or `python -m rpx help agent`.
+The wheel contains self-contained examples: `python -m rpx._help.examples.quickstart`
+and `python -m rpx._help.examples.lifts`. See [offline help](../../../RPX_HELP.md).

@@ -8,29 +8,20 @@ author selects; it does not run a solver or search for proofs.
 
 ## Installation and first proof
 
+Install a built wheel with `python -m pip install /path/to/rpx.whl`, or build
+from this checkout with `cd python && maturin build --release`.
+
 ```sh
-python3 -m pip install -e ./python
+python -m rpx help quickstart
+python -m rpx._help.examples.quickstart
+python -m rpx help Scope.map
+python -m rpx help agent --format json
 ```
 
-```python
-from rpx import Model, Proof
-
-source = Model.read("source.lp")
-target = Model.read("target.lp")
-proof = Proof(source, target)
-f = proof.forward
-f.map({"y": source.vars["x1"]}, default="same_name")
-f.prove("objective.non_increasing", by=-f.row("balance"))
-f.finish()
-proof.reverse.map({
-    "x0": 1-target.vars["y"],
-    "x1": target.vars["y"],
-}).finish()
-bundle = proof.compile("build/elimination", target_artifact="target.lp")
-report = bundle.verify()
-report.raise_for_status()
-print(report)
-```
+The quickstart creates both models in memory, proves elimination in both
+directions, and requires a fresh VERIFIED Kernel result. It needs no external
+model files. [Offline help](RPX_HELP.md) ships inside the wheel; the
+[API reference](RPX_REFERENCE.md) is generated from definitions and types.
 
 Executable versions of this example and four others are in
 [the examples directory](rpx/examples/python-api/README.md). The

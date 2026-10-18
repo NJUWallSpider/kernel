@@ -30,12 +30,36 @@ pub fn lock(core: &Core) -> PyResult<MutexGuard<'_, ProofCore>> {
     core.lock()
         .map_err(|_| ScopeError::new_err("native proof lock poisoned"))
 }
+/// A proof-owned assertion: Eq means expression = 0, Le means expression <= 0, Int means expression is integral. Obtain facts from a scope or its derive methods. Arithmetic such as 2*a-b-1 returns LinCombination, never Expr and never a new fact. Use fact.expression for affine algebra. Cross-Proof combinations raise ScopeError.
+///
+/// ## Operators
+/// __add__: Add an exact scalar or compatible proof combination; return LinCombination.
+/// __radd__: Reversed addition; return LinCombination.
+/// __sub__: Subtract a compatible operand; return LinCombination.
+/// __rsub__: Subtract self from the left operand; return LinCombination.
+/// __mul__: Scale by an exact scalar; return LinCombination. Nonlinear products are not accepted.
+/// __rmul__: Reversed exact scalar multiplication; return LinCombination.
+/// __truediv__: Divide by a nonzero exact scalar; return LinCombination. ZeroDivisionError on zero.
+/// __neg__: Negate without deriving a fact; return LinCombination.
+/// __eq__: Compare fact identity including owning Proof; return bool.
+/// __hash__: Return a hash consistent with equality.
 #[pyclass(name = "Fact", module = "rpx", frozen, from_py_object)]
 #[derive(Clone)]
 pub struct PyFact {
     pub core: Core,
     pub id: FactId,
 }
+/// An explicit linear combination of proof facts and an exact constant. Fact arithmetic builds this immutable value; it does not derive or certify anything. Pass it to scope.prove or scope.derive.eq/le/int. Zero coefficients disappear before lowering. Le requires nonnegative multipliers on inequality premises and a nonpositive added constant; Eq uses equalities and zero constant; Int uses integral multipliers on Int premises and an integral constant; Eq premises allow any exact multiplier. Example: scope.derive.le(2 * scope.upper("x") - 1).
+///
+/// ## Operators
+/// __add__: Add an exact scalar or compatible proof combination; return LinCombination.
+/// __radd__: Reversed addition; return LinCombination.
+/// __sub__: Subtract a compatible operand; return LinCombination.
+/// __rsub__: Subtract self from the left operand; return LinCombination.
+/// __mul__: Scale by an exact scalar; return LinCombination. Nonlinear products are not accepted.
+/// __rmul__: Reversed exact scalar multiplication; return LinCombination.
+/// __truediv__: Divide by a nonzero exact scalar; return LinCombination. ZeroDivisionError on zero.
+/// __neg__: Negate without deriving a fact; return LinCombination.
 #[pyclass(name = "LinCombination", module = "rpx", frozen, from_py_object)]
 #[derive(Clone)]
 pub struct Combination {
@@ -115,27 +139,35 @@ impl Combination {
 }
 #[pymethods]
 impl Combination {
+    /// Add the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __add__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.added(combination(v)?)
     }
+    /// Add in reversed operand order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __radd__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.__add__(v)
     }
+    /// Subtract the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __sub__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.added(combination(v)?.scaled(-Q::one())?)
     }
+    /// Subtract in reversed operand order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __rsub__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         combination(v)?.added(self.scaled(-Q::one())?)
     }
+    /// Negate the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __neg__(&self) -> PyResult<Self> {
         self.scaled(-Q::one())
     }
+    /// Multiply by an exact scalar the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __mul__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.scaled(scalar(v)?)
     }
+    /// Multiply by an exact scalar in reversed order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __rmul__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         self.__mul__(v)
     }
+    /// Divide by a nonzero exact scalar the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination. Zero denominators raise ZeroDivisionError.
     fn __truediv__(&self, v: &Bound<'_, PyAny>) -> PyResult<Self> {
         let q = scalar(v)?;
         if q.is_zero() {
@@ -156,12 +188,20 @@ impl Combination {
 #[pymethods]
 impl PyFact {
     #[getter]
+    /// The assertion or instruction kind.
+    ///
+    /// ## Example
+    /// fact.kind
     fn kind(&self) -> PyResult<&'static str> {
         Ok(kind_name(
             lock(&self.core)?.fact(self.id).map_err(err)?.kind,
         ))
     }
     #[getter]
+    /// The exact owned affine expression.
+    ///
+    /// ## Example
+    /// fact.expression
     pub fn expression(&self) -> PyResult<PyExpr> {
         let c = lock(&self.core)?;
         let f = c.fact(self.id).map_err(err)?;
@@ -188,35 +228,45 @@ impl PyFact {
             crate::inspection::html(&self.__repr__()?)
         ))
     }
+    /// Return a hash consistent with Fact identity.
     fn __hash__(&self) -> usize {
         Arc::as_ptr(&self.core) as usize ^ self.id
     }
+    /// Compare Fact identity including its Proof; return bool.
     fn __eq__(&self, other: &Bound<'_, PyAny>) -> bool {
         other
             .extract::<PyRef<'_, Self>>()
             .is_ok_and(|f| Arc::ptr_eq(&self.core, &f.core) && self.id == f.id)
     }
+    /// Negate the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __neg__(&self) -> PyResult<Combination> {
         self.combo().scaled(-Q::one())
     }
+    /// Multiply by an exact scalar the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __mul__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.combo().scaled(scalar(v)?)
     }
+    /// Multiply by an exact scalar in reversed order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __rmul__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.__mul__(v)
     }
+    /// Divide by a nonzero exact scalar the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination. Zero denominators raise ZeroDivisionError.
     fn __truediv__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.combo().__truediv__(v)
     }
+    /// Add the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __add__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.combo().added(combination(v)?)
     }
+    /// Add in reversed operand order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __radd__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.__add__(v)
     }
+    /// Subtract the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __sub__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.combo().__sub__(v)
     }
+    /// Subtract in reversed operand order the operand; return LinCombination (no derivation is emitted). Use scope.derive or scope.prove to check the proof combination.
     fn __rsub__(&self, v: &Bound<'_, PyAny>) -> PyResult<Combination> {
         self.combo().__rsub__(v)
     }
@@ -230,6 +280,7 @@ impl PyFact {
         }
     }
 }
+/// A proof-owned authoring scope. Declare an output-to-input map, inspect obligations, supply selected witnesses, then finish. Successful finish seals the leaf. split/lift turns the parent into a fixed container; work continues in children. Facts must be visible in this scope and belong to this Proof. Example: proof.forward.map(default="same_name").finish(). This is authoring completion, not certification.
 #[pyclass(name = "Scope", module = "rpx", frozen, from_py_object)]
 #[derive(Clone)]
 pub struct PyScope {
@@ -334,12 +385,20 @@ impl PyScope {
 #[pymethods]
 impl PyScope {
     #[getter]
+    /// The input Model of this scope, including any extension coordinates.
+    ///
+    /// ## Example
+    /// scope.model
     fn model(&self) -> PyResult<PyModel> {
         Ok(PyModel {
             inner: lock(&self.core)?.scope(self.id).map_err(err)?.model.clone(),
         })
     }
     #[getter]
+    /// The output Model whose coordinates this scope maps.
+    ///
+    /// ## Example
+    /// scope.output
     fn output(&self) -> PyResult<PyModel> {
         Ok(PyModel {
             inner: lock(&self.core)?
@@ -350,16 +409,28 @@ impl PyScope {
         })
     }
     #[getter]
+    /// The native-backed input variable view.
+    ///
+    /// ## Example
+    /// scope.vars
     fn vars(&self) -> PyResult<VariablesView> {
         Ok(self.model()?.vars())
     }
     #[getter]
+    /// The explicit derivation interface bound to this scope.
+    ///
+    /// ## Example
+    /// scope.derive
     fn derive(&self) -> Derive {
         Derive {
             scope: self.clone(),
         }
     }
     #[getter]
+    /// The branch assumption Fact; unavailable outside a branch.
+    ///
+    /// ## Example
+    /// scope.assumption
     fn assumption(&self) -> PyResult<PyFact> {
         let c = lock(&self.core)?;
         let id = *c
@@ -371,17 +442,59 @@ impl PyScope {
         Ok(self.new_fact(id))
     }
     #[getter]
+    /// The native obligation view for the current mapping.
+    ///
+    /// ## Example
+    /// scope.obligations
     fn obligations(&self) -> PyResult<ObligationView> {
         self.view(false, None, None)
     }
+    /// Return the same obligation view as obligations, based on the current mapping; no proof search occurs.
+    ///
+    /// ## Returns
+    /// ObligationView
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.plan()
     fn plan(&self) -> PyResult<ObligationView> {
         self.obligations()
     }
     #[pyo3(signature=(*,limit=None,kind=None))]
+    /// Return unresolved obligations filtered by kind and capped by limit. Omit limit to count all missing goals. Explicit witnesses, exact visible facts and literal truths are the only discharge routes.
+    ///
+    /// ## Parameters
+    /// limit: int | None
+    /// kind: str | None
+    ///
+    /// ## Returns
+    /// ObligationView
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.missing(limit=20, kind="Le")
     fn missing(&self, limit: Option<usize>, kind: Option<&str>) -> PyResult<ObligationView> {
         self.view(true, limit, kind)
     }
     #[pyo3(signature=(overrides=None,*,default=None))]
+    /// Replace the entire mapping specification and return this Scope. overrides maps output variable names to input-space affine expressions. default="same_name" fills remaining output variables by name; without it coverage must be complete. Unknown names or uncovered coordinates raise MappingError; wrong spaces raise CoordinateSpaceError. Old Goal handles become stale, even if the new map is equivalent.
+    ///
+    /// ## Parameters
+    /// overrides: dict[str, Affine] | None
+    /// default: Literal['same_name'] | None
+    ///
+    /// ## Returns
+    /// Scope
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.map({"y": scope.vars["x"]}, default="same_name")
     fn map<'py>(
         slf: PyRef<'py, Self>,
         overrides: Option<&Bound<'_, PyDict>>,
@@ -403,16 +516,69 @@ impl PyScope {
             .map_err(err)?;
         Ok(slf)
     }
+    /// Return the lower-bound Fact, normalized as lower - variable <= 0. The bound must exist.
+    ///
+    /// ## Parameters
+    /// variable: Variable
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.lower("x")
     fn lower(&self, variable: &Bound<'_, PyAny>) -> PyResult<PyFact> {
         self.base("VarLower", variable)
     }
+    /// Return the upper-bound Fact, normalized as variable - upper <= 0. The bound must exist.
+    ///
+    /// ## Parameters
+    /// variable: Variable
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.upper("x")
     fn upper(&self, variable: &Bound<'_, PyAny>) -> PyResult<PyFact> {
         self.base("VarUpper", variable)
     }
+    /// Return the Int Fact for an integral variable; a continuous variable is invalid.
+    ///
+    /// ## Parameters
+    /// variable: Variable
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.integer("x")
     fn integer(&self, variable: &Bound<'_, PyAny>) -> PyResult<PyFact> {
         self.base("VarInt", variable)
     }
     #[pyo3(signature=(row,*,side=None))]
+    /// Return a proof Fact for a model row. Select lower, upper or equal with side when required; inequalities are normalized to expression <= 0.
+    ///
+    /// ## Parameters
+    /// row: str | int
+    /// side: Literal['lower', 'upper', 'equal'] | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.row("balance")
     fn row(&self, row: &Bound<'_, PyAny>, side: Option<&str>) -> PyResult<PyFact> {
         let tag = {
             let c = lock(&self.core)?;
@@ -436,6 +602,20 @@ impl PyScope {
         self.base(tag, row)
     }
     #[pyo3(signature=(goal,*,by))]
+    /// Derive and bind an exact witness to the selected goal label or Goal. by is a Fact, LinCombination or exact constant; both kind and full expression must match. Returns Fact. Stale/wrong-proof goals raise ScopeError; invalid combinations raise InvalidDerivationError.
+    ///
+    /// ## Parameters
+    /// goal: str | Goal
+    /// by: Combination
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.prove("objective.non_increasing", by=-scope.row("balance"))
     fn prove(&self, goal: &Bound<'_, PyAny>, by: &Bound<'_, PyAny>) -> PyResult<PyFact> {
         let combination = combination(by)?;
         let terms = combination.operands(&self.core)?;
@@ -474,10 +654,33 @@ impl PyScope {
         c.assign_goal(self.id, i, id).map_err(err)?;
         Ok(self.new_fact(id))
     }
+    /// Check every obligation, seal this leaf, and return this Scope. Missing goals raise UnprovedGoalError and leave it editable. Success prevents further mutation but is not Kernel certification.
+    ///
+    /// ## Returns
+    /// Scope
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.finish()
     fn finish(slf: PyRef<'_, Self>) -> PyResult<PyRef<'_, Self>> {
         lock(&slf.core)?.finish(slf.id).map_err(err)?;
         Ok(slf)
     }
+    /// Close a branch using a visible contradictory Fact; return None. The Kernel contradiction rule must hold.
+    ///
+    /// ## Parameters
+    /// fact: Fact
+    ///
+    /// ## Returns
+    /// None
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// branch.close_absurd(contradiction)
     fn close_absurd(&self, fact: &PyFact) -> PyResult<()> {
         let id = self.fact_id(fact)?;
         let mut c = lock(&self.core)?;
@@ -493,6 +696,19 @@ impl PyScope {
             c.close_absurd(self.id, id).map_err(err)
         }
     }
+    /// Drop selected visible local facts from subsequent availability; return None. Future derivations or goal discharge cannot reuse dropped facts.
+    ///
+    /// ## Parameters
+    /// facts: Fact | Iterable[Fact]
+    ///
+    /// ## Returns
+    /// None
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.drop(fact)
     fn drop(&self, facts: &Bound<'_, PyAny>) -> PyResult<()> {
         let ids = if let Ok(f) = facts.extract::<PyRef<'_, PyFact>>() {
             vec![self.fact_id(&f)?]
@@ -513,6 +729,22 @@ impl PyScope {
         c.drop_facts(self.id, &ids).map_err(err)
     }
     #[pyo3(signature=(expr,*,at=None,kind="continuous",because=None))]
+    /// Fix this parent and return left/right mapping scopes. Continuous branches assume expr <= at and expr >= at (including equality on both). Integer branches assume expr <= at and expr >= at+1; require integer at and an exact Int witness because for expr. For a single declared integral variable, omitting because uses its base integrality fact. Each child exposes assumption and must finish or close absurd.
+    ///
+    /// ## Parameters
+    /// expr: Affine
+    /// at: Scalar | None; None uses zero.
+    /// kind: Literal['continuous', 'integer']
+    /// because: Fact | None
+    ///
+    /// ## Returns
+    /// tuple[Scope, Scope]
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.split(scope.vars["x"], at=0)
     fn split(
         &self,
         expr: &Bound<'_, PyAny>,
@@ -602,6 +834,10 @@ impl PyScope {
         ))
     }
     #[getter]
+    /// The native instruction trace view.
+    ///
+    /// ## Example
+    /// scope.trace
     fn trace(&self) -> crate::inspection::TraceView {
         crate::inspection::TraceView {
             scope: self.clone(),
@@ -616,6 +852,7 @@ impl PyScope {
         ))
     }
 }
+/// Explicit derivation operations for one scope. Obtain via scope.derive; each operation checks selected premises and returns facts. No solver or proof search is run. The scope must be editable, premises visible and proof-owned, and expressions in its coordinate space. Invalid operations raise InvalidDerivationError without appending partial steps.
 #[pyclass(name = "Derive", module = "rpx", frozen)]
 pub struct Derive {
     pub scope: PyScope,
@@ -623,17 +860,73 @@ pub struct Derive {
 #[pymethods]
 impl Derive {
     #[pyo3(signature=(by,*,expect=None))]
+    /// Return an Eq Fact from by; only equality contributions and zero constant are allowed. expect, when supplied, must equal the resulting affine expression.
+    ///
+    /// ## Parameters
+    /// by: Combination
+    /// expect: Affine | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.eq(-scope.row("balance"))
     fn eq(&self, by: &Bound<'_, PyAny>, expect: Option<&Bound<'_, PyAny>>) -> PyResult<PyFact> {
         self.scope.derive_lin(Kind::Eq, by, expect)
     }
     #[pyo3(signature=(by,*,expect=None))]
+    /// Return a Le Fact from by. Inequality multipliers must be nonnegative; equality multipliers can have either sign; the added constant must be nonpositive. expect checks the exact result.
+    ///
+    /// ## Parameters
+    /// by: Combination
+    /// expect: Affine | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.le(2*scope.upper("x")-1)
     fn le(&self, by: &Bound<'_, PyAny>, expect: Option<&Bound<'_, PyAny>>) -> PyResult<PyFact> {
         self.scope.derive_lin(Kind::Le, by, expect)
     }
     #[pyo3(signature=(by,*,expect=None))]
+    /// Return an Int Fact from by: Int premises require integral coefficients and the constant must be integral; Eq premises allow arbitrary exact coefficients. expect checks the exact result.
+    ///
+    /// ## Parameters
+    /// by: Combination
+    /// expect: Affine | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.int(scope.integer("x")+1)
     fn int(&self, by: &Bound<'_, PyAny>, expect: Option<&Bound<'_, PyAny>>) -> PyResult<PyFact> {
         self.scope.derive_lin(Kind::Int, by, expect)
     }
+    /// Round the bound in le using integer as an exact matching integrality witness; return a Le Fact.
+    ///
+    /// ## Parameters
+    /// le: Fact
+    /// integer: Fact
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.round(scope.upper("x"), scope.integer("x"))
     fn round(&self, le: &PyFact, integer: &PyFact) -> PyResult<PyFact> {
         let a = self.scope.fact_id(le)?;
         let b = self.scope.fact_id(integer)?;
@@ -642,6 +935,20 @@ impl Derive {
             .map_err(err)?;
         Ok(self.scope.new_fact(id))
     }
+    /// Return an Eq Fact from opposite Le facts positive and negative with exactly negated expressions.
+    ///
+    /// ## Parameters
+    /// positive: Fact
+    /// negative: Fact
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.eqpair(upper_zero, lower_zero)
     fn eqpair(&self, positive: &PyFact, negative: &PyFact) -> PyResult<PyFact> {
         let a = self.scope.fact_id(positive)?;
         let b = self.scope.fact_id(negative)?;
@@ -650,6 +957,19 @@ impl Derive {
             .map_err(err)?;
         Ok(self.scope.new_fact(id))
     }
+    /// Return a Le Fact for expression by explicit model-bound expansion. Fail if a required bound is absent or the resulting bound does not prove expression <= 0.
+    ///
+    /// ## Parameters
+    /// expression: Affine
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.box_le(x-1)
     fn box_le(&self, expression: &Bound<'_, PyAny>) -> PyResult<PyFact> {
         let e = self.scope.raw_expr(expression)?;
         let id = lock(&self.scope.core)?
@@ -658,6 +978,20 @@ impl Derive {
         Ok(self.scope.new_fact(id))
     }
     #[pyo3(signature=(expression,fixes=None))]
+    /// Return an Eq Fact for expression using fixed model bounds and optional explicit variable-to-equality fixes. Fail if the residual is not identically zero.
+    ///
+    /// ## Parameters
+    /// expression: Affine
+    /// fixes: dict[Variable, Fact] | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.eq_on_fixed(x-1)
     fn eq_on_fixed(
         &self,
         expression: &Bound<'_, PyAny>,
@@ -673,6 +1007,21 @@ impl Derive {
         Ok(self.scope.new_fact(id))
     }
     #[pyo3(signature=(fact,definitions,*,expect=None))]
+    /// Return fact rewritten with ordered variable-to-equality definitions. Dictionary order is semantic; expect optionally checks the exact result.
+    ///
+    /// ## Parameters
+    /// fact: Fact
+    /// definitions: dict[Variable, Fact]
+    /// expect: Affine | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.rewrite(fact, {"x": definition})
     fn rewrite(
         &self,
         fact: &PyFact,
@@ -688,6 +1037,20 @@ impl Derive {
         Ok(self.scope.new_fact(id))
     }
     #[pyo3(signature=(definitions,*,goals=None))]
+    /// Expand ordered equality definitions to prove selected goals, or current obligations when goals is None. Return a list of Facts; no automatic definition discovery occurs.
+    ///
+    /// ## Parameters
+    /// definitions: dict[Variable, Fact]
+    /// goals: Iterable[Affine] | None
+    ///
+    /// ## Returns
+    /// list[Fact]
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.substitution({"x": definition})
     fn substitution(
         &self,
         definitions: &Bound<'_, PyDict>,
@@ -715,6 +1078,20 @@ impl Derive {
             .map_err(err)?;
         Ok(ids.into_iter().map(|id| self.scope.new_fact(id)).collect())
     }
+    /// Return a binary variable fixing from a selected equality with an odd coefficient for variable and even coefficients for other integral variables.
+    ///
+    /// ## Parameters
+    /// variable: Variable
+    /// equality: Fact
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.parity_fix("x", scope.row("parity"))
     fn parity_fix(&self, variable: &Bound<'_, PyAny>, equality: &PyFact) -> PyResult<PyFact> {
         let f = self.scope.fact_id(equality)?;
         let mut c = lock(&self.scope.core)?;
@@ -742,6 +1119,7 @@ impl Derive {
         Ok(out)
     }
 }
+/// A mapping-version-bound obligation. Obtain it from scope.plan() or scope.obligations and pass to scope.prove(goal, by=...). Replacing the mapping invalidates old handles; reacquire them. Cross-Proof, wrong-scope and stale handles raise ScopeError.
 #[pyclass(name = "Goal", module = "rpx", frozen)]
 pub struct Goal {
     scope: PyScope,
@@ -773,14 +1151,26 @@ impl Goal {
 #[pymethods]
 impl Goal {
     #[getter]
+    /// The stable label within this mapping version.
+    ///
+    /// ## Example
+    /// goal.label
     fn label(&self) -> PyResult<String> {
         Ok(self.data()?.label)
     }
     #[getter]
+    /// The assertion or instruction kind.
+    ///
+    /// ## Example
+    /// goal.kind
     fn kind(&self) -> PyResult<&'static str> {
         Ok(kind_name(self.data()?.kind))
     }
     #[getter]
+    /// The exact owned affine expression.
+    ///
+    /// ## Example
+    /// goal.expression
     fn expression(&self) -> PyResult<PyExpr> {
         let g = self.data()?;
         Ok(bound(
@@ -794,6 +1184,10 @@ impl Goal {
         ))
     }
     #[getter]
+    /// Whether this goal currently has an exact witness; stale handles raise ScopeError.
+    ///
+    /// ## Example
+    /// goal.discharged
     fn discharged(&self) -> PyResult<bool> {
         let g = self.data()?;
         Ok(lock(&self.scope.core)?
@@ -819,6 +1213,11 @@ impl Goal {
         ))
     }
 }
+/// A native-backed selection of goals. Index by position or label; count and len refer to this selection (including any applied limit). summary counts kinds and discharge state; to_list materializes the selection. Example: scope.missing(limit=20).
+///
+/// ## Operators
+/// __getitem__: Return Goal by selection index or label; stale handles raise ScopeError when inspected.
+/// __len__: Return goal count for this selection, including its filter and limit.
 #[pyclass(name = "ObligationView", module = "rpx", frozen)]
 pub struct ObligationView {
     scope: PyScope,
@@ -834,13 +1233,19 @@ impl ObligationView {
 }
 #[pymethods]
 impl ObligationView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> usize {
         self.shown
     }
     #[getter]
+    /// The number of goals in this view selection.
+    ///
+    /// ## Example
+    /// scope.obligations.count
     fn count(&self) -> usize {
         self.count
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, key: &Bound<'_, PyAny>) -> PyResult<Goal> {
         let c = lock(&self.scope.core)?;
         if c.scope(self.scope.id).map_err(err)?.map_epoch != self.epoch {
@@ -864,6 +1269,13 @@ impl ObligationView {
             index,
         })
     }
+    /// Explicitly materialize every entry in this view as a Python list. Prefer bounded iteration for large data.
+    ///
+    /// ## Returns
+    /// list[Goal]
+    ///
+    /// ## Example
+    /// scope.obligations.to_list()
     fn to_list(&self) -> PyResult<Vec<Goal>> {
         let c = lock(&self.scope.core)?;
         if c.scope(self.scope.id).map_err(err)?.map_epoch != self.epoch {
@@ -878,6 +1290,13 @@ impl ObligationView {
             })
             .collect())
     }
+    /// Return counts by assertion kind and discharge state for this view.
+    ///
+    /// ## Returns
+    /// dict[str, int]
+    ///
+    /// ## Example
+    /// scope.obligations.summary()
     fn summary(&self, py: Python<'_>) -> PyResult<Py<PyAny>> {
         let mut c = lock(&self.scope.core)?;
         if c.scope(self.scope.id).map_err(err)?.map_epoch != self.epoch {
@@ -996,6 +1415,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     Ok(())
 }
 
+/// Two explicit derivation scopes producing one common conclusion. Obtain with scope.derive.cases(...), use left/right.assumption, then conclude a matching fact or close_absurd in each branch. finish returns one Fact in the parent. This is distinct from Scope.split, whose leaves complete mappings.
 #[pyclass(name = "Cases", module = "rpx", frozen)]
 pub struct Cases {
     core: Core,
@@ -1004,6 +1424,10 @@ pub struct Cases {
 #[pymethods]
 impl Cases {
     #[getter]
+    /// The left derivation Scope, with its own assumption.
+    ///
+    /// ## Example
+    /// cases.left
     fn left(&self) -> PyResult<PyScope> {
         Ok(PyScope {
             core: self.core.clone(),
@@ -1011,12 +1435,26 @@ impl Cases {
         })
     }
     #[getter]
+    /// The right derivation Scope, with its own assumption.
+    ///
+    /// ## Example
+    /// cases.right
     fn right(&self) -> PyResult<PyScope> {
         Ok(PyScope {
             core: self.core.clone(),
             id: lock(&self.core)?.cases[self.id].right,
         })
     }
+    /// Combine completed left/right derivations into one Fact in the parent. Both must conclude the declared fact or a valid contradiction; incomplete branches raise UnprovedGoalError.
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// cases.finish()
     fn finish(&self) -> PyResult<PyFact> {
         let mut c = lock(&self.core)?;
         let case = c.cases[self.id].clone();
@@ -1067,6 +1505,22 @@ impl Cases {
 #[pymethods]
 impl Derive {
     #[pyo3(signature=(split,*,kind,expect,integer=None))]
+    /// Create explicit left/right derivation scopes splitting at zero, for the common kind and expect expression. integer selects integer branching with an exact Int witness; otherwise branching is continuous. Return Cases; conclude or close_absurd in each child, then call Cases.finish.
+    ///
+    /// ## Parameters
+    /// split: Affine
+    /// kind: Kind
+    /// expect: Affine
+    /// integer: Fact | None
+    ///
+    /// ## Returns
+    /// Cases
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.cases(x, kind="Le", expect=x-1)
     fn cases(
         &self,
         split: &Bound<'_, PyAny>,
@@ -1108,6 +1562,22 @@ impl Derive {
         })
     }
     #[pyo3(signature=(fact,*,zeros=None,scale=None,coordinates=None))]
+    /// Extract selected zero coordinates from a nonpositive weighted sum of nonnegative variables. zeros supplies known equalities; scale normalizes the fact; coordinates optionally limits extraction. Return name-to-Fact dictionary.
+    ///
+    /// ## Parameters
+    /// fact: Fact
+    /// zeros: dict[Variable, Fact] | None
+    /// scale: Scalar | None; None uses one.
+    /// coordinates: Iterable[Variable] | None
+    ///
+    /// ## Returns
+    /// dict[str, Fact]
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.zero_sum(scope.row("sum"), coordinates=["x"])
     fn zero_sum(
         &self,
         py: Python<'_>,
@@ -1147,6 +1617,22 @@ impl Derive {
         Ok(out.into_any().unbind())
     }
     #[pyo3(signature=(goal,definitions,residual,*,kind=None))]
+    /// Prove goal using explicit ordered definitions and the supplied residual Fact. kind defaults to the residual kind; return a Fact.
+    ///
+    /// ## Parameters
+    /// goal: Affine
+    /// definitions: dict[Variable, Fact]
+    /// residual: Fact
+    /// kind: Kind | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.substitution_fact(x-1, {"x": definition}, residual)
     fn substitution_fact(
         &self,
         goal: &Bound<'_, PyAny>,
@@ -1165,6 +1651,20 @@ impl Derive {
             .map_err(err)?;
         Ok(self.scope.new_fact(id))
     }
+    /// Rewrite each selected fact using ordered definitions in one native batch; return a list of Facts. Failure rolls back the batch.
+    ///
+    /// ## Parameters
+    /// facts: Iterable[Fact]
+    /// definitions: dict[Variable, Fact]
+    ///
+    /// ## Returns
+    /// list[Fact]
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.rewrite_many([fact], {"x": definition})
     fn rewrite_many(
         &self,
         facts: &Bound<'_, PyAny>,
@@ -1189,6 +1689,22 @@ impl Derive {
             .collect())
     }
     #[pyo3(signature=(*,bits,distance,variables,cliques))]
+    /// Expand the explicit Plotkin construction for bits, distance, (variable, codeword) pairs and selected clique facts. Return a Le Fact; this does not discover codes or cliques.
+    ///
+    /// ## Parameters
+    /// bits: builtins.int
+    /// distance: builtins.int
+    /// variables: Iterable[tuple[Variable, builtins.int]]
+    /// cliques: Iterable[Fact]
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.plotkin(bits=2, distance=2, variables=[("x", 0), ("y", 3)], cliques=[clique])
     fn plotkin(
         &self,
         bits: u32,
@@ -1220,6 +1736,20 @@ impl Derive {
             .map_err(err)?;
         Ok(self.scope.new_fact(id))
     }
+    /// Derive one Le Fact per selected coordinate subset by bounding omitted terms using model bounds. Return a list; missing required bounds rolls back the batch.
+    ///
+    /// ## Parameters
+    /// fact: Fact
+    /// subsets: Iterable[Iterable[Variable]]
+    ///
+    /// ## Returns
+    /// list[Fact]
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// scope.derive.subset_bounds(fact, [["x"], ["y"]])
     fn subset_bounds(&self, fact: &PyFact, subsets: &Bound<'_, PyAny>) -> PyResult<Vec<PyFact>> {
         let f = self.scope.fact_id(fact)?;
         let model = lock(&self.scope.core)?
@@ -1243,6 +1773,19 @@ impl Derive {
 }
 #[pymethods]
 impl PyScope {
+    /// Submit a visible Fact as the common conclusion of a Cases branch; return None. Its kind and expression must match the declared Cases conclusion.
+    ///
+    /// ## Parameters
+    /// fact: Fact
+    ///
+    /// ## Returns
+    /// None
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// cases.left.conclude(conclusion)
     fn conclude(&self, fact: &PyFact) -> PyResult<()> {
         let id = self.fact_id(fact)?;
         let mut c = lock(&self.core)?;
@@ -1267,6 +1810,7 @@ impl PyScope {
 }
 
 /// Expert operand lists; uses exactly the same ownership checks and state machine.
+/// Expert assembly in an existing editable Scope, using the same Compiler Core. Prefer scope.prove and scope.derive for ordinary authoring. Example: Assembler(scope).linear("Le", [(scope.upper("x"), 1)]).
 #[pyclass(name = "Assembler", module = "rpx.lowlevel", frozen)]
 pub struct Assembler {
     scope: PyScope,
@@ -1280,6 +1824,22 @@ impl Assembler {
         }
     }
     #[pyo3(signature=(kind,terms,*,constant=None,expect=None))]
+    /// Derive a Fact from explicit (Fact, coefficient) terms and constant with requested kind. expect checks the exact resulting expression. Same ownership and Kernel linear rules as Derive apply.
+    ///
+    /// ## Parameters
+    /// kind: Kind
+    /// terms: Iterable[tuple[Fact, Scalar]]
+    /// constant: Scalar | None; None uses zero.
+    /// expect: Affine | None
+    ///
+    /// ## Returns
+    /// Fact
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// assembler.linear("Le", [(scope.upper("x"), 1)])
     fn linear(
         &self,
         kind: &str,
@@ -1304,6 +1864,19 @@ impl Assembler {
             .map_err(err)?;
         Ok(self.scope.new_fact(id))
     }
+    /// Finish a scope using checks in obligation order; None means a literal Exact witness. Requires exact coverage, valid witnesses and an editable scope.
+    ///
+    /// ## Parameters
+    /// checks: Iterable[Fact | None]
+    ///
+    /// ## Returns
+    /// None
+    ///
+    /// ## Requirements and errors
+    /// The scope must be editable; facts must be visible and belong to this Proof. Wrong ownership raises ScopeError or CoordinateSpaceError. Invalid selected witnesses raise InvalidDerivationError. See the owning class for lifecycle rules.
+    ///
+    /// ## Example
+    /// assembler.assign([None])
     fn assign(&self, checks: &Bound<'_, PyAny>) -> PyResult<()> {
         let mut facts = Vec::new();
         for v in checks.try_iter()? {
@@ -1350,6 +1923,11 @@ impl Assembler {
     }
 }
 
+/// A native view of the current expanded output-to-input mapping. Index by output coordinate to get an Expr in the input space. Mapping replacement is visible through this view; Goal handles instead become stale. Example: scope.mapping[0].
+///
+/// ## Operators
+/// __getitem__: Return the input-space Expr for an output coordinate index.
+/// __len__: Return output coordinate count.
 #[pyclass(name = "MappingView", module = "rpx", frozen)]
 pub struct MappingView {
     pub scope: PyScope,
@@ -1384,6 +1962,7 @@ impl MappingView {
 }
 #[pymethods]
 impl MappingView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> PyResult<usize> {
         let c = lock(&self.scope.core)?;
         let s = c.scope(self.scope.id).map_err(err)?;
@@ -1395,6 +1974,7 @@ impl MappingView {
             .ok_or_else(|| crate::errors::MappingError::new_err("declare a map"))?
             .len())
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, index: usize) -> PyResult<PyExpr> {
         let c = lock(&self.scope.core)?;
         let s = c.scope(self.scope.id).map_err(err)?;
@@ -1412,12 +1992,29 @@ impl MappingView {
 #[pymethods]
 impl PyScope {
     #[getter]
+    /// The current native output-to-input mapping view.
+    ///
+    /// ## Example
+    /// scope.mapping
     fn mapping(&self) -> PyResult<MappingView> {
         Ok(MappingView {
             scope: self.clone(),
             epoch: lock(&self.core)?.scope(self.id).map_err(err)?.map_epoch,
         })
     }
+    /// Substitute the current output-to-input map into an output-space expression and return an input-space Expr.
+    ///
+    /// ## Parameters
+    /// expression: Affine
+    ///
+    /// ## Returns
+    /// Expr
+    ///
+    /// ## Requirements and errors
+    /// Inspection does not require an editable scope. Coordinates must belong to this scope model; unknown names/indices or absent bounds fail. Goal handles remain subject to mapping-version and Proof ownership checks.
+    ///
+    /// ## Example
+    /// scope.pullback(scope.output.objective)
     fn pullback(&self, expression: &Bound<'_, PyAny>) -> PyResult<PyExpr> {
         self.mapping()?
             .substitute(&crate::expressions::expression(expression)?)

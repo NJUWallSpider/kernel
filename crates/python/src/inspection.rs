@@ -377,12 +377,18 @@ fn end_to_block_py_full(py: Python<'_>, end: &End) -> PyResult<PyObject> {
     }
     Ok(dict.into_any().unbind())
 }
+/// A native-backed proof trace. Indexing yields StepView; to_list explicitly materializes all instructions. Reading the trace does not certify the proof. Example: scope.trace[0].kind.
+///
+/// ## Operators
+/// __getitem__: Return StepView at a nonnegative index; out-of-range raises IndexError.
+/// __len__: Return current instruction count.
 #[pyclass(name = "TraceView", module = "rpx.lowlevel", frozen)]
 pub struct TraceView {
     pub scope: PyScope,
 }
 #[pymethods]
 impl TraceView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> PyResult<usize> {
         Ok(lock(&self.scope.core)?
             .scope(self.scope.id)
@@ -390,6 +396,7 @@ impl TraceView {
             .steps
             .len())
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, index: usize) -> PyResult<StepView> {
         if index >= self.__len__()? {
             return Err(PyIndexError::new_err("step index"));
@@ -402,6 +409,13 @@ impl TraceView {
     fn __repr__(&self) -> PyResult<String> {
         Ok(format!("TraceView({} steps)", self.__len__()?))
     }
+    /// Explicitly materialize every entry in this view as a Python list. Prefer bounded iteration for large data.
+    ///
+    /// ## Returns
+    /// list[dict[str, Any]]
+    ///
+    /// ## Example
+    /// scope.trace.to_list()
     fn to_list(&self, py: Python<'_>) -> PyResult<PyObject> {
         let c = lock(&self.scope.core)?;
         let values = PyList::empty(py);
@@ -411,15 +425,22 @@ impl TraceView {
         Ok(values.into_any().unbind())
     }
 }
+/// A native certificate view of a completed proof. Access forward/reverse blocks by key; to_dict explicitly materializes debug data. This is not a verification report. Example: proof.certificate()["forward"].
+///
+/// ## Operators
+/// __getitem__: Return CertificateBlockView for key forward or reverse; other keys raise KeyError.
+/// __len__: Return 2, the forward/reverse block count.
 #[pyclass(name = "CertificateView", module = "rpx.lowlevel", frozen)]
 pub struct CertificateView {
     pub core: Core,
 }
 #[pymethods]
 impl CertificateView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> usize {
         2
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, key: &str) -> PyResult<CertificateBlockView> {
         let reverse = match key {
             "forward" => false,
@@ -432,6 +453,13 @@ impl CertificateView {
         })
     }
 
+    /// Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+    ///
+    /// ## Returns
+    /// dict[str, Any]
+    ///
+    /// ## Example
+    /// certificate.to_dict()
     fn to_dict(&self, py: Python<'_>) -> PyResult<PyObject> {
         let c = lock(&self.core)?.compile().map_err(err)?;
         certificate_to_py(py, &c.certificate)
@@ -442,6 +470,7 @@ impl CertificateView {
 }
 #[pyfunction]
 #[pyo3(signature=(source,target,proof,*,work=None,live_facts=None,depth=None))]
+/// Verify source/target model files and proof certificate with the frozen Kernel and optional work/live_facts/depth budgets. Return a result dictionary. Inspect status before claiming certification; this low-level function does not perform Bundle artifact audits.
 fn verify(
     py: Python<'_>,
     source: String,
@@ -471,12 +500,14 @@ fn verify(
     )
 }
 #[pyfunction]
+/// Assemble RPA source file into RPX target file using the frozen codec. Returns None; malformed input raises CompilerError. This does not verify a certificate.
 fn assemble(py: Python<'_>, source: String, target: String) -> PyResult<()> {
     py.detach(|| kernel_core::api::assemble_paths(&source, &target))
         .map(|_| ())
         .map_err(|e| err(e.message().to_string()))
 }
 #[pyfunction]
+/// Disassemble RPX source file into RPA target file using the frozen codec. Returns None; malformed input raises CompilerError. This does not verify a certificate.
 fn disassemble(py: Python<'_>, source: String, target: String) -> PyResult<()> {
     py.detach(|| kernel_core::api::disassemble_paths(&source, &target))
         .map(|_| ())
@@ -493,6 +524,11 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     Ok(())
 }
 
+/// A native certificate block view. Index instructions to obtain StepView; to_dict includes instructions and the block end. Example: proof.certificate()["forward"].to_dict().
+///
+/// ## Operators
+/// __getitem__: Return StepView at a nonnegative index; out-of-range raises IndexError.
+/// __len__: Return instruction count in this block.
 #[pyclass(name = "CertificateBlockView", module = "rpx.lowlevel", frozen)]
 pub struct CertificateBlockView {
     compiled: std::sync::Arc<kernel_compiler_core::compile::CompiledProof>,
@@ -509,9 +545,11 @@ impl CertificateBlockView {
 }
 #[pymethods]
 impl CertificateBlockView {
+    /// Return the native entry count without materializing entries.
     fn __len__(&self) -> usize {
         self.block().steps.len()
     }
+    /// Return the entry selected by key/index. Unknown names raise KeyError; out-of-range positions raise IndexError.
     fn __getitem__(&self, index: usize) -> PyResult<StepView> {
         if index >= self.block().steps.len() {
             return Err(PyIndexError::new_err("step index"));
@@ -521,6 +559,13 @@ impl CertificateBlockView {
             index,
         })
     }
+    /// Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+    ///
+    /// ## Returns
+    /// dict[str, Any]
+    ///
+    /// ## Example
+    /// block.to_dict()
     fn to_dict(&self, py: Python<'_>) -> PyResult<PyObject> {
         block_to_py(py, self.block())
     }
@@ -537,6 +582,7 @@ enum StepSource {
         bool,
     ),
 }
+/// A native view of one instruction. kind identifies the instruction; to_dict explicitly materializes its certificate-debug fields. Example: scope.trace[0].to_dict().
 #[pyclass(name = "StepView", module = "rpx.lowlevel", frozen)]
 pub struct StepView {
     source: StepSource,
@@ -569,6 +615,10 @@ impl StepView {
 #[pymethods]
 impl StepView {
     #[getter]
+    /// The assertion or instruction kind.
+    ///
+    /// ## Example
+    /// step.kind
     fn kind(&self) -> PyResult<&'static str> {
         self.with_step(|step| {
             Ok(match step {
@@ -581,6 +631,13 @@ impl StepView {
             })
         })
     }
+    /// Explicitly materialize this object as a Python dictionary. This may allocate model/proof-sized data.
+    ///
+    /// ## Returns
+    /// dict[str, Any]
+    ///
+    /// ## Example
+    /// step.to_dict()
     fn to_dict(&self, py: Python<'_>) -> PyResult<PyObject> {
         self.with_step(|step| step_to_py(py, step))
     }

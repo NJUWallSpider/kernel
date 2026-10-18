@@ -1,14 +1,59 @@
 use kernel_compiler_core::error::Error;
 use pyo3::{create_exception, exceptions::PyValueError, prelude::*};
-create_exception!(rpx, CompilerError, PyValueError);
-create_exception!(rpx, CoordinateSpaceError, CompilerError);
-create_exception!(rpx, ScopeError, CompilerError);
-create_exception!(rpx, MappingError, CompilerError);
-create_exception!(rpx, InvalidDerivationError, CompilerError);
-create_exception!(rpx, UnprovedGoalError, CompilerError);
-create_exception!(rpx, ResourceLimitError, CompilerError);
-create_exception!(rpx, ArtifactMismatchError, CompilerError);
-create_exception!(rpx, KernelRejectedError, CompilerError);
+create_exception!(
+    rpx,
+    CompilerError,
+    PyValueError,
+    "Base class for invalid compiler input. Inspect the specific subclass and the troubleshooting topic."
+);
+create_exception!(
+    rpx,
+    CoordinateSpaceError,
+    CompilerError,
+    "Expressions belong to incompatible coordinate spaces. Reacquire handles from the intended model; never rebind by name implicitly."
+);
+create_exception!(
+    rpx,
+    ScopeError,
+    CompilerError,
+    "Wrong Proof/scope ownership, stale Goal, sealed scope or invisible Fact. Inspect the current scope and reacquire goals after mapping replacement; rebuild sealed proofs."
+);
+create_exception!(
+    rpx,
+    MappingError,
+    CompilerError,
+    "Unknown output name or incomplete mapping. Supply every output coordinate or use default=\"same_name\" with explicit overrides."
+);
+create_exception!(
+    rpx,
+    InvalidDerivationError,
+    CompilerError,
+    "Selected premises do not prove the requested assertion. Inspect fact.kind, fact.expression and the exact goal; correct multipliers or select matching witnesses."
+);
+create_exception!(
+    rpx,
+    UnprovedGoalError,
+    CompilerError,
+    "finish found unresolved obligations. Inspect scope.missing(limit=20), supply selected witnesses and retry."
+);
+create_exception!(
+    rpx,
+    ResourceLimitError,
+    CompilerError,
+    "A configured resource budget was exhausted. Inspect report.statistics and retry verification with an explicit sufficient budget; this is not a proof rejection or certification."
+);
+create_exception!(
+    rpx,
+    ArtifactMismatchError,
+    CompilerError,
+    "Artifact bytes, manifest hashes, model formulation or publication destination disagree. Restore the intended inputs or publish to a fresh directory, then audit again."
+);
+create_exception!(
+    rpx,
+    KernelRejectedError,
+    CompilerError,
+    "Verification did not report VERIFIED. Inspect report.kernel and report.artifact_audit; never claim certification from compilation alone."
+);
 pub fn err(e: impl Into<Error>) -> PyErr {
     match e.into() {
         Error::Coordinate(s) => CoordinateSpaceError::new_err(s),

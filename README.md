@@ -22,11 +22,17 @@ target/release/rpx assemble proof.rpa proof.rpx
 target/release/rpx verify source.mcm target.mcm proof.rpx
 ```
 
-The current formats are **MCM 1, RPX 11, and RPA 12**. **RPA 12** is a line-oriented assembly that lowers directly to RPX; old `RPA 11` JSON and `RPA-S 1` text are rejected. The Python API compiles through the native Rust core to RPA 12 and then RPX 11; Certificate JSON is not a production proof path.
+The current formats are **MCM 1, RPX 11, and RPA 12**. **RPA 12** is a line-oriented assembly that lowers directly to RPX; old `RPA 11` JSON and `RPA-S 1` text are rejected. The Python API lowers once to a native Certificate, then independently emits RPA 12 and RPX 11; Certificate JSON is not a production proof path.
 
 `VERIFIED` certifies MI optimization equivalence. `INVALID`, `RESOURCE_LIMIT` and `IO_ERROR` establish no such result. Model import, compilation and proof planning are not certification.
 
 ## Authoring
+
+Start offline with `python -m rpx help quickstart`, then run
+`python -m rpx._help.examples.quickstart` for a self-contained verified proof.
+Use `python -m rpx help agent` for task navigation, `help(rpx.Scope.map)` for
+Python introspection, or `python -m rpx help Scope.map --format json` for a
+structured contract. See the [offline help guide](docs/RPX_HELP.md).
 
 The [Python API](docs/COMPILER_API.md) supplies exact models, scoped facts, explicit maps and mechanical obligation completion. Authors use `proof.forward` and `proof.reverse`. It does not discover a reformulation or search for a proof.
 

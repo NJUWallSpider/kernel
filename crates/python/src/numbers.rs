@@ -7,6 +7,29 @@ use pyo3::{
     prelude::*,
     types::{PyBool, PyFloat, PyInt, PyString},
 };
+/// An immutable exact rational number. Accept int, exact str, Fraction, finite Decimal, or Q; reject bool, float, NaN and infinity. A zero denominator raises ZeroDivisionError. Arithmetic returns Q; int(q) truncates toward zero; bool(q) tests nonzero. Example: Q("1/3") + Q(1, 6).
+///
+/// ## Operators
+/// Comparison accepts exact numeric operands, but not strings.
+/// __add__: Add an exact scalar or compatible rational; return Q.
+/// __radd__: Reversed addition; return Q.
+/// __sub__: Subtract a compatible operand; return Q.
+/// __rsub__: Subtract self from the left operand; return Q.
+/// __mul__: Scale by an exact scalar; return Q. Nonlinear products are not accepted.
+/// __rmul__: Reversed exact scalar multiplication; return Q.
+/// __truediv__: Divide by a nonzero exact scalar; return Q. ZeroDivisionError on zero.
+/// __neg__: Negate without deriving a fact; return Q.
+/// __rtruediv__: Divide an exact scalar by this nonzero Q; return Q.
+/// __abs__: Return the nonnegative exact magnitude as Q.
+/// __int__: Truncate toward zero and return int.
+/// __bool__: Return False exactly when zero.
+/// __lt__: Compare exact numeric values: less than; return bool.
+/// __le__: Compare exact numeric values: less than or equal to; return bool.
+/// __gt__: Compare exact numeric values: greater than; return bool.
+/// __ge__: Compare exact numeric values: greater than or equal to; return bool.
+/// __eq__: Compare exact numeric values: equal to; return bool.
+/// __ne__: Compare exact numeric values: unequal to; return bool.
+/// __hash__: Return a hash consistent with equality.
 #[pyclass(name = "Q", module = "rpx", frozen, from_py_object)]
 #[derive(Clone)]
 pub struct PyQ {
@@ -66,10 +89,18 @@ impl PyQ {
         Ok(Self { value })
     }
     #[getter]
+    /// The reduced signed integer numerator.
+    ///
+    /// ## Example
+    /// q.numerator
     fn numerator(&self) -> BigInt {
         self.value.numer().clone()
     }
     #[getter]
+    /// The reduced positive integer denominator.
+    ///
+    /// ## Example
+    /// q.denominator
     fn denominator(&self) -> BigInt {
         self.value.denom().clone()
     }
@@ -79,25 +110,31 @@ impl PyQ {
     fn __repr__(&self) -> String {
         format!("Q('{}')", self.value)
     }
+    /// Negate the operand; return Q.
     fn __neg__(&self) -> Self {
         Self {
             value: -self.value.clone(),
         }
     }
+    /// Truncate toward zero and return an integer.
     fn __int__(&self) -> BigInt {
         self.value.to_integer()
     }
+    /// Take the absolute value of the operand; return Q.
     fn __abs__(&self) -> Self {
         Self {
             value: self.value.abs(),
         }
     }
+    /// Return whether this rational is nonzero.
     fn __bool__(&self) -> bool {
         !self.value.is_zero()
     }
+    /// Return a hash consistent with numeric equality.
     fn __hash__(&self) -> isize {
         rational_hash(&self.value)
     }
+    /// Compare exact numeric values and return bool; strings are not comparable.
     fn __richcmp__(
         &self,
         other: &Bound<'_, PyAny>,
@@ -120,6 +157,7 @@ impl PyQ {
         };
         Ok(v.into_pyobject(py)?.to_owned().into_any().unbind())
     }
+    /// Add the operand; return Q.
     fn __add__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -129,6 +167,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Subtract the operand; return Q.
     fn __sub__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -138,6 +177,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Multiply by an exact scalar the operand; return Q.
     fn __mul__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -147,6 +187,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Divide by a nonzero exact scalar the operand; return Q. Zero denominators raise ZeroDivisionError.
     fn __truediv__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -159,6 +200,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Add in reversed operand order the operand; return Q.
     fn __radd__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -168,6 +210,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Subtract in reversed operand order the operand; return Q.
     fn __rsub__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -177,6 +220,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Multiply by an exact scalar in reversed order the operand; return Q.
     fn __rmul__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
@@ -186,6 +230,7 @@ impl PyQ {
         check_q(&value).map_err(err)?;
         Ok(Py::new(py, Self { value })?.into_any())
     }
+    /// Divide an exact scalar by this nonzero value the operand; return Q. Zero denominators raise ZeroDivisionError.
     fn __rtruediv__(&self, other: &Bound<'_, PyAny>) -> PyResult<Py<PyAny>> {
         let py = other.py();
         let Ok(q) = scalar(other) else {
