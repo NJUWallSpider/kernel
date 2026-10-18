@@ -1,17 +1,16 @@
 # Current repository tools
 
 Run these from the repository root. The Rust `rpx` CLI performs verification;
-Python tools prepare certificates, orchestrate checks, and summarize evidence.
+the Python tools are auxiliary checks, not a second proof core.
 
 | Task | Entry point |
 | --- | --- |
 | Manual examples and rejection checks | `check_rpx_manual.py` |
-| Refresh native case deliveries | `prepare_test<case>.py --out cases/<case>` |
+| Documentation link check | `check_docs.py` |
+| Native API performance benchmark | `benchmark_compiler_api.py` |
 
-The case preparers now build proofs through `python/kernel_compiler` and write
-current RPA 12 / RPX 11 artifacts with `prepare_native.compile_case`; they no
-longer write certificate JSON, legacy `RPA n` text, `request.json`, or spawn
-`rpx`. Run each preparer serially; native compilation/verification is in-process.
-`prepare_test<case>.py --out cases/<case>` refreshes a delivery. Helpers such
-as `parse_mps`, exact expression arithmetic, `fact`/`box`, and `substitute`
-remain shared Python analysis utilities; they are not a second proof core.
+Case deliverables are fixed current artifacts: `source.mcm`, `target.mcm`,
+`proof.rpa`, `proof.rpx`, `delivery.json`, and `preparation.json`. The historical
+LP-to-proof generators and their legacy model/expression bridge have been
+removed. Existing proofs are verified with `rpx verify` or rebuilt from RPA 12
+with `rpx assemble`; no LP input is required.

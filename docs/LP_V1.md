@@ -68,30 +68,11 @@ Unknown sections, SOS, indicators, scenarios, quadratic/nonlinear syntax, nonemp
 
 The importer shares model/numeric limits with [MPS v1](MPS_V1.md): 512 MiB input, 32,768 bytes per physical line, 1,024-byte names, two million variables, two million rows, twenty million coefficient entries/final terms, scalar text/exponent budgets, and a 65,536-bit numerator/denominator arithmetic-result budget. Additionally, an LP file is limited to twenty million lexical tokens. Dimension/token counts and important collection reservations are checked. Resource failures preserve the RESOURCE_LIMIT prefix through line context. Internal arbitrary-precision library allocation failure and forced host termination are not claimed to be recoverable. MCM's independent encoding budgets still apply.
 
-## Evidence and reproduction
+## Current verification
 
-The rules were checked against primary format descriptions: [IBM's LP introduction](https://www.ibm.com/docs/en/icos/22.1.2?topic=problem-using-lp-format), [IBM's LP naming rules](https://www.ibm.com/docs/en/icos/22.1.2?topic=representation-variable-names-in-lp-file-format), and [Gurobi's LP format documentation](https://docs.gurobi.com/projects/optimizer/en/current/reference/fileformats/modelformats.html). These references document the common linear vocabulary; differing vendor conventions are not silently imported. In particular, this subset declares its own operator whitespace, repeated-bound/type rejection, binary intersection and range behavior above.
-
-`audit/lp_parse_sweep.py` contains two independent test mechanisms:
-
-1. A Python `fractions.Fraction` reference parser for the precise syntax observed in all three corpus LP files, plus a separately written MCM byte decoder. It compares **every** model field—variable order/domain/bounds, row labels/order/all coefficients/bounds, and complete objective—against the trusted importer's MCM output. It neither calls a solver nor uses the Rust LP parser to construct expectations.
-2. A deterministic generator (seed `20261011`) constructing 160 mathematical models with Python Fraction before rendering their LP text. Checked-in expectations exercise both objective senses, exact decimals/exponents/fractions, large integers, affine right sides, ranged rows, multiline layout, duplicate/zero terms, binary/general/free/fixed/rational/contradictory bounds. Rust reconstructs expected rationals directly from their integer numerator and denominator without invoking the production numeric text parser.
-
-Reproduction:
-
-```sh
-python3 audit/lp_parse_sweep.py --generate-oracle
-cargo test -p kernel-core --test lp
-cargo build --release -p kernel-core --bin rpx
-python3 audit/lp_parse_sweep.py --corpus /Users/bhz/Code/reform_test/runs
-```
-
-Measured result: all **3 / 3** actual LP files canonicalized, and all three full models matched the independent Fraction reference exactly. The immutable-file SHA-256 identities, executable hash and individual outcomes are in `audit/lp_parse_sweep.json`.
-
-| Actual file | Variables | Integer variables | Rows | Nonzero coefficients, including objective |
-|---|---:|---:|---:|---:|
-| test8 input/model.lp | 4,914 | 2,457 | 13,206 | 134,316 |
-| test8 output/reformulated.lp | 4,914 | 2,457 | 12,450 | 127,512 |
-| test60 output/reformulated.lp | 2,508 | 2,508 | 2,016 | 36,002 |
-
-The LP integration suite has ten passing tests, including the 160 Fraction vectors and 2,000 deterministic ASCII mutations (seed `0x5250584c5031`). Mutations assert total parsing without panic; legal mutations are permitted to parse. Specific negative tests exercise required rejection rules. Corpus import success is **not** certification of the source/target reformulation relation. Sweep timings are diagnostic, not isolated benchmark claims.
+The LP importer is part of the trusted Rust core and is covered by
+`crates/core/tests/lp.rs`, including exact decimal/exponent handling, ranged
+rows, bounds, and rejection cases. The old Python corpus sweeps, oracle scripts,
+and external run paths have been removed. Current case directories contain
+already-canonical MCM files, so reproducing their certificates does not require
+LP parsing.
