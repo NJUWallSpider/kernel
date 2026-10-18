@@ -1,4 +1,5 @@
 //! Native proof scope construction over the kernel Certificate data types.
+use crate::error::Error;
 use crate::expr;
 use crate::limit::{invalid, resource};
 use crate::model::{Identifier, Model};
@@ -27,7 +28,7 @@ pub struct FactData {
 #[derive(Clone, Debug)]
 pub enum ScopeEnd {
     Return {
-        map: Vec<Expr>,
+        map: Arc<Vec<Expr>>,
         checks: Vec<Ref>,
     },
     Split {
@@ -62,16 +63,6 @@ pub enum ScopeEnd {
 }
 
 #[derive(Clone, Debug)]
-pub enum MutationValue {
-    Ref(Ref),
-    Expr(Expr),
-    Step(Step),
-    End(End),
-    Block(Block),
-    Certificate(Certificate),
-}
-
-#[derive(Clone, Debug)]
 pub struct Scope {
     pub model: Arc<Model>,
     pub output_model: Arc<Model>,
@@ -82,37 +73,27 @@ pub struct Scope {
     pub children: Option<Vec<ScopeId>>,
     pub facts: HashMap<u32, FactId>,
     pub base: HashMap<(u32, u8), FactId>,
-    pub base_all: Option<Vec<FactId>>,
+    pub base_indexed: bool,
     pub dropped: HashSet<u32>,
-    pub revision: u64,
-    pub mapping: Option<Vec<Expr>>,
-    pub assigned: HashMap<Selector, AssignmentValue>,
-    pub generated_variables: Vec<u32>,
-    pub generated_rows: Vec<u32>,
+    pub mapping: Option<Arc<Vec<Expr>>>,
+    pub assigned: HashMap<usize, FactId>,
     pub layout: Option<Vec<serde_json::Value>>,
-    pub layout_kind: Option<&'static str>,
-    pub completion: Option<CompletionRequest>,
-    pub completed_revisions: Option<Vec<(ScopeId, u64)>>,
+    pub state: ScopeState,
+    pub derivation: bool,
+    pub conclusion: Option<kernel_core::proof::DerivationEnd>,
+    pub map_epoch: u64,
+    pub mapping_spec: Option<crate::complete::MappingSpec>,
+    pub goals: Option<Arc<Vec<crate::complete::Obligation>>>,
+    pub fact_index: HashMap<u64, Vec<FactId>>,
+    pub indexed_facts: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
-pub enum Selector {
-    Index(usize),
-    Label(String),
-}
-
-#[derive(Clone, Debug)]
-pub enum AssignmentValue {
-    Fact(FactId),
-    Exact,
-}
-
-#[derive(Clone, Debug)]
-pub struct CompletionRequest {
-    pub scope: ScopeId,
-    pub mapping: Vec<Expr>,
-    pub witnesses: Vec<(Selector, AssignmentValue)>,
-    pub auto: bool,
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ScopeState {
+    Open,
+    Container,
+    Sealed,
+    Suspended,
 }
 
 #[derive(Clone, Debug)]
@@ -124,12 +105,13 @@ pub struct ProofCore {
     pub next_local: u32,
     pub forward: ScopeId,
     pub reverse: ScopeId,
+    pub compiled: Option<Arc<crate::compile::CompiledProof>>,
+    pub lowering_count: u64,
+    pub cases: Vec<CaseSession>,
 }
 
 impl ProofCore {
-    pub fn new(source: Model, target: Model) -> Result<Self, String> {
-        let source = Arc::new(source);
-        let target = Arc::new(target);
+    pub fn new(source: Arc<Model>, target: Arc<Model>) -> Result<Self, Error> {
         let mut core = Self {
             source: Arc::clone(&source),
             target: Arc::clone(&target),
@@ -138,25 +120,12 @@ impl ProofCore {
             next_local: 0,
             forward: 0,
             reverse: 0,
+            compiled: None,
+            lowering_count: 0,
+            cases: Vec::new(),
         };
         core.forward = core.new_scope(Arc::clone(&source), Arc::clone(&target), None, Vec::new());
         core.reverse = core.new_scope(Arc::clone(&target), source, None, Vec::new());
-        Ok(core)
-    }
-
-    pub fn standalone(model: Model) -> Result<Self, String> {
-        let model = Arc::new(model);
-        let mut core = Self {
-            source: Arc::clone(&model),
-            target: Arc::clone(&model),
-            scopes: Vec::new(),
-            facts: Vec::new(),
-            next_local: 0,
-            forward: 0,
-            reverse: 0,
-        };
-        core.forward = core.new_scope(Arc::clone(&model), model, None, Vec::new());
-        core.reverse = core.forward;
         Ok(core)
     }
 
@@ -178,44 +147,42 @@ impl ProofCore {
             children: None,
             facts: HashMap::new(),
             base: HashMap::new(),
-            base_all: None,
+            base_indexed: false,
             dropped: HashSet::new(),
-            revision: 0,
             mapping: None,
             assigned: HashMap::new(),
-            generated_variables: Vec::new(),
-            generated_rows: Vec::new(),
             layout: None,
-            layout_kind: None,
-            completion: None,
-            completed_revisions: None,
+            state: ScopeState::Open,
+            derivation: false,
+            conclusion: None,
+            map_epoch: 0,
+            mapping_spec: None,
+            goals: None,
+            fact_index: HashMap::new(),
+            indexed_facts: 0,
         });
         id
     }
 
-    pub fn scope(&self, id: ScopeId) -> Result<&Scope, String> {
+    pub fn scope(&self, id: ScopeId) -> Result<&Scope, Error> {
         self.scopes
             .get(id)
             .ok_or_else(|| invalid("unknown proof scope"))
     }
 
-    pub fn scope_mut(&mut self, id: ScopeId) -> Result<&mut Scope, String> {
+    pub fn scope_mut(&mut self, id: ScopeId) -> Result<&mut Scope, Error> {
         self.scopes
             .get_mut(id)
             .ok_or_else(|| invalid("unknown proof scope"))
     }
 
-    pub fn fact(&self, id: FactId) -> Result<&FactData, String> {
+    pub fn fact(&self, id: FactId) -> Result<&FactData, Error> {
         self.facts
             .get(id)
             .ok_or_else(|| invalid("unknown fact handle"))
     }
 
-    pub fn fact_data(&self, id: FactId) -> Result<FactData, String> {
-        self.fact(id).cloned()
-    }
-
-    pub fn visible(&self, scope: ScopeId, fact_id: FactId) -> Result<(), String> {
+    pub fn visible(&self, scope: ScopeId, fact_id: FactId) -> Result<(), Error> {
         let fact = self.fact(fact_id)?;
         let mut current = Some(scope);
         while let Some(id) = current {
@@ -248,42 +215,40 @@ impl ProofCore {
         Ok(())
     }
 
-    pub fn ensure_base(&mut self, scope: ScopeId) -> Result<(), String> {
-        if self.scope(scope)?.base_all.is_some() {
+    pub fn ensure_base(&mut self, scope: ScopeId) -> Result<(), Error> {
+        if self.scope(scope)?.base_indexed {
             return Ok(());
         }
         let model = self.scope(scope)?.model.clone();
-        let mut facts = Vec::new();
         for (index, variable) in model.inner.vars.iter().enumerate() {
             let index = index as u32;
             if variable.lower.is_some() {
-                facts.push(self.make_base_fact(scope, "VarLower", index)?);
+                self.make_base_fact(scope, "VarLower", index)?;
             }
             if variable.upper.is_some() {
-                facts.push(self.make_base_fact(scope, "VarUpper", index)?);
+                self.make_base_fact(scope, "VarUpper", index)?;
             }
-            if variable.integer {
-                facts.push(self.make_base_fact(scope, "VarInt", index)?);
-            }
+            // INT base facts are literal Exact witnesses. Only allocate their
+            // handles when an author explicitly uses one as a rule premise.
         }
         for (index, row) in model.inner.rows.iter().enumerate() {
             let index = index as u32;
             if row.lower.is_some() && row.lower == row.upper {
-                facts.push(self.make_base_fact(scope, "RowEq", index)?);
+                self.make_base_fact(scope, "RowEq", index)?;
             } else {
                 if row.lower.is_some() {
-                    facts.push(self.make_base_fact(scope, "RowLower", index)?);
+                    self.make_base_fact(scope, "RowLower", index)?;
                 }
                 if row.upper.is_some() {
-                    facts.push(self.make_base_fact(scope, "RowUpper", index)?);
+                    self.make_base_fact(scope, "RowUpper", index)?;
                 }
             }
         }
-        self.scope_mut(scope)?.base_all = Some(facts);
+        self.scope_mut(scope)?.base_indexed = true;
         Ok(())
     }
 
-    fn make_base_fact(&mut self, scope: ScopeId, kind: &str, index: u32) -> Result<FactId, String> {
+    fn make_base_fact(&mut self, scope: ScopeId, kind: &str, index: u32) -> Result<FactId, Error> {
         let model = self.scope(scope)?.model.clone();
         let identifier = Identifier::Index(index);
         let (actual_kind, expression) = model.fact(kind, &identifier)?;
@@ -317,7 +282,7 @@ impl ProofCore {
         scope: ScopeId,
         kind: &str,
         identifier: &Identifier,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         let model = self.scope(scope)?.model.clone();
         let row = kind.starts_with("Row");
         let index = model.index(identifier, row)?;
@@ -339,7 +304,8 @@ impl ProofCore {
         kind: Kind,
         expression: Expr,
         step: Step,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
+        self.ensure_open(scope)?;
         expression.validate(self.scope(scope)?.model.inner.vars.len())?;
         if !matches!(kind, Kind::Le | Kind::Eq | Kind::Int) {
             return Err(invalid("unknown fact kind"));
@@ -351,7 +317,6 @@ impl ProofCore {
             .ok_or_else(|| resource("local fact counter overflow"))?;
         let step = with_step_id(step, id);
         self.scope_mut(scope)?.steps.push(step);
-        self.scope_mut(scope)?.revision += 1;
         let fact = self.push_fact(kind, expression, Ref::Local(id), scope);
         self.scope_mut(scope)?.facts.insert(id, fact);
         Ok(fact)
@@ -364,7 +329,7 @@ impl ProofCore {
         terms: &[(FactId, Q)],
         constant: Q,
         expect: Option<&Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         if kind == Kind::Eq && !constant.is_zero() || kind == Kind::Le && constant.is_positive() {
             return Err(invalid(format!("invalid {kind:?} linear constant")));
         }
@@ -377,6 +342,9 @@ impl ProofCore {
         for (fact_id, multiplier) in terms {
             self.visible(scope, *fact_id)?;
             check_q(multiplier)?;
+            if multiplier.is_zero() {
+                continue;
+            }
             let fact = self.fact(*fact_id)?.clone();
             let allowed = fact.kind == Kind::Eq
                 || (kind == Kind::Le && fact.kind == Kind::Le && multiplier.is_positive())
@@ -397,7 +365,12 @@ impl ProofCore {
         let expression = expr::canonical(result_constant, coefficients)?;
         if let Some(expected) = expect {
             if &expression != expected {
-                return Err(invalid("linear residual mismatch"));
+                return Err(invalid(format!(
+                    "linear residual mismatch in {}: expected {}, got {}",
+                    self.scope(scope)?.model.inner.name,
+                    crate::space::pretty(expected, Some(&self.scope(scope)?.model.space)),
+                    crate::space::pretty(&expression, Some(&self.scope(scope)?.model.space))
+                )));
             }
         }
         self.register(
@@ -419,7 +392,7 @@ impl ProofCore {
         terms: &[(FactId, Q)],
         constant: Q,
         expect: Option<&Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.lin(scope, Kind::Eq, terms, constant, expect)
     }
 
@@ -429,7 +402,7 @@ impl ProofCore {
         terms: &[(FactId, Q)],
         constant: Q,
         expect: Option<&Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.lin(scope, Kind::Le, terms, constant, expect)
     }
 
@@ -439,11 +412,11 @@ impl ProofCore {
         terms: &[(FactId, Q)],
         constant: Q,
         expect: Option<&Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.lin(scope, Kind::Int, terms, constant, expect)
     }
 
-    pub fn box_le(&mut self, scope: ScopeId, expression: Expr) -> Result<FactId, String> {
+    pub fn box_le(&mut self, scope: ScopeId, expression: Expr) -> Result<FactId, Error> {
         let model = self.scope(scope)?.model.clone();
         expression.validate(model.inner.vars.len())?;
         let mut residual = expression.constant.clone();
@@ -481,7 +454,7 @@ impl ProofCore {
         scope: ScopeId,
         expression: Expr,
         fixes: &HashMap<u32, FactId>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         let model = self.scope(scope)?.model.clone();
         expression.validate(model.inner.vars.len())?;
         let mut residual = expression.constant.clone();
@@ -548,7 +521,7 @@ impl ProofCore {
         zeros: &HashMap<u32, FactId>,
         scale: Q,
         coordinates: Option<&[u32]>,
-    ) -> Result<HashMap<u32, FactId>, String> {
+    ) -> Result<HashMap<u32, FactId>, Error> {
         self.visible(scope, fact_id)?;
         let fact = self.fact(fact_id)?.clone();
         if !matches!(fact.kind, Kind::Eq | Kind::Le)
@@ -671,7 +644,7 @@ impl ProofCore {
         Ok(result)
     }
 
-    pub fn round(&mut self, scope: ScopeId, le: FactId, integer: FactId) -> Result<FactId, String> {
+    pub fn round(&mut self, scope: ScopeId, le: FactId, integer: FactId) -> Result<FactId, Error> {
         self.visible(scope, le)?;
         self.visible(scope, integer)?;
         let le_fact = self.fact(le)?.clone();
@@ -707,7 +680,7 @@ impl ProofCore {
         scope: ScopeId,
         positive: FactId,
         negative: FactId,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.visible(scope, positive)?;
         self.visible(scope, negative)?;
         let a = self.fact(positive)?.clone();
@@ -727,7 +700,7 @@ impl ProofCore {
         )
     }
 
-    pub fn absurd(&self, scope: ScopeId, fact: FactId) -> Result<(), String> {
+    pub fn absurd(&self, scope: ScopeId, fact: FactId) -> Result<(), Error> {
         self.visible(scope, fact)?;
         let data = self.fact(fact)?;
         if !data.expression.terms.is_empty() {
@@ -745,7 +718,7 @@ impl ProofCore {
         }
     }
 
-    pub fn drop_facts(&mut self, scope: ScopeId, facts: &[FactId]) -> Result<(), String> {
+    pub fn drop_facts(&mut self, scope: ScopeId, facts: &[FactId]) -> Result<(), Error> {
         let mut ids = Vec::new();
         for fact in facts {
             self.visible(scope, *fact)?;
@@ -765,7 +738,6 @@ impl ProofCore {
             let _ = fact;
         }
         self.scope_mut(scope)?.steps.push(Step::Drop { ids });
-        self.scope_mut(scope)?.revision += 1;
         Ok(())
     }
 
@@ -774,7 +746,7 @@ impl ProofCore {
         scope: ScopeId,
         kind: Kind,
         expression: &Expr,
-    ) -> Result<FindResult, String> {
+    ) -> Result<FindResult, Error> {
         let model = self.scope(scope)?.model.clone();
         expression.validate(model.inner.vars.len())?;
         let trivial = match kind {
@@ -791,49 +763,44 @@ impl ProofCore {
             return Ok(FindResult::Exact);
         }
         self.ensure_base(scope)?;
+        let key = expression_hash(expression);
         let mut current = Some(scope);
         while let Some(id) = current {
-            let mut local = self.scope(id)?.assumptions.clone();
-            local.extend(self.scope(id)?.facts.values().copied());
-            for fact in local.into_iter().rev() {
-                let data = self.fact(fact)?;
-                if (data.kind == kind || data.kind == Kind::Eq)
-                    && data.expression == *expression
-                    && self.visible(scope, fact).is_ok()
-                {
-                    return Ok(FindResult::Fact(fact));
-                }
-            }
-            let base = self.scope(id)?.base_all.clone().unwrap_or_default();
-            for fact in base.into_iter().rev() {
-                let data = self.fact(fact)?;
-                if (data.kind == kind || data.kind == Kind::Eq)
-                    && data.expression == *expression
-                    && self.visible(scope, fact).is_ok()
-                {
-                    return Ok(FindResult::Fact(fact));
-                }
+            self.index_facts(id)?;
+            let matches = self
+                .scope(id)?
+                .fact_index
+                .get(&key)
+                .cloned()
+                .unwrap_or_default();
+            // Lazy base-handle creation must not make a read-only goal query
+            // change the selected certificate witness. Rank semantic references,
+            // not allocation order in the fact arena.
+            let best = matches
+                .into_iter()
+                .filter(|fact| {
+                    let data = &self.facts[*fact];
+                    (data.kind == kind || data.kind == Kind::Eq)
+                        && data.expression == *expression
+                        && self.visible(scope, *fact).is_ok()
+                })
+                .max_by_key(|fact| reference_rank(&self.facts[*fact].reference));
+            if let Some(fact) = best {
+                return Ok(FindResult::Fact(fact));
             }
             current = self.scope(id)?.parent;
         }
         Ok(FindResult::Missing)
     }
 
-    pub fn branch(
-        &mut self,
-        scope: ScopeId,
-        expression: Expr,
-    ) -> Result<(ScopeId, FactId), String> {
-        let (model, output_model, assumptions, layout, layout_kind, generated_variables, generated_rows) = {
+    pub fn branch(&mut self, scope: ScopeId, expression: Expr) -> Result<(ScopeId, FactId), Error> {
+        let (model, output_model, assumptions, layout) = {
             let parent = self.scope(scope)?;
             (
                 Arc::clone(&parent.model),
                 Arc::clone(&parent.output_model),
                 parent.assumptions.clone(),
                 parent.layout.clone(),
-                parent.layout_kind,
-                parent.generated_variables.clone(),
-                parent.generated_rows.clone(),
             )
         };
         let index = assumptions.len() as u32;
@@ -841,9 +808,6 @@ impl ProofCore {
         {
             let item = self.scope_mut(child)?;
             item.layout = layout;
-            item.layout_kind = layout_kind;
-            item.generated_variables = generated_variables;
-            item.generated_rows = generated_rows;
         }
         let fact = self.push_fact(Kind::Le, expression, Ref::Assumption(index), child);
         self.scope_mut(child)?.assumptions.push(fact);
@@ -855,7 +819,7 @@ impl ProofCore {
         scope: ScopeId,
         expression: Expr,
         integer: Option<FactId>,
-    ) -> Result<(Expr, Option<FactId>), String> {
+    ) -> Result<(Expr, Option<FactId>), Error> {
         let model = self.scope(scope)?.model.clone();
         expression.validate(model.inner.vars.len())?;
         if let Some(fact) = integer {
@@ -877,10 +841,11 @@ impl ProofCore {
         integer: Option<FactId>,
         left: ScopeId,
         right: ScopeId,
-    ) -> Result<(), String> {
+    ) -> Result<(), Error> {
         let integer = integer
             .map(|fact| self.fact(fact).map(|f| f.reference.clone()))
             .transpose()?;
+        self.scope_mut(scope)?.state = ScopeState::Container;
         self.scope_mut(scope)?.end = Some(ScopeEnd::Split {
             expression,
             integer,
@@ -888,31 +853,30 @@ impl ProofCore {
             right,
         });
         self.scope_mut(scope)?.children = Some(vec![left, right]);
-        self.scope_mut(scope)?.revision += 1;
         Ok(())
     }
 
-    pub fn close_absurd(&mut self, scope: ScopeId, fact: FactId) -> Result<(), String> {
+    pub fn close_absurd(&mut self, scope: ScopeId, fact: FactId) -> Result<(), Error> {
         self.absurd(scope, fact)?;
         let reference = self.fact(fact)?.reference.clone();
+        self.scope_mut(scope)?.state = ScopeState::Sealed;
         self.scope_mut(scope)?.end = Some(ScopeEnd::Absurd { fact: reference });
-        self.scope_mut(scope)?.revision += 1;
         Ok(())
     }
 
     pub fn set_return(
         &mut self,
         scope: ScopeId,
-        map: Vec<Expr>,
+        map: Arc<Vec<Expr>>,
         checks: Vec<Ref>,
-    ) -> Result<(), String> {
+    ) -> Result<(), Error> {
+        self.scope_mut(scope)?.state = ScopeState::Sealed;
         self.scope_mut(scope)?.end = Some(ScopeEnd::Return { map, checks });
         self.scope_mut(scope)?.children = None;
-        self.scope_mut(scope)?.revision += 1;
         Ok(())
     }
 
-    pub fn to_block(&self, scope: ScopeId) -> Result<Block, String> {
+    pub fn to_block(&self, scope: ScopeId) -> Result<Block, Error> {
         let item = self.scope(scope)?;
         let end = match item
             .end
@@ -920,7 +884,7 @@ impl ProofCore {
             .ok_or_else(|| invalid("proof scope has no terminal"))?
         {
             ScopeEnd::Return { map, checks } => End::Return {
-                map: map.clone(),
+                map: map.as_ref().clone(),
                 checks: checks.clone(),
             },
             ScopeEnd::Absurd { fact } => End::Absurd { fact: fact.clone() },
@@ -965,45 +929,11 @@ impl ProofCore {
         })
     }
 
-    pub fn certificate(&self) -> Result<Certificate, String> {
+    pub fn certificate(&self) -> Result<Certificate, Error> {
         Ok(Certificate {
             forward: self.to_block(self.forward)?,
             reverse: self.to_block(self.reverse)?,
         })
-    }
-
-    pub fn standalone_certificate(&self) -> Result<Block, String> {
-        self.to_block(self.forward)
-    }
-
-    pub fn revision(&self, scope: ScopeId) -> u64 {
-        self.scopes[scope].revision
-    }
-
-    pub fn mapping(&self, scope: ScopeId) -> Option<Vec<Expr>> {
-        self.scopes.get(scope).and_then(|item| {
-            item.mapping
-                .clone()
-                .or_else(|| item.completion.as_ref().map(|c| c.mapping.clone()))
-        })
-    }
-
-    pub fn completion_current(&self, scope: ScopeId) -> bool {
-        let Some(request) = self.scopes[scope].completion.as_ref() else {
-            return false;
-        };
-        let expected = self.scopes[scope].completed_revisions.as_ref();
-        expected == Some(&self.ancestor_revisions(request.scope))
-    }
-
-    pub fn ancestor_revisions(&self, scope: ScopeId) -> Vec<(ScopeId, u64)> {
-        let mut out = Vec::new();
-        let mut current = Some(scope);
-        while let Some(id) = current {
-            out.push((id, self.scopes[id].revision));
-            current = self.scopes[id].parent;
-        }
-        out
     }
 }
 
@@ -1076,7 +1006,7 @@ pub fn kind_name(kind: Kind) -> &'static str {
     }
 }
 
-pub fn parse_kind(text: &str) -> Result<Kind, String> {
+pub fn parse_kind(text: &str) -> Result<Kind, Error> {
     match text {
         "Le" => Ok(Kind::Le),
         "Eq" => Ok(Kind::Eq),
@@ -1103,7 +1033,7 @@ impl PivotPlan {
         core: &ProofCore,
         scope: ScopeId,
         definitions: &[(u32, FactId)],
-    ) -> Result<Self, String> {
+    ) -> Result<Self, Error> {
         let mut entries = Vec::new();
         let mut positions: HashMap<u32, Vec<usize>> = HashMap::new();
         for (pivot, fact_id) in definitions {
@@ -1138,7 +1068,7 @@ impl PivotPlan {
         &self,
         core: &ProofCore,
         expression: &Expr,
-    ) -> Result<(Q, BTreeMap<u32, Q>, Vec<(FactId, Q)>), String> {
+    ) -> Result<(Q, BTreeMap<u32, Q>, Vec<(FactId, Q)>), Error> {
         let mut constant = expression.constant.clone();
         let mut coefficients: BTreeMap<u32, Q> = expression.terms.iter().cloned().collect();
         let mut active = Vec::new();
@@ -1198,7 +1128,7 @@ impl ProofCore {
         fact: FactId,
         definitions: &[(u32, FactId)],
         expect: Option<Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.visible(scope, fact)?;
         let plan = PivotPlan::new(self, scope, definitions)?;
         self.rewrite_plan(scope, fact, &plan, expect)
@@ -1210,7 +1140,7 @@ impl ProofCore {
         fact: FactId,
         plan: &PivotPlan,
         expect: Option<Expr>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.visible(scope, fact)?;
         let data = self.fact(fact)?.clone();
         let (constant, coefficients, cancellation) = plan.reduce(self, &data.expression)?;
@@ -1230,7 +1160,7 @@ impl ProofCore {
         definitions: &[(u32, FactId)],
         residual: FactId,
         kind: Option<Kind>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         let plan = PivotPlan::new(self, scope, definitions)?;
         self.derive_substitution_plan(scope, goal, &plan, residual, kind)
     }
@@ -1242,7 +1172,7 @@ impl ProofCore {
         plan: &PivotPlan,
         residual: FactId,
         kind: Option<Kind>,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.visible(scope, residual)?;
         goal.validate(self.scope(scope)?.model.inner.vars.len())?;
         let data = self.fact(residual)?.clone();
@@ -1271,7 +1201,7 @@ impl ProofCore {
         scope: ScopeId,
         definitions: &[(u32, FactId)],
         goals: &[Expr],
-    ) -> Result<Vec<FactId>, String> {
+    ) -> Result<Vec<FactId>, Error> {
         let plan = PivotPlan::new(self, scope, definitions)?;
         if plan.entries.is_empty() {
             return Ok(Vec::new());
@@ -1345,7 +1275,7 @@ impl ProofCore {
         scope: ScopeId,
         variable: u32,
         equality: FactId,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         self.visible(scope, equality)?;
         let model = self.scope(scope)?.model.clone();
         if !model.is_binary(&Identifier::Index(variable))? {
@@ -1489,7 +1419,7 @@ impl ProofCore {
         distance: u32,
         variables: &[(u32, u64)],
         cliques: &[FactId],
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         if bits == 0 || bits > 64 || distance == 0 || distance > 64 || 2 * distance <= bits {
             return Err(invalid("invalid Plotkin parameters"));
         }
@@ -1581,7 +1511,7 @@ impl ProofCore {
         integer: Option<FactId>,
         left: Derivation,
         right: Derivation,
-    ) -> Result<FactId, String> {
+    ) -> Result<FactId, Error> {
         let integer = integer
             .map(|fact| self.fact(fact).map(|item| item.reference.clone()))
             .transpose()?;
@@ -1606,63 +1536,193 @@ impl ProofCore {
     pub fn install_lift_extension(
         &mut self,
         parent: ScopeId,
-        model: Model,
+        mut model: Model,
         extension: kernel_core::authoring::Extension,
-    ) -> Result<ScopeId, String> {
-        let parent_scope = self.scope(parent)?.clone();
-        let generated_variables =
-            (parent_scope.model.inner.vars.len() as u32..model.inner.vars.len() as u32).collect();
-        let generated_rows =
-            (parent_scope.model.inner.rows.len() as u32..model.inner.rows.len() as u32).collect();
-        let child = self.new_scope(
-            Arc::new(model),
-            Arc::clone(&parent_scope.output_model),
-            Some(parent),
-            parent_scope.assumptions.clone(),
+    ) -> Result<ScopeId, Error> {
+        self.ensure_open(parent)?;
+        let parent_scope = self.scope(parent)?;
+        let output = parent_scope.output_model.clone();
+        let assumptions = parent_scope.assumptions.clone();
+        model.space = crate::space::Space::new(
+            model.inner.name.clone(),
+            model.inner.vars.iter().map(|v| v.name.clone()).collect(),
+            Some(parent_scope.model.space.clone()),
         );
-        {
-            let scope = self.scope_mut(child)?;
-            scope.generated_variables = generated_variables;
-            scope.generated_rows = generated_rows;
-        }
+        let child = self.new_scope(Arc::new(model), output, Some(parent), assumptions);
         use kernel_core::authoring::Extension;
         let end = match extension {
-            Extension::Interval(intervals) => {
-                self.scope_mut(child)?.layout_kind = Some("Interval");
-                ScopeEnd::Interval {
-                    intervals,
-                    body: child,
-                }
-            }
-            Extension::Menu(menus) => {
-                self.scope_mut(child)?.layout_kind = Some("Menu");
-                ScopeEnd::Menu { menus, body: child }
-            }
-            Extension::Signed(decompositions) => {
-                self.scope_mut(child)?.layout_kind = Some("Signed");
-                ScopeEnd::Signed {
-                    decompositions,
-                    body: child,
-                }
-            }
-            Extension::Flow(witness) => {
-                self.scope_mut(child)?.layout_kind = Some("Flow");
-                ScopeEnd::Flow {
-                    witness,
-                    body: child,
-                }
-            }
-            Extension::Subflow(witness) => {
-                self.scope_mut(child)?.layout_kind = Some("Subflow");
-                ScopeEnd::Subflow {
-                    witness,
-                    body: child,
-                }
-            }
+            Extension::Interval(intervals) => ScopeEnd::Interval {
+                intervals,
+                body: child,
+            },
+            Extension::Menu(menus) => ScopeEnd::Menu { menus, body: child },
+            Extension::Signed(decompositions) => ScopeEnd::Signed {
+                decompositions,
+                body: child,
+            },
+            Extension::Flow(witness) => ScopeEnd::Flow {
+                witness,
+                body: child,
+            },
+            Extension::Subflow(witness) => ScopeEnd::Subflow {
+                witness,
+                body: child,
+            },
         };
+        self.scope_mut(parent)?.state = ScopeState::Container;
         self.scope_mut(parent)?.end = Some(end);
         self.scope_mut(parent)?.children = Some(vec![child]);
-        self.scope_mut(parent)?.revision += 1;
         Ok(child)
+    }
+}
+
+fn expression_hash(expression: &Expr) -> u64 {
+    use std::hash::{Hash, Hasher};
+    let mut h = std::collections::hash_map::DefaultHasher::new();
+    expression.constant.hash(&mut h);
+    expression.terms.hash(&mut h);
+    h.finish()
+}
+impl ProofCore {
+    fn index_facts(&mut self, scope: ScopeId) -> Result<(), Error> {
+        let from = self.scope(scope)?.indexed_facts;
+        let entries: Vec<_> = self
+            .facts
+            .iter()
+            .enumerate()
+            .skip(from)
+            .filter(|(_, f)| f.scope == scope)
+            .map(|(id, f)| (expression_hash(&f.expression), id))
+            .collect();
+        let total = self.facts.len();
+        let item = self.scope_mut(scope)?;
+        for (key, id) in entries {
+            item.fact_index.entry(key).or_default().push(id);
+        }
+        item.indexed_facts = total;
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct CaseSession {
+    pub parent: ScopeId,
+    pub left: ScopeId,
+    pub right: ScopeId,
+    pub kind: Kind,
+    pub goal: Expr,
+    pub split: Expr,
+    pub integer: Option<FactId>,
+    pub result: Option<FactId>,
+}
+
+impl ProofCore {
+    /// Explicit subset elimination with a shared native dyadic bound-sum DAG.
+    pub fn subset_bounds(
+        &mut self,
+        scope: ScopeId,
+        fact: FactId,
+        subsets: &[std::collections::BTreeSet<u32>],
+    ) -> Result<Vec<FactId>, Error> {
+        self.visible(scope, fact)?;
+        let original = self.fact(fact)?.clone();
+        if !matches!(original.kind, Kind::Eq | Kind::Le) {
+            return Err(invalid("subset_bounds requires Eq or Le"));
+        }
+        let support: std::collections::BTreeSet<_> =
+            original.expression.terms.iter().map(|(i, _)| *i).collect();
+        for subset in subsets {
+            if !subset.is_subset(&support) {
+                return Err(invalid("subset contains coordinates absent from premise"));
+            }
+        }
+        let mut sums = HashMap::new();
+        let mut results = HashMap::new();
+        let mut output = Vec::new();
+        for subset in subsets {
+            if let Some(id) = results.get(subset) {
+                output.push(*id);
+                continue;
+            }
+            let mut groups: BTreeMap<Q, Vec<u32>> = BTreeMap::new();
+            for (i, q) in &original.expression.terms {
+                if !subset.contains(i) {
+                    groups.entry(q.clone()).or_default().push(*i);
+                }
+            }
+            let mut terms = vec![(fact, Q::one())];
+            for (q, indices) in groups {
+                let lower = q.is_positive();
+                let mut pos = 0;
+                while pos < indices.len() {
+                    let start = indices[pos];
+                    let mut length = 1usize;
+                    while pos + length < indices.len()
+                        && indices[pos + length] == start + length as u32
+                    {
+                        length += 1;
+                    }
+                    let mut at = start;
+                    let end = start + length as u32;
+                    while at < end {
+                        let mut size = if at == 0 {
+                            1u32 << (31 - (end - at).leading_zeros())
+                        } else {
+                            at & at.wrapping_neg()
+                        };
+                        while size > end - at {
+                            size /= 2;
+                        }
+                        let id = self.bound_sum(scope, lower, at, size, &mut sums)?;
+                        terms.push((id, q.abs()));
+                        at += size;
+                    }
+                    pos += length;
+                }
+            }
+            let id = self.le(scope, &terms, Q::zero(), None)?;
+            results.insert(subset.clone(), id);
+            output.push(id);
+        }
+        Ok(output)
+    }
+    fn bound_sum(
+        &mut self,
+        scope: ScopeId,
+        lower: bool,
+        start: u32,
+        size: u32,
+        cache: &mut HashMap<(bool, u32, u32), FactId>,
+    ) -> Result<FactId, Error> {
+        if let Some(id) = cache.get(&(lower, start, size)) {
+            return Ok(*id);
+        }
+        let id = if size == 1 {
+            self.ref_fact(
+                scope,
+                if lower { "VarLower" } else { "VarUpper" },
+                &Identifier::Index(start),
+            )?
+        } else {
+            let a = self.bound_sum(scope, lower, start, size / 2, cache)?;
+            let b = self.bound_sum(scope, lower, start + size / 2, size / 2, cache)?;
+            self.le(scope, &[(a, Q::one()), (b, Q::one())], Q::zero(), None)?
+        };
+        cache.insert((lower, start, size), id);
+        Ok(id)
+    }
+}
+
+fn reference_rank(reference: &Ref) -> (u8, u32) {
+    match reference {
+        Ref::Local(i) => (8, *i),
+        Ref::Assumption(i) => (7, *i),
+        Ref::RowEq(i) => (6, *i),
+        Ref::RowLower(i) => (5, *i),
+        Ref::RowUpper(i) => (4, *i),
+        Ref::VarInt(i) => (3, *i),
+        Ref::VarLower(i) => (2, *i),
+        Ref::VarUpper(i) => (1, *i),
+        Ref::Exact => (0, 0),
     }
 }

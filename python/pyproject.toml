@@ -3,7 +3,7 @@ requires = ["maturin>=1.7,<2"]
 build-backend = "maturin"
 
 [project]
-name = "kernel-compiler"
+name = "rpx"
 version = "0.1.0"
 description = "Exact Python proof authoring over the native Rust compiler core"
 requires-python = ">=3.9"
@@ -11,4 +11,4 @@ requires-python = ">=3.9"
 [tool.maturin]
 manifest-path = "../crates/python/Cargo.toml"
 python-source = "."
-module-name = "kernel_compiler._native"
+module-name = "rpx._native"

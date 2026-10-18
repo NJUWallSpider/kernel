@@ -1,0 +1,53 @@
+{
+  "runs": "../reform_test/runs",
+  "cases": [
+    {
+      "case": "test8",
+      "run": "test8-20261003-213957",
+      "source": "input/model.lp",
+      "target": "output/reformulated.lp"
+    },
+    {
+      "case": "test9",
+      "run": "test9-nomf-20261004-004349",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    },
+    {
+      "case": "test10",
+      "run": "test10-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    },
+    {
+      "case": "test11",
+      "run": "test11-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/model_reformulated.mps"
+    },
+    {
+      "case": "test12",
+      "run": "test12-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    },
+    {
+      "case": "test13",
+      "run": "test13-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    },
+    {
+      "case": "test14",
+      "run": "test14-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    },
+    {
+      "case": "test15",
+      "run": "test15-nomf-B1",
+      "source": "input/model.mps",
+      "target": "output/reformulated.mps"
+    }
+  ]
+}

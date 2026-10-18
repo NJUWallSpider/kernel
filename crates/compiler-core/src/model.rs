@@ -1,4 +1,5 @@
 //! Exact model edits and queries over the kernel's canonical model type.
+use crate::error::Error;
 use crate::expr;
 use crate::limit::{check_terms, invalid, resource};
 use kernel_core::model::{
@@ -20,6 +21,7 @@ pub enum ModelFormat {
 
 #[derive(Clone, Debug)]
 pub struct Model {
+    pub space: std::sync::Arc<crate::space::Space>,
     pub inner: KernelModel,
     pub var_index: HashMap<String, u32>,
     pub row_index: HashMap<String, u32>,
@@ -31,7 +33,7 @@ pub enum Identifier {
     Name(String),
 }
 
-fn check_name(name: &str) -> Result<(), String> {
+fn check_name(name: &str) -> Result<(), Error> {
     if name.len() > MAX_NAME_BYTES {
         return Err(resource("name budget"));
     }
@@ -44,7 +46,7 @@ fn check_name(name: &str) -> Result<(), String> {
 fn names(
     vars: &[KernelVar],
     rows: &[KernelRow],
-) -> Result<(HashMap<String, u32>, HashMap<String, u32>), String> {
+) -> Result<(HashMap<String, u32>, HashMap<String, u32>), Error> {
     let mut var_index = HashMap::new();
     let mut row_index = HashMap::new();
     var_index
@@ -75,7 +77,7 @@ impl Model {
         vars: Vec<KernelVar>,
         rows: Vec<KernelRow>,
         objective: Expr,
-    ) -> Result<Self, String> {
+    ) -> Result<Self, Error> {
         check_name(&name)?;
         let mut var_names = HashSet::new();
         var_names
@@ -117,6 +119,11 @@ impl Model {
         }
         let (var_index, row_index) = names(&vars, &rows)?;
         Ok(Self {
+            space: crate::space::Space::new(
+                name.clone(),
+                vars.iter().map(|v| v.name.clone()).collect(),
+                None,
+            ),
             inner: KernelModel {
                 name,
                 vars,
@@ -128,16 +135,21 @@ impl Model {
         })
     }
 
-    pub fn from_kernel(inner: KernelModel) -> Result<Self, String> {
+    pub fn from_kernel(inner: KernelModel) -> Result<Self, Error> {
         let (var_index, row_index) = names(&inner.vars, &inner.rows)?;
         Ok(Self {
+            space: crate::space::Space::new(
+                inner.name.clone(),
+                inner.vars.iter().map(|v| v.name.clone()).collect(),
+                None,
+            ),
             inner,
             var_index,
             row_index,
         })
     }
 
-    pub fn parse(text: &str, format: ModelFormat) -> Result<Self, String> {
+    pub fn parse(text: &str, format: ModelFormat) -> Result<Self, Error> {
         let inner = match format {
             ModelFormat::Mps => model::parse_mps(text)?,
             ModelFormat::Lp => kernel_core::lp::parse_lp(text)?,
@@ -151,7 +163,7 @@ impl Model {
         Self::from_kernel(inner)
     }
 
-    pub fn parse_bytes(bytes: &[u8], format: ModelFormat) -> Result<Self, String> {
+    pub fn parse_bytes(bytes: &[u8], format: ModelFormat) -> Result<Self, Error> {
         match format {
             ModelFormat::Mcm | ModelFormat::Auto => {
                 let inner = kernel_core::codec::decode_model(bytes)?;
@@ -164,7 +176,7 @@ impl Model {
         }
     }
 
-    pub fn index(&self, identifier: &Identifier, row: bool) -> Result<u32, String> {
+    pub fn index(&self, identifier: &Identifier, row: bool) -> Result<u32, Error> {
         let (table, length) = if row {
             (&self.row_index, self.inner.rows.len())
         } else {
@@ -177,19 +189,19 @@ impl Model {
             Identifier::Index(index) => *index,
         };
         if index as usize >= length {
-            return Err(format!(
+            return Err(Error::Invalid(format!(
                 "{} index {index} outside model",
                 if row { "row" } else { "variable" }
-            ));
+            )));
         }
         Ok(index)
     }
 
-    pub fn var(&self, identifier: &Identifier) -> Result<Expr, String> {
+    pub fn var(&self, identifier: &Identifier) -> Result<Expr, Error> {
         Ok(Expr::var(self.index(identifier, false)?))
     }
 
-    pub fn row(&self, identifier: &Identifier) -> Result<KernelRow, String> {
+    pub fn row(&self, identifier: &Identifier) -> Result<KernelRow, Error> {
         let index = self.index(identifier, true)? as usize;
         self.inner
             .rows
@@ -198,7 +210,7 @@ impl Model {
             .ok_or_else(|| invalid("row index outside model"))
     }
 
-    pub fn fact(&self, kind: &str, identifier: &Identifier) -> Result<(Kind, Expr), String> {
+    pub fn fact(&self, kind: &str, identifier: &Identifier) -> Result<(Kind, Expr), Error> {
         let row = kind.starts_with("Row");
         let index = self.index(identifier, row)?;
         if kind.starts_with("Var") {
@@ -210,10 +222,10 @@ impl Model {
             let expression = Expr::var(index);
             if kind == "VarInt" {
                 if !variable.integer {
-                    return Err(format!(
+                    return Err(Error::Invalid(format!(
                         "variable {:?} has no integer declaration",
                         variable.name
-                    ));
+                    )));
                 }
                 return Ok((Kind::Int, expression));
             }
@@ -262,16 +274,16 @@ impl Model {
                 }
             }
         }
-        Err(format!(
+        Err(Error::Invalid(format!(
             "unavailable fact {kind}({})",
             match identifier {
                 Identifier::Index(i) => i.to_string(),
                 Identifier::Name(n) => n.clone(),
             }
-        ))
+        )))
     }
 
-    pub fn reference(&self, kind: &str, identifier: &Identifier) -> Result<Ref, String> {
+    pub fn reference(&self, kind: &str, identifier: &Identifier) -> Result<Ref, Error> {
         self.fact(kind, identifier)?;
         let row = kind.starts_with("Row");
         let index = self.index(identifier, row)?;
@@ -286,15 +298,15 @@ impl Model {
         })
     }
 
-    pub fn validate(&self) -> Result<(), String> {
-        self.inner.validate()
+    pub fn validate(&self) -> Result<(), Error> {
+        self.inner.validate().map_err(Error::from)
     }
 
-    pub fn to_mcm(&self) -> Result<Vec<u8>, String> {
-        kernel_core::codec::encode_model(&self.inner)
+    pub fn to_mcm(&self) -> Result<Vec<u8>, Error> {
+        kernel_core::codec::encode_model(&self.inner).map_err(Error::from)
     }
 
-    pub fn support(&self, identifier: &Identifier, _names: bool) -> Result<Vec<u32>, String> {
+    pub fn support(&self, identifier: &Identifier) -> Result<Vec<u32>, Error> {
         let row = self.row(identifier)?;
         Ok(row
             .expr
@@ -304,7 +316,7 @@ impl Model {
             .collect::<Vec<_>>())
     }
 
-    pub fn row_activity(&self, identifier: &Identifier) -> Result<(Option<Q>, Option<Q>), String> {
+    pub fn row_activity(&self, identifier: &Identifier) -> Result<(Option<Q>, Option<Q>), Error> {
         let row = self.row(identifier)?;
         let mut lower = Some(row.expr.constant.clone());
         let mut upper = Some(row.expr.constant);
@@ -327,7 +339,7 @@ impl Model {
         Ok((lower, upper))
     }
 
-    pub fn is_binary(&self, identifier: &Identifier) -> Result<bool, String> {
+    pub fn is_binary(&self, identifier: &Identifier) -> Result<bool, Error> {
         let index = self.index(identifier, false)? as usize;
         let variable = self
             .inner
@@ -387,7 +399,7 @@ impl Model {
         &self,
         values: &[Q],
         integers: bool,
-    ) -> Result<Vec<serde_json::Value>, String> {
+    ) -> Result<Vec<serde_json::Value>, Error> {
         if values.len() != self.inner.vars.len() {
             return Err(invalid("a point must specify every coordinate"));
         }
@@ -407,11 +419,9 @@ impl Model {
                 violations.push(serde_json::json!({"kind":"VarInt","index":index,"name":variable.name,"value":value.to_string()}));
             }
         }
+        let coordinates = values.iter().cloned().map(Some).collect::<Vec<_>>();
         for (index, row) in self.inner.rows.iter().enumerate() {
-            let value = expr::evaluate(
-                &row.expr,
-                &values.iter().cloned().map(Some).collect::<Vec<_>>(),
-            )?;
+            let value = expr::evaluate(&row.expr, &coordinates)?;
             if let Some(bound) = &row.lower {
                 if value < *bound {
                     violations.push(serde_json::json!({"kind":"RowLower","index":index,"name":row.name,"value":value.to_string(),"bound":bound.to_string()}));
@@ -486,7 +496,7 @@ impl Model {
         true
     }
 
-    pub fn renamed(&self, name: String) -> Result<Self, String> {
+    pub fn renamed(&self, name: String) -> Result<Self, Error> {
         Self::new(
             name,
             self.inner.vars.clone(),
@@ -495,7 +505,7 @@ impl Model {
         )
     }
 
-    pub fn delete_rows(&self, indices: &HashSet<u32>) -> Result<Self, String> {
+    pub fn delete_rows(&self, indices: &HashSet<u32>) -> Result<Self, Error> {
         let rows = self
             .inner
             .rows
@@ -512,7 +522,7 @@ impl Model {
         )
     }
 
-    pub fn add_rows(&self, rows: Vec<KernelRow>) -> Result<Self, String> {
+    pub fn add_rows(&self, rows: Vec<KernelRow>) -> Result<Self, Error> {
         let mut all = self.inner.rows.clone();
         all.extend(rows);
         Self::new(
@@ -523,7 +533,7 @@ impl Model {
         )
     }
 
-    pub fn replace_row(&self, index: u32, row: KernelRow) -> Result<Self, String> {
+    pub fn replace_row(&self, index: u32, row: KernelRow) -> Result<Self, Error> {
         let mut rows = self.inner.rows.clone();
         let slot = rows
             .get_mut(index as usize)
@@ -537,7 +547,7 @@ impl Model {
         )
     }
 
-    pub fn add_variable(&self, variable: KernelVar) -> Result<Self, String> {
+    pub fn add_variable(&self, variable: KernelVar) -> Result<Self, Error> {
         let mut vars = self.inner.vars.clone();
         vars.push(variable);
         Self::new(
@@ -548,7 +558,7 @@ impl Model {
         )
     }
 
-    pub fn with_objective(&self, objective: Expr) -> Result<Self, String> {
+    pub fn with_objective(&self, objective: Expr) -> Result<Self, Error> {
         Self::new(
             self.inner.name.clone(),
             self.inner.vars.clone(),
@@ -562,7 +572,7 @@ impl Model {
         index: u32,
         lower: Option<Option<Q>>,
         upper: Option<Option<Q>>,
-    ) -> Result<Self, String> {
+    ) -> Result<Self, Error> {
         let mut vars = self.inner.vars.clone();
         let variable = vars
             .get_mut(index as usize)
@@ -581,7 +591,7 @@ impl Model {
         )
     }
 
-    pub fn with_integrality(&self, indices: &[u32], integer: bool) -> Result<Self, String> {
+    pub fn with_integrality(&self, indices: &[u32], integer: bool) -> Result<Self, Error> {
         let mut vars = self.inner.vars.clone();
         for index in indices {
             vars.get_mut(*index as usize)
@@ -602,7 +612,7 @@ impl Model {
         remove: bool,
         dropped: &HashSet<u32>,
         preserve_bounds: bool,
-    ) -> Result<(Self, Vec<(String, KernelRow)>), String> {
+    ) -> Result<(Self, Vec<(String, KernelRow)>), Error> {
         let removed: HashSet<u32> = if remove {
             replacements.keys().copied().collect()
         } else {
@@ -633,17 +643,13 @@ impl Model {
         let mut mapping: Vec<Option<Expr>> = vec![None; self.inner.vars.len()];
         for old in 0..self.inner.vars.len() as u32 {
             mapping[old as usize] = Some(if let Some(expression) = replacements.get(&old) {
-                let mut out = Expr::zero();
-                out.constant = expression.constant.clone();
-                for (index, coefficient) in &expression.terms {
-                    let target = renumber
-                        .get(index)
-                        .ok_or_else(|| invalid("substitution references a removed coordinate"))?;
-                    let mut term = target.scaled(coefficient)?;
-                    term.constant = Q::zero();
-                    out = expr::add(&out, &term)?;
-                }
-                out
+                expr::canonical(
+                    expression.constant.clone(),
+                    expression
+                        .terms
+                        .iter()
+                        .map(|(i, q)| (renumber[i].terms[0].0, q.clone())),
+                )?
             } else {
                 renumber
                     .get(&old)
@@ -662,7 +668,7 @@ impl Model {
                 out.expr = substitute_expr(&row.expr, &mapping)?;
                 Ok(out)
             })
-            .collect::<Result<Vec<_>, String>>()?;
+            .collect::<Result<Vec<_>, Error>>()?;
         let objective = substitute_expr(&self.inner.objective, &mapping)?;
         let mut result = Self::new(
             self.inner.name.clone(),
@@ -673,12 +679,26 @@ impl Model {
             objective,
         )?;
         let mut added = Vec::new();
+        let mut names: HashSet<String> = result.inner.rows.iter().map(|r| r.name.clone()).collect();
         for index in 0..self.inner.vars.len() as u32 {
-            if let Some((_, row)) = added_bound(self, index, preserve_bounds, remove, &mapping)? {
-                result = result.add_rows(vec![row.clone()])?;
+            if !removed.contains(&index) {
+                continue;
+            }
+            if let Some((_, mut row)) = added_bound(self, index, preserve_bounds, remove, &mapping)?
+            {
+                let base = row.name.clone();
+                let mut suffix = 1;
+                while names.contains(&row.name) {
+                    row.name = format!("{base}_{suffix}");
+                    suffix += 1;
+                }
+                names.insert(row.name.clone());
+                result.inner.rows.push(row.clone());
                 added.push((self.inner.vars[index as usize].name.clone(), row));
             }
         }
+        result = Self::from_kernel(result.inner)?;
+        result.validate()?;
         Ok((result, added))
     }
 }
@@ -689,7 +709,7 @@ fn added_bound(
     preserve_bounds: bool,
     remove: bool,
     mapping: &[Option<Expr>],
-) -> Result<Option<(String, KernelRow)>, String> {
+) -> Result<Option<(String, KernelRow)>, Error> {
     if !remove || !preserve_bounds {
         return Ok(None);
     }
@@ -716,26 +736,26 @@ fn added_bound(
     )))
 }
 
-fn substitute_expr(value: &Expr, mapping: &[Option<Expr>]) -> Result<Expr, String> {
+fn substitute_expr(value: &Expr, mapping: &[Option<Expr>]) -> Result<Expr, Error> {
     let replacements = mapping;
-    expr::substitute(value, replacements, false)
+    expr::substitute(value, replacements)
 }
 
-pub fn parse_identifier_index(index: u32, length: usize, row: bool) -> Result<u32, String> {
+pub fn parse_identifier_index(index: u32, length: usize, row: bool) -> Result<u32, Error> {
     if index as usize >= length {
-        return Err(format!(
+        return Err(Error::Invalid(format!(
             "{} index {index} outside model",
             if row { "row" } else { "variable" }
-        ));
+        )));
     }
     Ok(index)
 }
 
-pub fn parse_value(text: &str) -> Result<Q, String> {
-    parse_q(text)
+pub fn parse_value(text: &str) -> Result<Q, Error> {
+    parse_q(text).map_err(Error::from)
 }
 
-pub fn check_term_budget(expressions: &[&Expr]) -> Result<(), String> {
+pub fn check_term_budget(expressions: &[&Expr]) -> Result<(), Error> {
     check_terms(expressions)
 }
 
@@ -748,7 +768,7 @@ pub fn var_from_parts(
     integer: bool,
     lower: Option<Q>,
     upper: Option<Q>,
-) -> Result<KernelVar, String> {
+) -> Result<KernelVar, Error> {
     check_name(&name)?;
     for value in [&lower, &upper].into_iter().flatten() {
         check_q(value)?;
@@ -767,7 +787,7 @@ pub fn row_from_parts(
     lower: Option<Q>,
     upper: Option<Q>,
     nvars: usize,
-) -> Result<KernelRow, String> {
+) -> Result<KernelRow, Error> {
     check_name(&name)?;
     expr.validate(nvars)?;
     for value in [&lower, &upper].into_iter().flatten() {
@@ -779,4 +799,151 @@ pub fn row_from_parts(
         lower,
         upper,
     })
+}
+
+/// Exact free MPS export; all model-sized work stays native.
+pub fn mps(model: &Model, rational_literals: bool) -> Result<String, Error> {
+    use num_integer::Integer;
+    fn decimal(q: &Q) -> Result<String, Error> {
+        let mut d = q.denom().clone();
+        let mut two = 0u32;
+        let mut five = 0u32;
+        while d.is_even() {
+            d /= 2;
+            two += 1;
+        }
+        while (&d % 5u32).is_zero() {
+            d /= 5;
+            five += 1;
+        }
+        if !d.is_one() {
+            return Err(Error::Invalid(format!(
+                "{q} has no finite exact decimal; use MCM or rational_literals=True"
+            )));
+        }
+        let n = two.max(five);
+        let v = q.numer().abs()
+            * num_bigint::BigInt::from(2).pow(n - two)
+            * num_bigint::BigInt::from(5).pow(n - five);
+        let mut s = format!("{:0>width$}", v.to_string(), width = n as usize + 1);
+        if n > 0 {
+            s.insert(s.len() - n as usize, '.');
+            s = s.trim_end_matches('0').trim_end_matches('.').into();
+        }
+        if q.is_negative() {
+            s.insert(0, '-');
+        }
+        Ok(s)
+    }
+    let number = |q: &Q| {
+        if rational_literals {
+            Ok(q.to_string())
+        } else {
+            decimal(q)
+        }
+    };
+    let m = &model.inner;
+    for name in std::iter::once(&m.name)
+        .chain(m.vars.iter().map(|v| &v.name))
+        .chain(m.rows.iter().map(|r| &r.name))
+    {
+        if name.chars().any(char::is_whitespace) || name.starts_with('$') {
+            return Err(invalid(
+                "MPS names must be whitespace-free and cannot start with '$'",
+            ));
+        }
+    }
+    let mut objective = "__objective".to_string();
+    while model.row_index.contains_key(&objective) {
+        objective.push('_');
+    }
+    let mut lines = vec![
+        format!("NAME {}", m.name),
+        "ROWS".into(),
+        format!(" N {objective}"),
+    ];
+    let mut rhs = vec![];
+    let mut ranges = vec![];
+    for r in &m.rows {
+        let lo = r.lower.as_ref().map(|q| q - &r.expr.constant);
+        let hi = r.upper.as_ref().map(|q| q - &r.expr.constant);
+        let (sense, bound) = match (&lo, &hi) {
+            (None, None) => return Err(invalid("unbounded row has no MPS encoding")),
+            (Some(l), Some(h)) if l > h => {
+                return Err(invalid("contradictory row has no MPS range encoding"));
+            }
+            (Some(l), Some(h)) if l == h => ("E", l),
+            (l, Some(h)) => {
+                if let Some(l) = l {
+                    ranges.push(format!(" rng {} {}", r.name, number(&(h - l))?));
+                }
+                ("L", h)
+            }
+            (Some(l), None) => ("G", l),
+        };
+        lines.push(format!(" {sense} {}", r.name));
+        rhs.push(format!(" rhs {} {}", r.name, number(bound)?));
+    }
+    lines.push("COLUMNS".into());
+    let columns = model.column_incidence();
+    let costs: HashMap<_, _> = m.objective.terms.iter().map(|(i, q)| (*i, q)).collect();
+    let zero = Q::zero();
+    let mut integer = false;
+    let mut marker = 0;
+    for (i, v) in m.vars.iter().enumerate() {
+        if v.integer != integer {
+            lines.push(format!(
+                " M{marker} 'MARKER' '{}'",
+                if v.integer { "INTORG" } else { "INTEND" }
+            ));
+            marker += 1;
+            integer = v.integer;
+        }
+        lines.push(format!(
+            " {} {objective} {}",
+            v.name,
+            number(costs.get(&(i as u32)).copied().unwrap_or(&zero))?
+        ));
+        for (r, q) in &columns[i] {
+            lines.push(format!(
+                " {} {} {}",
+                v.name,
+                m.rows[*r as usize].name,
+                number(q)?
+            ));
+        }
+    }
+    if integer {
+        lines.push(format!(" M{marker} 'MARKER' 'INTEND'"));
+    }
+    lines.push("RHS".into());
+    lines.push(format!(
+        " rhs {objective} {}",
+        number(&(-m.objective.constant.clone()))?
+    ));
+    lines.extend(rhs);
+    if !ranges.is_empty() {
+        lines.push("RANGES".into());
+        lines.extend(ranges);
+    }
+    lines.push("BOUNDS".into());
+    for v in &m.vars {
+        match (&v.lower, &v.upper) {
+            (None, None) => lines.push(format!(" FR bnd {}", v.name)),
+            (Some(l), Some(h)) if l == h => {
+                lines.push(format!(" FX bnd {} {}", v.name, number(l)?))
+            }
+            (lo, hi) => {
+                lines.push(match lo {
+                    Some(l) => format!(" LO bnd {} {}", v.name, number(l)?),
+                    None => format!(" MI bnd {}", v.name),
+                });
+                if let Some(h) = hi {
+                    lines.push(format!(" UP bnd {} {}", v.name, number(h)?));
+                }
+            }
+        }
+    }
+    lines.push("ENDATA".into());
+    Ok(lines.join("\n") + "\n")
 }

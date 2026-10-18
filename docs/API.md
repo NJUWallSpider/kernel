@@ -52,7 +52,7 @@ Failures report `message`, a diagnostic `code`, and available location fields `d
 ## Authoring plans
 
 Proof planning, witness resolution and constructive extension preparation are
-native operations of the Python package (`kernel_compiler`). The CLI exposes
+native operations of the Python package (`rpx`). The CLI exposes
 only stable artifact operations: canonicalization, assembly, disassembly,
 verification, inspection and export. Planning never grants certification.
 

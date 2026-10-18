@@ -1,15 +1,16 @@
 //! Shared finite budgets for the native authoring core.
+use crate::error::Error;
 use kernel_core::model::{Expr, MAX_TERMS};
 
-pub fn invalid(message: impl Into<String>) -> String {
-    format!("INVALID {}", message.into())
+pub fn invalid(message: impl Into<String>) -> Error {
+    Error::Invalid(message.into())
 }
 
-pub fn resource(message: impl Into<String>) -> String {
-    format!("RESOURCE_LIMIT {}", message.into())
+pub fn resource(message: impl Into<String>) -> Error {
+    Error::Resource(message.into())
 }
 
-pub fn check_terms(expressions: &[&Expr]) -> Result<(), String> {
+pub fn check_terms(expressions: &[&Expr]) -> Result<(), Error> {
     let mut total = 0usize;
     for expression in expressions {
         total = total

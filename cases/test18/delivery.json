@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "proof": {
+      "bytes": 28366622,
+      "path": "proof.rpx",
+      "sha256": "d105e6e778f60e34c82a30a778739ad2050f8330af0f263af8005651208cd199"
+    },
+    "rpa": {
+      "bytes": 16346475,
+      "path": "proof.rpa",
+      "sha256": "f24ad847c7aef0d38c2326836d885e8506b2c9272bdb6eec8ed37b5ab350f246"
+    },
+    "source": {
+      "bytes": 1734649,
+      "path": "source.mcm",
+      "sha256": "ce62b1563272c18e4da2a21296053a904e85fec439d0429920cad1ffa41fc5f5"
+    },
+    "target": {
+      "bytes": 446645,
+      "path": "target.mcm",
+      "sha256": "2abf3cf0d964f16df29b68676a34bfd2de78b1a28fbc9e7d6d3495c66284ecc2"
+    }
+  },
+  "schema": "rpx.bundle/1"
+}

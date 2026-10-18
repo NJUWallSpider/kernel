@@ -1,0 +1,1154 @@
+{
+  "schema": "rpx.compiler-acceptance/1",
+  "date": "2026-10-18",
+  "frozen_boundary": "tests/vectors/compiler_boundary.json",
+  "boundary_sha256": "22fa725ab9f43e191b4f1e69b3538aa3ae668ef029469753526bed5f52c1747c",
+  "checks": {
+    "python": {
+      "status": "PASS",
+      "log_sha256": "14e063ded697f463acafed9102b10c2eeb9ae88fd40f28bf3aa8b167be73cc11",
+      "tests": 93
+    },
+    "installed_wheel": {
+      "status": "PASS",
+      "log_sha256": "8abcf99750925ea8a2e7a2e10e16885110744f6df0e8f381a27cf68550f88ae5",
+      "tests": 93
+    },
+    "tools": {
+      "status": "PASS",
+      "log_sha256": "3b0dbb90387b342ccecc50446a0fb5e4385d86a3f467e5b97d63f8924fc08aff",
+      "tests": 4
+    },
+    "types": {
+      "status": "PASS",
+      "log_sha256": "ab35ee42183d4d6d3ba483825ab037d18a5a15622d03be01d82220b1564851ff"
+    },
+    "boundary": {
+      "status": "PASS",
+      "log_sha256": "64d6690d5891c44649dbdfe2bab1b9d352377377f395d89d2736a55ab5cc75b1"
+    },
+    "examples_notebook": {
+      "status": "PASS",
+      "log_sha256": "2d54d9fa10052c7966483dbc2f683b003f41e929f1fdce0ca36748ddc5fe7300"
+    },
+    "manual": {
+      "status": "PASS",
+      "log_sha256": "f983e6a9a3b349b6ce03a8cb2e3fd9bce8566c98f46825829125b01dedca57bb"
+    },
+    "rust_workspace": {
+      "status": "PASS",
+      "tests": 136,
+      "log_sha256": "f87cf3e83f5ce1ea23ae297e9ae6d4b270c9d9611ae7b7e6e9e2439077662bb5",
+      "compiler_recheck_log_sha256": "a3e9439206576c445bd4a6c399aeb1d92252c7ba47db772ef85fde2667190c4c"
+    }
+  },
+  "wheel": {
+    "name": "rpx-0.1.0-cp39-abi3-macosx_11_0_arm64.whl",
+    "sha256": "8898a94d68819ffd27d0b80d53c217bbe39237e50ba5840b3c3bdf56112156f4"
+  },
+  "historical_cases": [
+    {
+      "assemble": "MATCHED",
+      "case": "test10",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 1145813,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test11",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 386645,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test12",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 40923,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test13",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 77342,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test14",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 9997,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test15",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 27068,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test16",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 858283,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test17",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 352060,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test18",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 49900,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test19",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 8383,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test20",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 35354,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test21",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 401023,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test22",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 2064,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test23",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 81463,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test24",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 50190,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test25",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 102758,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test26",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 86722,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test27",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 12201,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test28",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 5366,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test29",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 173046,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test30",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 231156,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test31",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 2112179,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test32",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 70416,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test33",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 268768,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test34",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 482334,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test35",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 26242,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test36",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 227102,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test37",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 2648,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test38",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 50785,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test39",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 1154894,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test40",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 1934,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test41",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 68138,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test42",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 1174990,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test43",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 207631,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test44",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 11901,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test45",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 6029,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test46",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 603851,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test47",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 833,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test48",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 12350,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test49",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 11101,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test50",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 204941,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test51",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 10566,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test52",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 112647,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test53",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 1207,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test54",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 283360,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test55",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 14658,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test56",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 916538,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test57",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 677762,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test58",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 8448,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test59",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 69163,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test60",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 51044,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test61",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 19686,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test62",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 24570,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test63",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 9043,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test64",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 110083,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test65",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 865168,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test66",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 598020,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test67",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 288768,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test68",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 75394,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test69",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 80446,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test70",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 294878,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test71",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 8195,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test72",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 92217,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test73",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 89769,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test74",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 410798,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test75",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 431844,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test76",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 10422,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test77",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 9164,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test78",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 25796,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test79",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 35519,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test8",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 45314,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test80",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 62506,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test81",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 61926,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test82",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 62033,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test83",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 394711,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test84",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 604,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test85",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 99779,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test86",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 5812,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test87",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 251002,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test88",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 10826,
+      "status": "VERIFIED"
+    },
+    {
+      "assemble": "MATCHED",
+      "case": "test9",
+      "delivery": {
+        "mismatches": [],
+        "status": "MATCHED"
+      },
+      "disassemble": "MATCHED",
+      "guarantee": "MI_OPT",
+      "obligations": 6389,
+      "status": "VERIFIED"
+    }
+  ],
+  "migrated_recipes": [
+    {
+      "case": "test8",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 45314,
+      "reference": "cases/test8",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test9",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 6389,
+      "reference": "cases/test9",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test10",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 1145813,
+      "reference": "cases/test10",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test11",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 386645,
+      "reference": "cases/test11",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test12",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 40923,
+      "reference": "cases/test12",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test13",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 77342,
+      "reference": "cases/test13",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test14",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 9997,
+      "reference": "cases/test14",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    },
+    {
+      "case": "test15",
+      "guarantee": "MI_OPT",
+      "models": {
+        "source": "MATCHED",
+        "target": "MATCHED"
+      },
+      "obligations": 27068,
+      "reference": "cases/test15",
+      "reference_status": "VERIFIED",
+      "roundtrip": {
+        "assemble": "MATCHED",
+        "disassemble": "MATCHED"
+      },
+      "status": "VERIFIED"
+    }
+  ],
+  "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b"
+}

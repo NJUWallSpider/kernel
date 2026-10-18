@@ -1,13 +1,14 @@
 //! Exact sparse affine expression operations over the kernel representation.
+use crate::error::Error;
 use kernel_core::model::{Expr, Q, check_q};
 use num_traits::Zero;
 use std::collections::BTreeMap;
 
-fn invalid(message: impl Into<String>) -> String {
-    format!("INVALID {}", message.into())
+fn invalid(message: impl Into<String>) -> Error {
+    Error::Invalid(message.into())
 }
 
-pub fn canonical(constant: Q, terms: impl IntoIterator<Item = (u32, Q)>) -> Result<Expr, String> {
+pub fn canonical(constant: Q, terms: impl IntoIterator<Item = (u32, Q)>) -> Result<Expr, Error> {
     check_q(&constant)?;
     let mut out = Expr {
         constant,
@@ -21,7 +22,7 @@ pub fn canonical(constant: Q, terms: impl IntoIterator<Item = (u32, Q)>) -> Resu
     Ok(out)
 }
 
-pub fn add(left: &Expr, right: &Expr) -> Result<Expr, String> {
+pub fn add(left: &Expr, right: &Expr) -> Result<Expr, Error> {
     left.validate(u32::MAX as usize)?;
     right.validate(u32::MAX as usize)?;
     let mut terms: BTreeMap<u32, Q> = left.terms.iter().cloned().collect();
@@ -31,7 +32,7 @@ pub fn add(left: &Expr, right: &Expr) -> Result<Expr, String> {
     canonical(&left.constant + &right.constant, terms)
 }
 
-pub fn neg(value: &Expr) -> Result<Expr, String> {
+pub fn neg(value: &Expr) -> Result<Expr, Error> {
     Ok(Expr {
         constant: -value.constant.clone(),
         terms: value
@@ -42,19 +43,15 @@ pub fn neg(value: &Expr) -> Result<Expr, String> {
     })
 }
 
-pub fn scale(value: &Expr, factor: &Q) -> Result<Expr, String> {
-    value.scaled(factor)
+pub fn scale(value: &Expr, factor: &Q) -> Result<Expr, Error> {
+    value.scaled(factor).map_err(Error::from)
 }
 
-pub fn subtract(left: &Expr, right: &Expr) -> Result<Expr, String> {
+pub fn subtract(left: &Expr, right: &Expr) -> Result<Expr, Error> {
     add(left, &neg(right)?)
 }
 
-pub fn substitute(
-    value: &Expr,
-    replacements: &[Option<Expr>],
-    _mapping: bool,
-) -> Result<Expr, String> {
+pub fn substitute(value: &Expr, replacements: &[Option<Expr>]) -> Result<Expr, Error> {
     let mut constant = value.constant.clone();
     let mut terms: BTreeMap<u32, Q> = BTreeMap::new();
     for (index, coefficient) in &value.terms {
@@ -71,7 +68,7 @@ pub fn substitute(
     canonical(constant, terms)
 }
 
-pub fn evaluate(value: &Expr, values: &[Option<Q>]) -> Result<Q, String> {
+pub fn evaluate(value: &Expr, values: &[Option<Q>]) -> Result<Q, Error> {
     let mut result = value.constant.clone();
     for (index, coefficient) in &value.terms {
         let item = values
@@ -81,16 +78,4 @@ pub fn evaluate(value: &Expr, values: &[Option<Q>]) -> Result<Q, String> {
         result += coefficient * item;
     }
     Ok(result)
-}
-
-pub fn linear_sum(items: impl IntoIterator<Item = Expr>) -> Result<Expr, String> {
-    let mut constant = Q::zero();
-    let mut terms: BTreeMap<u32, Q> = BTreeMap::new();
-    for item in items {
-        constant += item.constant;
-        for (index, coefficient) in item.terms {
-            *terms.entry(index).or_insert_with(Q::zero) += coefficient;
-        }
-    }
-    canonical(constant, terms)
 }

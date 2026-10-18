@@ -1,4 +1,5 @@
-//! The only compiler proof path: certificate -> RPA 12 -> certificate -> RPX.
+//! Lower once to an immutable certificate; encode RPA and RPX independently.
+use crate::error::Error;
 use crate::proof::ProofCore;
 use kernel_core::proof::{Block, Certificate, End, Step};
 use kernel_core::verify::{self, Limits, Statistics};
@@ -8,47 +9,50 @@ pub struct CompiledProof {
     pub certificate: Certificate,
     pub rpa: String,
     pub rpx: Vec<u8>,
+    pub source: Vec<u8>,
+    pub target: Vec<u8>,
+    pub summary: serde_json::Value,
 }
 
 impl ProofCore {
-    pub fn compile(&mut self, limits: &Limits) -> Result<CompiledProof, String> {
-        self.refresh_completions(limits)?;
-        let original = self.certificate()?;
-        let rpa = kernel_core::rpa::disassemble(&original)?;
-        drop(original);
-        let certificate = kernel_core::rpa::assemble(&rpa)?;
+    pub fn compile(&mut self) -> Result<std::sync::Arc<CompiledProof>, Error> {
+        if let Some(compiled) = &self.compiled {
+            return Ok(compiled.clone());
+        }
+        let certificate = self.certificate()?;
+        let rpa = kernel_core::rpa::disassemble(&certificate)?;
         let rpx = kernel_core::codec::encode_certificate(&certificate)?;
-        Ok(CompiledProof {
+        let mut counts = Counts::default();
+        counts.block(&certificate.forward);
+        counts.block(&certificate.reverse);
+        let summary = serde_json::json!({"steps":counts.steps,"checks":counts.checks,"maps":counts.maps,"linear_premises":counts.linear_premises,"directions":2,"rpa_bytes":rpa.len(),"rpx_bytes":rpx.len()});
+        let compiled = std::sync::Arc::new(CompiledProof {
+            source: self.source.to_mcm()?,
+            target: self.target.to_mcm()?,
             certificate,
             rpa,
             rpx,
-        })
+            summary,
+        });
+        self.lowering_count += 1;
+        self.compiled = Some(compiled.clone());
+        Ok(compiled)
     }
 
-    pub fn verify(&mut self, limits: &Limits) -> Result<Statistics, String> {
-        let compiled = self.compile(limits)?;
+    pub fn verify(&mut self, limits: &Limits) -> Result<Statistics, Error> {
+        let compiled = self.compile()?;
         verify::verify(
             &self.source.inner,
             &self.target.inner,
             &compiled.certificate,
             limits,
         )
+        .map_err(Error::from)
     }
 
-    pub fn preflight(&mut self, limits: &Limits) -> Result<serde_json::Value, String> {
-        let compiled = self.compile(limits)?;
-        let mut counts = Counts::default();
-        counts.block(&compiled.certificate.forward);
-        counts.block(&compiled.certificate.reverse);
-        Ok(serde_json::json!({
-            "steps": counts.steps,
-            "checks": counts.checks,
-            "maps": counts.maps,
-            "linear_premises": counts.linear_premises,
-            "directions": 2,
-            "rpa_bytes": compiled.rpa.len(),
-            "rpx_bytes": compiled.rpx.len(),
-        }))
+    pub fn preflight(&mut self) -> Result<serde_json::Value, Error> {
+        let compiled = self.compile()?;
+        Ok(compiled.summary.clone())
     }
 }
 

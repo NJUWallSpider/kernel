@@ -1,8 +1,9 @@
 \chapter{完整可复现实例}
 \label{ch:examples}
 
-三个例子位于本手册的 \code{examples/} 子目录。每个目录包含完整 source.lp、target.lp
+三个 CLI 例子位于本手册的 \code{examples/} 子目录。每个目录包含完整 source.lp、target.lp
 与 RPA 12 行式汇编 proof.rpa；汇编得到 RPX 11 字节，反汇编再汇编后与原文件逐字节相同。
+\code{examples/python-api/} 另给出使用 Python 编译器 API 构造证明的脚本。
 
 \section{等式消元}
 源模型保留等式 $x_0+x_1=1$，目标只使用 $y=x_1$；反向恢复 $x_0=1-y$。
@@ -14,6 +15,46 @@
 \code{examples/redundant/} 通过已有界证明冗余行，同时两个方向保留完整目标。
 \code{examples/piecewise/} 使用穷尽分支实现分段恢复；每支仍须独立完成全部输出义务。
 完整源文件是本手册组成部分，可直接阅读、汇编和验证。
+
+\section{Python 编译器 API}
+\code{rpx} 的 Rust Core 持有模型空间、作用域、事实、映射和完成状态。
+作者选择推导；编译器不调用 solver，不搜索证明。ModelBuilder 的 build 封闭建模阶段，
+finish 封闭证明叶子。不同模型的表达式不能按同名变量自动混用。
+
+\begin{lstlisting}
+from rpx import Model, Proof
+source = Model.read("source.lp")
+target = Model.read("target.lp")
+proof = Proof(source, target)
+f = proof.forward.map({"y": source.vars["x1"]}, default="same_name")
+f.prove("objective.non_increasing", by=-f.row("balance"))
+f.finish()
+proof.reverse.map({"x0": 1-target.vars["y"],
+                   "x1": target.vars["y"]}).finish()
+bundle = proof.compile("build/elimination", target_artifact="target.lp")
+print(bundle.verify().raise_for_status())
+\end{lstlisting}
+
+\code{map} 的默认名称匹配在 Rust 中展开。变量、行、目标、trace 和 certificate 是
+原生视图，整体物化必须显式请求。Fact 算术产生线性组合；它不与普通表达式混同。
+连续 split 返回两个 child scope，分别带有 $e\le a$ 和 $e\ge a$ 的假设，边界属于两支。
+整数 split 要求整性证明，其右支是 $e\ge a+1$。Cases 的左右推导 scope 分别提交共同
+结论或矛盾，然后向父级返回一个事实。Interval、Menu、Signed、Flow 和 Subflow 使用
+类型化输入与生成句柄。父空间可嵌入扩展，生成变量不能逃到父级或兄弟扩展。
+
+封闭证明只 lowering 一次。RPA disassembler 与 RPX encoder 直接消费同一份原生
+Certificate。Bundle 保存 source、target、RPA、RPX 和目标原文件；manifest 使用包内
+相对路径与内容摘要，可搬移。Chain 复制阶段包并校验连接。每次验证使用本次预算，
+历史 receipt 不替代重新验证。Kernel 结论和 artifact audit 分别显示。
+
+五个可执行脚本与 \code{tutorial.ipynb} 位于 \code{examples/python-api/}。
+\code{elimination.py} 展示建模和消元，\code{redundant.py} 展示冗余行，
+\code{piecewise.py} 展示连续 split，\code{interval\_lift.py} 展示生成变量，
+\code{load\_models.py} 展示文件读取和稀疏映射。脚本默认使用临时交付目录。
+从仓库根执行：
+\begin{lstlisting}
+make -C docs/rpx check-compiler-api
+\end{lstlisting}
 
 \section{统一检查命令}
 从仓库根执行：

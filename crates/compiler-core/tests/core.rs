@@ -3,6 +3,7 @@ use kernel_compiler_core::proof::{ProofCore, kind_name};
 use kernel_core::model::{Expr, Q, Var};
 use kernel_core::proof::{Kind, Ref};
 use kernel_core::verify::Limits;
+use std::sync::Arc;
 
 fn model() -> Model {
     Model::new(
@@ -53,26 +54,12 @@ fn expression_and_model_bounds_are_exact() {
 #[test]
 fn native_completion_and_rpa_compilation_verify() {
     let model = model();
-    let mut proof = ProofCore::new(model.clone(), model).unwrap();
-    proof
-        .complete(
-            proof.forward,
-            &[Expr::var(0)],
-            &[],
-            true,
-            &Limits::default(),
-        )
-        .unwrap();
-    proof
-        .complete(
-            proof.reverse,
-            &[Expr::var(0)],
-            &[],
-            true,
-            &Limits::default(),
-        )
-        .unwrap();
-    let compiled = proof.compile(&Limits::default()).unwrap();
+    let mut proof = ProofCore::new(Arc::new(model.clone()), Arc::new(model)).unwrap();
+    proof.set_mapping(proof.forward, true, vec![]).unwrap();
+    proof.finish(proof.forward).unwrap();
+    proof.set_mapping(proof.reverse, true, vec![]).unwrap();
+    proof.finish(proof.reverse).unwrap();
+    let compiled = proof.compile().unwrap();
     assert!(compiled.rpa.starts_with("RPA 12\n"));
     assert!(!compiled.rpx.is_empty());
     let stats = proof.verify(&Limits::default()).unwrap();
@@ -96,17 +83,10 @@ fn completion_reports_undischarged_obligations() {
             Some(Some(Q::from_integer(0.into()))),
         )
         .unwrap();
-    let mut proof = ProofCore::new(model, target).unwrap();
-    let error = proof
-        .complete(
-            proof.forward,
-            &[Expr::var(0)],
-            &[],
-            true,
-            &Limits::default(),
-        )
-        .unwrap_err();
-    assert!(error.contains("undischarged"));
+    let mut proof = ProofCore::new(Arc::new(model), Arc::new(target)).unwrap();
+    proof.set_mapping(proof.forward, true, vec![]).unwrap();
+    let error = proof.finish(proof.forward).unwrap_err();
+    assert!(error.to_string().contains("unresolved"));
 }
 
 #[test]

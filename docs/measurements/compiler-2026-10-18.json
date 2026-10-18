@@ -1,0 +1,1435 @@
+{
+  "schema": "rpx.comparison/1",
+  "date": "2026-10-18",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "build": "cargo release --locked, same frozen Kernel; separate processes",
+  "samples_per_case": 1,
+  "baseline_native_sha256": "130fb8c992cd0124cce9ca95319c75b34c9d0d5350dde9c2775fa39e7c7797bc",
+  "notes": [
+    "Single observations, not a controlled repeated speedup study.",
+    "Baseline expression uses the fastest old whole-expression constructor; new expression uses an integer buffer.",
+    "Baseline RSS is ru_maxrss only; new records additionally sample ps RSS after each phase.",
+    "New mapping eagerly validates and expands coordinates; baseline identity mapping defers work until completion.",
+    "Repeat queries: two preflight calls and two unfiltered plan views; lowering_count must remain 1.",
+    "Python buffer peak includes one contiguous bytes copy (8*N bytes); no per-coordinate Python wrappers.",
+    "Background development work and macOS memory pressure were not controlled; RSS and timing are observations, not causal speedup estimates."
+  ],
+  "runs": [
+    {
+      "case": "1000",
+      "baseline": {
+        "schema": "baseline.performance/1",
+        "size": 1000,
+        "status": "VERIFIED",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 3899500,
+            "rss_high_water_bytes": 19267584,
+            "python_allocated_delta_bytes": 246634,
+            "python_peak_delta_bytes": 389580
+          },
+          {
+            "name": "proof",
+            "wall_ns": 338750,
+            "rss_high_water_bytes": 20742144,
+            "python_allocated_delta_bytes": 4628,
+            "python_peak_delta_bytes": 4656
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 65042,
+            "rss_high_water_bytes": 21168128,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 560
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 12355541,
+            "rss_high_water_bytes": 22724608,
+            "python_allocated_delta_bytes": 381818,
+            "python_peak_delta_bytes": 486590
+          },
+          {
+            "name": "finish",
+            "wall_ns": 6089584,
+            "rss_high_water_bytes": 24690688,
+            "python_allocated_delta_bytes": 2356,
+            "python_peak_delta_bytes": 2704
+          },
+          {
+            "name": "encode",
+            "wall_ns": 1999458,
+            "rss_high_water_bytes": 25903104,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 4771250,
+            "rss_high_water_bytes": 26001408,
+            "python_allocated_delta_bytes": 18395,
+            "python_peak_delta_bytes": 1331585
+          },
+          {
+            "name": "verify",
+            "wall_ns": 4692083,
+            "rss_high_water_bytes": 27754496,
+            "python_allocated_delta_bytes": 4073,
+            "python_peak_delta_bytes": 4396
+          }
+        ],
+        "encoded": {
+          "checks": 8002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 2000,
+          "rpa_bytes": 119204,
+          "rpx_bytes": 126056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 2879,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 1298,
+          "proof_decode_us": 334,
+          "read_us": 71,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 8002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 6000,
+            "work": 48002
+          },
+          "status": "VERIFIED",
+          "total_us": 4597
+        },
+        "source_sha256": "6abf0023c0fcaf15188aab5331bbe8d83ab597dfcaff58510fe86d8ac9b9872b"
+      },
+      "refactored": {
+        "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b",
+        "source_sha256": "6abf0023c0fcaf15188aab5331bbe8d83ab597dfcaff58510fe86d8ac9b9872b",
+        "schema": "rpx.performance/1",
+        "status": "VERIFIED",
+        "coordinates": 1000,
+        "source": "synthetic.mps",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+        "started": "2026-10-18T04:47:58.562764+00:00",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 1407416,
+            "rss_bytes": 24281088,
+            "rss_high_water_bytes": 24199168,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 573
+          },
+          {
+            "name": "proof",
+            "wall_ns": 16500,
+            "rss_bytes": 24428544,
+            "rss_high_water_bytes": 24412160,
+            "python_allocated_delta_bytes": 1828,
+            "python_peak_delta_bytes": 1856
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 82417,
+            "rss_bytes": 24592384,
+            "rss_high_water_bytes": 24592384,
+            "python_allocated_delta_bytes": 948,
+            "python_peak_delta_bytes": 1034
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 358709,
+            "rss_bytes": 24772608,
+            "rss_high_water_bytes": 24772608,
+            "python_allocated_delta_bytes": 396,
+            "python_peak_delta_bytes": 8705
+          },
+          {
+            "name": "finish",
+            "wall_ns": 5640458,
+            "rss_bytes": 32702464,
+            "rss_high_water_bytes": 32686080,
+            "python_allocated_delta_bytes": 148,
+            "python_peak_delta_bytes": 176
+          },
+          {
+            "name": "encode",
+            "wall_ns": 1664375,
+            "rss_bytes": 33439744,
+            "rss_high_water_bytes": 33439744,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 1774875,
+            "rss_bytes": 33751040,
+            "rss_high_water_bytes": 33751040,
+            "python_allocated_delta_bytes": 36960,
+            "python_peak_delta_bytes": 1231007
+          },
+          {
+            "name": "verify",
+            "wall_ns": 5863958,
+            "rss_bytes": 36847616,
+            "rss_high_water_bytes": 36831232,
+            "python_allocated_delta_bytes": 26588,
+            "python_peak_delta_bytes": 1206675
+          },
+          {
+            "name": "repeat_queries",
+            "wall_ns": 16000,
+            "rss_bytes": 36880384,
+            "rss_high_water_bytes": 36880384,
+            "python_allocated_delta_bytes": 1862,
+            "python_peak_delta_bytes": 1890
+          }
+        ],
+        "model": {
+          "equalities": 0,
+          "integers": 1000,
+          "nonzeros": 2000,
+          "objective_nonzeros": 1000,
+          "ranged_rows": 0,
+          "rows": 1000,
+          "variables": 1000
+        },
+        "encoded": {
+          "checks": 8002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 2000,
+          "rpa_bytes": 119204,
+          "rpx_bytes": 126056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 2570,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 1138,
+          "proof_decode_us": 324,
+          "read_us": 51,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 8002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 6000,
+            "work": 48002
+          },
+          "status": "VERIFIED",
+          "total_us": 4092,
+          "artifact_audit": {
+            "status": "NOT_REQUESTED"
+          },
+          "artifacts": {
+            "proof": {
+              "bytes": 126056,
+              "path": "proof.rpx",
+              "sha256": "a11bf8ec1e357c4f0a5fdc0af8bc06893981e17163144e9aaf9e59e0e4740576"
+            },
+            "rpa": {
+              "bytes": 119204,
+              "path": "proof.rpa",
+              "sha256": "765d694d2a4567d7d9d25969c49592cc560c8ed9417b803b4affee2b5c5320bd"
+            },
+            "source": {
+              "bytes": 137843,
+              "path": "source.mcm",
+              "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+            },
+            "target": {
+              "bytes": 137843,
+              "path": "target.mcm",
+              "sha256": "907dfbd364c94d0919c085c99352a8ba1e0d4987a354fb909522399bb6c5f991"
+            }
+          }
+        },
+        "lowering_count": 1
+      }
+    },
+    {
+      "case": "10000",
+      "baseline": {
+        "schema": "baseline.performance/1",
+        "size": 10000,
+        "status": "VERIFIED",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 29339542,
+            "rss_high_water_bytes": 42876928,
+            "python_allocated_delta_bytes": 2256306,
+            "python_peak_delta_bytes": 3659253
+          },
+          {
+            "name": "proof",
+            "wall_ns": 2569292,
+            "rss_high_water_bytes": 53542912,
+            "python_allocated_delta_bytes": 4628,
+            "python_peak_delta_bytes": 4656
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 434291,
+            "rss_high_water_bytes": 56999936,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 560
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 127112791,
+            "rss_high_water_bytes": 71385088,
+            "python_allocated_delta_bytes": 3244817,
+            "python_peak_delta_bytes": 4884661
+          },
+          {
+            "name": "finish",
+            "wall_ns": 64364041,
+            "rss_high_water_bytes": 84770816,
+            "python_allocated_delta_bytes": 2356,
+            "python_peak_delta_bytes": 2704
+          },
+          {
+            "name": "encode",
+            "wall_ns": 20718875,
+            "rss_high_water_bytes": 97271808,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 37321875,
+            "rss_high_water_bytes": 99926016,
+            "python_allocated_delta_bytes": 18399,
+            "python_peak_delta_bytes": 3819827
+          },
+          {
+            "name": "verify",
+            "wall_ns": 51512708,
+            "rss_high_water_bytes": 111853568,
+            "python_allocated_delta_bytes": 4073,
+            "python_peak_delta_bytes": 4396
+          }
+        ],
+        "encoded": {
+          "checks": 80002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 20000,
+          "rpa_bytes": 1271204,
+          "rpx_bytes": 1260056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 32269,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 13592,
+          "proof_decode_us": 3689,
+          "read_us": 217,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 80002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 60000,
+            "work": 480002
+          },
+          "status": "VERIFIED",
+          "total_us": 49780
+        },
+        "source_sha256": "4b96833ade7390d3f12d5c7749a3d81033136f8911f2ea1250ec18c635eb632e"
+      },
+      "refactored": {
+        "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b",
+        "source_sha256": "4b96833ade7390d3f12d5c7749a3d81033136f8911f2ea1250ec18c635eb632e",
+        "schema": "rpx.performance/1",
+        "status": "VERIFIED",
+        "coordinates": 10000,
+        "source": "synthetic.mps",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+        "started": "2026-10-18T04:47:58.650815+00:00",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 13016583,
+            "rss_bytes": 41123840,
+            "rss_high_water_bytes": 41107456,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 574
+          },
+          {
+            "name": "proof",
+            "wall_ns": 11625,
+            "rss_bytes": 41271296,
+            "rss_high_water_bytes": 41271296,
+            "python_allocated_delta_bytes": 1828,
+            "python_peak_delta_bytes": 1856
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 635209,
+            "rss_bytes": 42909696,
+            "rss_high_water_bytes": 42909696,
+            "python_allocated_delta_bytes": 948,
+            "python_peak_delta_bytes": 1034
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 3369166,
+            "rss_bytes": 44613632,
+            "rss_high_water_bytes": 44580864,
+            "python_allocated_delta_bytes": 396,
+            "python_peak_delta_bytes": 80705
+          },
+          {
+            "name": "finish",
+            "wall_ns": 61325042,
+            "rss_bytes": 115425280,
+            "rss_high_water_bytes": 115425280,
+            "python_allocated_delta_bytes": 148,
+            "python_peak_delta_bytes": 176
+          },
+          {
+            "name": "encode",
+            "wall_ns": 16237333,
+            "rss_bytes": 125272064,
+            "rss_high_water_bytes": 125272064,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 5476416,
+            "rss_bytes": 125730816,
+            "rss_high_water_bytes": 125730816,
+            "python_allocated_delta_bytes": 36961,
+            "python_peak_delta_bytes": 2141772
+          },
+          {
+            "name": "verify",
+            "wall_ns": 45496041,
+            "rss_bytes": 156532736,
+            "rss_high_water_bytes": 156516352,
+            "python_allocated_delta_bytes": 26616,
+            "python_peak_delta_bytes": 2117439
+          },
+          {
+            "name": "repeat_queries",
+            "wall_ns": 19125,
+            "rss_bytes": 156549120,
+            "rss_high_water_bytes": 156549120,
+            "python_allocated_delta_bytes": 1862,
+            "python_peak_delta_bytes": 1890
+          }
+        ],
+        "model": {
+          "equalities": 0,
+          "integers": 10000,
+          "nonzeros": 20000,
+          "objective_nonzeros": 10000,
+          "ranged_rows": 0,
+          "rows": 10000,
+          "variables": 10000
+        },
+        "encoded": {
+          "checks": 80002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 20000,
+          "rpa_bytes": 1271204,
+          "rpx_bytes": 1260056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 25616,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 11076,
+          "proof_decode_us": 2936,
+          "read_us": 277,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 80002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 60000,
+            "work": 480002
+          },
+          "status": "VERIFIED",
+          "total_us": 39915,
+          "artifact_audit": {
+            "status": "NOT_REQUESTED"
+          },
+          "artifacts": {
+            "proof": {
+              "bytes": 1260056,
+              "path": "proof.rpx",
+              "sha256": "fc8ae91f2f023c7db71c70b020aa592b4d6b1ce6f4bf4575c7b1bf62c1178e8d"
+            },
+            "rpa": {
+              "bytes": 1271204,
+              "path": "proof.rpa",
+              "sha256": "2aae8850e8ac29cea69101216aa11230d4a942efb0a37ff0ada55e3c4f450201"
+            },
+            "source": {
+              "bytes": 1397843,
+              "path": "source.mcm",
+              "sha256": "e29584eb5abeba40ed554ee4b06f45047be96bf5bef87bab6d87d4435071a4af"
+            },
+            "target": {
+              "bytes": 1397843,
+              "path": "target.mcm",
+              "sha256": "e29584eb5abeba40ed554ee4b06f45047be96bf5bef87bab6d87d4435071a4af"
+            }
+          }
+        },
+        "lowering_count": 1
+      }
+    },
+    {
+      "case": "100000",
+      "baseline": {
+        "schema": "baseline.performance/1",
+        "size": 100000,
+        "status": "VERIFIED",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 314439458,
+            "rss_high_water_bytes": 274186240,
+            "python_allocated_delta_bytes": 27272242,
+            "python_peak_delta_bytes": 41455190
+          },
+          {
+            "name": "proof",
+            "wall_ns": 29689417,
+            "rss_high_water_bytes": 392708096,
+            "python_allocated_delta_bytes": 4628,
+            "python_peak_delta_bytes": 4656
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 4696166,
+            "rss_high_water_bytes": 426590208,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 560
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 1475346042,
+            "rss_high_water_bytes": 590249984,
+            "python_allocated_delta_bytes": 31234405,
+            "python_peak_delta_bytes": 48819013
+          },
+          {
+            "name": "finish",
+            "wall_ns": 736976000,
+            "rss_high_water_bytes": 680656896,
+            "python_allocated_delta_bytes": 3036,
+            "python_peak_delta_bytes": 3380
+          },
+          {
+            "name": "encode",
+            "wall_ns": 224267000,
+            "rss_high_water_bytes": 774864896,
+            "python_allocated_delta_bytes": 897,
+            "python_peak_delta_bytes": 929
+          },
+          {
+            "name": "publish",
+            "wall_ns": 378660375,
+            "rss_high_water_bytes": 793559040,
+            "python_allocated_delta_bytes": 19199,
+            "python_peak_delta_bytes": 39640626
+          },
+          {
+            "name": "verify",
+            "wall_ns": 589421333,
+            "rss_high_water_bytes": 968704000,
+            "python_allocated_delta_bytes": 4109,
+            "python_peak_delta_bytes": 4428
+          }
+        ],
+        "encoded": {
+          "checks": 800002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 200000,
+          "rpa_bytes": 13511204,
+          "rpx_bytes": 12600056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 370276,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 155778,
+          "proof_decode_us": 42510,
+          "read_us": 3387,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 800002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 600000,
+            "work": 4800002
+          },
+          "status": "VERIFIED",
+          "total_us": 571968
+        },
+        "source_sha256": "4d5d2655d485533998174ffce9f9322f3536759d1e0844e7cd5dcc364038a4a2"
+      },
+      "refactored": {
+        "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b",
+        "source_sha256": "4d5d2655d485533998174ffce9f9322f3536759d1e0844e7cd5dcc364038a4a2",
+        "schema": "rpx.performance/1",
+        "status": "VERIFIED",
+        "coordinates": 100000,
+        "source": "synthetic.mps",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+        "started": "2026-10-18T04:47:58.935478+00:00",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 143073000,
+            "rss_bytes": 198868992,
+            "rss_high_water_bytes": 198803456,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 575
+          },
+          {
+            "name": "proof",
+            "wall_ns": 18958,
+            "rss_bytes": 198983680,
+            "rss_high_water_bytes": 198983680,
+            "python_allocated_delta_bytes": 1828,
+            "python_peak_delta_bytes": 1856
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 9967583,
+            "rss_bytes": 217333760,
+            "rss_high_water_bytes": 217333760,
+            "python_allocated_delta_bytes": 948,
+            "python_peak_delta_bytes": 1034
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 33684667,
+            "rss_bytes": 250085376,
+            "rss_high_water_bytes": 250085376,
+            "python_allocated_delta_bytes": 396,
+            "python_peak_delta_bytes": 800705
+          },
+          {
+            "name": "finish",
+            "wall_ns": 704973458,
+            "rss_bytes": 1024360448,
+            "rss_high_water_bytes": 1024360448,
+            "python_allocated_delta_bytes": 148,
+            "python_peak_delta_bytes": 176
+          },
+          {
+            "name": "encode",
+            "wall_ns": 249028209,
+            "rss_bytes": 1117700096,
+            "rss_high_water_bytes": 1117700096,
+            "python_allocated_delta_bytes": 897,
+            "python_peak_delta_bytes": 929
+          },
+          {
+            "name": "publish",
+            "wall_ns": 54494250,
+            "rss_bytes": 1134510080,
+            "rss_high_water_bytes": 1134510080,
+            "python_allocated_delta_bytes": 36910,
+            "python_peak_delta_bytes": 2141724
+          },
+          {
+            "name": "verify",
+            "wall_ns": 805147167,
+            "rss_bytes": 1274888192,
+            "rss_high_water_bytes": 1428127744,
+            "python_allocated_delta_bytes": 26620,
+            "python_peak_delta_bytes": 2117446
+          },
+          {
+            "name": "repeat_queries",
+            "wall_ns": 21375,
+            "rss_bytes": 1274904576,
+            "rss_high_water_bytes": 1428127744,
+            "python_allocated_delta_bytes": 1866,
+            "python_peak_delta_bytes": 1898
+          }
+        ],
+        "model": {
+          "equalities": 0,
+          "integers": 100000,
+          "nonzeros": 200000,
+          "objective_nonzeros": 100000,
+          "ranged_rows": 0,
+          "rows": 100000,
+          "variables": 100000
+        },
+        "encoded": {
+          "checks": 800002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 200000,
+          "rpa_bytes": 13511204,
+          "rpx_bytes": 12600056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 361599,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 318191,
+          "proof_decode_us": 56814,
+          "read_us": 5055,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 800002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 600000,
+            "work": 4800002
+          },
+          "status": "VERIFIED",
+          "total_us": 741671,
+          "artifact_audit": {
+            "status": "NOT_REQUESTED"
+          },
+          "artifacts": {
+            "proof": {
+              "bytes": 12600056,
+              "path": "proof.rpx",
+              "sha256": "799a1954f42f6d4d143957ff6ab442bbda3079f43af4da7c6ad82119057d7443"
+            },
+            "rpa": {
+              "bytes": 13511204,
+              "path": "proof.rpa",
+              "sha256": "86e4dff6dedd08823a886b54257ffec24b28fc418b36e205f3ec036b0a937a98"
+            },
+            "source": {
+              "bytes": 14177843,
+              "path": "source.mcm",
+              "sha256": "bb6b60f246a62d5809feb0484894c95168071ae9fa5a3b20d6a960cff519ebc3"
+            },
+            "target": {
+              "bytes": 14177843,
+              "path": "target.mcm",
+              "sha256": "bb6b60f246a62d5809feb0484894c95168071ae9fa5a3b20d6a960cff519ebc3"
+            }
+          }
+        },
+        "lowering_count": 1
+      }
+    },
+    {
+      "case": "1000000",
+      "baseline": {
+        "schema": "baseline.performance/1",
+        "size": 1000000,
+        "status": "VERIFIED",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 4207133583,
+            "rss_high_water_bytes": 2388754432,
+            "python_allocated_delta_bytes": 253672582,
+            "python_peak_delta_bytes": 397455527
+          },
+          {
+            "name": "proof",
+            "wall_ns": 347756584,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 4636,
+            "python_peak_delta_bytes": 4668
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 47468958,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 536,
+            "python_peak_delta_bytes": 568
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 16769492708,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 312034409,
+            "python_peak_delta_bytes": 488989161
+          },
+          {
+            "name": "finish",
+            "wall_ns": 9919075417,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 3036,
+            "python_peak_delta_bytes": 3380
+          },
+          {
+            "name": "encode",
+            "wall_ns": 2413561000,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 901,
+            "python_peak_delta_bytes": 933
+          },
+          {
+            "name": "publish",
+            "wall_ns": 3949693542,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 19207,
+            "python_peak_delta_bytes": 412240629
+          },
+          {
+            "name": "verify",
+            "wall_ns": 6733537584,
+            "rss_high_water_bytes": 3381739520,
+            "python_allocated_delta_bytes": 4109,
+            "python_peak_delta_bytes": 4428
+          }
+        ],
+        "encoded": {
+          "checks": 8000002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 2000000,
+          "rpa_bytes": 143111204,
+          "rpx_bytes": 126000056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 3997947,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 1741614,
+          "proof_decode_us": 560257,
+          "read_us": 39009,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 8000002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 6000000,
+            "work": 48000002
+          },
+          "status": "VERIFIED",
+          "total_us": 6338892
+        },
+        "source_sha256": "0af02a75c3609c86a02839503089c757be98b90a8e31b62da7b0115e756d3ff1"
+      },
+      "refactored": {
+        "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b",
+        "source_sha256": "0af02a75c3609c86a02839503089c757be98b90a8e31b62da7b0115e756d3ff1",
+        "schema": "rpx.performance/1",
+        "status": "VERIFIED",
+        "coordinates": 1000000,
+        "source": "synthetic.mps",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+        "started": "2026-10-18T04:48:01.756250+00:00",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 2369118334,
+            "rss_bytes": 1771241472,
+            "rss_high_water_bytes": 1771208704,
+            "python_allocated_delta_bytes": 536,
+            "python_peak_delta_bytes": 576
+          },
+          {
+            "name": "proof",
+            "wall_ns": 29917,
+            "rss_bytes": 1771388928,
+            "rss_high_water_bytes": 1771388928,
+            "python_allocated_delta_bytes": 1832,
+            "python_peak_delta_bytes": 1864
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 214970542,
+            "rss_bytes": 2020704256,
+            "rss_high_water_bytes": 2020704256,
+            "python_allocated_delta_bytes": 956,
+            "python_peak_delta_bytes": 1038
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 346978542,
+            "rss_bytes": 1918074880,
+            "rss_high_water_bytes": 2210562048,
+            "python_allocated_delta_bytes": 400,
+            "python_peak_delta_bytes": 8000709
+          },
+          {
+            "name": "finish",
+            "wall_ns": 9254537125,
+            "rss_bytes": 4662149120,
+            "rss_high_water_bytes": 5895831552,
+            "python_allocated_delta_bytes": 156,
+            "python_peak_delta_bytes": 188
+          },
+          {
+            "name": "encode",
+            "wall_ns": 2108061458,
+            "rss_bytes": 4743921664,
+            "rss_high_water_bytes": 5895831552,
+            "python_allocated_delta_bytes": 901,
+            "python_peak_delta_bytes": 933
+          },
+          {
+            "name": "publish",
+            "wall_ns": 641485459,
+            "rss_bytes": 4252008448,
+            "rss_high_water_bytes": 5895831552,
+            "python_allocated_delta_bytes": 36908,
+            "python_peak_delta_bytes": 2141725
+          },
+          {
+            "name": "verify",
+            "wall_ns": 6409989875,
+            "rss_bytes": 2185003008,
+            "rss_high_water_bytes": 5895831552,
+            "python_allocated_delta_bytes": 26624,
+            "python_peak_delta_bytes": 2117449
+          },
+          {
+            "name": "repeat_queries",
+            "wall_ns": 40042,
+            "rss_bytes": 2185805824,
+            "rss_high_water_bytes": 5895831552,
+            "python_allocated_delta_bytes": 1866,
+            "python_peak_delta_bytes": 1898
+          }
+        ],
+        "model": {
+          "equalities": 0,
+          "integers": 1000000,
+          "nonzeros": 2000000,
+          "objective_nonzeros": 1000000,
+          "ranged_rows": 0,
+          "rows": 1000000,
+          "variables": 1000000
+        },
+        "encoded": {
+          "checks": 8000002,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 2000000,
+          "rpa_bytes": 143111204,
+          "rpx_bytes": 126000056,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 3453613,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 1821697,
+          "proof_decode_us": 469350,
+          "read_us": 80241,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 8000002,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 6000000,
+            "work": 48000002
+          },
+          "status": "VERIFIED",
+          "total_us": 5824959,
+          "artifact_audit": {
+            "status": "NOT_REQUESTED"
+          },
+          "artifacts": {
+            "proof": {
+              "bytes": 126000056,
+              "path": "proof.rpx",
+              "sha256": "7368cbe14bf2e34798e0e79a51297f27d7732f88dc9a1b213ad7abd14f28c284"
+            },
+            "rpa": {
+              "bytes": 143111204,
+              "path": "proof.rpa",
+              "sha256": "52beb909cda43b47b82df2a20a2c44e315e0762ad703625064972fa370d28129"
+            },
+            "source": {
+              "bytes": 143777843,
+              "path": "source.mcm",
+              "sha256": "e2c666c7828d125d7c3a62f4f9c869468435292f1f4cd007cf82ff1dc96e4520"
+            },
+            "target": {
+              "bytes": 143777843,
+              "path": "target.mcm",
+              "sha256": "e2c666c7828d125d7c3a62f4f9c869468435292f1f4cd007cf82ff1dc96e4520"
+            }
+          }
+        },
+        "lowering_count": 1
+      }
+    },
+    {
+      "case": "real",
+      "baseline": {
+        "schema": "baseline.performance/1",
+        "size": 2298,
+        "status": "VERIFIED",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 7045708,
+            "rss_high_water_bytes": 21725184,
+            "python_allocated_delta_bytes": 391607,
+            "python_peak_delta_bytes": 636905
+          },
+          {
+            "name": "proof",
+            "wall_ns": 375333,
+            "rss_high_water_bytes": 23379968,
+            "python_allocated_delta_bytes": 4628,
+            "python_peak_delta_bytes": 4656
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 86208,
+            "rss_high_water_bytes": 24231936,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 560
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 18848083,
+            "rss_high_water_bytes": 27377664,
+            "python_allocated_delta_bytes": 756277,
+            "python_peak_delta_bytes": 918185
+          },
+          {
+            "name": "finish",
+            "wall_ns": 16705291,
+            "rss_high_water_bytes": 29769728,
+            "python_allocated_delta_bytes": 2356,
+            "python_peak_delta_bytes": 2704
+          },
+          {
+            "name": "encode",
+            "wall_ns": 3325166,
+            "rss_high_water_bytes": 32096256,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 7751959,
+            "rss_high_water_bytes": 32768000,
+            "python_allocated_delta_bytes": 18395,
+            "python_peak_delta_bytes": 1525971
+          },
+          {
+            "name": "verify",
+            "wall_ns": 15237834,
+            "rss_high_water_bytes": 34979840,
+            "python_allocated_delta_bytes": 4073,
+            "python_peak_delta_bytes": 4396
+          }
+        ],
+        "encoded": {
+          "checks": 7330,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 4596,
+          "rpa_bytes": 145552,
+          "rpx_bytes": 218180,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 11147,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 3240,
+          "proof_decode_us": 634,
+          "read_us": 60,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 7330,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 12476,
+            "work": 76658
+          },
+          "status": "VERIFIED",
+          "total_us": 15089
+        },
+        "source_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442"
+      },
+      "refactored": {
+        "native_sha256": "242b8dfcd4bc2eadd6d838ed3fcd06bc1e9a3dad647d187dfe1ce07b424c815b",
+        "source_sha256": "491b7fec7f247949b44a91f8c78370f8625b60e6973d911b746ef11c0a526442",
+        "schema": "rpx.performance/1",
+        "status": "VERIFIED",
+        "coordinates": 2298,
+        "source": "../reform_test/runs/test9-nomf-20261004-004349/input/model.mps",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+        "started": "2026-10-18T04:48:25.502049+00:00",
+        "phases": [
+          {
+            "name": "load",
+            "wall_ns": 3434750,
+            "rss_bytes": 26017792,
+            "rss_high_water_bytes": 25968640,
+            "python_allocated_delta_bytes": 532,
+            "python_peak_delta_bytes": 575
+          },
+          {
+            "name": "proof",
+            "wall_ns": 10917,
+            "rss_bytes": 26165248,
+            "rss_high_water_bytes": 26165248,
+            "python_allocated_delta_bytes": 1828,
+            "python_peak_delta_bytes": 1856
+          },
+          {
+            "name": "mapping",
+            "wall_ns": 158375,
+            "rss_bytes": 26656768,
+            "rss_high_water_bytes": 26656768,
+            "python_allocated_delta_bytes": 948,
+            "python_peak_delta_bytes": 1034
+          },
+          {
+            "name": "expression_build",
+            "wall_ns": 810791,
+            "rss_bytes": 27213824,
+            "rss_high_water_bytes": 27197440,
+            "python_allocated_delta_bytes": 396,
+            "python_peak_delta_bytes": 19089
+          },
+          {
+            "name": "finish",
+            "wall_ns": 14831291,
+            "rss_bytes": 36290560,
+            "rss_high_water_bytes": 36274176,
+            "python_allocated_delta_bytes": 148,
+            "python_peak_delta_bytes": 176
+          },
+          {
+            "name": "encode",
+            "wall_ns": 3854500,
+            "rss_bytes": 37732352,
+            "rss_high_water_bytes": 37732352,
+            "python_allocated_delta_bytes": 893,
+            "python_peak_delta_bytes": 921
+          },
+          {
+            "name": "publish",
+            "wall_ns": 2306417,
+            "rss_bytes": 38174720,
+            "rss_high_water_bytes": 38174720,
+            "python_allocated_delta_bytes": 36950,
+            "python_peak_delta_bytes": 1333229
+          },
+          {
+            "name": "verify",
+            "wall_ns": 15846709,
+            "rss_bytes": 43450368,
+            "rss_high_water_bytes": 43450368,
+            "python_allocated_delta_bytes": 26588,
+            "python_peak_delta_bytes": 1308907
+          },
+          {
+            "name": "repeat_queries",
+            "wall_ns": 15334,
+            "rss_bytes": 43483136,
+            "rss_high_water_bytes": 43483136,
+            "python_allocated_delta_bytes": 1862,
+            "python_peak_delta_bytes": 1890
+          }
+        ],
+        "model": {
+          "equalities": 1016,
+          "integers": 170,
+          "nonzeros": 4496,
+          "objective_nonzeros": 1742,
+          "ranged_rows": 0,
+          "rows": 1026,
+          "variables": 2298
+        },
+        "encoded": {
+          "checks": 7330,
+          "directions": 2,
+          "linear_premises": 0,
+          "maps": 4596,
+          "rpa_bytes": 145552,
+          "rpx_bytes": 218180,
+          "steps": 0
+        },
+        "verification": {
+          "execute_us": 10058,
+          "guarantee": "MI_OPT",
+          "limits": {
+            "depth": 64,
+            "live_facts": 1000000,
+            "work": 1000000000
+          },
+          "model_decode_us": 3059,
+          "proof_decode_us": 633,
+          "read_us": 73,
+          "statistics": {
+            "branches": 0,
+            "flow_generated_rows": 0,
+            "flow_generated_terms": 0,
+            "flow_generated_variables": 0,
+            "flow_lifts": 0,
+            "interval_generated_rows": 0,
+            "interval_generated_terms": 0,
+            "interval_generated_variables": 0,
+            "interval_lifts": 0,
+            "linear_terms": 0,
+            "menu_generated_rows": 0,
+            "menu_generated_terms": 0,
+            "menu_generated_variables": 0,
+            "menu_lifts": 0,
+            "obligations": 7330,
+            "peak_live_facts": 0,
+            "plotkin_pairs": 0,
+            "signed_generated_rows": 0,
+            "signed_generated_terms": 0,
+            "signed_generated_variables": 0,
+            "signed_lifts": 0,
+            "substitution_terms": 12476,
+            "work": 76658
+          },
+          "status": "VERIFIED",
+          "total_us": 13830,
+          "artifact_audit": {
+            "status": "NOT_REQUESTED"
+          },
+          "artifacts": {
+            "proof": {
+              "bytes": 218180,
+              "path": "proof.rpx",
+              "sha256": "1285c81e7dc2d3c8507820a5975e8aabcbea5cac22cd63a4897c6c25b2fbcff0"
+            },
+            "rpa": {
+              "bytes": 145552,
+              "path": "proof.rpa",
+              "sha256": "03febfc97bf0383bab157974cc899653c06511fdcfc4d616457ec594f17eaa09"
+            },
+            "source": {
+              "bytes": 240105,
+              "path": "source.mcm",
+              "sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378"
+            },
+            "target": {
+              "bytes": 240105,
+              "path": "target.mcm",
+              "sha256": "a392c28ea2d4ad44fa7ae629b4b57ca36daaebeeb8621207e55e36df54ff4378"
+            }
+          }
+        },
+        "lowering_count": 1
+      }
+    }
+  ]
+}

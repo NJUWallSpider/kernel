@@ -6,6 +6,9 @@ edition.workspace = true
 [lib]
 name = "_native"
 crate-type = ["cdylib"]
+# The extension is exercised by Python; it cannot run without an interpreter.
+test = false
+doctest = false
 
 [dependencies]
 kernel-compiler-core = { path = "../compiler-core" }
